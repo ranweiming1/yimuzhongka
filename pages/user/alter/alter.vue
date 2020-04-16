@@ -1,0 +1,115 @@
+<template>
+	<view>
+		<view class="one_line">
+		</view>
+		
+		<view class="basic">
+			<view class="left_a">
+				<text>修改手机号</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<text>15066212365</text>
+			</view>
+		</view>
+		
+		<view class="basic">
+			<view class="left_a">
+				<text>修改密码</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<text></text>
+			</view>
+		</view>
+		
+		<view class=" uni-padding-wrap uni-common-mt quit">
+			<button type="primary">退出登录</button>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style lang="scss">
+   page{
+	   background-color: #f7f7f7;
+   }
+   .basic {
+    margin-top: 20upx;
+   	width: 710upx;
+   	background-color: #fff;
+   	overflow: hidden;
+   	padding: 20upx;
+   	padding-bottom: 20upx;
+   
+   	.left_a {
+   		float: left;
+   		padding-left: 20upx;
+   
+   		text {
+   			font-size: 28upx;
+   			color: #333;
+   			line-height: 30upx;
+   			line-height: 70upx;
+   		}
+   	}
+   
+   	.right_a {
+   		float: right;
+   		padding-right: 10upx;
+   
+   		text {
+   			font-size: 28upx;
+   			float: right;
+			color: #999;
+   			line-height: 70upx;
+   		}
+   
+   		.img_a {
+   			float: right;
+   			padding: 30upx 0upx 20upx 20upx;
+   
+   			image {
+   				width: 12upx;
+   				height: 14upx;
+   				display: block;
+   			}
+   
+   		}
+   	}
+   }
+   .quit{
+   	overflow: hidden;
+   	padding-top:10%;
+	position: fixed;
+	bottom: 5%;
+	left: 7%;
+   	width: 650upx;
+   	margin: 0 auto;
+   	color: #fff;
+   	
+   	font-family: Microsoft YaHei;
+   	
+   	button{
+   		
+   		border-radius:50upx 50upx;
+   		background-color: #dce0e6;
+   	}
+   }
+</style>
