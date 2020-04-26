@@ -13,16 +13,16 @@
 		<view class="uni-common-mt">
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_14.png" mode=""></image>
-				<input class="uni-input" type="number" placeholder="请输入手机号" />
+				<input class="uni-input" type="number" v-model='phone' placeholder="请输入手机号" />
 			</view>
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>
-				<input class="uni-input" password type="text" placeholder="请输入密码" />
+				<input class="uni-input" password v-model='password' type="text" placeholder="请输入密码" />
 			</view>
 		</view>
 		<!-- 提交按钮 -->
 		<view class="uni-padding-wrap uni-common-mt bott">
-			<button type="primary">登录</button>
+			<button type="primary" @tap='denglusss'>登录</button>
 			<view class="enroll">
 				<text>注册账号</text>
 			</view>
@@ -59,6 +59,8 @@
 			return {
 				screenHeight: this.screenHeight,
 				statusBarHeight : this.statusBarHeight ,
+				phone:'',
+				password:''
 			}
 		},
 		computed: {
@@ -66,8 +68,29 @@
 				let style = `height:${this.screenHeight - this.statusBarHeight}px; `;
 				return style;
 			},
-
 		},
+		methods:{
+			denglusss:function(){
+				uni.setStorageSync('Authorization',1)
+				this.$https({url:'/api/oauth/phoneLogin',data:{phone:this.phone,password:this.password},dengl:true,method:'post',success:function(res){
+					if(res.data.data){
+						uni.setStorageSync('Authorization',res.data.data.access_token)
+						uni.showToast({
+							title:'登录成功'
+						})
+						setTimeout(function(){
+							uni.navigateTo({
+								url:'../index/index'
+							})
+						},1900)
+					}else{
+						uni.showToast({
+							title:res.data.message
+						})
+					}
+				}})
+			}
+		}
 	}
 </script>
 

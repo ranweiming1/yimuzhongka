@@ -141,12 +141,6 @@
 			}
 		},
 		{
-			"path": "pages/user/league/siteList/siteList",
-			"style": {
-				"titleNView": false
-			}
-		},
-		{
 			"path": "pages/cart/orderForm/orderForm",
 			"style": {
 				"navigationBarTitleText": "提交订单"
@@ -236,13 +230,13 @@
 			}
 		},
 		{
-			"path": "./pages/user/jifenStore/jifenPay",
+			"path": "pages/user/jifenStore/jifenPay",
 			"style": {
 				"navigationBarTitleText": "提交兑换"
 			}
 		},
 		{
-			"path": "./pages/user/jifenStore/jifenDetails",
+			"path": "pages/user/jifenStore/jifenDetails",
 			"style": {
 				"navigationBarTitleText": "商品详情"
 			}
