@@ -17,16 +17,16 @@
 		</view>
 
 		<!-- 用户名 -->
-		<view class="userBox">
+		<view class="userBox" @tap='xiugaigerenxinxi'>
 			<view class="img_a">
 				<image src="../../static/img_06.jpg" mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum">
-					<text>这里是用户名</text>
+					<text>{{nickname?nickname:'暂无用户名'}}</text>
 				</view>
 				<view class="phone">
-					<text>187****2365</text>
+					<text>{{phone}}</text>
 				</view>
 			</view>
 			<view class="imgRight">
@@ -137,7 +137,7 @@
 		            </view>
 				</view>
 				
-				<view>
+				<view @tap='dizhiguanli'>
 					<view class="imgBox">
 						<image src="../../static/wz.png" mode=""></image>
 					</view>
@@ -209,11 +209,33 @@
 	export default {
 		data() {
 			return {
-				currentPage: 'user'
+				currentPage: 'user',
+				nickname:'',
+				phone:''
 			}
 		},
 		components: {
 			tabBar,
+		},
+		onShow:function(){
+			var _this=this
+			this.$https({url:'/api/user/my-info',data:{},denglu:false,success:function(res){
+				_this.nickname=res.data.data.nackname
+				_this.phone=res.data.data.phone
+			}})
+		},
+		methods:{
+			xiugaigerenxinxi:function(){
+				uni.navigateTo({
+					url:'alter'
+				})
+			},
+			//
+			dizhiguanli:function(){
+				uni.navigateTo({
+					url:'leagu/siteList/siteList'
+				})
+			}
 		}
 	}
 </script>

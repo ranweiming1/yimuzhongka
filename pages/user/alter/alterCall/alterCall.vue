@@ -1,27 +1,24 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
-		
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>原手机号</text></view>
-			<input class="uni-input" name="input" placeholder="请输入手机号" />
+			<input class="uni-input" v-model='oldPhone' name="input" placeholder="请输入手机号" />
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>验证码</text></view>
-			<input class="uni-input" name="input" placeholder="请输入验证码" />
+			<input class="uni-input" name="input" v-model='smsCode' placeholder="请输入验证码" />
 			
 			<view class="uni-padding-wrap uni-common-mt bott">
-				<button type="primary">获取验证码</button>
+				<button type="primary" @tap='huoqu'>获取验证码</button>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>新手机号</text></view>
-			<input class="uni-input" name="input" placeholder="请输入新手机号" />
+			<input class="uni-input" name="input" v-model='newPhone' placeholder="请输入新手机号" />
 		</view>
 		
 		<view class="uni-padding-wrap uni-common-mt botts">
-			<button type="primary">提交</button>
+			<button type="primary" @tap='tijiaoxiugai'>提交</button>
 		</view>
 	</view>
 </template>
@@ -30,11 +27,20 @@
 	export default {
 		data() {
 			return {
-				
+				oldPhone:'',
+				smsCode:'',
+				newPhone:''
 			}
 		},
 		methods: {
-			
+			huoqu:function(){
+				var _this=this
+				this.$https({url:'/pai/user'})
+			},
+			tijiaoxiugai:function(){
+				var _this=this
+				this.$https({url:''})
+			}
 		}
 	}
 </script>

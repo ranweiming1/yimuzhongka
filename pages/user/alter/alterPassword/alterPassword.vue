@@ -5,26 +5,26 @@
 		
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>手机号</text></view>
-			<input class="uni-input" name="input" placeholder="请输入手机号" />
+			<input class="uni-input" name="input" v-model='phone' placeholder="请输入手机号" />
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>验证码</text></view>
-			<input class="uni-input" name="input" placeholder="请输入验证码" />
+			<input class="uni-input" name="input" placeholder="请输入验证码" v-model='smsCode' />
 			
 			<view class="uni-padding-wrap uni-common-mt bott">
-				<button type="primary">获取验证码</button>
+				<button type="primary" @tap='huoquyanzhengma'>获取验证码</button>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>新密码</text></view>
-			<input class="uni-input" name="input" placeholder="请输入新手机号" />
+			<input class="uni-input" name="input" placeholder="请输入密码" v-model='newPassword'/>
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>确认密码</text></view>
-			<input class="uni-input" name="input" placeholder="请输入新手机号" />
+			<input class="uni-input" name="input" placeholder="请输入密码" v-model='isPassword'/>
 		</view>
 		<view class="uni-padding-wrap uni-common-mt botts">
-			<button type="primary">提交</button>
+			<button type="primary" @tap='tijiao'>提交</button>
 		</view>
 	</view>
 </template>
@@ -33,11 +33,29 @@
 	export default {
 		data() {
 			return {
-				
+				phone:'',
+				smsCode:'',
+				newPassword:'',
+				isPassword:''
 			}
 		},
 		methods: {
-			
+			//获取验证码
+			huoquyanzhengma:function(){
+				var _this=this
+				this.$https({url:'/api/oauth/sendSms/user-password',data:{phone:this.phone},dengl:true,success:function(res){
+					
+					_this.showToast({
+						title:res.data.message
+					})
+				}})
+			},
+			//提交密码
+			tijiao:function(){
+				this.$https({url:'/api/user/getBack-password',data:{isPassword:this.isPassword,newPassword:this.newPassword,phone:this.phone,smsCode:this.smsCode},dengl:true,method:'post',success:function(){
+					
+				}})
+			}
 		}
 	}
 </script>

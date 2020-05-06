@@ -1,19 +1,16 @@
 <template>
 	<view class="bg">
-		<view class="one_line">
-		</view>
 
 		<!-- 修改资料 -->
 		<view class="alter">
 			<view class="left">
 				<view class="h2">
-					<text>Hi,用户名</text>
+					<input v-model='nickname' placeholder='暂无用户名' :disabled='jinyong' @blur='xiugai'>
 					<!-- 点击图片可修改头像 -->
-					<view class="imgBox">
+					<view class="imgBox" @tap='bianji'>
 						<image src="../../static/icon_25.png" mode=""></image>
 					</view>
 				</view>
-
 				<view class="span">
 					<text>点击修改昵称</text>
 				</view>
@@ -34,7 +31,7 @@
 					<view class="img_a">
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
-					<text>15066132542</text>
+					<text @tap='bangding'>{{phone}}</text>
 				</view>
 			</view>
 
@@ -46,7 +43,7 @@
 					<view class="img_a">
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
-					<text>未选择</text>
+					<picker :range='arrsex' :value='index' class='shou' @change='sex'>{{arrsex[index]}}</picker>
 				</view>
 			</view>
 
@@ -58,7 +55,7 @@
 					<view class="img_a">
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
-					<text>2020/02/20</text>
+					<picker mode='date' :value='date' @change='bindDateC' style='width:220rpx;' class='shou'>{{date}}</picker>
 				</view>
 			</view>
 			<view class=" uni-padding-wrap uni-common-mt quit">
@@ -68,6 +65,79 @@
 </template>
 
 <script>
+	export default{
+		data(){
+			return{
+				jinyong:true,
+				nickname:'',
+				arrsex:[
+					'男',
+					'女',
+					'未知'
+				],
+				index:0,
+				date:'2020-05-06',
+				phone:'手机'
+			}
+		},
+		onLoad:function(){
+			//请求个人信息
+			this.$https({url:'/api/user/my-info',dengl:false,success:res=>{
+				if(res.data.code==0){
+					this.nickname=res.data.data.nickname
+					this.phone=res.data.data.phone
+					this.index=res.data.data.sex?res.data.data.sex:0
+					this.birth=res.data.data.birth?res.data.data.birth:'2020-05-06'
+				}
+			}})
+		},
+		methods:{
+			bianji:function(){
+				this.jinyong=false
+			},
+			bindDateC:function(e){
+				this.date=e.target.value
+				this.$https({url:'/api/user/edit-member-info',data:{birth:e.detail.value},dengl:false,method:'post',haeder:true,success:function(res){
+					
+				}})
+			},
+			xiugai:function(){
+				var _this=this
+				this.$https({url:'/api/user/edit-member-info',data:{nickname:this.nickname},dengl:false,method:'post',haeder:true,success:function(res){
+					if(res.data.code==0){
+						_this.qingqiu()
+						uni.showToast({
+							title:res.data.message
+						})
+					}
+				}})
+			},
+			bangding:function(){
+				uni.navigateTo({
+					url:'alter/alterCall/alterCall'
+				})
+			},
+			//更改性别
+			sex:function(e){
+				var _this=this
+				this.$https({url:'/api/user/edit-member-info',data:{sex:e.detail.value},dengl:false,method:'post',haeder:true,success:function(res){
+					_this.qingqiu()
+					uni.showToast({
+						title:res.data.message
+					})
+				}})
+			},
+			qingqiu:function(){
+				var _this=this
+				this.$https({url:'/api/user/my-info',dengl:false,success:function(res){
+					_this.nickname=res.data.data.nickname
+					_this.phone=res.data.data.phone
+					_this.index=res.data.data.sex
+					_this.birth=res.data.data.birth?res.data.data.birth:'2020-05-06'
+				}})
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
@@ -85,16 +155,13 @@
 			margin-left: 20upx;
 
 			.h2 {
-				float: left;
 				font-size: 36upx;
 				color: #333;
-				width: 70%;
 				line-height: 60upx;
-
-				text {
+				input {
 					float: left;
+					width:200rpx;
 				}
-
 				.imgBox {
 					float: left;
 					padding-top: 15upx;
@@ -167,7 +234,6 @@
 				float: right;
 				line-height: 70upx;
 			}
-
 			.img_a {
 				float: right;
 				padding: 30upx 0upx 20upx 20upx;
@@ -178,6 +244,11 @@
 					display: block;
 				}
 
+			}
+			.shou{
+				float:right;
+				margin-top:10rpx;
+				text-align:right;
 			}
 		}
         
