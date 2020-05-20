@@ -1,7 +1,5 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
 		
 		<!-- 广告浮窗 链接到效果图/个人中心/6-3分销页面 -->
 		<view class="float">
@@ -9,77 +7,16 @@
 		</view>
 		
 		<!-- 超出一屏翻页 -->
-		<view class="list">
+		<view class="list" v-for='item in newz' @tap='tiaozhuan(item.id)'>
 			<view class="tit">
-				<text>仓储式及市场批发销售的清洁是如何形成的呢…</text>
+				<text>{{item.title}}</text>
 				<view class="span">
-					<text>发布时间:2019/08/25</text>
+					<text>发布时间:{{item.create_time}}</text>
 				</view>
 			</view>
 			
 			<view class="img">
-				<image src="../../static/img_03.jpg" mode=""></image>
-			</view>
-		</view>
-		
-		<view class="list">
-			<view class="tit">
-				<text>仓储式及市场批发销售的清洁是如何形成的呢…</text>
-				<view class="span">
-					<text>发布时间:2019/08/25</text>
-				</view>
-			</view>
-			
-			<view class="img">
-				<image src="../../static/img_03.jpg" mode=""></image>
-			</view>
-		</view>
-		<view class="list">
-			<view class="tit">
-				<text>仓储式及市场批发销售的清洁是如何形成的呢…</text>
-				<view class="span">
-					<text>发布时间:2019/08/25</text>
-				</view>
-			</view>
-			
-			<view class="img">
-				<image src="../../static/img_03.jpg" mode=""></image>
-			</view>
-		</view>
-		<view class="list">
-			<view class="tit">
-				<text>仓储式及市场批发销售的清洁是如何形成的呢…</text>
-				<view class="span">
-					<text>发布时间:2019/08/25</text>
-				</view>
-			</view>
-			
-			<view class="img">
-				<image src="../../static/img_03.jpg" mode=""></image>
-			</view>
-		</view>
-		<view class="list">
-			<view class="tit">
-				<text>仓储式及市场批发销售的清洁是如何形成的呢…</text>
-				<view class="span">
-					<text>发布时间:2019/08/25</text>
-				</view>
-			</view>
-			
-			<view class="img">
-				<image src="../../static/img_03.jpg" mode=""></image>
-			</view>
-		</view>
-		<view class="list">
-			<view class="tit">
-				<text>仓储式及市场批发销售的清洁是如何形成的呢…</text>
-				<view class="span">
-					<text>发布时间:2019/08/25</text>
-				</view>
-			</view>
-			
-			<view class="img">
-				<image src="../../static/img_03.jpg" mode=""></image>
+				<image :src="item.image" mode=""></image>
 			</view>
 		</view>
 		<tabBar :currentPage='currentPage'></tabBar>
@@ -92,7 +29,22 @@
 	export default {
 		data() {
 			return {
-				currentPage : 'news'
+				currentPage : 'news',
+				newz:[]
+			}
+		},
+		onLoad:function(){
+			var _this=this
+			//新闻资讯
+			this.$https({url:'/api/news/article-list',data:{},dengl:false,success:function(res){
+				_this.newz=res.data.data
+			}})
+		},
+		methods:{
+			tiaozhuan:function(id){
+				uni.navigateTo({
+					url:'news_details/news_details?id='+id
+				})
 			}
 		},
 		components:{

@@ -12,22 +12,17 @@
 		
 		<view class="neir">
 			<view class="title">
-				<text>申请退款后款项多久能够到账？</text>
+				<text>{{title}}</text>
 			</view>
 			<view class="left">
-				<text>发布时间：2018-15-15</text>
+				<text>发布时间：{{create_time}}</text>
 			</view>
 			<view class="right">
-				<text>浏览量：153</text>
+				<text>浏览量：{{description}}</text>
 			</view>
 		</view>
-		<view class="img">
-			<image src="../../../static/img_04.jpg" mode=""></image>
-		</view>
 		<view class="txt">
-			<text>浩威商城隶属长洁贸易（上海）有限公司，是集一站式、仓储式及市场批发销售的清洁用品供应商，公司拥有专业的电子商务团队、物流配送团队及完善的售后服务，
-				公司为了能更好的服务众多客户，在上海九星市场拆迁之际经过多方位考量，扩大营业面积提升购物体验，本着便捷，优惠，高效的六字方针持续为新老客户提供更优质的产品和后续服务。
-			</text>
+			<rich-text :nodes='content'></rich-text>
 		</view>
 
 		<!-- 华丽丽的分割线 -->
@@ -40,40 +35,12 @@
 				<text>用户评价</text>
 			</view>
 			<!-- 用户评价 -->
-			<view class="toux">
+			<view class="toux" v-for='item in pingjia'>
 				<view class="imgBox_a">
-					<image src="../../../static/img_05.jpg" mode=""></image>
+					<image  mode=""></image>
 				</view>
 				<view class="mingc">
-					<text>秋天的风</text>
-					<view class="time">
-						<text>2019/05/05</text>
-					</view>
-					<view class="huay">
-						<text>性价比高，做工精致，质量很好，性价比高，做工精致材质纯正质量很好，性价比高，做工精致</text>
-					</view>
-				</view>
-			</view>
-			<view class="toux">
-				<view class="imgBox_a">
-					<image src="../../../static/img_05.jpg" mode=""></image>
-				</view>
-				<view class="mingc">
-					<text>秋天的风</text>
-					<view class="time">
-						<text>2019/05/05</text>
-					</view>
-					<view class="huay">
-						<text>性价比高，做工精致，质量很好，性价比高，做工精致材质纯正质量很好，性价比高，做工精致</text>
-					</view>
-				</view>
-			</view>
-			<view class="toux">
-				<view class="imgBox_a">
-					<image src="../../../static/img_05.jpg" mode=""></image>
-				</view>
-				<view class="mingc">
-					<text>秋天的风</text>
+					<text></text>
 					<view class="time">
 						<text>2019/05/05</text>
 					</view>
@@ -88,7 +55,17 @@
 				<image src="../../../static/icon_19.png" mode=""></image>
 			</view>
 			<view class="textBox_b">
-				<text>发表评价</text>
+				<text @tap='tianj'>发表评价</text>
+			</view>
+		</view>
+		<view style='position:fixed;top:0;left:0;bottom:0;right:0;background:rgba(0,0,0,0.5);z-index:99999;' v-if='pinglun'>
+			<view style='width:600rpx;height:600rpx;background:#fff;border-radius:10rpx;position:absolute;left:0;top:0;right:0;bottom:0;margin:auto;'>
+				<view style='text-align:center;margin-top:20rpx;'>添加评论</view>
+				<textarea placeholder='请输入评论' style='width:500rpx;margin:0 auto;height:300rpx;border:1px solid #eee;margin-top:20rpx;' v-model='pinglunneirong'></textarea>
+				<view style='overflow:hidden;width:400rpx;margin:10rpx auto;'>
+					<button style='color:#666;width:45%;float:left;max-width:45%;' @tap='quxiaopinglun'>取消</button>
+					<button style='color:#fff;background:#007aff;width:45%;float:right;max-width:45%;' @tap='tianjia'>确定</button>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -96,6 +73,50 @@
 </template>
 
 <script>
+	export default{
+		data(){
+			return{
+				title:'',
+				create_time:'',
+				description:'',
+				content:'',
+				pingjia:[],
+				pinglun:false,
+				pinglunneirong:'',
+				newsid:''
+			}
+		},
+		onLoad:function(option){
+			this.newsid=option.id
+			var _this=this
+			this.$https({url:'/api/news/article-detail',data:{id:option.id},dengl:false,success:function(res){
+				_this.title=res.data.data.article.title
+				_this.create_time=res.data.data.article.create_time
+				_this.description=res.data.data.article.description
+				_this.content=res.data.data.article.content
+				_this.pingjia=res.data.data.comList
+			}})
+		},
+		methods:{
+			tianj:function(){
+				this.pinglun=true
+			},
+			tianjia:function(){
+				var _this=this
+				this.$https({url:'/api/news/article-comm-add',data:JSON.stringify({content:this.pinglunneirong,newsId:this.newsid}),dengl:false,haeder:true,method:'POST',success:function(res){
+					if(res.data.code==0){
+						uni.showToast({
+							title:res.data.message
+						})
+						_this.pinglun=false
+					}
+				}})
+			},
+			quxiaopinglun:function(){
+				this.pinglun=false
+			}
+		}
+	}
 </script>
 
 <style lang="scss">

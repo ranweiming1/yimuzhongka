@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "titleNView": false,
+  "usingComponents": {
+    "tab-bar": "/components/tabBar/tabBar"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "消息通知",
+  "usingComponents": {
+    "tab-bar": "/components/tabBar/tabBar"
+  }
+}

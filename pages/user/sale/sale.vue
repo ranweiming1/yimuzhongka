@@ -1,25 +1,26 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
 		
 		<!-- tab切换样式  start-->
-		<view class="yes">
+		<view :class="shixiao==0?'yes':'none'" @tap='keshiyong'>
 			<text>可使用</text>
 			<!-- 下图为选中状态下划线 -->
-			<view class="imgBox">
+			<view class="imgBox" v-if='shixiao==0'>
 				<image src="../../../static/icon_09.png" mode=""></image>
 			</view>
 		</view>
 		
-		<view class="none">
+		<view :class="shixiao==1?'yes':'none'" @tap='yishixiao'>
 			<text>已失效</text>
+			<view class='imgBox' v-if='shixiao==1'>
+				<image src='../../../static/icon_09.png'></image>
+			</view>
 		</view>
 		<!-- tab切换样式  end-->
 		
 		
 		<!-- 可使用状态优惠券 -->
-		<view class="valid ">
+		<view class="valid " v-if='shixiao==0'>
 			<view class="imgBox">
 				<image src="../../../static/icon_27.png" mode=""></image>
 				<view class="sum">
@@ -48,7 +49,7 @@
 		
 		<!-- 不可使用状态 -->
 		
-		<view class="cannot">
+		<view class="cannot" v-if='shixiao==1'>
 			<view class="imgBox">
 				<image src="../../../static/icon_28.png" mode=""></image>
 				<view class="sum">
@@ -81,11 +82,16 @@
 	export default {
 		data() {
 			return {
-				
+				shixiao:0
 			}
 		},
 		methods: {
-			
+			keshiyong:function(){
+				this.shixiao=0
+			},
+			yishixiao:function(){
+				this.shixiao=1
+			}
 		}
 	}
 </script>

@@ -1,6 +1,15 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 	{
+		"path":"pages/index/index",
+		"style":{
+			"titleNView":false,
+			"navigationBarShadow":{
+				"colorType":"grey"
+			}
+		}
+	},
+	{
 		"path": "pages/index/productDetails",
 		"style": {
 			"titleNView": false
@@ -123,19 +132,19 @@
 		},
 
 		{
-			"path": "pages/user/league/siteList/siteDelete",
+			"path": "pages/user/leagu/siteList/siteDelete",
 			"style": {
 				"navigationBarTitleText": "收货地址"
 			}
 		},
 		{
-			"path": "pages/user/league/siteList/address",
+			"path": "pages/user/leagu/siteList/address",
 			"style": {
 				"navigationBarTitleText": "添加地址"
 			}
 		},
 		{
-			"path": "pages/user/league/siteList/siteList",
+			"path": "pages/user/leagu/siteList/siteList",
 			"style": {
 				"navigationBarTitleText": "新增地址"
 			}
@@ -181,7 +190,7 @@
 			}
 		},
 		{
-			"path": "pages/user/league/league",
+			"path": "pages/user/leagu/league",
 			"style": {
 				"navigationBarTitleText": "申请入驻"
 			}
@@ -279,16 +288,16 @@
 				"navigationBarTitleText": "新闻资讯"
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "",
-				"titleNView": false,
-				"navigationBarShadow": {
-					"colorType": "grey"
-				}
-			}
-		},
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "",
+		// 		"titleNView": false,
+		// 		"navigationBarShadow": {
+		// 			"colorType": "grey"
+		// 		}
+		// 	}
+		// },
 		{
 			"path": "pages/enter/protocol",
 			"style": {
@@ -329,65 +338,65 @@
 		"spacing": "3px",
 
 		"list": [
-			// {
-			// 	"pagePath": "pages/index/index",
-			// 	"iconPath": "static/n1.png",
-			// 	"selectedIconPath": "static/s1.png",
-			// 	"text": "首页",
-			// 	"style": {
-			// 		"navigationBarShadow": {
-			// 			"colorType": "grey"
-			// 		}
-			// 	}
-			// },
-			// {
-			// 	"pagePath": "pages/classify/classify",
-			// 	"iconPath": "static/n2.png",
-			// 	"selectedIconPath": "static/s2.png",
-			// 	"text": "分类"
-			// },
-			// {
-			// 	"pagePath": "pages/news/news",
-			// 	"iconPath": "static/n3.png",
-			// 	"selectedIconPath": "static/s3.png",
-			// 	"text": "资讯"
-			// },
-			// {
-			// 	"pagePath": "pages/cart/cart",
-			// 	"iconPath": "static/n4.png",
-			// 	"selectedIconPath": "static/s4.png",
-			// 	"text": "购物车"
-			// },
-			// {
-			// 	"pagePath": "pages/user/user",
-			// 	"iconPath": "static/n5.png",
-			// 	"selectedIconPath": "static/s5.png",
-			// 	"text": "我的"
-			// },
 			{
-				"pagePath": "pages/shop/shop",
-				"iconPath": "static/n9.png",
-				"selectedIconPath": "static/s9.png",
-				"text": "店铺首页"
+				"pagePath": "pages/index/index",
+				"iconPath": "static/n1.png",
+				"selectedIconPath": "static/s1.png",
+				"text": "首页",
+				"style": {
+					"navigationBarShadow": {
+						"colorType": "grey"
+					}
+				}
 			},
 			{
-				"pagePath": "pages/shop/all",
-				"iconPath": "static/n8.png",
-				"selectedIconPath": "static/s8.png",
-				"text": "全部宝贝"
+				"pagePath": "pages/classify/classify",
+				"iconPath": "static/n2.png",
+				"selectedIconPath": "static/s2.png",
+				"text": "分类"
 			},
 			{
-				"pagePath": "pages/shop/classifys",
-				"iconPath": "static/n6.png",
-				"selectedIconPath": "static/s6.png",
-				"text": "产品分类"
+				"pagePath": "pages/news/news",
+				"iconPath": "static/n3.png",
+				"selectedIconPath": "static/s3.png",
+				"text": "资讯"
 			},
 			{
-				"pagePath": "pages/cart/chitChat/chitChat",
-				"iconPath": "static/n7.png",
-				"selectedIconPath": "static/s7.png",
-				"text": "在线客服"
+				"pagePath": "pages/cart/cart",
+				"iconPath": "static/n4.png",
+				"selectedIconPath": "static/s4.png",
+				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/n5.png",
+				"selectedIconPath": "static/s5.png",
+				"text": "我的"
 			}
+			// {
+			// 	"pagePath": "pages/shop/shop",
+			// 	"iconPath": "static/n9.png",
+			// 	"selectedIconPath": "static/s9.png",
+			// 	"text": "店铺首页"
+			// },
+			// {
+			// 	"pagePath": "pages/shop/all",
+			// 	"iconPath": "static/n8.png",
+			// 	"selectedIconPath": "static/s8.png",
+			// 	"text": "全部宝贝"
+			// },
+			// {
+			// 	"pagePath": "pages/shop/classifys",
+			// 	"iconPath": "static/n6.png",
+			// 	"selectedIconPath": "static/s6.png",
+			// 	"text": "产品分类"
+			// },
+			// {
+			// 	"pagePath": "pages/cart/chitChat/chitChat",
+			// 	"iconPath": "static/n7.png",
+			// 	"selectedIconPath": "static/s7.png",
+			// 	"text": "在线客服"
+			// }
 		]
 	},
 	"condition": { //模式配置，仅开发期间生效

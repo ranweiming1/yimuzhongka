@@ -37,30 +37,30 @@
 		<!-- 数值栏 -->
         <view class="bgWhite">
         	<view class="yong">
-        		<text>¥33.00</text>
+        		<text>¥{{userMoney}}</text>
 				<view class="jin">
 					<text>佣金</text>
 				</view>
         	</view>
 			
 			<view class="ji">
-				<text>1520</text>
+				<text>{{payPoints}}</text>
 				<view class="fen">
 					<text>积分</text>
 				</view>
 			</view>
 			
-			<view class="youhui">
-				<text>25</text>
+			<view class="youhui" @tap='youhuiquan'>
+				<text>{{couponCount}}</text>
 				<view class="quan">
 					<text>优惠券</text>
 				</view>
 			</view>
 			
 			<view class="shou">
-				<text>85</text>
+				<text @tap='shoucang'>{{collectCount}}</text>
 				<view class="cang">
-					<text>收藏</text>
+					<text @tap='shoucang'>收藏</text>
 				</view>
 			</view>
         </view>
@@ -211,7 +211,15 @@
 			return {
 				currentPage: 'user',
 				nickname:'',
-				phone:''
+				phone:'',
+				//佣金
+				userMoney:0,
+				//积分
+				payPoints:0,
+				//优惠券
+				couponCount:0,
+				//收藏
+				collectCount:0
 			}
 		},
 		components: {
@@ -222,6 +230,13 @@
 			this.$https({url:'/api/user/my-info',data:{},denglu:false,success:function(res){
 				_this.nickname=res.data.data.nackname
 				_this.phone=res.data.data.phone
+			}})
+			//
+			this.$https({url:'/api/user/my-index',data:{},dengl:false,success:function(res){
+				_this.userMoney=res.data.data.userMoney
+				_this.payPoints=res.data.data.payPoints
+				_this.couponCount=res.data.data.couponCount
+				_this.collectCount=res.data.data.collectCount
 			}})
 		},
 		methods:{
@@ -234,6 +249,18 @@
 			dizhiguanli:function(){
 				uni.navigateTo({
 					url:'leagu/siteList/siteList'
+				})
+			},
+			//收藏
+			shoucang:function(){
+				uni.navigateTo({
+					url:'../search/store'
+				})
+			},
+			//优惠券
+			youhuiquan:function(){
+				uni.navigateTo({
+					url:'sale/sale'
 				})
 			}
 		}

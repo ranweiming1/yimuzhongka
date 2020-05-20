@@ -1,0 +1,301 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.bg_img {
+  background-color: #2b5cff;
+  width: 750rpx;
+  height: 440rpx;
+}
+.top {
+  position: fixed;
+  top: 0rpx;
+  left: 0rpx;
+  width: 750rpx;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.top .textBox {
+  padding-left: 40%;
+}
+.top .textBox text {
+  font-size: 38rpx;
+  color: #fff;
+  float: left;
+  line-height: 90rpx;
+}
+.top .imgBox {
+  float: right;
+}
+.top .imgBox image {
+  width: 42rpx;
+  height: 42rpx;
+  padding: 30rpx;
+}
+.userBox {
+  width: 700rpx;
+  position: absolute;
+  top: 120rpx;
+  left: 25rpx;
+  overflow: hidden;
+}
+.userBox .img_a {
+  float: left;
+}
+.userBox .img_a image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 120rpx;
+}
+.userBox .text_a {
+  float: left;
+  padding-left: 20rpx;
+  width: 350rpx;
+}
+.userBox .text_a .yonghum {
+  font-size: 34rpx;
+  color: #fff;
+  line-height: 70rpx;
+}
+.userBox .text_a .phone {
+  font-size: 24rpx;
+  color: #fff;
+}
+.userBox .imgRight {
+  float: right;
+  padding-top: 35rpx;
+}
+.userBox .imgRight image {
+  width: 12rpx;
+  height: 20rpx;
+}
+.userBox .jil {
+  width: 710rpx;
+  float: left;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  display: block;
+}
+.userBox .jil .leiji text {
+  padding-top: 30rpx;
+  float: left;
+  font-size: 36rpx;
+  color: #fff;
+  text-align: center;
+}
+.userBox .jil .rig {
+  float: right;
+  padding-right: 50rpx;
+  text-align: center;
+}
+.userBox .jil .rig text {
+  width: 100rpx;
+  font-size: 58rpx;
+  float: left;
+  color: #fff;
+}
+.userBox .jil .rig text text {
+  font-size: 20rpx;
+  float: left;
+}
+.userBox .jil .rig .img_o {
+  float: left;
+  padding-top: 40rpx;
+}
+.userBox .jil .rig .img_o image {
+  width: 16rpx;
+  height: 28rpx;
+}
+.bgWhite {
+  width: 660rpx;
+  height: 120rpx;
+  -webkit-box-shadow: 0 0 5px #ccc;
+          box-shadow: 0 0 5px #ccc;
+  position: absolute;
+  top: 380rpx;
+  left: 25rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 50rpx 20rpx 20rpx 20rpx;
+}
+.bott {
+  width: 150rpx;
+  float: right;
+}
+.bott button {
+  background-color: #fff;
+  color: #2b5cff;
+  border-radius: 40rpx;
+  font-size: 24rpx;
+  font-family: Microsoft YaHei;
+}
+.Box {
+  position: relative;
+  padding-top: 30rpx;
+  width: 620rpx;
+  height: 2rpx;
+  margin-left: 20rpx;
+  border-bottom: 1px solid #007AFF;
+}
+.Box .formerly {
+  position: absolute;
+  top: -30rpx;
+  left: -15rpx;
+  text-align: center;
+}
+.Box .formerly .date text {
+  font-size: 24rpx;
+}
+.Box .formerly .ima_p image {
+  width: 32rpx;
+  height: 32rpx;
+}
+.Box .formerly_a {
+  position: absolute;
+  top: -30rpx;
+  left: 12%;
+  text-align: center;
+}
+.Box .formerly_a .date text {
+  font-size: 24rpx;
+}
+.Box .formerly_a .ima_p image {
+  width: 32rpx;
+  height: 32rpx;
+}
+.Box .formerly_b {
+  position: absolute;
+  top: -30rpx;
+  left: 28%;
+  text-align: center;
+}
+.Box .formerly_b .date text {
+  font-size: 24rpx;
+}
+.Box .formerly_b .ima_p image {
+  width: 32rpx;
+  height: 32rpx;
+}
+.Box .formerly_c {
+  position: absolute;
+  top: -30rpx;
+  left: 43%;
+  text-align: center;
+}
+.Box .formerly_c .date text {
+  font-size: 24rpx;
+}
+.Box .formerly_c .ima_p image {
+  width: 32rpx;
+  height: 32rpx;
+}
+.Box .formerly_d {
+  position: absolute;
+  top: -30rpx;
+  left: 60%;
+  text-align: center;
+}
+.Box .formerly_d .date text {
+  font-size: 24rpx;
+}
+.Box .formerly_d .ima_p image {
+  width: 32rpx;
+  height: 32rpx;
+}
+.Box .formerly_e {
+  position: absolute;
+  top: -30rpx;
+  right: 13%;
+  text-align: center;
+}
+.Box .formerly_e .date text {
+  font-size: 24rpx;
+}
+.Box .formerly_e .ima_p image {
+  width: 32rpx;
+  height: 32rpx;
+}
+.Box .formerly_f {
+  position: absolute;
+  top: -30rpx;
+  right: -20rpx;
+  text-align: center;
+}
+.Box .formerly_f .date text {
+  font-size: 24rpx;
+}
+.Box .formerly_f .ima_p image {
+  width: 32rpx;
+  height: 32rpx;
+}
+.gain {
+  position: absolute;
+  top: 590rpx;
+  left: 20rpx;
+}
+.gain .frame {
+  width: 660rpx;
+  height: 460rpx;
+  margin-left: 8rpx;
+  margin-top: 20rpx;
+  -webkit-box-shadow: 0 0 5px #ccc;
+          box-shadow: 0 0 5px #ccc;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx 20rpx 20rpx 20rpx;
+  overflow: hidden;
+}
+.gain .frame .ul {
+  border-bottom: 1px dotted #ccc;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+.gain .frame .ul .title_u {
+  font-size: 30rpx;
+  line-height: 50rpx;
+  color: #333;
+  float: left;
+  padding-right: 20rpx;
+}
+.gain .frame .ul .span {
+  float: left;
+  font-size: 24rpx;
+  line-height: 50rpx;
+  color: #999;
+}
+.gain .frame .ul .bottg {
+  width: 140rpx;
+  float: right;
+}
+.gain .frame .ul .bottg button {
+  background-color: #2b5cff;
+  color: #fff;
+  border-radius: 10rpx;
+  font-size: 22rpx;
+  font-family: Microsoft YaHei;
+}
+

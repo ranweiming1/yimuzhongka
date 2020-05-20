@@ -13,22 +13,22 @@
 		<view class="uni-common-mt">
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_14.png" mode=""></image>
-				<input class="uni-input" type="number" placeholder="请输入手机号" />
+				<input class="uni-input" type="number" v-model='account.phone' placeholder="请输入手机号" />
 			</view>
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>
-				<input class="uni-input" password type="text" placeholder="请输入密码" />
+				<input class="uni-input" password type="text" v-model='account.password' placeholder="请输入密码" />
 			</view>
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>
-				<input class="uni-input" type="number" placeholder="请输入验证码" />
-				<text>发送验证码</text>
+				<input class="uni-input" type="number" v-model='account.checkCode' placeholder="请输入验证码" />
+				<text @tap='fasongyanzhengma'>发送验证码</text>
 			</view>
 		</view>
 		<!-- 提交按钮 -->
 		<view class="uni-padding-wrap uni-common-mt bott">
-			<button type="primary">注册</button>
-			<view class="enroll">
+			<button type="primary" @tap='zhuce'>注册</button>
+			<view class="enroll" @tap='enter'>
 				<text>已有账号？立即登录</text>
 			</view>
 		</view>
@@ -49,8 +49,6 @@
 <script>
 	export default {
 		onLoad() {
-			console.log('-=-=-=-=-=-')
-			console.log(this.CustomBar * 1)
 			uni.getSystemInfo({
 				success: function(e) {
 					console.log(e)
@@ -61,6 +59,8 @@
 			return {
 				screenHeight: this.screenHeight,
 				statusBarHeight : this.statusBarHeight ,
+				//账户信息
+				account:{}
 			}
 		},
 		computed: {
@@ -70,6 +70,58 @@
 			},
 
 		},
+		methods:{
+			enter:function(){
+				uni.navigateTo({
+					url:'enter'
+				})
+			},
+			//发送验证码
+			fasongyanzhengma:function(){
+				if(this.$jiaoyan(this.account.phone)){
+					this.$https({url:'/api/oauth/sendSms/user-register',data:{phone:this.account.phone},dengl:true,success:function(res){
+						if(res.data.data){
+							uni.showToast({
+								title:'发送成功'
+							})
+						}else{
+							uni.showToast({
+								title:res.data.message,
+								icon:'none'
+							})
+						}
+					}})
+				}else{
+					uni.showToast({
+						title:'请输入正确的手机号',
+						icon:'none'
+					})
+				}
+			},
+			//注册按钮
+			zhuce:function(){
+				if(!this.$jiaoyan(this.account.phone)){
+					uni.showToast({
+						title:'请输入正确的手机号',
+						icon:'none'
+					})
+				}else if(!this.account.password){
+					uni.showToast({
+						title:'请输入密码',
+						icon:'none'
+					})
+				}else if(!this.account.checkCode){
+					uni.showToast({
+						title:'请输入验证码',
+						icon:'none'
+					})
+				}else{
+					this.$https({url:'/api/oauth/register',data:this.account,dengl:true,method:'post',success:function(res){
+						
+					}})
+				}
+			}
+		}
 	}
 </script>
 

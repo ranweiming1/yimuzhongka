@@ -5,54 +5,34 @@
 				<text>收货地址</text>
 			</view>
 			<view class="imgBox">
-				<text>添加</text>
+				<text @tap='tianjia'>添加</text>
 			</view>
 		</view>
-
-		<view class="siteBox">
-			<view class="radios">
-				<radio value="r2" />
-			</view>
-			<view class="content">
-				<view class="nome">
-					<text>张继科</text>
+		<checkbox-group @change='checkboxChange'>
+			<view class="siteBox" v-for='item in list'>
+				<view class="radios">
+					<checkbox :value='item.index' />
 				</view>
-				<view class="call">
-					<text>15066458795</text>
+				<view class="content">
+					<view class="nome">
+						<text>{{item.username}}</text>
+					</view>
+					<view class="call">
+						<text>{{item.phone}}</text>
+					</view>
+					<!-- 默认地址标签样式 -->
+					<view class="label" v-if='item.isDefault==1'>
+						<text>默认</text>
+					</view>
+					<view class="p">
+						<text>{{item.cityInfo+item.address}}</text>
+					</view>
 				</view>
-				<!-- 默认地址标签样式 -->
-				<view class="label">
-					<text>默认</text>
-				</view>
-				<view class="p">
-					<text>山东省济南市槐荫区张庄路街道路街道明南区16号楼明南区16号楼(菜鸟驿站代收)</text>
-				</view>
-			</view>
-			<view class="edit">
-				<text>编辑</text>
-			</view>
-		</view>
-		
-		<view class="siteBox">
-			<view class="radios">
-				<radio value="r2" />
-			</view>
-			<view class="content">
-				<view class="nome">
-					<text>张继科</text>
-				</view>
-				<view class="call">
-					<text>15066458795</text>
-				</view>
-				<view class="p">
-					<text>山东省济南市槐荫区张庄路街道路街道明南区16号楼明南区16号楼(菜鸟驿站代收)</text>
+				<view class="edit">
+					<text @tap='bianji(item.index)'>编辑</text>
 				</view>
 			</view>
-			<view class="edit">
-				<text>编辑</text>
-			</view>
-		</view>
-		
+		</checkbox-group>
 		<view class="uni-padding-wrap uni-common-mt bott">
 			<button type="primary">确定并返回</button>
 		</view>
@@ -60,10 +40,79 @@
 </template>
 
 <script>
-
+	export default {
+		data() {
+			return {
+				list: [],
+				rds: []
+			}
+		},
+		onLoad: function() {
+			var _this = this
+			this.$https({
+				url: '/api/user/my-address',
+				data: {},
+				dengl: false,
+				success: function(res) {
+					res.data.data.map(function(n, index) {
+						n.index = index
+					})
+					_this.list = res.data.data
+				}
+			})
+		},
+		methods: {
+			tianjia: function() {
+				var _this = this
+				wx.chooseAddress({
+					success: function(res) {
+						//添加收货地址
+						_this.$https({
+							url: '/api/user/address-add-edit',
+							data: JSON.stringify({
+								address: res.detailInfo,
+								cityInfo: res.provinceName + res.cityName + res.countyName,
+								phone: res.telNumber,
+								username: res.userName
+							}),
+							haeder: true,
+							dengl: false,
+							method: 'post',
+							success: function(res) {
+								//刷新地址列表
+								_this.$https({
+									url: '/api/user/my-address',
+									data: {},
+									dengl: false,
+									success: function(res) {
+										res.data.data.map(function(n, index) {
+											n.index = index
+										})
+										_this.list = res.data.data
+									}
+								})
+							}
+						})
+					}
+				})
+			},
+			checkboxChange: function(e) {
+				this.rds = e.detail.value
+			},
+			bianji: function(index) {
+				uni.navigateTo({
+					url: 'address?address=' + JSON.stringify(this.list[index])
+				})
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
+	checkbox {
+		border-radius: 50%;
+	}
+
 	.top {
 		width: 750upx;
 		margin: 0 auto;
@@ -98,7 +147,8 @@
 		overflow: hidden;
 		padding-top: 20upx;
 		padding-bottom: 40upx;
-        border-bottom: 1px solid #e5e5e5;
+		border-bottom: 1px solid #e5e5e5;
+
 		.radios {
 			float: left;
 			padding-top: 30upx;
@@ -140,12 +190,13 @@
 				line-height: 40upx;
 			}
 		}
-        .edit{
+
+		.edit {
 			float: right;
 			margin-top: 20upx;
 			border-left: 1px solid #e5e5e5;
-			
-			text{
+
+			text {
 				font-size: 24upx;
 				color: #999;
 				line-height: 80upx;
@@ -154,16 +205,17 @@
 		}
 
 	}
-	.bott{
+
+	.bott {
 		width: 670upx;
 		position: fixed;
 		bottom: 40upx;
 		left: 40upx;
-		
-		button{
+
+		button {
 			border-radius: 40upx;
-			font-family:Microsoft YaHei;
+			font-family: Microsoft YaHei;
 		}
-		
+
 	}
 </style>

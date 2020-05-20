@@ -23,11 +23,11 @@
 		<!-- 提交按钮 -->
 		<view class="uni-padding-wrap uni-common-mt bott">
 			<button type="primary" @tap='denglusss'>登录</button>
-			<view class="enroll">
+			<view class="enroll" @tap='login'>
 				<text>注册账号</text>
 			</view>
 			<view class="forget">
-				<text>忘记密码</text>
+				<text @tap='xiuga'>忘记密码</text>
 			</view>
 		</view>
 		<!-- 第三方登录 -->
@@ -71,7 +71,6 @@
 		},
 		methods:{
 			denglusss:function(){
-				uni.setStorageSync('Authorization',1)
 				this.$https({url:'/api/oauth/phoneLogin',data:{phone:this.phone,password:this.password},dengl:true,method:'post',success:function(res){
 					if(res.data.data){
 						uni.setStorageSync('Authorization',res.data.data.access_token)
@@ -89,6 +88,18 @@
 						})
 					}
 				}})
+			},
+			//跳转到注册页面
+			login:function(){
+				uni.navigateTo({
+					url:'login'
+				})
+			},
+			//跳转到修改密码
+			xiuga:function(){
+				uni.navigateTo({
+					url:'../user/alter/alterPassword/alterPassword'
+				})
 			}
 		}
 	}
