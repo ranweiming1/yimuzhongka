@@ -86,7 +86,7 @@
 
 		<!-- 参数 -->
 		<view class="parameter">
-			<view class="basic">
+			<view class="basic" @tap="add">
 				<view class="left_a">
 					<text>选择</text>
 				</view>
@@ -99,7 +99,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="basic">
+			<view class="basic" @tap="add">
 				<view class="left_a">
 					<text>参数</text>
 				</view>
@@ -112,7 +112,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="basic">
+			<view class="basic" @tap="add">
 				<view class="left_a">
 					<text>适配</text>
 				</view>
@@ -126,40 +126,36 @@
 				</view>
 
 			</view>
-			<view class="mask" v-if="isAdd">
-				<view class="butt">
-					<view class="mTop">
-						<image class="cover" src="../../static/img_05.jpg" mode=""></image>
-						<view class="mRight">
-							<view class="price">¥ 120:00</view>
-							<view class="mItem">已选：<text>白色</text>,<text>官方标配</text></view>
-						</view>
-
+			<view class="mask" v-if="isAdd" @tap="add">
+			</view>
+			<view class="butt" v-if="isAdd">
+				<view class="mTop">
+					<image class="cover" :src="list.goodsImgs" mode=""></image>
+					<view class="mRight">
+						<view class="price">¥ {{list.shopPrice}}</view>
+						<view class="mItem">已选：<text>白色</text>,<text>官方标配</text></view>
 					</view>
-					<view class="mButton">
-						<view class="color">
-							<text class="name">颜色</text>
-							<view class="cor bod">黑色</view>
-							<view class="cor">黑色</view>
+
+				</view>
+				<view class="mButton">
+					<view class="detail">
+
+						<view class="color" v-for="(item,index) in shuList">
+							<text class="name">{{item.name}}</text>
+							<view :class="id[index]==items.itemId?'cor bod':'cor'" v-for="(items,indexs) in item.itemId" @tap="togLi(index,items.itemId)">{{items.item}}</view>
 						</view>
-						<view class="taocan">
-							<text class="name">套餐</text>
-							<view class="cor">官方套餐</view>
-							<view class="cor">官方套餐</view>
-
-
-						</view>
-						<view class="mNumber">
-							<view class="name">数量</view>
-							<view class="n_right">
-								<view class="reduce">-</view>
-								<view class="cor">1</view>
-								<view class="add">+</view>
-
-							</view>
-						</view>
-
 					</view>
+
+					<view class="mNumber">
+						<view class="name">数量</view>
+						<view class="n_right">
+							<view class="reduce" @tap="reduce">-</view>
+							<input class="cor" type="number" style='width:60rpx;' v-model="num"></input>
+							<view class="add" @tap="jia">+</view>
+
+						</view>
+					</view>
+					<button class="btn">立即购买</button>
 				</view>
 			</view>
 		</view>
@@ -182,19 +178,20 @@
 			<!-- 用户评价 ,划动效果-->
 			<view class="toux">
 				<view class="imgBox_a">
-					<image src="../../static/img_05.jpg" mode=""></image>
+					<image :src="pingjia.img" mode=""></image>
 				</view>
 				<view class="mingc">
-					<text>秋天的风</text>
+					<text>{{pingjia.commId}}</text>
 					<view class="time">
-						<text>2019/05/05</text>
+						<text>{{pingjia.createTime}}</text>
 					</view>
 					<view class="huay">
-						<text>性价比高，做工精致，质量很好，性价比高，做工精致材质纯正质量很好，性价比高，做工精致</text>
+						<text>{{pingjia.content}}</text>
 					</view>
 				</view>
 			</view>
 		</view>
+		<!-- 店铺：需产品确认 -->
 		<view class="listBox">
 			<view class="liBox">
 				<view class="imgBox">
@@ -218,7 +215,8 @@
 				<text>商品详情</text>
 			</view>
 			<view class="imgg">
-				<image src="../../static/img_19.jpg" mode=""></image>
+				<!-- 富文本：需修改 -->
+				<image :src="list.goodsImgs" mode=""></image>
 			</view>
 		</view>
 
@@ -232,7 +230,7 @@
 					</view>
 				</view>
 				<view class="kefua">
-					<image src="../../static/icon_51.png" mode=""></image>
+					<image @tap="isActive(isCollect)" src="../../static/icon_51.png" mode=""></image>
 					<view class="keyboard">
 						<text>收藏</text>
 					</view>
@@ -250,7 +248,7 @@
 					<view class="uni-padding-wrap uni-common-mt bott onna">
 						<button type="primary">加入购物车</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup">
+					<view class="uni-padding-wrap uni-common-mt bott" @tap="add">
 						<button type="primary">立即购买</button>
 					</view>
 				</view>
@@ -264,11 +262,17 @@
 		data() {
 			return {
 				list: {},
-				pingjia: '',
-				isAdd: true
+				canshu: {},
+				pingjia: {},
+				isAdd: false,
+				num: 0,
+				shuList:[],
+				id:[],
+				isCollect:''
 			}
 		},
 		onLoad(option) {
+			
 			this.deId = option.id
 			var _this = this
 			this.$https({
@@ -279,11 +283,44 @@
 				dengl: false,
 				success: function(res) {
 					_this.list = res.data.data.detail
+					_this.canshu = res.data.data.specs
 					_this.pingjia = res.data.data.goodsComms
-					console.log(res.data.data.detail)
+					_this.pingjia = res.data.data.goodsComms[0]
+					_this.isCollect=res.data.data.isCollect
+					console.log( res.data.data)
+
+					var arr=[]
+					for( var k in _this.canshu){
+						arr.push({name:k,itemId:_this.canshu[k]})
+						// console.log(_this.canshu[k]['0'])
+					}
+					_this.shuList=arr
 				}
 			})
+		},
+		methods: {
+			add() {
+				this.isAdd = !this.isAdd
+			},
+			reduce() {
+				this.num--
+				if (this.num <= 0) {
+					this.num = 0
+				}
+			},
+			jia() {
+				this.num++
+			},
+			togLi(index,itemId){
+				// this.id =itemId ;
+				this.id[index]=itemId
+			},
+			isActive(isCollect){
+				this.isCollect=!this.isCollect
+				console.log(this.isCollect)
+			}
 		}
+
 	}
 </script>
 
@@ -300,84 +337,118 @@
 		z-index: 10;
 		top: 0;
 		left: 0;
+	}
 
-		.butt {
+	.butt {
+		width: 100%;
+		height: 70%;
+		// overflow-y: scroll;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		padding: 30upx;
+		box-sizing: border-box;
+		background-color: white;
+		z-index: 20;
+		border-top-left-radius: 5%;
+		border-top-right-radius: 5%;
+		z-index: 99999;
+
+		.mTop {
+			display: flex;
+			align-items: center;
+			height: 30%;
+			justify-content: space-between;
 			width: 100%;
-			height: 70%;
-			// overflow-y: scroll;
-			position: fixed;
-			bottom: 0;
-			left: 0;
-			padding: 30upx;
+			height: auto;
+			// border-bottom: 1rpx solid #dddddd;
+			padding-bottom: 30upx;
 			box-sizing: border-box;
-			background-color: white;
-			z-index: 20;
-			border-top-left-radius: 5%;
-			border-top-right-radius: 5%;
 
-			.mTop {
+			.cover {
+				width: 200upx;
+				height: 200upx;
+				margin-right: 20upx;
+			}
+
+			.mRight {
+				flex: 1 auto;
+				height: 200upx;
 				display: flex;
-				align-items: center;
-				height: 30%;
 				justify-content: space-between;
-				width: 100%;
-				height: auto;
-				// border-bottom: 1rpx solid #dddddd;
-				padding-bottom: 30upx;
-				box-sizing: border-box;
+				flex-direction: column;
 
-				.cover {
-					width: 200upx;
-					height: 200upx;
-					margin-right: 20upx;
+				.price {
+					color: #ed2138;
+					font-size: 30rpx;
+					margin-top: 40rpx;
 				}
 
-				.mRight {
-					flex: 1 auto;
-					height: 200upx;
-					display: flex;
-					justify-content: space-between;
-					flex-direction: column;
+				.mItem {
+					color: #666666;
+					font-size: 26rpx;
 				}
+			}
+
+		}
+
+		.mButton {
+			width: 100%;
+			height: 50%;
+
+			.color,
+			.mNumber {
+				height: 30%;
+
+				.bod {
+					border: 1rpx solid #285cfe;
+					color: #285cfe;
+				}
+			}
+
+			.name {
+				display: block;
+				font-size: 28rpx;
+				color: #aaaaaa;
+				margin: 50rpx 0 30rpx 0;
+			}
+
+			.cor {
+				font-size: 26rpx;
+				padding: 10rpx 30rpx;
+				display: inline-block;
+				background-color: #f4f4f2;
+				border-radius: 8%;
+				margin-right: 30rpx;
 
 			}
 
-			.mButton {
-				width: 100%;
-				height: 50%;
+		}
 
-				.color,.mNumber{
-					height: 30%;
-					.bod{
-						border: 1rpx solid #285cfe;
-						color:#285cfe ;
-					}
-				}
-				.name {
-					display: block;
-					font-size: 28rpx;
-					color: #aaaaaa;
-					margin:50rpx 0 30rpx 0;
-				}
+		.mNumber {
+			display: flex;
+			justify-content: space-between;
+			flex-direction: row;
+			align-items: center;
+
+			.name {}
+
+			.n_right {
+				display: flex;
+				flex-direction: row;
 
 				.cor {
-					font-size: 28rpx;
-					padding: 10rpx 30rpx;
-					display: inline-block;
-					background-color: #f4f4f2;
-					border-radius: 8%;
-					margin-right: 30rpx;
-
+					margin-left: 30rpx;
 				}
-
-			}
-			.mNumber {
-				display: flex;
-				
-				
 			}
 		}
+
+		.btn {
+			background-color: #2b5cff;
+			color: #fefefe;
+		}
 	}
+
 
 	.bg_img {
 		position: absolute;

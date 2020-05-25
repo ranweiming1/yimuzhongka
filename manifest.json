@@ -60,7 +60,7 @@
         "appid" : "wxfbe76e64eaa4d566",
         "setting" : {
             "urlCheck" : false,
-            "postcss" : false
+            "postcss" : true
         },
         "usingComponents" : true
     },

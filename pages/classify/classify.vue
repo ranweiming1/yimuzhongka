@@ -15,7 +15,7 @@
 			<scroll-view class="left" scroll-y :style="'height:'+height+'px'">
 				<!-- 选中样式 -->
 				<!-- 未选中样式 -->
-				<view :class="id==index?'on':'none'" @click="togLi(index)" v-for="(item ,index) in AllList" :key=item.id>
+				<view :class="id==index?'on':'none'" @tap="togLi(index)" v-for="(item ,index) in AllList" :key=item.id>
 					<image v-if='id==index' src='../../static/icon_29.png'></image>
 					<text>{{item.cateTitle}}</text>
 				</view>
