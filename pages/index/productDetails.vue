@@ -140,15 +140,17 @@
 						<view class="color">
 							<text class="name">颜色</text>
 							<view class="cor">黑色</view>
+							<view class="cor">黑色</view>
 						</view>
 						<view class="taocan">
-							<text class="name" >套餐</text>
-							<button type="default">官方套餐</button>
-							
+							<text class="name">套餐</text>
+							<view class="cor">官方套餐</view>
+							<view class="cor">官方套餐</view>
+
 
 						</view>
 						<view class="mNumber">
-							<view class="name" >数量</view>
+							<view class="name">数量</view>
 							<view class="n_right">
 								<view class="reduce">-</view>
 								<view class="num">1</view>
@@ -339,25 +341,32 @@
 				}
 
 			}
-			
-			.mButton{
+
+			.mButton {
 				width: 100%;
 				height: 50%;
-				.color{
-					
+
+				.color {
+					height: 30%;
+					.bod{
+						border: 1px solid #285cfe;
+					}
 				}
-				.name{
-					display: block; 
-					font-size:28rpx;
-					color:#aaaaaa;
-				}
-				.cor{
+
+				.name {
+					display: block;
 					font-size: 28rpx;
-					padding:10rpx 30rpx;
+					color: #aaaaaa;
+				}
+
+				.cor {
+					font-size: 28rpx;
+					padding: 10rpx 30rpx;
 					display: inline-block;
-					background-color: f5f5f5;
-					
-					
+					background-color: #f4f4f2;
+					border-radius: 8%;
+					margin-right: 30rpx;
+
 				}
 			}
 		}
