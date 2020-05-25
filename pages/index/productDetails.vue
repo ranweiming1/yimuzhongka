@@ -343,12 +343,20 @@
 			.mButton{
 				width: 100%;
 				height: 50%;
+				.color{
+					
+				}
 				.name{
-					display: inline-block; 
+					display: block; 
 					font-size:28rpx;
 					color:#aaaaaa;
 				}
-				.color{
+				.cor{
+					font-size: 28rpx;
+					padding:10rpx 30rpx;
+					display: inline-block;
+					background-color: f5f5f5;
+					
 					
 				}
 			}
