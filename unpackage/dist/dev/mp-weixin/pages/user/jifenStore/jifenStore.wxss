@@ -37,7 +37,8 @@
 .userBox .img_a image {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 120rpx;
+  -webkit-border-radius: 120rpx;
+          border-radius: 120rpx;
 }
 .userBox .text_a {
   float: left;
@@ -64,7 +65,8 @@
   height: 20rpx;
   color: #fff;
   font-size: 22rpx;
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   padding: 10rpx 20rpx;
   background-color: #3366ff;
 }
@@ -76,7 +78,8 @@
 .tabs .on {
   float: left;
   width: 190rpx;
-  border-radius: 50rpx;
+  -webkit-border-radius: 50rpx;
+          border-radius: 50rpx;
   border: 1px solid #2b5cff;
   margin: 20rpx;
 }
@@ -88,7 +91,8 @@
 .tabs .jif {
   float: left;
   width: 190rpx;
-  border-radius: 50rpx;
+  -webkit-border-radius: 50rpx;
+          border-radius: 50rpx;
   background-color: #f7f7f7;
   border: 1px solid #f7f7f7;
   margin: 20rpx;
@@ -100,7 +104,8 @@
 .tabs .jiag {
   float: left;
   width: 190rpx;
-  border-radius: 50rpx;
+  -webkit-border-radius: 50rpx;
+          border-radius: 50rpx;
   background-color: #f7f7f7;
   border: 1px solid #f7f7f7;
   margin: 20rpx;
@@ -121,14 +126,16 @@
   margin: 5rpx;
   margin-bottom: 20rpx;
   margin-right: 30rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
   -webkit-box-shadow: 0 0 5px #ccc;
           box-shadow: 0 0 5px #ccc;
 }
 .listBox .block .imgBox image {
   width: 330rpx;
   height: 200rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .listBox .block .tit {
   font-size: 28rpx;

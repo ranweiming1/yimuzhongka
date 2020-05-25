@@ -78,7 +78,7 @@
 							title:'登录成功'
 						})
 						setTimeout(function(){
-							uni.navigateTo({
+							uni.reLaunch({
 								url:'../index/index'
 							})
 						},1900)

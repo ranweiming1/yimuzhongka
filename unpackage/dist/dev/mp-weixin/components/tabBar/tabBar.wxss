@@ -24,7 +24,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.IMGstyle.data-v-0fbe97b9 {
+.IMGstyle.data-v-0d5659ec {
   width: 140rpx;
   height: 140rpx;
   position: absolute;
@@ -36,10 +36,10 @@
   max-width: 50%;
   text-align: center;
 }
-.FullSucreen.data-v-0fbe97b9 {
+.FullSucreen.data-v-0d5659ec {
   bottom: 30rpx !important;
 }
-.tabBar.data-v-0fbe97b9 {
+.tabBar.data-v-0d5659ec {
   width: 100vw;
   height: 100rpx;
   position: fixed;
@@ -58,12 +58,14 @@
   display: flex;
   -webkit-justify-content: space-around;
           justify-content: space-around;
-  border-top-right-radius: 20rpx;
-  border-top-left-radius: 20rpx;
+  -webkit-border-top-right-radius: 20rpx;
+          border-top-right-radius: 20rpx;
+  -webkit-border-top-left-radius: 20rpx;
+          border-top-left-radius: 20rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.tabBar .tabbar_item.data-v-0fbe97b9 {
+.tabBar .tabbar_item.data-v-0d5659ec {
   width: 40%;
   font-size: 12px;
   display: -webkit-box;
@@ -83,11 +85,11 @@
   -webkit-box-shadow: 6px 0px 6px 0px rgba(0, 0, 0, 0.2);
           box-shadow: 6px 0px 6px 0px rgba(0, 0, 0, 0.2);
 }
-.tabBar .tabbar_item image.data-v-0fbe97b9 {
+.tabBar .tabbar_item image.data-v-0d5659ec {
   width: 48rpx;
   height: 48rpx;
 }
-.tabBar .tabbar_item.active.data-v-0fbe97b9 {
+.tabBar .tabbar_item.active.data-v-0d5659ec {
   border-left: 0px solid white;
   border-top: 0px solid white;
   background: #ffffff;

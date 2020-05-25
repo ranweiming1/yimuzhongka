@@ -2,7 +2,7 @@
 	<view>
 		<!-- 产品图，这是轮播 -->
 		<view class="bg_img">
-			<image src="../../static/img_18.jpg" mode=""></image>
+			<image :src="list.goodsLogo" mode=""></image>
 		</view>
 
 		<!-- 头部 -->
@@ -19,7 +19,7 @@
 			<view class="Box">
 				<view class="ThePrice">
 					<view class="h2Box">
-						<text>￥<text>980</text>.00</text>
+						<text>￥<text>{{list.shopPrice}}</text>.00</text>
 					</view>
 					<view class="spanBox">
 						<text>原价：￥1265.00</text>
@@ -38,10 +38,10 @@
 				<text>分享</text>
 			</view>
 			<view class="h2aBox">
-				<text>防泼水轻盈背负YKKA拉链尊享级防泼水轻盈背负YKK拉链颈枕</text>
+				<text>{{list.goodsId}}</text>
 			</view>
 		</view>
-		
+
 		<!-- 发货/活动细则 -->
 		<view class="introduce">
 			<view class="mingca">
@@ -54,7 +54,7 @@
 				<text>快递：包邮</text>
 			</view>
 			<view class="yuex">
-				<text>月销量1.3万+</text>
+				<text>月销量:{{list.salesSum}}</text>
 			</view>
 		</view>
 		<view class="xize">
@@ -83,7 +83,7 @@
 				<image src="../../static/icon_26.png" mode=""></image>
 			</view>
 		</view>
-		
+
 		<!-- 参数 -->
 		<view class="parameter">
 			<view class="basic">
@@ -104,7 +104,7 @@
 					<text>参数</text>
 				</view>
 				<view class="left_b">
-					<text>品牌  型号  成分...</text>
+					<text>品牌 型号 成分...</text>
 				</view>
 				<view class="right_a">
 					<view class="img_a">
@@ -124,6 +124,41 @@
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
+
+			</view>
+			<view class="mask" v-if="isAdd">
+				<view class="butt">
+					<view class="mTop">
+						<image class="cover" src="../../static/img_05.jpg" mode=""></image>
+						<view class="mRight">
+							<view class="price">¥ 120:00</view>
+							<view class="mItem">已选：<text>白色</text>,<text>官方标配</text></view>
+						</view>
+
+					</view>
+					<view class="mButton">
+						<view class="color">
+							<text class="name">颜色</text>
+							<view class="cor">黑色</view>
+						</view>
+						<view class="taocan">
+							<text class="name" >套餐</text>
+							<button type="default">官方套餐</button>
+							
+
+						</view>
+						<view class="mNumber">
+							<view class="name" >数量</view>
+							<view class="n_right">
+								<view class="reduce">-</view>
+								<view class="num">1</view>
+								<view class="add">+</view>
+
+							</view>
+						</view>
+
+					</view>
+				</view>
 			</view>
 		</view>
 		<view class="pingjBox">
@@ -131,7 +166,7 @@
 				<view class="left_a">
 					<text>用户评价</text>
 				</view>
-				
+
 				<view class="right_a">
 					<view class="img_a">
 						<image src="../../static/icon_26.png" mode=""></image>
@@ -140,7 +175,7 @@
 				<view class="left_b">
 					<text>98%满意</text>
 				</view>
-				
+
 			</view>
 			<!-- 用户评价 ,划动效果-->
 			<view class="toux">
@@ -184,7 +219,7 @@
 				<image src="../../static/img_19.jpg" mode=""></image>
 			</view>
 		</view>
-		
+
 		<!-- 底部 -->
 		<view class="bottom">
 			<view class="leftA">
@@ -206,7 +241,7 @@
 						<text>客服</text>
 					</view>
 				</view>
-		        
+
 			</view>
 			<view class="rightA">
 				<view class="bottBoxss">
@@ -223,12 +258,103 @@
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				list: {},
+				pingjia: '',
+				isAdd: true
+			}
+		},
+		onLoad(option) {
+			this.deId = option.id
+			var _this = this
+			this.$https({
+				url: '/api/shop/mall-goods-detail',
+				data: {
+					goods_id: option.id
+				},
+				dengl: false,
+				success: function(res) {
+					_this.list = res.data.data.detail
+					_this.pingjia = res.data.data.goodsComms
+					console.log(res.data.data.detail)
+				}
+			})
+		}
+	}
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background-color: #f7f7f7;
 	}
+
+	.mask {
+		width: 100%;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.6);
+		position: fixed;
+		z-index: 10;
+		top: 0;
+		left: 0;
+
+		.butt {
+			width: 100%;
+			height: 70%;
+			// overflow-y: scroll;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			padding: 30upx;
+			box-sizing: border-box;
+			background-color: white;
+			z-index: 20;
+			border-top-left-radius: 5%;
+			border-top-right-radius: 5%;
+
+			.mTop {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				width: 100%;
+				height: auto;
+				// border-bottom: 1rpx solid #dddddd;
+				padding-bottom: 30upx;
+				box-sizing: border-box;
+
+
+				.cover {
+					width: 200upx;
+					height: 200upx;
+					margin-right: 20upx;
+				}
+
+				.mRight {
+					flex: 1 auto;
+					height: 200upx;
+					display: flex;
+					justify-content: space-between;
+					flex-direction: column;
+				}
+
+			}
+			
+			.mButton{
+				width: 100%;
+				height: 50%;
+				.name{
+					display: inline-block; 
+					font-size:28rpx;
+					color:#aaaaaa;
+				}
+				.color{
+					
+				}
+			}
+		}
+	}
+
 	.bg_img {
 		position: absolute;
 		top: 0upx;
@@ -280,7 +406,7 @@
 
 	.Box {
 		float: left;
-		
+
 	}
 
 	.titleBox {
@@ -358,77 +484,94 @@
 				color: #999;
 			}
 		}
-	.h2aBox{
-		float: left;
-		padding-top:10upx;
-		text{
-			font-size: 34upx;
-			color: #333;
-			line-height: 40upx;
+
+		.h2aBox {
+			float: left;
+			padding-top: 10upx;
+
+			text {
+				font-size: 34upx;
+				color: #333;
+				line-height: 40upx;
+			}
 		}
 	}
-	}
-	.introduce{
+
+	.introduce {
 		background-color: #fff;
 		margin-top: 20upx;
 		width: 710upx;
 		padding: 20upx;
 		position: absolute;
-		top:850upx;
-		.mingca{
+		top: 850upx;
+
+		.mingca {
 			float: left;
 			padding-right: 20upx;
-			text{
+
+			text {
 				color: #666;
 				font-size: 26upx;
 			}
 		}
-		.diz{
+
+		.diz {
 			float: left;
-			padding-right:10upx;
-			text{
+			padding-right: 10upx;
+
+			text {
 				color: #333;
 				font-size: 26upx;
 			}
 		}
-		.kuaid{
+
+		.kuaid {
 			float: left;
-			text{
+
+			text {
 				color: #333;
 				font-size: 26upx;
 			}
 		}
-		.yuex{
+
+		.yuex {
 			float: right;
-			text{
+
+			text {
 				color: #666;
 				font-size: 26upx;
 			}
 		}
-		
+
 	}
-	.xize{
+
+	.xize {
 		background-color: #fff;
 		margin-top: 20upx;
 		width: 710upx;
 		padding: 20upx;
 		position: absolute;
-		top:920upx;
+		top: 920upx;
 		overflow: hidden;
-		.huid{
+
+		.huid {
 			float: left;
 			padding-right: 20upx;
-			text{
+
+			text {
 				color: #666;
 				font-size: 26upx;
 			}
 		}
-		.xiangqBox{
+
+		.xiangqBox {
 			float: left;
 			width: 80%;
-			.oneBox{
+
+			.oneBox {
 				float: left;
 				width: 100%;
+
 				.preferential {
 					float: left;
 					margin-top: 10upx;
@@ -436,106 +579,122 @@
 					background-color: #fde9e9;
 					padding: 3upx 10upx;
 					border-radius: 10upx;
-				    
+
 					text {
 						float: left;
 						line-height: 35upx;
 						color: #ff3333;
-						font-size:17upx;
+						font-size: 17upx;
 					}
 				}
-				.jies{
-					text{
+
+				.jies {
+					text {
 						font-size: 26upx;
 						color: #333;
 					}
 				}
 			}
-			
-			
+
+
 		}
-		.imBox{
+
+		.imBox {
 			float: right;
 			margin-top: 20upx;
-			image{
+
+			image {
 				width: 12upx;
 				height: 20upx;
 			}
 		}
-		
+
 	}
-	.parameter{
+
+	.parameter {
 		background-color: #fff;
 		margin-top: 20upx;
 		width: 710upx;
 		padding: 20upx;
 		position: absolute;
-		top:1070upx;
+		top: 1070upx;
 		overflow: hidden;
 	}
+
 	.basic {
 		width: 100%;
 		float: left;
 		margin-bottom: 20upx;
+
 		.left_a {
 			float: left;
 			padding-right: 20upx;
+
 			text {
 				font-size: 28upx;
 				color: #999;
 				line-height: 50upx;
 			}
 		}
-	    .left_b {
-	    	float: left;
-	    	padding-right: 20upx;
-	    	text {
-	    		font-size: 28upx;
-	    		color: #333;
-	    		line-height: 50upx;
-	    	}
-	    }
+
+		.left_b {
+			float: left;
+			padding-right: 20upx;
+
+			text {
+				font-size: 28upx;
+				color: #333;
+				line-height: 50upx;
+			}
+		}
+
 		.right_a {
 			float: right;
 			padding-right: 10upx;
-	        .img_l{
-				float:left;
+
+			.img_l {
+				float: left;
 				padding-right: 10upx;
 				padding-top: 5upx;
-				image{
+
+				image {
 					width: 45upx;
 					height: 45upx;
 				}
-				
+
 			}
+
 			.img_a {
 				float: right;
 				padding: 20upx 0upx 20upx 20upx;
-	
+
 				image {
 					width: 12upx;
 					height: 14upx;
 					display: block;
 				}
-	
+
 			}
 		}
 	}
-	.pingjBox{
+
+	.pingjBox {
 		background-color: #fff;
 		margin-top: 20upx;
 		width: 710upx;
 		padding: 20upx;
 		margin-bottom: 20upx;
 		position: absolute;
-		top:1345upx;
+		top: 1345upx;
 		overflow: hidden;
-		.basic{
+
+		.basic {
 			.left_b {
-				float:right;
+				float: right;
 			}
 		}
 	}
+
 	.toux {
 		background-color: #f7f7f7;
 		padding-top: 20upx;
@@ -543,89 +702,105 @@
 		overflow: hidden;
 		border-radius: 10upx;
 		padding-bottom: 20upx;
+
 		image {
 			width: 80upx;
 			height: 80upx;
 			border-radius: 150upx;
 		}
 	}
+
 	.evaluate {
-		width:680upx;
+		width: 680upx;
 		margin-bottom: 100upx;
 	}
-	.mingc{
+
+	.mingc {
 		float: left;
-		width:570upx;
-		text{
+		width: 570upx;
+
+		text {
 			font-size: 26upx;
 			padding-left: 20upx;
 		}
-		.time{
+
+		.time {
 			float: right;
 			color: #333;
 			font-size: 26upx;
 			line-height: 50upx;
 		}
 	}
-	.imgBox_a{
+
+	.imgBox_a {
 		float: left;
 		margin-left: 20upx;
 		margin-top: 10upx;
 		margin-top: 20upx;
 	}
-	.huay{
+
+	.huay {
 		width: 570upx;
 		float: left;
 		color: #999;
 		line-height: 40upx;
 	}
-	.listBox{
+
+	.listBox {
 		width: 710upx;
 		padding: 20upx;
 		position: absolute;
-		top:1660upx;
+		top: 1660upx;
 		background-color: #fff;
 		margin-top: 20upx;
 		overflow: hidden;
-		.liBox{
+
+		.liBox {
 			padding: 10upx;
 			float: left;
-			width:690upx;
+			width: 690upx;
 			border-radius: 10upx;
 			margin-bottom: 20upx;
 			box-shadow: 0 0 10upx #ccc;
-			.imgBox{
+
+			.imgBox {
 				float: left;
-				image{
+
+				image {
 					width: 100upx;
 					height: 100upx;
 					border-radius: 100upx;
 				}
 			}
-			.texBox{
+
+			.texBox {
 				float: left;
 				padding-left: 20upx;
-				.h2Box{
+
+				.h2Box {
 					padding-top: 5upx;
-					text{
+
+					text {
 						line-height: 50upx;
 						font-size: 32upx;
 						color: #333;
 					}
 				}
-				.spanBox{
-					text{
+
+				.spanBox {
+					text {
 						font-size: 24upx;
 						color: #333;
 					}
 				}
 			}
-			
-			.bottBox{
+
+			.bottBox {
 				float: right;
 				margin-top: 25upx;
 				margin-right: 10upx;
-				text{
+
+				text {
 					font-size: 20upx;
 					color: #2b5cff;
 					float: left;
@@ -638,92 +813,104 @@
 			}
 		}
 	}
-	.shangx{
+
+	.shangx {
 		width: 710upx;
 		padding: 20upx;
 		position: absolute;
 		background-color: #fff;
-		top:1885upx;
-		text{
+		top: 1885upx;
+
+		text {
 			font-size: 30upx;
 		}
-		.imgg{
+
+		.imgg {
 			padding-top: 20upx;
-			image{
+
+			image {
 				width: 705upx;
 				height: 700upx;
 			}
 		}
 	}
-	
-	.bottom{
+
+	.bottom {
 		width: 750upx;
 		height: 100upx;
 		background-color: #fff;
-		border-top:1px solid #ccc ;
+		border-top: 1px solid #ccc;
 		position: fixed;
 		bottom: 0upx;
 		left: 0upx;
-		.leftA{
+
+		.leftA {
 			float: left;
 			padding-left: 20upx;
-			width:350upx;
-			.kefua{
+			width: 350upx;
+
+			.kefua {
 				float: left;
-				padding:20upx;
-				image{
+				padding: 20upx;
+
+				image {
 					padding-left: 5upx;
-					width:41upx;
-					height:38upx;
+					width: 41upx;
+					height: 38upx;
 					float: left;
 				}
-				.keyboard{
-					text{
+
+				.keyboard {
+					text {
 						float: left;
 						color: #333;
 						font-size: 26upx;
 					}
 				}
-				
+
 			}
-			
-	
-	
+
+
+
 		}
-		
+
 	}
-	
-	.rightA{
-		width:300upx;
-		float:right;
-		
+
+	.rightA {
+		width: 300upx;
+		float: right;
+
 	}
+
 	.bottBoxss {
-		
+
 		float: right;
 		width: 710upx;
 		padding: 20upx;
 		height: 50upx;
-	    .onna{
-			button{
+
+		.onna {
+			button {
 				background-color: #007AFF !important;
 				border: 1px solid #007AFF !important;
 				color: #fff !important;
 			}
 		}
-		.onnb{
-			button{
+
+		.onnb {
+			button {
 				background-color: #fff !important;
 				border: 1px solid #007AFF !important;
 				color: #007AFF !important;
 			}
 		}
+
 		.bott {
 			display: block;
 			width: 180upx;
 			margin-right: 20upx;
 			float: right;
-	
+
 			button {
 				background-color: #fff;
 				border: 1px solid #999;
@@ -732,7 +919,7 @@
 				color: #999;
 				font-family: Microsoft YaHei;
 			}
-	
+
 		}
 	}
 </style>

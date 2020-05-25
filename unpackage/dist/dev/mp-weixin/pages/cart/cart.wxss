@@ -236,7 +236,8 @@ uni-popup {
   width: 695rpx;
   height: 800rpx;
   background-color: #fff;
-  border-radius: 20rpx 20rpx 0 0;
+  -webkit-border-radius: 20rpx 20rpx 0 0;
+          border-radius: 20rpx 20rpx 0 0;
   position: relative;
   padding: 30rpx;
   overflow: hidden;
@@ -291,7 +292,8 @@ uni-popup {
   font-size: 28rpx;
   color: #333;
   border: 1px solid #f0f0f0;
-  border-radius: 5rpx;
+  -webkit-border-radius: 5rpx;
+          border-radius: 5rpx;
 }
 .neira .color .xiang_on {
   float: left;
@@ -305,7 +307,8 @@ uni-popup {
   background-color: #fff;
   font-size: 28rpx;
   color: #2b5cff;
-  border-radius: 5rpx;
+  -webkit-border-radius: 5rpx;
+          border-radius: 5rpx;
 }
 .neira .set {
   width: 100%;
@@ -329,7 +332,8 @@ uni-popup {
   font-size: 28rpx;
   color: #333;
   border: 1px solid #f0f0f0;
-  border-radius: 5rpx;
+  -webkit-border-radius: 5rpx;
+          border-radius: 5rpx;
 }
 .neira .set .xiang_on {
   float: left;
@@ -343,7 +347,8 @@ uni-popup {
   background-color: #fff;
   font-size: 28rpx;
   color: #2b5cff;
-  border-radius: 5rpx;
+  -webkit-border-radius: 5rpx;
+          border-radius: 5rpx;
 }
 .neira .quantity {
   width: 100%;
@@ -365,12 +370,14 @@ uni-popup {
   text-align: center;
   position: fixed;
   bottom: 40rpx;
-  border-radius: 40rpx !important;
+  -webkit-border-radius: 40rpx !important;
+          border-radius: 40rpx !important;
   left: 40rpx;
 }
 .bott button {
   position: initial;
-  border-radius: 40rpx !important;
+  -webkit-border-radius: 40rpx !important;
+          border-radius: 40rpx !important;
   font-family: Microsoft YaHei;
 }
 

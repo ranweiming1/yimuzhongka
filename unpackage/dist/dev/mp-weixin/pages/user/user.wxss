@@ -65,7 +65,8 @@
 .userBox .img_a image {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 120rpx;
+  -webkit-border-radius: 120rpx;
+          border-radius: 120rpx;
 }
 .userBox .text_a {
   float: left;
@@ -97,7 +98,8 @@
   top: 300rpx;
   left: 25rpx;
   background-color: #fff;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   padding: 50rpx 20rpx 20rpx 20rpx;
 }
 .bgWhite .yong {
@@ -164,7 +166,8 @@
   top: 520rpx;
   left: 25rpx;
   background-color: #fff;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   padding: 30rpx 20rpx 20rpx 20rpx;
 }
 .state view {
@@ -200,7 +203,8 @@
   top: 890rpx;
   left: 25rpx;
   background-color: #fff;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   padding: 30rpx 20rpx 20rpx 20rpx;
   margin-bottom: 120rpx;
 }

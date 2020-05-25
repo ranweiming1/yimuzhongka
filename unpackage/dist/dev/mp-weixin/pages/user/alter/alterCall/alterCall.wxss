@@ -53,7 +53,8 @@ page {
   padding: 20rpx;
 }
 .bott button {
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-size: 24rpx;
   font-family: Microsoft YaHei;
 }
@@ -64,7 +65,8 @@ page {
   left: 40rpx;
 }
 .botts button {
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-family: Microsoft YaHei;
 }
 

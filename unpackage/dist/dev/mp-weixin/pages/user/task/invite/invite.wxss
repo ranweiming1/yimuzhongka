@@ -37,7 +37,8 @@
           box-shadow: 0 0 5px #ccc;
   width: 670rpx;
   height: 500rpx;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   padding: 20rpx;
 }
 .brief text {

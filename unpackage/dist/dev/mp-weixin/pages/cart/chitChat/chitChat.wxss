@@ -61,7 +61,8 @@ page {
   height: 30rpx;
   margin-top: 15rpx;
   border: 1px solid #FF6600;
-  border-radius: 5rpx;
+  -webkit-border-radius: 5rpx;
+          border-radius: 5rpx;
 }
 .Box .listBox .textBox .h2 .official text {
   float: left;
@@ -95,7 +96,8 @@ page {
   color: #fff;
   padding: 5rpx 7rpx;
   background-color: #ff0000;
-  border-radius: 30rpx;
+  -webkit-border-radius: 30rpx;
+          border-radius: 30rpx;
 }
 .Box .listBox .imgBox {
   float: left;
@@ -104,6 +106,7 @@ page {
 .Box .listBox .imgBox image {
   width: 100rpx;
   height: 100rpx;
-  border-radius: 50rpx;
+  -webkit-border-radius: 50rpx;
+          border-radius: 50rpx;
 }
 

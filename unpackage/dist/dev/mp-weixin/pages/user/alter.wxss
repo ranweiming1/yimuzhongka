@@ -69,7 +69,8 @@
 .alter .right image {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 60rpx;
+  -webkit-border-radius: 60rpx;
+          border-radius: 60rpx;
 }
 page {
   background: #f7f7f7;
@@ -130,7 +131,8 @@ page {
   font-family: Microsoft YaHei;
 }
 .quit button {
-  border-radius: 50rpx 50rpx;
+  -webkit-border-radius: 50rpx 50rpx;
+          border-radius: 50rpx 50rpx;
   background-color: #dce0e6;
 }
 

@@ -47,7 +47,8 @@
   background-color: #fff;
   width: 690rpx;
   height: initial;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   -webkit-box-shadow: 0 0 5px #ccc;
           box-shadow: 0 0 5px #ccc;
   position: fixed;
@@ -84,6 +85,7 @@
   margin: 0 auto;
 }
 .white .bott button {
-  border-radius: 80rpx;
+  -webkit-border-radius: 80rpx;
+          border-radius: 80rpx;
 }
 

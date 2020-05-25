@@ -25,7 +25,8 @@
 /* 透明度 */
 /* 文章场景相关 */
 checkbox {
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
 }
 .top {
   width: 750rpx;
@@ -112,7 +113,8 @@ checkbox {
   left: 40rpx;
 }
 .bott button {
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-family: Microsoft YaHei;
 }
 

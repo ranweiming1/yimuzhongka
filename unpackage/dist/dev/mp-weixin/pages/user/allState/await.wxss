@@ -292,7 +292,8 @@
 .bottBox .bott button {
   background-color: #fff;
   border: 1px solid #999;
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-size: 24rpx;
   color: #999;
   font-family: Microsoft YaHei;

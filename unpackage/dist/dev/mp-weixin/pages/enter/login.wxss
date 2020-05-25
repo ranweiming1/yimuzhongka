@@ -91,7 +91,8 @@
   font-family: Microsoft YaHei;
 }
 .bott button {
-  border-radius: 50rpx;
+  -webkit-border-radius: 50rpx;
+          border-radius: 50rpx;
   line-height: 90rpx;
   background-color: #1a5fe3;
   -webkit-box-shadow: -1px 4px 5px #B5B5B5;

@@ -67,7 +67,8 @@
 .userBox .img_a image {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 120rpx;
+  -webkit-border-radius: 120rpx;
+          border-radius: 120rpx;
 }
 .userBox .text_a {
   float: left;
@@ -137,7 +138,8 @@
   top: 380rpx;
   left: 25rpx;
   background-color: #fff;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   padding: 50rpx 20rpx 20rpx 20rpx;
 }
 .bott {
@@ -147,7 +149,8 @@
 .bott button {
   background-color: #fff;
   color: #2b5cff;
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-size: 24rpx;
   font-family: Microsoft YaHei;
 }
@@ -263,7 +266,8 @@
   -webkit-box-shadow: 0 0 5px #ccc;
           box-shadow: 0 0 5px #ccc;
   background-color: #fff;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   padding: 20rpx 20rpx 20rpx 20rpx;
   overflow: hidden;
 }
@@ -294,7 +298,8 @@
 .gain .frame .ul .bottg button {
   background-color: #2b5cff;
   color: #fff;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
   font-size: 22rpx;
   font-family: Microsoft YaHei;
 }

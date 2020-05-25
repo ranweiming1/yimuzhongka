@@ -85,7 +85,8 @@
   left: 40rpx;
 }
 .xiangq .bott button {
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-family: Microsoft YaHei;
 }
 

@@ -27,6 +27,77 @@
 page {
   background-color: #f7f7f7;
 }
+.mask {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+.mask .butt {
+  width: 100%;
+  height: 70%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 30rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: white;
+  z-index: 20;
+  -webkit-border-top-left-radius: 5%;
+          border-top-left-radius: 5%;
+  -webkit-border-top-right-radius: 5%;
+          border-top-right-radius: 5%;
+}
+.mask .butt .mTop {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  width: 100%;
+  height: auto;
+  padding-bottom: 30rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.mask .butt .mTop .cover {
+  width: 200rpx;
+  height: 200rpx;
+  margin-right: 20rpx;
+}
+.mask .butt .mTop .mRight {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 auto;
+          flex: 1 auto;
+  height: 200rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+}
+.mask .butt .mButton {
+  width: 100%;
+  height: 50%;
+}
+.mask .butt .mButton .name {
+  display: inline-block;
+  font-size: 28rpx;
+  color: #aaaaaa;
+}
 .bg_img {
   position: absolute;
   top: 0rpx;
@@ -44,7 +115,8 @@ page {
 .top .imgBox {
   text-align: center;
   float: right;
-  border-radius: 30rpx;
+  -webkit-border-radius: 30rpx;
+          border-radius: 30rpx;
   margin: 10rpx;
   width: 60rpx;
   height: 60rpx;
@@ -58,7 +130,8 @@ page {
 .top .imgBoxs {
   text-align: center;
   float: right;
-  border-radius: 30rpx;
+  -webkit-border-radius: 30rpx;
+          border-radius: 30rpx;
   margin: 10rpx;
   width: 60rpx;
   height: 60rpx;
@@ -108,7 +181,8 @@ page {
   margin-right: 20rpx;
   background-color: #fde9e9;
   padding: 5rpx 20rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .titleBox .preferential text {
   float: left;
@@ -121,7 +195,8 @@ page {
   width: 80rpx;
   height: 80rpx;
   margin-top: 30rpx;
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   text-align: center;
   background: #F1F1F1;
 }
@@ -214,7 +289,8 @@ page {
   margin-right: 20rpx;
   background-color: #fde9e9;
   padding: 3rpx 10rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .xize .xiangqBox .oneBox .preferential text {
   float: left;
@@ -306,13 +382,15 @@ page {
   padding-top: 20rpx;
   width: 680rpx;
   overflow: hidden;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
   padding-bottom: 20rpx;
 }
 .toux image {
   width: 80rpx;
   height: 80rpx;
-  border-radius: 150rpx;
+  -webkit-border-radius: 150rpx;
+          border-radius: 150rpx;
 }
 .evaluate {
   width: 680rpx;
@@ -357,7 +435,8 @@ page {
   padding: 10rpx;
   float: left;
   width: 690rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
   margin-bottom: 20rpx;
   -webkit-box-shadow: 0 0 10rpx #ccc;
           box-shadow: 0 0 10rpx #ccc;
@@ -368,7 +447,8 @@ page {
 .listBox .liBox .imgBox image {
   width: 100rpx;
   height: 100rpx;
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
 }
 .listBox .liBox .texBox {
   float: left;
@@ -399,7 +479,8 @@ page {
   line-height: 40rpx;
   background-color: #fff;
   border: 1px solid #2b5cff;
-  border-radius: 50rpx;
+  -webkit-border-radius: 50rpx;
+          border-radius: 50rpx;
 }
 .shangx {
   width: 710rpx;
@@ -476,7 +557,8 @@ page {
 .bottBoxss .bott button {
   background-color: #fff;
   border: 1px solid #999;
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-size: 24rpx;
   color: #999;
   font-family: Microsoft YaHei;

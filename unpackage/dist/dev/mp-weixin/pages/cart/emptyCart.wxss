@@ -120,7 +120,8 @@
   background-color: #fff;
   color: #ff6600;
   border: 1px solid #ff6600;
-  border-radius: 5rpx;
+  -webkit-border-radius: 5rpx;
+          border-radius: 5rpx;
   padding: 5rpx 10rpx;
   font-size: 18rpx;
   margin-right: 10rpx;

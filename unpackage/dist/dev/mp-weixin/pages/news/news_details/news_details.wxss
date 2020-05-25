@@ -109,7 +109,8 @@
 .toux image {
   width: 80rpx;
   height: 80rpx;
-  border-radius: 150rpx;
+  -webkit-border-radius: 150rpx;
+          border-radius: 150rpx;
 }
 .evaluate {
   width: 750rpx;

@@ -76,7 +76,8 @@ page {
   font-family: Microsoft YaHei;
 }
 .quit button {
-  border-radius: 50rpx 50rpx;
+  -webkit-border-radius: 50rpx 50rpx;
+          border-radius: 50rpx 50rpx;
   background-color: #dce0e6;
 }
 

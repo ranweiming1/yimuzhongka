@@ -64,7 +64,8 @@ page {
   left: 40rpx;
 }
 .botts button {
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-family: Microsoft YaHei;
 }
 .tis {

@@ -33,7 +33,8 @@
   float: left;
   margin-left: 70rpx;
   background-color: #f0f0f0;
-  border-radius: 50rpx;
+  -webkit-border-radius: 50rpx;
+          border-radius: 50rpx;
 }
 .top .textBox input {
   height: 60rpx;
@@ -179,7 +180,8 @@
 .bottBox .bott button {
   background-color: #fff;
   border: 1px solid #999;
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   font-size: 24rpx;
   color: #999;
   font-family: Microsoft YaHei;
@@ -199,7 +201,8 @@
   width: 695rpx;
   height: 650rpx;
   background-color: #fff;
-  border-radius: 20rpx 20rpx 0 0;
+  -webkit-border-radius: 20rpx 20rpx 0 0;
+          border-radius: 20rpx 20rpx 0 0;
   position: relative;
   padding: 30rpx;
   overflow: hidden;
@@ -211,12 +214,14 @@
   text-align: center;
   position: fixed;
   bottom: 40rpx;
-  border-radius: 40rpx !important;
+  -webkit-border-radius: 40rpx !important;
+          border-radius: 40rpx !important;
   left: 40rpx;
 }
 .bottaaa button {
   position: initial;
-  border-radius: 40rpx !important;
+  -webkit-border-radius: 40rpx !important;
+          border-radius: 40rpx !important;
   font-family: Microsoft YaHei;
 }
 .radios {
