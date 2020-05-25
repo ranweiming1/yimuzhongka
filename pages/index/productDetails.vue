@@ -139,7 +139,7 @@
 					<view class="mButton">
 						<view class="color">
 							<text class="name">颜色</text>
-							<view class="cor">黑色</view>
+							<view class="cor bod">黑色</view>
 							<view class="cor">黑色</view>
 						</view>
 						<view class="taocan">
@@ -153,7 +153,7 @@
 							<view class="name">数量</view>
 							<view class="n_right">
 								<view class="reduce">-</view>
-								<view class="num">1</view>
+								<view class="cor">1</view>
 								<view class="add">+</view>
 
 							</view>
@@ -318,13 +318,13 @@
 			.mTop {
 				display: flex;
 				align-items: center;
+				height: 30%;
 				justify-content: space-between;
 				width: 100%;
 				height: auto;
 				// border-bottom: 1rpx solid #dddddd;
 				padding-bottom: 30upx;
 				box-sizing: border-box;
-
 
 				.cover {
 					width: 200upx;
@@ -346,17 +346,18 @@
 				width: 100%;
 				height: 50%;
 
-				.color {
+				.color,.mNumber{
 					height: 30%;
 					.bod{
-						border: 1px solid #285cfe;
+						border: 1rpx solid #285cfe;
+						color:#285cfe ;
 					}
 				}
-
 				.name {
 					display: block;
 					font-size: 28rpx;
 					color: #aaaaaa;
+					margin:50rpx 0 30rpx 0;
 				}
 
 				.cor {
@@ -368,6 +369,12 @@
 					margin-right: 30rpx;
 
 				}
+
+			}
+			.mNumber {
+				display: flex;
+				
+				
 			}
 		}
 	}
