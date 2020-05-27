@@ -11,33 +11,80 @@
 
 		<!-- 切换分类 -->
 		<view class="Box">
-			<view class="left">
+			<scroll-view class="left" scroll-y :style="'height:'+height+'px'">
 				<!-- 选中样式 -->
-				<view class="on">
-					<image src="../../static/icon_29.png" mode=""></image>
-					<text>汽车配件</text>
-				</view>
 				<!-- 未选中样式 -->
-				<view class="none" v-for="(i , n) in 8">
-					<text>汽车内饰</text>
+				<view :class="id==index?'on':'none'" @tap="togLi(index)" v-for="(item ,index) in allList" :key=item.id>
+					<image v-if="id==index" src="../../static/icon_29.png" mode=""></image>
+					<text>{{item.cateTitle}}</text>
 				</view>
-			</view>
-			<view class="right">
-				<view class="li" v-for="(i , n) in 12">
+			</scroll-view>
+			<scroll-view class="right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'"
+			 scroll-with-animation>
+				<view class="li" v-for="(item , index) in rList" @tap="tiaozhuan(shopsId,isOK)">
 					<view class="imgpp">
-						<image src="../../static/img_14.jpg" mode=""></image>
+						<image :src="item.imgUrl" mode=""></image>
 					</view>
 					<view class="zhiya">
-						<text>汽车坐垫</text>
+						<text>{{item.cateTitle}}</text>
 					</view>
 				</view>
-			</view>
+			</scroll-view>
 		</view>
+		<buttom bottom="3" :can="shopsId"></buttom>
 	</view>
 </template>
 
 <script>
+	import buttom from '../cart/dbottom.vue'
+	export default {
+		data() {
+			return {
+				buttom: '',
+				shopsId: '',
+				allList: [],
+				rList: {},
+				height: 0,
+				scrollTop: 0,
+				id: 0,
+				isOK:''
+			}
+		},
+		onLoad(option) {
+			this.height = uni.getSystemInfoSync().windowHeight;
+			this.shopsId = option.id
+			// console.log(option)
+			var _this = this
+			this.$https({
+				url: '/api/shop/mall-lists',
+				data: {},
+				dengl: false,
+				success(res) {
+					_this.allList = res.data.data.goodsCates
+					_this.rList = res.data.data.goodsCates[0].childsList
+					console.log(res.data.data)
+				}
+			})
+		},
+		methods: {
+			togLi(index) {
+				this.id = index;
+				this.rList = this.allList[index].childsList
+			},
+			tiaozhuan(){
+				// console.log(this.shopsId)
+				this.isOK=false
+				uni.navigateTo({
+					url:'all?id='+this.shopsId+'&isOK='+this.isOK
+				})
+				
+			}
+		},
+		components: {
+			buttom
+		},
 
+	}
 </script>
 
 <style lang="scss">
@@ -120,14 +167,16 @@
 				margin-top: 20upx;
 				width: 170upx;
 				float: left;
+
 				.imgpp {
 					image {
 						width: 120upx;
 						height: 120upx;
 					}
 				}
-				.zhiya{
-					text{
+
+				.zhiya {
+					text {
 						font-size: 28upx;
 						color: #333;
 						line-height: 50upx;

@@ -19,17 +19,14 @@
 			<view class="Box">
 				<view class="ThePrice">
 					<view class="h2Box">
-						<text>￥<text>{{list.shopPrice}}</text>.00</text>
+						<text>￥<text>{{list.shopPrice?list.marketPrice:'暂无价格'}}</text>.00</text>
 					</view>
 					<view class="spanBox">
 						<text>原价：￥1265.00</text>
 					</view>
 				</view>
 				<view class="preferential">
-					<text>买三送一</text>
-				</view>
-				<view class="preferential">
-					<text>满99-50元</text>
+
 				</view>
 			</view>
 
@@ -48,10 +45,10 @@
 				<text>发货</text>
 			</view>
 			<view class="diz">
-				<text>山东济南 |</text>
+				<text>{{list.sendAddr}} |</text>
 			</view>
 			<view class="kuaid">
-				<text>快递：包邮</text>
+				<text>快递：{{list.kuaidi}}</text>
 			</view>
 			<view class="yuex">
 				<text>月销量:{{list.salesSum}}</text>
@@ -62,20 +59,12 @@
 				<text>活动</text>
 			</view>
 			<view class="xiangqBox">
-				<view class="oneBox">
+				<view class="oneBox" v-for="(i,n) in list.couponDTOS">
 					<view class="preferential">
-						<text>买三送一</text>
+						<text>满{{i.condition}}-{{i.money}}元</text>
 					</view>
 					<view class="jies">
-						<text>满99元，立减20元；不累积。</text>
-					</view>
-				</view>
-				<view class="oneBox">
-					<view class="preferential">
-						<text>买三送一</text>
-					</view>
-					<view class="jies">
-						<text>满99元，立减20元；不累积。</text>
+						<text>满{{i.condition}}元，立减{{i.money}}元；不累积。</text>
 					</view>
 				</view>
 			</view>
@@ -195,18 +184,18 @@
 		<view class="listBox">
 			<view class="liBox">
 				<view class="imgBox">
-					<image src="../../static/img_17.jpg" mode=""></image>
+					<image :src="list.shopDTO.storeLogo" mode=""></image>
 				</view>
 				<view class="texBox">
 					<view class="h2Box">
-						<text>凯迪拉克官方企业店</text>
+						<text>{{list.shopDTO.shopName}}</text>
 					</view>
 					<view class="spanBox">
-						<text>销量：2562</text>
+						<text>销量：{{list.shopDTO.sales}}</text>
 					</view>
 				</view>
 				<view class="bottBox">
-					<text>进店逛逛</text>
+					<text @tap="jindian(list.shopId)">进店逛逛</text>
 				</view>
 			</view>
 		</view>
@@ -215,24 +204,24 @@
 				<text>商品详情</text>
 			</view>
 			<view class="imgg">
-				<!-- 富文本：需修改 -->
-				<image :src="list.goodsImgs" mode=""></image>
+				<rich-text>{{list.goodsContent}}</rich-text>
 			</view>
 		</view>
 
 		<!-- 底部 -->
 		<view class="bottom">
 			<view class="leftA">
-				<view class="kefua">
+				<view class="kefua" @tap="jindian(list.shopId)">
 					<image src="../../static/icon_50.png" mode=""></image>
 					<view class="keyboard">
 						<text>店铺</text>
 					</view>
 				</view>
 				<view class="kefua">
-					<image @tap="isActive(isCollect)" src="../../static/icon_51.png" mode=""></image>
+					<image @tap="isActive" v-if="!isCollect" src="../../static/icon_51.png" mode=""></image>
+					<image @tap="isActive" v-if="isCollect" src="../../static/icon_52.png" mode=""></image>
 					<view class="keyboard">
-						<text>收藏</text>
+						<text>{{isCollect?'已收藏':'收藏'}}</text>
 					</view>
 				</view>
 				<view class="kefua">
@@ -266,13 +255,17 @@
 				pingjia: {},
 				isAdd: false,
 				num: 0,
-				shuList:[],
-				id:[],
-				isCollect:''
+				shuList: [],
+				id: [],
+				isCollect: '',
+				content: '',
+				youhui: [],
+				dizhi: {},
+				goodsId: ''
 			}
 		},
 		onLoad(option) {
-			
+		// console.log(option)
 			this.deId = option.id
 			var _this = this
 			this.$https({
@@ -284,17 +277,20 @@
 				success: function(res) {
 					_this.list = res.data.data.detail
 					_this.canshu = res.data.data.specs
-					_this.pingjia = res.data.data.goodsComms
+					_this.goodsId = res.data.data.detail.goodsId
 					_this.pingjia = res.data.data.goodsComms[0]
-					_this.isCollect=res.data.data.isCollect
-					console.log( res.data.data)
-
-					var arr=[]
-					for( var k in _this.canshu){
-						arr.push({name:k,itemId:_this.canshu[k]})
+					_this.isCollect = res.data.data.isCollect
+					// 优惠券
+					_this.youhui = res.data.data.couponDTOS
+					var arr = []
+					for (var k in _this.canshu) {
+						arr.push({
+							name: k,
+							itemId: _this.canshu[k]
+						})
 						// console.log(_this.canshu[k]['0'])
 					}
-					_this.shuList=arr
+					_this.shuList = arr
 				}
 			})
 		},
@@ -311,13 +307,45 @@
 			jia() {
 				this.num++
 			},
-			togLi(index,itemId){
+			togLi(index, itemId) {
 				// this.id =itemId ;
-				this.id[index]=itemId
+				this.id[index] = itemId
 			},
-			isActive(isCollect){
-				this.isCollect=!this.isCollect
-				console.log(this.isCollect)
+			isActive() {
+				var _this = this
+				if (!this.isCollect) {
+					this.$https({
+						url: '/api/shop/mall-add-collect',
+						data: JSON.stringify({
+							goodsId: this.goodsId
+						}),
+						method: 'POST',
+						haeder: true,
+						success: function(res) {
+							_this.isCollect = !_this.isCollect
+							// console.log(res.code)
+						}
+					})
+				} else {
+					this.$https({
+						url: '/api/shop/mall-cancel-collect',
+						data: JSON.stringify({
+							goodsId: this.goodsId
+						}),
+						method: 'POST',
+						haeder: true,
+						success: function(res) {
+							_this.isCollect = !_this.isCollect
+							// console.log(res.code)
+						}
+					})
+				}
+
+			},
+			jindian(shopId) {
+				uni.navigateTo({
+					url: '../shop/shop?id=' + shopId
+				})
 			}
 		}
 
@@ -980,7 +1008,7 @@
 	.bottBoxss {
 
 		float: right;
-		width: 710upx;
+		width: 337rpx;
 		padding: 20upx;
 		height: 50upx;
 
@@ -1002,11 +1030,12 @@
 
 		.bott {
 			display: block;
-			width: 180upx;
+			width: calc(50% - 20rpx);
 			margin-right: 20upx;
 			float: right;
 
 			button {
+				padding:0;
 				background-color: #fff;
 				border: 1px solid #999;
 				border-radius: 40upx;

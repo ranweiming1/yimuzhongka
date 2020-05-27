@@ -54,7 +54,7 @@
 				<text>更多</text>
 			</view>
 			<view class="hahah list uni-flex uni-column" v-for="(item , index) in hotList">
-				<view @click="detail(item.shopId)" class="content ">
+				<view @tap="detail(item.goodsId)" class="content ">
 					<view class="imgBox">
 						<image :src="item.goodsLogo" mode="widthFix"></image>
 					</view>
@@ -62,11 +62,10 @@
 						<text v-if="item.selfStatus=='Y'" class="span_a">自营</text>
 						<text>{{item.goodsName}}</text>
 						<view class="txt_aa">
-							<text>买一送三</text>
-							<text>满199-100元</text>
+							<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
 						</view>
 						<view class="txt_aas">
-							<text>税后价：<text>￥{{item.shopPrice}}</text></text>
+							<text>税后价：<text>￥{{item.marketPrice?item.marketPrice:'暂无价格'}}</text></text>
 							<text>销量：{{item.salesSum}}</text>
 						</view>
 
@@ -109,6 +108,7 @@
 					_this.banList = res.data.data.bannerList
 					_this.cateList = res.data.data.cateList
 					_this.hotList = res.data.data.recommedGoods
+					console.log(res.data.data)
 					//得到要循环的数量值
 					var num = Math.ceil(_this.cateList.length / 8)
 					for (var i = 0; i < num; i++) {
@@ -120,8 +120,7 @@
 						})
 						_this.list.push(arr)
 					}
-					// console.log(res.data.data.cateList.request.index)
-				}
+				},
 			})
 		},
 		methods: {

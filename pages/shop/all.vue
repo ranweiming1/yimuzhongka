@@ -9,37 +9,91 @@
 				<image src="../../static/icon_43.png" mode=""></image>
 			</view>
 		</view>
-		
+
 		<!-- 这里有一个筛选 -->
-		<view class="zhanwie">
-			<text>我只是占位符</text>
+		<view class="nav">
+			<view class="con">
+				<text>车型</text>
+				<image src="../../static/icon_37.png" mode=""></image>
+			</view>
+			<view class="con">
+				<text>综合排序</text>
+				<image src="../../static/icon_37.png" mode=""></image>
+			</view>
+			<view class="con">
+				<text>筛选</text>
+				<image src="../../static/icon_37.png" mode=""></image>
+			</view>
 		</view>
-		
+
 		<!-- 热门推荐 -->
-			<view class="hahah list uni-flex uni-column" v-for="(i , n) in 4">
-				<view class="content ">
-					<view class="imgBox">
-						<image src="../../static/img_02.jpg" mode="widthFix"></image>
+		<view class="hahah list uni-flex uni-column" v-for="(item , index) in allList" @tap="detail(item.goodsId)">
+			<view class="content ">
+				<view class="imgBox">
+					<image :src="item.goodsLogo" mode="widthFix"></image>
+				</view>
+				<view class="txt_a">
+					<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+					<text>{{item.goodsName}}</text>
+					<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
+						<text>满{{items.condition}}-{{items.money}}元</text>
 					</view>
-					<view class="txt_a">
-						<text class="span_a">自营</text>
-						<text>化学小子 玻璃清洁剂 汽车前档风玻璃清洗剂</text>
-						<view class="txt_aa">
-							<text>买一送三</text>
-							<text>满199-100元</text>
-						</view>
-						<view class="txt_aas">
-							<text>税后价：<text>￥980.00</text></text>
-							<text>销量：1256</text>
-						</view>
-		
+					<view class="txt_aas">
+						<text>税后价：<text>￥{{item.marketPrice?item.marketPrice:'暂无价格'}}</text></text>
+						<text>销量：{{item.salesSum}}</text>
 					</view>
+
 				</view>
 			</view>
+		</view>
+		<buttom bottom="2" :can="shopsId" v-if="isOK"></buttom>
 	</view>
 </template>
 
 <script>
+	import buttom from '../cart/dbottom.vue'
+	export default {
+		data() {
+			return {
+				buttom: '',
+				shopsId: '',
+				allList: [],
+				isOK: true
+			}
+		},
+		onLoad(option) {
+			this.shopsId = option.id
+			// this.isOK=opt
+			console.log(option)
+			if (option.isOK) {
+				this.isOK = false
+			}
+			var _this = this
+
+			this.$https({
+				url: '/api/shop/mall-goods-ptList',
+				data: {
+					shop_id: option.id
+				},
+				dengl: false,
+				success(res) {
+					// console.log(res.data.data)
+					_this.allList = res.data.data
+				}
+			})
+		},
+		components: {
+			buttom
+		},
+		methods: {
+			detail(id) {
+				uni.navigateTo({
+					url: '../index/productDetails?id=' + id
+				})
+			},
+		}
+
+	}
 </script>
 
 <style lang="scss">
@@ -47,12 +101,13 @@
 		width: 710upx;
 		margin: 20upx;
 		overflow: hidden;
+
 		.textBox {
 			float: left;
 			margin-left: 70upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
-	
+
 			input {
 				height: 60upx;
 				width: 520upx;
@@ -60,36 +115,43 @@
 				padding-left: 20upx;
 				font-size: 26upx;
 			}
-	
+
 			.uni-input-placeholder {
 				color: #999 !important;
 			}
-	
+
 		}
-	
+
 		.imgBox {
 			padding-left: 30upx;
 			padding-right: 20upx;
 			padding-top: 10upx;
 			float: right;
-	
+
 			image {
 				width: 44upx;
-				height:39upx;
+				height: 39upx;
 			}
 		}
 	}
-	.zhanwie{
+
+	.nav {
+		display: flex;
 		width: 710upx;
 		padding: 20upx;
 		border-bottom: 1px solid #ccc;
 		text-align: center;
-		
-		text{
+
+		.con {
+			width: 33.3%;
+		}
+
+		.color text {
 			font-size: 30upx;
 			color: #333;
 		}
 	}
+
 	.content {
 		display: black;
 		width: 710upx;
@@ -97,7 +159,7 @@
 		border-bottom: 1px dotted #ccc;
 		padding-bottom: 20upx;
 		overflow: hidden;
-	
+
 		.imgBox {
 			image {
 				width: 30%;
@@ -105,17 +167,17 @@
 				float: left;
 			}
 		}
-	
+
 		.txt_a {
 			padding-top: 10upx;
 			width: 67%;
 			margin-left: 20upx;
 			float: left;
-	
+
 			text {
 				font-size: 30upx;
 			}
-	
+
 			.span_a {
 				background-color: #fff;
 				color: #ff6600;
@@ -126,7 +188,7 @@
 				margin-right: 10upx;
 				line-height: 30upx;
 			}
-	
+
 			.txt_aa {
 				text {
 					border: 1px dotted #ff3333;
@@ -139,21 +201,21 @@
 					font-size: 20upx;
 				}
 			}
-	
+
 			.txt_aas {
 				padding-top: 10upx;
-	
+
 				text {
 					color: #333;
 					font-size: 32upx;
-	
+
 					text {
 						color: #ff3333;
 						font-size: 32upx;
 						font-weight: bold;
 					}
 				}
-	
+
 				text:nth-child(2) {
 					color: #999999;
 					font-size: 24upx;
@@ -161,7 +223,7 @@
 					line-height: 50upx;
 				}
 			}
-	
+
 		}
 	}
 </style>

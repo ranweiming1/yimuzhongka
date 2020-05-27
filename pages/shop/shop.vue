@@ -16,11 +16,11 @@
 
 		<view class="head">
 			<view class="head_img">
-				<image src="../../static/img_13.jpg" mode=""></image>
+				<image :src="store.storeLogo" mode=""></image>
 			</view>
 			<view class="head_text">
 				<view class="h2">
-					<text>九块九车品专营店</text>
+					<text>{{store.shopName}}</text>
 				</view>
 
 				<!-- 根据星级综合分值现实 -->
@@ -29,14 +29,21 @@
 				</view>
 			</view>
 			<view class="collect">
-				<text>收藏店铺</text>
+				<text @tap="shouC">{{isShow?'收藏店铺':'取消收藏'}}</text>
 			</view>
+			<!-- <view class="collect">
+				<text @tap="shouC">取消收藏</text>
+			</view> -->
 		</view>
 
 		<!-- banner 轮播图-->
-		<view class="banner">
-			<image src="../../static/banner.jpg" mode=""></image>
-		</view>
+		<swiper class="banner" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
+		 style="height:262rpx;">
+			<swiper-item>
+				<image src="../../static/banner.jpg" mode=""></image>
+			</swiper-item>
+		</swiper>
+
 
 		<!-- 优惠券入口 -->
 		<view class="ticket_a">
@@ -51,40 +58,86 @@
 					<text>更多</text>
 				</view>
 			</view>
-			
-			<view class="hahah list uni-flex uni-column" v-for="(i , n) in 4">
+
+			<view class="hahah list uni-flex uni-column" @click="detail(item.goodsId)" v-for="(item , index) in gList">
 				<view class="content ">
 					<view class="imgBox">
-						<image src="../../static/img_02.jpg" mode="widthFix"></image>
+						<image :src="item.goodsLogo" mode="widthFix"></image>
 					</view>
 					<view class="txt_a">
-						<text class="span_a">自营</text>
-						<text>化学小子 玻璃清洁剂 汽车前档风玻璃清洗剂</text>
+						<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+						<text>{{item.goodsName}}</text>
 						<view class="txt_aa">
-							<text>买一送三</text>
-							<text>满199-100元</text>
+							<!-- <text>买一送三</text> -->
+							<text v-for="(items,indexs) in item.couponDTOS">满{{items.condition}}-{{items.money}}元</text>
 						</view>
 						<view class="txt_aas">
-							<text>税后价：<text>￥980.00</text></text>
-							<text>销量：1256</text>
+							<text>税后价：<text>￥{{item.marketPrice?item.marketPrice:'暂无价格'}}</text></text>
+							<text>销量：{{item.salesSum}}</text>
 						</view>
 
 					</view>
 				</view>
 			</view>
 		</view>
-
+		<buttom bottom="1" :can="shopsId"></buttom>
 	</view>
 </template>
 
 <script>
+	import buttom from '../cart/dbottom.vue'
 	export default {
 		data() {
 			return {
-
+				bottom:'',
+				store: {},
+				shopsId: '',
+				gList: {},
+				ban: {},
+				youhui: {},
+				indicatorDots: true,
+				autoplay: true,
+				interval: 2000,
+				duration: 500,
+				isShow: ''
 			}
 		},
+		components: {
+			buttom
+		},
+		onLoad(option) {
+			var shopsId = option.id
+			this.shopsId=option.id
+			// console.log(option)
+			var _this = this
+			this.$https({
+				url: '/api/shop/store-index',
+				data: {
+					shopId: option.id
+				},
+				dengl: false,
+				success: function(res) {
+					_this.store = res.data.data.storeShop
+					_this.gList = res.data.data.goodsList
+					_this.ban = res.data.data.banners
+					_this.youhui = res.data.data.goodsList.couponDTOS
+					// _this.isShow =
+						// console.log(res.data.data.goodsList.shopId)
+
+				}
+
+			})
+			console.log(this.bottom)
+		},
 		methods: {
+			detail(id) {
+				uni.navigateTo({
+					url: '../index/productDetails?id=' + id
+				})
+			},
+			shouC() {
+				this.isShow = !this.isShow
+			}
 
 		}
 	}
@@ -187,13 +240,14 @@
 			height: 50upx;
 			border: 1px solid #fff;
 			border-radius: 40upx;
+			line-height: 50upx;
 
 			text {
+				display: block;
 				padding-bottom: 20upx;
 				overflow: hidden;
-				font-size: 20upx;
+				font-size: 24upx;
 				color: #fff;
-				line-height: 30upx;
 			}
 		}
 
@@ -234,7 +288,7 @@
 		position: absolute;
 		top: 800upx;
 		left: 0upx;
-		margin-bottom:70upx;
+		margin-bottom: 70upx;
 	}
 
 	.biaot {
