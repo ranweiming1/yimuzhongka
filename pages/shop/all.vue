@@ -12,17 +12,17 @@
 
 		<!-- 这里有一个筛选 -->
 		<view class="nav">
-			<view class="con">
+			<view class="con" @tap="chexing">
 				<text>车型</text>
-				<image src="../../static/icon_37.png" mode=""></image>
+				<image src="../../static/icon_37.png" class="bot" mode=""></image>
 			</view>
 			<view class="con">
 				<text>综合排序</text>
-				<image src="../../static/icon_37.png" mode=""></image>
+				<image src="../../static/icon_37.png" class="bot" mode=""></image>
 			</view>
-			<view class="con">
+			<view class="con"  style="border: 0">
 				<text>筛选</text>
-				<image src="../../static/icon_37.png" mode=""></image>
+				<image src="../../static/icon_37.png" class="bot" mode=""></image>
 			</view>
 		</view>
 
@@ -91,6 +91,9 @@
 					url: '../index/productDetails?id=' + id
 				})
 			},
+			chexing(){
+				
+			}
 		}
 
 	}
@@ -144,6 +147,20 @@
 
 		.con {
 			width: 33.3%;
+			// margin-top: 30rpx;
+			// line-height: 95rpx;
+			border-right:1rpx solid #eeeeee ;
+			text{
+				line-height: 36rpx;
+				font-size: 28rpx;
+				padding-right: 18rpx;
+		
+			}
+			image{
+				// line-height: 36rpx;
+				width:13rpx;
+				height: 8rpx;
+			}
 		}
 
 		.color text {
