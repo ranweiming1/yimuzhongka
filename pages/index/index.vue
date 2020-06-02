@@ -51,7 +51,7 @@
 		<view class="recommend">
 			<view class="title">
 				<text>热门推荐</text>
-				<text>更多</text>
+				<text @tap="more">更多</text>
 			</view>
 			<view class="hahah list uni-flex uni-column" v-for="(item , index) in hotList">
 				<view @tap="detail(item.goodsId)" class="content ">
@@ -65,7 +65,7 @@
 							<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
 						</view>
 						<view class="txt_aas">
-							<text>税后价：<text>￥{{item.marketPrice?item.marketPrice:'暂无价格'}}</text></text>
+							<text>税后价：<text>￥{{item.shopPrice?item.shopPrice:'暂无价格'}}</text></text>
 							<text>销量：{{item.salesSum}}</text>
 						</view>
 
@@ -127,6 +127,11 @@
 			detail(id){
 				uni.navigateTo({
 					url:'productDetails?id='+id
+				})
+			},
+			more(){
+				uni.navigateTo({
+					url:'../shop/all'
 				})
 			}
 		}

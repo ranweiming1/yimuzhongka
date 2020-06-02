@@ -15,88 +15,88 @@
 		</view>
 
 		<view class="listBox">
-			<view class="radios">
-				<radio value="r2" />
-				<text>米其林官方旗舰店</text>
+			<view class="box" v-for="(item , index) in cartList" @remove="onRemove(index)">
+				<view class="radios">
+					<radio value="r2" />
+					<text>{{item.couponDTOS[0].name}}</text>
 
-				<image src="../../static/icon_26.png" mode=""></image>
-			</view>
-
-		</view>
-
-		<!-- 订单信息 -->
-		<view class="xinxi" v-for="(i , n) in 3">
-			<view class="radi">
-				<radio value="r2" />
-			</view>
-			<view class="imgBox_a">
-				<image src="../../static/img_09.jpg" mode=""></image>
-			</view>
-			<view class="txt_c">
-				<view class="title">
-					<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
-				<view class="spec" @click="openPopup">
-					<text>已选：＂黄色＂∨</text>
-				</view>
-				<view class="radColor">
-					<text>￥222.00</text>
-				</view>
-
-				<!-- 这是数量加减 -->
-				<view class="jia">
-					<text>加减占位</text>
-				</view>
-			</view>
-		</view>
-
-		<!-- 失效宝贝 -->
-		<view class="Boxs">
-			<view class="lose">
-				<view class="xinxi">
-					<view class="biaot">
-						<text>失效宝贝</text>
-						<view class="dele">
-							<text>删除</text>
-						</view>
+				<!-- 订单信息 -->
+				<side-slip class="xinxi">
+					<view class="radi">
+						<radio value="r2" />
 					</view>
 					<view class="imgBox_a">
-						<image src="../../static/img_09.jpg" mode=""></image>
+						<image :src="item.goodsLogo" mode=""></image>
 					</view>
 					<view class="txt_c">
 						<view class="title">
-							<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+							<text>{{item.goodsName}}</text>
 						</view>
-						<view class="spec">
-							<text>已选：＂黄色＂</text>
+						<view class="spec" @click="openPopup">
+							<text>已选：＂黄色＂∨</text>
 						</view>
 						<view class="radColor">
-							<text>已售罄</text>
+							<text>￥{{item.shopPrice?item.shopPrice:'暂无价格'}}</text>
+						</view>
+
+						<!-- 这是数量加减 -->
+						<view class="jia">
+							<uni-number-box value=""></uni-number-box>
+						</view>
+					</view>
+				</side-slip>
+			</view>
+
+			<!-- 失效宝贝 -->
+		
+			<view class="Boxs">
+				<view class="lose">
+					<view class="xinxi">
+						<view class="biaot">
+							<text>失效宝贝</text>
+							<view class="dele">
+								<text>删除</text>
+							</view>
+						</view>
+						<view class="imgBox_a">
+							<image src="../../static/img_09.jpg" mode=""></image>
+						</view>
+						<view class="txt_c">
+							<view class="title">
+								<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+							</view>
+							<view class="spec">
+								<text>已选：＂黄色＂</text>
+							</view>
+							<view class="radColor">
+								<text>已售罄</text>
+							</view>
 						</view>
 					</view>
 				</view>
-			</view>
 
-			<view class="lose" v-for="(i , n) in 4">
-				<view class="xinxi">
-					<view class="imgBox_a">
-						<image src="../../static/img_09.jpg" mode=""></image>
-					</view>
-					<view class="txt_c">
-						<view class="title">
-							<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+				<view class="lose">
+					<view class="xinxi">
+						<view class="imgBox_a">
+							<image src="../../static/img_09.jpg" mode=""></image>
 						</view>
-						<view class="spec">
-							<text>已选：＂黄色＂</text>
-						</view>
-						<view class="radColor">
-							<text>已售罄</text>
+						<view class="txt_c">
+							<view class="title">
+								<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+							</view>
+							<view class="spec">
+								<text>已选：＂黄色＂</text>
+							</view>
+							<view class="radColor">
+								<text>已售罄</text>
+							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-
 
 		<!-- 底部 -->
 		<view class="bottom">
@@ -172,7 +172,7 @@
 					</view>
 					<!-- 这是数量加减 -->
 					<view class="jia">
-						<text>加减占位</text>
+						<uni-number-box value=""></uni-number-box>
 					</view>
 				</view>
 				<view class="uni-padding-wrap uni-common-mt bott">
@@ -190,15 +190,32 @@
 	import tabBar from '@/components/tabBar/tabBar.vue';
 	// 弹出层
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import SideSlip from '@/components/side-slip/index'
+	import uniNumberBox from "@/components/uni-number-box/uni-number-box.vue"
 	export default {
 		data() {
 			return {
-				currentPage: 'cart'
+				currentPage: 'cart',
+				cartList: {},
 			}
+		},
+		onLoad() {
+			var _this = this
+			this.$https({
+				url: '/api/shop/order-cart-list',
+				data: {},
+				dengl: false,
+				success: function(res) {
+					_this.cartList = res.data.data.recommends
+					console.log(res.data.data)
+				}
+			})
 		},
 		components: {
 			tabBar,
-			uniPopup
+			uniPopup,
+			'side-slip': SideSlip,
+			uniNumberBox
 		},
 		methods: {
 			select: function() {
@@ -219,7 +236,7 @@
 		width: 750upx;
 		margin: 0 auto;
 		overflow: hidden;
-		border-bottom: 1px solid #e5e5e5;
+		// border-bottom: 1px solid #e5e5e5;
 
 		.textBox {
 			padding-left: 40%;
@@ -258,9 +275,10 @@
 		width: 710upx;
 		padding: 20upx;
 		overflow: hidden;
-		padding-top: 10upx;
+		padding-top: 20upx;
 		overflow: hidden;
-		border-bottom: 1px solid #f7f7f7;
+		border-bottom: 1px solid #e5e5e5;
+		border-top: 1px solid #e5e5e5;
 
 		text {
 			font-size: 28upx;
@@ -271,7 +289,7 @@
 
 		image {
 			width: 12upx;
-			height: 26upx;
+			height: 20upx;
 		}
 	}
 
@@ -298,8 +316,8 @@
 		}
 
 		.txt_c {
-			float: left;
-			width: 400upx;
+			float: right;
+			width: 54%;
 			padding-left: 20upx;
 
 			.title {
@@ -326,7 +344,7 @@
 
 			.jia {
 				float: right;
-
+				margin-right: 36rpx;
 				text {
 					font-size: 20upx;
 					color: #666;

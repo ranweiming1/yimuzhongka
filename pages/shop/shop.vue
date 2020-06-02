@@ -29,7 +29,7 @@
 				</view>
 			</view>
 			<view class="collect">
-				<text @tap="shouC">{{isShow?'收藏店铺':'取消收藏'}}</text>
+				<text @tap="shouC">{{!isShow?'收藏店铺':'取消收藏'}}</text>
 			</view>
 			<!-- <view class="collect">
 				<text @tap="shouC">取消收藏</text>
@@ -54,7 +54,7 @@
 		<view class="BoxBox">
 			<view class="biaot">
 				<text>热门推荐</text>
-				<view class="dele">
+				<view class="dele" @tap="more">
 					<text>更多</text>
 				</view>
 			</view>
@@ -72,7 +72,7 @@
 							<text v-for="(items,indexs) in item.couponDTOS">满{{items.condition}}-{{items.money}}元</text>
 						</view>
 						<view class="txt_aas">
-							<text>税后价：<text>￥{{item.marketPrice?item.marketPrice:'暂无价格'}}</text></text>
+							<text>税后价：<text>￥{{item.shopPrice?item.shopPrice:'暂无价格'}}</text></text>
 							<text>销量：{{item.salesSum}}</text>
 						</view>
 
@@ -89,7 +89,7 @@
 	export default {
 		data() {
 			return {
-				bottom:'',
+				bottom: '',
 				store: {},
 				shopsId: '',
 				gList: {},
@@ -107,26 +107,38 @@
 		},
 		onLoad(option) {
 			var shopsId = option.id
-			this.shopsId=option.id
-			// console.log(option)
+			this.shopsId = option.id
+			console.log(option)
 			var _this = this
 			this.$https({
-				url: '/api/shop/store-index',
-				data: {
-					shopId: option.id
-				},
-				dengl: false,
-				success: function(res) {
-					_this.store = res.data.data.storeShop
-					_this.gList = res.data.data.goodsList
-					_this.ban = res.data.data.banners
-					_this.youhui = res.data.data.goodsList.couponDTOS
-					// _this.isShow =
-						// console.log(res.data.data.goodsList.shopId)
+					url: '/api/shop/store-index',
+					data: {
+						shopId: option.id
+					},
+					dengl: false,
+					success: function(res) {
+						_this.store = res.data.data.storeShop
+						_this.gList = res.data.data.goodsList
+						_this.ban = res.data.data.banners
+						_this.youhui = res.data.data.goodsList.couponDTOS
+						// console.log(res.data.data)
+						// console.log(res.data)
 
-				}
+					}
 
-			})
+				}),
+				this.$https({
+					url: '/api/shop/store-shop-detail',
+					data: {
+						shopId: option.id
+					},
+					dengl: false,
+					success: function(res) {
+						_this.isShow = res.data.data.shopCollectStatus
+						console.log(res.data.data.shopCollectStatus)
+						console.log(res.data.data)
+					}
+				})
 			console.log(this.bottom)
 		},
 		methods: {
@@ -136,7 +148,23 @@
 				})
 			},
 			shouC() {
-				this.isShow = !this.isShow
+				var _this=this
+				this.$https({
+					url: '/api/shop/shop-collect',
+					data:{
+						shopId: this.shopsId
+					},
+					method: 'POST',
+					success: function(res) {				
+						_this.isShow = !_this.isShow
+					},
+					
+				})
+			},
+			more(){
+				uni.navigateTo({
+					url:'all?id='+this.shopsId
+				})
 			}
 
 		}
