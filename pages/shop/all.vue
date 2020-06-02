@@ -92,7 +92,10 @@
 				})
 			},
 			chexing(){
-				
+				//跳转车型号列表
+				uni.navigateTo({
+					url:'car'
+				})
 			}
 		}
 
