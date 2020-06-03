@@ -31,12 +31,24 @@ var $http = function(obj) {
 					'Authorization':uni.getStorageSync('Authorization')
 				},
 				success: function(res) {
+					if(res.data.code==401){
+						uni.showToast({
+							title:'您未登录请登录后重试',
+							icon:'none'
+						})
+						setTimeout(function(){
+							uni.navigateTo({
+								url:'/pages/enter/enter'
+							})
+						},1600)
+					}
 					obj.success(res)
 				}
 			})
 		} else {
 			uni.showToast({
-				title: '您未登录请登录后重试'
+				title: '您未登录请登录后重试',
+				icon:'none'
 			})
 			setTimeout(function() {
 				uni.navigateTo({

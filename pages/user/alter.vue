@@ -59,7 +59,7 @@
 				</view>
 			</view>
 			<view class=" uni-padding-wrap uni-common-mt quit">
-				<button type="primary">退出登录</button>
+				<button type="primary" @tap='tuichu'>退出登录</button>
 			</view>
 	</view>
 </template>
@@ -135,6 +135,12 @@
 					_this.index=res.data.data.sex
 					_this.birth=res.data.data.birth?res.data.data.birth:'2020-05-06'
 				}})
+			},
+			tuichu:function(){
+				uni.setStorageSync('Authorization','')
+				uni.showToast({
+					title:'退出登录成功'
+				})
 			}
 		}
 	}
