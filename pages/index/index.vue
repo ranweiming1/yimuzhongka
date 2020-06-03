@@ -74,6 +74,7 @@
 
 			</view>
 		</view>
+		<view></view>
 		<tabBar :currentPage="currentPage"></tabBar>
 	</view>
 </template>

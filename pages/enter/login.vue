@@ -117,7 +117,9 @@
 					})
 				}else{
 					this.$https({url:'/api/oauth/register',data:this.account,dengl:true,method:'post',success:function(res){
-						
+						uni.showToast({
+							title:res.data.message
+						})
 					}})
 				}
 			}

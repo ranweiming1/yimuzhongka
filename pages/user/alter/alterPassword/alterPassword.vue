@@ -43,17 +43,24 @@
 			//获取验证码
 			huoquyanzhengma:function(){
 				var _this=this
+				if(!this.$jiaoyan(this.phone)){
+					uni.showToast({
+						title:'手机号码不正确'
+					})
+				}else{
 				this.$https({url:'/api/oauth/sendSms/user-password',data:{phone:this.phone},dengl:true,success:function(res){
-					
-					_this.showToast({
+					uni.showToast({
 						title:res.data.message
 					})
 				}})
+				}
 			},
 			//提交密码
 			tijiao:function(){
 				this.$https({url:'/api/user/getBack-password',data:{isPassword:this.isPassword,newPassword:this.newPassword,phone:this.phone,smsCode:this.smsCode},dengl:true,method:'post',success:function(){
-					
+					uni.showToast({
+						title:res.data.data
+					})
 				}})
 			}
 		}
