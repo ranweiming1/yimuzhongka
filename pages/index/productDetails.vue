@@ -19,7 +19,7 @@
 			<view class="Box">
 				<view class="ThePrice">
 					<view class="h2Box">
-						<text>￥<text>{{list.shopPrice?list.marketPrice:'暂无价格'}}</text>.00</text>
+						<text>￥<text>{{list.shopPrice?list.shopPrice:'暂无价格'}}</text>.00</text>
 					</view>
 					<view class="spanBox">
 						<text>原价：￥1265.00</text>
@@ -159,11 +159,13 @@
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
-				<view class="left_b">
+				<view class="left_b" @tap="togPing(list.goodsId)">
 					<text>98%满意</text>
 				</view>
 
 			</view>
+			
+			
 			<!-- 用户评价 ,划动效果-->
 			<view class="toux">
 				<view class="imgBox_a">
@@ -178,7 +180,7 @@
 						<text>{{pingjia.content}}</text>
 					</view>
 				</view>
-			</view>
+			</view>		
 		</view>
 		<!-- 店铺：需产品确认 -->
 		<view class="listBox">
@@ -210,6 +212,7 @@
 
 		<!-- 底部 -->
 		<view class="bottom">
+			
 			<view class="leftA">
 				<view class="kefua" @tap="jindian(list.shopId)">
 					<image src="../../static/icon_50.png" mode=""></image>
@@ -265,7 +268,7 @@
 			}
 		},
 		onLoad(option) {
-		// console.log(option)
+			// console.log(option)
 			this.deId = option.id
 			var _this = this
 			this.$https({
@@ -282,17 +285,18 @@
 					_this.isCollect = res.data.data.isCollect
 					// 优惠券
 					_this.youhui = res.data.data.couponDTOS
+					console.log(res.data.data.detail)
 					var arr = []
 					for (var k in _this.canshu) {
 						arr.push({
 							name: k,
 							itemId: _this.canshu[k]
 						})
-						// console.log(_this.canshu[k]['0'])
 					}
 					_this.shuList = arr
 				}
 			})
+		
 		},
 		methods: {
 			add() {
@@ -323,7 +327,6 @@
 						haeder: true,
 						success: function(res) {
 							_this.isCollect = !_this.isCollect
-							// console.log(res.code)
 						}
 					})
 				} else {
@@ -336,7 +339,6 @@
 						haeder: true,
 						success: function(res) {
 							_this.isCollect = !_this.isCollect
-							// console.log(res.code)
 						}
 					})
 				}
@@ -345,6 +347,11 @@
 			jindian(shopId) {
 				uni.navigateTo({
 					url: '../shop/shop?id=' + shopId
+				})
+			},
+			togPing() {
+				uni.navigateTo({
+					url: 'pingjia?id='+this.goodsId
 				})
 			}
 		}
@@ -1035,7 +1042,7 @@
 			float: right;
 
 			button {
-				padding:0;
+				padding: 0;
 				background-color: #fff;
 				border: 1px solid #999;
 				border-radius: 40upx;
