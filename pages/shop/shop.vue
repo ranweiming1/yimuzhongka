@@ -108,7 +108,7 @@
 		onLoad(option) {
 			var shopsId = option.id
 			this.shopsId = option.id
-			console.log(option)
+			// console.log(option)
 			var _this = this
 			this.$https({
 					url: '/api/shop/store-index',
@@ -121,8 +121,6 @@
 						_this.gList = res.data.data.goodsList
 						_this.ban = res.data.data.banners
 						_this.youhui = res.data.data.goodsList.couponDTOS
-						// console.log(res.data.data)
-						// console.log(res.data)
 
 					}
 
@@ -135,8 +133,6 @@
 					dengl: false,
 					success: function(res) {
 						_this.isShow = res.data.data.shopCollectStatus
-						console.log(res.data.data.shopCollectStatus)
-						console.log(res.data.data)
 					}
 				})
 			console.log(this.bottom)

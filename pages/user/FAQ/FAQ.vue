@@ -1,16 +1,16 @@
 <template>
-	<view>
-		<view class="one_line">
+	<view class="content">
+		<!-- <view class="one_line">
 		</view>
-		
-		<view class="went"  v-for="(i , n) in 8">
-			<text>申请退款后款项多久能够到账？</text>
+ -->
+		<view class="went" v-for="(item,index) in pingList" @tap="detail(item.id,item.content,item.title)">
+			<text>{{item.title}}</text>
 			<view class="imgBox">
 				<image src="../../../static/icon_26.png" mode=""></image>
 			</view>
 		</view>
 
-		
+
 		<!-- 跳转客服对话 -->
 		<view class="chat ">
 			<view class="imgA">
@@ -27,67 +27,94 @@
 	export default {
 		data() {
 			return {
-				
+				pingList: {}
 			}
 		},
+		onLoad() {
+			var _this = this
+			this.$https({
+				url: '/api/help/problem-list',
+				data: {},
+				dengl: false,
+				success(res) {
+					console.log(res.data)
+					_this.pingList = res.data.data
+				}
+			})
+		},
 		methods: {
-			
+		detail(id,content,title){
+			uni.navigateTo({
+				url:'FAQdetails/FAQdetails?id='+id+'&content='+content+'&title='+title,
+			})
+		}
 		}
 	}
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background: #f7f7f7;
 	}
-    .went{
+
+	.content {
+		border-top: 1rpx solid #ccc;
+	}
+
+	.went {
 		width: 710upx;
 		background: #fff;
 		padding: 20upx;
 		overflow: hidden;
 		border-bottom: 1px dotted #ccc;
-		text{
+
+		text {
 			float: left;
 			font-size: 30upx;
 		}
-		.imgBox{
+
+		.imgBox {
 			float: right;
-			image{
+
+			image {
 				width: 12upx;
-				height:20upx;
+				height: 20upx;
 			}
-			
+
 		}
 	}
+
 	.chat {
 		width: 750upx;
 		height: 100upx;
 		text-align: center;
 		position: fixed;
-		bottom:0upx;
-		left:0upx;
+		bottom: 0upx;
+		left: 0upx;
 		background-color: #fff;
-		
-		.imgA{
+
+		.imgA {
 			float: left;
 			padding-left: 34%;
 			padding-top: 4%;
 			padding-right: 2%;
-			image{
+
+			image {
 				width: 41upx;
 				height: 38upx;
 			}
 		}
-		.txtBox{
+
+		.txtBox {
 			float: left;
-			text{
+
+			text {
 				font-size: 30upx;
 				line-height: 90upx;
 				color: #2b5cff;
 			}
-			
-		}
-		
-	}
 
+		}
+
+	}
 </style>

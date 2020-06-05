@@ -1,10 +1,10 @@
 <template>
 	<view class="uni-numbox">
-		<view @click="_calcValue('minus')" class="uni-numbox__minus">
+		<view @tap="_calcValue('minus')" class="uni-numbox__minus">
 			<text class="uni-numbox--text" :class="{ 'uni-numbox--disabled': inputValue <= min || disabled }">-</text>
 		</view>
 		<input :disabled="disabled" @blur="_onBlur" class="uni-numbox__value" type="number" v-model="inputValue" />
-		<view @click="_calcValue('plus')" class="uni-numbox__plus">
+		<view @tap="_calcValue('plus')" class="uni-numbox__plus">
 			<text class="uni-numbox--text" :class="{ 'uni-numbox--disabled': inputValue >= max || disabled }">+</text>
 		</view>
 	</view>
@@ -12,6 +12,22 @@
 <script>
 	export default {
 		name: "UniNumberBox",
+		// data() {
+		// 	return {
+		// 		inputValue: 0
+		// 	}
+		// },
+		// methods: {
+		// 	_calcValue() {
+		// 	console.log(1111)
+		// 			this.inputValue++
+		// 		},
+		// 		_calcValue() {
+		// 		this.inputValue>0 ? this.inputValues--:0
+				
+		// 		}
+		// },
+		
 		props: {
 			value: {
 				type: [Number, String],
@@ -106,7 +122,7 @@
 	};
 </script>
 <style lang="scss" scoped>
-	.uni-numbox{
+	.uni-numbox {
 		width: 144rpx;
 		height: 38rpx;
 		border: 1rpx solid #e8e8e8;
@@ -114,21 +130,25 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		
-		.uni-numbox__minus,.uni-numbox__plus{
+
+		.uni-numbox__minus,
+		.uni-numbox__plus {
 			width: 40rpx;
 			height: 100%;
 			text-align: center;
 			line-height: 30rpx;
 		}
-		.uni-numbox__minus{
-			border-right:1rpx solid #e8e8e8 ;
-			
+
+		.uni-numbox__minus {
+			border-right: 1rpx solid #e8e8e8;
+
 		}
-		.uni-numbox__plus{
-			border-left:1rpx solid #e8e8e8 ;
-			
+
+		.uni-numbox__plus {
+			border-left: 1rpx solid #e8e8e8;
+
 		}
+
 		.uni-numbox__value {
 			font-size: 16rpx;
 			text-align: center;
@@ -137,5 +157,4 @@
 			// }
 		}
 	}
-	
 </style>

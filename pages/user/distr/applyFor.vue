@@ -1,9 +1,9 @@
 <template>
-	<view >
-		<view class="one_line">
+	<view>
+		<view class="one_line" style="border-top:0">
 		</view>
-		
-		<view class="uni-form-item uni-column">
+
+		<view class="uni-form-item uni-column" style="border-top: 1px solid #e5e5e5;">
 			<view class="title"><text>提现到</text></view>
 			<input class="uni-input" name="input" placeholder="微信" />
 			<view class="uni-padding-wrap uni-common-mt bott">
@@ -25,9 +25,9 @@
 				<button type="primary">获取验证码</button>
 			</view>
 		</view>
-		
+
 		<view class="uni-padding-wrap uni-common-mt botts">
-			<button type="primary">提交</button>
+			<button type="primary" style="background: #2b5cff;">我要提现</button>
 		</view>
 	</view>
 </template>
@@ -36,54 +36,60 @@
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background-color: #f7f7f7;
 	}
-	.uni-column{
+
+	.uni-column {
 		margin-bottom: 20upx;
 		background-color: #fff;
 		overflow: hidden;
-		.title{
+
+		.title {
 			float: left;
 			padding-left: 20upx;
-			text{
+
+			text {
 				line-height: 90upx;
 				font-size: 32upx;
 			}
 		}
-		.uni-input{
+
+		.uni-input {
 			float: left;
 			padding-top: 27upx;
 			font-size: 28upx;
 			padding-left: 20upx;
-			font-family:Microsoft YaHei ;
+			font-family: Microsoft YaHei;
 		}
 	}
-	
-	.bott{
+
+	.bott {
 		width: 200upx;
 		float: right;
 		padding: 20upx;
-		button{
+
+		button {
 			color: #007AEE;
 			border: 1px solid #007AEE;
 			background-color: #fff;
 			border-radius: 40upx;
-			font-size:24upx;
-			font-family:Microsoft YaHei;
+			font-size: 24upx;
+			font-family: Microsoft YaHei;
 		}
-		
+
 	}
-	.botts{
+
+	.botts {
 		width: 670upx;
 		position: fixed;
 		bottom: 40upx;
 		left: 40upx;
-		
-		button{
+
+		button {
 			border-radius: 40upx;
-			font-family:Microsoft YaHei;
+			font-family: Microsoft YaHei;
 		}
-		
+
 	}
 </style>

@@ -285,7 +285,7 @@
 					_this.isCollect = res.data.data.isCollect
 					// 优惠券
 					_this.youhui = res.data.data.couponDTOS
-					console.log(res.data.data.detail)
+					// console.log(res.data.data.detail)
 					var arr = []
 					for (var k in _this.canshu) {
 						arr.push({

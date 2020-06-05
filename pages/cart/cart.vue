@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="bcg">
 
 		<view class="top">
 			<view class="textBox">
@@ -23,7 +23,7 @@
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
 				<!-- 订单信息 -->
-				<side-slip class="xinxi">
+				<side-slip class="xinxi" @remove="onRemove(index)" @quxiao="onQuxiao(index)">
 					<view class="radi">
 						<radio value="r2" />
 					</view>
@@ -50,14 +50,15 @@
 			</view>
 
 			<!-- 失效宝贝 -->
-		
+
+			
 			<view class="Boxs">
 				<view class="lose">
 					<view class="xinxi">
 						<view class="biaot">
 							<text>失效宝贝</text>
 							<view class="dele">
-								<text>删除</text>
+								<text>清空</text>
 							</view>
 						</view>
 						<view class="imgBox_a">
@@ -226,16 +227,26 @@
 			},
 			closePopup() {
 				this.$refs.popup.close()
+			},
+			onRemove(index){
+				console.log(1111)
+			},
+			onQuxiao(index){
+				console.log(2222)
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	.bcg{
+		background-color: #eeeeee;
+	}
 	.top {
 		width: 750upx;
 		margin: 0 auto;
 		overflow: hidden;
+		background-color: #FFFFFF;
 		// border-bottom: 1px solid #e5e5e5;
 
 		.textBox {
@@ -292,17 +303,21 @@
 			height: 20upx;
 		}
 	}
+	.box{
+				background-color: #FFFFFF;
+	}
 
 	.xinxi {
 		overflow: hidden;
 		width: 710upx;
-		padding: 20upx;
-		border-bottom: 1px dotted #ccc;
+		// padding: 20upx;
+		border-bottom: 1px dotted #eee;
 
 		.radi {
 			float: left;
 			margin-right: 20upx;
 			margin-top: 10%;
+			margin-left: 20rpx;
 		}
 
 		.imgBox_a {
@@ -345,6 +360,7 @@
 			.jia {
 				float: right;
 				margin-right: 36rpx;
+
 				text {
 					font-size: 20upx;
 					color: #666;
@@ -415,8 +431,10 @@
 	}
 
 	.Boxs {
+		background-color: #FFFFFF;
 		width: 750upx;
 		padding-bottom: 100upx;
+		margin-top: 20rpx;
 	}
 
 	.bottom {

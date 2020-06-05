@@ -43,7 +43,7 @@
 				</view>
         	</view>
 			
-			<view class="ji">
+			<view class="ji" @tap="jifen">
 				<text>{{payPoints}}</text>
 				<view class="fen">
 					<text>积分</text>
@@ -119,7 +119,7 @@
 		
 		<!-- 这是个轮播图 -->
 		<view class="lunb">
-			<image src="../../static/icon_24.png" mode=""></image>
+			<image  @tap="pers" src="../../static/icon_24.png" mode=""></image>
 		</view>
 		
 		<!-- 常用工具 -->
@@ -128,7 +128,7 @@
 				<text>常用工具</text>
 			</view>
 			<view class="icons">
-				<view>
+				<view @tap="ques">
 					<view class="imgBox">
 						<image src="../../static/wt.png" mode=""></image>
 					</view>
@@ -155,7 +155,7 @@
 				    </view>
 				</view>
 				
-				<view>
+				<view @tap="tuiJi">
 					<view class="imgBox">
 						<image src="../../static/hb.png" mode=""></image>
 					</view>
@@ -164,7 +164,7 @@
 				    </view>
 				</view>
 				
-				<view>
+				<view @tap="fenX">
 					<view class="imgBox">
 						<image src="../../static/sm.png" mode=""></image>
 					</view>
@@ -261,6 +261,31 @@
 			youhuiquan:function(){
 				uni.navigateTo({
 					url:'sale/sale'
+				})
+			},
+			pers:function(){
+				uni.navigateTo({
+					url:'task/task'
+				})
+			},
+			fenX:function(){
+				uni.navigateTo({
+					url:'distr/distr'
+				})
+			},
+			tuiJi:function(){
+				uni.navigateTo({
+					// url:'distr/distrDetail'
+				})
+			},
+			ques:function(){
+				uni.navigateTo({
+					url:'FAQ/FAQ'
+				})
+			},
+			jifen(){
+				uni.navigateTo({
+					url:'distr/distrDetail'
 				})
 			}
 		}

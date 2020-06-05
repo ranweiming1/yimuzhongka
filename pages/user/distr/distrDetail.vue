@@ -1,8 +1,8 @@
 <template>
-	<view>
-		<view class="one_line">
+	<view class="content">
+		<!-- <view class="one_line">
 		</view>
-		
+		 -->
 		<view class="li">
 			<view class="text_y">
 				<view class="phone">
@@ -67,9 +67,15 @@
 </template>
 
 <script>
+	export default{
+		
+	}
 </script>
 
 <style lang="scss">
+	.content{
+		border-top: 1px solid #ccc;
+	}
 	.li{
 		width: 710upx;
 		padding: 20upx;

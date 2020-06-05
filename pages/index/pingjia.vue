@@ -147,7 +147,7 @@
 					_this.pingJList = res.data.data
 					_this.xingJ = res.data.data[0].score
 					// 星级判断
-					_this.isXing = _this.xingJ >= 80 ? 5 : nu >= 60 ? 4 : nu >= 40 ? 3 : nu >= 20 ? 2 : 1
+					_this.isXing = _this.xingJ >= 80 ? 5 : _this.xingJ >= 60 ? 4 : _this.xingJ >= 40 ? 3 : _this.xingJ >= 20 ? 2 : 1
 					_this.goodsId = res.data.data[0].goodsId
 					console.log(res.data.data[0].score)
 					console.log(res.data.data[0].goodsId)

@@ -17,28 +17,28 @@
 		<!-- 用户名 -->
 		<view class="userBox">
 			<view class="img_a">
-				<image src="../../../static/img_06.jpg" mode=""></image>
+				<image :src="userList.heading" mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum">
-					<text>这里是用户名</text>
+					<text>{{userList.nickname}}</text>
 				</view>
 				<view class="phone">
-					<text>187****2365</text>
+					<text>{{userList.phone}}</text>
 				</view>
 			</view>
 			<view class="imgRight">
-				<view class="uni-padding-wrap uni-common-mt bott">
-					<button type="primary">点击签到</button>
+				<view class="uni-padding-wrap uni-common-mt bott" @tap="qianD">
+					<button type="primary" :style="isQian?'':'background:#bfbfbf;color:#666666'">{{isQian?'点击签到':'已签到'}}</button>
 				</view>
 			</view>
 
 			<view class="jil">
 				<view class="leiji">
-					<text>累计签到3天</text>
+					<text>累计签到{{date}}天</text>
 				</view>
 				<view class="rig">
-					<text>50 <text>积分数</text> </text>
+					<text>{{userList.userMoney}} <text>积分数</text> </text>
 					<view class="img_o">
 						<image src="../../../static/icon_23.png" mode=""></image>
 					</view>
@@ -52,11 +52,11 @@
 		<view class="bgWhite">
 			<view class="Box">
 				<view class="formerly">
-					<view class="date">
+					<view class="date" :style="state[0]?'color:#999999':''">
 						<text>+5分</text>
 					</view>
 					<view class="ima_p">
-						<image src="../../../static/icon_32.png" mode=""></image>
+						<image :src="state[0]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
 					</view>
 					<view class="date">
 						<text>周一</text>
@@ -64,23 +64,11 @@
 				</view>
 
 				<view class="formerly_a">
-					<view class="date">
+					<view class="date" :style="state[1]?'color:#999999':''">
 						<text>+5分</text>
 					</view>
 					<view class="ima_p">
-						<image src="../../../static/icon_33.png" mode=""></image>
-					</view>
-					<view class="date">
-						<text>周一</text>
-					</view>
-				</view>
-
-				<view class="formerly_a">
-					<view class="date">
-						<text>+5分</text>
-					</view>
-					<view class="ima_p">
-						<image src="../../../static/icon_33.png" mode=""></image>
+						<image :src="state[1]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
 					</view>
 					<view class="date">
 						<text>周二</text>
@@ -88,55 +76,55 @@
 				</view>
 
 				<view class="formerly_b">
-					<view class="date">
+					<view class="date" :style="state[2]?'color:#999999':''">
 						<text>+5分</text>
 					</view>
 					<view class="ima_p">
-						<image src="../../../static/icon_33.png" mode=""></image>
+						<image :src="state[2]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
 					</view>
 					<view class="date">
 						<text>周三</text>
 					</view>
 				</view>
 				<view class="formerly_c">
-					<view class="date">
+					<view class="date" :style="state[3]?'color:#999999':''">
 						<text>+5分</text>
 					</view>
 					<view class="ima_p">
-						<image src="../../../static/icon_33.png" mode=""></image>
+						<image :src="state[3]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
 					</view>
 					<view class="date">
 						<text>周四</text>
 					</view>
 				</view>
 				<view class="formerly_d">
-					<view class="date">
+					<view class="date" :style="state[4]?'color:#999999':''">
 						<text>+5分</text>
 					</view>
 					<view class="ima_p">
-						<image src="../../../static/icon_33.png" mode=""></image>
+						<image :src="state[4]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
 					</view>
 					<view class="date">
 						<text>周五</text>
 					</view>
 				</view>
 				<view class="formerly_e">
-					<view class="date">
+					<view class="date" :style="state[5]?'color:#999999':''">
 						<text>+5分</text>
 					</view>
 					<view class="ima_p">
-						<image src="../../../static/icon_33.png" mode=""></image>
+						<image :src="state[5]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
 					</view>
 					<view class="date">
 						<text>周六</text>
 					</view>
 				</view>
 				<view class="formerly_f">
-					<view class="date">
+					<view class="date" :style="state[6]?'color:#999999':''">
 						<text>+5分</text>
 					</view>
 					<view class="ima_p">
-						<image src="../../../static/icon_33.png" mode=""></image>
+						<image :src="state[6]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
 					</view>
 					<view class="date">
 						<text>周日</text>
@@ -150,65 +138,18 @@
 				<text>做任务赚积分</text>
 			</view>
 			<view class="frame">
-				<view class="ul">
+				<view class="ul" v-for="(item,index) in taskList">
 					<view class="title_u">
-						<text>购买商品</text>
+						<text>{{item.taskName}}</text>
 					</view>
 					<view class="span">
-						<text>奖励10积分</text>
+						<text>奖励{{item.integral}}积分</text>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bottg">
-						<button type="primary">点击签到</button>
-					</view>
-				</view>
-				
-				<view class="ul">
-					<view class="title_u">
-						<text>购买商品</text>
-					</view>
-					<view class="span">
-						<text>奖励10积分</text>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bottg">
-						<button type="primary">点击签到</button>
+					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item.postUrl)">
+						<button type="primary" :style="item.taskStatus?'background:#bfbfbf;color:#666666':''">{{item.taskStatus?'已完成':'去完成'}}</button>
 					</view>
 				</view>
-				
-				<view class="ul">
-					<view class="title_u">
-						<text>购买商品</text>
-					</view>
-					<view class="span">
-						<text>奖励10积分</text>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bottg">
-						<button type="primary">点击签到</button>
-					</view>
-				</view>
-				
-				<view class="ul">
-					<view class="title_u">
-						<text>购买商品</text>
-					</view>
-					<view class="span">
-						<text>奖励10积分</text>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bottg">
-						<button type="primary">点击签到</button>
-					</view>
-				</view>
-				
-				<view class="ul">
-					<view class="title_u">
-						<text>购买商品</text>
-					</view>
-					<view class="span">
-						<text>奖励10积分</text>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bottg">
-						<button type="primary">点击签到</button>
-					</view>
-				</view>
+
 			</view>
 		</view>
 	</view>
@@ -218,11 +159,110 @@
 	export default {
 		data() {
 			return {
-
+				taskList: [],
+				userList: {},
+				date: '',
+				taskId: '',
+				qianDate: [],
+				isQian: true,
+				systemDate: '',
+				// isList: false,
+				state: []
 			}
 		},
-		methods: {
+		onLoad() {
+			var _this = this
+			// console.log(_this.systemDate)
+			this.$https({
+				url: '/api/task/center-index',
+				dengl: false,
+				data: {},
+				success: function(res) {
+					_this.taskList = res.data.data.taskCenters
+					_this.userList = res.data.data.userInfo
+					_this.date = res.data.data.signInDays
+					_this.qianDate = res.data.data.storeIntegralLogList
+					// console.log(res.data.data.storeIntegralLogList)
 
+					// 获取当前时间
+					function dateRiqi(i) {
+						var nowDate = new Date(i);
+						let date = {
+							year: nowDate.getFullYear(),
+							month: nowDate.getMonth() + 1,
+							date: nowDate.getDate(),
+						}
+
+						function pan(i) {
+							if (i < 10) {
+								i = '0' + i;
+							}
+							return i;
+						}
+						var systemDate = date.year + '-' + pan(date.month) + '-' + pan(date.date);
+						return systemDate
+					}
+					_this.systemDate = dateRiqi(new Date)
+					console.log(_this.qianDate)
+					// 获取返回数据的时间
+					for (var i = 0; i < _this.qianDate.length; i++) {
+						if (_this.qianDate[i].taskId == 0 && _this.systemDate == _this.qianDate[i].createTime) {
+							_this.isQian = false
+						}
+					}
+					console.log(_this.systemDate)
+					// 周几
+					var week = new Date(_this.systemDate).getDay()
+					// 时间戳
+					console.log(new Date(_this.systemDate).getDay())
+					var dateTime = Date.parse(_this.systemDate)
+					console.log(dateTime)
+					// 当天之前
+					var arr = []
+					var state = []
+
+					for (var i = week - 1; i > 0; i--) {
+						arr.push(dateRiqi(dateTime - (i + 1) * 86400000))
+						// console.log(dateRiqi(dateTime - (i + 1) * 86400000))
+					}
+					arr.push(_this.systemDate)
+					for (var i = 0; i < 7 - week; i++) {
+						arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
+					}
+					console.log(arr)
+					for (var i = 0; i < arr.length; i++) {
+						for (var j = 0; j < _this.qianDate.length; j++) {
+							arr[i] == _this.qianDate[j].createTime ? state.push(true) : state.push(false)
+						}
+					}
+					_this.state = state
+					console.log(state)
+				}
+			})
+		},
+		methods: {
+			qianD() {
+				var _this = this
+				if (this.isQian) {
+					this.$https({
+						url: '/api/task/center-signIn',
+						data: JSON.stringify({
+							integral: 5,
+							taskId: 0
+						}),
+						method: 'POST',
+						haeder: true,
+						success: function(res) {
+							// console.log(res.data)
+						}
+					})
+				}
+			},
+			renWu(id) {
+				uni.navigateTo({
+					// url:id=1?'../../index/index':id=2?'../../index/index':id=3
+				})
+			}
 		}
 	}
 </script>
@@ -369,7 +409,7 @@
 	}
 
 	.bott {
-		width: 150upx;
+		width: 195upx;
 		float: right;
 
 		button {
@@ -542,19 +582,20 @@
 
 		.frame {
 			width: 660upx;
-			height: 460upx;
+			// height: 460upx;
 			margin-left: 8upx;
 			margin-top: 20upx;
 			box-shadow: 0 0 5px #ccc;
 			background-color: #fff;
 			border-radius: 20upx;
-			padding: 20upx 20upx 20upx 20upx;
+			padding: 20upx 20upx 20rpx 20upx;
 			overflow: hidden;
+			margin-bottom: 130rpx;
 
 			.ul {
 				border-bottom: 1px dotted #ccc;
 				overflow: hidden;
-				margin-bottom: 20upx;
+				// margin-bottom: 20upx;
 				margin-top: 20upx;
 				padding-bottom: 20upx;
 
@@ -574,7 +615,7 @@
 				}
 
 				.bottg {
-					width: 140upx;
+					// width: 140upx;
 					float: right;
 
 					button {
@@ -585,6 +626,10 @@
 						font-family: Microsoft YaHei;
 					}
 				}
+			}
+
+			.ul:last-child {
+				border-bottom: 0
 			}
 
 
