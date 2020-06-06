@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view >
 		<!-- 背景图 -->
 		<view class="bg_img">
 			<image src="../../static/icon_21.png" mode=""></image>
@@ -146,11 +146,11 @@
 					</view>
 				</view>
 
-				<view>
+				<view  @tap="about">
 					<view class="imgBox">
 						<image src="../../static/kf.png" mode=""></image>
 					</view>
-					<view class="textBox" @tap="about">
+					<view class="textBox">
 						<text>关于我们</text>
 					</view>
 				</view>
@@ -295,7 +295,7 @@
 			},
 			jifen: function() {
 				uni.navigateTo({
-					url: 'distr/distrDetail'
+					url: './jifenStore/jifenStore'
 				})
 			},
 			about: function() {
