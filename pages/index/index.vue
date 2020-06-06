@@ -74,12 +74,23 @@
 
 			</view>
 		</view>
-		<view class='zhezhao'>
+		<view class='zhezhao' v-if='youhuiquanle'>
 			<view style='width:471rpx;margin:0 auto;'>
-				<image src='../../static/youhu.png' style='width:471rpx;height:281rpx;'></image>
-				<view style='background:#2b5cff;'>
-					<view></view>
+				<image src='../../static/youhu.png' style='width:471rpx;height:281rpx;display:block;'></image>
+				<view style='background:#2b5cff;overflow:hidden;'>
+					<view v-for='item in youhuiquan' style='background:#fff;overflow:hidden;width:90%;margin:10rpx auto;position:relative;'>
+						<view style='background:#2b5cff;width:20rpx;height:20rpx;border-radius:50%;margin-top:40rpx;position:absolute;margin-left:-10rpx;'></view>
+						<view style='float:left;width:102rpx;height:100rpx;border-right:1px dashed #fdba60;line-height:100rpx;font-size:40rpx;color:#fdba60;'><view style='float:left;margin-left:20rpx;font-size:20rpx;margin-top:10rpx;'>￥</view>{{item.money}}</view>
+						<view style='float:left;margin-left:20rpx;'>
+							<view style='font-size:30rpx;margin-top:10rpx;'>满{{item.condition}}元可用</view>
+							<view style='color:#999;font-size:16rpx;margin-top:3rpx;'>{{item.name}}</view>
+							<view style='color:#999;font-size:16rpx;'>{{item.useEndTime}}到期</view>
+						</view>
+						<view style='background:#2b5cff;widthL20rpx;height:20rpx;border-radius:50%;margin-top:40rpx;position:absolute;right:-10rpx;'></view>
+					</view>
+					<view style='width:200rpx;height:50rpx;border-radius:50rpx;color:#fff;background:linear-gradient(#ffad00,#ff6300);text-align:center;line-height:50rpx;margin:0 auto;'>立即领取</view>
 				</view>
+				<view style='width:50rpx;height:50rpx;border:1px solid #fff;border-radius:50%;text-align:center;line-height:50rpx;margin:0 auto;color:#fff;margin-top:30rpx;' @tap='guan'>X</view>
 			</view>
 		</view>
 		<tabBar :currentPage="currentPage"></tabBar>
@@ -100,7 +111,9 @@
 				autoplay: true,
 				interval: 2000,
 				duration: 500,
-				list: []
+				list: [],
+				youhuiquan:[],
+				youhuiquanle:false
 			}
 		},
 		components: {
@@ -116,7 +129,6 @@
 					_this.banList = res.data.data.bannerList
 					_this.cateList = res.data.data.cateList
 					_this.hotList = res.data.data.recommedGoods
-					console.log(res.data.data)
 					//得到要循环的数量值
 					var num = Math.ceil(_this.cateList.length / 8)
 					for (var i = 0; i < num; i++) {
@@ -130,8 +142,11 @@
 					}
 				},
 			})
-			this.$https({url:'/api/shop/coupon-couple-list',data:{},success:function(){
-				
+			this.$https({url:'/api/shop/coupon-couple-List',data:{},success:function(res){
+				if(res.data.length>0){
+					_this.youhuiquanle=true
+				}
+				_this.youhuiquan=res.data.data
 			}})
 		},
 		methods: {
@@ -144,6 +159,9 @@
 				uni.navigateTo({
 					url:'../shop/all'
 				})
+			},
+			guan:function(){
+				this.youhuiquanle=false
 			}
 		}
 	}
