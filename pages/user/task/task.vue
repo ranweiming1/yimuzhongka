@@ -216,13 +216,13 @@
 					// 时间戳
 					console.log(new Date(_this.systemDate).getDay())
 					var dateTime = Date.parse(_this.systemDate)
-					console.log(dateTime)
+					// console.log(dateTime)
 					// 当天之前
 					var arr = []
 					var state = []
 
 					for (var i = week - 1; i > 0; i--) {
-						arr.push(dateRiqi(dateTime - (i + 1) * 86400000))
+						arr.push(dateRiqi(dateTime - (i) * 86400000))
 						// console.log(dateRiqi(dateTime - (i + 1) * 86400000))
 					}
 					arr.push(_this.systemDate)
@@ -231,12 +231,16 @@
 					}
 					console.log(arr)
 					for (var i = 0; i < arr.length; i++) {
+						var nu=0
 						for (var j = 0; j < _this.qianDate.length; j++) {
-							arr[i] == _this.qianDate[j].createTime ? state.push(true) : state.push(false)
+							if(arr[i] == _this.qianDate[j].createTime){
+								nu++
+							}
 						}
+						nu>0?state.push(true) : state.push(false)
 					}
 					_this.state = state
-					console.log(state)
+					// console.log(state)
 				}
 			})
 		},
@@ -253,15 +257,21 @@
 						method: 'POST',
 						haeder: true,
 						success: function(res) {
-							// console.log(res.data)
+							_this.isQian=false
 						}
 					})
 				}
 			},
-			renWu(id) {
-				uni.navigateTo({
-					// url:id=1?'../../index/index':id=2?'../../index/index':id=3
+			renWu:function(id) {
+				console.log(1111)
+				console.log(id)
+				uni.redirectTo({
+					url:'../../cart/cart'
 				})
+				// uni.navigateTo({
+				// 	// if()
+				// 	url:id=2?'../../index/index':id=4?'../allState/allState':''
+				// })
 			}
 		}
 	}
