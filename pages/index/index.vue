@@ -74,7 +74,14 @@
 
 			</view>
 		</view>
-		<view></view>
+		<view class='zhezhao'>
+			<view style='width:471rpx;margin:0 auto;'>
+				<image src='../../static/youhu.png' style='width:471rpx;height:281rpx;'></image>
+				<view style='background:#2b5cff;'>
+					<view></view>
+				</view>
+			</view>
+		</view>
 		<tabBar :currentPage="currentPage"></tabBar>
 	</view>
 </template>
@@ -123,6 +130,9 @@
 					}
 				},
 			})
+			this.$https({url:'/api/shop/coupon-couple-list',data:{},success:function(){
+				
+			}})
 		},
 		methods: {
 			detail(id){
@@ -340,5 +350,14 @@
 			}
 
 		}
+	}
+	.zhezhao{
+		width:100%;
+		background:rgba(0,0,0,0.6);
+		top:0;
+		left:0;
+		height:100%;
+		z-index:99999;
+		position:fixed;
 	}
 </style>
