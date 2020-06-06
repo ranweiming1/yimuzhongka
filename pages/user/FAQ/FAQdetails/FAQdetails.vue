@@ -34,7 +34,7 @@
 			var _this = this
 			this.list=option
 			this.id = option.id
-			console.log(option)
+			// console.log(option)
 		},
 		components:{
 		    jyfParser

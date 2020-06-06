@@ -33,38 +33,38 @@
 				<image src="../../static/icon_23.png" mode=""></image>
 			</view>
 		</view>
-		
+
 		<!-- 数值栏 -->
-        <view class="bgWhite">
-        	<view class="yong">
-        		<text>¥{{userMoney}}</text>
+		<view class="bgWhite">
+			<view class="yong">
+				<text>¥{{userMoney}}</text>
 				<view class="jin">
 					<text>佣金</text>
 				</view>
-        	</view>
-			
+			</view>
+
 			<view class="ji" @tap="jifen">
 				<text>{{payPoints}}</text>
 				<view class="fen">
 					<text>积分</text>
 				</view>
 			</view>
-			
+
 			<view class="youhui" @tap='youhuiquan'>
 				<text>{{couponCount}}</text>
 				<view class="quan">
 					<text>优惠券</text>
 				</view>
 			</view>
-			
+
 			<view class="shou">
 				<text @tap='shoucang'>{{collectCount}}</text>
 				<view class="cang">
 					<text @tap='shoucang'>收藏</text>
 				</view>
 			</view>
-        </view>
-		
+		</view>
+
 		<!-- 订单状态栏 -->
 		<view class="state">
 			<view class="fu">
@@ -75,53 +75,53 @@
 					<text>待付款</text>
 				</view>
 			</view>
-			
+
 			<view class="dai">
 				<view class="imgBox_a">
 					<image src="../../static/fh.png" mode=""></image>
 				</view>
-				
+
 				<view class="fahuo">
 					<text>待发货</text>
 				</view>
 			</view>
-			
+
 			<view class="ping">
 				<view class="imgBox_a">
 					<image src="../../static/pj.png" mode=""></image>
 				</view>
-				
+
 				<view class="jia">
 					<text>待评价</text>
 				</view>
 			</view>
-			
+
 			<view class="tui">
 				<view class="imgBox_a">
 					<image src="../../static/tk.png" mode=""></image>
 				</view>
-				
+
 				<view class="kuan">
 					<text>退款/售后</text>
 				</view>
 			</view>
-			
+
 			<view class="ding">
 				<view class="imgBox_a">
 					<image src="../../static/qb.png" mode=""></image>
 				</view>
-				
+
 				<view class="dan">
 					<text>全部订单</text>
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- 这是个轮播图 -->
 		<view class="lunb">
-			<image  @tap="pers" src="../../static/icon_24.png" mode=""></image>
+			<image @tap="pers" src="../../static/icon_24.png" mode=""></image>
 		</view>
-		
+
 		<!-- 常用工具 -->
 		<view class="tool">
 			<view class="tit_a">
@@ -132,72 +132,72 @@
 					<view class="imgBox">
 						<image src="../../static/wt.png" mode=""></image>
 					</view>
-		            <view class="textBox">
-		            	<text>常见问题</text>
-		            </view>
+					<view class="textBox">
+						<text>常见问题</text>
+					</view>
 				</view>
-				
+
 				<view @tap='dizhiguanli'>
 					<view class="imgBox">
 						<image src="../../static/wz.png" mode=""></image>
 					</view>
-				    <view class="textBox">
-				    	<text>地址管理</text>
-				    </view>
+					<view class="textBox">
+						<text>地址管理</text>
+					</view>
 				</view>
-				
+
 				<view>
 					<view class="imgBox">
 						<image src="../../static/kf.png" mode=""></image>
 					</view>
-				    <view class="textBox">
-				    	<text>关于我们</text>
-				    </view>
+					<view class="textBox" @tap="about">
+						<text>关于我们</text>
+					</view>
 				</view>
-				
+
 				<view @tap="tuiJi">
 					<view class="imgBox">
 						<image src="../../static/hb.png" mode=""></image>
 					</view>
-				    <view class="textBox">
-				    	<text>推荐好友</text>
-				    </view>
+					<view class="textBox">
+						<text>推荐好友</text>
+					</view>
 				</view>
-				
+
 				<view @tap="fenX">
 					<view class="imgBox">
 						<image src="../../static/sm.png" mode=""></image>
 					</view>
-				    <view class="textBox">
-				    	<text>分销员</text>
-				    </view>
+					<view class="textBox">
+						<text>分销员</text>
+					</view>
 				</view>
-				
+
 				<view>
 					<view class="imgBox">
 						<image src="../../static/zj.png" mode=""></image>
 					</view>
-				    <view class="textBox">
-				    	<text>浏览记录</text>
-				    </view>
+					<view class="textBox">
+						<text>浏览记录</text>
+					</view>
 				</view>
-				
+
 				<view>
 					<view class="imgBox">
 						<image src="../../static/sc.png" mode=""></image>
 					</view>
-				    <view class="textBox">
-				    	<text>我的爱车</text>
-				    </view>
+					<view class="textBox">
+						<text>我的爱车</text>
+					</view>
 				</view>
-				
+
 				<view>
 					<view class="imgBox">
 						<image src="../../static/sz.png" mode=""></image>
 					</view>
-				    <view class="textBox">
-				    	<text>设置</text>
-				    </view>
+					<view class="textBox">
+						<text>设置</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -210,82 +210,98 @@
 		data() {
 			return {
 				currentPage: 'user',
-				nickname:'',
-				phone:'',
+				nickname: '',
+				phone: '',
 				//佣金
-				userMoney:0,
+				userMoney: 0,
 				//积分
-				payPoints:0,
+				payPoints: 0,
 				//优惠券
-				couponCount:0,
+				couponCount: 0,
 				//收藏
-				collectCount:0
+				collectCount: 0
 			}
 		},
 		components: {
 			tabBar,
 		},
-		onShow:function(){
-			var _this=this
-			this.$https({url:'/api/user/my-info',data:{},denglu:false,success:function(res){
-				_this.nickname=res.data.data.nackname
-				_this.phone=res.data.data.phone
-			}})
+		onShow: function() {
+			var _this = this
+			this.$https({
+				url: '/api/user/my-info',
+				data: {},
+				denglu: false,
+				success: function(res) {
+					_this.nickname = res.data.data.nackname
+					_this.phone = res.data.data.phone
+				}
+			})
 			//
-			this.$https({url:'/api/user/my-index',data:{},dengl:false,success:function(res){
-				_this.userMoney=res.data.data.userMoney
-				_this.payPoints=res.data.data.payPoints
-				_this.couponCount=res.data.data.couponCount
-				_this.collectCount=res.data.data.collectCount
-			}})
+			this.$https({
+				url: '/api/user/my-index',
+				data: {},
+				dengl: false,
+				success: function(res) {
+					_this.userMoney = res.data.data.userMoney
+					_this.payPoints = res.data.data.payPoints
+					_this.couponCount = res.data.data.couponCount
+					_this.collectCount = res.data.data.collectCount
+				}
+			})
 		},
-		methods:{
-			xiugaigerenxinxi:function(){
+		methods: {
+			xiugaigerenxinxi: function() {
 				uni.navigateTo({
-					url:'alter'
+					url: 'alter'
 				})
 			},
 			//
-			dizhiguanli:function(){
+			dizhiguanli: function() {
 				uni.navigateTo({
-					url:'leagu/siteList/siteList'
+					url: 'leagu/siteList/siteList'
 				})
 			},
 			//收藏
-			shoucang:function(){
+			shoucang: function() {
 				uni.navigateTo({
-					url:'../search/store'
+					url: '../search/store'
 				})
 			},
 			//优惠券
-			youhuiquan:function(){
+			youhuiquan: function() {
 				uni.navigateTo({
-					url:'sale/sale'
+					url: 'sale/sale'
 				})
 			},
-			pers:function(){
+			pers: function() {
 				uni.navigateTo({
-					url:'task/task'
+					url: 'task/task'
 				})
 			},
-			fenX:function(){
+			fenX: function() {
 				uni.navigateTo({
-					url:'distr/distr'
+					url: 'distr/distr'
 				})
 			},
-			tuiJi:function(){
+			tuiJi: function() {
 				uni.navigateTo({
 					// url:'distr/distrDetail'
 				})
 			},
-			ques:function(){
+			ques: function() {
 				uni.navigateTo({
-					url:'FAQ/FAQ'
+					url: 'FAQ/FAQ'
 				})
 			},
-			jifen(){
+			jifen: function() {
 				uni.navigateTo({
-					url:'distr/distrDetail'
+					url: 'distr/distrDetail'
+				})
+			},
+			about: function() {
+				console.log(2222)
+				uni.navigateTo({
+					url: 'AboutUs/AboutUs'
 				})
 			}
 		}
@@ -345,32 +361,35 @@
 				border-radius: 120upx;
 			}
 		}
+
 		.text_a {
 			float: left;
 			padding-left: 20upx;
-		
+
 			.yonghum {
-			   font-size: 34upx;
-			   color: #fff;
-			   line-height:70upx;
+				font-size: 34upx;
+				color: #fff;
+				line-height: 70upx;
 			}
-		
+
 			.phone {
 				font-size: 24upx;
 				color: #fff;
 			}
 		}
-		.imgRight{
+
+		.imgRight {
 			float: left;
-			padding:45upx;
-			image{
+			padding: 45upx;
+
+			image {
 				width: 12upx;
 				height: 20upx;
 			}
 		}
 	}
 
-	.bgWhite{
+	.bgWhite {
 		width: 660upx;
 		height: 120upx;
 		box-shadow: 0 0 5px #ccc;
@@ -380,65 +399,76 @@
 		background-color: #fff;
 		border-radius: 20upx;
 		padding: 50upx 20upx 20upx 20upx;
-		
-		.yong{
+
+		.yong {
 			text-align: center;
 			width: 160upx;
 			float: left;
 			border-right: 1px solid #f0f0f0;
-			
-			text{
+
+			text {
 				font-size: 34upx;
 				color: #333;
 			}
-			.jin text{
+
+			.jin text {
 				font-size: 24upx;
 				color: #999;
 			}
 		}
-		.ji{
+
+		.ji {
 			float: left;
 			text-align: center;
 			width: 165upx;
 			border-right: 1px solid #f0f0f0;
-			text{
+
+			text {
 				font-size: 34upx;
 				color: #333;
 			}
-			.fen text{
+
+			.fen text {
 				font-size: 24upx;
 				color: #999;
 			}
 		}
-		.youhui{
+
+		.youhui {
 			float: left;
 			text-align: center;
 			width: 165upx;
 			border-right: 1px solid #f0f0f0;
-			text{
+
+			text {
 				font-size: 34upx;
 				color: #333;
 			}
-			.quan text{
+
+			.quan text {
 				font-size: 24upx;
 				color: #999;
 			}
 		}
-		.shou{
+
+		.shou {
 			float: left;
 			text-align: center;
 			width: 160upx;
-			text{
+
+			text {
 				font-size: 34upx;
 				color: #333;
 			}
-			.cang text{
+
+			.cang text {
 				font-size: 24upx;
 				color: #999;
 			}
 		}
 	}
-	.state{
+
+	.state {
 		width: 660upx;
 		height: 100upx;
 		box-shadow: 0 0 5px #ccc;
@@ -448,16 +478,17 @@
 		background-color: #fff;
 		border-radius: 20upx;
 		padding: 30upx 20upx 20upx 20upx;
-		
-		view{
+
+		view {
 			float: left;
 			text-align: center;
 			width: 130upx;
-			
-			text{
+
+			text {
 				font-size: 22upx;
 			}
-			image{
+
+			image {
 				width: 45upx;
 				height: 45upx;
 				display: block;
@@ -466,18 +497,20 @@
 			}
 		}
 	}
-	.lunb 
-		{	
+
+	.lunb {
 		position: absolute;
-		top:676upx;
+		top: 676upx;
 		left: 25upx;
-		image{
+
+		image {
 			width: 700upx;
 			height: 230upx;
 		}
-		
+
 	}
-	.tool{
+
+	.tool {
 		width: 660upx;
 		height: 420upx;
 		box-shadow: 0 0 5px #ccc;
@@ -488,34 +521,34 @@
 		border-radius: 20upx;
 		padding: 30upx 20upx 20upx 20upx;
 		margin-bottom: 120upx;
-		
-		.tit_a{
-			text{
+
+		.tit_a {
+			text {
 				font-size: 34upx;
 				color: #333;
 			}
 		}
-		
-		.icons{
-			view{
+
+		.icons {
+			view {
 				float: left;
 				text-align: center;
 				width: 165upx;
 				margin-top: 20upx;
-				text{
+
+				text {
 					font-size: 26upx;
 				}
-				image{
+
+				image {
 					width: 60upx;
 					height: 60upx;
 				}
 			}
-			.textBox{
+
+			.textBox {
 				margin-top: 0upx;
 			}
 		}
 	}
-	
-	
-	
 </style>
