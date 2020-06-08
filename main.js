@@ -67,6 +67,7 @@ var jiaoyanPhone = function checkPhone(phone) {
 }
 Vue.prototype.$jiaoyan = jiaoyanPhone
 Vue.prototype.$https = $http
+Vue.prototype.webUrl=webUrl
 //全局公共底部
 import TAB from './components/tabBar/tabBar.vue';
 Vue.use('TAB', TAB);

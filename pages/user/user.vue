@@ -155,7 +155,7 @@
 					</view>
 				</view>
 
-				<view @tap="tuiJi">
+				<view @tap="fenX">
 					<view class="imgBox">
 						<image src="../../static/hb.png" mode=""></image>
 					</view>
@@ -164,12 +164,12 @@
 					</view>
 				</view>
 
-				<view @tap="fenX">
+				<view @tap="ruzhu">
 					<view class="imgBox">
 						<image src="../../static/sm.png" mode=""></image>
 					</view>
 					<view class="textBox">
-						<text>分销员</text>
+						<text>商家入驻</text>
 					</view>
 				</view>
 
@@ -191,7 +191,7 @@
 					</view>
 				</view>
 
-				<view>
+				<view @tap='shezhi'>
 					<view class="imgBox">
 						<image src="../../static/sz.png" mode=""></image>
 					</view>
@@ -299,9 +299,13 @@
 				})
 			},
 			about: function() {
-				console.log(2222)
 				uni.navigateTo({
 					url: 'AboutUs/AboutUs'
+				})
+			},
+			ruzhu:function(){
+				uni.navigateTo({
+					url:'./leagu/league'
 				})
 			}
 		}
