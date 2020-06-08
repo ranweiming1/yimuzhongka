@@ -1,63 +1,65 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
-		
+
 		<view class="siteBox">
 			<!-- 无地址样式 -->
 			<view class="noneBox">
-				<text>+ 添加收货地址</text>
+				<text @tap='tiaozhuan'>+ 添加收货地址</text>
 			</view>
-			
+
 			<!-- 已设置地址样式 -->
-			<view class="content">
-				<view class="nome">
-					<text>张继科</text>
-				</view>
-				<view class="call">
-					<text>15066458795</text>
-				</view>
-				<!-- 默认地址标签样式 -->
-				<view class="label">
-					<text>默认</text>
+			<view class="content" @tap='qiehuandizhi'>
+				<view style='overflow:hidden;'>
+					<view class="nome">
+						<text>{{dizhi.username}}</text>
+					</view>
+					<view class="call">
+						<text>{{dizhi.phone}}</text>
+					</view>
+					<!-- 默认地址标签样式 -->
+					<view class="label" v-if='dizhi.isDefault'>
+						<text>默认</text>
+					</view>
 				</view>
 				<view class="p">
-					<text>山东省济南市槐荫区张庄路街道路街道明南区16号楼明南区16号楼(菜鸟驿站代收)</text>
+					<text>{{dizhi.address}}</text>
 				</view>
 			</view>
-		
+
 			<view class="imgBox">
-				<image src="../../../static/icon_26.png" mode=""></image>
+				<image src="../../../static/icon_26.png" mode="" style='width:20rpx;height:20rpx;margin-top:20rpx;float:right;'></image>
 			</view>
 		</view>
-		
+
 		<!-- 订单信息 -->
 		<view class="xinxi">
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
-			<view class="imgBox_a">
-				<image src="../../../static/img_09.jpg" mode=""></image>
-			</view>
-			<view class="txt_c">
-				<view class="title">
-					<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+			<view v-for='(item,index) in cartAttr'>
+				<view class="imgBox_a">
+					<image :src="item.goodsLogo" mode=""></image>
 				</view>
-				<view class="spec">
-					<text>已选：＂黄色＂</text>
-				</view>
-				<view class="radColor">
-					<text>562积分</text>
-				</view>
-		
-				<!-- 这是数量加减 -->
-				<view class="jia">
-					<text>加减占位</text>
+				<view class="txt_c">
+					<view class="title">
+						<text>{{item.goodsName}}</text>
+					</view>
+					<view class="spec">
+						<text>已选：{{item.specKey}}</text>
+					</view>
+					<view class="radColor">
+						<text>{{item.integral}}积分</text>
+					</view>
+
+					<!-- 这是数量加减 -->
+					<view class="jia">
+						<text>-</text>
+					</view>
 				</view>
 			</view>
 		</view>
-		
-		
+
+
 		<view class="basic">
 			<view class="left_a">
 				<text>运费</text>
@@ -71,10 +73,10 @@
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>给卖家备注</text></view>
-			<input class="uni-input" name="input" placeholder="" />
+			<input class="uni-input" name="input" placeholder="添加备注" />
 		</view>
-		
-		
+
+
 		<view class="basic">
 			<view class="left_a">
 				<text>优惠券</text>
@@ -86,7 +88,7 @@
 				<text>已抵扣<text>￥30</text></text>
 			</view>
 		</view>
-		
+
 		<view class="basic">
 			<view class="left_a">
 				<text>支付方式</text>
@@ -101,7 +103,7 @@
 				<text>微信安全支付</text>
 			</view>
 		</view>
-		
+
 		<view class="basic aa">
 			<view class="left_a">
 				<text>商品金额</text>
@@ -135,7 +137,7 @@
 				<text>￥200</text>
 			</view>
 		</view>
-		
+
 		<!-- 底部 -->
 		<view class="bottom">
 			<view class="leftA">
@@ -146,7 +148,7 @@
 					<text>(含运费)</text>
 				</view>
 			</view>
-			<view class="rightA"  @tap='tanchuang'>
+			<view class="rightA" @tap='tanchuang'>
 				<text>结 算</text>
 			</view>
 		</view>
@@ -157,96 +159,135 @@
 	export default {
 		data() {
 			return {
-				
+				goodsId: '',
+				cartAttr: [],
+				dizhi: {}
 			}
 		},
 		methods: {
-			onLoad:function(){
+			onLoad: function(options) {
+				var _this = this
+				if (options.goodsId) {
+					this.goodsId = options.goodsId
+					this.cartAttr = JSON.parse(options.cartAttr).cartAttr
+					if (options.zhid) {
+						this.dizhi = JSON.parse(options.zhid)
+					}
+				}
+				if (!options.zhid) {
+					//获取地址列表
+					this.$https({
+						url: '/api/user/my-address',
+						data: {},
+						success: function(res) {
+							res.data.data.map(function(n) {
+								if (n.isDefault == 1) {
+									//默认地址
+									_this.dizhi = n
+								}
+							})
+						}
+					})
+				}
+
 			},
-			tanchuang:function(){
+			tanchuang: function() {
 				uni.showModal({
-				    title: '支付成功',
-				    content: '您已成功购买该商品\n感谢您的支持',
-				    success: function (res) {
-				        if (res.confirm) {
-				            console.log('用户点击确定');
-				        } else if (res.cancel) {
-				            console.log('用户点击取消');
-				        }
-				    },
-				
-					
-					
-					
+					title: '支付成功',
+					content: '您已成功购买该商品\n感谢您的支持',
+					success: function(res) {
+						if (res.confirm) {
+							console.log('用户点击确定');
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					},
+
+
+
+
 				});
+			},
+			tiaozhuan: function() {
+				uni.navigateTo({
+					url: '../../user/leagu/siteList/address'
+				})
+			},
+			qiehuandizhi: function() {
+				//填充信息
+				uni.navigateTo({
+					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify(this.cartAttr)
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.noneBox{
+	.noneBox {
 		width: 250upx;
 		text-align: center;
 		margin: 0 auto;
-		padding-top:20upx;
+		padding-top: 20upx;
 		padding-bottom: 40upx;
 		padding-bottom: 20upx;
-		text{
+
+		text {
 			display: block;
-			border:1px solid #007AFF;
+			border: 1px solid #007AFF;
 			color: #007AFF;
 			background-color: #fff;
-			padding:15upx 20upx;
+			padding: 15upx 20upx;
 			font-size: 26upx;
 			border-radius: 10upx;
 			margin-bottom: 20upx;
 		}
 	}
-    .siteBox {
-    	width: 710upx;
-		height:initial;
-    	padding: 20upx;
-    	background-color: #fff;
-    	overflow: hidden;
-    	border-bottom: 1px solid #ccc;
-    
-    	.content {
-    		float: left;
-    		width: 80%;
-    
-    		.nome {
-    			float: left;
-    			font-size: 30upx;
-    			color: #333;
-    			padding-right: 10upx;
-    		}
-    
-    		.call {
-    			float: left;
-    			font-size: 24upx;
-    			color: #666;
-    			line-height: 40upx;
-    			padding-right: 10upx;
-    		}
-    
-    		.label {
-    			float: left;
-    			font-size: 18upx;
-    			color: #ff6633;
-    			padding: 5upx;
-    			margin-top: 5upx;
-    			background-color: #fdf1ec;
-    		}
-    
-    		.p {
-    			float: left;
-    			font-size: 26upx;
-    			color: #333;
-    			line-height: 40upx;
-    		}
-    	}
-    }
+
+	.siteBox {
+		width: 710upx;
+		height: initial;
+		padding: 20upx;
+		background-color: #fff;
+		overflow: hidden;
+		border-bottom: 1px solid #ccc;
+
+		.content {
+			float: left;
+			width: 80%;
+
+			.nome {
+				float: left;
+				font-size: 30upx;
+				color: #333;
+				padding-right: 10upx;
+			}
+
+			.call {
+				float: left;
+				font-size: 24upx;
+				color: #666;
+				line-height: 40upx;
+				padding-right: 10upx;
+			}
+
+			.label {
+				float: left;
+				font-size: 18upx;
+				color: #ff6633;
+				padding: 5upx;
+				margin-top: 5upx;
+				background-color: #fdf1ec;
+			}
+
+			.p {
+				font-size: 26upx;
+				color: #333;
+				line-height: 40upx;
+			}
+		}
+	}
+
 	.xinxi {
 		overflow: hidden;
 		width: 710upx;
@@ -306,6 +347,7 @@
 			}
 		}
 	}
+
 	.basic {
 		width: 710upx;
 		background-color: #fff;
@@ -313,133 +355,155 @@
 		padding: 20upx;
 		padding-bottom: 10upx;
 		border-bottom: 20upx solid #f7f7f7;
+
 		.left_a {
 			float: left;
-	
+
 			text {
 				font-size: 28upx;
 				color: #333;
 				line-height: 50upx;
 			}
 		}
-	
+
 		.right_a {
 			float: right;
 			padding-right: 10upx;
+
 			text {
 				font-size: 28upx;
 				float: right;
 				line-height: 50upx;
-				text{
+
+				text {
 					color: #ff670c;
 				}
 			}
-	        .img_l{
-				float:left;
+
+			.img_l {
+				float: left;
 				padding-right: 10upx;
 				padding-top: 5upx;
-				image{
+
+				image {
 					width: 45upx;
 					height: 45upx;
 				}
-				
+
 			}
+
 			.img_a {
 				float: right;
 				padding: 20upx 0upx 20upx 20upx;
-	
+
 				image {
 					width: 12upx;
 					height: 14upx;
 					display: block;
 				}
-	
+
 			}
 		}
 	}
-	.uni-column{
+
+	.uni-column {
 		background-color: #fff;
 		overflow: hidden;
 		border-bottom: 20upx solid #f7f7f7;
-		.title{
+
+		.title {
 			float: left;
 			padding-left: 20upx;
-			text{
+
+			text {
 				line-height: 90upx;
-				font-size:28upx;
+				font-size: 28upx;
 			}
 		}
-		.uni-input{
+
+		.uni-input {
 			float: left;
 			padding-top: 27upx;
 			font-size: 28upx;
 			padding-left: 20upx;
-			font-family:Microsoft YaHei ;
+			font-family: Microsoft YaHei;
 		}
-		
-		.imgBox{
+
+		.imgBox {
 			float: left;
 			padding-top: 30upx;
 			padding-left: 20upx;
-			image{
+
+			image {
 				width: 175upx;
 				height: 175upx;
 			}
 		}
 	}
-	.aa{
+
+	.aa {
 		border-bottom: 1px dotted #ccc;
 	}
-	.ssa{
+
+	.ssa {
 		margin-bottom: 100upx;
 	}
-    .bottom{
-    	width: 750upx;
-    	height: 100upx;
+
+	.bottom {
+		width: 750upx;
+		height: 100upx;
 		background-color: #fff;
-    	border-top:1px solid #ccc ;
-    	position: fixed;
-    	bottom: 0upx;
-    	left: 0upx;
-    	.leftA{
-    		float: left;
-    		padding-left: 20upx;
-			.ppp{
+		border-top: 1px solid #ccc;
+		position: fixed;
+		bottom: 0upx;
+		left: 0upx;
+
+		.leftA {
+			float: left;
+			padding-left: 20upx;
+
+			.ppp {
 				float: left;
-				text{
+
+				text {
 					font-size: 28upx;
 					color: #333;
 					line-height: 90upx;
-					text{
+
+					text {
 						font-size: 28upx;
 						color: #ff0000;
 					}
-				
+
 				}
 			}
-			.yunf{
+
+			.yunf {
 				float: left;
 				padding-left: 10upx;
-				text{
+
+				text {
 					line-height: 90upx;
 					font-size: 24upx;
 					color: #999;
 				}
 			}
-	
-    	}
-    	.rightA{
-    		float: right;
-    		width: 260upx;
-    		height: 100%;
-    		text-align: center;
-    		background-color: #2b5cff;
-    		text{
-    			font-size: 30upx;
-    			color: #fff;
-    			line-height: 90upx;
-    			
-    		}
-    	}
-    }
+
+		}
+
+		.rightA {
+			float: right;
+			width: 260upx;
+			height: 100%;
+			text-align: center;
+			background-color: #2b5cff;
+
+			text {
+				font-size: 30upx;
+				color: #fff;
+				line-height: 90upx;
+
+			}
+		}
+	}
 </style>

@@ -8,10 +8,10 @@
 				<text>添加</text>
 			</view>
 		</view>
-		<checkbox-group @change='checkboxChange'>
+		<radio-group @change='checkboxChange'>
 			<view class="siteBox" v-for='item in list'>
 				<view class="radios">
-					<checkbox :value='item.index' />
+					<radio :value='item.id' />
 				</view>
 				<view class="content">
 					<view class="nome">
@@ -32,9 +32,9 @@
 					<text @tap='bianji(item.index)'>编辑</text>
 				</view>
 			</view>
-		</checkbox-group>
+		</radio-group>
 		<view class="uni-padding-wrap uni-common-mt bott">
-			<button type="primary" style="background: #2b5cff">确定并返回</button>
+			<button type="primary" style="background: #2b5cff" @tap='fanhui'>确定并返回</button>
 		</view>
 	</view>
 </template>
@@ -44,10 +44,16 @@
 		data() {
 			return {
 				list: [],
-				rds: []
+				rds: '',
+				goodsId:'',
+				cartAttr:''
 			}
 		},
-		onLoad: function() {
+		onLoad: function(options) {
+			if(options.goodsId){
+				this.goodsId=options.goodsId
+				this.cartAttr=JSON.parse(options.cartAttr)
+			}
 			var _this = this
 			this.$https({
 				url: '/api/user/my-address',
@@ -59,34 +65,34 @@
 					})
 					_this.list = res.data.data
 				}
-			}),
-			//添加收货地址
-			_this.$https({
-				url: '/api/user/address-add-edit',
-				data: JSON.stringify({
-					address: res.detailInfo,
-					cityInfo: res.provinceName + res.cityName + res.countyName,
-					phone: res.telNumber,
-					username: res.userName
-				}),
-				haeder: true,
-				dengl: false,
-				method: 'post',
-				success: function(res) {
-					//刷新地址列表
-					_this.$https({
-						url: '/api/user/my-address',
-						data: {},
-						dengl: false,
-						success: function(res) {
-							res.data.data.map(function(n, index) {
-								n.index = index
-							})
-							_this.list = res.data.data
-						}
-					})
-				}
 			})
+			//添加收货地址
+			// _this.$https({
+			// 	url: '/api/user/address-add-edit',
+			// 	data: JSON.stringify({
+			// 		address: res.detailInfo,
+			// 		cityInfo: res.provinceName + res.cityName + res.countyName,
+			// 		phone: res.telNumber,
+			// 		username: res.userName
+			// 	}),
+			// 	haeder: true,
+			// 	dengl: false,
+			// 	method: 'post',
+			// 	success: function(res) {
+			// 		//刷新地址列表
+			// 		_this.$https({
+			// 			url: '/api/user/my-address',
+			// 			data: {},
+			// 			dengl: false,
+			// 			success: function(res) {
+			// 				res.data.data.map(function(n, index) {
+			// 					n.index = index
+			// 				})
+			// 				_this.list = res.data.data
+			// 			}
+			// 		})
+			// 	}
+			// })
 			
 			
 		},
@@ -97,15 +103,23 @@
 				uni.navigateTo({
 					url: './address'
 				})
-
-				
 			},
 			checkboxChange: function(e) {
-				this.rds = e.detail.value
+				var _this=this
+				this.list.map(function(n){
+					if(e.detail.value==n.id){
+						_this.rds=n
+					}
+				})
 			},
 			bianji: function(index) {
 				uni.navigateTo({
 					url: 'address?address=' + JSON.stringify(this.list[index])
+				})
+			},
+			fanhui:function(){
+				uni.navigateTo({
+					url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.rds)
 				})
 			}
 		}

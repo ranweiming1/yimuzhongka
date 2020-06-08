@@ -144,7 +144,12 @@
 			})
 			this.$https({url:'/api/shop/coupon-couple-List',data:{},success:function(res){
 				if(res.data.data.length>0){
-					_this.youhuiquanle=true
+					//是否是新人
+					_this.$https({url:'/api/shop/coupon-couple',data:{},success:function(re){
+						if(re.data.data){
+							_this.youhuiquanle=true
+						}
+					}})
 				}
 				_this.youhuiquan=res.data.data
 			}})

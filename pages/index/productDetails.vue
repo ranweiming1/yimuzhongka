@@ -22,7 +22,7 @@
 						<text>￥<text>{{list.shopPrice?list.shopPrice:'暂无价格'}}</text>.00</text>
 					</view>
 					<view class="spanBox">
-						<text>原价：￥1265.00</text>
+						<text>原价：￥{{list.marketPrice}}</text>
 					</view>
 				</view>
 				<view class="preferential">
@@ -35,7 +35,7 @@
 				<text>分享</text>
 			</view>
 			<view class="h2aBox">
-				<text>{{list.goodsId}}</text>
+				<text></text>
 			</view>
 		</view>
 
@@ -80,15 +80,15 @@
 					<text>选择</text>
 				</view>
 				<view class="left_b">
-					<text>已选：＂黑色真皮款＂</text>
+					<text>已选：{{gui}}</text>
 				</view>
-				<view class="right_a">
+				<!-- <view class="right_a">
 					<view class="img_a">
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
-				</view>
+				</view> -->
 			</view>
-			<view class="basic" @tap="add">
+			<!-- <view class="basic" @tap="add">
 				<view class="left_a">
 					<text>参数</text>
 				</view>
@@ -114,25 +114,27 @@
 					</view>
 				</view>
 
-			</view>
+			</view> -->
 			<view class="mask" v-if="isAdd" @tap="add">
 			</view>
 			<view class="butt" v-if="isAdd">
 				<view class="mTop">
-					<image class="cover" :src="list.goodsImgs" mode=""></image>
+					<image class="cover" :src="list.goodsLogo" mode=""></image>
 					<view class="mRight">
 						<view class="price">¥ {{list.shopPrice}}</view>
-						<view class="mItem">已选：<text>白色</text>,<text>官方标配</text></view>
+						<view class="mItem">已选：{{gui}}</view>
 					</view>
 
 				</view>
 				<view class="mButton">
 					<view class="detail">
 
-						<view class="color" v-for="(item,index) in shuList">
+						<!-- <view class="color" v-for="(item,index) in shuList">
 							<text class="name">{{item.name}}</text>
 							<view :class="id[index]==items.itemId?'cor bod':'cor'" v-for="(items,indexs) in item.itemId" @tap="togLi(index,items.itemId)">{{items.item}}</view>
-						</view>
+						</view> -->
+						<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
+						 @tap='qiehuan(index)'>{{item.keyName}}</view>
 					</view>
 
 					<view class="mNumber">
@@ -144,7 +146,10 @@
 
 						</view>
 					</view>
-					<button class="btn">立即购买</button>
+					<view style='overflow:hidden;'>
+						<button style='width:50%;float:left;' @tap='gouwuche'>加入购物车</button>
+						<button class="btn" @tap='goumaia'>立即购买</button>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -164,8 +169,8 @@
 				</view>
 
 			</view>
-			
-			
+
+
 			<!-- 用户评价 ,划动效果-->
 			<view class="toux">
 				<view class="imgBox_a">
@@ -180,7 +185,7 @@
 						<text>{{pingjia.content}}</text>
 					</view>
 				</view>
-			</view>		
+			</view>
 		</view>
 		<!-- 店铺：需产品确认 -->
 		<view class="listBox">
@@ -212,7 +217,7 @@
 
 		<!-- 底部 -->
 		<view class="bottom">
-			
+
 			<view class="leftA">
 				<view class="kefua" @tap="jindian(list.shopId)">
 					<image src="../../static/icon_50.png" mode=""></image>
@@ -238,7 +243,7 @@
 			<view class="rightA">
 				<view class="bottBoxss">
 					<view class="uni-padding-wrap uni-common-mt bott onna">
-						<button type="primary">加入购物车</button>
+						<button type="primary" @tap='add'>加入购物车</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" @tap="add">
 						<button type="primary">立即购买</button>
@@ -257,14 +262,17 @@
 				canshu: {},
 				pingjia: {},
 				isAdd: false,
-				num: 0,
+				num: 1,
 				shuList: [],
 				id: [],
 				isCollect: '',
 				content: '',
 				youhui: [],
 				dizhi: {},
-				goodsId: ''
+				goodsId: '',
+				guige: [],
+				indexx: 0,
+				gui: ''
 			}
 		},
 		onLoad(option) {
@@ -283,6 +291,16 @@
 					_this.goodsId = res.data.data.detail.goodsId
 					_this.pingjia = res.data.data.goodsComms[0]
 					_this.isCollect = res.data.data.isCollect
+					for (var i in res.data.data.spec_price) {
+						_this.guige.push(res.data.data.spec_price[i])
+					}
+					var numa=0
+					for (var i in res.data.data.spec_price) {
+						if(numa==0){
+						_this.gui = res.data.data.spec_price[i].keyName
+						}
+						numa++
+					}
 					// 优惠券
 					_this.youhui = res.data.data.couponDTOS
 					// console.log(res.data.data.detail)
@@ -296,7 +314,7 @@
 					_this.shuList = arr
 				}
 			})
-		
+
 		},
 		methods: {
 			add() {
@@ -304,8 +322,8 @@
 			},
 			reduce() {
 				this.num--
-				if (this.num <= 0) {
-					this.num = 0
+				if (this.num <= 1) {
+					this.num = 1
 				}
 			},
 			jia() {
@@ -313,7 +331,8 @@
 			},
 			togLi(index, itemId) {
 				// this.id =itemId ;
-				this.id[index] = itemId
+				// this.id[index] = itemId
+				this.$set(this.id, index, itemId)
 			},
 			isActive() {
 				var _this = this
@@ -351,7 +370,35 @@
 			},
 			togPing() {
 				uni.navigateTo({
-					url: 'pingjia?id='+this.goodsId
+					url: 'pingjia?id=' + this.goodsId
+				})
+			},
+			gouwuche: function() {
+				this.$https({
+					url: '/api/shop/order-add-cart',
+					data: JSON.stringify({
+						cartAttr: [{
+							goodsNum: this.num,
+							specKey: this.guige[this.indexx].key
+						}],
+						goodsId: this.goodsId
+					}),
+					method: 'post',
+					haeder: true,
+					success: function(res) {
+						uni.showToast({
+							title: res.data.message
+						})
+					}
+				})
+			},
+			qiehuan: function(ind) {
+				this.indexx = ind
+				this.gui=this.guige[ind].keyName
+			},
+			goumaia: function() {
+				uni.navigateTo({
+					url: '../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:[{goodsNum:this.num,specKey:this.guige[this.indexx].keyName,goodsLogo:this.list.goodsLogo,integral:this.list.integral,goodsName:this.list.goodsName}]})
 				})
 			}
 		}
@@ -537,6 +584,12 @@
 	.Box {
 		float: left;
 
+	}
+
+	.detail {
+		max-height: 200rpx;
+		overflow-y: auto;
+		text-align: center;
 	}
 
 	.titleBox {
@@ -731,7 +784,6 @@
 
 		.imBox {
 			float: right;
-			margin-top: 20upx;
 
 			image {
 				width: 12upx;

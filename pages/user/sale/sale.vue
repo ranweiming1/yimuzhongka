@@ -92,6 +92,12 @@
 			yishixiao:function(){
 				this.shixiao=1
 			}
+		},
+		onLoad:function(options){
+			//获取优惠券
+			this.$https({url:'/api/shop/myCoupon-list',data:{type:0},success:function(res){
+				
+			}})
 		}
 	}
 </script>

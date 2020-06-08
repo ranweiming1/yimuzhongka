@@ -70,17 +70,16 @@
 		},
 		onLoad: function(option) {
 			// console.log(option)
-			var ob = JSON.parse(option.address)
 			// option.address?this.isAdd=false:this.isAdd=true,
 			// if(ob){
-			if (ob) {
+			if (option.address) {
+				var ob=JSON.parse(option.address)
 				this.username = ob.username
 				this.phone = ob.phone
 				this.addressss = ob.cityInfo
 				this.address = ob.address
 				this.id = ob.id
 				this.isOk = false
-				console.log(ob)
 			}
 
 			// this.isAdd=false

@@ -56,27 +56,27 @@
 		<view class='uni-form-item uni-column'>
 			<view class='title'><text>上传营业执照</text></view>
 			<view class='imgBox'>
-				<image :src='license'></image>
+				<image @tap='yingyezhizhao' :src='license'></image>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>上传法人身份证</text></view>
 			<view class="imgBox">
-				<image :src="cardImg1" mode=""></image>
+				<image @tap='shenfenzheng' :src="cardImg1" mode=""></image>
 			</view>
 			<view class="imgBox">
-				<image :src="cardImg2" mode=""></image>
+				<image @tap='shenfenzhengx' :src="cardImg2" mode=""></image>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>法人手持身份证</text></view>
 			<view class="imgBox">
-				<image :src="holdImg" mode=""></image>
+				<image @tap='shenfenzhengxxx' :src="holdImg" mode=""></image>
 			</view>
 		</view>
 
 		<view class="uni-padding-wrap uni-common-mt botts">
-			<button type="primary">提交</button>
+			<button type="primary" @tap='shangchuan'>提交</button>
 		</view>
 	</view>
 </template>
@@ -107,50 +107,83 @@
 		methods: {
 			dianpu: function() {
 				var _this = this
-				var na = ''
-
-				function urlTobase64(url) {
-					uni.request({
-						url: url,
-						method: 'GET',
-						responseType: 'arraybuffer',
-						success: res => {
-							let base64 = uni.arrayBufferToBase64(res.data); //把arraybuffer转成base64
-							base64 = 'data:image/jpeg;base64,' + base64; //不加上这串字符，在页面无法显示
-							na = base64
-							uni.uploadFile({
-								url: _this.webUrl + '/api/oauth/oss/upload',
-								filePath: base64,
-								name: 'file',
-								formData: {
-									'img': 'file'
-								},
-								success: res => {
-									console.log(res)
-								}
-							})
-						}
-					});
-				}
 				uni.chooseImage({
 					success: res => {
-						// urlTobase64(res.tempFilePaths[0])
 						uni.uploadFile({
 							url: _this.webUrl + '/api/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
-							name: 'file',
-							formData: {
-								'img': res.tempFilePaths[0]
-							},
-							header:{
-								"Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryUDNRYWELUKfZd1yr"
-							},
+							name: 'img',
 							success: res => {
-								console.log(res)
+								this.storeLogo=JSON.parse(res.data).data.url
 							}
 						})
 					}
 				})
+			},
+			yingyezhizhao:function(){
+				var _this=this
+				uni.chooseImage({
+					success:res=>{
+						uni.uploadFile({
+							url:_this.webUrl+'/api/oauth/oss/upload',
+							filePath:res.tempFilePaths[0],
+							name:'img',
+							success:res=>{
+								this.license=JSON.parse(res.data).data.url
+							}
+						})
+					}
+				})
+			},
+			shenfenzheng:function(){
+				uni.chooseImage({
+					success:res=>{
+						uni.uploadFile({
+							url:this.webUrl+'/api/oauth/oss/upload',
+							filePath:res.tempFilePaths[0],
+							name:'img',
+							success:res=>{
+								this.cardImg1=JSON.parse(res.data).data.url
+							}
+						})
+					}
+				})
+			},
+			shenfenzhengx:function(){
+				uni.chooseImage({
+					success:res=>{
+						uni.uploadFile({
+						    url:this.webUrl+'/api/oauth/oss/upload',
+						    filePath:res.tempFilePaths[0],
+						    name:'img',
+						    success:res=>{
+							    this.cardImg2=JSON.parse(res.data).data.url
+						    },
+						})
+					}
+				})
+			},
+			shenfenzhengxxx:function(){
+				uni.chooseImage({
+					success:res=>{
+						uni.uploadFile({
+							url:this.webUrl+'/api/oauth/oss/upload',
+							filePath:res.tempFilePaths[0],
+							name:'img',
+							success:res=>{
+								this.holdImg=JSON.parse(res.data).data.url
+							}
+						})
+					}
+				})
+			},
+			//上传信息
+			shangchuan:function(){
+				this.$https({url:'/api/shop/add-merchat',data:JSON.stringify({accountName:this.accountName,area:this.area,cardImg1:this.cardImg1,cardImg2:this.cardImg2,holdImg:this.holdImg,email:this.email,legalCardId:this.legalCardId,legalName:this.legalName,legalPhone:this.legalPhone,license:this.license,princPhone:this.princPhone,princpal:this.princpal,sex:this.inde,storeLogo:this.storeLogo,storeName:this.storeName}),method:'post',haeder:true,success:function(res){
+					uni.showToast({
+						title:res.data.message
+					})
+				}})
 			}
 		}
 	}
