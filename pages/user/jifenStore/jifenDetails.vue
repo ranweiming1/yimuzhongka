@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
+		<!-- <view class="one_line">
+		</view> -->
 
 		<view class="top">
 			<!-- 轮播图 -->
