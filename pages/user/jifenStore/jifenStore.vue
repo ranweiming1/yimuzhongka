@@ -23,15 +23,15 @@
 		<!-- tab切换排序 -->
 		<view class="tabs">
 			<!-- 选中样式 -->
-			<view class="on" data-num="1" ref="dataNum" @tap="taggle($event)">
+			<view class="on" :num='1'  @tap="taggle(num)">
 				<text>兑换量</text>
 			</view>
 
-			<view class="jif" data-num="2" ref="dataNum">
+			<view class="jif" :num='2'>
 				<text>积分排序</text>
 			</view>
 
-			<view class="jiag" data-num="3" ref="dataNum">
+			<view class="jiag" :num='3'>
 				<text>价格排序</text>
 			</view>
 		</view>
@@ -59,10 +59,10 @@
 			return {
 				jifList: {},
 				user:{},
-				id:''
+				id:'',
 			}
 		},
-		// props:[],
+		props:['num'],
 		onLoad() {
 			var _this = this
 			this.$https({
@@ -79,7 +79,7 @@
 				success: function(res) {
 					_this.jifList = res.data.data.list
 					_this.id=res.data.data.list[0].cateId
-					// console.log(res.data.data.list[0].cateId)
+					console.log(res.data.data.list)
 				}
 			}),
 			this.$https({
@@ -88,7 +88,6 @@
 				data:{},
 				success:function(res){
 					_this.user=res.data.data
-					// console.log(res.data.data)
 				}
 			})
 		},
@@ -98,8 +97,8 @@
 					url: '../distr/distrDetail'
 				})
 			},
-			taggle(e){
-				console.log(this.$refs.dataNum)
+			taggle(i){
+				console.log(i)
 			}
 		}
 	}
