@@ -4,8 +4,8 @@
 			<view class="textBox">
 				<text>收货地址</text>
 			</view>
-			<view class="imgBox">
-				<text @tap='tianjia'>添加</text>
+			<view class="imgBox" @tap='tianjia'>
+				<text>添加</text>
 			</view>
 		</view>
 		<checkbox-group @change='checkboxChange'>
@@ -34,7 +34,7 @@
 			</view>
 		</checkbox-group>
 		<view class="uni-padding-wrap uni-common-mt bott">
-			<button type="primary">确定并返回</button>
+			<button type="primary" style="background: #2b5cff">确定并返回</button>
 		</view>
 	</view>
 </template>
@@ -59,42 +59,46 @@
 					})
 					_this.list = res.data.data
 				}
+			}),
+			//添加收货地址
+			_this.$https({
+				url: '/api/user/address-add-edit',
+				data: JSON.stringify({
+					address: res.detailInfo,
+					cityInfo: res.provinceName + res.cityName + res.countyName,
+					phone: res.telNumber,
+					username: res.userName
+				}),
+				haeder: true,
+				dengl: false,
+				method: 'post',
+				success: function(res) {
+					//刷新地址列表
+					_this.$https({
+						url: '/api/user/my-address',
+						data: {},
+						dengl: false,
+						success: function(res) {
+							res.data.data.map(function(n, index) {
+								n.index = index
+							})
+							_this.list = res.data.data
+						}
+					})
+				}
 			})
+			
+			
 		},
 		methods: {
 			tianjia: function() {
+				// console.log(1111)
 				var _this = this
-				wx.chooseAddress({
-					success: function(res) {
-						//添加收货地址
-						_this.$https({
-							url: '/api/user/address-add-edit',
-							data: JSON.stringify({
-								address: res.detailInfo,
-								cityInfo: res.provinceName + res.cityName + res.countyName,
-								phone: res.telNumber,
-								username: res.userName
-							}),
-							haeder: true,
-							dengl: false,
-							method: 'post',
-							success: function(res) {
-								//刷新地址列表
-								_this.$https({
-									url: '/api/user/my-address',
-									data: {},
-									dengl: false,
-									success: function(res) {
-										res.data.data.map(function(n, index) {
-											n.index = index
-										})
-										_this.list = res.data.data
-									}
-								})
-							}
-						})
-					}
+				uni.navigateTo({
+					url: './address'
 				})
+
+				
 			},
 			checkboxChange: function(e) {
 				this.rds = e.detail.value
