@@ -27,8 +27,8 @@
 			</view> -->
 		<!-- </view> -->
 		<swiper style="height: 440rpx;" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-			<swiper-item class="cate-section" v-for="(item,index) in list" :key=item.id>
-				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(items.id)">
+			<swiper-item class="cate-section" v-for="(item,index) in list" :key='item.id'>
+				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(index,indexs)">
 					<image :src="items.imgUrl"></image>
 					<text style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;">{{items.cateTitle}}</text>
 				</view>
@@ -144,7 +144,6 @@
 						})
 						_this.list.push(arr)
 					}
-						console.log(_this.list)
 				},
 			})
 			this.$https({url:'/api/shop/coupon-couple-List',data:{},success:function(res){
@@ -173,13 +172,13 @@
 			guan:function(){
 				this.youhuiquanle=false
 			},
-			fenLei:function(id){
-				console.log(id)
+			fenLei:function(id,index){
+				// this.id=id
 				// this.index=index
-				// console.log(this.id)
-				
+				// console.log(this.list[id][index].id)
+				var id=this.list[id][index].id
 				uni.navigateTo({
-					url:'./class'
+					url:'./class?id='+id
 				})
 			},
 			lingqu:function(){

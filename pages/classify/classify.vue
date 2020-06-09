@@ -66,7 +66,6 @@
 					// console.log(res.data.data)
 					_this.AllList = res.data.data.goodsCates
 					_this.rList = res.data.data.goodsCates[0].childsList
-					console.log(res.data.data.goodsCates[0].childsList)
 				},
 			})
 		},

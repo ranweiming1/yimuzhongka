@@ -54,8 +54,9 @@
 		components: {
 			tabBar,
 		},
-		onLoad() {
-			// this.id=index
+		onLoad(option) {
+			// this.id=option.id
+			var opId=option.id
 			this.height = uni.getSystemInfoSync().windowHeight;
 			var _this = this
 			this.$https({
@@ -63,10 +64,13 @@
 				data: {},
 				dengl: false,
 				success: function(res) {
-					// console.log(res.data.data)
 					_this.AllList = res.data.data.goodsCates
 					_this.rList = res.data.data.goodsCates[0].childsList
-					console.log(res.data.data.goodsCates[0].childsList)
+					for(var i=0;i<_this.AllList.length;i++){
+						if(_this.AllList[i].id==option.id){
+						_this.togLi(i)
+						}
+					}
 				},
 			})
 		},
