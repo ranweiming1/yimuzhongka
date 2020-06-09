@@ -48,7 +48,7 @@
 			</view>
 		</view>
 
-		<view :class="tog_Ca?'':'togActive'" >
+		<view :class="tog_Ca?'':'togActive'">
 			<!-- 头部 -->
 			<view class="top">
 				<view class="textBox">
@@ -75,7 +75,7 @@
 						<image src="../../static/icon_37.png" class="bot" mode=""></image>
 					</view>
 					<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
-					
+
 				</view>
 			</view>
 
@@ -87,8 +87,11 @@
 						<image :src="item.goodsLogo" mode="widthFix"></image>
 					</view>
 					<view class="txt_a">
-						<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-						<text>{{item.goodsName}}</text>
+						<view class="title_top">
+
+							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+							<text>{{item.goodsName}}</text>
+						</view>
 						<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
 							<text>满{{items.condition}}-{{items.money}}元</text>
 						</view>
@@ -120,8 +123,8 @@
 				id: '',
 				min: '',
 				max: '',
-				tog_Ca:true,
-				goodsType:''
+				tog_Ca: true,
+				goodsType: ''
 			}
 		},
 		onLoad(option) {
@@ -140,9 +143,9 @@
 				},
 				dengl: false,
 				success(res) {
-					// console.log(res.data.data)
+					console.log(res.data.data)
 					_this.allList = res.data.data
-					_this.goodsType=res.data.data.selfStatus
+					_this.goodsType = res.data.data.selfStatus
 				}
 			})
 		},
@@ -191,7 +194,7 @@
 						goodsBrandId: this.id,
 						maxPrice: this.max,
 						minPrice: this.min,
-						goodsType:this.goodsType
+						goodsType: this.goodsType
 					}),
 					haeder: true,
 					success: function(res) {
@@ -210,8 +213,8 @@
 			rValue1(event) {
 				this.max = event.target.value
 			},
-			togCass(){
-				this.tog_Ca=!this.tog_Ca
+			togCass() {
+				this.tog_Ca = !this.tog_Ca
 			}
 
 		}
@@ -284,14 +287,16 @@
 				width: 13rpx;
 				height: 8rpx;
 			}
-			.images{
+
+			.images {
 				display: inline-block;
 				line-height: 34rpx;
 
-					width: 36rpx;
-					height: 34rpx;	
+				width: 36rpx;
+				height: 34rpx;
 			}
 		}
+
 		.con:nth-child(2),
 			{
 			flex-grow: 2;
@@ -349,6 +354,8 @@
 			}
 
 			.txt_aa {
+				display: inline-block;
+
 				text {
 					border: 1px dotted #ff3333;
 					background-color: #fff;
@@ -536,17 +543,19 @@
 			}
 		}
 	}
-	.togActive{
+
+	.togActive {
 		.top {
 			width: 710upx;
 			margin: 20upx;
 			overflow: hidden;
+
 			.textBox {
 				float: left;
 				margin-left: 70upx;
 				background-color: #f0f0f0;
 				border-radius: 50upx;
-		
+
 				input {
 					height: 60upx;
 					width: 520upx;
@@ -554,51 +563,56 @@
 					padding-left: 20upx;
 					font-size: 26upx;
 				}
-		
+
 				.uni-input-placeholder {
 					color: #999 !important;
 				}
-		
+
 			}
-		
+
 			.imgBox {
 				padding-left: 30upx;
 				padding-right: 20upx;
 				padding-top: 10upx;
 				float: right;
-		
+
 				image {
 					width: 44upx;
-					height:39upx;
+					height: 39upx;
 				}
 			}
 		}
+
 		.content {
-			margin-top: 30upx;
-			margin-bottom: 10upx;
+			margin-top: 20upx;
+			// margin-bottom: 10upx;
 			display: black;
-			width:340upx;
-			margin-left:25upx;
+			width: 308upx;
+			margin-left: 20upx;
 			float: left;
 			box-shadow: 0 0 5px #ccc;
-			border-radius:20upx;
-		    padding-bottom: 20upx;
+			border-radius: 20upx;
+			padding-bottom: 20upx;
 			overflow: hidden;
-			.imgBox{
+
+			.imgBox {
 				image {
 					width: 100%;
 					height: inherit;
 					float: left;
 				}
 			}
+
 			.txt_a {
 				padding-top: 10upx;
-				width:90%;
+				width: 90%;
 				margin-left: 20upx;
 				float: left;
-		        text{
+
+				text {
 					font-size: 30upx;
 				}
+
 				.span_a {
 					background-color: #fff;
 					color: #ff6600;
@@ -609,7 +623,7 @@
 					margin-right: 10upx;
 					line-height: 30upx;
 				}
-			
+
 				.txt_aa {
 					text {
 						border: 1px dotted #ff3333;
@@ -618,22 +632,25 @@
 						line-height: 30upx;
 						padding: 5upx 10upx;
 						color: #ff3333;
-						margin-right: 20upx;
+						margin-right: 6upx;
 						font-size: 20upx;
 					}
 				}
-			
+
 				.txt_aas {
-					padding-top:10upx;
+					padding-top: 10upx;
+
 					text {
 						color: #333;
 						font-size: 32upx;
+
 						text {
 							color: #ff3333;
 							font-size: 32upx;
 							font-weight: bold;
 						}
 					}
+
 					text:nth-child(2) {
 						color: #999999;
 						font-size: 24upx;
@@ -641,12 +658,13 @@
 						line-height: 50upx;
 					}
 				}
-			
+
 			}
 		}
-		.Boxaaa{
+
+		.Boxaaa {
 			overflow: hidden;
-			margin-bottom:20upx;
+			margin-bottom: 20upx;
 		}
 	}
 </style>

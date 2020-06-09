@@ -67,7 +67,7 @@
 
 		<!-- 订单状态栏 -->
 		<view class="state">
-			<view class="fu" :index="1" @tap="daiFu(index)">
+			<view class="fu" @tap="daiFu(1)">
 				<view class="imgBox_a">
 					<image src="../../static/fk.png" mode=""></image>
 				</view>
@@ -76,7 +76,7 @@
 				</view>
 			</view>
 
-			<view class="dai" @tap="daiFa">
+			<view class="dai" @tap="daiFu(2)">
 				<view class="imgBox_a">
 					<image src="../../static/fh.png" mode=""></image>
 				</view>
@@ -86,7 +86,7 @@
 				</view>
 			</view>
 
-			<view class="ping" @tap="daiPing">
+			<view class="ping" @tap="daiFu(4)">
 				<view class="imgBox_a">
 					<image src="../../static/pj.png" mode=""></image>
 				</view>
@@ -96,7 +96,7 @@
 				</view>
 			</view>
 
-			<view class="tui" @tap="tuiKu">
+			<view class="tui">
 				<view class="imgBox_a">
 					<image src="../../static/tk.png" mode=""></image>
 				</view>
@@ -106,7 +106,7 @@
 				</view>
 			</view>
 
-			<view class="ding" @tap="allDing">
+			<view class="ding" @tap="daiFu(0)">
 				<view class="imgBox_a">
 					<image src="../../static/qb.png" mode=""></image>
 				</view>
@@ -223,7 +223,6 @@
 				
 			}
 		},
-		props:['index'],
 		components: {
 			tabBar,
 		},
@@ -312,20 +311,9 @@
 					url: './leagu/league'
 				})
 			},
-			allDing:function() {
-				
-				
-				
+			daiFu:function(index){
 				uni.navigateTo({
-					url: 'allState/allState'
-				})
-			},
-			daiFu:function(id){
-				// var id= id
-				console.log(111)
-				// console.log(id)
-				uni.navigateTo({
-					url: 'allState/allState'
+					url: 'allState/allState?id='+index
 				})
 			},
 			liulan:function(){
