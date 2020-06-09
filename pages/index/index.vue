@@ -28,7 +28,7 @@
 		<!-- </view> -->
 		<swiper style="height: 440rpx;" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key=item.id>
-				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei">
+				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(items.id)">
 					<image :src="items.imgUrl"></image>
 					<text style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;">{{items.cateTitle}}</text>
 				</view>
@@ -132,7 +132,7 @@
 					_this.cateList = res.data.data.cateList
 					_this.hotList = res.data.data.recommedGoods
 					console.log(res.data.data.cateList)
-					// _this.id=res.data.data.cateList[0].id
+					// _this.id=res.data.data.cateList
 					//得到要循环的数量值
 					var num = Math.ceil(_this.cateList.length / 8)
 					for (var i = 0; i < num; i++) {
@@ -173,8 +173,8 @@
 			guan:function(){
 				this.youhuiquanle=false
 			},
-			fenLei:function(){
-				// this.id=id
+			fenLei:function(id){
+				console.log(id)
 				// this.index=index
 				// console.log(this.id)
 				
