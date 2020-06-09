@@ -88,7 +88,7 @@
 						</view>
 						<view style='background:#2b5cff;widthL20rpx;height:20rpx;border-radius:50%;margin-top:40rpx;position:absolute;right:-10rpx;'></view>
 					</view>
-					<view style='width:200rpx;height:50rpx;border-radius:50rpx;color:#fff;background:linear-gradient(#ffad00,#ff6300);text-align:center;line-height:50rpx;margin:20rpx auto;'>立即领取</view>
+					<view style='width:200rpx;height:50rpx;border-radius:50rpx;color:#fff;background:linear-gradient(#ffad00,#ff6300);text-align:center;line-height:50rpx;margin:20rpx auto;' @tap='lingqu'>立即领取</view>
 				</view>
 				<view style='width:50rpx;height:50rpx;border:1px solid #fff;border-radius:50%;text-align:center;line-height:50rpx;margin:0 auto;color:#fff;margin-top:30rpx;' @tap='guan'>X</view>
 			</view>
@@ -174,7 +174,6 @@
 				this.youhuiquanle=false
 			},
 			fenLei:function(){
-				console.log(2222)
 				// this.id=id
 				// this.index=index
 				// console.log(this.id)
@@ -182,6 +181,19 @@
 				uni.navigateTo({
 					url:'../classify/classify'
 				})
+			},
+			lingqu:function(){
+				var a=[]
+				this.youhuiquan.map(function(n){
+					a.push(n.id)
+				})
+				var _this=this
+				this.$https({url:'/api/shop/coupon-couple-add',data:{ids:a},method:'post',success:function(res){
+					uni.showToast({
+						title:res.data.message
+					})
+					_this.youhuiquanle=false
+				}})
 			}
 		}
 	}
