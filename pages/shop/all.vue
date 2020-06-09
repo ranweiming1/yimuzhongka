@@ -129,8 +129,7 @@
 		},
 		onLoad(option) {
 			this.shopsId = option.id
-			// this.isOK=opt
-			// console.log(option)
+			// this.isOK=opts
 			if (option.isOK) {
 				this.isOK = false
 			}
@@ -139,11 +138,12 @@
 			this.$https({
 				url: '/api/shop/mall-goods-ptList',
 				data: {
-					shop_id: option.id
+					shop_id: option.id,
+					// cat_id:option.cateId
 				},
 				dengl: false,
 				success(res) {
-					console.log(res.data.data)
+					// console.log(res.data.data)
 					_this.allList = res.data.data
 					_this.goodsType = res.data.data.selfStatus
 				}
@@ -176,6 +176,7 @@
 					}
 				})
 			},
+			
 			hidd() {
 				this.isShow = false
 			},
