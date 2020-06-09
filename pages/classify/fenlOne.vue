@@ -130,12 +130,13 @@
 				goodsType: ''
 			}
 		},
-		onLoad() {
+		onLoad(option) {
 			var _this = this
+			console.log(option)
 			this.$https({
 				url: '/api/shop/mall-goods-ptList',
 				data: {
-					// shop_id: option.id
+					cat_id:option.id
 				},
 				dengl: false,
 				success(res) {
@@ -151,7 +152,31 @@
 		methods: {
 			togCass() {
 				this.tog_Ca = !this.tog_Ca
-			}
+			},
+			detail(id) {
+				uni.navigateTo({
+					url: '../index/productDetails?id=' + id
+				})
+			},
+			chexing() {
+				//跳转车型号列表
+				uni.navigateTo({
+					url: '../shop/car'
+				})
+			},
+			show() {
+				var _this = this
+				this.isShow = true
+				this.$https({
+					url: '/api/shop/mall-goods-serch',
+					data: {},
+					success: function(res) {
+						_this.shaiList = res.data.data.brandDTOS
+						_this.id = res.data.data.brandDTOS[0].id
+					}
+				})
+			},
+			
 		}
 	}
 </script>

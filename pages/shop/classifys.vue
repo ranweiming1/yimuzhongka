@@ -21,7 +21,7 @@
 			</scroll-view>
 			<scroll-view class="right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'"
 			 scroll-with-animation>
-				<view class="li" v-for="(item , index) in rList" @tap="tiaozhuan(shopsId,isOK)">
+				<view class="li" v-for="(item , index) in rList" @tap="tiaozhuan(shopsId,isOK,item.id)">
 					<view class="imgpp">
 						<image :src="item.imgUrl" mode=""></image>
 					</view>
@@ -62,7 +62,6 @@
 				success(res) {
 					_this.allList = res.data.data.goodsCates
 					_this.rList = res.data.data.goodsCates[0].childsList
-					console.log(res.data.data)
 				}
 			})
 		},
@@ -71,11 +70,12 @@
 				this.id = index;
 				this.rList = this.allList[index].childsList
 			},
-			tiaozhuan(){
+			tiaozhuan(cateId){
 				// console.log(this.shopsId)
+				console.log(cateId)
 				this.isOK=false
 				uni.navigateTo({
-					url:'all?id='+this.shopsId+'&isOK='+this.isOK
+					url:'all?id='+this.shopsId+'&isOK='+this.isOK+'&cateId='+cateId
 				})
 				
 			}

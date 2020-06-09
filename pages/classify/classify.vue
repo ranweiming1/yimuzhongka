@@ -23,7 +23,7 @@
 			<!-- 二级 -->
 			<scroll-view class="right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'"
 			 scroll-with-animation>
-				<view class="li" v-for="(item , index) in rList" @tap="list">
+				<view class="li" v-for="(item , index) in rList" @tap="list(item.id)">
 					<view class="imgpp">
 						<image :src="item.imgUrl" mode=""></image>
 					</view>
@@ -66,7 +66,7 @@
 					// console.log(res.data.data)
 					_this.AllList = res.data.data.goodsCates
 					_this.rList = res.data.data.goodsCates[0].childsList
-					console.log(res.data.data)
+					console.log(res.data.data.goodsCates[0].childsList)
 				},
 			})
 		},
@@ -75,9 +75,10 @@
 				this.id = index;
 				this.rList = this.AllList[index].childsList
 			},
-			list(){
+			list(id){
+				// console.log(id)
 				uni.navigateTo({
-					url:'./fenlOne'
+					url:'./fenlOne?id='+id
 				})
 			}
 		}
