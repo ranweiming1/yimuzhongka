@@ -63,7 +63,7 @@
 				data: {},
 				dengl: false,
 				success: function(res) {
-					// console.log(res.data.data.goodsCates.childsList)
+					console.log(res.data.data.goodsCates)
 					_this.AllList = res.data.data.goodsCates
 					_this.rList = res.data.data.goodsCates[0].childsList
 				},
