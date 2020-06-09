@@ -46,13 +46,19 @@
 				list: [],
 				rds: '',
 				goodsId:'',
-				cartAttr:''
+				cartAttr:'',
+				id:'',
+				moneys:'',
+				dingdan:''
 			}
 		},
 		onLoad: function(options) {
 			if(options.goodsId){
 				this.goodsId=options.goodsId
 				this.cartAttr=options.cartAttr
+				this.id=options.id
+				this.moneys=options.money
+				this.dingdan=options.dingdan
 			}
 			var _this = this
 			this.$https({
@@ -119,7 +125,7 @@
 			},
 			fanhui:function(){
 				uni.navigateTo({
-					url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+JSON.stringify(this.rds)
+					url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+JSON.stringify(this.rds)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan
 				})
 			}
 		}
