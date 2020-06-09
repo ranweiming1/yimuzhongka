@@ -13,7 +13,7 @@
 		<!-- 状态栏 -->
 		<view class="topBox">
 			<!-- 选中样式 -->
-			<view class="none on" @tap="toggle()">
+			<view class="none on":index="0" @tap="toggle(index)">
 				<view class="ontext">
 					<text>全部</text>
 				</view>
@@ -22,24 +22,36 @@
 				</view>
 			</view>
 			<!-- 默认样式 -->
-			<view class="none" @tap="toggle()">
+			<view class="none" :index="1" @tap="toggle(index)">
 				<view class="ontext">
 					<text>待付款</text>
 				</view>
+				<view class="onimg" v-if="id==index">
+					<image src="../../../static/icon_09.png" mode=""></image>
+				</view>
 			</view>
-			<view class="none" @tap="toggle()">
+			<view class="none" @tap="toggle(index)">
 				<view class="ontext">
 					<text>待发货</text>
 				</view>
+				<view class="onimg" v-if="id==index">
+					<image src="../../../static/icon_09.png" mode=""></image>
+				</view>
 			</view>
-			<view class="none" @tap="toggle()">
+			<view class="none" @tap="toggle(index)">
 				<view class="ontext">
 					<text>待收货</text>
 				</view>
+				<view class="onimg" v-if="id==index">
+					<image src="../../../static/icon_09.png" mode=""></image>
+				</view>
 			</view>
-			<view class="none" @tap="toggle()">
+			<view class="none" @tap="toggle(index)">
 				<view class="ontext">
 					<text>待评价</text>
+				</view>
+				<view class="onimg" v-if="id==index">
+					<image src="../../../static/icon_09.png" mode=""></image>
 				</view>
 			</view>
 		</view>
@@ -279,22 +291,26 @@
 		data() {
 			return {
 				currentPage: 'cart',
-				id:''
+				id:'',
+				index:[0,1,2,3,4]
 			}
 		},
+		props:['index'],
 		components: {
 			tabBar,
 			uniPopup
 		},
 		onLoad(option) {
 			var _this=this
+			console.log(option)
 			this.id=option.id
+			console.log(this.id)
 			this.$https({
 				url:'/api/user/order-list',
 				data:{status:option.id},
 				dengl:false,
 				success:function(res){
-					// console.log(res.data)
+					console.log(res.data)
 				}
 			})
 		},
@@ -309,7 +325,9 @@
 				this.$refs.popup.close()
 			},
 			toggle(index){
-				this.id=index
+				// console.log(e.target)
+				// this.id=index
+				console.log(index)
 				
 			}
 		}
