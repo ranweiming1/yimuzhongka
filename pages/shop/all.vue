@@ -128,18 +128,18 @@
 			}
 		},
 		onLoad(option) {
-			this.shopsId = option.id
+			if(option.id)
+			    this.shopsId = option.id
 			// this.isOK=opt
 			// console.log(option)
 			if (option.isOK) {
 				this.isOK = false
 			}
 			var _this = this
-
 			this.$https({
 				url: '/api/shop/mall-goods-ptList',
 				data: {
-					shop_id: option.id
+					shop_id: this.shopsId
 				},
 				dengl: false,
 				success(res) {
