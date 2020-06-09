@@ -179,7 +179,7 @@
 				// console.log(this.id)
 				
 				uni.navigateTo({
-					url:'../classify/classify'
+					url:'./class'
 				})
 			},
 			lingqu:function(){

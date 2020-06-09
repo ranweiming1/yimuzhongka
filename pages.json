@@ -335,6 +335,12 @@
 			"style":{
 				"navigationBarTitleText":"选择车型"
 			}
+		},
+		{
+			"path":"pages/index/class",
+			"style":{
+				"navigationBarTitleText":""
+			}
 		}
 		// {
 		// 	"path":"pages/classify/classify",

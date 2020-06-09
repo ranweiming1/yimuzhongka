@@ -136,7 +136,7 @@
 			this.$https({
 				url: '/api/shop/mall-goods-ptList',
 				data: {
-					cat_id:option.id
+					cat_id:option.id?option.id:''
 				},
 				dengl: false,
 				success(res) {
