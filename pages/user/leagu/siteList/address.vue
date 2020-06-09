@@ -65,7 +65,9 @@
 				checked: true,
 				region: [],
 				defaultRegion: ['山东省', '济南市', '槐荫区'],
-				defaultRegionCode: '370104'
+				defaultRegionCode: '370104',
+				goodsId: '',
+				cartAttr: ''
 			}
 		},
 		onLoad: function(option) {
@@ -73,7 +75,7 @@
 			// option.address?this.isAdd=false:this.isAdd=true,
 			// if(ob){
 			if (option.address) {
-				var ob=JSON.parse(option.address)
+				var ob = JSON.parse(option.address)
 				this.username = ob.username
 				this.phone = ob.phone
 				this.addressss = ob.cityInfo
@@ -81,7 +83,10 @@
 				this.id = ob.id
 				this.isOk = false
 			}
-
+			if (option.goodsId) {
+				this.goodsId = option.goodsId
+				this.cartAttr = option.cartAttr
+			}
 			// this.isAdd=false
 			// console.log(this.regionName))
 		},
@@ -111,6 +116,7 @@
 				console.log('switch2 发生 change 事件，携带值为', e.target.value)
 			},
 			baocun: function() {
+				var _this = this
 				this.$https({
 					url: '/api/user/address-add-edit',
 					data: JSON.stringify({
@@ -125,10 +131,15 @@
 					dengl: false,
 					method: 'post',
 					success: function(res) {
-						console.log(res)
-						uni.navigateTo({
-							url: 'siteList'
-						})
+						if (_this.goodsId) {
+							uni.navigateTo({
+								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr
+							})
+						} else {
+							uni.navigateTo({
+								url: 'siteList'
+							})
+						}
 					}
 				})
 			},
@@ -141,16 +152,16 @@
 				if (!this.isOk) {
 					_this.$https({
 						url: '/api/user/address-del',
-						method:'POST',
+						method: 'POST',
 						data: {
 							addressId: _this.id
 						},
-						
+
 						dengl: false,
 						success: function(res) {
 							// alert('确定要删除')
-							uni.navigateTo({		
-								url:'siteList'
+							uni.navigateTo({
+								url: 'siteList'
 							})
 							console.log(res.data)
 						}

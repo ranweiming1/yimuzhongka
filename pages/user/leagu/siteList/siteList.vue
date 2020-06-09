@@ -52,7 +52,7 @@
 		onLoad: function(options) {
 			if(options.goodsId){
 				this.goodsId=options.goodsId
-				this.cartAttr=JSON.parse(options.cartAttr)
+				this.cartAttr=options.cartAttr
 			}
 			var _this = this
 			this.$https({
@@ -119,7 +119,7 @@
 			},
 			fanhui:function(){
 				uni.navigateTo({
-					url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.rds)
+					url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+JSON.stringify(this.rds)
 				})
 			}
 		}

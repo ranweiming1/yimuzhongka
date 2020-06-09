@@ -398,7 +398,7 @@
 			},
 			goumaia: function() {
 				uni.navigateTo({
-					url: '../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:[{goodsNum:this.num,specKey:this.guige[this.indexx].keyName,goodsLogo:this.list.goodsLogo,integral:this.list.integral,goodsName:this.list.goodsName}]})
+					url: '../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:[{goodsNum:this.num,specKey:this.guige[this.indexx].keyName,goodsLogo:this.list.goodsLogo,integral:this.list.integral,goodsName:this.list.goodsName,kuaidi:this.list.kuaidi,shopPrice:this.list.shopPrice}]})
 				})
 			}
 		}

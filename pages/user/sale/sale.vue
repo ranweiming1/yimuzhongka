@@ -43,7 +43,7 @@
 			</view>
 			
 			<view class="bott">
-				<text>使用</text>
+				<text @tap='shiyong'>使用</text>
 			</view>
 		</view>
 		
@@ -82,22 +82,44 @@
 	export default {
 		data() {
 			return {
-				shixiao:0
+				shixiao:0,
+				goodsId:'',
+				cartAttr:'',
+				zhid:''
 			}
 		},
 		methods: {
 			keshiyong:function(){
 				this.shixiao=0
+				this.youhui()
 			},
 			yishixiao:function(){
 				this.shixiao=1
+				this.youhui()
+			},
+			//获取优惠券
+			youhui:function(){
+				this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
+					
+				}})
+			},
+			shiyong:function(){
+				uni.navigateTo({
+					url:'../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+this.zhid
+				})
 			}
 		},
 		onLoad:function(options){
 			//获取优惠券
-			this.$https({url:'/api/shop/myCoupon-list',data:{type:0},success:function(res){
+			this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
 				
 			}})
+			if(options){
+				this.goodsId=options.goodsId
+				this.cartAttr=options.cartAttr
+				this.zhid=options.zhid
+			}
+			
 		}
 	}
 </script>

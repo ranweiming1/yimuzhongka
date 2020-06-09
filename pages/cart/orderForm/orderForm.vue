@@ -53,22 +53,24 @@
 
 					<!-- 这是数量加减 -->
 					<view class="jia">
-						<text>-</text>
+						<text @tap='shangpinj(index)'>-</text>
+						<input v-model='item.goodsNum' style='width:50px;border:1px solid #eee;float:left;margin-left:10px;'>
+						<text @tap='zengjia(index)'>+</text>
 					</view>
 				</view>
-			</view>
-		</view>
 
 
-		<view class="basic">
-			<view class="left_a">
-				<text>运费</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
-				<text>￥10.00</text>
+		        <view class="basic">
+			        <view class="left_a">
+				        <text>运费</text>
+			        </view>
+			        <view class="right_a">
+				        <view class="img_a">
+					        <image src="../../../static/icon_26.png" mode=""></image>
+				        </view>
+				        <text>￥{{item.kuaidi}}</text>
+			        </view>
+		        </view>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
@@ -81,7 +83,7 @@
 			<view class="left_a">
 				<text>优惠券</text>
 			</view>
-			<view class="right_a">
+			<view class="right_a" @tap='youhuiquan'>
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
@@ -112,7 +114,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text>￥853.00</text>
+				<text>￥{{shangpin}}</text>
 			</view>
 		</view>
 		<view class="basic aa">
@@ -134,7 +136,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text>￥200</text>
+				<text>￥{{yunfei}}</text>
 			</view>
 		</view>
 
@@ -142,7 +144,7 @@
 		<view class="bottom">
 			<view class="leftA">
 				<view class="ppp">
-					<text>合计：<text>￥980.00</text></text>
+					<text>合计：<text>￥{{heji}}</text></text>
 				</view>
 				<view class="yunf">
 					<text>(含运费)</text>
@@ -161,7 +163,10 @@
 			return {
 				goodsId: '',
 				cartAttr: [],
-				dizhi: {}
+				dizhi: {},
+				yunfei:0,
+				shangpin:0,
+				heji:0
 			}
 		},
 		methods: {
@@ -173,6 +178,11 @@
 					if (options.zhid) {
 						this.dizhi = JSON.parse(options.zhid)
 					}
+					this.cartAttr.map(function(n){
+						_this.shangpin+=n.shopPrice
+						_this.yunfei+=parseInt(n.kuaidi)
+					})
+					this.heji=this.yunfei+this.shangpin
 				}
 				if (!options.zhid) {
 					//获取地址列表
@@ -210,14 +220,36 @@
 			},
 			tiaozhuan: function() {
 				uni.navigateTo({
-					url: '../../user/leagu/siteList/address'
+					url: '../../user/leagu/siteList/address?goodsId='+this.godsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)
 				})
 			},
 			qiehuandizhi: function() {
 				//填充信息
 				uni.navigateTo({
-					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify(this.cartAttr)
+					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)
 				})
+			},
+			youhuiquan:function(){
+				uni.navigateTo({
+					url:'../../user/sale/sale?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)
+				})
+			},
+			shangpinj:function(index){
+				if(this.cartAttr[index].goodsNum>1){
+				    this.cartAttr[index].goodsNum--
+					this.jisuanjine()
+				}
+			},
+			zengjia:function(index){
+				this.cartAttr[index].goodsNum++
+				this.jisuanjine()
+			},
+			jisuanjine:function(){
+				var _this=this
+				this.cartAttr.map(function(n){
+					_this.shangpin+=n.shopPrice
+				})
+				this.heji=this.yunfei+this.shangpin
 			}
 		}
 	}
@@ -341,8 +373,10 @@
 				float: right;
 
 				text {
-					font-size: 20upx;
+					font-size: 26upx;
 					color: #666;
+					float:left;
+					margin-left:10px;
 				}
 			}
 		}
