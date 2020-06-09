@@ -13,7 +13,7 @@
 		<!-- 状态栏 -->
 		<view class="topBox">
 			<!-- 选中样式 -->
-			<view class="none on">
+			<view class="none on" @tap="toggle()">
 				<view class="ontext">
 					<text>全部</text>
 				</view>
@@ -22,22 +22,22 @@
 				</view>
 			</view>
 			<!-- 默认样式 -->
-			<view class="none">
+			<view class="none" @tap="toggle()">
 				<view class="ontext">
 					<text>待付款</text>
 				</view>
 			</view>
-			<view class="none">
+			<view class="none" @tap="toggle()">
 				<view class="ontext">
 					<text>待发货</text>
 				</view>
 			</view>
-			<view class="none">
+			<view class="none" @tap="toggle()">
 				<view class="ontext">
 					<text>待收货</text>
 				</view>
 			</view>
-			<view class="none">
+			<view class="none" @tap="toggle()">
 				<view class="ontext">
 					<text>待评价</text>
 				</view>
@@ -278,22 +278,39 @@
 	export default {
 		data() {
 			return {
-				currentPage: 'cart'
+				currentPage: 'cart',
+				id:''
 			}
 		},
 		components: {
 			tabBar,
 			uniPopup
 		},
+		onLoad(option) {
+			var _this=this
+			this.id=option.id
+			this.$https({
+				url:'/api/user/order-list',
+				data:{status:option.id},
+				dengl:false,
+				success:function(res){
+					// console.log(res.data)
+				}
+			})
+		},
 		methods: {
 			select: function() {
-				console.log(1)
+				// console.log(1)
 			},
 			openPopup() {
 				this.$refs.popup.open()
 			},
 			closePopup() {
 				this.$refs.popup.close()
+			},
+			toggle(index){
+				this.id=index
+				
 			}
 		}
 	}

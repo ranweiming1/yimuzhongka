@@ -28,7 +28,7 @@
 		<!-- </view> -->
 		<swiper style="height: 440rpx;" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key=item.id>
-				<view class="cate-item" v-for="(items,indexs) in item">
+				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei">
 					<image :src="items.imgUrl"></image>
 					<text style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;">{{items.cateTitle}}</text>
 				</view>
@@ -113,7 +113,9 @@
 				duration: 500,
 				list: [],
 				youhuiquan:[],
-				youhuiquanle:false
+				youhuiquanle:false,
+				id:'',
+				index:''
 			}
 		},
 		components: {
@@ -129,6 +131,8 @@
 					_this.banList = res.data.data.bannerList
 					_this.cateList = res.data.data.cateList
 					_this.hotList = res.data.data.recommedGoods
+					console.log(res.data.data.cateList)
+					// _this.id=res.data.data.cateList[0].id
 					//得到要循环的数量值
 					var num = Math.ceil(_this.cateList.length / 8)
 					for (var i = 0; i < num; i++) {
@@ -140,6 +144,7 @@
 						})
 						_this.list.push(arr)
 					}
+						console.log(_this.list)
 				},
 			})
 			this.$https({url:'/api/shop/coupon-couple-List',data:{},success:function(res){
@@ -167,6 +172,16 @@
 			},
 			guan:function(){
 				this.youhuiquanle=false
+			},
+			fenLei:function(){
+				console.log(2222)
+				// this.id=id
+				// this.index=index
+				// console.log(this.id)
+				
+				uni.navigateTo({
+					url:'../classify/classify'
+				})
 			}
 		}
 	}

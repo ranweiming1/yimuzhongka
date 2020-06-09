@@ -1,5 +1,5 @@
 <template>
-	<view >
+	<view>
 		<!-- 背景图 -->
 		<view class="bg_img">
 			<image src="../../static/icon_21.png" mode=""></image>
@@ -67,7 +67,7 @@
 
 		<!-- 订单状态栏 -->
 		<view class="state">
-			<view class="fu">
+			<view class="fu" :index="1" @tap="daiFu(index)">
 				<view class="imgBox_a">
 					<image src="../../static/fk.png" mode=""></image>
 				</view>
@@ -76,7 +76,7 @@
 				</view>
 			</view>
 
-			<view class="dai">
+			<view class="dai" @tap="daiFa">
 				<view class="imgBox_a">
 					<image src="../../static/fh.png" mode=""></image>
 				</view>
@@ -86,7 +86,7 @@
 				</view>
 			</view>
 
-			<view class="ping">
+			<view class="ping" @tap="daiPing">
 				<view class="imgBox_a">
 					<image src="../../static/pj.png" mode=""></image>
 				</view>
@@ -96,7 +96,7 @@
 				</view>
 			</view>
 
-			<view class="tui">
+			<view class="tui" @tap="tuiKu">
 				<view class="imgBox_a">
 					<image src="../../static/tk.png" mode=""></image>
 				</view>
@@ -106,7 +106,7 @@
 				</view>
 			</view>
 
-			<view class="ding">
+			<view class="ding" @tap="allDing">
 				<view class="imgBox_a">
 					<image src="../../static/qb.png" mode=""></image>
 				</view>
@@ -146,7 +146,7 @@
 					</view>
 				</view>
 
-				<view  @tap="about">
+				<view @tap="about">
 					<view class="imgBox">
 						<image src="../../static/kf.png" mode=""></image>
 					</view>
@@ -173,7 +173,7 @@
 					</view>
 				</view>
 
-				<view>
+				<view  @tap="liulan">
 					<view class="imgBox">
 						<image src="../../static/zj.png" mode=""></image>
 					</view>
@@ -219,9 +219,11 @@
 				//优惠券
 				couponCount: 0,
 				//收藏
-				collectCount: 0
+				collectCount: 0,
+				
 			}
 		},
+		props:['index'],
 		components: {
 			tabBar,
 		},
@@ -234,6 +236,7 @@
 				success: function(res) {
 					_this.nickname = res.data.data.nackname
 					_this.phone = res.data.data.phone
+					// console.log(res.data.data)
 				}
 			})
 			//
@@ -246,6 +249,7 @@
 					_this.payPoints = res.data.data.payPoints
 					_this.couponCount = res.data.data.couponCount
 					_this.collectCount = res.data.data.collectCount
+					// console.log(res.data.data)
 				}
 			})
 		},
@@ -303,9 +307,35 @@
 					url: 'AboutUs/AboutUs'
 				})
 			},
-			ruzhu:function(){
+			ruzhu: function() {
 				uni.navigateTo({
-					url:'./leagu/league'
+					url: './leagu/league'
+				})
+			},
+			allDing:function() {
+				
+				
+				
+				uni.navigateTo({
+					url: 'allState/allState'
+				})
+			},
+			daiFu:function(id){
+				// var id= id
+				console.log(111)
+				// console.log(id)
+				uni.navigateTo({
+					url: 'allState/allState'
+				})
+			},
+			liulan:function(){
+				uni.navigateTo({
+					url:'task/liulan'
+				})
+			},
+			shezhi:function(){
+				uni.navigateTo({
+					url:"alter/alter "
 				})
 			}
 		}
