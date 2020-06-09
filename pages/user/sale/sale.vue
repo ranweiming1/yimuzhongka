@@ -21,58 +21,62 @@
 		
 		<!-- 可使用状态优惠券 -->
 		<view class="valid " v-if='shixiao==0'>
+			<view v-for='item in youhuiquan'>
 			<view class="imgBox">
 				<image src="../../../static/icon_27.png" mode=""></image>
 				<view class="sum">
-					<text>50<text>元</text></text>
+					<text>{{item.couponDTO.money}}<text>元</text></text>
 					<view class="tianjan">
-						<text>满400可用</text>
+						<text>满{{item.couponDTO.condition}}可用</text>
 					</view>
 				</view>
 			</view>
 			<view class="float">
 				<view class="h2">
-					<text>满400-50立减券</text>
+					<text>满{{item.couponDTO.condition}}-{{item.couponDTO.money}}立减券</text>
 				</view>
 				<view class="p">
-					<text>限自营类内饰分类下使用</text>
+					<text>{{item.couponDTO.name}}</text>
 				</view>
 				<view class="span">
-					<text>使用时间：2019.6.1-2019.6.30</text>
+					<text>使用时间：{{item.couponDTO.useStartTime}}-{{item.couponDTO.useEndTime}}</text>
 				</view>
 			</view>
 			
 			<view class="bott">
-				<text @tap='shiyong'>使用</text>
+				<text @tap='shiyong(item.couponDTO.id,item.couponDTO.money)'>使用</text>
+			</view>
 			</view>
 		</view>
 		
 		<!-- 不可使用状态 -->
 		
 		<view class="cannot" v-if='shixiao==1'>
+			<view v-for='item in youhuiquan'>
 			<view class="imgBox">
 				<image src="../../../static/icon_28.png" mode=""></image>
 				<view class="sum">
-					<text>50<text>元</text></text>
+					<text>{{item.couponDTO.money}}<text>元</text></text>
 					<view class="tianjan">
-						<text>满400可用</text>
+						<text>满{{item.couponDTO.condtion}}可用</text>
 					</view>
 				</view>
 			</view>
 			<view class="float">
 				<view class="h2">
-					<text>满400-50立减券</text>
+					<text>满{{item.couponDTO.condition}}-{{item.couponDTO.condition}}立减券</text>
 				</view>
 				<view class="p">
-					<text>限自营类内饰分类下使用</text>
+					<text>{{item.couponDTO.name}}</text>
 				</view>
 				<view class="span">
-					<text>使用时间：2019.6.1-2019.6.30</text>
+					<text>使用时间：{{item.couponDTO.useStartTime}}-{{item.couponDTO.useEndTime}}</text>
 				</view>
 			</view>
 			
 			<view class="bott">
 				<text>已使用</text>
+			</view>
 			</view>
 		</view>
 	</view>
@@ -85,7 +89,9 @@
 				shixiao:0,
 				goodsId:'',
 				cartAttr:'',
-				zhid:''
+				zhid:'',
+				youhuiquan:[],
+				dingdan:''
 			}
 		},
 		methods: {
@@ -99,25 +105,28 @@
 			},
 			//获取优惠券
 			youhui:function(){
+				var _this=this
 				this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
-					
+					_this.youhuiquan=res.data.data
 				}})
 			},
-			shiyong:function(){
+			shiyong:function(id,money){
 				uni.navigateTo({
-					url:'../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+this.zhid
+					url:'../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+this.zhid+'&id='+id+'&money='+money+'&dingdan='+this.dingdan
 				})
 			}
 		},
 		onLoad:function(options){
+			var _this=this
 			//获取优惠券
 			this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
-				
+				_this.youhuiquan=res.data.data
 			}})
 			if(options){
 				this.goodsId=options.goodsId
 				this.cartAttr=options.cartAttr
 				this.zhid=options.zhid
+				this.dingdan=options.dingdan
 			}
 			
 		}

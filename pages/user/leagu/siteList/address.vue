@@ -67,7 +67,11 @@
 				defaultRegion: ['山东省', '济南市', '槐荫区'],
 				defaultRegionCode: '370104',
 				goodsId: '',
-				cartAttr: ''
+				cartAttr: '',
+				youhuiid:'',
+				moneys:'',
+				zhid:'',
+				dingdan:''
 			}
 		},
 		onLoad: function(option) {
@@ -86,6 +90,10 @@
 			if (option.goodsId) {
 				this.goodsId = option.goodsId
 				this.cartAttr = option.cartAttr
+				this.zhid=option.zhid
+				this.youhuiid=option.id
+				this.moneys=option.money
+				this.dingdan=option.dingdan
 			}
 			// this.isAdd=false
 			// console.log(this.regionName))
@@ -133,7 +141,7 @@
 					success: function(res) {
 						if (_this.goodsId) {
 							uni.navigateTo({
-								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr
+								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr+'&zhid='+_this.zhid+'&money='+_this.moneys+'&id='+_this.youhuiid+'&dingdan='+this.dingdan
 							})
 						} else {
 							uni.navigateTo({

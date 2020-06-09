@@ -125,7 +125,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text>-￥30</text>
+				<text>-￥{{menoys}}</text>
 			</view>
 		</view>
 		<view class="basic aa ssa">
@@ -166,7 +166,10 @@
 				dizhi: {},
 				yunfei:0,
 				shangpin:0,
-				heji:0
+				heji:0,
+				menoys:0,
+				id:'',
+				dingdan:''
 			}
 		},
 		methods: {
@@ -183,6 +186,9 @@
 						_this.yunfei+=parseInt(n.kuaidi)
 					})
 					this.heji=this.yunfei+this.shangpin
+					this.menoys=options.menoy
+					this.id=options.id
+					this.dingdan=options.dingdan
 				}
 				if (!options.zhid) {
 					//获取地址列表
@@ -202,6 +208,24 @@
 
 			},
 			tanchuang: function() {
+				var arr=[]
+				this.cartAttr.map(function(n){
+					arr.push(n.goodsId)
+				})
+				var arr=arr.join(',')
+				var cartAttr=[]
+				this.cartAttr.map(function(n){
+					var obj={}
+					obj.cartAttr={}
+					obj.cartAttr.goodsNum=n.goodsNum
+					obj.cartAttr.specKey=n.key
+					obj.goodsId=n.goodsId
+					cartAttr.push(obj )
+				})
+				//提交订单
+				this.$https({url:'/api/shop/order-order-submit',data:JSON.stringify({orderVo:{addressId:''+this.dizhi.id,cartVO:cartAttr,couponId:this.id,goodsIds:arr,orderFrom:+this.dingdan}}),method:'post',haeder:true,success:function(res){
+					
+				}})
 				uni.showModal({
 					title: '支付成功',
 					content: '您已成功购买该商品\n感谢您的支持',
@@ -220,18 +244,18 @@
 			},
 			tiaozhuan: function() {
 				uni.navigateTo({
-					url: '../../user/leagu/siteList/address?goodsId='+this.godsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)
+					url: '../../user/leagu/siteList/address?goodsId='+this.godsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys
 				})
 			},
 			qiehuandizhi: function() {
 				//填充信息
 				uni.navigateTo({
-					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)
+					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.money
 				})
 			},
 			youhuiquan:function(){
 				uni.navigateTo({
-					url:'../../user/sale/sale?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)
+					url:'../../user/sale/sale?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys
 				})
 			},
 			shangpinj:function(index){
