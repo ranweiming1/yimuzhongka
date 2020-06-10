@@ -131,7 +131,7 @@
 					_this.banList = res.data.data.bannerList
 					_this.cateList = res.data.data.cateList
 					_this.hotList = res.data.data.recommedGoods
-					console.log(res.data.data.cateList)
+					// console.log(res.data.data.cateList)
 					// _this.id=res.data.data.cateList
 					//得到要循环的数量值
 					var num = Math.ceil(_this.cateList.length / 8)
@@ -173,9 +173,6 @@
 				this.youhuiquanle=false
 			},
 			fenLei:function(id,index){
-				// this.id=id
-				// this.index=index
-				// console.log(this.list[id][index].id)
 				var id=this.list[id][index].id
 				uni.navigateTo({
 					url:'./class?id='+id

@@ -13,44 +13,44 @@
 		<!-- 状态栏 -->
 		<view class="topBox">
 			<!-- 选中样式 -->
-			<view class="none on":index="0" @tap="toggle(index)">
+			<view class="none on" @tap="toggle(0)">
 				<view class="ontext">
 					<text>全部</text>
 				</view>
-				<view class="onimg">
+				<view class="onimg" v-if="id==0">
 					<image src="../../../static/icon_09.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 默认样式 -->
-			<view class="none" :index="1" @tap="toggle(index)">
+			<view class="none" @tap="toggle(1)">
 				<view class="ontext">
 					<text>待付款</text>
 				</view>
-				<view class="onimg" v-if="id==index">
+				<view class="onimg" v-if="id==1">
 					<image src="../../../static/icon_09.png" mode=""></image>
 				</view>
 			</view>
-			<view class="none" @tap="toggle(index)">
+			<view class="none" @tap="toggle(2)">
 				<view class="ontext">
 					<text>待发货</text>
 				</view>
-				<view class="onimg" v-if="id==index">
+				<view class="onimg" v-if="id==2">
 					<image src="../../../static/icon_09.png" mode=""></image>
 				</view>
 			</view>
-			<view class="none" @tap="toggle(index)">
+			<view class="none" @tap="toggle(3)">
 				<view class="ontext">
 					<text>待收货</text>
 				</view>
-				<view class="onimg" v-if="id==index">
+				<view class="onimg" v-if="id==3">
 					<image src="../../../static/icon_09.png" mode=""></image>
 				</view>
 			</view>
-			<view class="none" @tap="toggle(index)">
+			<view class="none" @tap="toggle(4)">
 				<view class="ontext">
 					<text>待评价</text>
 				</view>
-				<view class="onimg" v-if="id==index">
+				<view class="onimg" v-if="id==4">
 					<image src="../../../static/icon_09.png" mode=""></image>
 				</view>
 			</view>
@@ -292,10 +292,8 @@
 			return {
 				currentPage: 'cart',
 				id:'',
-				index:[0,1,2,3,4]
 			}
 		},
-		props:['index'],
 		components: {
 			tabBar,
 			uniPopup
@@ -310,7 +308,8 @@
 				data:{status:option.id},
 				dengl:false,
 				success:function(res){
-					console.log(res.data)
+					// console.log(res.data)
+					toggle(option.id)
 				}
 			})
 		},
@@ -326,8 +325,15 @@
 			},
 			toggle(index){
 				// console.log(e.target)
-				// this.id=index
-				console.log(index)
+				this.id=index
+				this.$https({
+					url:'/api/user/order-list',
+					data:{status:index},
+					dengl:false,
+					success:function(res){
+						// console.log(res.data)
+					}
+				})
 				
 			}
 		}
