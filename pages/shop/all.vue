@@ -140,7 +140,7 @@
 				this.isOK = false
 			}
 			var _this = this
-			if(option.id){
+			if(!option.goodsBrandId){
 			this.$https({
 				url: '/api/shop/mall-goods-ptList',
 				data: {
