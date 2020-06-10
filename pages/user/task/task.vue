@@ -263,8 +263,8 @@
 				}
 			},
 			renWu:function(id) {
-				console.log(1111)
-				console.log(id)
+				// console.log(1111)
+				// console.log(id)
 				uni.redirectTo({
 					url:'../../cart/cart'
 				})

@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
-		
-		<view class="radios">
+		<!-- <view class="one_line">
+		</view> -->
+
+		<view class="radios" style="border-top:1rpx solid #ccc;">
 			<text>订单编号：45644152412141</text>
 			<view class="guanb">
 				<text>2019-05-25 15:55:56</text>
@@ -27,14 +27,14 @@
 				<view class="radColor">
 					<text>￥52.00</text>
 				</view>
-		
+
 				<!-- 这是数量加减 -->
 				<view class="jia">
 					<text>X1</text>
 				</view>
 			</view>
 		</view>
-		<view class="basic aa">
+		<view class="basic aa" @tap="huan">
 			<view class="left_a">
 				<text>我要换货</text>
 			</view>
@@ -44,7 +44,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="basic aa">
+		<view class="basic aa" @tap="huan">
 			<view class="left_a">
 				<text>我要退货</text>
 			</view>
@@ -58,12 +58,27 @@
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+
+			}
+		},
+		methods:{
+			huan(){
+				uni.navigateTo({
+					url:'./refund_01'
+				})
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background-color: #f7f7f7;
 	}
+
 	.xinxi {
 		margin-bottom: 20upx;
 		background-color: #fff;
@@ -71,46 +86,47 @@
 		width: 710upx;
 		padding: 20upx;
 		border-bottom: 1px dotted #ccc;
+
 		.imgBox_a {
 			float: left;
 			padding-top: 20upx;
-	
+
 			image {
 				width: 215upx;
 				height: 160upx;
 			}
 		}
-	
+
 		.txt_c {
 			float: left;
 			width: 460upx;
 			padding-left: 20upx;
-	
+
 			.title {
 				padding-top: 10upx;
-	
+
 				text {
 					font-size: 30upx;
 					line-height: 30upx;
 					color: #333;
 				}
 			}
-	
+
 			.spec {
 				font-size: 26upx;
 				line-height: 40upx;
 				color: #666;
 			}
-	
+
 			.radColor {
 				float: left;
 				color: #ff0000;
 				font-size: 32upx;
 			}
-	
+
 			.jia {
 				float: right;
-	
+
 				text {
 					font-size: 20upx;
 					color: #666;
@@ -118,6 +134,7 @@
 			}
 		}
 	}
+
 	.radios {
 		background-color: #fff;
 		width: 710upx;
@@ -126,27 +143,29 @@
 		padding-top: 10upx;
 		overflow: hidden;
 		border-bottom: 1px solid #f7f7f7;
-	
+
 		text {
 			font-size: 28upx;
 			color: #333;
 			line-height: 40upx;
 			padding-right: 10upx;
 		}
-	
+
 		image {
 			width: 12upx;
 			height: 26upx;
 		}
+
 		.guanb {
 			float: right;
-		
+
 			text {
 				font-size: 28upx;
 				color: #999;
 			}
 		}
 	}
+
 	.basic {
 		width: 710upx;
 		background-color: #fff;
@@ -154,47 +173,53 @@
 		padding: 20upx;
 		padding-bottom: 10upx;
 		border-bottom: 20upx solid #f7f7f7;
+
 		.left_a {
 			float: left;
-	
+
 			text {
 				font-size: 28upx;
 				color: #333;
 				line-height: 50upx;
 			}
 		}
-	
+
 		.right_a {
 			float: right;
 			padding-right: 10upx;
+
 			text {
 				font-size: 28upx;
 				float: right;
 				line-height: 50upx;
-				text{
+
+				text {
 					color: #ff670c;
 				}
 			}
-	        .img_l{
-				float:left;
+
+			.img_l {
+				float: left;
 				padding-right: 10upx;
 				padding-top: 5upx;
-				image{
+
+				image {
 					width: 45upx;
 					height: 45upx;
 				}
-				
+
 			}
+
 			.img_a {
 				float: right;
 				padding: 20upx 0upx 20upx 20upx;
-	
+
 				image {
 					width: 12upx;
 					height: 14upx;
 					display: block;
 				}
-	
+
 			}
 		}
 	}

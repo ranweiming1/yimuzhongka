@@ -96,7 +96,7 @@
 				</view>
 			</view>
 
-			<view class="tui">
+			<view class="tui" @tap="tuiKuan">
 				<view class="imgBox_a">
 					<image src="../../static/tk.png" mode=""></image>
 				</view>
@@ -324,6 +324,11 @@
 			shezhi:function(){
 				uni.navigateTo({
 					url:"alter/alter "
+				})
+			},
+			tuiKuan:function(){
+				uni.navigateTo({
+					url:'./allState/deliver_01'
 				})
 			}
 		}

@@ -15,7 +15,7 @@
 					<text>积分：<text>{{user.payPoints}}</text></text>
 				</view>
 			</view>
-			<view class="imgRight" @tap="jDetail">
+			<view class="imgRight" @tap="jDetail(phone)">
 				<text>积分明细</text>
 			</view>
 		</view>
@@ -23,15 +23,15 @@
 		<!-- tab切换排序 -->
 		<view class="tabs">
 			<!-- 选中样式 -->
-			<view class="on" :num='1'  @tap="taggle(num)">
+			<view :class="i==1?'on':'jif'" @tap="taggle(1)">
 				<text>兑换量</text>
 			</view>
 
-			<view class="jif" :num='2'>
+			<view :class="i==2?'on':'jif'" @tap="taggle(2)">
 				<text>积分排序</text>
 			</view>
 
-			<view class="jiag" :num='3'>
+			<view :class="i==3?'on':'jif'" @tap="taggle(3)">
 				<text>价格排序</text>
 			</view>
 		</view>
@@ -58,47 +58,128 @@
 		data() {
 			return {
 				jifList: {},
-				user:{},
-				id:'',
+				user: {},
+				id: '',
+				i: '1',
+				isXu: true,
+				phone:''
 			}
 		},
-		props:['num'],
+		props: ['num'],
 		onLoad() {
 			var _this = this
 			this.$https({
-				url: '/api/shop/mall-goods-jfList',
-				method: 'POST',
-				dengl: false,
-				data: JSON.stringify({
-					jfAsc: '',
-					jfDesc: '',
-					priceAsc: '',
-					priceDesc: ''
+					url: '/api/shop/mall-goods-jfList',
+					method: 'POST',
+					dengl: false,
+					data: JSON.stringify({
+						jfAsc: '',
+						jfDesc: '',
+						priceAsc: '',
+						priceDesc: '',
+					}),
+					haeder: true,
+					success: function(res) {
+						_this.jifList = res.data.data.list
+						_this.id = res.data.data.list[0].cateId
+						// console.log(res.data.data.list)
+					}
 				}),
-				haeder: true,
-				success: function(res) {
-					_this.jifList = res.data.data.list
-					_this.id=res.data.data.list[0].cateId
-					console.log(res.data.data.list)
-				}
-			}),
-			this.$https({
-				url:'/api/user/my-info',
-				dengl: false,
-				data:{},
-				success:function(res){
-					_this.user=res.data.data
-				}
-			})
+				this.$https({
+					url: '/api/user/my-info',
+					dengl: false,
+					data: {},
+					success: function(res) {
+						_this.user = res.data.data
+						_this.phone=res.data.data.phone
+						console.log(res.data.data)
+					}
+				})
 		},
 		methods: {
 			jDetail() {
 				uni.navigateTo({
-					url: '../distr/distrDetail'
+					url: '../distr/distrDetail?id='+this.phone
 				})
 			},
-			taggle(i){
-				console.log(i)
+			taggle(i) {
+				var _this = this
+				this.i = i
+				_this.isXu = !_this.isXu
+				if (i == 1) {
+					this.$https({
+						url: '/api/shop/mall-goods-jfList',
+						method: 'POST',
+						dengl: false,
+						data: JSON.stringify({
+							jfAsc: '',
+							jfDesc: '',
+							priceAsc: '',
+							priceDesc: '',
+						}),
+						haeder: true,
+						success: function(res) {
+							_this.jifList = res.data.data.list
+							_this.id = res.data.data.list[0].cateId
+							// console.log(res.data.data.list)
+						}
+					})
+
+				}
+				if (i == 2) {
+					this.$https({
+						url: '/api/shop/mall-goods-jfList',
+						method: 'POST',
+						dengl: false,
+						data: JSON.stringify(
+
+							_this.isXu ? {
+								jfAsc: '1',
+								jfDesc: '',
+								priceAsc: '',
+								priceDesc: '',
+							} : {
+								jfAsc: '',
+								jfDesc: '1',
+								priceAsc: '',
+								priceDesc: '',
+							}
+						),
+						haeder: true,
+						success: function(res) {
+							_this.jifList = res.data.data.list
+							_this.id = res.data.data.list[0].cateId
+							// console.log(res.data.data.list)
+						}
+					})
+				}
+				if (i == 3) {
+					this.$https({
+						url: '/api/shop/mall-goods-jfList',
+						method: 'POST',
+						dengl: false,
+						data: JSON.stringify(
+							_this.isXu ? {
+								jfAsc: '',
+								jfDesc: '',
+								priceAsc: '1',
+								priceDesc: '',
+							} : {
+								jfAsc: '',
+								jfDesc: '',
+								priceAsc: '',
+								priceDesc: '1',
+							}
+						),
+						haeder: true,
+						success: function(res) {
+							_this.jifList = res.data.data.list
+							_this.id = res.data.data.list[0].cateId
+							// console.log(res.data.data.list)
+						}
+					})
+				}
+
 			}
 		}
 	}
