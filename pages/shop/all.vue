@@ -129,18 +129,23 @@
 		},
 		onLoad(option) {
 			if(option.id)
-			this.shopsId = option.id
+			    this.shopsId = option.id
+			if(option.cateId){
+				
+			}else{
+				option.cateId=''
+			}
 			// this.isOK=opts
 			if (option.isOK) {
 				this.isOK = false
 			}
 			var _this = this
-
+			if(option.id){
 			this.$https({
 				url: '/api/shop/mall-goods-ptList',
 				data: {
 					shop_id: this.shopsId,
-					cat_id:option.cateId?option.cateId:''
+					cat_id:option.cateId
 				},
 				dengl: false,
 				success(res) {
@@ -149,6 +154,12 @@
 					_this.goodsType = res.data.data.selfStatus
 				}
 			})
+			}
+			if(option.goodsBrandId){
+				this.id=option.goodsBrandId
+				this.carId=option.carId
+				this.shaiX()
+			}
 		},
 		components: {
 			buttom
@@ -186,7 +197,6 @@
 				this.id = ind
 			},
 			shaiX() {
-				console.log(this.id)
 				var _this = this
 				this.$https({
 					url: '/api/shop/mall-goods-serchList',
@@ -196,7 +206,8 @@
 						goodsBrandId: this.id,
 						maxPrice: this.max,
 						minPrice: this.min,
-						goodsType: this.goodsType
+						goodsType: this.goodsType,
+						carId:this.carId
 					}),
 					haeder: true,
 					success: function(res) {

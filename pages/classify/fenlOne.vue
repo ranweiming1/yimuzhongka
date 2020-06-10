@@ -132,7 +132,6 @@
 		},
 		onLoad(option) {
 			var _this = this
-			console.log(option)
 			this.$https({
 				url: '/api/shop/mall-goods-ptList',
 				data: {
@@ -140,7 +139,6 @@
 				},
 				dengl: false,
 				success(res) {
-					console.log(res.data.data)
 					_this.allList = res.data.data
 					_this.goodsType = res.data.data.selfStatus
 				}

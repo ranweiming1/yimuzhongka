@@ -82,7 +82,7 @@
 			list(id){
 				// console.log(id)
 				uni.navigateTo({
-					url:'./fenlOne?id='+id
+					url:'../classify/fenlOne?id='+id
 				})
 			}
 		}

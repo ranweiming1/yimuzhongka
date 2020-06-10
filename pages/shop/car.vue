@@ -14,11 +14,11 @@
 		<scroll-view scroll-y='true' style='position:fixed;top:5%;right:50rpx;width:50rpx;height:90%;text-align:center;border:1px solid #bfbfbf;border-radius:50rpx;background:#fff;'>
 			<view v-for='(item,index) in list' :style='xuanzhong==index?"color:#597cff;margin-top:10rpx;margin-bottom:10rpx;":"color:#555;margin-top:10rpx;margin-bottom:10rpx;"' @tap='gundong(item.name,index)'>{{item.name}}</view>
 		</scroll-view>
-		<view class='zhezhao' v-if='zhezhao' @tap='quxiaozhe'>
+		<view class='zhezhao' v-if='zhezhao'>
 			<view>
 				<view>{{pinpai}}</view>
 				<view>
-					<view v-for='(item,index) in car'>
+					<view v-for='(item,index) in car' @tap='quxiaozhe(item.carId)'>
 						<image :src='item.logo'></image>
 						<view>{{item.carName}}</view>
 					</view>
@@ -64,8 +64,11 @@ export default{
 				_this.car=res.data.data
 			}})
 		},
-		quxiaozhe:function(){
+		quxiaozhe:function(id){
 			this.zhezhao=false
+			uni.navigateTo({
+				url:'./all?goodsBrandId='+this.list[this.xuanzhong].list[0].carId+'&carId='+id
+			})
 		}
 	}
 }
