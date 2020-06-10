@@ -165,7 +165,7 @@
 			},
 			more(){
 				uni.navigateTo({
-					url:'../classify/fenlOne'
+					url:'../shop/all'
 				})
 			},
 			guan:function(){
