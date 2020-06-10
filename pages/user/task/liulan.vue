@@ -23,6 +23,25 @@
 </template>
 
 <script>
+	export default{
+		data(){
+			return{
+				lList:{}
+			}
+		},
+		onLoad() {
+			var _this=this
+			this.$https({
+				url:'/api/user/goods-browsing-history',
+				data:{},
+				dengl:false,
+				success:function(res){
+					_this.lList=res.data
+					console.log(res.data.data)
+				}
+			})
+		}
+	}
 </script>
 
 <style lang="scss">
