@@ -41,20 +41,20 @@
 				</view>
 			</view>
 		</view>
-		<view class='hahah list uni-flex uni-column' v-if='xiana==1'>
+		<view class='hahah list uni-flex uni-column' v-if='xiana==1' v-for="(item,index) in 1">
 			<view class='content'>
 				<view class='imgBox'>
-					<image src='../../static/img_02.jpg' mode='widthFix'></image>
+					<image :src="item.goodsLogo" mode='widthFix'></image>
 				</view>
 				<view class='txt_a'>
-					<text class='span_a'>自营</text>
-					<text>化学小子 玻璃清洁剂 风玻璃清洗剂</text>
+					<text class='span_a' v-if="item.selfStatus=='Y'">自营</text>
+					<text>{{item.goodsName}}</text>
 					<view class='txt_aa'>
 						<text>买一送三</text>
 						<text>满199-199</text>
 					</view>
 					<view class='txt_aas'>
-						<text>税后价：<text>￥900</text></text>
+						<text>税后价：<text>{{item.shopPrice?'￥'+item.shopPrice:'暂无价格'}}</text></text>
 					</view>
 				</view>
 			</view>
@@ -66,7 +66,8 @@
 	export default{
 		data(){
 			return{
-				xiana:1
+				xiana:1,
+				shopList:[]
 			}
 		},
 		methods:{
@@ -78,7 +79,10 @@
 			}
 		},
 		onLoad:function(){
+			var _this=this
 			this.$https({url:'/api/user/my-collects',data:{},dengl:false,success:function(res){
+				_this.shopList=res.data.data
+				console.log(res.data.data)
 				
 			}})
 		}

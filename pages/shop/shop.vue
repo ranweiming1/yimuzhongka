@@ -142,6 +142,18 @@
 				uni.navigateTo({
 					url: '../index/productDetails?id=' + id
 				})
+				this.$https({
+					url: '/api/shop/goods-brows-history-add',
+					data: {
+						goodsId: id
+					},
+					method: 'POST',
+					dengl: false,
+					success(res) {
+						// console.log('添加成功')
+						console.log(res.data)
+					}
+				})
 			},
 			shouC() {
 				var _this=this

@@ -1,19 +1,17 @@
 <template>
 	<view class="">
-		<view class="hahah list uni-flex uni-column" v-for="(item , index) in 3" @tap="detail(item.goodsId)">
-			<view class="content ">
+		<view class="hahah list uni-flex uni-column">
+			<view class="content " v-for="(item,index) in lList" @tap="detail(item.goodsId)">
 				<view class="imgBox">
-					<image src="../../../static/img_03.jpg" mode="widthFix"></image>
+					<image :src="item.goodsLogo" mode="widthFix"></image>
 				</view>
 				<view class="txt_a">
 					<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
 					<text>{{item.goodsName}}</text>
-					<view class="txt_aa" v-for="(items,indexs) in 2">
-						<text>满100-20元</text>
-					</view>
-					<view class="txt_aas">
-						<text>税后价：<text>￥{{item.marketPrice?item.marketPrice:'暂无价格'}}</text></text>
-						<text>销量：222</text>
+					<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
+						<text>满{{items.condition}}-{{items.money}}元<</text> </view> <view class="txt_aas">
+								<text>税后价：<text>{{item.marketPrice?'￥'+item.marketPrice:'暂无价格'}}</text></text>
+								<text>销量：{{item.salesSum}}</text>
 					</view>
 
 				</view>
@@ -23,23 +21,30 @@
 </template>
 
 <script>
-	export default{
-		data(){
-			return{
-				lList:{}
+	export default {
+		data() {
+			return {
+				lList: {}
 			}
 		},
 		onLoad() {
-			var _this=this
+			var _this = this
 			this.$https({
-				url:'/api/user/goods-browsing-history',
-				data:{},
-				dengl:false,
-				success:function(res){
-					// _this.lList=res.data
+				url: '/api/user/goods-browsing-history',
+				data: {},
+				dengl: false,
+				success: function(res) {
+					_this.lList = res.data.data
 					console.log(res.data.data)
 				}
 			})
+		},
+		methods: {
+			detail(id) {
+				uni.navigateTo({
+					url: 'productDetails?id=' + id
+				})
+			}
 		}
 	}
 </script>
@@ -121,4 +126,7 @@
 
 		}
 	}
+.content:first-child{
+	border-top: 1px solid #ccc;
+}
 </style>
