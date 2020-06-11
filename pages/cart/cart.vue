@@ -43,7 +43,9 @@
 
 						<!-- 这是数量加减 -->
 						<view class="jia">
-							<uni-number-box value=""></uni-number-box>
+							<view>-</view>
+							<input v-model='items.goodsNum'>
+							<view>+</view>
 						</view>
 					</view>
 				</side-slip>
@@ -173,7 +175,9 @@
 					</view>
 					<!-- 这是数量加减 -->
 					<view class="jia">
-						<uni-number-box value=""></uni-number-box>
+						<view>-</view>
+						<input>
+						<view>+</view>
 					</view>
 				</view>
 				<view class="uni-padding-wrap uni-common-mt bott">
@@ -379,7 +383,16 @@
 			.jia {
 				float: right;
 				margin-right: 36rpx;
-
+				view{
+					float:left;
+					margin-left:10rpx;
+				}
+				input{
+					width:50rpx;
+					border:1px solid #ddd;
+					float:left;
+					margin-left:10rpx;
+				}
 				text {
 					font-size: 20upx;
 					color: #666;

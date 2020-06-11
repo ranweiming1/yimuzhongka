@@ -264,6 +264,7 @@
 				var _this=this
 				this.$https({url:'/api/shop/mall-goods-serchList',method:'post',data:JSON.stringify({goodsBrandId:this.id,maxPrice:this.max,minPrice:this.min,goodsType:this.goodsType,carId:this.carId,sortType:st}),haeder:true,success:function(res){
 					_this.allList=res.data.data
+					_this.paixu=false
 				}})
 			}
 

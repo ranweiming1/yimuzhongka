@@ -272,7 +272,8 @@
 				goodsId: '',
 				guige: [],
 				indexx: 0,
-				gui: ''
+				gui: '',
+				shopId:''
 			}
 		},
 		onLoad(option) {
@@ -291,6 +292,7 @@
 					_this.goodsId = res.data.data.detail.goodsId
 					_this.pingjia = res.data.data.goodsComms[0]
 					_this.isCollect = res.data.data.isCollect
+					_this.shopId=res.data.data.detail.shopId
 					for (var i in res.data.data.spec_price) {
 						_this.guige.push(res.data.data.spec_price[i])
 					}
@@ -381,7 +383,8 @@
 							goodsNum: this.num,
 							specKey: this.guige[this.indexx].key
 						}],
-						goodsId: this.goodsId
+						goodsId: this.goodsId,
+						shopId:this.shopId
 					}),
 					method: 'post',
 					haeder: true,
@@ -398,7 +401,7 @@
 			},
 			goumaia: function() {
 				uni.navigateTo({
-					url: '../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:[{goodsNum:this.num,specKey:this.guige[this.indexx].keyName,goodsLogo:this.list.goodsLogo,integral:this.list.integral,goodsName:this.list.goodsName,kuaidi:this.list.kuaidi,shopPrice:this.list.shopPrice,goodsId:this.list.goodsId,key:this.guige[this.indexx].key}]})+'&dingdan=2'
+					url: '../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:[{goodsNum:this.num,specKey:this.guige[this.indexx].keyName,goodsLogo:this.list.goodsLogo,integral:this.list.integral,goodsName:this.list.goodsName,kuaidi:this.list.kuaidi,shopPrice:this.list.shopPrice,goodsId:this.list.goodsId,key:this.guige[this.indexx].key,shopId:this.shopId}]})+'&dingdan=2'
 				})
 			}
 		}
