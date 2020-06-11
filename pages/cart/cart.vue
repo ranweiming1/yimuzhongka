@@ -18,27 +18,27 @@
 			<view class="box" v-for="(item , index) in cartList" @remove="onRemove(index)">
 				<view class="radios">
 					<radio value="r2" />
-					<text>{{item.couponDTOS[0].name}}</text>
+					<text>{{item.name}}</text>
 
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
 				<!-- 订单信息 -->
-				<side-slip class="xinxi" @remove="onRemove(index)" @quxiao="onQuxiao(index)">
+				<side-slip class="xinxi" @remove="onRemove(index)" @quxiao="onQuxiao(index)" v-for='(items,indexs) in item.arr'>
 					<view class="radi">
 						<radio value="r2" />
 					</view>
 					<view class="imgBox_a">
-						<image :src="item.goodsLogo" mode=""></image>
+						<image :src="items.goodsLogo" mode=""></image>
 					</view>
 					<view class="txt_c">
 						<view class="title">
-							<text>{{item.goodsName}}</text>
+							<text>{{items.goodsName}}</text>
 						</view>
 						<view class="spec" @click="openPopup">
 							<text>已选：＂黄色＂∨</text>
 						</view>
 						<view class="radColor">
-							<text>￥{{item.shopPrice?item.shopPrice:'暂无价格'}}</text>
+							<text>￥{{items.shopPrice?items.shopPrice:'暂无价格'}}</text>
 						</view>
 
 						<!-- 这是数量加减 -->
@@ -207,7 +207,26 @@
 				data: {},
 				dengl: false,
 				success: function(res) {
-					_this.cartList = res.data.data.recommends
+					//修改数据结构，以使数据更好用
+					var arr=[]
+					res.data.data.recommends.map(function(n){
+						var num=0
+						arr.map(function(m){
+							if(n.couponDTOS[0].id==m.coupon){
+								num++
+								m.arr.push(n)
+							}
+						})
+						if(num==0){
+							var obj={}
+							obj.coupon=n.couponDTOS[0].id
+							obj.name=n.couponDTOS[0].name
+							obj.arr=[]
+							obj.arr.push(n)
+							arr.push(obj)
+						}
+					})
+					_this.cartList = arr
 					console.log(res.data.data)
 				}
 			})
