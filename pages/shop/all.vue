@@ -55,17 +55,18 @@
 					<input class="uni-input" focus placeholder="请输入关键字" />
 				</view>
 				<view class="imgBox">
-					<image src="../../static/icon_43.png" mode=""></image>
+					<image src="../../static/icon_43.png" mode="" @tap='gouwuche'></image>
 				</view>
 			</view>
 
 			<!-- 这里有一个筛选 -->
 			<view class="nav">
+				<view style='display:flex;'>
 				<view class="con" @tap="chexing">
 					<text>车型</text>
 					<image src="../../static/icon_37.png" class="bot" mode=""></image>
 				</view>
-				<view class="con">
+				<view class="con" @tap='zonghe'>
 					<text>综合排序</text>
 					<image src="../../static/icon_37.png" class="bot" mode=""></image>
 				</view>
@@ -75,7 +76,13 @@
 						<image src="../../static/icon_37.png" class="bot" mode=""></image>
 					</view>
 					<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
-
+				</view>
+				</view>
+				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;' v-if='paixu'>
+					<view style='margin-top:20rpx;' @tap='x("PASC")'>价格从高到低</view>
+					<view style='margin-top:20rpx;' @tap='x("PDESC")'>价格从低到高</view>
+					<view style='margin-top:20rpx;' @tap='x("SASC")'>销量从高到低</view>
+					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='x("SDESC")'>销量从低到高</view>
 				</view>
 			</view>
 
@@ -124,7 +131,9 @@
 				min: '',
 				max: '',
 				tog_Ca: true,
-				goodsType: ''
+				goodsType: '',
+				paixu:false,
+				st:''
 			}
 		},
 		onLoad(option) {
@@ -148,7 +157,7 @@
 					cat_id:option.cateId
 				},
 				dengl: false,
-				success(res) {
+				success:function(res) {
 					// console.log(res.data.data)
 					_this.allList = res.data.data
 					_this.goodsType = res.data.data.selfStatus
@@ -207,7 +216,8 @@
 						maxPrice: this.max,
 						minPrice: this.min,
 						goodsType: this.goodsType,
-						carId:this.carId
+						carId:this.carId,
+						sortType:this.st
 					}),
 					haeder: true,
 					success: function(res) {
@@ -228,6 +238,21 @@
 			},
 			togCass() {
 				this.tog_Ca = !this.tog_Ca
+			},
+			gouwuche:function(){
+				uni.navigateTo({
+					url:'../cart/cart'
+				})
+			},
+			zonghe:function(){
+				this.paixu=!this.paixu
+			},
+			x:function(st){
+				this.st=st
+				var _this=this
+				this.$https({url:'/api/shop/mall-goods-serchList',method:'post',data:JSON.stringify({goodsBrandId:this.id,maxPrice:this.max,minPrice:this.min,goodsType:this.goodsType,carId:this.carId,sortType:st}),haeder:true,success:function(res){
+					_this.allList=res.data.data
+				}})
 			}
 
 		}
@@ -275,12 +300,12 @@
 	}
 
 	.nav {
-		display: flex;
 		width: 710upx;
 		padding: 20upx;
 		border-bottom: 1px solid #ccc;
 		text-align: center;
-
+		position:relative;
+		height:50rpx;
 		.con {
 			// width: 33.3%;
 			flex-grow: 1;
@@ -414,7 +439,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: rgba(0, 0, 0, 0.1);
+		background: rgba(0, 0, 0, 0.5);
 		z-index: 999;
 	}
 
@@ -426,6 +451,7 @@
 		float: right;
 		right: 0;
 		padding-top: 36rpx;
+		top:0;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -441,7 +467,6 @@
 			padding-top: 32rpx;
 			margin-right: 18rpx;
 			border-bottom: 1rpx dotted #c0c0c0;
-
 			.Ftop {
 
 				display: flex;
