@@ -352,7 +352,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "毅木重卡",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F8F8F8"
 	},
@@ -375,7 +375,8 @@
 				"style": {
 					"navigationBarShadow": {
 						"colorType": "grey"
-					}
+					},
+					"navigationBarTitleText":"首页"
 				}
 			},
 			{
