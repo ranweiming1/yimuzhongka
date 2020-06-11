@@ -7,7 +7,7 @@
 			</view>
 			<!-- 无消息通知状态 -->
 			<view class="imgBox">
-				<image src="../../static/icon_36.png" mode=""></image>
+				<!-- <image src="../../static/icon_36.png" mode=""></image> -->
 			</view>
 			<view class="spanBox">
 				<text>编辑</text>
