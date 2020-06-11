@@ -145,7 +145,7 @@
 					<view class="span">
 						<text>奖励{{item.integral}}积分</text>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item.postUrl)">
+					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item.postUrl,4)">
 						<button type="primary" :style="item.taskStatus?'background:#bfbfbf;color:#666666':''">{{item.taskStatus?'已完成':'去完成'}}</button>
 					</view>
 				</view>
@@ -203,18 +203,18 @@
 						return systemDate
 					}
 					_this.systemDate = dateRiqi(new Date)
-					console.log(_this.qianDate)
+					// console.log(_this.qianDate)
 					// 获取返回数据的时间
 					for (var i = 0; i < _this.qianDate.length; i++) {
 						if (_this.qianDate[i].taskId == 0 && _this.systemDate == _this.qianDate[i].createTime) {
 							_this.isQian = false
 						}
 					}
-					console.log(_this.systemDate)
+					// console.log(_this.systemDate)
 					// 周几
 					var week = new Date(_this.systemDate).getDay()
 					// 时间戳
-					console.log(new Date(_this.systemDate).getDay())
+					// console.log(new Date(_this.systemDate).getDay())
 					var dateTime = Date.parse(_this.systemDate)
 					// console.log(dateTime)
 					// 当天之前
@@ -229,15 +229,15 @@
 					for (var i = 0; i < 7 - week; i++) {
 						arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
 					}
-					console.log(arr)
+					// console.log(arr)
 					for (var i = 0; i < arr.length; i++) {
-						var nu=0
+						var nu = 0
 						for (var j = 0; j < _this.qianDate.length; j++) {
-							if(arr[i] == _this.qianDate[j].createTime){
+							if (arr[i] == _this.qianDate[j].createTime) {
 								nu++
 							}
 						}
-						nu>0?state.push(true) : state.push(false)
+						nu > 0 ? state.push(true) : state.push(false)
 					}
 					_this.state = state
 					// console.log(state)
@@ -257,21 +257,29 @@
 						method: 'POST',
 						haeder: true,
 						success: function(res) {
-							_this.isQian=false
+							_this.isQian = false
 						}
 					})
 				}
 			},
-			renWu:function(id) {
-				// console.log(1111)
-				// console.log(id)
-				uni.redirectTo({
-					url:'../../cart/cart'
-				})
-				// uni.navigateTo({
-				// 	// if()
-				// 	url:id=2?'../../index/index':id=4?'../allState/allState':''
-				// })
+			renWu: function(state,id) {
+				console.log(state)
+				if (state == 2 || state == 3) {
+					uni.switchTab({
+						url: '../../index/index'
+					})
+				}
+				if(state==4||state==5){
+					uni.navigateTo({
+						url:'../allState/allState?id='+id
+					})
+				}
+				if(state==6){
+					uni.navigateTo({
+						url:'./invite/invite'
+					})
+				}
+
 			}
 		}
 	}

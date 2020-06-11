@@ -29,7 +29,7 @@
 				</view>
 			</view>
 			<view class="collect">
-				<text @tap="shouC">{{!isShow?'收藏店铺':'取消收藏'}}</text>
+				<text @tap="shouC(shopsId)">{{!isShow?'收藏店铺':'取消收藏'}}</text>
 			</view>
 			<!-- <view class="collect">
 				<text @tap="shouC">取消收藏</text>
@@ -155,12 +155,13 @@
 					}
 				})
 			},
-			shouC() {
+			shouC(id) {
 				var _this=this
+				console.log(id)
 				this.$https({
 					url: '/api/shop/shop-collect',
 					data:{
-						shopId: this.shopsId
+						shopId: id
 					},
 					method: 'POST',
 					success: function(res) {				

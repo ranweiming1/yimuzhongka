@@ -38,7 +38,7 @@
 
 		<!-- 商品列表 -->
 		<view class="listBox">
-			<view class="block" v-for="(item , index) in jifList">
+			<view class="block" v-for="(item , index) in jifList" @tap="shopDetail(item.goodsId)">
 				<view class="imgBox">
 					<image :src="item.goodsLogo" mode=""></image>
 				</view>
@@ -82,7 +82,7 @@
 					success: function(res) {
 						_this.jifList = res.data.data.list
 						_this.id = res.data.data.list[0].cateId
-						// console.log(res.data.data.list)
+						console.log(res.data.data.list)
 					}
 				}),
 				this.$https({
@@ -180,7 +180,13 @@
 					})
 				}
 
+			},
+			shopDetail(id){
+				uni.navigateTo({
+					url:'./jifenDetails?id='+id
+				})
 			}
+		
 		}
 	}
 </script>
