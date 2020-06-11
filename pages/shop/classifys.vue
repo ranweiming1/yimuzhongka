@@ -50,7 +50,7 @@
 				isOK:''
 			}
 		},
-		onLoad(option) {
+		onShow(option) {
 			this.height = uni.getSystemInfoSync().windowHeight;
 			this.shopsId = option.id
 			// console.log(option)

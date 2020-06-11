@@ -105,7 +105,7 @@
 		components: {
 			buttom
 		},
-		onLoad(option) {
+		onShow(option) {
 			var shopsId = option.id
 			this.shopsId = option.id
 			// console.log(option)

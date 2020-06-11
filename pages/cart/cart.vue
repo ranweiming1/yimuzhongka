@@ -204,7 +204,7 @@
 				cartList: {},
 			}
 		},
-		onLoad() {
+		onShow() {
 			var _this = this
 			this.$https({
 				url: '/api/shop/order-cart-list',

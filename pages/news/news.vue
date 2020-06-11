@@ -33,7 +33,7 @@
 				newz:[]
 			}
 		},
-		onLoad:function(){
+		onShow:function(){
 			var _this=this
 			//新闻资讯
 			this.$https({url:'/api/news/article-list',data:{},dengl:false,success:function(res){

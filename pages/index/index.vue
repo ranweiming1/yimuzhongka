@@ -125,7 +125,7 @@
 		components: {
 			tabBar,
 		},
-		onLoad() {
+		onShow() {
 			var _this = this
 			this.$https({
 				url: '/api/shop/mall-index',

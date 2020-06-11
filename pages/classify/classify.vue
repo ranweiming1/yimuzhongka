@@ -54,7 +54,7 @@
 		components: {
 			tabBar,
 		},
-		onLoad() {
+		onShow() {
 			// this.id=index
 			this.height = uni.getSystemInfoSync().windowHeight;
 			var _this = this
