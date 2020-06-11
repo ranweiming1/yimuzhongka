@@ -36,7 +36,7 @@
 				data:{},
 				dengl:false,
 				success:function(res){
-					_this.lList=res.data
+					// _this.lList=res.data
 					console.log(res.data.data)
 				}
 			})

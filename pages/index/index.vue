@@ -80,7 +80,9 @@
 				<view style='background:#2b5cff;overflow:hidden;'>
 					<view v-for='item in youhuiquan' style='background:#fff;overflow:hidden;width:90%;margin:10rpx auto;position:relative;'>
 						<view style='background:#2b5cff;width:20rpx;height:20rpx;border-radius:50%;margin-top:40rpx;position:absolute;margin-left:-10rpx;'></view>
-						<view style='float:left;width:102rpx;height:100rpx;border-right:1px dashed #fdba60;line-height:100rpx;font-size:40rpx;color:#fdba60;'><view style='float:left;margin-left:20rpx;font-size:20rpx;margin-top:10rpx;'>￥</view>{{item.money}}</view>
+						<view style='float:left;width:102rpx;height:100rpx;border-right:1px dashed #fdba60;line-height:100rpx;font-size:40rpx;color:#fdba60;'>
+							<view style='float:left;margin-left:20rpx;font-size:20rpx;margin-top:10rpx;'>￥</view>{{item.money}}
+						</view>
 						<view style='float:left;margin-left:20rpx;'>
 							<view style='font-size:30rpx;margin-top:10rpx;'>满{{item.condition}}元可用</view>
 							<view style='color:#999;font-size:16rpx;margin-top:3rpx;'>{{item.name}}</view>
@@ -88,9 +90,11 @@
 						</view>
 						<view style='background:#2b5cff;widthL20rpx;height:20rpx;border-radius:50%;margin-top:40rpx;position:absolute;right:-10rpx;'></view>
 					</view>
-					<view style='width:200rpx;height:50rpx;border-radius:50rpx;color:#fff;background:linear-gradient(#ffad00,#ff6300);text-align:center;line-height:50rpx;margin:20rpx auto;' @tap='lingqu'>立即领取</view>
+					<view style='width:200rpx;height:50rpx;border-radius:50rpx;color:#fff;background:linear-gradient(#ffad00,#ff6300);text-align:center;line-height:50rpx;margin:20rpx auto;'
+					 @tap='lingqu'>立即领取</view>
 				</view>
-				<view style='width:50rpx;height:50rpx;border:1px solid #fff;border-radius:50%;text-align:center;line-height:50rpx;margin:0 auto;color:#fff;margin-top:30rpx;' @tap='guan'>X</view>
+				<view style='width:50rpx;height:50rpx;border:1px solid #fff;border-radius:50%;text-align:center;line-height:50rpx;margin:0 auto;color:#fff;margin-top:30rpx;'
+				 @tap='guan'>X</view>
 			</view>
 		</view>
 		<tabBar :currentPage="currentPage"></tabBar>
@@ -112,10 +116,10 @@
 				interval: 2000,
 				duration: 500,
 				list: [],
-				youhuiquan:[],
-				youhuiquanle:false,
-				id:'',
-				index:''
+				youhuiquan: [],
+				youhuiquanle: false,
+				id: '',
+				index: ''
 			}
 		},
 		components: {
@@ -145,53 +149,80 @@
 					}
 				},
 			})
-			this.$https({url:'/api/shop/coupon-couple-List',data:{},success:function(res){
-				if(res.data.data.length>0){
-					//是否是新人
-					_this.$https({url:'/api/shop/coupon-couple',data:{},success:function(re){
-						if(re.data.data){
-							_this.youhuiquanle=true
-						}
-					}})
+			this.$https({
+				url: '/api/shop/coupon-couple-List',
+				data: {},
+				success: function(res) {
+					if (res.data.data.length > 0) {
+						//是否是新人
+						_this.$https({
+							url: '/api/shop/coupon-couple',
+							data: {},
+							success: function(re) {
+								if (re.data.data) {
+									_this.youhuiquanle = true
+								}
+							}
+						})
+					}
+					_this.youhuiquan = res.data.data
 				}
-				_this.youhuiquan=res.data.data
-			}})
+			})
 		},
 		methods: {
-			detail(id){
+			detail(id) {
 				uni.navigateTo({
-					url:'productDetails?id='+id
+					url: 'productDetails?id=' + id
+				})
+				this.$https({
+					url: '/api/shop/goods-brows-history-add',
+					data: {
+						goodsId: id
+					},
+					method: 'POST',
+					dengl: false,
+					success(res) {
+						console.log('添加成功')
+						console.log(res.data)
+					}
 				})
 			},
-			more(){
+			more() {
 				uni.navigateTo({
-					url:'../shop/all'
+					url: '../shop/all'
 				})
 			},
-			guan:function(){
-				this.youhuiquanle=false
+			guan: function() {
+				this.youhuiquanle = false
 			},
-			fenLei:function(id,index){
+			fenLei: function(id, index) {
 				// this.id=id
 				// this.index=index
 				// console.log(this.list[id][index].id)
-				var id=this.list[id][index].id
+				var id = this.list[id][index].id
 				uni.navigateTo({
-					url:'./class?id='+id
+					url: './class?id=' + id
 				})
 			},
-			lingqu:function(){
-				var a=[]
-				this.youhuiquan.map(function(n){
+			lingqu: function() {
+				var a = []
+				this.youhuiquan.map(function(n) {
 					a.push(n.id)
 				})
-				var _this=this
-				this.$https({url:'/api/shop/coupon-couple-add',data:{ids:a},method:'post',success:function(res){
-					uni.showToast({
-						title:res.data.message
-					})
-					_this.youhuiquanle=false
-				}})
+				var _this = this
+				this.$https({
+					url: '/api/shop/coupon-couple-add',
+					data: {
+						ids: a
+					},
+					method: 'post',
+					success: function(res) {
+						uni.showToast({
+							title: res.data.message
+						})
+						_this.youhuiquanle = false
+					}
+				})
 			}
 		}
 	}
@@ -399,13 +430,14 @@
 
 		}
 	}
-	.zhezhao{
-		width:100%;
-		background:rgba(0,0,0,0.6);
-		top:0;
-		left:0;
-		height:100%;
-		z-index:99999;
-		position:fixed;
+
+	.zhezhao {
+		width: 100%;
+		background: rgba(0, 0, 0, 0.6);
+		top: 0;
+		left: 0;
+		height: 100%;
+		z-index: 99999;
+		position: fixed;
 	}
 </style>
