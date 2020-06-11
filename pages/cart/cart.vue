@@ -383,7 +383,16 @@
 			.jia {
 				float: right;
 				margin-right: 36rpx;
-
+				view{
+					float:left;
+					margin-left:10rpx;
+				}
+				input{
+					width:50rpx;
+					border:1px solid #ddd;
+					float:left;
+					margin-left:10rpx;
+				}
 				text {
 					font-size: 20upx;
 					color: #666;
