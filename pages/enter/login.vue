@@ -120,6 +120,11 @@
 						uni.showToast({
 							title:res.data.message
 						})
+						setTimeout(function(){
+							uni.navigateTo({
+								url:'enter'
+							})
+						},1500)
 					}})
 				}
 			}
