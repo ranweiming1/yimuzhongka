@@ -163,8 +163,8 @@
 					method: 'POST',
 					dengl: false,
 					success(res) {
-						console.log('添加成功')
-						console.log(res.data)
+						// console.log('添加成功')
+						// console.log(res.data)
 					}
 				})
 			},

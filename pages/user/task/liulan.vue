@@ -42,7 +42,17 @@
 		methods: {
 			detail(id) {
 				uni.navigateTo({
-					url: 'productDetails?id=' + id
+					url: '../../index/productDetails?id=' + id
+				})
+				this.$https({
+					url: '/api/shop/goods-brows-history-add',
+					data: {
+						goodsId: id
+					},
+					method: 'POST',
+					dengl: false,
+					success(res) {
+					}
 				})
 			}
 		}
