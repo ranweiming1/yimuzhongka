@@ -233,7 +233,8 @@
 				data: {},
 				denglu: false,
 				success: function(res) {
-					_this.nickname = res.data.data.nackname
+					_this.nickname = res.data.data.nickname
+					// console.log(res.data.data)
 					_this.phone = res.data.data.phone
 					// console.log(res.data.data)
 				}

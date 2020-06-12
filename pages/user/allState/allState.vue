@@ -57,7 +57,7 @@
 		</view>
 
 		<!-- 订单信息 -->
-		<view class="listBox">
+		<view class="listBox" v-for="(item,index) in dList">
 			<view class="radios">
 				<text>米其林官方旗舰店</text>
 				<view class="guanb">
@@ -90,6 +90,9 @@
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott">
 						<button type="primary">删除订单</button>
+					</view>
+					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(6)">
+						<button type="primary">去评价</button>
 					</view>
 				</view>
 			</view>
@@ -292,6 +295,7 @@
 			return {
 				currentPage: 'cart',
 				id:'',
+				dList:{}
 			}
 		},
 		components: {
@@ -308,7 +312,9 @@
 				data:{status:option.id},
 				dengl:false,
 				success:function(res){
-					// console.log(res.data)
+					 _this.dList=res.data.data
+					 // _this.gList=res.data.data
+					console.log(res.data.data)
 					toggle(option.id)
 				}
 			})
@@ -331,11 +337,17 @@
 					data:{status:index},
 					dengl:false,
 					success:function(res){
-						// console.log(res.data)
+						console.log(res.data)
 					}
 				})
 				
+			},
+			goPing(id){
+				uni.navigateTo({
+					url:'./evaluate?id='+id
+				})
 			}
+			
 		}
 	}
 </script>

@@ -3,9 +3,9 @@
 		<!-- 头部 -->
 		<view class="top">
 			<view class="textBox">
-				<input class="uni-input" focus placeholder="请输入关键字" />
+				<input class="uni-input" focus placeholder="请输入关键字" v-model="changeVal" />
 			</view>
-			<view class="wenbenBox">
+			<view class="wenbenBox" @tap="searchFun">
 				<view class="imgBox">
 					<image src="../../static/icon_45.png" mode=""></image>
 				</view>
@@ -15,7 +15,7 @@
 			</view>
 
 		</view>
-		
+
 		<!-- 历史记录 -->
 		<view class="history">
 			<view class="titBox">
@@ -25,12 +25,12 @@
 				<image src="../../static/icon_46.png" mode=""></image>
 			</view>
 			<view class="ul">
-				<view class="li" v-for="(i , n) in 7">
-					<text>机油</text>
+				<view class="li" v-for="(item , index) in searchAll">
+					<text>{{item}}</text>
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="history">
 			<view class="titBox">
 				<text>热门搜索</text>
@@ -49,11 +49,28 @@
 	export default {
 		data() {
 			return {
-
+				changeVal: '',
+				searchAll: [],
 			}
 		},
-		methods: {
+		onLoad() {
+			if (uni.getStorageSync('searchAll_key')) {
+				this.searchAll = uni.getStorageSync('searchAll_key')
+			} 
+			console.log(this.value)
 
+
+		},
+		methods: {
+			searchFun() {
+				if (this.changeVal != '') {
+					var _this = this
+					this.searchAll.unshift(this.changeVal)
+					uni.setStorageSync('searchAll_key', _this.searchAll)
+					this.changeVal = ''
+					
+				}
+			}
 		}
 	}
 </script>
@@ -72,7 +89,7 @@
 
 			input {
 				height: 60upx;
-				width:450upx;
+				width: 450upx;
 				line-height: 60upx;
 				padding-left: 20upx;
 				font-size: 26upx;
@@ -84,17 +101,18 @@
 
 		}
 
-		.wenbenBox{
+		.wenbenBox {
 			width: 150upx;
-			height:60upx;
-            float: right;
+			height: 60upx;
+			float: right;
 			border-radius: 40upx;
 			background-color: #007AFF;
+
 			.imgBox {
-				padding-left:30upx;
-				padding-right:10upx;
+				padding-left: 30upx;
+				padding-right: 10upx;
 				padding-top: 10upx;
-				float:left;
+				float: left;
 
 				image {
 					width: 30upx;
@@ -104,9 +122,10 @@
 
 			.txeta {
 				float: left;
+
 				text {
 					font-size: 28upx;
-					line-height:60upx;
+					line-height: 60upx;
 					color: #fff;
 				}
 			}
@@ -114,36 +133,43 @@
 		}
 
 	}
-	.history{
+
+	.history {
 		width: 710upx;
 		padding: 20upx;
 		overflow: hidden;
-		.titBox{
+
+		.titBox {
 			float: left;
-			text{
+
+			text {
 				font-size: 32upx;
 			}
 		}
-		.imBox{
+
+		.imBox {
 			float: right;
-			image{
+
+			image {
 				width: 32upx;
 				height: 32upx;
 			}
 		}
-		.ul{
+
+		.ul {
 			overflow: hidden;
 			width: 710upx;
 			padding-top: 20upx;
-			
-			.li{
+
+			.li {
 				float: left;
 				margin-right: 20upx;
 				background-color: #eeeeee;
 				border-radius: 40upx;
 				padding: 5upx 20upx;
 				margin-bottom: 20upx;
-				text{
+
+				text {
 					float: left;
 					line-height: 40upx;
 					font-size: 26upx;

@@ -35,7 +35,7 @@
 
 			<view class="jil">
 				<view class="leiji">
-					<text>累计签到{{date}}天</text>
+					<text>累计签到{{date?date:'0'}}天</text>
 				</view>
 				<view class="rig">
 					<text>{{userList.userMoney}} <text>积分数</text> </text>
@@ -178,11 +178,12 @@
 				dengl: false,
 				data: {},
 				success: function(res) {
+					console.log(222)
 					_this.taskList = res.data.data.taskCenters
 					_this.userList = res.data.data.userInfo
 					_this.date = res.data.data.signInDays
 					_this.qianDate = res.data.data.storeIntegralLogList
-					// console.log(res.data.data.storeIntegralLogList)
+					console.log(res.data.data)
 
 					// 获取当前时间
 					function dateRiqi(i) {

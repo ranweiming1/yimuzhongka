@@ -105,10 +105,11 @@
 		components: {
 			buttom
 		},
-		onShow(option) {
+		onLoad(option) {
+			// console.log(2222)
 			var shopsId = option.id
 			this.shopsId = option.id
-			// console.log(option)
+			console.log(option)
 			var _this = this
 			this.$https({
 					url: '/api/shop/store-index',
