@@ -68,8 +68,8 @@
 
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>上传凭证</text></view>
-			<view class="imgBox">
-				<image src="../../../static/img_10.jpg.png" mode=""></image>
+			<view class="imgBox" @tap="chuanImg">
+				<image :src="pingImg" mode=""></image>
 			</view>
 		</view>
 		<view class="uni-padding-wrap uni-common-mt botts">
@@ -105,6 +105,7 @@
 	export default {
 		data() {
 			return {
+				pingImg:'../../../static/img_10.jpg.png'
 			}
 		},
 		components: {
@@ -117,6 +118,21 @@
 			closePopup() {
 				this.$refs.popup.close()
 			},
+			chuanImg() {
+				uni.chooseImage({
+					success: res => {
+						uni.uploadFile({
+							url: this.webUrl + '/api/oauth/oss/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'img',
+							success: res => {
+								this.pingImg = JSON.parse(res.data).data.url
+							}
+						})
+					}
+				})
+			},
+			
 		}
 	}
 </script>

@@ -7,7 +7,7 @@
 			</view>
 			<view class="right">
 				<image src="../../static/icon_10.png" mode="" @tap="search"></image>
-				<image src="../../static/icon_11.png" mode=""></image>
+				<!-- <image src="../../static/icon_11.png" mode=""></image> -->
 			</view>
 		</view>
 		<!-- 这是轮播图 -->

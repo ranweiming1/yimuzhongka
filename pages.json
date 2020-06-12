@@ -341,6 +341,11 @@
 			"style":{
 				"navigationBarTitleText":""
 			}
+		},{
+			"path":"pages/user/task/aiChe",
+			"style":{
+				"navigationBarTitleText":"我的爱车"
+			}
 		}
 		// {
 		// 	"path":"pages/classify/classify",

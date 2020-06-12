@@ -11,9 +11,9 @@
 			<view class="textBox">
 				<text>个人中心</text>
 			</view>
-			<view class="imgBox">
+			<!-- <view class="imgBox">
 				<image src="../../static/icon_22.png" mode=""></image>
-			</view>
+			</view> -->
 		</view>
 
 		<!-- 用户名 -->
@@ -182,7 +182,7 @@
 					</view>
 				</view>
 
-				<view>
+				<view @tap="aiChe(1)">
 					<view class="imgBox">
 						<image src="../../static/sc.png" mode=""></image>
 					</view>
@@ -323,13 +323,19 @@
 				})
 			},
 			shezhi:function(){
+				console.log(333)
 				uni.navigateTo({
-					url:"alter/alter "
+					url:"./alter/alter"
 				})
 			},
 			tuiKuan:function(){
 				uni.navigateTo({
 					url:'./allState/deliver_01'
+				})
+			},
+			aiChe:function(i){
+				uni.navigateTo({
+					url:'../shop/car?id='+i
 				})
 			}
 		}

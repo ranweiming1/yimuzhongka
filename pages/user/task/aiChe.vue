@@ -1,0 +1,188 @@
+<template>
+	<view>
+		<view class="top">
+			<view class="textBox">
+				<text>我的爱车</text>
+			</view>
+			<view class="imgBox" @tap='tianjia'>
+				<text>添加</text>
+			</view>
+		</view>
+		<radio-group @change='checkboxChange'>
+			<view class="siteBox" v-for='item in 5'>
+				<view class="radios">
+					<radio :value='item.id' />
+				</view>
+				<view class="content">
+					<view class="label" v-if='item.isDefault==1'>
+						<text>默认</text>
+					</view>
+					<view class="d">
+						<text>奥迪</text>
+					</view>
+					<view class="nome">
+						<text>奥迪A6</text>
+					</view> 
+				</view>
+				<view class="edit">
+					<text @tad='bianji(item.index)'>编辑</text>
+				</view>
+			</view>
+		</radio-group>
+		<view class="uni-padding-wrap uni-common-mt bott">
+			<button type="primary" style="background: #2b5cff" @tap='fanhui'>确定并返回</button>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+
+			}
+		},
+		onLoad: function() {		
+		},
+	// 	methods: {
+	// 		tianjia: function() {
+	// 			// console.log(1111)
+	// 			var _this = this
+	// 			uni.navigateTo({
+	// 				url: './address'
+	// 			})
+	// 		},
+	// 		checkboxChange: function(e) {
+	// 			var _this=this
+	// 			this.list.map(function(n){
+	// 				if(e.detail.value==n.id){
+	// 					_this.rds=n
+	// 				}
+	// 			})
+	// 		},
+	// 		bianji: function(index) {
+	// 			uni.navigateTo({
+	// 				url: 'address?address=' + JSON.stringify(this.list[index])
+	// 			})
+	// 		},
+	// 		fanhui:function(){
+	// 			uni.navigateTo({
+	// 				url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+JSON.stringify(this.rds)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan
+	// 			})
+	// 		}
+	// 	}
+	}
+</script>
+
+<style lang="scss">
+	checkbox {
+		border-radius: 50%;
+	}
+
+	.top {
+		width: 750upx;
+		margin: 0 auto;
+		overflow: hidden;
+		border-bottom: 1px solid #e5e5e5;
+
+		.textBox {
+			padding-left: 40%;
+
+			text {
+				font-size: 38upx;
+				color: #333;
+				float: left;
+				line-height: 90upx;
+			}
+		}
+
+		.imgBox {
+			float: right;
+			padding: 20upx;
+
+			text {
+				font-size: 26upx;
+				color: #333;
+			}
+		}
+	}
+
+	.siteBox {
+		width: 710upx;
+		margin: 20upx;
+		overflow: hidden;
+		padding-top: 20upx;
+		padding-bottom: 40upx;
+		border-bottom: 1px solid #e5e5e5;
+
+		.radios {
+			float: left;
+			padding-top: 30upx;
+			padding-right: 10upx;
+		}
+
+		.content {
+			float: left;
+			width: 80%;
+			line-height: 40rpx;
+
+			.nome {
+				float: left;
+				font-size: 30upx;
+				color: #333;
+				padding-right: 10upx;
+			}
+
+			// .call {
+			// 	float: left;
+			// 	font-size: 24upx;
+			// 	color: #666;
+			// 	line-height: 40upx;
+			// 	padding-right: 10upx;
+			// }
+
+			// .label {
+			// 	float: left;
+			// 	font-size: 18upx;
+			// 	color: #ff6633;
+			// 	padding: 5upx;
+			// 	margin-top: 5upx;
+			// 	background-color: #fdf1ec;
+			// }
+
+			.p {
+				float: left;
+				font-size: 26upx;
+				color: #333;
+				line-height: 40upx;
+			}
+		}
+
+		.edit {
+			float: right;
+			margin-top: 20upx;
+			border-left: 1px solid #e5e5e5;
+
+			text {
+				font-size: 24upx;
+				color: #999;
+				line-height: 80upx;
+				padding-left: 20upx;
+			}
+		}
+
+	}
+
+	.bott {
+		width: 670upx;
+		position: fixed;
+		bottom: 40upx;
+		left: 40upx;
+
+		button {
+			border-radius: 40upx;
+			font-family: Microsoft YaHei;
+		}
+
+	}
+</style>

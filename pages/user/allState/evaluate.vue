@@ -39,21 +39,21 @@
 				<text>描述相符</text>
 			</view>
 			<!-- 选中 -->
-			<view class="pingimgxuan" v-for="(i , n) in 4">
-				<image src="../../../static/xing_01.png" mode=""></image>
+			<view class="pingimgxuan" v-for="(item, index) in 5" @tap="xing(index)">
+				<image :src="(Number>index)?'../../../static/xing_01.png':'../../../static/xing.png'"></image>
 			</view>
 			<!-- 默认 -->
-			<view class="pingimg">
+			<!-- <view class="pingimg">
 				<image src="../../../static/xing.png" mode=""></image>
-			</view>
+			</view> -->
 			<view class="spanaa">
 				<text>还不错</text>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
-			<input class="uni-input" name="input" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" />
-			<view class="imgBox">
-				<image src="../../../static/img_10.jpg.png" mode=""></image>
+			<input class="uni-input" name="input" v-model="value" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" />
+			<view class="imgBox" @tap="chuanImg">
+				<image :src="cImg" mode="" v-model="img"></image>
 			</view>
 		</view>
 		<view class="biaota">
@@ -64,8 +64,8 @@
 				<text>店铺评价</text>
 			</view>
 			<!-- 默认 -->
-			<view class="pingimg" v-for="(i , n) in 5">
-				<image src="../../../static/xing.png" mode=""></image>
+			<view class="pingimg" v-for="(itex, index) in 5" @tap="xing1(index)">
+				<image :src="(Number1>index)?'../../../static/xing_01.png':'../../../static/xing.png'"></image>
 			</view>
 		</view>
 		<view class="pingj">
@@ -73,11 +73,11 @@
 				<text>物流评价</text>
 			</view>
 			<!-- 默认 -->
-			<view class="pingimg" v-for="(i , n) in 5">
-				<image src="../../../static/xing.png" mode=""></image>
+			<view class="pingimg" v-for="(item, index) in 5" @tap="xing2(index)">
+				<image :src="(Number2>index)?'../../../static/xing_01.png':'../../../static/xing.png'" mode=""></image>
 			</view>
 		</view>
-		<view class="uni-padding-wrap uni-common-mt botts">
+		<view class="uni-padding-wrap uni-common-mt botts" @tap="primise">
 			<button type="primary">提交评价</button>
 		</view>
 	</view>
@@ -87,11 +87,19 @@
 	export default {
 		data() {
 			return {
-				list:{}
+				list: {},
+				Number: 0,
+				Number1: 0,
+				Number2: 0,
+				cImg: '../../../static/img_10.jpg.png',
+				goodsId:'',
+				value:'',
+				img:''
 			}
 		},
 		onLoad(option) {
 			var _this = this
+			this.goodsId=option.id
 			console.log(option)
 			this.$https({
 				url: '/api/shop/mall-goods-detail',
@@ -104,6 +112,52 @@
 					console.log(res.data.data)
 				}
 			})
+		},
+		methods: {
+			xing(ind) {
+
+				this.Number = ind + 1;
+				console.log(ind)
+			},
+			xing1(ind) {
+				this.Number1 = ind + 1
+			},
+			xing2(ind) {
+				this.Number2 = ind + 1
+			},
+			chuanImg() {
+				uni.chooseImage({
+					success: res => {
+						uni.uploadFile({
+							url: this.webUrl + '/api/oauth/oss/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'img',
+							success: res => {
+								this.cImg = JSON.parse(res.data).data.url
+							}
+						})
+					}
+				})
+			},
+			primise() {
+				console.log(this.img)
+				var _this=this
+				this.$https({
+					url: '/api/shop/order-comm-submit',
+					data: JSON.stringify({
+						content: _this.value,
+						goodsId: _this.goodsId,
+						img: "",
+						readStatus: "",
+						score: 0
+					}),
+					dengl: false,
+					haeder: true,
+					success() {
+						console.log('提交成功')
+					}
+				})
+			}
 		}
 	}
 </script>

@@ -11,15 +11,7 @@
 		</view>
 
 
-		<!-- 跳转客服对话 -->
-		<view class="chat ">
-			<view class="imgA">
-				<image src="../../../static/icon_30.png" mode=""></image>
-			</view>
-			<view class="txtBox">
-				<text>联系在线客服</text>
-			</view>
-		</view>
+		
 	</view>
 </template>
 

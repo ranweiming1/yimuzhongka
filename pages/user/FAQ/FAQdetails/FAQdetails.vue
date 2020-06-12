@@ -12,12 +12,12 @@
 		</view>
 
 
-		<view class="span">
+		<!-- <view class="span">
 			<text>若您的问题还未解决，您可以</text>
 		</view>
 		<view class="txtBox">
 			<text>联系在线客服</text>
-		</view>
+		</view> -->
 	</view>
 </template>
 

@@ -232,12 +232,7 @@
 						<text>{{isCollect?'已收藏':'收藏'}}</text>
 					</view>
 				</view>
-				<view class="kefua">
-					<image src="../../static/icon_36.png" mode=""></image>
-					<view class="keyboard">
-						<text>客服</text>
-					</view>
-				</view>
+				
 
 			</view>
 			<view class="rightA">
@@ -289,13 +284,14 @@
 				success: function(res) {
 					_this.list = res.data.data.detail
 					_this.canshu = res.data.data.specs
-					_this.goodsId = res.data.data.detail.goodsId
 					_this.pingjia = res.data.data.goodsComms[0]
 					_this.isCollect = res.data.data.isCollect
+					_this.goodsId = res.data.data.detail.goodsId
 					_this.shopId=res.data.data.detail.shopId
 					for (var i in res.data.data.spec_price) {
 						_this.guige.push(res.data.data.spec_price[i])
 					}
+					console.log(res.data.data)
 					var numa=0
 					for (var i in res.data.data.spec_price) {
 						if(numa==0){

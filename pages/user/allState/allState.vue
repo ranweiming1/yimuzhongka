@@ -5,7 +5,7 @@
 			<view class="textBox">
 				<input class="uni-input" focus placeholder="请输入关键字" />
 			</view>
-			<view class="imgBox">
+			<view class="imgBox" @tap="shopCar">
 				<image src="../../../static/icon_43.png" mode=""></image>
 			</view>
 		</view>
@@ -345,6 +345,11 @@
 			goPing(id){
 				uni.navigateTo({
 					url:'./evaluate?id='+id
+				})
+			},
+			shopCar(){
+				uni.switchTab({
+					url:'../../cart/cart'
 				})
 			}
 			

@@ -44,36 +44,37 @@
 		<view class="mask" v-if="isAdd" @tap="add">
 		</view>
 		<view class="butt" v-if="isAdd">
-			<view class="mTop">
-				<image class="cover" :src="list.goodsImgs" mode=""></image>
-				<view class="mRight">
-					<view class="price">¥ {{list.shopPrice}}</view>
-					<view class="mItem">已选：<text>白色</text>,<text>官方标配</text></view>
+				<view class="mTop">
+					<image class="cover" :src="list.goodsLogo" mode=""></image>
+					<view class="mRight">
+						<view class="price">¥ {{list.shopPrice}}</view>
+						<view class="mItem">已选：{{gui}}</view>
+					</view>
+		
 				</view>
-
-			</view>
-			<view class="mButton">
-				<view class="detail">
-
-					<view class="color" v-for="(item,index) in shuList">
-						<text class="name">{{item.name}}</text>
-						<view :class="id[index]==items.itemId?'cor bod':'cor'" v-for="(items,indexs) in item.itemId" @tap="togLi(index,items.itemId)">{{items.item}}</view>
+				<view class="mButton">
+					<view class="detail">
+		
+						<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
+						 @tap='qiehuan(index)'>{{item.keyName}}</view>
+					</view>
+		
+					<view class="mNumber">
+						<view class="name">数量</view>
+						<view class="n_right">
+							<view class="reduce" @tap="reduce">-</view>
+							<input class="cor" type="number" style='width:60rpx;' v-model="num"></input>
+							<view class="add" @tap="jia">+</view>
+		
+						</view>
+					</view>
+					<view style='overflow:hidden;'>
+						<button style='width:50%;float:left;' @tap='gouwuche'>加入购物车</button>
+						<button class="btn" @tap='goumaia'>立即购买</button>
 					</view>
 				</view>
-
-				<view class="mNumber">
-					<view class="name">数量</view>
-					<view class="n_right">
-						<view class="reduce" @tap="reduce">-</view>
-						<input class="cor" type="number" style='width:60rpx;' v-model="num"></input>
-						<view class="add" @tap="jia">+</view>
-
-					</view>
-				</view>
-				<button class="btn">立即购买</button>
 			</view>
-		</view>
-
+		
 
 		<!-- 底部 -->
 		<view class="bottom">
@@ -92,12 +93,7 @@
 						<text>{{isCollect?'已收藏':'收藏'}}</text>
 					</view>
 				</view>
-				<view class="kefua">
-					<image src="../../static/icon_36.png" mode=""></image>
-					<view class="keyboard">
-						<text>客服</text>
-					</view>
-				</view>
+				
 
 			</view>
 			<view class="rightA">
@@ -128,8 +124,13 @@
 				pingjia: {},
 				id: [],
 				shuList: [],
-				num: 0,
+				num: 1,
 				list: {},
+				guige: [],
+				indexx: 0,
+				gui: '',
+				shopId:'',
+				goodsId: '',
 			}
 		},
 		onLoad(option) {
@@ -166,8 +167,21 @@
 					_this.goodsId = res.data.data.detail.goodsId
 					_this.pingjia = res.data.data.goodsComms[0]
 					_this.isCollect = res.data.data.isCollect
+					_this.goodsId = res.data.data.detail.goodsId
+					_this.shopId=res.data.data.detail.shopId
 					// 优惠券
 					_this.youhui = res.data.data.couponDTOS
+					for (var i in res.data.data.spec_price) {
+						_this.guige.push(res.data.data.spec_price[i])
+					}
+					console.log(res.data.data.spec_price)
+					var numa=0
+					for (var i in res.data.data.spec_price) {
+						if(numa==0){
+						_this.gui = res.data.data.spec_price[i].keyName
+						}
+						numa++
+					}
 					console.log(res.data.data.detail)
 					var arr = []
 					for (var k in _this.canshu) {
@@ -202,7 +216,7 @@
 			},
 			togLi(index, itemId) {
 				// this.id =itemId ;
-				this.id[index] = itemId
+				this.$set(this.id, index, itemId)
 			},
 			isActive() {
 				var _this = this
@@ -238,6 +252,36 @@
 					url: '../shop/shop?id=' + shopId
 				})
 			},
+			gouwuche: function() {
+				this.$https({
+					url: '/api/shop/order-add-cart',
+					data: JSON.stringify({
+						cartAttr: [{
+							goodsNum: this.num,
+							specKey: this.guige[this.indexx].key
+						}],
+						goodsId: this.goodsId,
+						shopId:this.shopId
+					}),
+					method: 'post',
+					haeder: true,
+					success: function(res) {
+						uni.showToast({
+							title: res.data.message
+						})
+					}
+				})
+			},
+			
+			qiehuan: function(ind) {
+				this.indexx = ind
+				this.gui=this.guige[ind].keyName
+			},
+			goumaia: function() {
+				uni.navigateTo({
+					url: '../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:[{goodsNum:this.num,specKey:this.guige[this.indexx].keyName,goodsLogo:this.list.goodsLogo,integral:this.list.integral,goodsName:this.list.goodsName,kuaidi:this.list.kuaidi,shopPrice:this.list.shopPrice,goodsId:this.list.goodsId,key:this.guige[this.indexx].key,shopId:this.shopId}]})+'&dingdan=2'
+				})
+			}
 		}
 	}
 </script>
@@ -530,7 +574,16 @@
 		}
 
 	}
+.Box {
+		float: left;
 
+	}
+
+	.detail {
+		max-height: 200rpx;
+		overflow-y: auto;
+		text-align: center;
+	}
 	.rightA {
 		width: 300upx;
 		float: right;
@@ -578,4 +631,52 @@
 
 		}
 	}
+	.rightA {
+			width: 300upx;
+			float: right;
+	
+		}
+	
+		.bottBoxss {
+	
+			float: right;
+			width: 337rpx;
+			padding: 20upx;
+			height: 50upx;
+	
+			.onna {
+				button {
+					background-color: #007AFF !important;
+					border: 1px solid #007AFF !important;
+					color: #fff !important;
+				}
+			}
+	
+			.onnb {
+				button {
+					background-color: #fff !important;
+					border: 1px solid #007AFF !important;
+					color: #007AFF !important;
+				}
+			}
+	
+			.bott {
+				display: block;
+				width: calc(50% - 20rpx);
+				margin-right: 20upx;
+				float: right;
+	
+				button {
+					padding: 0;
+					background-color: #fff;
+					border: 1px solid #999;
+					border-radius: 40upx;
+					font-size: 24upx;
+					color: #999;
+					font-family: Microsoft YaHei;
+				}
+	
+			}
+		}
+	
 </style>
