@@ -61,6 +61,7 @@
 
 			<!-- 这里有一个筛选 -->
 			<view class="nav">
+				<view style='display:flex;'>
 				<view class="con" @tap="chexing">
 					<text>车型</text>
 					<image src="../../static/icon_37.png" class="bot" mode=""></image>
@@ -76,6 +77,13 @@
 					</view>
 					<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
 
+				</view>
+				</view>
+				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;' v-if='paixu'>
+					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低</view>
+					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高</view>
+					<view style='margin-top:20rpx;' @tap='p("SASC")'>销量从高到低</view>
+					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='p("SDESC")'>销量从低到高</view>
 				</view>
 			</view>
 
@@ -127,7 +135,9 @@
 				id: '',
 				min: '',
 				max: '',
-				goodsType: ''
+				goodsType: '',
+				paixu:false,
+				st:''
 			}
 		},
 		onLoad(option) {
@@ -186,7 +196,41 @@
 					}
 				})
 			},
-			
+			shaiX(){
+				var _this=this
+				this.$https({url:'/api/shop/mall-goods-serchList',dengl:false,method:'post',data:JSON.stringify({goodsBrandId:this.id,maxPrice:this.max,minPrice:this.min,goodsType:this.goodsType,carId:this.carId,sortType:this.st}),haeder:true,success:function(res){
+					_this.isShow=false
+					_this.allList=res.data.data
+				}})
+			},
+			reset(){
+				this.itemex=false
+			},
+			rValue(e){
+				this.min=e.target.value
+			},
+			rValue1(e){
+				this.max=e.target.value
+			},
+			togCass(){
+				this.tog_Ca=!this.tog_Ca
+			},
+			gouwuche:function(){
+				uni.navigateTo({
+					url:'../cart/cart'
+				})
+			},
+			zonghe:function(){
+				this.paixu=!this.paixu
+			},
+			p:function(st){
+				this.st=st
+				var _this=this
+				this.$https({url:'/api/shop/mall-goods-serchList',dengl:false,method:'post',data:JSON.stringify({goodsBrandId:this.id,maxPrice:this.max,minPrice:this.min,goodsType:this.goodsType,carId:this.carId,sortType:this.st}),haeder:true,success:function(res){
+					_this.paixu=false
+					_this.allList=res.data.data
+				}})
+			}
 		}
 	}
 </script>
@@ -231,12 +275,12 @@
 	}
 
 	.nav {
-		display: flex;
 		width: 710upx;
 		padding: 20upx;
 		border-bottom: 1px solid #ccc;
 		text-align: center;
-
+		position:relative;
+		height:50rpx;
 		.con {
 			// width: 33.3%;
 			flex-grow: 1;
