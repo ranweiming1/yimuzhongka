@@ -4,7 +4,7 @@
 			<view class="textBox">
 				<text>全部分类</text>
 			</view>
-			<view class="imgBox">
+			<view class="imgBox" @tap="search">
 				<image src="../../static/icon_10.png" mode=""></image>
 			</view>
 		</view>
@@ -78,6 +78,11 @@
 					url:'all?id='+this.shopsId+'&isOK='+this.isOK+'&cateId='+cateId
 				})
 				
+			},
+			search:function(){
+				uni.navigateTo({
+					url:'../search/search'
+				})
 			}
 		},
 		components: {

@@ -6,7 +6,7 @@
 				<image src="../../static/icon_09.png" mode=""></image>
 			</view>
 			<view class="right">
-				<image src="../../static/icon_10.png" mode=""></image>
+				<image src="../../static/icon_10.png" mode="" @tap="search"></image>
 				<image src="../../static/icon_11.png" mode=""></image>
 			</view>
 		</view>
@@ -223,7 +223,13 @@
 						_this.youhuiquanle = false
 					}
 				})
+			},
+			search:function(){
+				uni.navigateTo({
+					url:'../search/search'
+				})
 			}
+		
 		}
 	}
 </script>

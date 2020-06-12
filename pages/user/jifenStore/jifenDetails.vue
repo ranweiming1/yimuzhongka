@@ -43,6 +43,25 @@
 </template>
 
 <script>
+	export default{
+		data(){
+			return{
+				goodList:{}
+			}
+		},
+		onLoad(option) {
+			console.log(option.id)
+			var _this=this
+			this.$https({
+				url:'/api/shop/mall-goods-detail',
+				data:{},
+				dengl:false,
+				success:function(res){
+					console.log(res.data.data)
+				}
+			})
+		}
+	}
 </script>
 
 <style lang="scss">
