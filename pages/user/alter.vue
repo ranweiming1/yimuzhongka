@@ -19,7 +19,7 @@
 			</view>
             <!-- 点击图标也可修改昵称 -->
 			<view class="right">
-				<image src="../../static/img_06.jpg" mode=""></image>
+				<image :src="headimg" mode="" @tap='toux'></image>
 			</view>
 		</view>
 
@@ -78,7 +78,8 @@
 				],
 				index:0,
 				date:'2020-05-06',
-				phone:'手机'
+				phone:'手机',
+				headimg:'../../static/img_06.jpg'
 			}
 		},
 		onLoad:function(){
@@ -99,7 +100,10 @@
 			bindDateC:function(e){
 				this.date=e.target.value
 				this.$https({url:'/api/user/edit-member-info',data:{birth:e.detail.value},dengl:false,method:'post',haeder:true,success:function(res){
-					
+					uni.showToast({
+						title:res.data.message
+					})
+					_this.qingqiu()
 				}})
 			},
 			xiugai:function(){
@@ -141,6 +145,25 @@
 				uni.setStorageSync('Authorization','')
 				uni.showToast({
 					title:'退出登录成功'
+				})
+			},
+			toux:function(){
+				var _this=this
+				uni.chooseImage({
+					success:function(res){
+						uni.uploadFile({
+							url:_this.webUrl+'/api/oauth/oss/upload',
+							filePath:res.tempFilePaths[0],
+							name:'img',
+							success:function(res){
+								_this.headimg=JSON.parse(res.data).data.url
+								var img=JSON.parse(res.data).data.url
+								_this.$https({url:'/api/user/edit-member-info',data:{headimg:img},method:'post',haeder:true,success:function(res){
+									_this.qingqiu()
+								}})
+							}
+						})
+					}
 				})
 			}
 		}
