@@ -136,7 +136,7 @@
 				st:''
 			}
 		},
-		onShow(option) {
+		onLoad(option) {
 			if(option.id)
 			    this.shopsId = option.id
 			if(option.cateId){
