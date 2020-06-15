@@ -323,7 +323,6 @@
 				})
 			},
 			shezhi:function(){
-				console.log(333)
 				uni.navigateTo({
 					url:"./alter/alter"
 				})
