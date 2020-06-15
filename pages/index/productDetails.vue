@@ -7,7 +7,7 @@
 
 		<!-- 头部 -->
 		<view class="top">
-			<view class="imgBoxs">
+			<view class="imgBoxs" @tap="tiaoCart">
 				<image src="../../static/icon_48.png" mode=""></image>
 			</view>
 			<view class="imgBox">
@@ -25,9 +25,10 @@
 						<text>原价：￥{{list.marketPrice}}</text>
 					</view>
 				</view>
-				<view class="preferential">
-
+				<view class="preferential" v-for="(i,n) in list.couponDTOS">
+					<text>满{{i.condition}}-{{i.money}}元</text>
 				</view>
+				
 			</view>
 
 			<view class="share">
@@ -41,14 +42,16 @@
 
 		<!-- 发货/活动细则 -->
 		<view class="introduce">
-			<view class="mingca">
-				<text>发货</text>
-			</view>
-			<view class="diz">
-				<text>{{list.sendAddr}} |</text>
-			</view>
-			<view class="kuaid">
-				<text>快递：{{list.kuaidi}}</text>
+			<view class="in_left">
+				<view class="mingca">
+					<text>发货</text>
+				</view>
+				<view class="diz">
+					<text>{{list.sendAddr}} |</text>
+				</view>
+				<view class="kuaid">
+					<text>快递：{{list.kuaidi}}</text>
+				</view>
 			</view>
 			<view class="yuex">
 				<text>月销量:{{list.salesSum}}</text>
@@ -210,9 +213,12 @@
 			<view class="titaa">
 				<text>商品详情</text>
 			</view>
-			<view class="imgg">
-				<rich-text>{{list.goodsContent}}</rich-text>
-			</view>
+
+			<!-- <view class="imgg"> -->
+			<jyf-parser :html="list.goodsContent" ref="article" style="margin-bottom:100rpx"></jyf-parser>
+			<!-- <rich-text>{{list.goodsContent}}</rich-text> -->
+			<!-- </view> -->
+			<!-- <view :style="margin-bottom:100rpx">所涉及的大家</view> -->
 		</view>
 
 		<!-- 底部 -->
@@ -232,7 +238,7 @@
 						<text>{{isCollect?'已收藏':'收藏'}}</text>
 					</view>
 				</view>
-				
+
 
 			</view>
 			<view class="rightA">
@@ -250,6 +256,7 @@
 </template>
 
 <script>
+	import jyfParser from "@/components/jyf-parser/jyf-parser";
 	export default {
 		data() {
 			return {
@@ -268,8 +275,11 @@
 				guige: [],
 				indexx: 0,
 				gui: '',
-				shopId:''
+				shopId: ''
 			}
+		},
+		components: {
+			jyfParser
 		},
 		onLoad(option) {
 			// console.log(option)
@@ -287,15 +297,15 @@
 					_this.pingjia = res.data.data.goodsComms[0]
 					_this.isCollect = res.data.data.isCollect
 					_this.goodsId = res.data.data.detail.goodsId
-					_this.shopId=res.data.data.detail.shopId
+					_this.shopId = res.data.data.detail.shopId
 					for (var i in res.data.data.spec_price) {
 						_this.guige.push(res.data.data.spec_price[i])
 					}
 					console.log(res.data.data)
-					var numa=0
+					var numa = 0
 					for (var i in res.data.data.spec_price) {
-						if(numa==0){
-						_this.gui = res.data.data.spec_price[i].keyName
+						if (numa == 0) {
+							_this.gui = res.data.data.spec_price[i].keyName
 						}
 						numa++
 					}
@@ -381,7 +391,7 @@
 							specKey: this.guige[this.indexx].key
 						}],
 						goodsId: this.goodsId,
-						shopId:this.shopId
+						shopId: this.shopId
 					}),
 					method: 'post',
 					haeder: true,
@@ -394,11 +404,29 @@
 			},
 			qiehuan: function(ind) {
 				this.indexx = ind
-				this.gui=this.guige[ind].keyName
+				this.gui = this.guige[ind].keyName
 			},
 			goumaia: function() {
 				uni.navigateTo({
-					url: '../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:[{goodsNum:this.num,specKey:this.guige[this.indexx].keyName,goodsLogo:this.list.goodsLogo,integral:this.list.integral,goodsName:this.list.goodsName,kuaidi:this.list.kuaidi,shopPrice:this.list.shopPrice,goodsId:this.list.goodsId,key:this.guige[this.indexx].key,shopId:this.shopId}]})+'&dingdan=2'
+					url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
+						cartAttr: [{
+							goodsNum: this.num,
+							specKey: this.guige[this.indexx].keyName,
+							goodsLogo: this.list.goodsLogo,
+							integral: this.list.integral,
+							goodsName: this.list.goodsName,
+							kuaidi: this.list.kuaidi,
+							shopPrice: this.list.shopPrice,
+							goodsId: this.list.goodsId,
+							key: this.guige[this.indexx].key,
+							shopId: this.shopId
+						}]
+					}) + '&dingdan=2'
+				})
+			},
+			tiaoCart() {
+				uni.switchTab({
+					url: '../cart/cart'
 				})
 			}
 		}
@@ -533,7 +561,7 @@
 
 
 	.bg_img {
-		position: absolute;
+		position: relative;
 		top: 0upx;
 
 		image {
@@ -546,7 +574,8 @@
 		width: 710upx;
 		padding: 20upx;
 		overflow: hidden;
-		position: relative;
+		position: absolute;
+		top: 0;
 
 		.imgBox {
 			text-align: center;
@@ -596,12 +625,12 @@
 		background-color: #fff;
 		width: 712upx;
 		padding: 20upx;
-		position: absolute;
-		top: 600upx;
+		position: relative;
+		// top: 600upx;
 		overflow: hidden;
 
 		.ThePrice {
-			overflow: hidden;
+			// overflow: hidden;
 
 			.h2Box {
 				float: left;
@@ -685,40 +714,49 @@
 		margin-top: 20upx;
 		width: 710upx;
 		padding: 20upx;
-		position: absolute;
-		top: 850upx;
+		display: flex;
+		justify-content: space-between;
 
-		.mingca {
-			float: left;
-			padding-right: 20upx;
+		// position: absolute;
+		// top: 850upx;
+		.in_left {
+			// width: 50%;
+			display: flex;
+			justify-content: flex-start;
 
-			text {
-				color: #666;
-				font-size: 26upx;
+			.mingca {
+				float: left;
+				padding-right: 20upx;
+
+				text {
+					// color: #666;
+					font-size: 26upx;
+				}
 			}
-		}
 
-		.diz {
-			float: left;
-			padding-right: 10upx;
+			.diz {
+				// float: left;
+				padding-right: 10upx;
 
-			text {
-				color: #333;
-				font-size: 26upx;
+				text {
+					color: #333;
+					font-size: 26upx;
+				}
 			}
-		}
 
-		.kuaid {
-			float: left;
+			.kuaid {
+				// float: left;
 
-			text {
-				color: #333;
-				font-size: 26upx;
+				text {
+					color: #333;
+					font-size: 26upx;
+				}
 			}
+
 		}
 
 		.yuex {
-			float: right;
+			// float: right;
 
 			text {
 				color: #666;
@@ -733,8 +771,6 @@
 		margin-top: 20upx;
 		width: 710upx;
 		padding: 20upx;
-		position: absolute;
-		top: 920upx;
 		overflow: hidden;
 
 		.huid {
@@ -798,15 +834,15 @@
 		margin-top: 20upx;
 		width: 710upx;
 		padding: 20upx;
-		position: absolute;
-		top: 1070upx;
+		// position: absolute;
+		// top: 1070upx;
 		overflow: hidden;
 	}
 
 	.basic {
 		width: 100%;
 		float: left;
-		margin-bottom: 20upx;
+		// margin-bottom: 20upx;
 
 		.left_a {
 			float: left;
@@ -866,8 +902,8 @@
 		width: 710upx;
 		padding: 20upx;
 		margin-bottom: 20upx;
-		position: absolute;
-		top: 1345upx;
+		// position: absolute;
+		// top: 1345upx;
 		overflow: hidden;
 
 		.basic {
@@ -931,8 +967,8 @@
 	.listBox {
 		width: 710upx;
 		padding: 20upx;
-		position: absolute;
-		top: 1660upx;
+		// position: absolute;
+		// top: 1660upx;
 		background-color: #fff;
 		margin-top: 20upx;
 		overflow: hidden;
@@ -999,9 +1035,8 @@
 	.shangx {
 		width: 710upx;
 		padding: 20upx;
-		position: absolute;
 		background-color: #fff;
-		top: 1885upx;
+		margin-top: 20upx;
 
 		text {
 			font-size: 30upx;

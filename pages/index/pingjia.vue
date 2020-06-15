@@ -12,9 +12,9 @@
 			<view class="pingList" v-for="(item,index) in pingJList">
 				<view class="imgTop">
 					<view class="imgL">
-						<image src="../../static/img_06.jpg" mode=""></image>
+						<image :src="item.userDTO.headimg" mode=""></image>
 						<view class="xin">
-							<text>秋天的风</text>
+							<text>{{item.userDTO.nickname}}</text>
 							<image src="../../static/xing_01.png" v-for="(i,n) in isXing" mode=""></image>
 							<image src="../../static/xing.png" v-for="(i,n) in (5-isXing)" mode=""></image>
 						</view>
@@ -33,8 +33,8 @@
 					</view>
 					<text>追加评论<text>（收货18天后）</text>：<text>用了一段时间挺好的</text></text>
 				</view>
-				<view class="reply">
-					<text>商家回复：<text>感谢您的支持</text></text>
+				<view class="reply" v-for="(ite,inde) in item.storeGoodsReplyList">
+					<text>商家回复：<text>{{ite.replyContent}}</text></text>
 				</view>
 			</view>
 
@@ -147,9 +147,10 @@
 				success: function(res) {
 					_this.pingJList = res.data.data
 					_this.xingJ = res.data.data[0].score
+					
 					// 星级判断
 					_this.isXing = _this.xingJ >= 80 ? 5 : _this.xingJ >= 60 ? 4 : _this.xingJ >= 40 ? 3 : _this.xingJ >= 20 ? 2 : 1
-					_this.goodsId = res.data.data[0].goodsId
+					// _this.storeH=res.data.data.storeGoodsReplyList
 					console.log(res.data.data[0].score)
 					console.log(res.data.data[0].goodsId)
 					// console.log(_this.isXing)

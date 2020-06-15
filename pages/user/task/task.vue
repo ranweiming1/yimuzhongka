@@ -38,7 +38,7 @@
 					<text>累计签到{{date?date:'0'}}天</text>
 				</view>
 				<view class="rig">
-					<text>{{userList.userMoney}} <text>积分数</text> </text>
+					<text>{{userList.payPoints}} <text>积分数</text> </text>
 					<view class="img_o">
 						<image src="../../../static/icon_23.png" mode=""></image>
 					</view>
@@ -145,7 +145,7 @@
 					<view class="span">
 						<text>奖励{{item.integral}}积分</text>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item.postUrl,4)">
+					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item,4)">
 						<button type="primary" :style="item.taskStatus?'background:#bfbfbf;color:#666666':''">{{item.taskStatus?'已完成':'去完成'}}</button>
 					</view>
 				</view>
@@ -167,85 +167,84 @@
 				isQian: true,
 				systemDate: '',
 				// isList: false,
-				state: []
+				state: [],
+				isRen: ''
 			}
 		},
 		onLoad() {
-			var _this = this
-			// console.log(_this.systemDate)
-			this.$https({
-				url: '/api/task/center-index',
-				dengl: false,
-				data: {},
-				success: function(res) {
-					console.log(222)
-					_this.taskList = res.data.data.taskCenters
-					_this.userList = res.data.data.userInfo
-					_this.date = res.data.data.signInDays
-					_this.qianDate = res.data.data.storeIntegralLogList
-					console.log(res.data.data)
-
-					// 获取当前时间
-					function dateRiqi(i) {
-						var nowDate = new Date(i);
-						let date = {
-							year: nowDate.getFullYear(),
-							month: nowDate.getMonth() + 1,
-							date: nowDate.getDate(),
-						}
-
-						function pan(i) {
-							if (i < 10) {
-								i = '0' + i;
-							}
-							return i;
-						}
-						var systemDate = date.year + '-' + pan(date.month) + '-' + pan(date.date);
-						return systemDate
-					}
-					_this.systemDate = dateRiqi(new Date)
-					// console.log(_this.qianDate)
-					// 获取返回数据的时间
-					for (var i = 0; i < _this.qianDate.length; i++) {
-						if (_this.qianDate[i].taskId == 0 && _this.systemDate == _this.qianDate[i].createTime) {
-							_this.isQian = false
-						}
-					}
-					// console.log(_this.systemDate)
-					// 周几
-					var week = new Date(_this.systemDate).getDay()
-					// 时间戳
-					// console.log(new Date(_this.systemDate).getDay())
-					var dateTime = Date.parse(_this.systemDate)
-					// console.log(dateTime)
-					// 当天之前
-					var arr = []
-					var state = []
-
-					for (var i = week - 1; i > 0; i--) {
-						arr.push(dateRiqi(dateTime - (i) * 86400000))
-						// console.log(dateRiqi(dateTime - (i + 1) * 86400000))
-					}
-					arr.push(_this.systemDate)
-					for (var i = 0; i < 7 - week; i++) {
-						arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
-					}
-					// console.log(arr)
-					for (var i = 0; i < arr.length; i++) {
-						var nu = 0
-						for (var j = 0; j < _this.qianDate.length; j++) {
-							if (arr[i] == _this.qianDate[j].createTime) {
-								nu++
-							}
-						}
-						nu > 0 ? state.push(true) : state.push(false)
-					}
-					_this.state = state
-					// console.log(state)
-				}
-			})
+			this.xuanR()
 		},
 		methods: {
+			xuanR() {
+				var _this = this
+				this.$https({
+					url: '/api/task/center-index',
+					dengl: false,
+					data: {},
+					success: function(res) {
+						_this.taskList = res.data.data.taskCenters
+						_this.userList = res.data.data.userInfo
+						_this.date = res.data.data.signInDays
+						_this.qianDate = res.data.data.storeIntegralLogList
+						console.log(res.data.data)
+
+						// 获取当前时间
+						function dateRiqi(i) {
+							var nowDate = new Date(i);
+							let date = {
+								year: nowDate.getFullYear(),
+								month: nowDate.getMonth() + 1,
+								date: nowDate.getDate(),
+							}
+
+							function pan(i) {
+								if (i < 10) {
+									i = '0' + i;
+								}
+								return i;
+							}
+							var systemDate = date.year + '-' + pan(date.month) + '-' + pan(date.date);
+							return systemDate
+						}
+						_this.systemDate = dateRiqi(new Date)
+						// console.log(_this.qianDate)
+						// 获取返回数据的时间
+						for (var i = 0; i < _this.qianDate.length; i++) {
+							if (_this.qianDate[i].taskId == 0 && _this.systemDate == _this.qianDate[i].createTime) {
+								_this.isQian = false
+							}
+						}
+						// console.log(_this.systemDate)
+						// 周几
+						var week = new Date(_this.systemDate).getDay()
+						// 时间戳
+						var dateTime = Date.parse(_this.systemDate)
+						// console.log(dateTime)
+						// 当天之前
+						var arr = []
+						var state = []
+
+						for (var i = week - 1; i > 0; i--) {
+							arr.push(dateRiqi(dateTime - (i) * 86400000))
+						}
+						arr.push(_this.systemDate)
+						for (var i = 0; i < 7 - week; i++) {
+							arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
+						}
+						for (var i = 0; i < arr.length; i++) {
+							var nu = 0
+							for (var j = 0; j < _this.qianDate.length; j++) {
+								if (arr[i] == _this.qianDate[j].createTime) {
+									nu++
+								}
+							}
+							nu > 0 ? state.push(true) : state.push(false)
+						}
+						_this.state = state
+					}
+				})
+				// },
+			},
 			qianD() {
 				var _this = this
 				if (this.isQian) {
@@ -259,26 +258,66 @@
 						haeder: true,
 						success: function(res) {
 							_this.isQian = false
+							_this.xuanR()
 						}
 					})
+
 				}
+
 			},
-			renWu: function(state,id) {
-				console.log(state)
-				if (state == 2 || state == 3) {
-					uni.switchTab({
-						url: '../../index/index'
-					})
-				}
-				if(state==4||state==5){
-					uni.navigateTo({
-						url:'../allState/allState?id='+id
-					})
-				}
-				if(state==6){
-					uni.navigateTo({
-						url:'./invite/invite'
-					})
+			lingJifen(taskId, isRen, taskType) {
+				console.log(taskId)
+				this.$https({
+					url: '/api/task/center-task-insert',
+					data: {
+						taskId: taskId,
+						taskType: taskType
+					},
+					method: 'POST',
+					success: function(res) {
+						isRen = true
+						console.log(isRen)
+
+					}
+				})
+			},
+
+			renWu: function(item, id) {
+				// console.log(id)
+				var _this = this
+				console.log(item)
+				var state = item.postUrl
+				var isRen = item.taskStatus
+				var taskType = item.taskType
+				var taskId = item.taskId
+				if (!isRen) {
+					if (state == 2 || state == 3) {
+						uni.navigateTo({
+							url: '../../classify/fenlOne'
+						})
+						// 跳转首页
+						setTimeout(function() {
+							state == 2 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
+							console.log('任务完成')
+						}, 5000)
+						
+					}
+					if (state == 4 || state == 5) {
+						uni.navigateTo({
+							url: '../allState/allState?id=' + id
+						})
+						state == 4 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
+					
+					}
+					if (state == 6) {
+						uni.navigateTo({
+							url: './invite/invite'
+						})
+						_this.lingJifen(taskId, isRen, taskType)
+						
+						
+					}
+					_this.xuanR()
 				}
 
 			}

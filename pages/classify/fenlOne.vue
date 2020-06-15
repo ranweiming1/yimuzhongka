@@ -151,6 +151,19 @@
 				success(res) {
 					_this.allList = res.data.data
 					_this.goodsType = res.data.data.selfStatus
+					console.log(res.data.data)
+				}
+			})
+			this.$https({
+				url: '/api/shop/goods-recom',
+				data: {
+					// cat_id:option.id?option.id:''
+				},
+				dengl: false,
+				success(res) {
+					// _this.allList = res.data.data
+					// _this.goodsType = res.data.data.selfStatus
+					console.log(res.data.data)
 				}
 			})
 		},
