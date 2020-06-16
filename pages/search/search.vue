@@ -21,7 +21,7 @@
 			<view class="titBox">
 				<text>最近搜过</text>
 			</view>
-			<view class="imBox">
+			<view class="imBox" @tap="del">
 				<image src="../../static/icon_46.png" mode=""></image>
 			</view>
 			<view class="ul">
@@ -51,12 +51,15 @@
 			return {
 				changeVal: '',
 				searchAll: [],
+				shopsId: ''
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			this.shopsId = option.shopsId
+			console.log(option)
 			if (uni.getStorageSync('searchAll_key')) {
 				this.searchAll = uni.getStorageSync('searchAll_key')
-			} 
+			}
 			console.log(this.value)
 
 
@@ -67,9 +70,25 @@
 					var _this = this
 					this.searchAll.unshift(this.changeVal)
 					uni.setStorageSync('searchAll_key', _this.searchAll)
+					if (_this.shopsId) {
+						uni.navigateTo({
+							url: '../shop/all?shopsId=' + _this.shopsId + '&keywords=' + _this.changeVal
+						})
+					}
+					uni.navigateTo({
+						url: '../classify/fenlOne?keywords=' + _this.changeVal
+					})
+					console.log('searchAll_key')
 					this.changeVal = ''
 					
 				}
+			},
+
+			del() {
+				// console.log(333)
+				this.searchAll=[]
+				// this.searchAll = uni.removeStorageSync('searchAll_key')
+				console.log(this.searchAll)
 			}
 		}
 	}

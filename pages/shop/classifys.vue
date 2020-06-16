@@ -80,8 +80,9 @@
 				
 			},
 			search:function(){
+				// console.log(this.shopsId)
 				uni.navigateTo({
-					url:'../search/search'
+					url:'../search/search?shopsId='+this.shopsId
 				})
 			}
 		},

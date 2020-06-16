@@ -18,14 +18,16 @@
 				二、用户注册条件1、用户申请注册成为本平台的用户应同时满足下列全部条件
 			</text>
 			<view class="span">
-				 <view class="uni-padding-wrap">
+				<view class="uni-padding-wrap">
 					<view>
-						<label class="radio"><radio value="r2" />我已仔细阅读，并同意履行该协议须知</label>
+						<checkbox-group @change='checkchange'>
+							<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isOk" value='1'><text style="font-size: 28rpx;">我已仔细阅读，并同意履行该协议须知</text></checkbox>
+						</checkbox-group>
 					</view>
 				</view>
 			</view>
-			<view class="uni-padding-wrap uni-common-mt bott">
-				<button type="primary">注册</button>
+			<view class="uni-padding-wrap uni-common-mt bott" @click="zhuce">
+				<button type="primary" style='background:#1a5fe3'>注册</button>
 			</view>
 		</view>
 	</view>
@@ -33,12 +35,16 @@
 
 <script>
 	export default {
-		onLoad() {
-			console.log('-=-=-=-=-=-')
-			console.log(this.CustomBar * 1)
+		onLoad(option) {
+			// console.log(option)
+			// console.log('-=-=-=-=-=-')
+			// console.log(this.CustomBar * 1)
+			this.phone = option.phone
+			this.password = option.password
+			this.checkCode = option.checkCode
 			uni.getSystemInfo({
 				success: function(e) {
-					console.log(e)
+					// console.log(e)
 				}
 			})
 		},
@@ -46,6 +52,10 @@
 			return {
 				screenHeight: this.screenHeight,
 				statusBarHeight: this.statusBarHeight,
+				isOk: false,
+				phone: '',
+				password: '',
+				checkCode: ''
 			}
 		},
 		computed: {
@@ -55,6 +65,21 @@
 			},
 
 		},
+		methods: {
+			checkchange(e) {
+				this.isOk = e.detail.value[0]
+				// console.log(this.isOk)
+
+			},
+			zhuce() {
+				var _this = this
+				if (this.isOk) {
+					uni.navigateTo({
+						url: './login?isOk=' + _this.isOk+'&phone='+this.phone+'&password='+this.password+'&checkCode='+this.checkCode
+					})
+				}
+			}
+		}
 	}
 </script>
 
@@ -108,23 +133,28 @@
 			line-height: 50upx;
 			font-size: 26upx;
 		}
-		.span{
+
+		.span {
 			font-size: 26upx;
 			padding-bottom: 20upx;
 			color: #999;
 			padding-left: 20upx;
 		}
-		.span text{
+
+		.span text {
 			line-height: 40upx;
+
 		}
-		.bott{
+
+		.bott {
 			width: 210upx;
 			margin: 0 auto;
-			
+
 		}
-		.bott button{
-			border-radius:80upx;
+
+		.bott button {
+			border-radius: 80upx;
 		}
-		
+
 	}
 </style>

@@ -52,7 +52,7 @@
 			<!-- 头部 -->
 			<view class="top">
 				<view class="textBox">
-					<input class="uni-input" focus placeholder="请输入关键字" />
+					<input class="uni-input" focus @blur="search" v-model="value" placeholder="请输入关键字" />
 				</view>
 				<view class="imgBox">
 					<image src="../../static/icon_43.png" mode=""></image>
@@ -62,24 +62,25 @@
 			<!-- 这里有一个筛选 -->
 			<view class="nav">
 				<view style='display:flex;'>
-				<view class="con" @tap="chexing">
-					<text>车型</text>
-					<image src="../../static/icon_37.png" class="bot" mode=""></image>
-				</view>
-				<view class="con">
-					<text>综合排序</text>
-					<image src="../../static/icon_37.png" class="bot" mode=""></image>
-				</view>
-				<view class="con" style="border: 0">
-					<view class="c_R" @tap="show">
-						<text>筛选</text>
+					<view class="con" @tap="chexing">
+						<text>车型</text>
 						<image src="../../static/icon_37.png" class="bot" mode=""></image>
 					</view>
-					<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
+					<view class="con" @tap='zonghe'>
+						<text>综合排序</text>
+						<image src="../../static/icon_37.png" class="bot" mode=""></image>
+					</view>
+					<view class="con" style="border: 0">
+						<view class="c_R" @tap="show">
+							<text>筛选</text>
+							<image src="../../static/icon_37.png" class="bot" mode=""></image>
+						</view>
+						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
 
+					</view>
 				</view>
-				</view>
-				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;' v-if='paixu'>
+				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;'
+				 v-if='paixu'>
 					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低</view>
 					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高</view>
 					<view style='margin-top:20rpx;' @tap='p("SASC")'>销量从高到低</view>
@@ -136,16 +137,22 @@
 				min: '',
 				max: '',
 				goodsType: '',
-				paixu:false,
-				st:''
+				paixu: false,
+				st: '',
+				value: ''
 			}
 		},
 		onLoad(option) {
 			var _this = this
+			if (option.keywords) {
+				this.value = option.keywords
+				this.search()
+			} else{
+				console.log(option)
 			this.$https({
 				url: '/api/shop/mall-goods-ptList',
 				data: {
-					cat_id:option.id?option.id:''
+					cat_id: option.id ? option.id : ''
 				},
 				dengl: false,
 				success(res) {
@@ -166,8 +173,9 @@
 					console.log(res.data.data)
 				}
 			})
-		},
-		components: {
+		}
+	},
+	components: {
 			tabBar,
 		},
 		methods: {
@@ -209,40 +217,90 @@
 					}
 				})
 			},
-			shaiX(){
-				var _this=this
-				this.$https({url:'/api/shop/mall-goods-serchList',dengl:false,method:'post',data:JSON.stringify({goodsBrandId:this.id,maxPrice:this.max,minPrice:this.min,goodsType:this.goodsType,carId:this.carId,sortType:this.st}),haeder:true,success:function(res){
-					_this.isShow=false
-					_this.allList=res.data.data
-				}})
+			hidd() {
+				this.isShow = false
 			},
-			reset(){
-				this.itemex=false
+			toggleList(i, ind) {
+				this.itemex = i
+				this.id = ind
 			},
-			rValue(e){
-				this.min=e.target.value
-			},
-			rValue1(e){
-				this.max=e.target.value
-			},
-			togCass(){
-				this.tog_Ca=!this.tog_Ca
-			},
-			gouwuche:function(){
-				uni.navigateTo({
-					url:'../cart/cart'
+			shaiX() {
+				var _this = this
+				this.$https({
+					url: '/api/shop/mall-goods-serchList',
+					dengl: false,
+					method: 'post',
+					data: JSON.stringify({
+						goodsBrandId: this.id,
+						maxPrice: this.max,
+						minPrice: this.min,
+						goodsType: this.goodsType,
+						carId: this.carId,
+						sortType: this.st
+					}),
+					haeder: true,
+					success: function(res) {
+						_this.isShow = false
+						_this.allList = res.data.data
+					}
 				})
 			},
-			zonghe:function(){
-				this.paixu=!this.paixu
+			reset() {
+				this.itemex = false
 			},
-			p:function(st){
-				this.st=st
-				var _this=this
-				this.$https({url:'/api/shop/mall-goods-serchList',dengl:false,method:'post',data:JSON.stringify({goodsBrandId:this.id,maxPrice:this.max,minPrice:this.min,goodsType:this.goodsType,carId:this.carId,sortType:this.st}),haeder:true,success:function(res){
-					_this.paixu=false
-					_this.allList=res.data.data
-				}})
+			rValue(e) {
+				this.min = e.target.value
+			},
+			rValue1(e) {
+				this.max = e.target.value
+			},
+			togCass() {
+				this.tog_Ca = !this.tog_Ca
+			},
+			gouwuche: function() {
+				uni.navigateTo({
+					url: '../cart/cart'
+				})
+			},
+			zonghe: function() {
+				this.paixu = !this.paixu
+			},
+			p: function(st) {
+				this.st = st
+				var _this = this
+				this.$https({
+					url: '/api/shop/mall-goods-serchList',
+					dengl: false,
+					method: 'post',
+					data: JSON.stringify({
+						goodsBrandId: this.id,
+						maxPrice: this.max,
+						minPrice: this.min,
+						goodsType: this.goodsType,
+						carId: this.carId,
+						sortType: this.st
+					}),
+					haeder: true,
+					success: function(res) {
+						_this.paixu = false
+						_this.allList = res.data.data
+					}
+				})
+			},
+			search() {
+				var _this = this
+				console.log(this.value)
+				this.$https({
+					url: '/api/shop/mall-goods-ptList',
+					// dengl: false,
+					data: {
+						keywords: this.value
+					},
+					success: function(res) {
+						_this.allList = res.data.data
+						console.log(res.data.data)
+					}
+				})
 			}
 		}
 	}
@@ -292,8 +350,9 @@
 		padding: 20upx;
 		border-bottom: 1px solid #ccc;
 		text-align: center;
-		position:relative;
-		height:50rpx;
+		position: relative;
+		height: 50rpx;
+
 		.con {
 			// width: 33.3%;
 			flex-grow: 1;

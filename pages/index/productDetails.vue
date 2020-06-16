@@ -676,8 +676,8 @@
 
 		.share {
 			float: right;
-			width: 80upx;
-			height: 80upx;
+			width: 84upx;
+			height: 84upx;
 			margin-top: 30upx;
 			border-radius: 40upx;
 			text-align: center;
