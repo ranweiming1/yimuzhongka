@@ -70,12 +70,12 @@
 				this.id = index;
 				this.rList = this.allList[index].childsList
 			},
-			tiaozhuan(cateId){
+			tiaozhuan(shop,isok,cateId){
 				// console.log(this.shopsId)
 				console.log(cateId)
 				this.isOK=false
 				uni.navigateTo({
-					url:'all?id='+this.shopsId+'&isOK='+this.isOK+'&cateId='+cateId
+					url:'all?id='+shop+'&isOK='+isok+'&cateId='+cateId
 				})
 				
 			},

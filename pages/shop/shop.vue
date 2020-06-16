@@ -7,7 +7,7 @@
 		<!-- 头部 -->
 		<view class="top">
 			<view class="textBox">
-				<input class="uni-input" focus placeholder="请输入关键字" />
+				<input class="uni-input" @confirm="search" v-model="value" focus placeholder="请输入关键字" />
 			</view>
 			<view class="imgBox">
 				<image src="../../static/icon_40.png" mode=""></image>
@@ -99,7 +99,8 @@
 				autoplay: true,
 				interval: 2000,
 				duration: 500,
-				isShow: ''
+				isShow: '',
+				value:''
 			}
 		},
 		components: {
@@ -175,6 +176,13 @@
 				uni.navigateTo({
 					url:'all?id='+this.shopsId
 				})
+			},
+			search(){
+				console.log(11111)
+				uni.navigateTo({
+					url: './all?shopsId=' + this.shopsId + '&keywords=' + this.value
+				})
+				this.value=''
 			}
 
 		}

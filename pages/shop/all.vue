@@ -139,45 +139,49 @@
 			}
 		},
 		onLoad(option) {
+			console.log(option)
 			var _this = this
-			if (option.shopsId && option.keywords) {
+			if (option.keywords && option.shopsId) {
 				this.value = option.keywords
 				this.shopsId = option.shopsId
+				this.isOK=false
 				console.log(this.value, this.shopsId)
 				this.search()
-			}else{
-			if (option.id)
-				this.shopsId = option.id
-			if (option.cateId) {
-
 			} else {
-				option.cateId = ''
+				if (option.id)
+					_this.shopsId = option.id
+				if (option.cateId) {
+
+				} else {
+					option.cateId = ''
+				}
+				// this.isOK=opts
+				if (option.isOK) {
+					_this.isOK = false
+				}
+				// var _this = this
+				if (!option.goodsBrandId) {
+					this.$https({
+						url: '/api/shop/mall-goods-ptList',
+						data: {
+							shop_id: _this.shopsId,
+							cat_id: option.cateId
+						},
+						dengl: false,
+						success: function(res) {
+							console.log(res.data.data)
+							console.log(2222)
+							_this.allList = res.data.data
+							_this.goodsType = res.data.data.selfStatus
+						}
+					})
+				}
+				if (option.goodsBrandId) {
+					_this.id = option.goodsBrandId
+					_this.carId = option.carId
+					_this.shaiX()
+				}
 			}
-			// this.isOK=opts
-			if (option.isOK) {
-				this.isOK = false
-			}
-			var _this = this
-			if (!option.goodsBrandId) {
-				this.$https({
-					url: '/api/shop/mall-goods-ptList',
-					data: {
-						shop_id: this.shopsId,
-						cat_id: option.cateId
-					},
-					dengl: false,
-					success: function(res) {
-						// console.log(res.data.data)
-						_this.allList = res.data.data
-						_this.goodsType = res.data.data.selfStatus
-					}
-				})
-			}
-			if (option.goodsBrandId) {
-				this.id = option.goodsBrandId
-				this.carId = option.carId
-				this.shaiX()
-			}}
 		},
 		components: {
 			buttom
