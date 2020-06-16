@@ -18,34 +18,33 @@
 			<view class="box" v-for="(item , index) in cartList" @remove="onRemove(index)">
 				<view class="radios">
 					<radio value="r2" />
-					<text>{{item.name}}</text>
-
+					<text>{{item.storeShopDTO.shopName}}</text>
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
 				<!-- 订单信息 -->
-				<side-slip class="xinxi" @remove="onRemove(index)" @quxiao="onQuxiao(index)" v-for='(items,indexs) in item.arr'>
+				<side-slip class="xinxi" @remove="onRemove(index)" @quxiao="onQuxiao(index)" v-for='(items,indexs) in item.specList'>
 					<view class="radi">
 						<radio value="r2" />
 					</view>
 					<view class="imgBox_a">
-						<image :src="items.goodsLogo" mode=""></image>
+						<image :src="item.goodsLogo" mode=""></image>
 					</view>
 					<view class="txt_c">
 						<view class="title">
-							<text>{{items.goodsName}}</text>
+							<text>{{item.goodsName}}</text>
 						</view>
-						<view class="spec" @click="openPopup">
-							<text>已选：＂黄色＂∨</text>
+						<view class="spec" @click="openPopup(index,indexs)">
+							<text>{{items.specKeyName}}</text>
 						</view>
 						<view class="radColor">
-							<text>￥{{items.shopPrice?items.shopPrice:'暂无价格'}}</text>
+							<text>￥{{items.goodsPrice?items.goodsPrice:'暂无价格'}}</text>
 						</view>
 
 						<!-- 这是数量加减 -->
 						<view class="jia">
-							<view>-</view>
-							<input v-model='items.goodsNum'>
-							<view>+</view>
+							<view @tap='jian(index,indexs)'>-</view>
+							<input v-model='items.goodsNum' @blur='huoqu(index,indexs)'>
+							<view @tap='jia(index,indexs)'>+</view>
 						</view>
 					</view>
 				</side-slip>
@@ -212,26 +211,7 @@
 				dengl: false,
 				success: function(res) {
 					//修改数据结构，以使数据更好用
-					var arr=[]
-					res.data.data.recommends.map(function(n){
-						var num=0
-						arr.map(function(m){
-							if(n.couponDTOS[0].id==m.coupon){
-								num++
-								m.arr.push(n)
-							}
-						})
-						if(num==0){
-							var obj={}
-							obj.coupon=n.couponDTOS[0].id
-							obj.name=n.couponDTOS[0].name
-							obj.arr=[]
-							obj.arr.push(n)
-							arr.push(obj)
-						}
-					})
-					_this.cartList = arr
-					console.log(res.data.data)
+					_this.cartList = res.data.data.cartList
 				}
 			})
 		},
@@ -245,8 +225,9 @@
 			select: function() {
 				console.log(1)
 			},
-			openPopup() {
+			openPopup(index,indexs) {
 				this.$refs.popup.open()
+				
 			},
 			closePopup() {
 				this.$refs.popup.close()
@@ -256,6 +237,24 @@
 			},
 			onQuxiao(index){
 				console.log(2222)
+			},
+			jian:function(index,indexs){
+				if(this.cartList[index].specList[indexs].goodsNum>1){
+					this.cartList[index].specList[indexs].goodsNum--
+					this.tianjia(this.cartList[index].specList[indexs].goodsNum,this.cartList[index].goodsId,this.cartList[index].specList[indexs].specKey)
+				}
+			},
+			tianjia:function(num,goodsid,specKey){
+				this.$https({url:'/api/shop/order-add-cart',data:JSON.stringify({cartAttr:[{goodsNum:num,specKey:specKey}],goodsId:goodsid}),method:'post',haeder:true,success:function(res){
+					
+				}})
+			},
+			jia:function(index,indexs){
+				this.cartList[index].specList[indexs].goodsNum++
+				this.tianjia(this.cartList[index].specList[indexs].goodsNum,this.cartList[index].goodsId,this.cartList[index].specList[indexs].specKey)
+			},
+			huoqu:function(index,indexs){
+				this.tianjia(this.cartList[index].specList[indexs].goodsNum,this.cartList[index].goodsId,this.cartList[index].specList[indexs].specKey)
 			}
 		}
 	}

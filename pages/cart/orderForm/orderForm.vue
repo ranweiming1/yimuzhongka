@@ -45,7 +45,7 @@
 						<text>{{item.goodsName}}</text>
 					</view>
 					<view class="spec">
-						<text>已选：{{item.specKey}}</text>
+						<text>已选：{{item.specKeyName}}</text>
 					</view>
 					<view class="radColor">
 						<text>{{item.integral}}积分</text>
@@ -213,17 +213,8 @@
 					arr.push(n.goodsId)
 				})
 				var arr=arr.join(',')
-				var cartAttr=[]
-				this.cartAttr.map(function(n){
-					var obj={}
-					obj.cartAttr={}
-					obj.cartAttr.goodsNum=n.goodsNum
-					obj.cartAttr.specKey=n.key
-					obj.goodsId=n.goodsId
-					cartAttr.push(obj )
-				})
 				//提交订单
-				this.$https({url:'/api/shop/order-order-submit',data:JSON.stringify({orderVo:{addressId:''+this.dizhi.id,cartVO:cartAttr,couponId:this.id,goodsIds:arr,orderFrom:+this.dingdan}}),method:'post',haeder:true,success:function(res){
+				this.$https({url:'/api/shop/order-order-submit',data:JSON.stringify({addressId:''+this.dizhi.id,cartVO:{cartAttr:this.cartAttr,goodsId:this.goodsId},couponId:this.id,goodsIds:arr,orderFrom:+this.dingdan}),method:'post',haeder:true,success:function(res){
 					
 				}})
 				uni.showModal({

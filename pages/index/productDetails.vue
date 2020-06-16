@@ -411,14 +411,14 @@
 					url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
 						cartAttr: [{
 							goodsNum: this.num,
-							specKey: this.guige[this.indexx].keyName,
+							specKeyName: this.guige[this.indexx].keyName,
 							goodsLogo: this.list.goodsLogo,
 							integral: this.list.integral,
 							goodsName: this.list.goodsName,
 							kuaidi: this.list.kuaidi,
 							shopPrice: this.list.shopPrice,
 							goodsId: this.list.goodsId,
-							key: this.guige[this.indexx].key,
+							specKey: this.guige[this.indexx].key,
 							shopId: this.shopId
 						}]
 					}) + '&dingdan=2'
