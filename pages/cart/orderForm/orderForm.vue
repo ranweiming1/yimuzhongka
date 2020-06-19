@@ -224,14 +224,12 @@
 					}else{
 						console.log(JSON.parse(options.cartAttr))
 					}
-					console.log(this.cartAttr)
 					this.cartAttr.map(function(n){
 						n.cartAttr.map(function(z){
 							console.log(z.shopPrice,z.goodsNum)
 							_this.shangpin+=z.shopPrice*z.goodsNum
 						})
 					})
-					console.log(this.shangpin)
 					this.shopId=options.shopId
 					//判断选的哪个店铺的优惠券
 					this.cartAttr.map(function(n,index){
@@ -256,7 +254,13 @@
 						}
 					})
 				}
-
+				//计算运费
+				this.cartAttr.map(function(n){
+					n.cartAttr.map(function(z){
+						_this.yunfei+=z.kuaidi
+					})
+				})
+				this.heji=this.yunfei+this.shangpin
 			},
 			tanchuang: function() {
 				var arr=[]
