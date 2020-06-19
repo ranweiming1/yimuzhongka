@@ -174,6 +174,9 @@
 		onLoad() {
 			this.xuanR()
 		},
+		onShow() {
+			this.xuanR()
+		},
 		methods: {
 			xuanR() {
 				var _this = this
@@ -290,6 +293,7 @@
 				var isRen = item.taskStatus
 				var taskType = item.taskType
 				var taskId = item.taskId
+				// console.log(taskId)
 				if (!isRen) {
 					if (state == 2 || state == 3) {
 						uni.navigateTo({
@@ -298,26 +302,27 @@
 						// 跳转首页
 						setTimeout(function() {
 							state == 2 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
+							// _this.xuanR()
 							console.log('任务完成')
 						}, 5000)
-						
+
 					}
 					if (state == 4 || state == 5) {
 						uni.navigateTo({
 							url: '../allState/allState?id=' + id
 						})
 						state == 4 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
-					
+						// _this.xuanR()
 					}
 					if (state == 6) {
 						uni.navigateTo({
 							url: './invite/invite'
 						})
 						_this.lingJifen(taskId, isRen, taskType)
-						
-						
+						// _this.xuanR()
+
 					}
-					_this.xuanR()
+					// _this.xuanR()
 				}
 
 			}

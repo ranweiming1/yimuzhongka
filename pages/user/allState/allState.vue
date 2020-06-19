@@ -61,207 +61,62 @@
 			<view class="radios">
 				<text>米其林官方旗舰店</text>
 				<view class="guanb">
-					<text>交易关闭</text>
+					<text>{{item.orderStatus==0?'待付款':item.orderStatus==1?'交易完成':'交易关闭'}}</text>
 				</view>
 			</view>
-			<view class="xinxi">
+			<view class="xinxi" v-for="(ite,inde) in item.goodsList" @tap="detail(item.orderId)">
 				<view class="imgBox_a">
-					<image src="../../../static/img_09.jpg" mode=""></image>
+					<image :src="ite.goodsLogo" mode=""></image>
 				</view>
 				<view class="txt_c">
 					<view class="title">
-						<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+						<text>{{ite.goodsName}}</text>
 					</view>
 					<view class="spec">
-						<text>已选：＂黄色＂</text>
+						<text>已选：＂{{ite.specKeyName}}＂</text>
 					</view>
 					<view class="radColor">
-						<text>￥222.00</text>
+						<text>￥{{ite.goodsPrice}}.00</text>
 					</view>
 			
 					<!-- 数量 -->
 					<view class="jia">
-						<text>X2</text>
+						<text>X{{ite.goodsNum}}</text>
 					</view>
 				</view>
 				<view class="zongj">
-					<text>1种货品 总金额：￥100.00</text>
+					<text>{{ite.goodsNum}}种货品 总金额：￥{{item.orderAmount}}.00</text>
 				</view>
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott">
 						<button type="primary">删除订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(6)">
+					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(6)" v-if="item.status==4">
 						<button type="primary">去评价</button>
 					</view>
-				</view>
-			</view>
-		</view>
-		
-		<view class="listBox">
-			<view class="radios">
-				<text>米其林官方旗舰店</text>
-				<view class="guanb">
-					<text>交易成功</text>
-				</view>
-			</view>
-			<view class="xinxi">
-				<view class="imgBox_a">
-					<image src="../../../static/img_09.jpg" mode=""></image>
-				</view>
-				<view class="txt_c">
-					<view class="title">
-						<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
-					</view>
-					<view class="spec">
-						<text>已选：＂黄色＂</text>
-					</view>
-					<view class="radColor">
-						<text>￥222.00</text>
-					</view>
-			
-					<!-- 数量 -->
-					<view class="jia">
-						<text>X2</text>
-					</view>
-				</view>
-				<view class="zongj">
-					<text>1种货品 总金额：￥100.00</text>
-				</view>
-				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott">
-						<button type="primary">删除订单</button>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bott">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==4">
 						<button type="primary">再次购买</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott">
 						<button type="primary">追加评论</button>
 					</view>
-				</view>
-			</view>
-		</view>
-		<view class="listBox">
-			<view class="radios">
-				<text>米其林官方旗舰店</text>
-				<view class="guanb">
-					<text>待付款</text>
-				</view>
-			</view>
-			<view class="xinxi">
-				<view class="imgBox_a">
-					<image src="../../../static/img_09.jpg" mode=""></image>
-				</view>
-				<view class="txt_c">
-					<view class="title">
-						<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
-					</view>
-					<view class="spec">
-						<text>已选：＂黄色＂</text>
-					</view>
-					<view class="radColor">
-						<text>￥222.00</text>
-					</view>
-			
-					<!-- 数量 -->
-					<view class="jia">
-						<text>X2</text>
-					</view>
-				</view>
-				<view class="zongj">
-					<text>1种货品 总金额：￥100.00</text>
-				</view>
-				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott onna">
-						<button type="primary">去评价</button>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bott">
-						<button type="primary">再次购买</button>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="listBox">
-			<view class="radios">
-				<text>米其林官方旗舰店</text>
-				<view class="guanb">
-					<text>待付款</text>
-				</view>
-			</view>
-			<view class="xinxi">
-				<view class="imgBox_a">
-					<image src="../../../static/img_09.jpg" mode=""></image>
-				</view>
-				<view class="txt_c">
-					<view class="title">
-						<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
-					</view>
-					<view class="spec">
-						<text>已选：＂黄色＂</text>
-					</view>
-					<view class="radColor">
-						<text>￥222.00</text>
-					</view>
-			
-					<!-- 数量 -->
-					<view class="jia">
-						<text>X2</text>
-					</view>
-				</view>
-				<view class="zongj">
-					<text>1种货品 总金额：￥100.00</text>
-				</view>
-				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott onna">
+					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==1">
 						<button type="primary">去支付</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup">
+					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup" v-if="item.status==1">
 						<button type="primary">取消订单</button>
 					</view>
-				</view>
-			</view>
-		</view>
-		
-		<view class="listBox">
-			<view class="radios">
-				<text>米其林官方旗舰店</text>
-				<view class="guanb">
-					<text>交易成功</text>
-				</view>
-			</view>
-			<view class="xinxi">
-				<view class="imgBox_a">
-					<image src="../../../static/img_09.jpg" mode=""></image>
-				</view>
-				<view class="txt_c">
-					<view class="title">
-						<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
-					</view>
-					<view class="spec">
-						<text>已选：＂黄色＂</text>
-					</view>
-					<view class="radColor">
-						<text>￥222.00</text>
-					</view>
-			
-					<!-- 数量 -->
-					<view class="jia">
-						<text>X2</text>
-					</view>
-				</view>
-				<view class="zongj">
-					<text>1种货品 总金额：￥100.00</text>
-				</view>
-				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott onnb">
+					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==3">
 						<button type="primary">确认收货</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==3">
 						<button type="primary">查看物流</button>
 					</view>
 				</view>
 			</view>
 		</view>
+		
+		
 		<!-- 弹出框内容 -->
 		<uni-popup ref="popup" type="bottom" class="tanchu">
 			<button @click="closePopup">×</button>
@@ -315,6 +170,7 @@
 					 _this.dList=res.data.data
 					 // _this.gList=res.data.data
 					console.log(res.data.data)
+					// console.log(res.data.data.goodsList)
 					toggle(option.id)
 				}
 			})
@@ -350,6 +206,11 @@
 			shopCar(){
 				uni.switchTab({
 					url:'../../cart/cart'
+				})
+			},
+			detail(id){
+				uni.navigateTo({
+					url:'./shipped?orderId='+id
 				})
 			}
 			
