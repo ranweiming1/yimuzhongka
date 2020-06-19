@@ -304,21 +304,21 @@
 				this.$https({url:'/api/shop/order-order-submitOrder',data:JSON.stringify({addressId:''+this.dizhi.id,orderVoList:this.cartAttr,orderFrom:+this.dingdan,shopIds:arr}),method:'post',haeder:true,success:function(res){
 					
 				}})
-				uni.showModal({
-					title: '支付成功',
-					content: '您已成功购买该商品\n感谢您的支持',
-					success: function(res) {
-						if (res.confirm) {
-							console.log('用户点击确定');
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					},
+				// uni.showModal({
+				// 	title: '支付成功',
+				// 	content: '您已成功购买该商品\n感谢您的支持',
+				// 	success: function(res) {
+				// 		if (res.confirm) {
+				// 			console.log('用户点击确定');
+				// 		} else if (res.cancel) {
+				// 			console.log('用户点击取消');
+				// 		}
+				// 	},
 
 
 
 
-				});
+				// });
 			},
 			tiaozhuan: function() {
 				if(this.dingdan==2){
