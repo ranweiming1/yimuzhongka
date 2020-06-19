@@ -49,9 +49,9 @@
 					<view class="spec">
 						<text>已选：{{items.specKeyName}}</text>
 					</view>
-					<view class="radColor">
+					<!-- <view class="radColor">
 						<text>{{items.integral}}积分</text>
-					</view>
+					</view> -->
 
 					<!-- 这是数量加减 -->
 					<view class="jia">
@@ -224,11 +224,14 @@
 					}else{
 						console.log(JSON.parse(options.cartAttr))
 					}
+					console.log(this.cartAttr)
 					this.cartAttr.map(function(n){
 						n.cartAttr.map(function(z){
+							console.log(z.shopPrice,z.goodsNum)
 							_this.shangpin+=z.shopPrice*z.goodsNum
 						})
 					})
+					console.log(this.shangpin)
 					this.shopId=options.shopId
 					//判断选的哪个店铺的优惠券
 					this.cartAttr.map(function(n,index){

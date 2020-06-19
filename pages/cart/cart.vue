@@ -197,8 +197,14 @@
 				data: {},
 				dengl: false,
 				success: function(res) {
+					_this.jiage=0
 					//修改数据结构，以使数据更好用
 					_this.cartList = res.data.data.cartList
+					_this.xuanzho.map(function(n,index){
+						n.map(function(z,indexs){
+							_this.jiage+=_this.cartList[index].specList[indexs].goodsNum*_this.cartList[indexs].specList[indexs].goodsPrice
+						})
+					})
 				}
 			})
 		},
@@ -516,6 +522,7 @@
 							_this.cartList[index].cartAttr=_this.cartList[index].specList
 							_this.cartList[index].specList[indexx].goodsLogo=_this.cartList[index].goodsLogo
 							_this.cartList[index].specList[indexx].goodsId=_this.cartList[index].goodsId
+							_this.cartList[index].specList[indexx].shopPrice=_this.cartList[index].specList[indexx].goodsPrice
 						}
 					})
 				})
