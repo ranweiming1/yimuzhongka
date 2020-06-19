@@ -71,7 +71,9 @@
 				youhuiid:'',
 				moneys:'',
 				zhid:'',
-				dingdan:''
+				dingdan:'',
+				shopId:'',
+				y:''
 			}
 		},
 		onLoad: function(option) {
@@ -94,6 +96,8 @@
 				this.youhuiid=option.id
 				this.moneys=option.money
 				this.dingdan=option.dingdan
+				this.shopId=option.shopId
+				this.y=JSON.parse(option.y)
 			}
 			// this.isAdd=false
 			// console.log(this.regionName))
@@ -141,7 +145,7 @@
 					success: function(res) {
 						if (_this.goodsId) {
 							uni.navigateTo({
-								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr+'&zhid='+_this.zhid+'&money='+_this.moneys+'&id='+_this.youhuiid+'&dingdan='+this.dingdan
+								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr+'&zhid='+_this.zhid+'&money='+_this.moneys+'&id='+_this.youhuiid+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.y)
 							})
 						} else {
 							uni.navigateTo({

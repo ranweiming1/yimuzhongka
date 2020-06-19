@@ -124,7 +124,7 @@
 				<view class="mTop">
 					<image class="cover" :src="list.goodsLogo" mode=""></image>
 					<view class="mRight">
-						<view class="price">¥ {{list.shopPrice}}</view>
+						<view class="price">¥ {{Price}}</view>
 						<view class="mItem">已选：{{gui}}</view>
 					</view>
 
@@ -275,7 +275,8 @@
 				guige: [],
 				indexx: 0,
 				gui: '',
-				shopId: ''
+				shopId: '',
+				Price:0
 			}
 		},
 		components: {
@@ -311,7 +312,6 @@
 					}
 					// 优惠券
 					_this.youhui = res.data.data.couponDTOS
-					console.log(res.data.data.detail)
 					var arr = []
 					for (var k in _this.canshu) {
 						arr.push({
@@ -327,6 +327,7 @@
 		methods: {
 			add() {
 				this.isAdd = !this.isAdd
+				this.Price=this.guige[0].price
 			},
 			reduce() {
 				this.num--
@@ -405,21 +406,23 @@
 			qiehuan: function(ind) {
 				this.indexx = ind
 				this.gui = this.guige[ind].keyName
+				this.Price=this.guige[ind].price
 			},
 			goumaia: function() {
 				uni.navigateTo({
 					url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
 						cartAttr: [{
 							goodsNum: this.num,
-							specKey: this.guige[this.indexx].keyName,
+							specKeyName: this.guige[this.indexx].keyName,
 							goodsLogo: this.list.goodsLogo,
 							integral: this.list.integral,
 							goodsName: this.list.goodsName,
 							kuaidi: this.list.kuaidi,
-							shopPrice: this.list.shopPrice,
+							shopPrice: this.Price,
 							goodsId: this.list.goodsId,
-							key: this.guige[this.indexx].key,
-							shopId: this.shopId
+							specKey: this.guige[this.indexx].key,
+							shopId: this.shopId,
+							name:this.list.couponDTOS[0].name
 						}]
 					}) + '&dingdan=2'
 				})

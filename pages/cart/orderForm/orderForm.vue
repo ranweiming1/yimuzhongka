@@ -37,28 +37,29 @@
 				<text>订单信息</text>
 			</view>
 			<view v-for='(item,index) in cartAttr'>
+				<view style='padding:10rpx;background:#ddd;margin-top:10rpx;'>{{item.name}}</view>
+				<view v-for='(items,indexs) in item.cartAttr' style='margin-top:10rpx;border:1px solid #eee;overflow:hidden;'>
 				<view class="imgBox_a">
-					<image :src="item.goodsLogo" mode=""></image>
+					<image :src="items.goodsLogo" mode=""></image>
 				</view>
 				<view class="txt_c">
 					<view class="title">
-						<text>{{item.goodsName}}</text>
+						<text>{{items.goodsName}}</text>
 					</view>
 					<view class="spec">
-						<text>已选：{{item.specKey}}</text>
+						<text>已选：{{items.specKeyName}}</text>
 					</view>
 					<view class="radColor">
-						<text>{{item.integral}}积分</text>
+						<text>{{items.integral}}积分</text>
 					</view>
 
 					<!-- 这是数量加减 -->
 					<view class="jia">
-						<text @tap='shangpinj(index)'>-</text>
-						<input v-model='item.goodsNum' style='width:50px;border:1px solid #eee;float:left;margin-left:10px;'>
-						<text @tap='zengjia(index)'>+</text>
+						<text @tap='shangpinj(index,indexs)'>-</text>
+						<input v-model='items.goodsNum' @blur='shuzi' style='width:50px;border:1px solid #eee;float:left;margin-left:10px;'>
+						<text @tap='zengjia(index,indexs)'>+</text>
 					</view>
 				</view>
-
 
 		        <view class="basic">
 			        <view class="left_a">
@@ -68,14 +69,13 @@
 				        <view class="img_a">
 					        <image src="../../../static/icon_26.png" mode=""></image>
 				        </view>
-				        <text>￥{{item.kuaidi}}</text>
+				        <text>￥{{items.kuaidi}}</text>
 			        </view>
 		        </view>
-			</view>
-		</view>
+				</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>给卖家备注</text></view>
-			<input class="uni-input" name="input" placeholder="添加备注" />
+			<input class="uni-input" name="input" v-model='item.userNote' placeholder="添加备注" />
 		</view>
 
 
@@ -83,15 +83,16 @@
 			<view class="left_a">
 				<text>优惠券</text>
 			</view>
-			<view class="right_a" @tap='youhuiquan'>
+			<view class="right_a" @tap='youhuiquan(item.shopId)'>
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text>已抵扣<text>￥30</text></text>
+				<text>已抵扣<text>￥{{youhui[index].money?youhui[index].money:0}}</text></text>
 			</view>
 		</view>
-
-		<view class="basic">
+		</view>
+		</view>
+		<!-- <view class="basic">
 			<view class="left_a">
 				<text>支付方式</text>
 			</view>
@@ -104,7 +105,7 @@
 				</view>
 				<text>微信安全支付</text>
 			</view>
-		</view>
+		</view> -->
 
 		<view class="basic aa">
 			<view class="left_a">
@@ -125,7 +126,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text>-￥{{menoys}}</text>
+				<text>-￥{{moneys}}</text>
 			</view>
 		</view>
 		<view class="basic aa ssa">
@@ -167,9 +168,12 @@
 				yunfei:0,
 				shangpin:0,
 				heji:0,
-				menoys:0,
+				moneys:0,
 				id:'',
-				dingdan:''
+				dingdan:'',
+				//保存优惠券
+				youhui:[],
+				shopId:0
 			}
 		},
 		methods: {
@@ -178,17 +182,61 @@
 				if (options.goodsId) {
 					this.goodsId = options.goodsId
 					this.cartAttr = JSON.parse(options.cartAttr).cartAttr
+					if(options.dingdan==1){
+						this.cartAttr.map(function(n,index){
+							n.cartAttr.map(function(z,indexs){
+								if(!z.xuanzhong){
+									_this.cartAttr[index].cartAttr.splice(indexs,1)
+								}
+							})
+						})
+					}
 					if (options.zhid) {
 						this.dizhi = JSON.parse(options.zhid)
 					}
-					this.cartAttr.map(function(n){
-						_this.shangpin+=n.shopPrice
-						_this.yunfei+=parseInt(n.kuaidi)
-					})
-					this.heji=this.yunfei+this.shangpin
-					this.menoys=options.menoy
+					this.moneys=options.money
 					this.id=options.id
 					this.dingdan=options.dingdan
+					if(options.y){
+						this.youhui=JSON.parse(options.y)
+					}
+					if(!options.y){
+					this.cartAttr.map(function(n){
+						_this.youhui.push({shopId:n.shopId})
+					})
+					}
+					var arr=[]
+					if(options.dingdan==2){
+					this.cartAttr.map(function(n){
+						n.cartAttr1={}
+						var obj={}
+						n.cartAttr1.goodsNum=n.goodsNum
+						n.cartAttr1.specKeyName=n.specKeyName
+						n.cartAttr1.goodsLogo=n.goodsLogo
+						n.cartAttr1.integral=n.integral
+						n.cartAttr1.goodsName=n.goodsName
+						n.cartAttr1.kuaidi=n.kuaidi
+						n.cartAttr1.specKey=n.specKey
+						n.cartAttr1.shopPrice=n.shopPrice
+						n.cartAttr1.goodsId=n.goodsId
+						n.cartAttr=[n.cartAttr1]
+					})
+					}else{
+						console.log(JSON.parse(options.cartAttr))
+					}
+					this.cartAttr.map(function(n){
+						n.cartAttr.map(function(z){
+							_this.shangpin+=z.shopPrice*z.goodsNum
+						})
+					})
+					this.shopId=options.shopId
+					//判断选的哪个店铺的优惠券
+					this.cartAttr.map(function(n,index){
+						if(options.shopId==n.shopId){
+							_this.youhui[index].couponId=options.id
+							_this.youhui[index].moneys=options.money
+						}
+					})
 				}
 				if (!options.zhid) {
 					//获取地址列表
@@ -209,21 +257,38 @@
 			},
 			tanchuang: function() {
 				var arr=[]
+				var a=[]
+				var _this=this
 				this.cartAttr.map(function(n){
-					arr.push(n.goodsId)
+					n.cartAttr.map(function(z){
+						a.push(z.goodsId)
+					})
+				})
+				this.cartAttr.map(function(n){
+					n.cartVO={}
+					n.cartVO.cartAttr=[]
+					n.cartAttr.map(function(z){
+						var obj={}
+						obj.goodsNum=z.goodsNum
+						obj.specKey=z.specKey
+						n.cartVO.cartAttr.push(obj)
+					})
+					n.cartVO.goodsId=n.goodsId
+					n.cartVO.shopId=n.shopId
+					n.cartVO.status='a'
+					_this.youhui.map(function(s){
+						if(s.shopId==n.shopId){
+							n.couponId=s.couponId
+						}
+					})
+					n.goodsIds=a.join(',')
+				})
+				this.cartAttr.map(function(n){
+					arr.push(n.shopId)
 				})
 				var arr=arr.join(',')
-				var cartAttr=[]
-				this.cartAttr.map(function(n){
-					var obj={}
-					obj.cartAttr={}
-					obj.cartAttr.goodsNum=n.goodsNum
-					obj.cartAttr.specKey=n.key
-					obj.goodsId=n.goodsId
-					cartAttr.push(obj )
-				})
 				//提交订单
-				this.$https({url:'/api/shop/order-order-submit',data:JSON.stringify({orderVo:{addressId:''+this.dizhi.id,cartVO:cartAttr,couponId:this.id,goodsIds:arr,orderFrom:+this.dingdan}}),method:'post',haeder:true,success:function(res){
+				this.$https({url:'/api/shop/order-order-submitOrder',data:JSON.stringify({addressId:''+this.dizhi.id,orderVoList:this.cartAttr,orderFrom:+this.dingdan,shopIds:arr}),method:'post',haeder:true,success:function(res){
 					
 				}})
 				uni.showModal({
@@ -244,34 +309,46 @@
 			},
 			tiaozhuan: function() {
 				uni.navigateTo({
-					url: '../../user/leagu/siteList/address?goodsId='+this.godsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys
+					url: '../../user/leagu/siteList/address?goodsId='+this.godsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.youhui)
 				})
 			},
 			qiehuandizhi: function() {
 				//填充信息
 				uni.navigateTo({
-					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.money
+					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.youhui)
 				})
 			},
-			youhuiquan:function(){
+			youhuiquan:function(id){
 				uni.navigateTo({
-					url:'../../user/sale/sale?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys
+					url:'../../user/sale/sale?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&shopId='+id+'&dingdan='+this.dingdan+'&y='+JSON.stringify(this.youhui)
 				})
 			},
-			shangpinj:function(index){
-				if(this.cartAttr[index].goodsNum>1){
-				    this.cartAttr[index].goodsNum--
+			shangpinj:function(index,indexs){
+				if(this.cartAttr[index].cartAttr[indexs].goodsNum>1){
+				    this.cartAttr[index].cartAttr[indexs].goodsNum--
 					this.jisuanjine()
 				}
 			},
-			zengjia:function(index){
-				this.cartAttr[index].goodsNum++
+			zengjia:function(index,indexs){
+				this.cartAttr[index].cartAttr[indexs].goodsNum++
 				this.jisuanjine()
+			},
+			shuzi:function(){
+				this.shangpin=0
+				var _this=this
+				this.cartAttr.map(function(z){
+					z.cartAttr.map(function(x){
+						_this.shangpin+=x.shopPrice*x.goodsNum
+					})
+				})
 			},
 			jisuanjine:function(){
 				var _this=this
+				_this.shangpin=0
 				this.cartAttr.map(function(n){
-					_this.shangpin+=n.shopPrice
+					n.cartAttr.map(function(z){
+					_this.shangpin+=z.shopPrice*z.goodsNum
+					})
 				})
 				this.heji=this.yunfei+this.shangpin
 			}
@@ -412,7 +489,6 @@
 		overflow: hidden;
 		padding: 20upx;
 		padding-bottom: 10upx;
-		border-bottom: 20upx solid #f7f7f7;
 
 		.left_a {
 			float: left;
