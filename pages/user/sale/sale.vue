@@ -91,7 +91,11 @@
 				cartAttr:'',
 				zhid:'',
 				youhuiquan:[],
-				dingdan:''
+				dingdan:'',
+				shopId:0,
+				y:'',
+				id:'',
+				money:''
 			}
 		},
 		methods: {
@@ -111,8 +115,16 @@
 				}})
 			},
 			shiyong:function(id,money){
+				var aum=0
+				var _this=this
+				this.y.map(function(n){
+					if(_this.shopId==n.shopId){
+						n.money=money
+						n.couponId=id
+					}
+				})
 				uni.navigateTo({
-					url:'../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+this.zhid+'&id='+id+'&money='+money+'&dingdan='+this.dingdan
+					url:'../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+this.zhid+'&id='+id+'&money='+money+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&coupid='+this.id+'&y='+JSON.stringify(this.y)
 				})
 			}
 		},
@@ -121,12 +133,25 @@
 			//获取优惠券
 			this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
 				_this.youhuiquan=res.data.data
+				if(options.shopId){
+					_this.$https({url:'/api/shop/store-coupon-list',data:{shopId:options.shopId},success:function(res){
+						res.data.data.map(function(n){
+							var obj={}
+							obj.couponDTO=n
+							_this.youhuiquan.push(obj)
+						})
+					}})
+				}
 			}})
 			if(options){
 				this.goodsId=options.goodsId
 				this.cartAttr=options.cartAttr
 				this.zhid=options.zhid
 				this.dingdan=options.dingdan
+				this.shopId=options.shopId
+				this.id=options.id
+				this.money=options.money
+				this.y=JSON.parse(options.y)
 			}
 			
 		}
@@ -168,11 +193,14 @@
 		overflow: hidden;
 		position: relative;
 		width: 710upx;
-		height: 205upx;
 		margin: 20upx;
 		border-radius: 10upx;
 		background-color: #fff;
-		box-shadow: 0 0 5px #ccc;
+		>view{
+			overflow:hidden;
+			box-shadow:0 0 5px #ccc;
+			margin-top:50rpx;
+		}
 		.imgBox{
 			float: left;
 			padding-right: 20upx;
@@ -182,13 +210,14 @@
 				display: block;
 			}
 			.sum{
-				position: absolute;
-				top: 15%;
-				left:6%;
+				margin-top:-205rpx;
 				text-align: center;
-				text{
+				overflow:hidden;
+				>text{
 					font-size: 60upx;
 					color: #fff;
+					margin-top:20rpx;
+					display:block;
 					text{
 						font-size: 30upx;
 						color: #fff;
