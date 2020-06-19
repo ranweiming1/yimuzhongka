@@ -1,10 +1,9 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
-
+		<!-- <view class="one_line">
+		</view> -->
 		<view class="await">
-			<text>已发货</text>
+			<text>{{deList.shippingStatus==0?'未发货':deList.shippingStatus==1?'已发货':deList.shippingStatus==2?'退货中':'退货完成'}}</text>
 		</view>
 
 		<!-- 揽件信息 -->
@@ -14,7 +13,7 @@
 			</view>
 			<view class="colltext">
 				<view class="collh2">
-					<text>您的订单已经由申通快递揽件</text>
+					<text>您的订单已经由{{deList.shippingName}}快递揽件</text>
 				</view>
 				<view class="collspan">
 					<text>2019-05-06 15:25 25</text>
@@ -29,53 +28,53 @@
 		<view class="siteBox">
 			<view class="content">
 				<view class="nome">
-					<text>张继科</text>
+					<text>{{deList.consignee}}</text>
 				</view>
 				<view class="call">
-					<text>15066458795</text>
+					<text>{{deList.mobile}}</text>
 				</view>
 				<!-- 默认地址标签样式 -->
 				<view class="label">
 					<text>默认</text>
 				</view>
-				<view class="p">
-					<text>山东省济南市槐荫区张庄路街道路街道明南区16号楼明南区16号楼(菜鸟驿站代收)</text>
-				</view>
+			</view>
+			<view class="p">
+				<text>{{deList.address}}</text>
 			</view>
 
-			<view class="imgBox">
-				<image src="../../../static/icon_26.png" mode=""></image>
-			</view>
+			<!-- <view class="imgBox">
+				<!-- <image src="../../../static/icon_26.png" mode=""></image> -->
+			<!-- </view> -->
 		</view>
 
 		<view class="radios">
-			<text>订单编号：45644152412141</text>
+			<text>订单编号：{{deList.orderSn}}</text>
 			<view class="guanb">
 				<text>2019-05-25 15:55:56</text>
 			</view>
 		</view>
 		<!-- 订单信息 -->
-		<view class="xinxi">
+		<view class="xinxi" v-for="(item,index) in deList.goodsList">
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
 			<view class="imgBox_a">
-				<image src="../../../static/img_09.jpg" mode=""></image>
+				<image :src="item.goodsLogo" mode=""></image>
 			</view>
 			<view class="txt_c">
 				<view class="title">
-					<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+					<text>{{item.goodsName}}</text>
 				</view>
 				<view class="spec">
-					<text>已选：＂黄色＂</text>
+					<text>已选：＂{{item.specKeyName}}＂</text>
 				</view>
 				<view class="radColor">
-					<text>562积分</text>
+					<text>￥{{item.goodsPrice}}</text>
 				</view>
 
 				<!-- 这是数量加减 -->
 				<view class="jia">
-					<text>X1</text>
+					<text>X{{item.goodsNum}}</text>
 				</view>
 			</view>
 		</view>
@@ -105,7 +104,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text>已抵扣<text>￥30</text></text>
+				<text>已抵扣<text style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice:'0'}}</text></text>
 			</view>
 		</view>
 
@@ -172,7 +171,7 @@
 			</view>
 			<view class="rightA">
 				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott onna">
+					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="wuliu">
 						<button type="primary">查看物流</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup">
@@ -185,6 +184,42 @@
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				deList: {},
+				code:'SN6600014074283',
+				order:'',
+				com:''
+			}
+		},
+		onLoad(option) {
+			var _this = this
+			this.$https({
+				url: '/api/user/order-detail',
+				data: {
+					order_id: option.orderId
+				},
+				dengl: false,
+				success: function(res) {
+					_this.deList = res.data.data
+					_this.order=res.data.data.orderSn
+					_this.com=res.data.data.shippingName
+					console.log(res.data.data)
+					// _this.code=res.data.data.shippingCode
+					console.log(res.data.data.shippingCode)
+				}
+			})
+		},
+		methods:{
+			wuliu(){
+				// console.log('222')
+				uni.navigateTo({
+					url:'./deliver?code='+this.code+'&order='+this.order+'&com='+this.com
+				})
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
@@ -206,7 +241,7 @@
 
 		text {
 			font-size: 28upx;
-			line-height:30upx;
+			line-height: 30upx;
 			color: #333;
 		}
 	}
@@ -216,15 +251,15 @@
 		padding: 20upx;
 		background-color: #fff;
 		overflow: hidden;
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid #e5e5e5;
 
 		.content {
 			float: left;
-			width: 80%;
+			width: 100%;
 
 			.nome {
 				float: left;
-				font-size: 30upx;
+				font-size: 29upx;
 				color: #333;
 				padding-right: 10upx;
 			}
@@ -232,8 +267,8 @@
 			.call {
 				float: left;
 				font-size: 24upx;
-				color: #666;
-				line-height: 40upx;
+				color: #989898;
+				line-height: 47upx;
 				padding-right: 10upx;
 			}
 
@@ -246,14 +281,16 @@
 				background-color: #fdf1ec;
 			}
 
-			.p {
-				float: left;
-				font-size: 26upx;
-				color: #333;
-				line-height: 40upx;
-			}
+
 		}
 
+		.p {
+			float: left;
+			font-size: 25upx;
+			color: #333;
+			line-height: 47upx;
+			display: block;
+		}
 
 	}
 
@@ -263,10 +300,10 @@
 		overflow: hidden;
 		padding-top: 10upx;
 		overflow: hidden;
-		border-bottom: 1px solid #f7f7f7;
+		border-bottom: 1px solid #e5e5e5;
 
 		text {
-			font-size: 28upx;
+			font-size: 27upx;
 			color: #333;
 			line-height: 40upx;
 			padding-right: 10upx;
@@ -282,7 +319,7 @@
 		float: right;
 
 		text {
-			font-size: 28upx;
+			font-size: 24upx;
 			color: #999;
 		}
 	}
@@ -535,41 +572,49 @@
 
 		}
 	}
-	.collect{
+
+	.collect {
 		width: 710upx;
 		padding: 20upx;
 		border-bottom: 20upx solid #f7f7f7;
 		overflow: hidden;
-		.collimg{
+
+		.collimg {
 			padding-top: 30upx;
 			float: left;
-			image{
+
+			image {
 				width: 44upx;
 				height: 41upx;
 			}
 		}
-		.colltext{
+
+		.colltext {
 			float: left;
 			padding-left: 20upx;
-			.collh2{
-				text{
+
+			.collh2 {
+				text {
 					font-size: 30upx;
 					line-height: 40upx;
 					color: #333;
 				}
 			}
-			.collspan{
-				text{
+
+			.collspan {
+				text {
 					font-size: 22upx;
-					line-height:30upx;
+					line-height: 30upx;
 					color: #999;
 				}
 			}
 		}
-		.collenter{
+
+		.collenter {
 			float: right;
-			image{
-				width:12upx;
+
+			image {
+				width: 12upx;
 				height: 20upx;
 			}
 		}

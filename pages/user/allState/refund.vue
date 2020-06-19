@@ -83,6 +83,11 @@
 </template>
 
 <script>
+	export default{
+		onLoad() {
+			
+		}
+	}
 </script>
 
 <style lang="scss">
