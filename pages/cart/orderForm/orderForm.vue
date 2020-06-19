@@ -194,7 +194,9 @@
 					if (options.zhid) {
 						this.dizhi = JSON.parse(options.zhid)
 					}
+					if(options.moneys){
 					this.moneys=options.money
+					}
 					this.id=options.id
 					this.dingdan=options.dingdan
 					if(options.y){
@@ -260,7 +262,11 @@
 						_this.yunfei+=z.kuaidi
 					})
 				})
-				this.heji=this.yunfei+this.shangpin
+				this.youhui.map(function(z){
+					_this.moneys+=+(z.moneys?z.moneys:0)
+				})
+				this.heji=(+this.yunfei)+(+this.shangpin)-this.moneys
+				console.log(this.cartAttr)
 			},
 			tanchuang: function() {
 				var arr=[]
@@ -315,17 +321,26 @@
 				});
 			},
 			tiaozhuan: function() {
+				if(this.dingdan==2){
+					this.cartAttr[0].goodsNum=this.cartAttr[0].cartAttr[0].goodsNum
+				}
 				uni.navigateTo({
 					url: '../../user/leagu/siteList/address?goodsId='+this.godsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.youhui)
 				})
 			},
 			qiehuandizhi: function() {
+				if(this.dingdan==2){
+					this.cartAttr[0].goodsNum=this.cartAttr[0].cartAttr[0].goodsNum
+				}
 				//填充信息
 				uni.navigateTo({
 					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.youhui)
 				})
 			},
 			youhuiquan:function(id){
+				if(this.dingdan==2){
+					this.cartAttr[0].goodsNum=this.cartAttr[0].cartAttr[0].goodsNum
+				}
 				uni.navigateTo({
 					url:'../../user/sale/sale?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&shopId='+id+'&dingdan='+this.dingdan+'&y='+JSON.stringify(this.youhui)
 				})
@@ -348,6 +363,7 @@
 						_this.shangpin+=x.shopPrice*x.goodsNum
 					})
 				})
+				this.heji=this.yunfei+this.shangpin-this.moneys
 			},
 			jisuanjine:function(){
 				var _this=this
@@ -357,7 +373,7 @@
 					_this.shangpin+=z.shopPrice*z.goodsNum
 					})
 				})
-				this.heji=this.yunfei+this.shangpin
+				this.heji=this.yunfei+this.shangpin-this.moneys
 			}
 		}
 	}
