@@ -422,9 +422,9 @@
 							goodsId: this.list.goodsId,
 							specKey: this.guige[this.indexx].key,
 							shopId: this.shopId,
-							name:this.list.couponDTOS[0].name
+							name:this.list.couponDTOS[0].name,
 						}]
-					}) + '&dingdan=2'
+					}) + '&dingdan=2&goumai=1'
 				})
 			},
 			tiaoCart() {

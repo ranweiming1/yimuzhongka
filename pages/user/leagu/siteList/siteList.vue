@@ -55,7 +55,6 @@
 			}
 		},
 		onLoad: function(options) {
-			console.log(options)
 			if(options.goodsId){
 				this.goodsId=options.goodsId
 				this.cartAttr=options.cartAttr

@@ -194,7 +194,9 @@
 					if (options.zhid) {
 						this.dizhi = JSON.parse(options.zhid)
 					}
+					if(options.moneys){
 					this.moneys=options.money
+					}
 					this.id=options.id
 					this.dingdan=options.dingdan
 					if(options.y){
@@ -224,14 +226,12 @@
 					}else{
 						console.log(JSON.parse(options.cartAttr))
 					}
-					console.log(this.cartAttr)
 					this.cartAttr.map(function(n){
 						n.cartAttr.map(function(z){
 							console.log(z.shopPrice,z.goodsNum)
 							_this.shangpin+=z.shopPrice*z.goodsNum
 						})
 					})
-					console.log(this.shangpin)
 					this.shopId=options.shopId
 					//判断选的哪个店铺的优惠券
 					this.cartAttr.map(function(n,index){
@@ -256,7 +256,17 @@
 						}
 					})
 				}
-
+				//计算运费
+				this.cartAttr.map(function(n){
+					n.cartAttr.map(function(z){
+						_this.yunfei+=z.kuaidi
+					})
+				})
+				this.youhui.map(function(z){
+					_this.moneys+=+(z.moneys?z.moneys:0)
+				})
+				this.heji=(+this.yunfei)+(+this.shangpin)-this.moneys
+				console.log(this.cartAttr)
 			},
 			tanchuang: function() {
 				var arr=[]
@@ -294,34 +304,43 @@
 				this.$https({url:'/api/shop/order-order-submitOrder',data:JSON.stringify({addressId:''+this.dizhi.id,orderVoList:this.cartAttr,orderFrom:+this.dingdan,shopIds:arr}),method:'post',haeder:true,success:function(res){
 					
 				}})
-				uni.showModal({
-					title: '支付成功',
-					content: '您已成功购买该商品\n感谢您的支持',
-					success: function(res) {
-						if (res.confirm) {
-							console.log('用户点击确定');
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					},
+				// uni.showModal({
+				// 	title: '支付成功',
+				// 	content: '您已成功购买该商品\n感谢您的支持',
+				// 	success: function(res) {
+				// 		if (res.confirm) {
+				// 			console.log('用户点击确定');
+				// 		} else if (res.cancel) {
+				// 			console.log('用户点击取消');
+				// 		}
+				// 	},
 
 
 
 
-				});
+				// });
 			},
 			tiaozhuan: function() {
+				if(this.dingdan==2){
+					this.cartAttr[0].goodsNum=this.cartAttr[0].cartAttr[0].goodsNum
+				}
 				uni.navigateTo({
 					url: '../../user/leagu/siteList/address?goodsId='+this.godsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.youhui)
 				})
 			},
 			qiehuandizhi: function() {
+				if(this.dingdan==2){
+					this.cartAttr[0].goodsNum=this.cartAttr[0].cartAttr[0].goodsNum
+				}
 				//填充信息
 				uni.navigateTo({
 					url: '../../user/leagu/siteList/siteList?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.youhui)
 				})
 			},
 			youhuiquan:function(id){
+				if(this.dingdan==2){
+					this.cartAttr[0].goodsNum=this.cartAttr[0].cartAttr[0].goodsNum
+				}
 				uni.navigateTo({
 					url:'../../user/sale/sale?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:this.cartAttr})+'&zhid='+JSON.stringify(this.dizhi)+'&id='+this.id+'&money='+this.moneys+'&shopId='+id+'&dingdan='+this.dingdan+'&y='+JSON.stringify(this.youhui)
 				})
@@ -344,6 +363,7 @@
 						_this.shangpin+=x.shopPrice*x.goodsNum
 					})
 				})
+				this.heji=this.yunfei+this.shangpin-this.moneys
 			},
 			jisuanjine:function(){
 				var _this=this
@@ -353,7 +373,7 @@
 					_this.shangpin+=z.shopPrice*z.goodsNum
 					})
 				})
-				this.heji=this.yunfei+this.shangpin
+				this.heji=this.yunfei+this.shangpin-this.moneys
 			}
 		}
 	}
