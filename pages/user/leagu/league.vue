@@ -101,7 +101,8 @@
 				principal: '',
 				sex: '',
 				storeLogo: '../../../static/img_10.jpg.png',
-				storeName: ''
+				storeName: '',
+				legalPhone: ''
 			}
 		},
 		methods: {
@@ -114,76 +115,121 @@
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.storeLogo=JSON.parse(res.data).data.url
+								this.storeLogo = JSON.parse(res.data).data.url
 							}
 						})
 					}
 				})
 			},
-			yingyezhizhao:function(){
-				var _this=this
+			yingyezhizhao: function() {
+				var _this = this
 				uni.chooseImage({
-					success:res=>{
+					success: res => {
 						uni.uploadFile({
-							url:_this.webUrl+'/api/oauth/oss/upload',
-							filePath:res.tempFilePaths[0],
-							name:'img',
-							success:res=>{
-								this.license=JSON.parse(res.data).data.url
+							url: _this.webUrl + '/api/oauth/oss/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'img',
+							success: res => {
+								this.license = JSON.parse(res.data).data.url
 							}
 						})
 					}
 				})
 			},
-			shenfenzheng:function(){
+			shenfenzheng: function() {
 				uni.chooseImage({
-					success:res=>{
+					success: res => {
 						uni.uploadFile({
-							url:this.webUrl+'/api/oauth/oss/upload',
-							filePath:res.tempFilePaths[0],
-							name:'img',
-							success:res=>{
-								this.cardImg1=JSON.parse(res.data).data.url
+							url: this.webUrl + '/api/oauth/oss/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'img',
+							success: res => {
+								this.cardImg1 = JSON.parse(res.data).data.url
 							}
 						})
 					}
 				})
 			},
-			shenfenzhengx:function(){
+			shenfenzhengx: function() {
 				uni.chooseImage({
-					success:res=>{
+					success: res => {
 						uni.uploadFile({
-						    url:this.webUrl+'/api/oauth/oss/upload',
-						    filePath:res.tempFilePaths[0],
-						    name:'img',
-						    success:res=>{
-							    this.cardImg2=JSON.parse(res.data).data.url
-						    },
+							url: this.webUrl + '/api/oauth/oss/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'img',
+							success: res => {
+								this.cardImg2 = JSON.parse(res.data).data.url
+							},
 						})
 					}
 				})
 			},
-			shenfenzhengxxx:function(){
+			shenfenzhengxxx: function() {
 				uni.chooseImage({
-					success:res=>{
+					success: res => {
 						uni.uploadFile({
-							url:this.webUrl+'/api/oauth/oss/upload',
-							filePath:res.tempFilePaths[0],
-							name:'img',
-							success:res=>{
-								this.holdImg=JSON.parse(res.data).data.url
+							url: this.webUrl + '/api/oauth/oss/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'img',
+							success: res => {
+								this.holdImg = JSON.parse(res.data).data.url
 							}
 						})
 					}
 				})
 			},
 			//上传信息
-			shangchuan:function(){
-				this.$https({url:'/api/shop/add-merchat',data:JSON.stringify({accountName:this.accountName,area:this.area,cardImg1:this.cardImg1,cardImg2:this.cardImg2,holdImg:this.holdImg,email:this.email,legalCardId:this.legalCardId,legalName:this.legalName,legalPhone:this.legalPhone,license:this.license,princPhone:this.princPhone,princpal:this.princpal,sex:this.inde,storeLogo:this.storeLogo,storeName:this.storeName}),method:'post',haeder:true,success:function(res){
+			shangchuan: function() {
+				var _this = this
+				if (!_this.$jiaoyanEmail(_this.email)) {
 					uni.showToast({
-						title:res.data.message
+						title: '请输入有效邮箱',
+						icon: 'none'
 					})
-				}})
+				} else if (!_this.$jiaoyanCard(_this.legalCardId)) {
+					uni.showToast({
+						title: '请输入正确身份证号',
+						icon: 'none'
+					})
+				} else if (!_this.$jiaoyan(_this.legalPhone)) {
+					uni.showToast({
+						title: '请输入正确的手机号',
+						icon: 'none'
+					})
+				} else if (!_this.$jiaoyan(_this.princPhone)) {
+					uni.showToast({
+						title: '请输入正确的手机号',
+						icon: 'none'
+					})
+				} else {
+					this.$https({
+						url: '/api/shop/add-merchat',
+						data: JSON.stringify({
+							accountName: this.accountName,
+							area: this.area,
+							cardImg1: this.cardImg1,
+							cardImg2: this.cardImg2,
+							holdImg: this.holdImg,
+							email: this.email,
+							legalCardId: this.legalCardId,
+							legalName: this.legalName,
+							legalPhone: this.legalPhone,
+							license: this.license,
+							princPhone: this.princPhone,
+							princpal: this.princpal,
+							sex: this.inde,
+							storeLogo: this.storeLogo,
+							storeName: this.storeName
+						}),
+						method: 'post',
+						haeder: true,
+						success: function(res) {
+							uni.showToast({
+								title: res.data.message
+							})
+						}
+					})
+				}
 			}
 		}
 	}

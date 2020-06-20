@@ -22,7 +22,7 @@
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>
 				<input class="uni-input" type="number" v-model='account.checkCode' placeholder="请输入验证码" />
-				<text @tap='fasongyanzhengma'>发送验证码</text>
+				<text @tap='fasongyanzhengma'><text v-if='isYan' style="border-left: 0;padding-left: 2rpx;">({{yanZ}}s)</text>{{yanText}}</text>	
 			</view>
 		</view>
 		<!-- 提交按钮 -->
@@ -57,7 +57,10 @@
 				statusBarHeight: this.statusBarHeight,
 				//账户信息
 				account: {},
-				isLog:false
+				isLog:false,
+				yanZ:50,
+				isYan:false,
+				yanText:'发送验证码'
 			}
 		},
 		onLoad(option) {
@@ -87,8 +90,15 @@
 					url: 'enter'
 				})
 			},
-			//发送验证码
 			fasongyanzhengma: function() {
+				var _this=this
+				if(_this.isYan){
+					uni.showToast({
+						title: '已发送验证码'
+					})
+				return;	
+				}
+				
 				if (this.$jiaoyan(this.account.phone)) {
 					this.$https({
 						url: '/api/oauth/sendSms/user-register',
@@ -97,6 +107,18 @@
 						},
 						dengl: true,
 						success: function(res) {
+							_this.isYan=true
+						var timer=setInterval(function(){
+								if(_this.yanZ==0){
+									_this.isYan=false
+									_this.yanZ=50
+									console.log(this.yanZ)
+									clearInterval(timer)
+								}
+								_this.yanText='重新发送'
+								_this.yanZ--
+							},1000)
+		
 							if (res.data.data) {
 								uni.showToast({
 									title: '发送成功'
@@ -116,6 +138,7 @@
 					})
 				}
 			},
+			
 			//注册按钮
 			zhuce: function() {
 				var _this=this

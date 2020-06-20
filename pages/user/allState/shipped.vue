@@ -190,7 +190,8 @@
 				deList: {},
 				code:'SN6600014074283',
 				order:'',
-				com:''
+				com:'',
+				dz:''
 			}
 		},
 		onLoad(option) {
@@ -205,6 +206,7 @@
 					_this.deList = res.data.data
 					_this.order=res.data.data.orderSn
 					_this.com=res.data.data.shippingName
+					_this.dz=res.data.data.cityInfo
 					console.log(res.data.data)
 					// _this.code=res.data.data.shippingCode
 					console.log(res.data.data.shippingCode)
@@ -215,7 +217,7 @@
 			wuliu(){
 				// console.log('222')
 				uni.navigateTo({
-					url:'./deliver?code='+this.code+'&order='+this.order+'&com='+this.com
+					url:'./deliver?code='+this.code+'&order='+this.order+'&com='+this.com+'&dz='+this.dz
 				})
 			}
 		}

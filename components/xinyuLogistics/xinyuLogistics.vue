@@ -54,7 +54,7 @@
 		},
 
 		onLoad() {
-
+		console.log(this.wlInfo)
 		},
 
 		methods: {
