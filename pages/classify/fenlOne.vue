@@ -162,7 +162,7 @@
 				}
 			})
 			this.$https({
-				url: '/api/oauth/shop/goods-recom',
+				url: '/api/oauth/oauth/shop/goods-recom',
 				data: {
 					// cat_id:option.id?option.id:''
 				},

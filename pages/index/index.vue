@@ -151,7 +151,7 @@
 				},
 			})
 			this.$https({
-				url: '/api/shop/coupon-couple-List',
+				url: '/api/oauth/shop/coupon-couple-List',
 				data: {},
 				dengl:true,
 				success: function(res) {
@@ -177,7 +177,7 @@
 					url: 'productDetails?id=' + id
 				})
 				this.$https({
-					url: '/api/shop/goods-brows-history-add',
+					url: '/api/oauth/shop/goods-brows-history-add',
 					data: {
 						goodsId: id
 					},
