@@ -140,7 +140,6 @@
 				<text>￥{{yunfei}}</text>
 			</view>
 		</view>
-
 		<!-- 底部 -->
 		<view class="bottom">
 			<view class="leftA">
@@ -173,7 +172,8 @@
 				dingdan:'',
 				//保存优惠券
 				youhui:[],
-				shopId:0
+				shopId:0,
+				xinxi:''
 			}
 		},
 		methods: {
@@ -270,14 +270,9 @@
 			},
 			tanchuang: function() {
 				var arr=[]
-				var a=[]
 				var _this=this
 				this.cartAttr.map(function(n){
-					n.cartAttr.map(function(z){
-						a.push(z.goodsId)
-					})
-				})
-				this.cartAttr.map(function(n){
+					var a=[]
 					n.cartVO={}
 					n.cartVO.cartAttr=[]
 					n.cartAttr.map(function(z){
@@ -294,6 +289,9 @@
 							n.couponId=s.couponId
 						}
 					})
+					n.cartAttr.map(function(n){
+						a.push(n.goodsId)
+					})
 					n.goodsIds=a.join(',')
 				})
 				this.cartAttr.map(function(n){
@@ -302,7 +300,23 @@
 				var arr=arr.join(',')
 				//提交订单
 				this.$https({url:'/api/shop/order-order-submitOrder',data:JSON.stringify({addressId:''+this.dizhi.id,orderVoList:this.cartAttr,orderFrom:+this.dingdan,shopIds:arr}),method:'post',haeder:true,success:function(res){
-					
+					_this.$https({url:'/api/pay/unifiedOrder',data:JSON.stringify({orderNo:res.data.data[0],payMethod:1}),method:'post',haeder:true,success:function(res){
+						var obj={}
+						obj.appid=res.data.data.appId
+						obj.partnerid=res.data.data.partnerId
+						obj.prepayid=res.data.data.prepayId
+						obj.package=res.data.data.packageValue
+						obj.noncestr=res.data.data.nonceStr
+						obj.timestamp=res.data.data.timeStamp
+						obj.sign=res.data.data.sign
+						uni.requestPayment({
+							provider:'wxpay',
+							orderInfo:obj,
+							success:function(res){
+							},fail:function(res){
+							}
+						})
+					}})
 				}})
 				// uni.showModal({
 				// 	title: '支付成功',

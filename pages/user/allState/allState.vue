@@ -159,9 +159,7 @@
 		},
 		onLoad(option) {
 			var _this=this
-			console.log(option)
 			this.id=option.id
-			console.log(this.id)
 			this.$https({
 				url:'/api/user/order-list',
 				data:{status:option.id},
@@ -171,7 +169,7 @@
 					 // _this.gList=res.data.data
 					console.log(res.data.data)
 					// console.log(res.data.data.goodsList)
-					toggle(option.id)
+					_this.toggle(option.id)
 				}
 			})
 		},
@@ -186,6 +184,7 @@
 				this.$refs.popup.close()
 			},
 			toggle(index){
+				var _this=this
 				// console.log(e.target)
 				this.id=index
 				this.$https({
@@ -193,7 +192,7 @@
 					data:{status:index},
 					dengl:false,
 					success:function(res){
-						console.log(res.data)
+						_this.dList=res.data.data
 					}
 				})
 				

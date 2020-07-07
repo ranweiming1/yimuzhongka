@@ -162,12 +162,12 @@
 				// var _this = this
 				if (!option.goodsBrandId) {
 					this.$https({
-						url: '/api/shop/mall-goods-ptList',
+						url: '/api/oauth/shop/mall-goods-ptList',
 						data: {
 							shop_id: _this.shopsId,
 							cat_id: option.cateId
 						},
-						dengl: false,
+						dengl:true,
 						success: function(res) {
 							console.log(res.data.data)
 							console.log(2222)
@@ -192,12 +192,12 @@
 					url: '../index/productDetails?id=' + id
 				})
 				this.$https({
-					url: '/api/shop/goods-brows-history-add',
+					url: '/api/oauth/shop/goods-brows-history-add',
 					data: {
 						goodsId: id
 					},
 					method: 'POST',
-					dengl: false,
+					dengl:true,
 					success(res) {
 						// console.log('添加成功')
 						// console.log(res.data)
@@ -214,8 +214,9 @@
 				var _this = this
 				this.isShow = true
 				this.$https({
-					url: '/api/shop/mall-goods-serch',
+					url: '/api/oauth/shop/mall-goods-serch',
 					data: {},
+					dengl:true,
 					success: function(res) {
 						_this.shaiList = res.data.data.brandDTOS
 						_this.id = res.data.data.brandDTOS[0].id
@@ -233,8 +234,8 @@
 			shaiX() {
 				var _this = this
 				this.$https({
-					url: '/api/shop/mall-goods-serchList',
-					dengl: false,
+					url: '/api/oauth/shop/mall-goods-serchList',
+					dengl:true,
 					method: 'POST',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
@@ -276,7 +277,8 @@
 				this.st = st
 				var _this = this
 				this.$https({
-					url: '/api/shop/mall-goods-serchList',
+					url: '/api/oauth/shop/mall-goods-serchList',
+					dengl:true,
 					method: 'post',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
@@ -297,8 +299,8 @@
 				var _this = this
 				console.log(this.value)
 				this.$https({
-					url: '/api/shop/mall-goods-ptList',
-					dengl: false,
+					url: '/api/oauth/shop/mall-goods-ptList',
+					dengl:true,
 					data: {
 						keywords: this.value,
 						shop_id: this.shopsId,

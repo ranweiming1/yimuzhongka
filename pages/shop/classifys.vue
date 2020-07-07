@@ -56,9 +56,9 @@
 			// console.log(option)
 			var _this = this
 			this.$https({
-				url: '/api/shop/mall-lists',
+				url: '/api/oauth/shop/mall-lists',
 				data: {},
-				dengl: false,
+				dengl:true,
 				success(res) {
 					_this.allList = res.data.data.goodsCates
 					_this.rList = res.data.data.goodsCates[0].childsList

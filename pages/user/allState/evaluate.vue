@@ -102,11 +102,11 @@
 			this.goodsId=option.id
 			console.log(option)
 			this.$https({
-				url: '/api/shop/mall-goods-detail',
+				url: '/api/oauth/shop/mall-goods-detail',
 				data: {
 					goods_id: option.id
 				},
-				dengl: false,
+				dengl:true,
 				success(res) {
 					_this.list = res.data.data.detail
 					console.log(res.data.data)

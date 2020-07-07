@@ -157,11 +157,11 @@
 				},
 			}),
 			this.$https({
-				url: '/api/shop/mall-goods-detail',
+				url: '/api/oauth/shop/mall-goods-detail',
 				data: {
 					goods_id: option.id
 				},
-				dengl: false,
+				dengl:true,
 				success: function(res) {
 					_this.list = res.data.data.detail
 					_this.canshu = res.data.data.specs

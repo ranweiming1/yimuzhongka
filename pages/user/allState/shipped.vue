@@ -50,7 +50,7 @@
 		<view class="radios">
 			<text>订单编号：{{deList.orderSn}}</text>
 			<view class="guanb">
-				<text>2019-05-25 15:55:56</text>
+				<text>{{deList.addTime}}</text>
 			</view>
 		</view>
 		<!-- 订单信息 -->
@@ -84,15 +84,12 @@
 				<text>运费</text>
 			</view>
 			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
 				<text>￥10.00</text>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>给卖家备注</text></view>
-			<input class="uni-input" name="input" placeholder="" />
+			<view>{{deList.userNote}}</view>
 		</view>
 
 
@@ -101,9 +98,6 @@
 				<text>优惠券</text>
 			</view>
 			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
 				<text>已抵扣<text style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice:'0'}}</text></text>
 			</view>
 		</view>
@@ -116,9 +110,6 @@
 				<view class="img_l">
 					<image src="../../../static/wx.png" mode=""></image>
 				</view>
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
 				<text>微信安全支付</text>
 			</view>
 		</view>
@@ -128,9 +119,6 @@
 				<text>商品金额</text>
 			</view>
 			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
 				<text>￥853.00</text>
 			</view>
 		</view>
@@ -139,9 +127,6 @@
 				<text>优惠券减免</text>
 			</view>
 			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
 				<text>-￥30</text>
 			</view>
 		</view>
@@ -150,9 +135,6 @@
 				<text>运费</text>
 			</view>
 			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
 				<text>￥200</text>
 			</view>
 		</view>

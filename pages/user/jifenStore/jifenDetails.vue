@@ -53,9 +53,9 @@
 			console.log(option.id)
 			var _this=this
 			this.$https({
-				url:'/api/shop/mall-goods-detail',
+				url:'/api/oauth/shop/mall-goods-detail',
 				data:{},
-				dengl:false,
+				dengl:true,
 				success:function(res){
 					console.log(res.data.data)
 				}

@@ -332,9 +332,9 @@
 					url:'./allState/deliver_01'
 				})
 			},
-			aiChe:function(i){
+			aiChe:function(){
 				uni.navigateTo({
-					url:'../shop/car?id='+i
+					url:'task/aiChe'
 				})
 			}
 		}

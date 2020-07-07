@@ -59,9 +59,9 @@
 			this.height = uni.getSystemInfoSync().windowHeight;
 			var _this = this
 			this.$https({
-				url: '/api/shop/mall-lists',
+				url: '/api/oauth/shop/mall-lists',
 				data: {},
-				dengl: false,
+				dengl:true,
 				success: function(res) {
 					// console.log(res.data.data)
 					_this.AllList = res.data.data.goodsCates

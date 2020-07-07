@@ -128,8 +128,9 @@
 		onShow() {
 			var _this = this
 			this.$https({
-				url: '/api/shop/mall-index',
+				url: '/api/oauth/shop/mall-index',
 				data: {},
+				dengl:true,
 				// dengl: false,
 				success: function(res) {
 					_this.banList = res.data.data.bannerList
@@ -152,6 +153,7 @@
 			this.$https({
 				url: '/api/shop/coupon-couple-List',
 				data: {},
+				dengl:true,
 				success: function(res) {
 					if (res.data.data.length > 0) {
 						//是否是新人
@@ -180,7 +182,7 @@
 						goodsId: id
 					},
 					method: 'POST',
-					dengl: false,
+					dengl:true,
 					success(res) {
 						console.log('添加成功')
 						console.log(res.data)

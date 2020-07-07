@@ -9,28 +9,25 @@
 			</view>
 		</view>
 		<radio-group @change='checkboxChange'>
-			<view class="siteBox" v-for='item in 5'>
+			<view class="siteBox" v-for='item in listz'>
 				<view class="radios">
 					<radio :value='item.id' />
 				</view>
 				<view class="content">
-					<view class="label" v-if='item.isDefault==1'>
-						<text>默认</text>
-					</view>
 					<view class="d">
-						<text>奥迪</text>
+						<text>{{}}</text>
 					</view>
 					<view class="nome">
 						<text>奥迪A6</text>
 					</view> 
 				</view>
 				<view class="edit">
-					<text @tad='bianji(item.index)'>编辑</text>
+					<text @tad='bianji(index)'>编辑</text>
 				</view>
 			</view>
 		</radio-group>
 		<view class="uni-padding-wrap uni-common-mt bott">
-			<button type="primary" style="background: #2b5cff" @tap='fanhui'>确定并返回</button>
+			<button type="primary" style="background: #2b5cff" @tap='fanhui'>添加爱车</button>
 		</view>
 	</view>
 </template>
@@ -39,38 +36,22 @@
 	export default {
 		data() {
 			return {
-
+				listz:[]
 			}
 		},
-		onLoad: function() {		
+		onLoad: function() {
+			var _this=this
+			this.$https({url:'/api/user/my-favorite-car-list',data:{},success:function(res){
+				_this.listz=res.data.data
+			}})
 		},
-	// 	methods: {
-	// 		tianjia: function() {
-	// 			// console.log(1111)
-	// 			var _this = this
-	// 			uni.navigateTo({
-	// 				url: './address'
-	// 			})
-	// 		},
-	// 		checkboxChange: function(e) {
-	// 			var _this=this
-	// 			this.list.map(function(n){
-	// 				if(e.detail.value==n.id){
-	// 					_this.rds=n
-	// 				}
-	// 			})
-	// 		},
-	// 		bianji: function(index) {
-	// 			uni.navigateTo({
-	// 				url: 'address?address=' + JSON.stringify(this.list[index])
-	// 			})
-	// 		},
-	// 		fanhui:function(){
-	// 			uni.navigateTo({
-	// 				url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+JSON.stringify(this.rds)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan
-	// 			})
-	// 		}
-	// 	}
+		methods: {
+			fanhui:function(){
+				uni.navigateTo({
+					url:'../../shop/car?id=1'
+				})
+			}
+		}
 	}
 </script>
 

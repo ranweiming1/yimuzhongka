@@ -134,7 +134,7 @@
 			this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
 				_this.youhuiquan=res.data.data
 				if(options.shopId){
-					_this.$https({url:'/api/shop/store-coupon-list',data:{shopId:options.shopId},success:function(res){
+					_this.$https({url:'/api/oauth/shop/store-coupon-list',data:{shopId:options.shopId},dengl:true,success:function(res){
 						res.data.data.map(function(n){
 							var obj={}
 							obj.couponDTO=n

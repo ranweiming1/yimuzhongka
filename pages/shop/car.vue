@@ -28,6 +28,18 @@
 				</view>
 			</view>
 		</view>
+		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.5);' v-if='chepaiz'>
+			<view style='width:500rpx;height:430rpx;position:absolute;margin:auto;top:0;left:0;right:0;bottom:0;background:#fff;'>
+				<view style='text-align:center;margin-top:10rpx;font-size:20rpx;'>填写车牌号</view>
+				<input v-model='chepai' style='border:1px solid #eee;margin:0 auto;margin-top:20rpx;width:200rpx;'>
+				<view style='text-align:center;margin-top:10rpx;font-size:20rpx;'>车辆照片</view>
+				<image :src='tupian' style='width:176rpx;height:176rpx;display:block;margin:0 auto;margin-top:20rpx;' @tap='tu'></image>
+				<view style='overflow:hidden;margin:0 auto;margin-top:20rpx;width:200rpx;'>
+					<view style='width:70rpx;float:left;border:1px solid #eee;border-radius:10rpx;line-height:30rpx;text-align:center;font-size:20rpx;' @tap='tian'>确定</view>
+					<view style='width:70rpx;float:right;border:1px solid #eee;border-radius:10rpx;line-height:30rpx;text-align:center;font-size:20rpx;' @tap='quxiao'>取消</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -41,7 +53,11 @@
 				pinpai: '',
 				car: [],
 				zhezhao: false,
-				aiChe: ''
+				aiChe: '',
+				chepaiz:false,
+				chepai:'',
+				tupian:'../../static/img_10.jpg.png',
+				id:''
 			}
 		},
 		onLoad(option) {
@@ -82,12 +98,43 @@
 			},
 			quxiaozhe: function(id) {
 				this.zhezhao = false
+				if(this.aiChe==1){
+					//添加爱车
+					this.chepaiz=true
+					this.id=id
+				}else{
 				uni.navigateTo(
 					this.aiChe ? {
 						url: '../user/task/aiChe'
 					} : {
 						url: './all?goodsBrandId=' + this.list[this.xuanzhong].list[0].carId + '&carId=' + id
 					})
+					}
+			},
+			tu:function(){
+				uni.chooseImage({
+					count:1,
+					success:res=>{
+						uni.uploadFile({
+							url:this.webUrl+'/api/oauth/oss/upload',
+							filePath:res.tempFilePaths[0],
+							name:'img',
+							success:res=>{
+								this.tupian=JSON.parse(res.data).data.url
+							}
+						})
+					}
+				})
+			},
+			quxiao:function(){
+				this.chepaiz=false
+			},
+			tian:function(){
+				this.$https({url:'/api/user/edit-my-favorite-car',data:JSON.stringify({carCateId:this.id,carNum:this.chepai,myCarImg:this.tupian,id:0}),haeder:true,method:'post',success:function(res){
+					uni.navigateTo({
+						url:'../user/task/aiChe'
+					})
+				}})
 			}
 		}
 	}

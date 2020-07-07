@@ -108,12 +108,12 @@
 					url: '../index/productDetails?id=' + id
 				})
 				this.$https({
-					url: '/api/shop/goods-brows-history-add',
+					url: '/api/oauth/shop/goods-brows-history-add',
 					data: {
 						goodsId: id
 					},
 					method: 'POST',
-					dengl: false,
+					dengl:true,
 					success(res) {
 					}
 				})

@@ -3,9 +3,10 @@ import App from './App'
 //引入公共样式
 // import './style/gg.css'
 Vue.config.productionTip = false
-var webUrl = 'https://www.yimuzk.com'
+var webUrl = 'https://yimuzk.com'
 Vue.prototype.webUr = webUrl
 var $http = function(obj) {
+	console.log(obj)
 	if (obj.dengl) {
 		uni.request({
 			url: webUrl + obj.url,

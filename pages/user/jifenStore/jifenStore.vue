@@ -69,9 +69,9 @@
 		onLoad() {
 			var _this = this
 			this.$https({
-					url: '/api/shop/mall-goods-jfList',
+					url: '/api/oauth/shop/mall-goods-jfList',
 					method: 'POST',
-					dengl: false,
+					dengl:true,
 					data: JSON.stringify({
 						jfAsc: '',
 						jfDesc: '',
@@ -108,9 +108,9 @@
 				_this.isXu = !_this.isXu
 				if (i == 1) {
 					this.$https({
-						url: '/api/shop/mall-goods-jfList',
+						url: '/api/oauth/shop/mall-goods-jfList',
 						method: 'POST',
-						dengl: false,
+						dengl:true,
 						data: JSON.stringify({
 							jfAsc: '',
 							jfDesc: '',
@@ -128,9 +128,9 @@
 				}
 				if (i == 2) {
 					this.$https({
-						url: '/api/shop/mall-goods-jfList',
+						url: '/api/oauth/shop/mall-goods-jfList',
 						method: 'POST',
-						dengl: false,
+						dengl:true,
 						data: JSON.stringify(
 
 							_this.isXu ? {
@@ -155,9 +155,9 @@
 				}
 				if (i == 3) {
 					this.$https({
-						url: '/api/shop/mall-goods-jfList',
+						url: '/api/oauth/shop/mall-goods-jfList',
 						method: 'POST',
-						dengl: false,
+						dengl:true,
 						data: JSON.stringify(
 							_this.isXu ? {
 								jfAsc: '',

@@ -23,7 +23,7 @@
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
 				<!-- 订单信息 -->
-				<side-slip class="xinxi" @remove="onRemove(index,indexs)" @quxiao="onQuxiao(index,indexs)" v-for='(items,indexs) in item.specList'>
+				<view class="xinxi" @remove="onRemove(index,indexs)" @quxiao="onQuxiao(index,indexs)" v-for='(items,indexs) in item.specList'>
 					<view class="radi">
 						<checkbox :value='(index+"-"+indexs)' :checked='xuanzho[index][indexs]' @tap='q(index,indexs)'></checkbox>
 					</view>
@@ -48,7 +48,7 @@
 							<view @tap='jia(index,indexs)'>+</view>
 						</view>
 					</view>
-				</side-slip>
+				</view>
 				</checkbox-group>
 			</view>
 
@@ -187,7 +187,8 @@
 				xuanzhoz:[],
 				shuzu:[],
 				jiage:0,
-				xuan:false
+				xuan:false,
+				xuanzhong:[]
 			}
 		},
 		onShow() {
@@ -224,7 +225,7 @@
 				var _this=this
 				var goodsId=this.cartList[index].goodsId
 				//商品的信息
-				this.$https({url:'/api/shop/mall-goods-detail',data:{goods_id:goodsId},success:function(res){
+				this.$https({url:'/api/oauth/shop/mall-goods-detail',data:{goods_id:goodsId},dengl:true,success:function(res){
 					_this.goodsLogo=_this.cartList[index].goodsLogo
 					_this.goodsPrice=_this.cartList[index].specList[indexs].goodsPrice
 					_this.num=_this.cartList[index].specList[indexs].goodsNum
@@ -395,7 +396,13 @@
 				}else{
 					this.$set(this.xuanzhoz,index,true)
 					this.xuanzho[index].map(function(n,indexs){
-						_this.xuanzho[index][indexs]=true
+						_this.$set(_this.xuanzho[index],indexs,true)
+					})
+					this.xuanzhong.push(index)
+					this.xuanzhong.map(function(n,indexx){
+						_this.xuanzho[indexx].map(function(z,indexxx){
+							_this.xuanzho[indexx][indexxx]=true
+						})
 					})
 					this.jiage=0
 					//计算商品规格
@@ -602,6 +609,7 @@
 	}
 	.box{
 				background-color: #FFFFFF;
+				overflow:hidden;
 	}
 
 	.xinxi {

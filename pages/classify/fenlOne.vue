@@ -150,11 +150,11 @@
 			} else{
 				console.log(option)
 			this.$https({
-				url: '/api/shop/mall-goods-ptList',
+				url: '/api/oauth/shop/mall-goods-ptList',
 				data: {
 					cat_id: option.id ? option.id : ''
 				},
-				dengl: false,
+				dengl:true,
 				success(res) {
 					_this.allList = res.data.data
 					_this.goodsType = res.data.data.selfStatus
@@ -162,11 +162,11 @@
 				}
 			})
 			this.$https({
-				url: '/api/shop/goods-recom',
+				url: '/api/oauth/shop/goods-recom',
 				data: {
 					// cat_id:option.id?option.id:''
 				},
-				dengl: false,
+				dengl:true,
 				success(res) {
 					// _this.allList = res.data.data
 					// _this.goodsType = res.data.data.selfStatus
@@ -187,12 +187,12 @@
 					url: '../index/productDetails?id=' + id
 				})
 				this.$https({
-					url: '/api/shop/goods-brows-history-add',
+					url: '/api/oauth/shop/goods-brows-history-add',
 					data: {
 						goodsId: id
 					},
 					method: 'POST',
-					dengl: false,
+					dengl:true,
 					success(res) {
 						// console.log('添加成功')
 						// console.log(res.data)
@@ -209,8 +209,9 @@
 				var _this = this
 				this.isShow = true
 				this.$https({
-					url: '/api/shop/mall-goods-serch',
+					url: '/api/oauth/shop/mall-goods-serch',
 					data: {},
+					dengl:true,
 					success: function(res) {
 						_this.shaiList = res.data.data.brandDTOS
 						_this.id = res.data.data.brandDTOS[0].id
@@ -227,8 +228,8 @@
 			shaiX() {
 				var _this = this
 				this.$https({
-					url: '/api/shop/mall-goods-serchList',
-					dengl: false,
+					url: '/api/oauth/shop/mall-goods-serchList',
+					dengl:true,
 					method: 'post',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
@@ -269,8 +270,8 @@
 				this.st = st
 				var _this = this
 				this.$https({
-					url: '/api/shop/mall-goods-serchList',
-					dengl: false,
+					url: '/api/oauth/shop/mall-goods-serchList',
+					dengl:true,
 					method: 'post',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
@@ -291,11 +292,12 @@
 				var _this = this
 				console.log(this.value)
 				this.$https({
-					url: '/api/shop/mall-goods-ptList',
+					url: '/api/oauth/shop/mall-goods-ptList',
 					// dengl: false,
 					data: {
 						keywords: this.value
 					},
+					dengl:true,
 					success: function(res) {
 						_this.allList = res.data.data
 						console.log(res.data.data)
