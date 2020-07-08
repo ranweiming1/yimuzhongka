@@ -4,6 +4,7 @@ import App from './App'
 // import './style/gg.css'
 Vue.config.productionTip = false
 var webUrl = 'https://yimuzk.com'
+// var webUrl = 'http://192.168.100.163:8089'
 Vue.prototype.webUr = webUrl
 var $http = function(obj) {
 	console.log(obj)

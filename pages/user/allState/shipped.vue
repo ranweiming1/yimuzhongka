@@ -7,7 +7,7 @@
 		</view>
 
 		<!-- 揽件信息 -->
-		<view class="collect">
+		<view class="collect" v-if="deList.shippingStatus!=0">
 			<view class="collimg">
 				<image src="../../../static/icon_44.png" mode=""></image>
 			</view>
@@ -58,33 +58,36 @@
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
-			<view class="imgBox_a">
-				<image :src="item.goodsLogo" mode=""></image>
-			</view>
-			<view class="txt_c">
-				<view class="title">
-					<text>{{item.goodsName}}</text>
-				</view>
-				<view class="spec">
-					<text>已选：＂{{item.specKeyName}}＂</text>
-				</view>
-				<view class="radColor">
-					<text>￥{{item.goodsPrice}}</text>
-				</view>
+			<view class="xinXi" v-for="(ite,inde) in deList.goodsList[0].specList">
 
-				<!-- 这是数量加减 -->
-				<view class="jia">
-					<text>X{{item.goodsNum}}</text>
+
+				<view class="imgBox_a">
+					<image :src="item.goodsLogo" mode=""></image>
+				</view>
+				<view class="txt_c">
+					<view class="title">
+						<text>{{item.goodsName}}</text>
+					</view>
+					<view class="spec">
+						<text>已选：＂{{ite.specKeyName}}＂</text>
+					</view>
+					<view class="radColor">
+						<text>{{ite.goodsPrice?'￥'+ite.goodsPrice+'.00':'0'}}</text>
+					</view>
+
+					<!-- 这是数量加减 -->
+					<view class="jia">
+						<text>X{{item.goodsNum}}</text>
+					</view>
 				</view>
 			</view>
 		</view>
-
 		<view class="basic">
 			<view class="left_a">
 				<text>运费</text>
 			</view>
 			<view class="right_a">
-				<text>￥10.00</text>
+				<text>{{kuaidi?'￥'+kuaidi:'0'}}</text>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
@@ -98,7 +101,7 @@
 				<text>优惠券</text>
 			</view>
 			<view class="right_a">
-				<text>已抵扣<text style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice:'0'}}</text></text>
+				<text>已抵扣<text style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice+'00':'0'}}</text></text>
 			</view>
 		</view>
 
@@ -119,7 +122,7 @@
 				<text>商品金额</text>
 			</view>
 			<view class="right_a">
-				<text>￥853.00</text>
+				<text>{{deList.orderAmount?'￥'+deList.orderAmount+'.00':'0'}}</text>
 			</view>
 		</view>
 		<view class="basic aa">
@@ -127,7 +130,7 @@
 				<text>优惠券减免</text>
 			</view>
 			<view class="right_a">
-				<text>-￥30</text>
+				<text>{{deList.couponPrice?'-￥'+deList.couponPrice:0}}</text>
 			</view>
 		</view>
 		<view class="basic aa ssa">
@@ -135,7 +138,7 @@
 				<text>运费</text>
 			</view>
 			<view class="right_a">
-				<text>￥200</text>
+				<text>{{kuaidi?'￥'+kuaidi:'0'}}</text>
 			</view>
 		</view>
 
@@ -170,10 +173,11 @@
 		data() {
 			return {
 				deList: {},
-				code:'SN6600014074283',
-				order:'',
-				com:'',
-				dz:''
+				code: 'SN6600014074283',
+				order: '',
+				com: '',
+				dz: '',
+				kuaidi:''
 			}
 		},
 		onLoad(option) {
@@ -186,20 +190,21 @@
 				dengl: false,
 				success: function(res) {
 					_this.deList = res.data.data
-					_this.order=res.data.data.orderSn
-					_this.com=res.data.data.shippingName
-					_this.dz=res.data.data.cityInfo
+					_this.order = res.data.data.orderSn
+					_this.com = res.data.data.shippingName
+					_this.dz = res.data.data.cityInfo
+					_this.kuaidi=res.data.data.goodsList[0].specList[0].kuaidi
 					console.log(res.data.data)
 					// _this.code=res.data.data.shippingCode
 					console.log(res.data.data.shippingCode)
 				}
 			})
 		},
-		methods:{
-			wuliu(){
+		methods: {
+			wuliu() {
 				// console.log('222')
 				uni.navigateTo({
-					url:'./deliver?code='+this.code+'&order='+this.order+'&com='+this.com+'&dz='+this.dz
+					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' + this.dz
 				})
 			}
 		}
@@ -318,6 +323,17 @@
 			text {
 				font-size: 28upx;
 			}
+		}
+
+		.xinXi {
+			overflow: hidden;
+			width: 710upx;
+			// padding: 20upx;
+			border-bottom: 1px dotted #ccc;
+		}
+
+		.xinXi:last-child {
+			border: none;
 		}
 
 		.imgBox_a {

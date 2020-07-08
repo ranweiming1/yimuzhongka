@@ -59,64 +59,72 @@
 		<!-- 订单信息 -->
 		<view class="listBox" v-for="(item,index) in dList">
 			<view class="radios">
-				<text>米其林官方旗舰店</text>
+				<!-- 店铺名称待确认 -->
+				<text>{{item.storeShopDTO.shopName}}</text>
 				<view class="guanb">
 					<text>{{item.orderStatus==0?'待付款':item.orderStatus==1?'交易完成':'交易关闭'}}</text>
 				</view>
 			</view>
-			<view class="xinxi" v-for="(ite,inde) in item.goodsList" @tap="detail(item.orderId)">
-				<view class="imgBox_a">
-					<image :src="ite.goodsLogo" mode=""></image>
-				</view>
-				<view class="txt_c">
-					<view class="title">
-						<text>{{ite.goodsName}}</text>
+			<view class="xinxi" v-for="(ite,inde) in item.goodsList">
+				<view class="" @tap="detail(item.orderId)">
+
+
+					<view class="imgBox_a">
+						<image :src="ite.goodsLogo" mode=""></image>
 					</view>
-					<view class="spec">
-						<text>已选：＂{{ite.specKeyName}}＂</text>
+					<view class="txt_c">
+						<view class="title">
+							<text>{{ite.goodsName}}</text>
+						</view>
+						<view class="spec">
+							<text>已选：＂{{ite.specKeyName}}＂</text>
+						</view>
+						<view class="radColor">
+							<text>{{ite.goodsPrice?'￥'+ite.goodsPrice+'.00':'0'}}</text>
+						</view>
+
+						<!-- 数量 -->
+						<view class="jia">
+							<text>X{{ite.goodsNum}}</text>
+						</view>
 					</view>
-					<view class="radColor">
-						<text>￥{{ite.goodsPrice}}.00</text>
+					<view class="zongj">
+						<text>{{ite.goodsNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount+'.00':'0'}}</text>
 					</view>
-			
-					<!-- 数量 -->
-					<view class="jia">
-						<text>X{{ite.goodsNum}}</text>
-					</view>
-				</view>
-				<view class="zongj">
-					<text>{{ite.goodsNum}}种货品 总金额：￥{{item.orderAmount}}.00</text>
 				</view>
 				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status!=0">
 						<button type="primary">删除订单</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(6)" v-if="item.status==4">
 						<button type="primary">去评价</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==4">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
 						<button type="primary">再次购买</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==2">
 						<button type="primary">追加评论</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==1">
+					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.payStatus==0" @tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup" v-if="item.status==1">
+					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==3">
+					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2">
 						<button type="primary">确认收货</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==3">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2">
 						<button type="primary">查看物流</button>
+					</view>
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2">
+						<button type="primary">申请售后</button>
 					</view>
 				</view>
 			</view>
 		</view>
-		
-		
+
+
 		<!-- 弹出框内容 -->
 		<uni-popup ref="popup" type="bottom" class="tanchu">
 			<button @click="closePopup">×</button>
@@ -125,7 +133,7 @@
 					<view class="tit_box">
 						<text>选择退款原因</text>
 					</view>
-					<view class="li_box"  v-for="(i , n) in 5">
+					<view class="li_box" v-for="(i , n) in 5">
 						<text>质量问题</text>
 						<view class="radioss">
 							<radio value="r2" />
@@ -136,7 +144,7 @@
 					<button type="primary">确定</button>
 				</view>
 			</view>
-		
+
 		</uni-popup>
 	</view>
 </template>
@@ -149,8 +157,8 @@
 		data() {
 			return {
 				currentPage: 'cart',
-				id:'',
-				dList:{}
+				id: '',
+				dList: []
 			}
 		},
 		components: {
@@ -158,15 +166,17 @@
 			uniPopup
 		},
 		onLoad(option) {
-			var _this=this
-			this.id=option.id
+			var _this = this
+			this.id = option.id
 			this.$https({
-				url:'/api/user/order-list',
-				data:{status:option.id},
-				dengl:false,
-				success:function(res){
-					 _this.dList=res.data.data
-					 // _this.gList=res.data.data
+				url: '/api/user/order-list',
+				data: {
+					status: option.id
+				},
+				dengl: false,
+				success: function(res) {
+					_this.dList = res.data.data
+					// _this.gList=res.data.data
 					console.log(res.data.data)
 					// console.log(res.data.data.goodsList)
 					_this.toggle(option.id)
@@ -183,36 +193,66 @@
 			closePopup() {
 				this.$refs.popup.close()
 			},
-			toggle(index){
-				var _this=this
+			toggle(index) {
+				var _this = this
 				// console.log(e.target)
-				this.id=index
+				this.id = index
 				this.$https({
-					url:'/api/user/order-list',
-					data:{status:index},
-					dengl:false,
-					success:function(res){
-						_this.dList=res.data.data
+					url: '/api/user/order-list',
+					data: {
+						status: index
+					},
+					dengl: false,
+					success: function(res) {
+						_this.dList = res.data.data
 					}
 				})
-				
+
 			},
-			goPing(id){
+			goPing(id) {
 				uni.navigateTo({
-					url:'./evaluate?id='+id
+					url: './evaluate?id=' + id
 				})
 			},
-			shopCar(){
+			shopCar() {
 				uni.switchTab({
-					url:'../../cart/cart'
+					url: '../../cart/cart'
 				})
 			},
-			detail(id){
+			detail(id) {
 				uni.navigateTo({
-					url:'./shipped?orderId='+id
+					url: './shipped?orderId=' + id
 				})
+			},
+			zhifu(orderNo) {
+				var _this=this
+				this.$https({
+					url: '/api/pay/unifiedOrder',
+					data: JSON.stringify({
+						orderNo: orderNo,
+						payMethod: 1
+					}),
+					method: 'post',
+					haeder: true,
+					success: function(res) {
+						var obj = {}
+						obj.appid = res.data.data.appId
+						obj.partnerid = res.data.data.partnerId
+						obj.prepayid = res.data.data.prepayId
+						obj.package = res.data.data.packageValue
+						obj.noncestr = res.data.data.nonceStr
+						obj.timestamp = res.data.data.timeStamp
+						obj.sign = res.data.data.sign
+						uni.requestPayment({
+							provider: 'wxpay',
+							orderInfo: obj,
+							success: function(res) {},
+							fail: function(res) {}
+						})
+					}
+				})
+
 			}
-			
 		}
 	}
 </script>
@@ -369,32 +409,38 @@
 			height: 26upx;
 		}
 	}
-    .guanb{
+
+	.guanb {
 		float: right;
-		text{
+
+		text {
 			font-size: 28upx;
 			color: #ff0000;
 		}
 	}
+
 	.bottBox {
 		overflow: hidden;
 		width: 710upx;
 		padding: 20upx;
 		height: 50upx;
-        .onna{
-			button{
+
+		.onna {
+			button {
 				background-color: #007AFF !important;
 				border: 1px solid #007AFF !important;
 				color: #fff !important;
 			}
 		}
-		.onnb{
-			button{
+
+		.onnb {
+			button {
 				background-color: #fff !important;
 				border: 1px solid #007AFF !important;
 				color: #007AFF !important;
 			}
 		}
+
 		.bott {
 			display: block;
 			width: 180upx;
@@ -412,6 +458,7 @@
 
 		}
 	}
+
 	.tanchu {
 		button {
 			position: absolute;
@@ -421,11 +468,12 @@
 			background: none !important;
 			border: none !important;
 		}
-	
+
 		button:after {
 			border: none !important;
 		}
 	}
+
 	.neira {
 		width: 695upx;
 		height: 650upx;
@@ -435,6 +483,7 @@
 		padding: 30upx;
 		overflow: hidden;
 	}
+
 	.bottaaa {
 		width: 670upx;
 		height: 80upx;
@@ -444,46 +493,52 @@
 		bottom: 40upx;
 		border-radius: 40upx !important;
 		left: 40upx;
-	
+
 		button {
 			position: initial;
 			border-radius: 40upx !important;
 			font-family: Microsoft YaHei;
 		}
-	
+
 	}
+
 	.radios {
 		float: left;
 		padding-top: 30upx;
 		padding-right: 10upx;
 	}
-.text_uo{
-		
-	.tit_box{
-		text-align: center;
-		width: 700upx;
-		height: 80upx;
-		border-bottom:1px solid #ccc ;
-		text{
-			font-size: 38upx;
-			color: #333;
-			line-height: 50upx;
+
+	.text_uo {
+
+		.tit_box {
+			text-align: center;
+			width: 700upx;
+			height: 80upx;
+			border-bottom: 1px solid #ccc;
+
+			text {
+				font-size: 38upx;
+				color: #333;
+				line-height: 50upx;
+			}
+		}
+
+		.li_box {
+			overflow: hidden;
+			width: 700upx;
+			border-bottom: 1px dotted #ccc;
+
+			text {
+				float: left;
+				font-size: 28upx;
+				color: #333;
+				line-height: 80upx;
+			}
+
+			.radioss {
+				float: right;
+				padding-top: 15upx;
+			}
 		}
 	}
-	.li_box{
-		overflow: hidden;
-		width: 700upx;
-		border-bottom: 1px dotted #ccc;
-		text{
-			float: left;
-			font-size: 28upx;
-			color: #333;
-			line-height:80upx;
-		}
-		.radioss{
-			float: right;
-			padding-top: 15upx;
-		}
-	}
-}
 </style>
