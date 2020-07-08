@@ -637,7 +637,7 @@
 
 		.txt_c {
 			float: right;
-			width: 54%;
+			width: 53%;
 			padding-left: 20upx;
 
 			.title {
