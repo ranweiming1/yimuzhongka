@@ -119,7 +119,8 @@
 				youhuiquan: [],
 				youhuiquanle: false,
 				id: '',
-				index: ''
+				index: '',
+				phone:''
 			}
 		},
 		components: {
@@ -129,7 +130,9 @@
 			var _this = this
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
-				data: {},
+				data: {
+					mobileCode:13706412504
+				},
 				dengl:true,
 				// dengl: false,
 				success: function(res) {
@@ -150,6 +153,15 @@
 					}
 				},
 			})
+			// this.$https({
+			// 	url:'/api/user/my-index',
+			// 	data:{},
+			// 	dengl:false,
+			// 	success:function(res){
+			// 		console.log(res)
+			// 		_this.phone=res.data.data.phone
+			// 	}
+			// })
 			this.$https({
 				url: '/api/oauth/shop/coupon-couple-List',
 				data: {},

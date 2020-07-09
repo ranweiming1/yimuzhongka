@@ -80,7 +80,11 @@
 						<text>X{{item.goodsNum}}</text>
 					</view>
 				</view>
+				<view class="uni-padding-wrap uni-common-mt bott" @tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId)">
+					<button type="primary">申请售后</button>
+				</view>
 			</view>
+
 		</view>
 		<view class="basic">
 			<view class="left_a">
@@ -159,9 +163,7 @@
 					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="wuliu">
 						<button type="primary">查看物流</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup">
-						<button type="primary">申请售后</button>
-					</view>
+
 				</view>
 			</view>
 		</view>
@@ -177,7 +179,7 @@
 				order: '',
 				com: '',
 				dz: '',
-				kuaidi:''
+				kuaidi: ''
 			}
 		},
 		onLoad(option) {
@@ -193,7 +195,7 @@
 					_this.order = res.data.data.orderSn
 					_this.com = res.data.data.shippingName
 					_this.dz = res.data.data.cityInfo
-					_this.kuaidi=res.data.data.goodsList[0].specList[0].kuaidi
+					_this.kuaidi = res.data.data.goodsList[0].specList[0].kuaidi
 					console.log(res.data.data)
 					// _this.code=res.data.data.shippingCode
 					console.log(res.data.data.shippingCode)
@@ -205,6 +207,12 @@
 				// console.log('222')
 				uni.navigateTo({
 					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' + this.dz
+				})
+			},
+			afterSole(oS,lG,gN,gP,sKN,Num,orderId) {
+				// console.log(22222)
+				uni.navigateTo({
+					url: "./deliver_01?oS=" + oS+'&lG='+lG+'&gN='+gN+'&gP='+gP+'&sKN='+sKN+'&time='+this.deList.addTime+'&num='+Num+'&orderId='+orderId
 				})
 			}
 		}
@@ -318,6 +326,7 @@
 		width: 710upx;
 		padding: 20upx;
 		border-bottom: 1px dotted #ccc;
+		padding-bottom: 0;
 
 		.biaot {
 			text {
@@ -330,10 +339,29 @@
 			width: 710upx;
 			// padding: 20upx;
 			border-bottom: 1px dotted #ccc;
+			// padding: 20rpx;
+			.bott {
+				margin: 20rpx;
+				display: block;
+				width: 180upx;
+				margin-right: 20upx;
+				float: right;
+			
+				button {
+					background-color: #fff;
+					border: 1px solid #999;
+					border-radius: 40upx;
+					font-size: 24upx;
+					color: #999;
+					font-family: Microsoft YaHei;
+				}
+			
+			}
 		}
 
 		.xinXi:last-child {
 			border: none;
+			
 		}
 
 		.imgBox_a {

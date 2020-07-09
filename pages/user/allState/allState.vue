@@ -66,9 +66,7 @@
 				</view>
 			</view>
 			<view class="xinxi" v-for="(ite,inde) in item.goodsList">
-				<view class="" @tap="detail(item.orderId)">
-
-
+				<view class="xinxi1" @tap="detail(item.orderId)" v-for="(i,n) in ite.specList">
 					<view class="imgBox_a">
 						<image :src="ite.goodsLogo" mode=""></image>
 					</view>
@@ -77,26 +75,31 @@
 							<text>{{ite.goodsName}}</text>
 						</view>
 						<view class="spec">
-							<text>已选：＂{{ite.specKeyName}}＂</text>
+							<text>已选：＂{{i.specKeyName}}＂</text>
 						</view>
 						<view class="radColor">
-							<text>{{ite.goodsPrice?'￥'+ite.goodsPrice+'.00':'0'}}</text>
+							<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
 						</view>
 
 						<!-- 数量 -->
 						<view class="jia">
-							<text>X{{ite.goodsNum}}</text>
+							<text>X{{i.goodsNum}}</text>
 						</view>
 					</view>
-					<view class="zongj">
-						<text>{{ite.goodsNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount+'.00':'0'}}</text>
-					</view>
+
+				</view>
+				<view class="zongj">
+					<text>{{ite.specList.length}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount+'.00':'0'}}</text>
 				</view>
 				<view class="bottBox">
+					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2" @tap="confirm(item.orderId)">
+						<button type="primary">确认收货</button>
+					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status!=0">
 						<button type="primary">删除订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(6)" v-if="item.status==4">
+					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId)">
+						<!-- v-if="item.status==5&&item.orderStatus==1" -->
 						<button type="primary">去评价</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
@@ -111,15 +114,10 @@
 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2">
-						<button type="primary">确认收货</button>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu">
 						<button type="primary">查看物流</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2">
-						<button type="primary">申请售后</button>
-					</view>
+
 				</view>
 			</view>
 		</view>
@@ -158,7 +156,7 @@
 			return {
 				currentPage: 'cart',
 				id: '',
-				dList: []
+				dList: [],
 			}
 		},
 		components: {
@@ -178,12 +176,28 @@
 					_this.dList = res.data.data
 					// _this.gList=res.data.data
 					console.log(res.data.data)
-					// console.log(res.data.data.goodsList)
 					_this.toggle(option.id)
 				}
 			})
 		},
 		methods: {
+			confirm(orderId) {
+				var _this = this
+				console.log(orderId)
+				this.$https({
+					url: '/api/user/order-handle',
+					dengl: false,
+					method: 'post',
+					haeder: true,
+					data: JSON.stringify({
+						orderId: orderId,
+						type: 2
+					}),
+					success: function(res) {
+						console.log(res)
+					}
+				})
+			},
 			select: function() {
 				// console.log(1)
 			},
@@ -192,6 +206,13 @@
 			},
 			closePopup() {
 				this.$refs.popup.close()
+			},
+
+			wuliu() {
+				// console.log('222')
+				uni.navigateTo({
+					url: './deliver'
+				})
 			},
 			toggle(index) {
 				var _this = this
@@ -209,9 +230,10 @@
 				})
 
 			},
-			goPing(id) {
+			goPing(orderSn, orderId) {
+				console.log(orderId)
 				uni.navigateTo({
-					url: './evaluate?id=' + id
+					url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId
 				})
 			},
 			shopCar() {
@@ -224,8 +246,11 @@
 					url: './shipped?orderId=' + id
 				})
 			},
-			zhifu(orderNo) {
-				var _this=this
+			zhifu(orderSn) {
+				var _this = this
+				var orderNo = orderSn
+				console.log(orderNo)
+				console.log('支付')
 				this.$https({
 					url: '/api/pay/unifiedOrder',
 					data: JSON.stringify({
@@ -233,6 +258,7 @@
 						payMethod: 1
 					}),
 					method: 'post',
+					dengl: false,
 					haeder: true,
 					success: function(res) {
 						var obj = {}
@@ -243,6 +269,7 @@
 						obj.noncestr = res.data.data.nonceStr
 						obj.timestamp = res.data.data.timeStamp
 						obj.sign = res.data.data.sign
+						console.log(res.data)
 						uni.requestPayment({
 							provider: 'wxpay',
 							orderInfo: obj,
@@ -330,7 +357,12 @@
 		width: 710upx;
 		padding: 20upx;
 		border-bottom: 20upx solid #f7f7f7;
-
+.xinxi1{
+	overflow: hidden;
+	width: 710upx;
+	// padding: 20upx;
+	// border-bottom: 20upx solid #f7f7f7;
+}
 		.imgBox_a {
 			float: left;
 			padding-top: 20upx;

@@ -378,17 +378,20 @@
 				"selectedIconPath": "static/s1.png",
 				"text": "首页",
 				"style": {
+					"navigationBarTitleText":"首页",
 					"navigationBarShadow": {
 						"colorType": "grey"
-					},
-					"navigationBarTitleText":"首页"
+					}
 				}
 			},
 			{
 				"pagePath": "pages/classify/classify",
 				"iconPath": "static/n2.png",
 				"selectedIconPath": "static/s2.png",
-				"text": "分类"
+				"text": "分类",
+				"style": {
+					"navigationBarTitleText":"全部分类"
+				}
 			},
 			{
 				"pagePath": "pages/news/news",

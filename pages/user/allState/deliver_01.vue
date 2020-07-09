@@ -4,9 +4,9 @@
 		</view> -->
 
 		<view class="radios" style="border-top:1rpx solid #ccc;">
-			<text>订单编号：45644152412141</text>
+			<text>订单编号：{{content.oS}}</text>
 			<view class="guanb">
-				<text>2019-05-25 15:55:56</text>
+				<text>{{content.time}}</text>
 			</view>
 		</view>
 		<!-- 订单信息 -->
@@ -19,18 +19,18 @@
 			</view>
 			<view class="txt_c">
 				<view class="title">
-					<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+					<text>{{content.gN}}</text>
 				</view>
 				<view class="spec">
-					<text>已选：＂黄色＂</text>
+					<text>已选：＂{{content.sKN}}＂</text>
 				</view>
 				<view class="radColor">
-					<text>￥52.00</text>
+					<text>{{content.gP?'￥'+content.gP+'.00':'0'}}</text>
 				</view>
 
 				<!-- 这是数量加减 -->
 				<view class="jia">
-					<text>X1</text>
+					<text>X{{content.num}}</text>
 				</view>
 			</view>
 		</view>
@@ -61,15 +61,24 @@
 	export default {
 		data() {
 			return {
-
+				content:{},
 			}
 		},
-		methods:{
-			huan(){
+		onLoad(options) {
+			this.content=options
+			console.log(this.content)
+		},
+		methods: {
+			huan() {
 				uni.navigateTo({
-					url:'./refund_01'
+					url: './refund_01?id='+this.content.orderId
 				})
-			}
+			},
+			// huan(){
+			// 	uni.navigateTo({
+			// 		url: './refund?id='+this.content.orderId
+			// 	})
+			// }
 		}
 	}
 </script>

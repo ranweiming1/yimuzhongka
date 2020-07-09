@@ -176,100 +176,101 @@
 				xinxi: ''
 			}
 		},
-		methods: {
-			onLoad: function(options) {
-				var _this = this
-				if (options.goodsId) {
-					this.goodsId = options.goodsId
-					this.cartAttr = JSON.parse(options.cartAttr).cartAttr
-					if (options.dingdan == 1) {
-						this.cartAttr.map(function(n, index) {
-							n.cartAttr.map(function(z, indexs) {
-								if (!z.xuanzhong) {
-									_this.cartAttr[index].cartAttr.splice(indexs, 1)
-								}
-							})
-						})
-					}
-					if (options.zhid) {
-						this.dizhi = JSON.parse(options.zhid)
-					}
-					if (options.moneys) {
-						this.moneys = options.money
-					}
-					this.id = options.id
-					this.dingdan = options.dingdan
-					if (options.y) {
-						this.youhui = JSON.parse(options.y)
-					}
-					if (!options.y) {
-						this.cartAttr.map(function(n) {
-							_this.youhui.push({
-								shopId: n.shopId
-							})
-						})
-					}
-					var arr = []
-					if (options.dingdan == 2) {
-						this.cartAttr.map(function(n) {
-							n.cartAttr1 = {}
-							var obj = {}
-							n.cartAttr1.goodsNum = n.goodsNum
-							n.cartAttr1.specKeyName = n.specKeyName
-							n.cartAttr1.goodsLogo = n.goodsLogo
-							n.cartAttr1.integral = n.integral
-							n.cartAttr1.goodsName = n.goodsName
-							n.cartAttr1.kuaidi = n.kuaidi
-							n.cartAttr1.specKey = n.specKey
-							n.cartAttr1.shopPrice = n.shopPrice
-							n.cartAttr1.goodsId = n.goodsId
-							n.cartAttr = [n.cartAttr1]
-						})
-					} else {
-						console.log(JSON.parse(options.cartAttr))
-					}
-					this.cartAttr.map(function(n) {
-						n.cartAttr.map(function(z) {
-							console.log(z.shopPrice, z.goodsNum)
-							_this.shangpin += z.shopPrice * z.goodsNum
-						})
-					})
-					this.shopId = options.shopId
-					//判断选的哪个店铺的优惠券
+		onLoad: function(options) {
+			var _this = this
+			if (options.goodsId) {
+				this.goodsId = options.goodsId
+				this.cartAttr = JSON.parse(options.cartAttr).cartAttr
+				if (options.dingdan == 1) {
 					this.cartAttr.map(function(n, index) {
-						if (options.shopId == n.shopId) {
-							_this.youhui[index].couponId = options.id
-							_this.youhui[index].moneys = options.money
-						}
+						n.cartAttr.map(function(z, indexs) {
+							if (!z.xuanzhong) {
+								_this.cartAttr[index].cartAttr.splice(indexs, 1)
+							}
+						})
 					})
 				}
-				if (!options.zhid) {
-					//获取地址列表
-					this.$https({
-						url: '/api/user/my-address',
-						data: {},
-						success: function(res) {
-							res.data.data.map(function(n) {
-								if (n.isDefault == 1) {
-									//默认地址
-									_this.dizhi = n
-								}
-							})
-						}
+				if (options.zhid) {
+					this.dizhi = JSON.parse(options.zhid)
+				}
+				if (options.moneys) {
+					this.moneys = options.money
+				}
+				this.id = options.id
+				this.dingdan = options.dingdan
+				if (options.y) {
+					this.youhui = JSON.parse(options.y)
+				}
+				if (!options.y) {
+					this.cartAttr.map(function(n) {
+						_this.youhui.push({
+							shopId: n.shopId
+						})
 					})
 				}
-				//计算运费
+				var arr = []
+				if (options.dingdan == 2) {
+					this.cartAttr.map(function(n) {
+						n.cartAttr1 = {}
+						var obj = {}
+						n.cartAttr1.goodsNum = n.goodsNum
+						n.cartAttr1.specKeyName = n.specKeyName
+						n.cartAttr1.goodsLogo = n.goodsLogo
+						n.cartAttr1.integral = n.integral
+						n.cartAttr1.goodsName = n.goodsName
+						n.cartAttr1.kuaidi = n.kuaidi
+						n.cartAttr1.specKey = n.specKey
+						n.cartAttr1.shopPrice = n.shopPrice
+						n.cartAttr1.goodsId = n.goodsId
+						n.cartAttr = [n.cartAttr1]
+					})
+				} else {
+					console.log(JSON.parse(options.cartAttr))
+				}
 				this.cartAttr.map(function(n) {
 					n.cartAttr.map(function(z) {
-						_this.yunfei += z.kuaidi
+						console.log(z.shopPrice, z.goodsNum)
+						_this.shangpin += z.shopPrice * z.goodsNum
 					})
 				})
-				this.youhui.map(function(z) {
-					_this.moneys += +(z.moneys ? z.moneys : 0)
+				this.shopId = options.shopId
+				//判断选的哪个店铺的优惠券
+				this.cartAttr.map(function(n, index) {
+					if (options.shopId == n.shopId) {
+						_this.youhui[index].couponId = options.id
+						_this.youhui[index].moneys = options.money
+					}
 				})
-				this.heji = (+this.yunfei) + (+this.shangpin) - this.moneys
-				console.log(this.cartAttr)
-			},
+			}
+			if (!options.zhid) {
+				//获取地址列表
+				this.$https({
+					url: '/api/user/my-address',
+					data: {},
+					success: function(res) {
+						res.data.data.map(function(n) {
+							if (n.isDefault == 1) {
+								//默认地址
+								_this.dizhi = n
+							}
+						})
+					}
+				})
+			}
+			//计算运费
+			this.cartAttr.map(function(n) {
+				n.cartAttr.map(function(z) {
+					_this.yunfei += z.kuaidi
+				})
+			})
+			this.youhui.map(function(z) {
+				_this.moneys += +(z.moneys ? z.moneys : 0)
+			})
+			this.heji = (+this.yunfei) + (+this.shangpin) - this.moneys
+			console.log(this.cartAttr)
+		},
+		
+		methods: {
 			tanchuang: function() {
 				var arr = []
 				var _this = this

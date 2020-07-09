@@ -8,9 +8,9 @@
 
 		<!-- 头部 -->
 		<view class="top">
-			<view class="textBox">
+			<!-- <view class="textBox">
 				<text>个人中心</text>
-			</view>
+			</view> -->
 			<!-- <view class="imgBox">
 				<image src="../../static/icon_22.png" mode=""></image>
 			</view> -->
@@ -381,7 +381,7 @@
 
 	.userBox {
 		position: absolute;
-		top: 130upx;
+		top: 100upx;
 		left: 25upx;
 		overflow: hidden;
 
