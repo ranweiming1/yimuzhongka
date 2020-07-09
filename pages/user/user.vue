@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<view class="line" style="height: 20rpx;background-color: #006ee3;">
+			
+		</view>
 		<!-- 背景图 -->
 		<view class="bg_img">
 			<image src="../../static/icon_21.png" mode=""></image>
@@ -8,12 +11,12 @@
 
 		<!-- 头部 -->
 		<view class="top">
-			<!-- <view class="textBox">
+			<view class="textBox">
 				<text>个人中心</text>
-			</view> -->
-			<!-- <view class="imgBox">
+			</view>
+			<view class="imgBox">
 				<image src="../../static/icon_22.png" mode=""></image>
-			</view> -->
+			</view>
 		</view>
 
 		<!-- 用户名 -->
@@ -381,7 +384,7 @@
 
 	.userBox {
 		position: absolute;
-		top: 100upx;
+		top: 130upx;
 		left: 25upx;
 		overflow: hidden;
 

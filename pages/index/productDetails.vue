@@ -283,7 +283,7 @@
 			jyfParser
 		},
 		onLoad(option) {
-			// console.log(option)
+			console.log(option)
 			this.deId = option.id
 			var _this = this
 			this.$https({

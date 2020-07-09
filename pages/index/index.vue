@@ -1,5 +1,8 @@
 <template>
 	<view class="frame">
+		<view class="line" style="height: 20rpx;">
+			
+		</view>
 		<view class="top">
 			<view class="left">
 				<text>首页</text>

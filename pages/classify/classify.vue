@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<view class="line" style="height: 20rpx;">
+		
+		</view>
 		<view class="top">
 			<view class="textBox">
 				<text>全部分类</text>
