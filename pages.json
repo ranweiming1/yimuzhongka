@@ -3,7 +3,8 @@
 	{
 		"path":"pages/index/index",
 		"style":{
-			"titleNView":false,
+			// "titleNView":false,
+			"navigationBarTitleText": "首页",
 			"navigationBarShadow":{
 				"colorType":"grey"
 			}
@@ -36,7 +37,8 @@
 	{
 		"path": "pages/classify/fenlOne",
 		"style": {
-			"titleNView": false
+			// "titleNView": false
+			"navigationBarTitleText": "毅木重卡"
 		}
 	},
 	{
@@ -91,7 +93,8 @@
 		{
 			"path": "pages/classify/classify",
 			"style": {
-				"titleNView": false
+				// "titleNView": false
+				"navigationBarTitleText": "全部分类"
 			}
 		},
 		{
@@ -115,7 +118,8 @@
 		{
 			"path": "pages/cart/cart",
 			"style": {
-				"titleNView": false
+				// "titleNView": false
+				"navigationBarTitleText": "购物车"
 			}
 		},
 		{
@@ -271,15 +275,15 @@
 		{
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "个人中心",
 				"titleNView": false
 			}
 		},
 		{
 			"path": "pages/news/news_details/news_details",
 			"style": {
-				"navigationBarTitleText": "",
-				"titleNView": false
+				"navigationBarTitleText": "咨询详情"
+				// "titleNView": false
 			}
 		},
 		{
@@ -339,7 +343,7 @@
 		{
 			"path":"pages/index/class",
 			"style":{
-				"navigationBarTitleText":""
+				"navigationBarTitleText":"全部分类"
 			}
 		},{
 			"path":"pages/user/task/aiChe",

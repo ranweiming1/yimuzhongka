@@ -185,7 +185,7 @@
 						<text>{{pingjia.createTime}}</text>
 					</view>
 					<view class="huay">
-						<text>{{pingjia.content}}</text>
+						<text>{{pingjia.content?pingjia.content:' '}}</text>
 					</view>
 				</view>
 			</view>

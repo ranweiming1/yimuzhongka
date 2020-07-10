@@ -1,8 +1,6 @@
 <template>
 	<view class="bcg">
-		<view class="line" style="height: 20rpx;">
-
-		</view>
+		<!-- <view class="line" style="height: 50rpx;"></view> -->
 		<view class="top">
 			<view class="textBox">
 				<text>购物车(02)</text>

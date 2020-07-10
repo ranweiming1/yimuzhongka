@@ -314,6 +314,7 @@
 					method: 'post',
 					haeder: true,
 					success: function(res) {
+						// console.log(res.data.data[0])
 						_this.$https({
 							url: '/api/pay/unifiedOrder',
 							data: JSON.stringify({
@@ -334,7 +335,7 @@
 								uni.requestPayment({
 									provider: 'wxpay',
 									orderInfo: obj,
-									success: function(res) {},
+									success: function(res) {console.log('支付成功')},
 									fail: function(res) {}
 								})
 							}

@@ -1,8 +1,6 @@
 <template>
 	<view>
-		<view class="line" style="height: 20rpx;background-color: #006ee3;">
-			
-		</view>
+		<!-- <view class="line" style="height: 50rpx;background-color: #006ee3;"></view> -->
 		<!-- 背景图 -->
 		<view class="bg_img">
 			<image src="../../static/icon_21.png" mode=""></image>
@@ -354,7 +352,7 @@
 
 	.top {
 		position: fixed;
-		top: 0upx;
+		top: 33upx;
 		left: 0upx;
 		width: 750upx;
 		margin: 0 auto;
