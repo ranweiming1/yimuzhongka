@@ -25,7 +25,8 @@
 	{
 		"path": "pages/search/search",
 		"style": {
-			"titleNView": false
+			// "titleNView": false
+			"navigationBarTitleText": " "
 		}
 	},
 	{
@@ -275,8 +276,8 @@
 		{
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "个人中心",
-				"titleNView": false
+				"navigationBarTitleText": "个人中心"
+				// "titleNView": false
 			}
 		},
 		{

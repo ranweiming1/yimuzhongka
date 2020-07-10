@@ -36,7 +36,7 @@
 				<text>分享</text>
 			</view>
 			<view class="h2aBox">
-				<text></text>
+				<text>{{list.goodsName}}</text>
 			</view>
 		</view>
 
@@ -702,9 +702,12 @@
 
 		.h2aBox {
 			float: left;
+			display: block;
 			padding-top: 10upx;
+			width: 80%;
 
 			text {
+				display: block;
 				font-size: 34upx;
 				color: #333;
 				line-height: 40upx;

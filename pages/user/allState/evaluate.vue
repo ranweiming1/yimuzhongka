@@ -42,18 +42,18 @@
 				</view>
 				<!-- 选中 -->
 				<view class="pingimgxuan" v-for="(item, index) in 5" @tap="xing(index)">
-					<image :src="(Number>index)?'../../../static/xing_01.png':'../../../static/xing.png'"></image>
+					<image :src="(Number3>index)?'../../../static/xing_01.png':'../../../static/xing.png'"></image>
 				</view>
 				<!-- 默认 -->
 				<!-- <view class="pingimg">
 				<image src="../../../static/xing.png" mode=""></image>
 			</view> -->
-				<view class="spanaa">
+				<!-- <view class="spanaa">
 					<text>还不错</text>
-				</view>
+				</view> -->
 			</view>
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" name="input" v-model="value" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" />
+				<input class="uni-input" name="input" style="text-overflow: ellipsis" v-model="value" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" />
 				<view class="imgBox" @tap="chuanImg">
 					<image :src="cImg" mode="" v-model="img"></image>
 				</view>
@@ -91,7 +91,7 @@
 		data() {
 			return {
 				list: {},
-				Number: 0,
+				Number3: 0,
 				Number1: 0,
 				Number2: 0,
 				cImg: '../../../static/img_10.jpg.png',
@@ -121,9 +121,7 @@
 		},
 		methods: {
 			xing(ind) {
-				console.log(222221)
-				this.Number = ind + 1;
-				console.log(ind)
+				this.Number3 = ind + 1;
 			},
 			xing1(ind) {
 				this.Number1 = ind + 1
