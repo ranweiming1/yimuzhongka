@@ -98,8 +98,8 @@
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status!=0">
 						<button type="primary">删除订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId)">
-						<!-- v-if="item.status==5&&item.orderStatus==1" -->
+					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId)" v-if="item.status==5&&item.orderStatus==1">
+						
 						<button type="primary">去评价</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
@@ -114,7 +114,8 @@
 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu">
+					<view class="uni-padding-wrap uni-common-mt bott"  @tap="wuliu">
+						<!-- v-if="item.status==2" -->
 						<button type="primary">查看物流</button>
 					</view>
 

@@ -7,10 +7,10 @@
 			<view class="">
 				<text>订单编号：{{order}}</text>
 			</view>
-			<view class="">
+			<view class="" v-if="com">
 				<text>承运公司：{{com}}快递</text>
 			</view>
-			<view class="">
+			<view class="" v-if="wuList.nu">
 				<text>运单编号：{{wuList.nu}}</text>
 			</view>
 		</view>
@@ -19,7 +19,7 @@
 		<view class="wu_l">
 			<!-- <logistics :wlInfo="wlInfo"></logistics> -->
 			<view class="content1 bgf">
-				<view>
+				<view v-if="">
 					<view class="flex list">
 						<view class="time"></view>
 						<view class="info flex1">
@@ -37,6 +37,7 @@
 							<view class="text" style="font-size: 24rpx;">{{item.context}}</view>
 						</view>
 					</view> 
+				<view class="flex list"><text>暂无物流信息</text></view>
 				</view>
 			</view>
 
@@ -97,6 +98,7 @@
 		},
 		onLoad(option) {
 			var _this = this
+			console.log(option)
 			this.order = option.order
 			this.com = option.com
 			this.dz=option.dz
@@ -109,6 +111,7 @@
 				success(res) {
 					_this.wuList = res.data.data
 					_this.wlInfo = res.data.data
+					console.log(res.data.data)
 					// _this.list=res.data.data.data
 					_this.hotList = res.data.data.recommedGoods
 					_this.state = res.data.data.state

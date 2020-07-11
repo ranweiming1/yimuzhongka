@@ -175,7 +175,7 @@
 		data() {
 			return {
 				deList: {},
-				code: 'SN6600014074283',
+				code: '',
 				order: '',
 				com: '',
 				dz: '',
@@ -196,6 +196,7 @@
 					_this.com = res.data.data.shippingName
 					_this.dz = res.data.data.cityInfo
 					_this.kuaidi = res.data.data.goodsList[0].specList[0].kuaidi
+					_this.code=res.data.data.shippingCode
 					console.log(res.data.data)
 					// _this.code=res.data.data.shippingCode
 					console.log(res.data.data.shippingCode)

@@ -28,7 +28,7 @@
 				<view class="preferential" v-for="(i,n) in list.couponDTOS">
 					<text>满{{i.condition}}-{{i.money}}元</text>
 				</view>
-				
+
 			</view>
 
 			<view class="share">
@@ -175,7 +175,7 @@
 
 
 			<!-- 用户评价 ,划动效果-->
-			<view class="toux">
+			<view class="toux" v-if="pingjia">
 				<view class="imgBox_a">
 					<image :src="pingjia.img" mode=""></image>
 				</view>
@@ -185,11 +185,13 @@
 						<text>{{pingjia.createTime}}</text>
 					</view>
 					<view class="huay">
-						<text>{{pingjia.content?pingjia.content:' '}}</text>
+						<text>{{pingjia.content?pingjia.content:''}}</text>
 					</view>
 				</view>
 			</view>
+			<view class="toux" v-if="!pingjia" style="font-size: 28rpx;padding-left: 20rpx;box-sizing: border-box;">暂无评价</view>
 		</view>
+
 		<!-- 店铺：需产品确认 -->
 		<view class="listBox">
 			<view class="liBox">
@@ -262,7 +264,7 @@
 			return {
 				list: {},
 				canshu: {},
-				pingjia: {},
+				pingjia: false,
 				isAdd: false,
 				num: 1,
 				shuList: [],
@@ -276,7 +278,7 @@
 				indexx: 0,
 				gui: '',
 				shopId: '',
-				Price:0
+				Price: 0
 			}
 		},
 		components: {
@@ -291,7 +293,7 @@
 				data: {
 					goods_id: option.id
 				},
-				dengl:true,
+				dengl: true,
 				success: function(res) {
 					_this.list = res.data.data.detail
 					_this.canshu = res.data.data.specs
@@ -299,10 +301,12 @@
 					_this.isCollect = res.data.data.isCollect
 					_this.goodsId = res.data.data.detail.goodsId
 					_this.shopId = res.data.data.detail.shopId
+					// console.log(res.data.data.goodsComms[0])
 					for (var i in res.data.data.spec_price) {
+						console.log(res.data.data.spec_price[i])
 						_this.guige.push(res.data.data.spec_price[i])
 					}
-					console.log(res.data.data)
+					console.log(_this.pingjia)
 					var numa = 0
 					for (var i in res.data.data.spec_price) {
 						if (numa == 0) {
@@ -327,7 +331,7 @@
 		methods: {
 			add() {
 				this.isAdd = !this.isAdd
-				this.Price=this.guige[0].price
+				this.Price = this.guige[0].price
 			},
 			reduce() {
 				this.num--
@@ -406,7 +410,7 @@
 			qiehuan: function(ind) {
 				this.indexx = ind
 				this.gui = this.guige[ind].keyName
-				this.Price=this.guige[ind].price
+				this.Price = this.guige[ind].price
 			},
 			goumaia: function() {
 				uni.navigateTo({
@@ -422,7 +426,7 @@
 							goodsId: this.list.goodsId,
 							specKey: this.guige[this.indexx].key,
 							shopId: this.shopId,
-							name:this.list.couponDTOS[0].name,
+							name: this.list.couponDTOS[0].name,
 						}]
 					}) + '&dingdan=2&goumai=1'
 				})
