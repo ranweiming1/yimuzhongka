@@ -114,7 +114,7 @@
 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott"  @tap="wuliu">
+					<view class="uni-padding-wrap uni-common-mt bott"  @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address)">
 						<!-- v-if="item.status==2" -->
 						<button type="primary">查看物流</button>
 					</view>
@@ -286,10 +286,10 @@
 				this.$refs.popup.close()
 			},
 
-			wuliu() {
+			wuliu(code,order,com,dz) {
 				// console.log('222')
 				uni.navigateTo({
-					url: './deliver'
+					url: './deliver?code=' + code + '&order=' + order + '&com=' + com + '&dz=' + dz
 				})
 			},
 			toggle(index) {

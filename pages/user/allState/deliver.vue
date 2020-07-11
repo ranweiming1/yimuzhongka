@@ -37,7 +37,7 @@
 							<view class="text" style="font-size: 24rpx;">{{item.context}}</view>
 						</view>
 					</view> 
-				<view class="flex list"><text>暂无物流信息</text></view>
+				<view class="flex list"><text style="margin-left: 40rpx;">暂无物流信息</text></view>
 				</view>
 			</view>
 
