@@ -18,7 +18,8 @@
         },
         /* 模块配置 */
         "modules" : {
-            "Payment" : {}
+            "Payment" : {},
+            "Share" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -56,6 +57,12 @@
                 "oauth" : {},
                 "ad" : {},
                 "payment" : {
+                    "weixin" : {
+                        "appid" : "wxcfd9c1418eeb2e3",
+                        "UniversalLinks" : ""
+                    }
+                },
+                "share" : {
                     "weixin" : {
                         "appid" : "wxcfd9c1418eeb2e3",
                         "UniversalLinks" : ""
