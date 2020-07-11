@@ -8,7 +8,7 @@
 		<tabBar :currentPage='currentPage'></tabBar>
 
 		<!-- 头部 -->
-		<view class="top">
+		<!-- <view class="top">
 			<view class="textBox">
 				<text>个人中心</text>
 			</view>
@@ -16,7 +16,7 @@
 				<image src="../../static/icon_22.png" mode=""></image>
 			</view>
 		</view>
-
+ -->
 		<!-- 用户名 -->
 		<view class="userBox" @tap='xiugaigerenxinxi'>
 			<view class="img_a">
@@ -346,7 +346,7 @@
 	.bg_img {
 		image {
 			width: 750upx;
-			height: 386upx;
+			height: 286upx;
 		}
 	}
 
@@ -382,7 +382,7 @@
 
 	.userBox {
 		position: absolute;
-		top: 130upx;
+		top: 30upx;
 		left: 25upx;
 		overflow: hidden;
 
@@ -428,7 +428,7 @@
 		height: 120upx;
 		box-shadow: 0 0 5px #ccc;
 		position: absolute;
-		top: 300upx;
+		top: 200upx;
 		left: 25upx;
 		background-color: #fff;
 		border-radius: 20upx;
@@ -507,7 +507,7 @@
 		height: 100upx;
 		box-shadow: 0 0 5px #ccc;
 		position: absolute;
-		top: 520upx;
+		top: 420upx;
 		left: 25upx;
 		background-color: #fff;
 		border-radius: 20upx;
@@ -534,7 +534,7 @@
 
 	.lunb {
 		position: absolute;
-		top: 676upx;
+		top: 576upx;
 		left: 25upx;
 
 		image {
@@ -549,7 +549,7 @@
 		height: 420upx;
 		box-shadow: 0 0 5px #ccc;
 		position: absolute;
-		top: 890upx;
+		top: 790upx;
 		left: 25upx;
 		background-color: #fff;
 		border-radius: 20upx;

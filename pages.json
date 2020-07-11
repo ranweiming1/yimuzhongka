@@ -276,7 +276,8 @@
 		{
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "个人中心"
+				"navigationBarTitleText": "个人中心",
+				"navigationBarBackgroundColor":"#156af8"
 				// "titleNView": false
 			}
 		},
