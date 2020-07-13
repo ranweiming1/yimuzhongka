@@ -33,7 +33,7 @@
 
 			<view class="share">
 				<image src="../../static/icon_49.png" mode=""></image>
-				<text>分享</text>
+				<text @tap='shangpinxin'>分享</text>
 			</view>
 			<view class="h2aBox">
 				<text>{{list.goodsName}}</text>
@@ -259,6 +259,7 @@
 
 <script>
 	import jyfParser from "@/components/jyf-parser/jyf-parser";
+	import appShare,{closeShare} from '@/components/share.js'
 	export default {
 		data() {
 			return {
@@ -434,6 +435,21 @@
 			tiaoCart() {
 				uni.switchTab({
 					url: '../cart/cart'
+				})
+			},
+			shangpinxin:function(){
+				let shareData={
+					shareUrl:'https://kemean.com',
+					shaerTitle:'分享的标题',
+					shaerContent:'分享的描述',
+					shaerImg:'https://qn.kemean.cn//upload/202004/18/1587189024467w6xj18b1.jpg',
+					appId:'wxcfd9c1418eeb2e3',
+					appPath:'pages/static/fh.png',
+					appWebUrl:'htttps://kemean.com'
+				}
+				let shareObj=appShare(shareData,res=>{})
+				setTimeout(function(){
+					shareObj.close()
 				})
 			}
 		}
