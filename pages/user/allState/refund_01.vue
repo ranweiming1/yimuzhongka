@@ -143,16 +143,17 @@
 		methods: {
 			primary() {
 				// if (!_this.value)
+				console.log(this.content.gP)
 				var _this = this
 				var num = this.content.type==1?1:0
-				console.log(num)
-				if(!_this.value){
+				if(_this.value=="请选择退款原因"){
 					console.log(2222)
 					uni.showToast({
 						title: '请选择退款原因',
 						icon: 'none'
 					})
 				}else{
+					
 				this.$https({
 					url: '/api/shop/order-refund-info-add',
 					dengl: false,
