@@ -3,41 +3,41 @@
 		<!-- <view class="one_line">
 		</view> -->
 
-		<view class="radios">
+		<!-- <view class="radios">
 			<text>订单编号：{{orList.orderSn}}</text>
 			<view class="guanb">
 				<text>{{orList.addTime}}</text>
 			</view>
-		</view>
+		</view> -->
 		<!-- 订单信息 -->
-		<view class="xinxi" v-for="(item,index) in orList.goodsList">
+		<view class="xinxi">
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
 			<view class="imgBox_a">
-				<image :src="item.goodsLogo" mode=""></image>
+				<image :src="content.lG" mode=""></image>
 			</view>
 			<view class="txt_c">
 				<view class="title">
-					<text>{{item.goodsName}}</text>
+					<text>{{content.gN}}</text>
 				</view>
 				<view class="spec">
-					<text>已选：＂{{item.specKeyName}}＂</text>
+					<text>已选：＂{{content.sKN}}＂</text>
 				</view>
 				<view class="radColor">
-					<text>{{item.goodsPrice?'￥'+item.goodsPrice+'.00':'0'}}</text>
+					<text>{{content.gP?'￥'+content.gP+'.00':'0'}}</text>
 				</view>
 
 				<!-- 这是数量加减 -->
 				<view class="jia">
-					<text>X{{item.goodsNum}}</text>
+					<text>X{{content.num}}</text>
 				</view>
 			</view>
 		</view>
 
 		<view class="basic aa" @tap="openPopup">
 			<view class="left_a">
-				<text>退款原因</text>
+				<text>退货原因</text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
@@ -48,7 +48,7 @@
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>退款金额</text></view>
-			<input class="uni-input" name="input" :placeholder="orList.goodsList[0].goodsPrice?'￥'+orList.goodsList[0].goodsPrice+'.00':'0'" />
+			<input class="uni-input" disabled="true" name="input" :placeholder="content.gP?'￥'+content.gP+'.00':'0'" />
 		</view>
 		<view class="basic aa">
 			<view class="left_a">
@@ -58,12 +58,15 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text>商家同意退货后再选择</text>
+			</view>
+			<view class="" style="float: left;">
+
+				<text style="line-height: 50rpx;font-size: 28rpx;color:#808080;">卖家同意后，请您自行寄回，并填写物流单号</text>
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
-			<view class="title"><text>退款说明</text></view>
-			<input class="uni-input" name="input" placeholder="选填" />
+			<view class="title"><text>退货说明</text></view>
+			<input class="uni-input" name="input" v-model="exp" placeholder="选填" />
 		</view>
 
 		<view class="uni-form-item uni-column">
@@ -72,7 +75,7 @@
 				<image :src="pingImg" mode=""></image>
 			</view>
 		</view>
-		<view class="uni-padding-wrap uni-common-mt botts">
+		<view class="uni-padding-wrap uni-common-mt botts" @tap="primary">
 			<button type="primary">提交</button>
 		</view>
 		<!-- 弹出框内容 -->
@@ -83,15 +86,15 @@
 					<view class="tit_box">
 						<text>选择退款原因</text>
 					</view>
-					<view class="li_box" v-for="(i , n) in 5">
-						<text>质量问题</text>
-						<view class="radioss">
-							<radio value="r2" />
-						</view>
-					</view>
+					<radio-group class="li_box" v-for="(i , n) in 5" @change="change(n)">
+						<text v-model="values">{{values}}</text>
+						<label class="radioss">
+							<radio :value="i" :checked="index==n" />
+						</label>
+					</radio-group>
 				</view>
 				<view class="uni-padding-wrap uni-common-mt bottaaa" @tap="confirm">
-					<button type="primary">确定</button>
+					<button type="primary" @tap="confirm">确定</button>
 				</view>
 			</view>
 
@@ -107,28 +110,80 @@
 			return {
 				pingImg: '../../../static/img_10.jpg.png',
 				orList: [],
-				value: '请选择退款原因'
+				value: '请选择退款原因',
+				index: 'c',
+				values: '质量问题',
+				content: {},
+				gId: '',
+				exp: '',
+				pric: '',
 			}
 		},
 		components: {
 			uniPopup
 		},
 		onLoad(option) {
+			console.log(option)
+			this.content = option
 			var _this = this
 			this.$https({
 				url: '/api/user/order-detail',
 				dengl: false,
 				data: {
-					order_id: option.id
+					order_id: option.orderId
 				},
 				success(res) {
-					console.log(res.data.data)
+					// console.log(res.data.data)
 					_this.orList = res.data.data
 					// console.log(_this.orList)
+					_this.gId = res.data.data.goodsList[0].goodsId
 				}
 			})
 		},
 		methods: {
+			primary() {
+				// if (!_this.value)
+				var _this = this
+				var num = this.content.type==1?1:0
+				console.log(num)
+				if(!_this.value){
+					console.log(2222)
+					uni.showToast({
+						title: '请选择退款原因',
+						icon: 'none'
+					})
+				}else{
+				this.$https({
+					url: '/api/shop/order-refund-info-add',
+					dengl: false,
+					method: 'post',
+					haeder: true,
+					data: JSON.stringify({
+						goodsId: _this.gId,
+						orderNo: _this.content.oS,
+						proofImg: _this.pingImg,
+						refundCaption: _this.exp,
+						refundFee: _this.content.gP,
+						refundDesc: _this.value,
+						refundMethod:num
+					}),
+					success(res) {
+						
+						// console.log(_this.pingImg)
+					}
+				})
+				}
+			},
+			confirm() {
+				// console.log(this.values)
+				// console.log(this.pric)
+				this.value = this.values
+				this.closePopup()
+			},
+			change(n) {
+				this.index = n
+				// console.log(this.index)
+			},
 			openPopup() {
 				this.$refs.popup.open()
 			},

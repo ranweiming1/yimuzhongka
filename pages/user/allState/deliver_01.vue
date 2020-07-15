@@ -44,7 +44,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="basic aa" @tap="huan">
+		<view class="basic aa" @tap="tui">
 			<view class="left_a">
 				<text>我要退货</text>
 			</view>
@@ -71,14 +71,14 @@
 		methods: {
 			huan() {
 				uni.navigateTo({
-					url: './refund_01?id='+this.content.orderId
+					url: './refund_01?oS='+ this.content.oS+'&lG='+this.content.lG+'&gN='+this.content.gN+'&gP='+this.content.gP+'&sKN='+this.content.sKN+'&time='+this.content.time+'&num='+this.content.num+'&orderId='+this.content.orderId+'&type=1'
 				})
 			},
-			// huan(){
-			// 	uni.navigateTo({
-			// 		url: './refund?id='+this.content.orderId
-			// 	})
-			// }
+			tui(){
+				uni.navigateTo({
+					url: './refund_01?oS='+ this.content.oS+'&lG='+this.content.lG+'&gN='+this.content.gN+'&gP='+this.content.gP+'&sKN='+this.content.sKN+'&time='+this.content.time+'&num='+this.content.num+'&orderId='+this.content.orderId
+				})
+			}
 		}
 	}
 </script>

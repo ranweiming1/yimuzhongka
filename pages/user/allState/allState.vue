@@ -114,8 +114,7 @@
 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott"  @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address)">
-						<!-- v-if="item.status==2" -->
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address)">		
 						<button type="primary">查看物流</button>
 					</view>
 
@@ -352,7 +351,9 @@
 							provider: 'wxpay',
 							orderInfo: obj,
 							success: function(res) {},
-							fail: function(res) {}
+							fail: function(res) {
+								console.log(JSON.stringify(res))
+							}
 						})
 					}
 				})

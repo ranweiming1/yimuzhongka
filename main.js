@@ -3,13 +3,14 @@ import App from './App'
 //引入公共样式
 // import './style/gg.css'
 Vue.config.productionTip = false
-var webUrl = 'https://yimuzk.com'
+// var webUrl = 'https://yimuzk.com'
+var webUrl = 'http://192.168.101.68:8089'
 Vue.prototype.webUr = webUrl
 var $http = function(obj) {
 	console.log(obj)
 	if (obj.dengl) {
 		uni.request({
-			url: webUrl + obj.url,
+			url: webUrl + obj.url.substring(4),
 			data: obj.data,
 			method: obj.method ? obj.method : 'GET',
 			header: {
@@ -23,7 +24,7 @@ var $http = function(obj) {
 	} else {
 		if (uni.getStorageSync('Authorization')) {
 			uni.request({
-				url: webUrl + obj.url,
+				url: webUrl + obj.url.substring(4),
 				data: obj.data,
 				method: obj.method ? obj.method : 'GET',
 				header: {
