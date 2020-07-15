@@ -23,12 +23,12 @@
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
 					<!-- 订单信息 -->
-					<view class="xinxi" @remove="onRemove(index,indexs)" @quxiao="onQuxiao(index,indexs)" v-for='(items,indexs) in item.specList'>
+					<view class="xinxi" v-for='(items,indexs) in item.specList'>
 						<view class="radi">
 							<checkbox :value='(index+"-"+indexs)' :checked='xuanzho[index][indexs]' @tap='q(index,indexs)'></checkbox>
 						</view>
 						<view class="imgBox_a">
-							<image :src="item.goodsLogo" mode=""></image>
+							<image :src="item.goodsLogo?item.goodsLogo:'../../static/fh.png'" mode=""></image>
 						</view>
 						<view class="txt_c">
 							<view class="title">
@@ -176,7 +176,7 @@
 		data() {
 			return {
 				currentPage: 'cart',
-				cartList: {},
+				cartList: [],
 				keyName: '',
 				goodsPrice: '',
 				goodsLogo: '',

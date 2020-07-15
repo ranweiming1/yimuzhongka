@@ -183,11 +183,13 @@
 				this.cartAttr = JSON.parse(options.cartAttr).cartAttr
 				if (options.dingdan == 1) {
 					this.cartAttr.map(function(n, index) {
+						if(n.cartAttr){
 						n.cartAttr.map(function(z, indexs) {
 							if (!z.xuanzhong) {
 								_this.cartAttr[index].cartAttr.splice(indexs, 1)
 							}
 						})
+						}
 					})
 				}
 				if (options.zhid) {
