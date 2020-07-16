@@ -118,7 +118,7 @@
 				duration: 500,
 				list: [],
 				youhuiquan: [],
-				youhuiquanle: false,
+				youhuiquanle: true,
 				id: '',
 				index: '',
 				phone:''
@@ -163,26 +163,6 @@
 			// 		_this.phone=res.data.data.phone
 			// 	}
 			// })
-			this.$https({
-				url: '/api/oauth/shop/coupon-couple-List',
-				data: {},
-				dengl:true,
-				success: function(res) {
-					if (res.data.data.length > 0) {
-						//是否是新人
-						_this.$https({
-							url: '/api/shop/coupon-couple',
-							data: {},
-							success: function(re) {
-								if (re.data.data) {
-									_this.youhuiquanle = true
-								}
-							}
-						})
-					}
-					_this.youhuiquan = res.data.data
-				}
-			})
 		},
 		methods: {
 			detail(id) {
@@ -198,7 +178,6 @@
 					dengl:true,
 					success(res) {
 						console.log('添加成功')
-						console.log(res.data)
 					}
 				})
 			},
@@ -220,11 +199,15 @@
 				})
 			},
 			lingqu: function() {
+				var _this=this
 				var a = []
 				this.youhuiquan.map(function(n) {
 					a.push(n.id)
 				})
 				var _this = this
+				//判断是否是新人
+				this.$https({url:'/api/shop/coupon-couple',data:{},success:function(){
+					if(res.data.dara){
 				this.$https({
 					url: '/api/shop/coupon-couple-add',
 					data: {
@@ -237,6 +220,9 @@
 						})
 						_this.youhuiquanle = false
 					}
+				})
+				}
+				},
 				})
 			},
 			search:function(){

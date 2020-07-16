@@ -26,7 +26,7 @@
 					</view> -->
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
-				<view class="xinxi">
+				<view class="xinxi" >
 					<view class="xinxi1" @tap="detail(item.orderId)" v-for="(i,n) in item.specList">
 						<view class="imgBox_a">
 							<image :src="item.goodsLogo" mode=""></image>
@@ -49,8 +49,8 @@
 						</view>
 
 					</view>
-
-				</view>
+					
+						</view>
 			</view>
 
 
