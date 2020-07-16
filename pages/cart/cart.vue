@@ -15,18 +15,19 @@
 		</view>
 
 		<view class="listBox">
-			<view class="box" v-for="(item , index) in cartList">
-				<checkbox-group @change='xuanze'>
-					<view class="radios">
-						<checkbox :value='index' :checked='xuanzhoz[index]' @tap='x(index)'></checkbox>
-						<text>{{item.storeShopDTO.shopName}}</text>
-						<image src="../../static/icon_26.png" mode=""></image>
-					</view>
-					<!-- 订单信息 -->
-					<view class="xinxi" @remove="onRemove(index,indexs)" @quxiao="onQuxiao(index,indexs)" v-for='(items,indexs) in item.specList'>
-						<view class="radi">
-							<checkbox :value='(index+"-"+indexs)' :checked='xuanzho[index][indexs]' @tap='q(index,indexs)'></checkbox>
-						</view>
+
+			<!-- 购物车 -->
+			<view class="listBox" v-for="(item,index) in  cartList">
+				<view class="radios">
+					<!-- 店铺名称待确认 -->
+					<text>{{item.storeShopDTO.shopName}}</text>
+					<!-- <view class="guanb">
+						<text>{{item.orderStatus==0?'待付款':item.orderStatus==1?'交易完成':'交易关闭'}}</text>
+					</view> -->
+					<image src="../../static/icon_26.png" mode=""></image>
+				</view>
+				<view class="xinxi">
+					<view class="xinxi1" @tap="detail(item.orderId)" v-for="(i,n) in item.specList">
 						<view class="imgBox_a">
 							<image :src="item.goodsLogo" mode=""></image>
 						</view>
@@ -34,27 +35,28 @@
 							<view class="title">
 								<text>{{item.goodsName}}</text>
 							</view>
-							<view class="spec" @click="openPopup(index,indexs)">
-								<text>{{items.specKeyName}}</text>
+							<view class="spec">
+								<text>已选：＂{{i.specKeyName}}＂</text>
 							</view>
 							<view class="radColor">
-								<text>￥{{items.goodsPrice?items.goodsPrice:'暂无价格'}}</text>
+								<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
 							</view>
 
-							<!-- 这是数量加减 -->
+							<!-- 数量 -->
 							<view class="jia">
-								<view @tap='jian(index,indexs)'>-</view>
-								<input v-model='items.goodsNum' @blur='shuru(index,indexs)'>
-								<view @tap='jia(index,indexs)'>+</view>
+								<text>X{{i.goodsNum}}</text>
 							</view>
 						</view>
+
 					</view>
-				</checkbox-group>
+
+				</view>
 			</view>
 
+
+
+
 			<!-- 失效宝贝 -->
-
-
 			<view class="Boxs">
 				<view class="lose">
 					<view class="xinxi">
@@ -100,6 +102,7 @@
 					</view>
 				</view>
 			</view>
+
 		</view>
 
 		<!-- 底部 -->

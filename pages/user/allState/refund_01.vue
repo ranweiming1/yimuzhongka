@@ -169,7 +169,10 @@
 						refundMethod:num
 					}),
 					success(res) {
-						
+						uni.showToast({
+							title: '提交成功',
+							icon: 'none'
+						})
 						// console.log(_this.pingImg)
 					}
 				})
