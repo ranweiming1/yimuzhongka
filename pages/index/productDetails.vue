@@ -259,7 +259,6 @@
 
 <script>
 	import jyfParser from "@/components/jyf-parser/jyf-parser";
-	import appShare,{closeShare} from '@/components/share.js'
 	export default {
 		data() {
 			return {
@@ -438,19 +437,21 @@
 				})
 			},
 			shangpinxin:function(){
-				let shareData={
-					shareUrl:'https://kemean.com',
-					shaerTitle:'分享的标题',
-					shaerContent:'分享的描述',
-					shaerImg:'https://qn.kemean.cn//upload/202004/18/1587189024467w6xj18b1.jpg',
-					appId:'wxcfd9c1418eeb2e3',
-					appPath:'pages/static/fh.png',
-					appWebUrl:'htttps://kemean.com'
-				}
-				let shareObj=appShare(shareData,res=>{})
-				setTimeout(function(){
-					shareObj.close()
-				})
+				uni.showModal({
+				    content:234,//模板中提示的内容
+				    confirmText:'复制内容',
+				    success:()=>{//点击复制内容的后调函数
+				      //uni.setClipboardData方法就是讲内容复制到粘贴板
+				      uni.setClipboardData({
+				        data:234,//要被复制的内容
+				        success:()=>{//复制成功的回调函数
+				          uni.showToast({//提示
+				            title:'复制成功'
+				          })
+				        }
+				      });
+				    }
+				  })
 			}
 		}
 
@@ -1167,3 +1168,8 @@
 		}
 	}
 </style>
+
+
+
+
+
