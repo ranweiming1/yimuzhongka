@@ -813,6 +813,7 @@
 				border-radius: 10rpx;
 				display: flex;
 				width: 35%;
+				line-height: 45rpx;
 
 				view {
 					// flex-grow: 1
@@ -825,7 +826,10 @@
 					border-right: 1px solid #f0f0f0;
 					text-align: center;
 					font-size: 23rpx;
-					display:inline-block;
+					display: inline-block;
+					min-height: 45rpx;
+					line-height: 45rpx;
+
 				}
 
 			}
