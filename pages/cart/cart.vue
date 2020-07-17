@@ -17,17 +17,22 @@
 		<view class="listBox">
 
 			<!-- 购物车 -->
-			<view class="listBox" v-for="(item,index) in  cartList">
+
+			<view class="listBoxs" v-for="(item,index) in  cartList">
 				<view class="radios">
 					<!-- 店铺名称待确认 -->
+					<label class="radio">
+						<checkbox value=""></checkbox>
+					</label>
 					<text>{{item.storeShopDTO.shopName}}</text>
-					<!-- <view class="guanb">
-						<text>{{item.orderStatus==0?'待付款':item.orderStatus==1?'交易完成':'交易关闭'}}</text>
-					</view> -->
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
-				<view class="xinxi" >
+				<view class="xinxi">
 					<view class="xinxi1" @tap="detail(item.orderId)" v-for="(i,n) in item.specList">
+						<view class="radi">
+							<checkbox value=""></checkbox>
+						</view>
+
 						<view class="imgBox_a">
 							<image :src="item.goodsLogo" mode=""></image>
 						</view>
@@ -38,22 +43,29 @@
 							<view class="spec">
 								<text>已选：＂{{i.specKeyName}}＂</text>
 							</view>
+							<!-- <view class=""> -->
+
+
 							<view class="radColor">
 								<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
 							</view>
 
 							<!-- 数量 -->
-							<view class="jia">
+							<!-- <view class="jia">
 								<text>X{{i.goodsNum}}</text>
+							</view> -->
+							<view class="num">
+								<view>-</view>
+								<input type="number" v-model='items.goodsNum'>
+								<view>+</view>
 							</view>
 						</view>
+						<!-- </view> -->
 
 					</view>
-					
-						</view>
+
+				</view>
 			</view>
-
-
 
 
 			<!-- 失效宝贝 -->
@@ -153,9 +165,9 @@
 					</view>
 					<!-- 这是数量加减 -->
 					<view class="jia">
-						<view style='float:left;' @tap='ji'>-</view>
-						<input v-model='num' style='border:1px solid #eee;width:60rpx;float:left;margin-left:20rpx;'>
-						<view style='float:left;margin-left:20rpx;' @tap='j'>+</view>
+						<view style='float:left;'>-</view>
+						<input v-model='num'>
+						<view style='float:left;margin-left:20rpx;'>+</view>
 					</view>
 				</view>
 				<view class="uni-padding-wrap uni-common-mt bott">
@@ -632,7 +644,7 @@
 	}
 
 	.top {
-		width: 750upx;
+		width: 100%;
 		margin: 0 auto;
 		overflow: hidden;
 		background-color: #FFFFFF;
@@ -672,13 +684,14 @@
 	}
 
 	.radios {
-		width: 710upx;
+		width: 100%;
 		padding: 20upx;
 		overflow: hidden;
 		padding-top: 20upx;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
 		border-top: 1px solid #e5e5e5;
+
 
 		text {
 			font-size: 28upx;
@@ -690,7 +703,18 @@
 		image {
 			width: 12upx;
 			height: 20upx;
+			margin-left: 20rpx;
 		}
+	}
+
+	.radio {
+		padding-right: 20rpx;
+
+		checkbox .uni-checkbox-input {
+			border-radius: 50% !important;
+
+		}
+
 	}
 
 	.box {
@@ -698,70 +722,141 @@
 		overflow: hidden;
 	}
 
+
+
 	.xinxi {
 		overflow: hidden;
-		width: 710upx;
-		// padding: 20upx;
-		border-bottom: 1px dotted #eee;
+		width: 100%;
+		padding: 25upx 20upx 0 20upx;
+		box-sizing: border-box;
+
+
+		.xinxi1 {
+			overflow: hidden;
+			border-bottom: 1px dotted #eee;
+			padding-bottom: 20rpx;
+		}
+
+		.xinxi1:last-child {
+			border-bottom: none;
+		}
+
 
 		.radi {
 			float: left;
 			margin-right: 20upx;
 			margin-top: 10%;
-			margin-left: 20rpx;
+			// margin-left: 20rpx;
+
+			checkbox .uni-checkbox-input {
+				border-radius: 50% !important;
+			}
+
 		}
 
 		.imgBox_a {
 			float: left;
 			padding-top: 20upx;
 
+
 			image {
-				width: 215upx;
+				width: 212upx;
 				height: 160upx;
 			}
 		}
 
 		.txt_c {
 			float: right;
-			width: 53%;
-			padding-left: 20upx;
+			width: 56%;
+			padding-right: 10upx;
+			box-sizing: border-box;
 
 			.title {
 				padding-top: 10upx;
+				margin-bottom: 15rpx;
 
 				text {
-					font-size: 30upx;
+					font-size: 29upx;
 					line-height: 30upx;
-					color: #333;
+					color: #0c0c0c;
 				}
 			}
 
 			.spec {
-				font-size: 26upx;
 				line-height: 40upx;
 				color: #666;
+
+				margin-bottom: 18rpx;
+
+				text {
+					font-size: 24upx;
+
+
+				}
 			}
 
 			.radColor {
 				float: left;
+				// display: flex;
+
 				color: #ff0000;
-				font-size: 32upx;
+
+				text {
+
+					font-size: 28upx;
+				}
+			}
+
+			.num {
+				float: right;
+				border: 1rpx solid #f0f0f0;
+				border-radius: 10rpx;
+				display: flex;
+				width: 35%;
+
+				view {
+					// flex-grow: 1
+					padding-right: 10rpx;
+					padding-left: 10rpx;
+				}
+
+				input {
+					border-left: 1px solid #f0f0f0;
+					border-right: 1px solid #f0f0f0;
+					text-align: center;
+					font-size: 23rpx;
+					display:inline-block;
+				}
+
 			}
 
 			.jia {
 				float: right;
-				margin-right: 36rpx;
+				// margin-right: 20rpx;
+				border: 1rpx solid #f0f0f0;
+				border-radius: 10rpx;
 
 				view {
 					float: left;
-					margin-left: 20rpx;
+					margin-left: 15rpx;
+					margin-right: 15rpx;
+					color: #979797;
 				}
 
 				input {
-					width: 60rpx;
-					border: 1px solid #ddd;
+					sborder: 1px solid #eee;
 					float: left;
-					margin-left: 20rpx;
+					width: 60rpx;
+					border-left: 1px solid #f0f0f0;
+					border-right: 1px solid #f0f0f0;
+					text-align: center;
+					font-size: 23rpx;
+					// margin-left: 20rpx;
+				}
+
+				input::-webkit-placeholder {
+					// color: #979797;
+					color: red;
 				}
 
 				text {
@@ -769,6 +864,18 @@
 					color: #666;
 				}
 			}
+		}
+	}
+
+
+	.listBox {
+		.listBoxs {
+			background-color: #FFFFFF;
+
+		}
+
+		.listBoxs:last-child {
+			margin-bottom: 20rpx;
 		}
 	}
 
