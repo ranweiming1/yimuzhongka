@@ -56,7 +56,7 @@
 							</view> -->
 							<view class="num">
 								<view>-</view>
-								<input type="number" v-model='items.goodsNum'>
+								<input type="number" style='width:30rpx;hright:30rpx;line-height:30rpx;min-height:30rpx;'>
 								<view>+</view>
 							</view>
 						</view>

@@ -65,7 +65,7 @@
 			// console.l
 			var _this = this
 			this.$https({
-				url: '/api/shop/car-brand-lists',
+				url: '/api/oauth/shop/mall-car-brand-lists',
 				data: {},
 				success: function(res) {
 					for (var i in res.data.data) {
@@ -87,7 +87,7 @@
 				this.zhezhao = true
 				this.pinpai = carName
 				this.$https({
-					url: '/api/shop/car-type-lists',
+					url: '/api/oauth/shop/mall-car-type-lists',
 					data: {
 						carId: carId
 					},

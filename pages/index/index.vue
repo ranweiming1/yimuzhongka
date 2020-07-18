@@ -27,7 +27,7 @@
 				<text>{{item.cateTitle}}</text>
 			</view> -->
 		<!-- </view> -->
-		<swiper style="height: 440rpx;" :autoplay="autoplay" :interval="interval" :duration="duration">
+		<swiper style="height: 440rpx;width:90%;margin-left:5%;" :interval="interval" :duration="duration">
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key='item.id'>
 				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(index,indexs)">
 					<image :src="items.imgUrl"></image>
@@ -237,7 +237,6 @@
 
 <style lang="scss" scoped>
 	@import '../../style/gg.css';
-
 	.top {
 		width: 100%;
 		height: 90upx;
