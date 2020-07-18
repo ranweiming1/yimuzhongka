@@ -1,6 +1,5 @@
 <template>
 	<view class="bcg">
-		<!-- <view class="line" style="height: 50rpx;"></view> -->
 		<view class="top">
 			<view class="textBox">
 				<text>购物车(02)</text>
@@ -28,7 +27,8 @@
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
 				<view class="xinxi">
-					<view class="xinxi1" @tap="detail(item.orderId)" v-for="(i,n) in item.specList">
+					<!-- 订单信息 -->
+					<view class="xinxi1" v-for="(i,n) in item.specList">
 						<view class="radi">
 							<checkbox value=""></checkbox>
 						</view>
@@ -40,7 +40,7 @@
 							<view class="title">
 								<text>{{item.goodsName}}</text>
 							</view>
-							<view class="spec">
+							<view class="spec" @click="openPopup(index,n)">
 								<text>已选：＂{{i.specKeyName}}＂</text>
 							</view>
 							<!-- <view class=""> -->
@@ -56,7 +56,9 @@
 							</view> -->
 							<view class="num">
 								<view>-</view>
-								<input type="number" style='width:30rpx;hright:30rpx;line-height:30rpx;min-height:30rpx;'>
+								<view class="numm" @tap="valRe1(index,n,i.goodsNum)">
+									{{i.goodsNum}}
+								</view>
 								<view>+</view>
 							</view>
 						</view>
@@ -66,8 +68,18 @@
 
 				</view>
 			</view>
-
-
+			<!-- 购物车弹框 -->
+			<view class="mask" v-if="mask_show"></view>
+			<view class="mask_content" v-if="mask_show">
+				<view class="title">
+					<text>请输入您的内容</text>
+				</view>
+				<input type="number" v-model="value" />
+				<view class="bot">
+					<button size="mini" @tap="valRe">取消</button>
+					<button size="mini" @tap="change">确定</button>
+				</view>
+			</view>
 			<!-- 失效宝贝 -->
 			<view class="Boxs">
 				<view class="lose">
@@ -154,8 +166,10 @@
 						<text>规格</text>
 					</view>
 					<!-- 默认样式 -->
-					<view class="xiang" v-for='item in guige' @tap='xuanzeguige(item.keyName)'>
-						<text :class='keyName==item.keyName?"x":""'>{{item.keyName}}</text>
+					<view class="detail">
+						<view class="xiang" v-for='item in guige' @tap='xuanzeguige(item.keyName)'>
+							<text :class='keyName==item.keyName?"x":""'>{{item.keyName}}</text>
+						</view>
 					</view>
 				</view>
 
@@ -165,9 +179,9 @@
 					</view>
 					<!-- 这是数量加减 -->
 					<view class="jia">
-						<view style='float:left;'>-</view>
+						<view>-</view>
 						<input v-model='num'>
-						<view style='float:left;margin-left:20rpx;'>+</view>
+						<view>+</view>
 					</view>
 				</view>
 				<view class="uni-padding-wrap uni-common-mt bott">
@@ -190,6 +204,7 @@
 	export default {
 		data() {
 			return {
+				value: '',
 				currentPage: 'cart',
 				cartList: {},
 				keyName: '',
@@ -204,7 +219,10 @@
 				shuzu: [],
 				jiage: 0,
 				xuan: false,
-				xuanzhong: []
+				xuanzhong: [],
+				mask_show: false,
+				index: 0,
+				n: 0
 			}
 		},
 		onShow() {
@@ -232,6 +250,20 @@
 			uniNumberBox
 		},
 		methods: {
+			change(e) {
+				this.valRe()
+				this.val = this.value
+				this.cartList[this.index].specList[this.n].goodsNum = this.value
+			},
+			valRe() {
+				this.mask_show = !this.mask_show
+			},
+			valRe1(index, n, mun) {
+				this.mask_show = !this.mask_show
+				this.value = mun
+				this.index = index
+				this.n = n
+			},
 			select: function() {
 				console.log(1)
 			},
@@ -643,6 +675,50 @@
 		background-color: #eeeeee;
 	}
 
+	.mask {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.2);
+	}
+
+	.mask_content {
+		background-color: #FFFFFF;
+		position: fixed;
+		top: 38%;
+		left: 60rpx;
+		right: 60rpx;
+		border-radius: 15rpx;
+		padding: 30rpx;
+
+		.title {
+			text {
+				line-height: 30px;
+				font-size: 28rpx;
+			}
+		}
+
+		input {
+			min-height: 40rpx;
+			line-height: 40rpx;
+			padding-left: 10rpx;
+			border-bottom: 1rpx solid #007AFF;
+		}
+
+		.bot {
+			float: right;
+			margin-top: 30rpx;
+
+			button {
+				margin-right: 20rpx;
+				color: #007AFF;
+			}
+
+		}
+	}
+
 	.top {
 		width: 100%;
 		margin: 0 auto;
@@ -816,58 +892,28 @@
 				line-height: 45rpx;
 
 				view {
-					// flex-grow: 1
 					padding-right: 10rpx;
 					padding-left: 10rpx;
+					flex-grow: 1;
+					text-align: center;
 				}
 
-				input {
+				.numm {
+					flex-grow: 2;
+					width: 60rpx;
+					text-align: center;
 					border-left: 1px solid #f0f0f0;
 					border-right: 1px solid #f0f0f0;
 					text-align: center;
 					font-size: 23rpx;
 					display: inline-block;
-					min-height: 45rpx;
+					// min-height: 45rpx;
 					line-height: 45rpx;
 
 				}
 
 			}
 
-			.jia {
-				float: right;
-				// margin-right: 20rpx;
-				border: 1rpx solid #f0f0f0;
-				border-radius: 10rpx;
-
-				view {
-					float: left;
-					margin-left: 15rpx;
-					margin-right: 15rpx;
-					color: #979797;
-				}
-
-				input {
-					sborder: 1px solid #eee;
-					float: left;
-					width: 60rpx;
-					border-left: 1px solid #f0f0f0;
-					border-right: 1px solid #f0f0f0;
-					text-align: center;
-					font-size: 23rpx;
-					// margin-left: 20rpx;
-				}
-
-				input::-webkit-placeholder {
-					// color: #979797;
-					color: red;
-				}
-
-				text {
-					font-size: 20upx;
-					color: #666;
-				}
-			}
 		}
 	}
 
@@ -1127,6 +1173,13 @@
 				}
 			}
 
+			.detail {
+
+				max-height: 200rpx;
+				overflow-y: auto;
+				text-align: center;
+			}
+
 			.xiang {
 				float: left;
 				margin-top: 20upx;
@@ -1173,7 +1226,39 @@
 
 			.jia {
 				float: right;
+				// margin-right: 20rpx;
+				// border: 1rpx solid #f0f0f0;
+				border-radius: 10rpx;
+
+				view {
+					float: left;
+					margin-left: 15rpx;
+					margin-right: 15rpx;
+					color: #000;
+				}
+
+				input {
+					sborder: 1px solid #eee;
+					float: left;
+					width: 70rpx;
+					border: 1px solid #f0f0f0;
+					background-color: #f0f0f0;
+					text-align: center;
+					font-size: 23rpx;
+					border-radius: 8rpx;
+				}
+
+				input::-webkit-placeholder {
+					// color: #979797;
+					color: red;
+				}
+
+				text {
+					font-size: 20upx;
+					color: #666;
+				}
 			}
+
 		}
 	}
 
