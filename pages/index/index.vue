@@ -27,7 +27,7 @@
 				<text>{{item.cateTitle}}</text>
 			</view> -->
 		<!-- </view> -->
-		<swiper style="height: 440rpx;width:90%;margin-left:5%;" :interval="interval" :duration="duration">
+		<swiper style="height: 440rpx;width:90%;margin-left:5%;" :autoplay="autoplay" :interval="interval" :duration="duration">
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key='item.id'>
 				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(index,indexs)">
 					<image :src="items.imgUrl"></image>
@@ -98,6 +98,9 @@
 				 @tap='guan'>X</view>
 			</view>
 		</view>
+		<view class="line" style="height: 40rpx;">
+			
+		</view>
 		<tabBar :currentPage="currentPage"></tabBar>
 	</view>
 </template>
@@ -121,7 +124,7 @@
 				youhuiquanle: true,
 				id: '',
 				index: '',
-				phone:''
+				phone:'',
 			}
 		},
 		components: {
@@ -237,6 +240,11 @@
 
 <style lang="scss" scoped>
 	@import '../../style/gg.css';
+.loading-text{
+		display: block;
+		
+		text-align: center;
+	}
 	.top {
 		width: 100%;
 		height: 90upx;
