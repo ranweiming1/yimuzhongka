@@ -30,9 +30,14 @@
 
 <style lang="scss">
 	.imgBox {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 		image {
-			width: 750upx;
-			height: 1334upx;
+			width: 100%;
+			height: 100%;
 		}
 	}
 	.brief{

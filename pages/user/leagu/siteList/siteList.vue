@@ -33,6 +33,9 @@
 				</view>
 			</view>
 		</radio-group>
+		<view class="line" style="height: 120rpx;">
+			
+		</view>
 		<view class="uni-padding-wrap uni-common-mt bott">
 			<button type="primary" style="background: #2b5cff" @tap='fanhui'>确定并返回</button>
 		</view>

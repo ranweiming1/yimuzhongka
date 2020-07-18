@@ -134,7 +134,7 @@
 						<image src="../../static/wt.png" mode=""></image>
 					</view>
 					<view class="textBox">
-						<text>常见问题</text>
+						<text>推荐好友</text>
 					</view>
 				</view>
 
@@ -161,7 +161,9 @@
 						<image src="../../static/hb.png" mode=""></image>
 					</view>
 					<view class="textBox">
-						<text>推荐好友</text>
+						<text>我的收益  <!-- #ifdef APP-PLUS -->
+						
+						<!-- #endif --></text>
 					</view>
 				</view>
 
@@ -197,7 +199,7 @@
 						<image src="../../static/sz.png" mode=""></image>
 					</view>
 					<view class="textBox">
-						<text>设置</text>
+						<text>账号设置</text>
 					</view>
 				</view>
 			</view>
@@ -295,7 +297,7 @@
 			},
 			ques: function() {
 				uni.navigateTo({
-					url: 'FAQ/FAQ'
+					url: './task/invite/invite'
 				})
 			},
 			jifen: function() {
@@ -330,7 +332,7 @@
 			},
 			tuiKuan:function(){
 				uni.navigateTo({
-					url:'./allState/deliver_01'
+					url:'./allState/salelist'
 				})
 			},
 			aiChe:function(){

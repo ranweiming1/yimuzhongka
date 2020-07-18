@@ -148,7 +148,7 @@
 								title: '请输入正确的手机号',
 								icon: 'none'
 							})
-						} else if (!_this.account.password.length<6) {
+						} else if (!_this.account.password.length>5) {
 							uni.showToast({
 								title: '请输入大于6位的密码',
 								icon: 'none'
