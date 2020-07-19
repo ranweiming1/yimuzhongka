@@ -35,9 +35,9 @@
 				</view>
 			</swiper-item>
 		</swiper>
-<view style='text-align:center;'>
-	<view v-for='(item,index) in list' :style='int==index?"width:30rpx;height:10rpx;background:#dd524d;display:inline-block;margin-left:20rpx;":"width:30rpx;height:10rpx;background:#ddd;display:inline-block;margin-left:20rpx;"'></view>
-</view>
+		<view style='text-align:center;'>
+			<view v-for='(item,index) in list' :style='int==index?"width:30rpx;height:10rpx;background:#dd524d;display:inline-block;margin-left:20rpx;":"width:30rpx;height:10rpx;background:#ddd;display:inline-block;margin-left:20rpx;"'></view>
+		</view>
 		<!-- 这也是轮播--优惠券 -->
 		<!-- <view class="lunb">
 			<image src="../../static/img_01.png" mode=""></image>
@@ -100,7 +100,7 @@
 			</view>
 		</view>
 		<view class="line" style="height: 40rpx;">
-			
+
 		</view>
 		<tabBar :currentPage="currentPage"></tabBar>
 	</view>
@@ -122,11 +122,11 @@
 				duration: 500,
 				list: [],
 				youhuiquan: [],
-				youhuiquanle: true,
+				youhuiquanle: false,
 				id: '',
 				index: '',
-				phone:'',
-				int:0
+				phone: '',
+				int: 0
 			}
 		},
 		components: {
@@ -137,9 +137,9 @@
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
-					mobileCode:13706412504
+					mobileCode: 13706412504
 				},
-				dengl:true,
+				dengl: true,
 				// dengl: false,
 				success: function(res) {
 					_this.banList = res.data.data.bannerList
@@ -160,9 +160,13 @@
 				},
 			})
 			//获取优惠券
-			this.$https({url:'/api/oauth/shop/coupon-couple-List',data:{},success:function(res){
-				_this.youhuiquan=res.data.data
-			}})
+			this.$https({
+				url: '/api/oauth/shop/coupon-couple-List',
+				data: {},
+				success: function(res) {
+					_this.youhuiquan = res.data.data
+				}
+			})
 			// this.$https({
 			// 	url:'/api/user/my-index',
 			// 	data:{},
@@ -172,10 +176,10 @@
 			// 		_this.phone=res.data.data.phone
 			// 	}
 			// })
-			if(uni.getStorageSync('y')){
-				this.youhuiquanle=false
-			}else{
-				this.youhuiquanle=true
+			if (uni.getStorageSync('y')) {
+				this.youhuiquanle = false
+			} else {
+				this.youhuiquanle = true
 			}
 		},
 		methods: {
@@ -189,7 +193,7 @@
 						goodsId: id
 					},
 					method: 'POST',
-					dengl:true,
+					dengl: true,
 					success(res) {
 						console.log('添加成功')
 					}
@@ -213,58 +217,63 @@
 				})
 			},
 			lingqu: function() {
-				var _this=this
+				var _this = this
 				var a = []
 				this.youhuiquan.map(function(n) {
 					a.push(n.id)
 				})
 				var _this = this
 				//判断是否是新人
-				this.$https({url:'/api/shop/coupon-couple',data:{},success:function(res){
-					if(res.data.dara){
 				this.$https({
-					url: '/api/shop/coupon-couple-add',
-					data: {
-						ids: a
-					},
-					method: 'post',
+					url: '/api/shop/coupon-couple',
+					data: {},
 					success: function(res) {
-						uni.showToast({
-							title: res.data.message
-						})
-						_this.youhuiquanle = false
-					}
-				})
-				}else{
-					uni.showToast({
-						title:'您不是新人，无法领取优惠券',
-						icon:'none'
-					})
-					uni.setStorageSync('y','123')
-				}
-				},
+						if (res.data.dara) {
+							this.$https({
+								url: '/api/shop/coupon-couple-add',
+								data: {
+									ids: a
+								},
+								method: 'post',
+								success: function(res) {
+									uni.showToast({
+										title: res.data.message
+									})
+									_this.youhuiquanle = false
+								}
+							})
+						} else {
+							uni.showToast({
+								title: '您不是新人，无法领取优惠券',
+								icon: 'none'
+							})
+							uni.setStorageSync('y', '123')
+						}
+					},
 				})
 			},
-			search:function(){
+			search: function() {
 				uni.navigateTo({
-					url:'../search/search'
+					url: '../search/search'
 				})
 			},
-			qiehuan:function(e){
-				this.int=e.detail.current
+			qiehuan: function(e) {
+				this.int = e.detail.current
 			}
-		
+
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	@import '../../style/gg.css';
-.loading-text{
+
+	.loading-text {
 		display: block;
-		
+
 		text-align: center;
 	}
+
 	.top {
 		width: 100%;
 		height: 90upx;
