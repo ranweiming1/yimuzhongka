@@ -77,7 +77,7 @@
 			</view>
 		</view>
 		<view class='zhezhao' v-if='youhuiquanle'>
-			<view style='width:471rpx;margin:0 auto;'>
+			<view style='width:471rpx;margin:0 auto;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);'>
 				<image src='../../static/youhu.png' style='width:471rpx;height:281rpx;display:block;'></image>
 				<view style='background:#2b5cff;overflow:hidden;'>
 					<view v-for='item in youhuiquan' style='background:#fff;overflow:hidden;width:90%;margin:10rpx auto;position:relative;'>

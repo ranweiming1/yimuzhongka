@@ -121,6 +121,7 @@
 			<view class="mask" v-if="isAdd" @tap="add">
 			</view>
 			<view class="butt" v-if="isAdd">
+				<view style='position:absolute;top:30rpx;right:20rpx;' @tap='add'>X</view>
 				<view class="mTop">
 					<image class="cover" :src="list.goodsLogo" mode=""></image>
 					<view class="mRight">
@@ -225,7 +226,7 @@
 		<!--活动列表-->
 		<view v-if='huodong' style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;' @tap='yincang'>
 			<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:5% 5% 0 0;overflow-y:auto;'>
-				<view style='text-align:center;margin-top:30rpx;'>优惠</view>
+				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:20rpx;top:30rpx;'>X</view></view>
 				<view v-for='item in list.couponDTOS' style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
 					<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
 					<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
@@ -360,7 +361,7 @@
 					this.num = 1
 				}
 				//计算价格
-				this.Price=this.guige[this.indexx].price*num
+				this.Price=this.guige[this.indexx].price*this.num
 			},
 			jia() {
 				this.num++
@@ -597,6 +598,7 @@
 		.mButton {
 			width: 100%;
 			height: 50%;
+			overflow-y:auto;
 
 			.color,
 			.mNumber {
@@ -793,7 +795,7 @@
 			float: left;
 			display: block;
 			padding-top: 10upx;
-			width: 80%;
+			width: 100%;
 
 			text {
 				display: block;

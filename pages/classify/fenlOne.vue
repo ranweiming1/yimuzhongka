@@ -99,7 +99,7 @@
 					<view class="txt_a">
 						<view class="title_top">
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-							<text>{{item.goodsName}}</text>
+							<text style='display:inline-block;'>{{item.goodsName}}</text>
 						</view>
 						<view class="youhui_bo">
 							<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
@@ -679,6 +679,7 @@
 			border-radius: 20upx;
 			padding-bottom: 20upx;
 			overflow: hidden;
+			border:none;
 
 			.imgBox {
 				image {
@@ -696,6 +697,10 @@
 
 				text {
 					font-size: 30upx;
+					overflow:hidden;
+					max-width:100%;
+					text-overflow:ellipsis;
+					white-space:nowrap;
 				}
 
 				.span_a {

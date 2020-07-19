@@ -126,21 +126,23 @@
 			float: right;
 			border-radius: 40upx;
 			background-color: #007AFF;
-
 			.imgBox {
 				padding-left: 30upx;
 				padding-right: 10upx;
 				padding-top: 10upx;
 				float: left;
-
+				position:relative;
 				image {
 					width: 30upx;
 					height: 30upx;
+					position:absolute;
+					top:15rpx;
 				}
 			}
 
 			.txeta {
 				float: left;
+				margin-left:30rpx;
 
 				text {
 					font-size: 28upx;

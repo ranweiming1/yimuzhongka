@@ -8,7 +8,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<input type="number" placeholder="请输入手机号" placeholder-style="line-height:70rpx"/>
+				<input type="number" placeholder="请输入手机号" placeholder-style="line-height:70rpx" type='/>
 				<!-- <text>15066212365</text> -->
 			</view>
 		</view>
