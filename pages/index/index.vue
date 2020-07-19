@@ -13,7 +13,7 @@
 		</view>
 		<!-- 这是轮播图 -->
 		<view class="banner">
-			<swiper class="swiper" style="height: 262rpx;" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
+			<swiper class="swiper" style="height: 262rpx;" :autoplay="autoplay" :interval="interval"
 			 :duration="duration">
 				<swiper-item v-for="(item, index) in banList">
 					<image :src="item.img" mode=""></image>
@@ -35,14 +35,14 @@
 				</view>
 			</swiper-item>
 		</swiper>
-		<view style='text-align:center;'>
+		<view style='text-align:center;border-bottom:1px solid #efefef;padding-bottom:20rpx;'>
 			<view v-for='(item,index) in list' :style='int==index?"width:30rpx;height:10rpx;background:#dd524d;display:inline-block;margin-left:20rpx;":"width:30rpx;height:10rpx;background:#ddd;display:inline-block;margin-left:20rpx;"'></view>
 		</view>
 		<!-- 这也是轮播--优惠券 -->
 		<!-- <view class="lunb">
 			<image src="../../static/img_01.png" mode=""></image>
 		</view> -->
-		<swiper class="lunb" style="height: 160rpx;" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
+		<swiper class="lunb" style="height: 160rpx;" :autoplay="autoplay" :interval="interval"
 		 :duration="duration">
 			<swiper-item>
 				<image src="../../static/img_01.png" mode=""></image>
@@ -291,7 +291,7 @@
 
 			image {
 				width: 34upx;
-				height: 4upx;
+				height: 7upx;
 				float: left;
 				padding-left: 50upx;
 			}
@@ -313,9 +313,9 @@
 		width: 90%;
 		margin: 0 auto;
 		display: block;
-		box-shadow: 0 0 5px #ccc;
+		box-shadow: 0 0 5px 3px #ccc;
 		border-radius: 20upx;
-
+		margin-bottom:20rpx;
 		image {
 			width: 100%;
 			height: 262upx;

@@ -2,7 +2,7 @@
 	<view>
 		<view class='uni-form-item uni-column'>
 			<view class='title'><text>期望账户名</text></view>
-			<input class='uni-input' v-model='accountName' placeholder='请输入期望账户名'>
+			<input class='uni-input' v-model='accountName' placeholder='请输入期望账户名仅限字母跟数字' @blur='zhanghu'>
 		</view>
 		<view class='uni-form-item uni-column'>
 			<view class='title'><text>地域</text></view>
@@ -75,8 +75,8 @@
 			</view>
 		</view>
 
-		<view class="uni-padding-wrap uni-common-mt botts">
-			<button type="primary" @tap='shangchuan'>提交</button>
+		<view class="uni-padding-wrap uni-common-mt botts" style='background:#fff;width:100%;left:0;bottom:0;overflow:hidden;'>
+			<button type="primary" @tap='shangchuan' style='margin-bottom:20rpx;width:710rpx;'>提交</button>
 		</view>
 	</view>
 </template>
@@ -181,7 +181,18 @@
 			//上传信息
 			shangchuan: function() {
 				var _this = this
-				if (!_this.$jiaoyanEmail(_this.email)) {
+				var nu=false
+				for(var i=0;i<this.accountName.length;i++){
+					if(this.accountName.charCodeAt(i)>255){
+						nu=true
+					}
+				}
+				if(nu){
+					uni.showToast({
+						title:'账户名不能包含汉字重新输入',
+						icon:'none'
+					})
+				}else if (!_this.$jiaoyanEmail(_this.email)) {
 					uni.showToast({
 						title: '请输入有效邮箱',
 						icon: 'none'
@@ -229,6 +240,17 @@
 							})
 						}
 					})
+				}
+			},
+			zhanghu:function(){
+				var nu=0
+				for(var i=0;i<this.accountName.length;i++){
+					if(this.accountName.charCodeAt(i)>255){
+						uni.showToast({
+							title:'账户名不能包含汉字重新输入',
+							icon:'none'
+						})
+					}
 				}
 			}
 		}

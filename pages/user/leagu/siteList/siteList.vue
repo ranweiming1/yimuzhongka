@@ -1,9 +1,6 @@
 <template>
 	<view>
 		<view class="top">
-			<view class="textBox">
-				<text>收货地址</text>
-			</view>
 			<view class="imgBox" @tap='tianjia'>
 				<text>添加</text>
 			</view>
@@ -36,9 +33,9 @@
 		<view class="line" style="height: 120rpx;">
 			
 		</view>
-		<view class="uni-padding-wrap uni-common-mt bott">
+	<!-- 	<view class="uni-padding-wrap uni-common-mt bott">
 			<button type="primary" style="background: #2b5cff" @tap='fanhui'>确定并返回</button>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -215,10 +212,11 @@
 			}
 
 			.p {
-				float: left;
 				font-size: 26upx;
 				color: #333;
 				line-height: 40upx;
+				width:100%;
+				clear:both;
 			}
 		}
 

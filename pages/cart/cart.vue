@@ -18,55 +18,57 @@
 			<!-- 购物车 -->
 
 			<view class="listBoxs" v-for="(item,index) in  cartList">
-				<view class="radios">
-					<!-- 店铺名称待确认 -->
-					<label class="radio">
-						<checkbox value=""></checkbox>
-					</label>
-					<text>{{item.storeShopDTO.shopName}}</text>
-					<image src="../../static/icon_26.png" mode=""></image>
-				</view>
-				<view class="xinxi">
-					<!-- 订单信息 -->
-					<view class="xinxi1" v-for="(i,n) in item.specList">
-						<view class="radi">
-							<checkbox value=""></checkbox>
-						</view>
-
-						<view class="imgBox_a">
-							<image :src="item.goodsLogo" mode=""></image>
-						</view>
-						<view class="txt_c">
-							<view class="title">
-								<text>{{item.goodsName}}</text>
-							</view>
-							<view class="spec" @click="openPopup(index,n)">
-								<text>已选：＂{{i.specKeyName}}＂</text>
-							</view>
-							<!-- <view class=""> -->
-
-
-							<view class="radColor">
-								<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
+				<checkbox-group @change='gouwuche'>
+					<view class="radios">
+						<!-- 店铺名称待确认 -->
+						<label class="radio">
+							<!--加个d以区分某个店铺-->
+							<!-- <checkbox :value="'d'+item.goodsId" :checked='shuju[index].dian'></checkbox> -->
+						</label>
+						<text>{{item.storeShopDTO.shopName}}</text>
+						<image src="../../static/icon_26.png" mode=""></image>
+					</view>
+					<view class="xinxi">
+						<!-- 订单信息 -->
+						<view class="xinxi1" v-for="(i,n) in item.specList">
+							<view class="radi">
+								<checkbox :value='i.id' :checked='shuju[index].s[n]'></checkbox>
 							</view>
 
-							<!-- 数量 -->
-							<!-- <view class="jia">
+							<view class="imgBox_a">
+								<image :src="item.goodsLogo" mode=""></image>
+							</view>
+							<view class="txt_c">
+								<view class="title">
+									<text>{{item.goodsName}}</text>
+								</view>
+								<view class="spec" @click="openPopup(index,n)">
+									<text>已选：＂{{i.specKeyName}}＂</text>
+								</view>
+								<!-- <view class=""> -->
+
+
+								<view class="radColor">
+									<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
+								</view>
+
+								<!-- 数量 -->
+								<!-- <view class="jia">
 								<text>X{{i.goodsNum}}</text>
 							</view> -->
-							<view class="num">
-								<view>-</view>
-								<view class="numm" @tap="valRe1(index,n,i.goodsNum)">
-									{{i.goodsNum}}
+								<view class="num">
+									<view>-</view>
+									<view class="numm" @tap="valRe1(index,n,i.goodsNum)">
+										{{i.goodsNum}}
+									</view>
+									<view>+</view>
 								</view>
-								<view>+</view>
 							</view>
+							<!-- </view> -->
+
 						</view>
-						<!-- </view> -->
-
 					</view>
-
-				</view>
+				</checkbox-group>
 			</view>
 			<!-- 购物车弹框 -->
 			<view class="mask" v-if="mask_show"></view>
@@ -222,7 +224,8 @@
 				xuanzhong: [],
 				mask_show: false,
 				index: 0,
-				n: 0
+				n: 0,
+				shuju: []
 			}
 		},
 		onShow() {
@@ -235,11 +238,20 @@
 					_this.jiage = 0
 					//修改数据结构，以使数据更好用
 					_this.cartList = res.data.data.cartList
-					_this.xuanzho.map(function(n, index) {
-						n.map(function(z, indexs) {
-							_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
+					res.data.data.cartList.map(function(n, index) {
+						_this.$set(_this.shuju, index, {
+							dian: false,
+							s: []
+						})
+						n.specList.map(function(z, indexx) {
+							_this.$set(_this.shuju[index].s, indexx, false)
 						})
 					})
+					// _this.xuanzho.map(function(n, index) {
+					// 	n.map(function(z, indexs) {
+					// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
+					// 	})
+					// })
 				}
 			})
 		},
@@ -326,9 +338,7 @@
 					}
 				})
 			},
-			onQuxiao(index) {
-				console.log(2222)
-			},
+			onQuxiao(index) {},
 			jian: function(index, indexs) {
 				var _this = this
 				if (this.cartList[index].specList[indexs].goodsNum > 1) {
@@ -609,10 +619,46 @@
 					})
 				}
 			},
+			gouwuche: function(e) {
+				var num = 0
+				//判断当前选的是哪个
+				e.detail.value.map((n) => {
+					this.cartList.map((x, index) => {
+						x.specList.map(function(v) {
+							if (v.id == n) {
+								num = index
+							}
+						})
+					})
+				})
+				//将当前选中的下边的所有状态置为未选
+				this.shuju[num].s.map((b, index) => {
+					this.$set(this.shuju[num].s, index, false)
+				})
+				this.cartList.map((v, indexx) => {
+					v.specList.map((a, indexxx) => {
+						e.detail.value.map((z, index) => {
+							if (z == a.id) {
+								this.$set(this.shuju[indexx].s, indexxx, true)
+							}
+						})
+					})
+				})
+				this.jiage = 0
+				//计算选中的金额
+				this.shuju.map((n, index) => {
+					n.s.map((x, indexa) => {
+						if (x) {
+							this.jiage += this.cartList[index].specList[indexa].goodsNum * this.cartList[index].specList[indexa].goodsPrice +
+								this.cartList[index].specList[indexa].kuaidi
+						}
+					})
+				})
+			},
 			quanxuan: function() {
 				var _this = this
+				//没有用开始
 				if (this.xuan) {
-					this.xuan = false
 					this.xuanzho.map(function(n, index) {
 						_this.xuanzhoz[index] = false
 						n.map(function(x, indexs) {
@@ -620,10 +666,8 @@
 						})
 					})
 					this.jiage = 0
-					return false
 				}
 				if (this.xuan == false) {
-					this.xuan = true
 					this.cartList.map(function(n, index) {
 						_this.xuanzhoz[index] = true
 						_this.$set(_this.xuanzho, index, [])
@@ -635,6 +679,31 @@
 					this.xuanzho.map(function(n, index) {
 						n.map(function(x, indexs) {
 							_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[indexs].goodsPrice
+						})
+					})
+				}
+				//没有用结束
+				if (this.xuan) {
+					this.xuan = false
+					this.shuju.map(function(n, index) {
+						n.s.map(function(v, indexx) {
+							_this.$set(_this.shuju[index].s, indexx, false)
+						})
+					})
+					this.jiage=0
+					return false
+				} else {
+					this.xuan = true
+					this.shuju.map(function(n, index) {
+						n.s.map(function(v, indexx) {
+							_this.$set(_this.shuju[index].s, indexx, true)
+						})
+					})
+					//计算金额
+					this.jiage = 0
+					this.cartList.map(function(n) {
+						n.specList.map(function(z) {
+							_this.jiage += z.goodsNum * z.goodsPrice + z.kuaidi
 						})
 					})
 				}
