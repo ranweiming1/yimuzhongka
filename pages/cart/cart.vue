@@ -42,7 +42,7 @@
 								<view class="title">
 									<text>{{item.goodsName}}</text>
 								</view>
-								<view class="spec" @click="openPopup(index,n)">
+								<view class="spec">
 									<text>已选：＂{{i.specKeyName}}＂</text>
 								</view>
 								<!-- <view class=""> -->
@@ -266,6 +266,14 @@
 				this.valRe()
 				this.val = this.value
 				this.cartList[this.index].specList[this.n].goodsNum = this.value
+				this.jiage=0
+				this.xuanzho.map((n,index)=>{
+					n.map((c,indexz)=>{
+						if(c){
+							this.jiage+=this.cartList[index].specList[indexz].goodsNum*this.cartList[index].specList[indexz].goodsPrice+this.cartList[index].specList[indexz].kuaidi
+						}
+					})
+				})
 			},
 			valRe() {
 				this.mask_show = !this.mask_show
