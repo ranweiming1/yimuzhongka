@@ -105,7 +105,6 @@
 				},
 				dengl: false,
 				success: function(res) {
-					console.log(res.data.data)
 					_this.title = res.data.data.article.title
 					_this.create_time = res.data.data.article.create_time
 					_this.description = res.data.data.article.description

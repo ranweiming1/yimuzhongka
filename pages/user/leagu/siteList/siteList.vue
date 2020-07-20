@@ -33,9 +33,9 @@
 		<view class="line" style="height: 120rpx;">
 			
 		</view>
-	<!-- 	<view class="uni-padding-wrap uni-common-mt bott">
+		<view class="uni-padding-wrap uni-common-mt bott" v-if='xianshi'>
 			<button type="primary" style="background: #2b5cff" @tap='fanhui'>确定并返回</button>
-		</view> -->
+		</view>
 	</view>
 </template>
 
@@ -51,7 +51,8 @@
 				moneys:'',
 				dingdan:'',
 				shopId:'',
-				y:''
+				y:'',
+				xianshi:false
 			}
 		},
 		onLoad: function(options) {
@@ -63,6 +64,7 @@
 				this.dingdan=options.dingdan
 				this.shopId=options.shopId
 				this.y=JSON.parse(options.y)
+				this.xianshi=true
 			}
 			var _this = this
 			this.$https({

@@ -57,12 +57,12 @@
 
 <style>
 	.heighta {
-		height: 166rpx;
+		height: 136rpx;
 	}
 	.tongyongdibu{
 		padding-bottom:60rpx;
 	}
 	.index-d{
-		height:100rpx;
+		height:90rpx;
 	}
 </style>
