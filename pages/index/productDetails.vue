@@ -31,7 +31,7 @@
 
 			</view>
 
-			<view class="share">
+			<view class="share" @tap='shangpinxin'>
 				<image src="../../static/icon_49.png" mode=""></image>
 				<text @tap='shangpinxin'>分享</text>
 			</view>
@@ -134,7 +134,8 @@
 					<view style='margin-top:20rpx;' v-for='(item,index) in canshu'>
 						<view style='color:#999;'>{{item.n}}</view>
 						<view style='margin-top:20rpx;'>
-							<view v-for='(items,indexs) in item.sa' :style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"' @tap='xuanzhong(index,indexs)'>{{items.item}}</view>
+							<view v-for='(items,indexs) in item.sa' :style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"'
+							 @tap='xuanzhong(index,indexs)'>{{items.item}}</view>
 						</view>
 					</view>
 					<!-- <view class="detail">
@@ -224,9 +225,11 @@
 			<!-- <view :style="margin-bottom:100rpx">所涉及的大家</view> -->
 		</view>
 		<!--活动列表-->
-		<view v-if='huodong' style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;' @tap='yincang'>
+		<view v-if='huodong' style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;'
+		 @tap='yincang'>
 			<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:5% 5% 0 0;overflow-y:auto;'>
-				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:20rpx;top:30rpx;'>X</view></view>
+				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:20rpx;top:30rpx;'>X</view>
+				</view>
 				<view v-for='item in list.couponDTOS' style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
 					<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
 					<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
@@ -269,7 +272,6 @@
 
 <script>
 	import jyfParser from "@/components/jyf-parser/jyf-parser";
-	import appShare,{closeShare} from '@/components/share.js'
 	export default {
 		data() {
 			return {
@@ -290,8 +292,9 @@
 				gui: '',
 				shopId: '',
 				Price: 0,
-				shuzu:[],
-				huodong:false
+				shuzu: [],
+				huodong: false,
+				yao:''
 			}
 		},
 		components: {
@@ -299,6 +302,7 @@
 		},
 		onLoad(option) {
 			this.deId = option.id
+			this.yao=option.str
 			var _this = this
 			this.$https({
 				url: '/api/oauth/shop/mall-goods-detail',
@@ -309,16 +313,16 @@
 				success: function(res) {
 					_this.list = res.data.data.detail
 					//修改返回的数据中的参数
-					Object.keys(res.data.data.specs).forEach(function(key){
-						var obj={}
-						obj.n=key
-						obj.sa=res.data.data.specs[key]
+					Object.keys(res.data.data.specs).forEach(function(key) {
+						var obj = {}
+						obj.n = key
+						obj.sa = res.data.data.specs[key]
 						_this.canshu.push(obj)
 					})
-					_this.canshu.map(function(n,index){
-						_this.$set(_this.shuzu,index,[])
-						n.sa.map(function(z,indexs){
-							_this.$set(_this.shuzu[index],indexs,false)
+					_this.canshu.map(function(n, index) {
+						_this.$set(_this.shuzu, index, [])
+						n.sa.map(function(z, indexs) {
+							_this.$set(_this.shuzu[index], indexs, false)
 						})
 					})
 					_this.pingjia = res.data.data.goodsComms[0]
@@ -361,57 +365,57 @@
 					this.num = 1
 				}
 				//计算价格
-				this.Price=this.guige[this.indexx].price*this.num
+				this.Price = this.guige[this.indexx].price * this.num
 			},
 			jia() {
 				this.num++
 				//计算价格
-				this.Price=this.guige[this.indexx].price*this.num
+				this.Price = this.guige[this.indexx].price * this.num
 			},
-			xuanzhong:function(index,indexs){
-				this.shuzu[index].map((n,indexsz)=>{
-					this.$set(this.shuzu[index],indexsz,false)
+			xuanzhong: function(index, indexs) {
+				this.shuzu[index].map((n, indexsz) => {
+					this.$set(this.shuzu[index], indexsz, false)
 				})
-				this.$set(this.shuzu[index],indexs,true)
+				this.$set(this.shuzu[index], indexs, true)
 				//如果所有规格都选中，才能计算价格
-				var n=0
-				this.shuzu.map(function(c){
-					c.map(function(z){
-						if(z){
+				var n = 0
+				this.shuzu.map(function(c) {
+					c.map(function(z) {
+						if (z) {
 							n++
 						}
 					})
 				})
-				if(n==this.shuzu.length){
-				this.guige.map((n,index)=>{
-					var str=[]
-					this.shuzu.map((z,indexa)=>{
-						z.map((x,indexs)=>{
-							if(x){
-								str.push(this.canshu[indexa].sa[indexs].item)
+				if (n == this.shuzu.length) {
+					this.guige.map((n, index) => {
+						var str = []
+						this.shuzu.map((z, indexa) => {
+							z.map((x, indexs) => {
+								if (x) {
+									str.push(this.canshu[indexa].sa[indexs].item)
+								}
+							})
+						})
+						var as = 0
+						str.map(function(x) {
+							if (n.keyName.indexOf(x) > 0) {
+								as++
 							}
 						})
-					})
-					var as=0
-					str.map(function(x){
-						if(n.keyName.indexOf(x)>0){
-							as++
+						if (as == this.shuzu.length) {
+							this.Price = n.price * this.num
+							this.indexx = index
+							this.gui = n.keyName
 						}
 					})
-					if(as==this.shuzu.length){
-						this.Price=n.price*this.num
-						this.indexx=index
-						this.gui=n.keyName
-					}
-				})
 				}
 			},
-			huodongxian:function(){
-				this.huodong=true
+			huodongxian: function() {
+				this.huodong = true
 			},
 			//隐藏活动弹窗
-			yincang:function(){
-				this.huodong=false
+			yincang: function() {
+				this.huodong = false
 			},
 			togLi(index, itemId) {
 				// this.id =itemId ;
@@ -507,19 +511,22 @@
 					url: '../cart/cart'
 				})
 			},
-			shangpinxin:function(){
-				let shareData={
-					shareUrl:'https://kemean.com',
-					shaerTitle:'分享的标题',
-					shaerContent:'分享的描述',
-					shaerImg:'https://qn.kemean.cn//upload/202004/18/1587189024467w6xj18b1.jpg',
-					appId:'wxcfd9c1418eeb2e3',
-					appPath:'pages/static/fh.png',
-					appWebUrl:'htttps://kemean.com'
-				}
-				let shareObj=appShare(shareData,res=>{})
-				setTimeout(function(){
-					shareObj.close()
+			shangpinxin: function() {
+				var _this=this
+				this.$https({
+					url: '/api/user/my-info',
+					data: {},
+					success: function(res) {
+						uni.setClipboardData({
+							data: '我在毅木重卡发现一个好东西，分享给你' + res.data.data.payPoints+','+_this.deId,
+							success: function() {
+								uni.showToast({
+									title: '复制成功，快去分享给好友吧',
+											icon: 'none'
+								})
+							}
+						})
+					}
 				})
 			}
 		}
@@ -598,7 +605,7 @@
 		.mButton {
 			width: 100%;
 			height: 50%;
-			overflow-y:auto;
+			overflow-y: auto;
 
 			.color,
 			.mNumber {
@@ -776,7 +783,7 @@
 			border-radius: 40upx;
 			text-align: center;
 			background: #F1F1F1;
-			position:relative;
+			position: relative;
 
 			image {
 				display: block;
@@ -789,9 +796,9 @@
 			text {
 				font-size: 18upx;
 				color: #999;
-				position:absolute;
-				left:25rpx;
-				bottom:10rpx;
+				position: absolute;
+				left: 25rpx;
+				bottom: 10rpx;
 			}
 		}
 
