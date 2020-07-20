@@ -267,7 +267,7 @@
 				this.val = this.value
 				this.cartList[this.index].specList[this.n].goodsNum = this.value
 				this.jiage=0
-				this.xuanzho.map((n,index)=>{
+				this.shuju.map((n,index)=>{
 					n.map((c,indexz)=>{
 						if(c){
 							this.jiage+=this.cartList[index].specList[indexz].goodsNum*this.cartList[index].specList[indexz].goodsPrice+this.cartList[index].specList[indexz].kuaidi
@@ -719,7 +719,7 @@
 			tiaozhuan: function() {
 				var ap = []
 				var _this = this
-				if (this.xuanzho.length == 0) {
+				if (this.shuju.length == 0) {
 					uni.showToast({
 						title: '请选择商品'
 					})
