@@ -776,6 +776,7 @@
 			border-radius: 40upx;
 			text-align: center;
 			background: #F1F1F1;
+			position:relative;
 
 			image {
 				display: block;
@@ -788,6 +789,9 @@
 			text {
 				font-size: 18upx;
 				color: #999;
+				position:absolute;
+				left:25rpx;
+				bottom:10rpx;
 			}
 		}
 

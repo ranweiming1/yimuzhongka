@@ -207,6 +207,7 @@
 			},
 			guan: function() {
 				this.youhuiquanle = false
+				uni.setStorageSync('y','123')
 			},
 			fenLei: function(id, index) {
 				// this.id=id
