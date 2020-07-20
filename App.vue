@@ -147,7 +147,7 @@
 		-webkit-transform: translate(-50%, -50%) scale(1);
 	}
 	.toubu{
-		margin-top:50rpx;
+		margin-top:60rpx;
 	}
 	button::after {
 		display: none;
