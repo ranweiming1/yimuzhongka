@@ -1,7 +1,7 @@
 <template>
 	<view class="frame">
 		<!-- <view class="line" style="height: 50rpx;"></view> -->
-		<view class="top">
+		<view class="top toubu">
 			<view class="left">
 				<text>首页</text>
 				<image src="../../static/icon_09.png" mode=""></image>
