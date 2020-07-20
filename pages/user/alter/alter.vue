@@ -2,20 +2,7 @@
 	<view>
 		<view class="basic">
 			<view class="left_a">
-				<text>修改手机号</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
-				<input type="number" placeholder="请输入手机号" placeholder-style="line-height:70rpx"/>
-				<!-- <text>15066212365</text> -->
-			</view>
-		</view>
-
-		<view class="basic">
-			<view class="left_a">
-				<text>修改密码</text>
+				<text>手机号</text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
@@ -25,7 +12,67 @@
 				<!-- <text></text> -->
 			</view>
 		</view>
+		<view class="basic">
+			<view class="left_a">
+				<text>关联账号</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<input type="text" value="" placeholder="请输入密码" />
+				<!-- <text></text> -->
+			</view>
+		</view>
+		<view class="basic">
+			<view class="left_a">
+				<text>登录手机号修改</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<input type="number" placeholder="请输入手机号" placeholder-style="line-height:70rpx" />
+				<!-- <text>15066212365</text> -->
+			</view>
+		</view>
 
+		<view class="basic">
+			<view class="left_a">
+				<text>登录密码修改</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<input type="text" value="" placeholder="请输入密码" />
+				<!-- <text></text> -->
+			</view>
+		</view>
+		<view class="basic">
+			<view class="left_a">
+				<text>安全中心</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<input type="text" value="" placeholder="请输入密码" />
+				<!-- <text></text> -->
+			</view>
+		</view>
+		<view class="basic">
+			<view class="left_a">
+				<text>通知公告	</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<input type="text" value="" placeholder="请输入密码" />
+				<!-- <text></text> -->
+			</view>
+		</view>
 		<view class=" uni-padding-wrap uni-common-mt quit">
 			<button type="primary">退出登录</button>
 		</view>
