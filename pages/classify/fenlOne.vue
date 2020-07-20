@@ -309,7 +309,7 @@
 <style lang="scss">
 	.top {
 		width: 710upx;
-		// margin: 20upx;
+		margin: 20upx;
 		overflow: hidden;
 
 		.textBox {
