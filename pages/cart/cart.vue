@@ -268,7 +268,7 @@
 				this.cartList[this.index].specList[this.n].goodsNum = this.value
 				this.jiage=0
 				this.shuju.map((n,index)=>{
-					n.map((c,indexz)=>{
+					n.s.map((c,indexz)=>{
 						if(c){
 							this.jiage+=this.cartList[index].specList[indexz].goodsNum*this.cartList[index].specList[indexz].goodsPrice+this.cartList[index].specList[indexz].kuaidi
 						}
@@ -726,7 +726,7 @@
 				} else {
 					this.shuju.map(function(n, index) {
 						_this.cartList[index].name = _this.cartList[index].storeShopDTO.shopName
-						n.map(function(x, indexx) {
+						n.s.map(function(x, indexx) {
 							if (x) {
 								_this.cartList[index].specList[indexx].xuanzhong = true
 								_this.cartList[index].cartAttr = _this.cartList[index].specList
