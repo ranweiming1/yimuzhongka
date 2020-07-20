@@ -1,49 +1,50 @@
 <template>
 	<view>
-		<view class="bg">
-			<image src="../../static/icon_39.png" mode=""></image>
-		</view>
+		<view style='posotion:relative;height:570rpx;'>
+			<view class="bg">
+				<image src="../../static/icon_39.png" mode=""></image>
+			</view>
 
-		<!-- 头部 -->
-		<view class="top">
-			<view class="textBox">
-				<input class="uni-input" @confirm="search" v-model="value" focus placeholder="请输入关键字" />
-			</view>
-			<view class="imgBox">
-				<image src="../../static/icon_40.png" mode=""></image>
-			</view>
-		</view>
-
-		<view class="head">
-			<view class="head_img">
-				<image :src="store.storeLogo" mode=""></image>
-			</view>
-			<view class="head_text">
-				<view class="h2">
-					<text>{{store.shopName}}</text>
+			<!-- 头部 -->
+			<view class="top">
+				<view class="textBox">
+					<input class="uni-input" @confirm="search" v-model="value" focus placeholder="请输入关键字" />
 				</view>
-
-				<!-- 根据星级综合分值现实 -->
-				<view class="star1">
-					<image src="../../static/icon_41.png" mode=""></image>
+				<view class="imgBox">
+					<image src="../../static/icon_40.png" mode=""></image>
 				</view>
 			</view>
-			<view class="collect">
-				<text @tap="shouC(shopsId)">{{!isShow?'收藏店铺':'取消收藏'}}</text>
-			</view>
-			<!-- <view class="collect">
+
+			<view class="head">
+				<view class="head_img">
+					<image :src="store.storeLogo" mode=""></image>
+				</view>
+				<view class="head_text">
+					<view class="h2">
+						<text>{{store.shopName}}</text>
+					</view>
+
+					<!-- 根据星级综合分值现实 -->
+					<view class="star1">
+						<image src="../../static/icon_41.png" mode=""></image>
+					</view>
+				</view>
+				<view class="collect">
+					<text @tap="shouC(shopsId)">{{!isShow?'收藏店铺':'取消收藏'}}</text>
+				</view>
+				<!-- <view class="collect">
 				<text @tap="shouC">取消收藏</text>
 			</view> -->
+			</view>
+
+			<!-- banner 轮播图-->
+			<swiper class="banner" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
+			 style="height:262rpx;">
+				<swiper-item>
+					<image src="../../static/banner.jpg" mode=""></image>
+				</swiper-item>
+			</swiper>
 		</view>
-
-		<!-- banner 轮播图-->
-		<swiper class="banner" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
-		 style="height:262rpx;">
-			<swiper-item>
-				<image src="../../static/banner.jpg" mode=""></image>
-			</swiper-item>
-		</swiper>
-
 
 		<!-- 优惠券入口 -->
 		<view class="ticket_a">
@@ -100,7 +101,7 @@
 				interval: 2000,
 				duration: 500,
 				isShow: '',
-				value:''
+				value: ''
 			}
 		},
 		components: {
@@ -150,7 +151,7 @@
 						goodsId: id
 					},
 					method: 'POST',
-					dengl:true,
+					dengl: true,
 					success(res) {
 						// console.log('添加成功')
 						console.log(res.data)
@@ -158,31 +159,30 @@
 				})
 			},
 			shouC(id) {
-				var _this=this
+				var _this = this
 				console.log(id)
 				this.$https({
 					url: '/api/shop/shop-collect',
-					data:{
+					data: {
 						shopId: id
 					},
 					method: 'POST',
-					success: function(res) {				
+					success: function(res) {
 						_this.isShow = !_this.isShow
 					},
-					
+
 				})
 			},
-			more(){
+			more() {
 				uni.navigateTo({
-					url:'all?id='+this.shopsId
+					url: 'all?id=' + this.shopsId
 				})
 			},
-			search(){
-				console.log(11111)
+			search() {
 				uni.navigateTo({
 					url: './all?shopsId=' + this.shopsId + '&keywords=' + this.value
 				})
-				this.value=''
+				this.value = ''
 			}
 
 		}
@@ -202,9 +202,9 @@
 	}
 
 	.top {
-		position: absolute;
-		top: 20upx;
-		right: 20upx;
+		position: relative;
+		margin-top: 20upx;
+		margin-left: 100upx;
 		z-index: 99;
 		overflow: hidden;
 
@@ -241,10 +241,9 @@
 
 	.head {
 		width: 710upx;
-		position: absolute;
-		left: 30upx;
-		top: 150upx;
-
+		position: relative;
+		margin-left: 20upx;
+		margin-top:50rpx;
 		.head_img {
 			float: left;
 
@@ -259,11 +258,17 @@
 		.head_text {
 			float: left;
 			padding-left: 20upx;
+			width: 315rpx;
 
 			.h2 {
 				text {
 					font-size: 36upx;
 					color: #fff;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					display: block;
+					width: 350rpx;
 				}
 			}
 
@@ -319,9 +324,7 @@
 	}
 
 	.ticket_a {
-		position: absolute;
-		top: 580upx;
-		left: 30upx;
+		margin-left: 30upx;
 
 		image {
 			width: 690upx;
@@ -331,10 +334,7 @@
 
 	.BoxBox {
 		background-color: #fff;
-		position: absolute;
-		top: 800upx;
-		left: 0upx;
-		margin-bottom: 70upx;
+		margin-top:30rpx;
 	}
 
 	.biaot {
@@ -360,6 +360,7 @@
 		margin: 20upx;
 		overflow: hidden;
 		padding-top: 10upx;
+		position: relative;
 
 		.content {
 			display: black;
@@ -413,6 +414,10 @@
 
 				.txt_aas {
 					padding-top: 10upx;
+					position: absolute;
+					width: 100%;
+					left:calc(30% +20rpx);
+					bottom: 30rpx;
 
 					text {
 						color: #333;

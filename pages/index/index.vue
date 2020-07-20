@@ -13,7 +13,7 @@
 		</view>
 		<!-- 这是轮播图 -->
 		<view class="banner">
-			<swiper class="swiper" style="height: 262rpx;" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
+			<swiper class="swiper" style="height: 262rpx;" :autoplay="autoplay" :interval="interval"
 			 :duration="duration">
 				<swiper-item v-for="(item, index) in banList">
 					<image :src="item.img" mode=""></image>
@@ -27,21 +27,22 @@
 				<text>{{item.cateTitle}}</text>
 			</view> -->
 		<!-- </view> -->
-		<swiper style="height: 440rpx;width:90%;margin-left:5%;" :autoplay="autoplay" :interval="interval" :duration="duration">
+		<swiper style="height: 440rpx;width:90%;margin-left:5%;" :interval="interval" :duration="duration" @change='qiehuan'>
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key='item.id'>
 				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(index,indexs)">
 					<image :src="items.imgUrl"></image>
 					<text style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;">{{items.cateTitle}}</text>
 				</view>
 			</swiper-item>
-
 		</swiper>
-
+		<view style='text-align:center;border-bottom:1px solid #efefef;padding-bottom:20rpx;'>
+			<view v-for='(item,index) in list' :style='int==index?"width:30rpx;height:10rpx;background:#dd524d;display:inline-block;margin-left:20rpx;":"width:30rpx;height:10rpx;background:#ddd;display:inline-block;margin-left:20rpx;"'></view>
+		</view>
 		<!-- 这也是轮播--优惠券 -->
 		<!-- <view class="lunb">
 			<image src="../../static/img_01.png" mode=""></image>
 		</view> -->
-		<swiper class="lunb" style="height: 160rpx;" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
+		<swiper class="lunb" style="height: 160rpx;" :autoplay="autoplay" :interval="interval"
 		 :duration="duration">
 			<swiper-item>
 				<image src="../../static/img_01.png" mode=""></image>
@@ -76,7 +77,7 @@
 			</view>
 		</view>
 		<view class='zhezhao' v-if='youhuiquanle'>
-			<view style='width:471rpx;margin:0 auto;'>
+			<view style='width:471rpx;margin:0 auto;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);'>
 				<image src='../../static/youhu.png' style='width:471rpx;height:281rpx;display:block;'></image>
 				<view style='background:#2b5cff;overflow:hidden;'>
 					<view v-for='item in youhuiquan' style='background:#fff;overflow:hidden;width:90%;margin:10rpx auto;position:relative;'>
@@ -99,7 +100,7 @@
 			</view>
 		</view>
 		<view class="line" style="height: 40rpx;">
-			
+
 		</view>
 		<tabBar :currentPage="currentPage"></tabBar>
 	</view>
@@ -121,10 +122,11 @@
 				duration: 500,
 				list: [],
 				youhuiquan: [],
-				youhuiquanle: true,
+				youhuiquanle: false,
 				id: '',
 				index: '',
-				phone:'',
+				phone: '',
+				int: 0
 			}
 		},
 		components: {
@@ -135,9 +137,9 @@
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
-					mobileCode:13706412504
+					mobileCode: 13706412504
 				},
-				dengl:true,
+				dengl: true,
 				// dengl: false,
 				success: function(res) {
 					_this.banList = res.data.data.bannerList
@@ -157,6 +159,14 @@
 					}
 				},
 			})
+			//获取优惠券
+			this.$https({
+				url: '/api/oauth/shop/coupon-couple-List',
+				data: {},
+				success: function(res) {
+					_this.youhuiquan = res.data.data
+				}
+			})
 			// this.$https({
 			// 	url:'/api/user/my-index',
 			// 	data:{},
@@ -166,6 +176,11 @@
 			// 		_this.phone=res.data.data.phone
 			// 	}
 			// })
+			if (uni.getStorageSync('y')) {
+				this.youhuiquanle = false
+			} else {
+				this.youhuiquanle = true
+			}
 		},
 		methods: {
 			detail(id) {
@@ -178,7 +193,7 @@
 						goodsId: id
 					},
 					method: 'POST',
-					dengl:true,
+					dengl: true,
 					success(res) {
 						console.log('添加成功')
 					}
@@ -202,49 +217,63 @@
 				})
 			},
 			lingqu: function() {
-				var _this=this
+				var _this = this
 				var a = []
 				this.youhuiquan.map(function(n) {
 					a.push(n.id)
 				})
 				var _this = this
 				//判断是否是新人
-				this.$https({url:'/api/shop/coupon-couple',data:{},success:function(){
-					if(res.data.dara){
 				this.$https({
-					url: '/api/shop/coupon-couple-add',
-					data: {
-						ids: a
-					},
-					method: 'post',
+					url: '/api/shop/coupon-couple',
+					data: {},
 					success: function(res) {
-						uni.showToast({
-							title: res.data.message
-						})
-						_this.youhuiquanle = false
-					}
-				})
-				}
-				},
+						if (res.data.dara) {
+							this.$https({
+								url: '/api/shop/coupon-couple-add',
+								data: {
+									ids: a
+								},
+								method: 'post',
+								success: function(res) {
+									uni.showToast({
+										title: res.data.message
+									})
+									_this.youhuiquanle = false
+								}
+							})
+						} else {
+							uni.showToast({
+								title: '您不是新人，无法领取优惠券',
+								icon: 'none'
+							})
+							uni.setStorageSync('y', '123')
+						}
+					},
 				})
 			},
-			search:function(){
+			search: function() {
 				uni.navigateTo({
-					url:'../search/search'
+					url: '../search/search'
 				})
+			},
+			qiehuan: function(e) {
+				this.int = e.detail.current
 			}
-		
+
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	@import '../../style/gg.css';
-.loading-text{
+
+	.loading-text {
 		display: block;
-		
+
 		text-align: center;
 	}
+
 	.top {
 		width: 100%;
 		height: 90upx;
@@ -262,7 +291,7 @@
 
 			image {
 				width: 34upx;
-				height: 4upx;
+				height: 7upx;
 				float: left;
 				padding-left: 50upx;
 			}
@@ -284,9 +313,9 @@
 		width: 90%;
 		margin: 0 auto;
 		display: block;
-		box-shadow: 0 0 5px #ccc;
+		box-shadow: 0 0 5px 3px #ccc;
 		border-radius: 20upx;
-
+		margin-bottom:20rpx;
 		image {
 			width: 100%;
 			height: 262upx;

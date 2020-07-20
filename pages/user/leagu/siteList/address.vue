@@ -12,7 +12,7 @@
 			</view>
 			<view class="right_a">
 				<view class="img_a">
-					<input type="number" v-model='phone' style='float:left;text-align:right;margin-top:-20rpx;'>
+					<input type="number" v-model='phone' style='float:left;text-align:right;margin-top:-20rpx;margin-right:10rpx;'>
 					<image src="../../../../static/icon_26.png" mode=""></image>
 				</view>
 			</view>
@@ -30,7 +30,7 @@
 			</pick-regions>
 		</view>
 		<view class="uni-form-item uni-column beizs">
-			<text style="font-size: 28rpx">详细地址:</text>
+			<text style="font-size: 28rpx;padding-left:20rpx;">详细地址:</text>
 			<input class="uni-input" name="input" placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" v-model='address' />
 		</view>
 		<view class="uni-list">

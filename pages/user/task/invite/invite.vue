@@ -47,10 +47,10 @@
 		background-color: #fff;
 		box-shadow: 0 0 5px #ccc;
 		width: 670upx;
-		height: 500upx;
+		height: 40%;
 		border-radius: 20upx;
 		padding: 20upx;
-		
+		overflow-y:auto;
 		text{
 			color: #333;
 			line-height: 40upx;

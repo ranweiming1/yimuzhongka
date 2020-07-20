@@ -6,7 +6,7 @@
 		<view class="alter">
 			<view class="left">
 				<view class="h2">
-					<input v-model='nickname' placeholder='暂无用户名' :disabled='jinyong' @blur='xiugai'>
+					<input v-model='nickname' placeholder='暂无用户名' :disabled='jinyong' :style='jinyong?"":"border:1px solid #f2f2f2;"' @blur='xiugai'>
 					<!-- 点击图片可修改头像 -->
 					<view class="imgBox" @tap='bianji'>
 						<image src="../../static/icon_25.png" mode=""></image>
@@ -279,6 +279,7 @@
 				float:right;
 				margin-top:10rpx;
 				text-align:right;
+				font-size:28rpx;
 			}
 		}
         

@@ -59,9 +59,9 @@
 		</view>
 		<view class="xize">
 			<view class="huid">
-				<text>活动</text>
+				<text>优惠</text>
 			</view>
-			<view class="xiangqBox">
+			<view class="xiangqBox" @tap='huodongxian'>
 				<view class="oneBox" v-for="(i,n) in list.couponDTOS">
 					<view class="preferential">
 						<text>满{{i.condition}}-{{i.money}}元</text>
@@ -91,7 +91,7 @@
 					</view>
 				</view> -->
 			</view>
-			<!-- <view class="basic" @tap="add">
+			<view class="basic" @tap="add">
 				<view class="left_a">
 					<text>参数</text>
 				</view>
@@ -104,7 +104,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="basic" @tap="add">
+			<!-- <view class="basic" @tap="add">
 				<view class="left_a">
 					<text>适配</text>
 				</view>
@@ -121,6 +121,7 @@
 			<view class="mask" v-if="isAdd" @tap="add">
 			</view>
 			<view class="butt" v-if="isAdd">
+				<view style='position:absolute;top:30rpx;right:20rpx;' @tap='add'>X</view>
 				<view class="mTop">
 					<image class="cover" :src="list.goodsLogo" mode=""></image>
 					<view class="mRight">
@@ -130,15 +131,16 @@
 
 				</view>
 				<view class="mButton">
-					<view class="detail">
-
-						<!-- <view class="color" v-for="(item,index) in shuList">
-							<text class="name">{{item.name}}</text>
-							<view :class="id[index]==items.itemId?'cor bod':'cor'" v-for="(items,indexs) in item.itemId" @tap="togLi(index,items.itemId)">{{items.item}}</view>
-						</view> -->
+					<view style='margin-top:20rpx;' v-for='(item,index) in canshu'>
+						<view style='color:#999;'>{{item.n}}</view>
+						<view style='margin-top:20rpx;'>
+							<view v-for='(items,indexs) in item.sa' :style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"' @tap='xuanzhong(index,indexs)'>{{items.item}}</view>
+						</view>
+					</view>
+					<!-- <view class="detail">
 						<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
 						 @tap='qiehuan(index)'>{{item.keyName}}</view>
-					</view>
+					</view> -->
 
 					<view class="mNumber">
 						<view class="name">数量</view>
@@ -146,10 +148,9 @@
 							<view class="reduce" @tap="reduce">-</view>
 							<input class="cor" type="number" style='width:60rpx;' v-model="num"></input>
 							<view class="add" @tap="jia">+</view>
-
 						</view>
 					</view>
-					<view style='overflow:hidden;'>
+					<view style='overflow:hidden;position:fixed;bottom:20rpx;left:5;width:90%;'>
 						<button style='width:50%;float:left;' @tap='gouwuche'>加入购物车</button>
 						<button class="btn" @tap='goumaia'>立即购买</button>
 					</view>
@@ -222,7 +223,16 @@
 			<!-- </view> -->
 			<!-- <view :style="margin-bottom:100rpx">所涉及的大家</view> -->
 		</view>
-
+		<!--活动列表-->
+		<view v-if='huodong' style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;' @tap='yincang'>
+			<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:5% 5% 0 0;overflow-y:auto;'>
+				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:20rpx;top:30rpx;'>X</view></view>
+				<view v-for='item in list.couponDTOS' style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
+					<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
+					<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
+				</view>
+			</view>
+		</view>
 		<!-- 底部 -->
 		<view class="bottom">
 
@@ -264,7 +274,7 @@
 		data() {
 			return {
 				list: {},
-				canshu: {},
+				canshu: [],
 				pingjia: false,
 				isAdd: false,
 				num: 1,
@@ -279,14 +289,15 @@
 				indexx: 0,
 				gui: '',
 				shopId: '',
-				Price: 0
+				Price: 0,
+				shuzu:[],
+				huodong:false
 			}
 		},
 		components: {
 			jyfParser
 		},
 		onLoad(option) {
-			console.log(option)
 			this.deId = option.id
 			var _this = this
 			this.$https({
@@ -297,17 +308,27 @@
 				dengl: true,
 				success: function(res) {
 					_this.list = res.data.data.detail
-					_this.canshu = res.data.data.specs
+					//修改返回的数据中的参数
+					Object.keys(res.data.data.specs).forEach(function(key){
+						var obj={}
+						obj.n=key
+						obj.sa=res.data.data.specs[key]
+						_this.canshu.push(obj)
+					})
+					_this.canshu.map(function(n,index){
+						_this.$set(_this.shuzu,index,[])
+						n.sa.map(function(z,indexs){
+							_this.$set(_this.shuzu[index],indexs,false)
+						})
+					})
 					_this.pingjia = res.data.data.goodsComms[0]
 					_this.isCollect = res.data.data.isCollect
 					_this.goodsId = res.data.data.detail.goodsId
 					_this.shopId = res.data.data.detail.shopId
 					// console.log(res.data.data.goodsComms[0])
 					for (var i in res.data.data.spec_price) {
-						console.log(res.data.data.spec_price[i])
 						_this.guige.push(res.data.data.spec_price[i])
 					}
-					console.log(_this.pingjia)
 					var numa = 0
 					for (var i in res.data.data.spec_price) {
 						if (numa == 0) {
@@ -339,9 +360,58 @@
 				if (this.num <= 1) {
 					this.num = 1
 				}
+				//计算价格
+				this.Price=this.guige[this.indexx].price*this.num
 			},
 			jia() {
 				this.num++
+				//计算价格
+				this.Price=this.guige[this.indexx].price*this.num
+			},
+			xuanzhong:function(index,indexs){
+				this.shuzu[index].map((n,indexsz)=>{
+					this.$set(this.shuzu[index],indexsz,false)
+				})
+				this.$set(this.shuzu[index],indexs,true)
+				//如果所有规格都选中，才能计算价格
+				var n=0
+				this.shuzu.map(function(c){
+					c.map(function(z){
+						if(z){
+							n++
+						}
+					})
+				})
+				if(n==this.shuzu.length){
+				this.guige.map((n,index)=>{
+					var str=[]
+					this.shuzu.map((z,indexa)=>{
+						z.map((x,indexs)=>{
+							if(x){
+								str.push(this.canshu[indexa].sa[indexs].item)
+							}
+						})
+					})
+					var as=0
+					str.map(function(x){
+						if(n.keyName.indexOf(x)>0){
+							as++
+						}
+					})
+					if(as==this.shuzu.length){
+						this.Price=n.price*this.num
+						this.indexx=index
+						this.gui=n.keyName
+					}
+				})
+				}
+			},
+			huodongxian:function(){
+				this.huodong=true
+			},
+			//隐藏活动弹窗
+			yincang:function(){
+				this.huodong=false
 			},
 			togLi(index, itemId) {
 				// this.id =itemId ;
@@ -528,6 +598,7 @@
 		.mButton {
 			width: 100%;
 			height: 50%;
+			overflow-y:auto;
 
 			.color,
 			.mNumber {
@@ -724,7 +795,7 @@
 			float: left;
 			display: block;
 			padding-top: 10upx;
-			width: 80%;
+			width: 100%;
 
 			text {
 				display: block;

@@ -446,7 +446,7 @@
 			overflow: hidden;
 			width: 710upx;
 			// padding: 20upx;
-			// border-bottom: 20upx solid #f7f7f7;
+			border-bottom: 1upx dashed #f7f7f7;
 		}
 
 		.imgBox_a {
@@ -514,7 +514,7 @@
 		padding-top: 10upx;
 		overflow: hidden;
 		border-bottom: 1px solid #f7f7f7;
-
+		padding-bottom:30rpx;
 		text {
 			font-size: 28upx;
 			color: #333;

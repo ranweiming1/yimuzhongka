@@ -5,17 +5,17 @@
 			<view :class="bottom==1?'active-index':''" @tap='index(can)'>
 				<image :src="bottom==1?'../../static/s9.png':'../../static/n9.png'" class="slide-image index-im"
 				 mode="widthFix"></image>
-				<p>首页</p>
+				<p :style='bottom==1?"color:#3463fe":""'>首页</p>
 			</view>
 			<view :class="bottom==2?'active-index':''" @tap='commodity(can)'>
 				<image :src="bottom==2?'../../static/s8.png':'../../static/n8.png'" class="slide-image index-im"
 				 mode="widthFix"></image>
-				<p>全部宝贝</p>
+				<p :style='bottom==2?"color:#3463fe;":""'>全部宝贝</p>
 			</view>
 			<view :class="bottom==3?'active-index':''" @tap='tongzhi(can)'>
 				<image :src="bottom==3?'../../static/s6.png':'../../static/n6.png'" class="slide-image index-im"
 				 mode="widthFix"></image>
-				<p>分类</p>
+				<p :style='bottom==3?"color:#3463fe":""'>分类</p>
 			</view>
 		</view>
 	</view>
@@ -57,9 +57,12 @@
 
 <style>
 	.heighta {
-		height: 126rpx;
+		height: 166rpx;
 	}
 	.tongyongdibu{
 		padding-bottom:60rpx;
+	}
+	.index-d{
+		height:100rpx;
 	}
 </style>

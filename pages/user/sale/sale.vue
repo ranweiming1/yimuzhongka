@@ -111,7 +111,7 @@
 			youhui:function(){
 				var _this=this
 				this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
-					_this.youhuiquan=res.data.data
+					_this.youhuiquan=res.data.data?res.data.data:[]
 				}})
 			},
 			shiyong:function(id,money){
@@ -132,7 +132,7 @@
 			var _this=this
 			//获取优惠券
 			this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
-				_this.youhuiquan=res.data.data
+				_this.youhuiquan=res.data.data?res.data.data:[]
 				if(options.shopId){
 					_this.$https({url:'/api/oauth/shop/store-coupon-list',data:{shopId:options.shopId},dengl:true,success:function(res){
 						res.data.data.map(function(n){
@@ -196,6 +196,7 @@
 		margin: 20upx;
 		border-radius: 10upx;
 		background-color: #fff;
+		padding-bottom:20rpx;
 		>view{
 			overflow:hidden;
 			box-shadow:0 0 5px #ccc;
@@ -274,7 +275,9 @@
 		margin: 20upx;
 		border-radius: 10upx;
 		background-color: #fff;
-		box-shadow: 0 0 5px #ccc;
+		>view{
+			box-shadow:0 0 5px #ccc;
+		}
 		.imgBox{
 			float: left;
 			padding-right: 20upx;

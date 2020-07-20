@@ -81,10 +81,10 @@
 				</view>
 				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;'
 				 v-if='paixu'>
-					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低</view>
-					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高</view>
-					<view style='margin-top:20rpx;' @tap='p("SASC")'>销量从高到低</view>
-					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='p("SDESC")'>销量从低到高</view>
+					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PASC"'>√</view></view>
+					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PDESC"'>√</view></view>
+					<view style='margin-top:20rpx;' @tap='p("SASC")'>销量从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SASC"'>√</view></view>
+					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='p("SDESC")'>销量从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SDESC"'>√</view></view>
 				</view>
 			</view>
 
@@ -99,7 +99,7 @@
 					<view class="txt_a">
 						<view class="title_top">
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-							<text>{{item.goodsName}}</text>
+							<text style='display:inline-block;'>{{item.goodsName}}</text>
 						</view>
 						<view class="youhui_bo">
 							<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
@@ -290,7 +290,6 @@
 			},
 			search() {
 				var _this = this
-				console.log(this.value)
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-ptList',
 					// dengl: false,
@@ -300,7 +299,6 @@
 					dengl:true,
 					success: function(res) {
 						_this.allList = res.data.data
-						console.log(res.data.data)
 					}
 				})
 			}
@@ -681,6 +679,7 @@
 			border-radius: 20upx;
 			padding-bottom: 20upx;
 			overflow: hidden;
+			border:none;
 
 			.imgBox {
 				image {
@@ -698,6 +697,10 @@
 
 				text {
 					font-size: 30upx;
+					overflow:hidden;
+					max-width:100%;
+					text-overflow:ellipsis;
+					white-space:nowrap;
 				}
 
 				.span_a {
