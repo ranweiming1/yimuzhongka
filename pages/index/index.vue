@@ -27,11 +27,11 @@
 				<text>{{item.cateTitle}}</text>
 			</view> -->
 		<!-- </view> -->
-		<swiper style="height: 440rpx;width:90%;margin-left:5%;" :interval="interval" :duration="duration" @change='qiehuan'>
+		<swiper style="height: 440rpx;width:90%;margin-left:5%;text-align:center;" :interval="interval" :duration="duration" @change='qiehuan'>
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key='item.id'>
 				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(index,indexs)">
-					<image :src="items.imgUrl"></image>
-					<text style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;">{{items.cateTitle}}</text>
+					<image :src="items.imgUrl" style='margin:0 auto;'></image>
+					<text style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;margin-top:20rpx;">{{items.cateTitle}}</text>
 				</view>
 			</swiper-item>
 		</swiper>
@@ -134,6 +134,7 @@
 		},
 		onShow() {
 			var _this = this
+			this.list=[]
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {

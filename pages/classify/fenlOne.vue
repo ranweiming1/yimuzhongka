@@ -52,7 +52,7 @@
 			<!-- 头部 -->
 			<view class="top">
 				<view class="textBox">
-					<input class="uni-input" focus @blur="search" v-model="value" placeholder="请输入关键字" />
+					<input class="uni-input" @blur="search" v-model="value" placeholder="请输入关键字" />
 				</view>
 				<view class="imgBox">
 					<image src="../../static/icon_43.png" mode=""></image>
