@@ -63,7 +63,7 @@
 		</view>
 		<view class="basic">
 			<view class="left_a">
-				<text>通知公告	</text>
+				<text>通知公告</text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
