@@ -724,7 +724,7 @@
 						title: '请选择商品'
 					})
 				} else {
-					this.xuanzho.map(function(n, index) {
+					this.shuju.map(function(n, index) {
 						_this.cartList[index].name = _this.cartList[index].storeShopDTO.shopName
 						n.map(function(x, indexx) {
 							if (x) {
