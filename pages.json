@@ -119,13 +119,14 @@
 			"path": "pages/shop/shop",
 			"style": {
 				"navigationBarTitleText": "毅木重卡"
+				// "navigationStyle":"custom"
 			}
 		},
 		{
 			"path": "pages/cart/cart",
 			"style": {
-				"navigationBarTitleText": "毅木重卡"
-				// "titleView":false
+				// "navigationBarTitleText": "毅木重卡"
+				"navigationStyle":"custom"
 			}
 		},
 		{

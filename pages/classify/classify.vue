@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- <view class="line" style="height: 50rpx;"></view> -->
-		<view class="top">
+		<view class="top toubu">
 			<view class="textBox">
 				<text>全部分类</text>
 			</view>
@@ -93,9 +93,10 @@
 <style lang="scss">
 	.top {
 		width: 750upx;
-		margin: 0 auto;
+		// margin: 0 auto;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
+		height: 90rpx;
 
 		.textBox {
 			padding-left: 40%;
@@ -104,7 +105,7 @@
 				font-size: 28upx;
 				color: #333;
 				float: left;
-				line-height: 100upx;
+				line-height: 90upx;
 			}
 		}
 

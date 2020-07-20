@@ -1,6 +1,6 @@
 <template>
 	<view class="bcg">
-		<view class="top">
+		<view class="top toubu">
 			<view class="textBox">
 				<text>购物车(02)</text>
 			</view>
@@ -18,7 +18,7 @@
 			<!-- 购物车 -->
 
 			<view class="listBoxs" v-for="(item,index) in  cartList">
-				<checkbox-group @change='gouwuche' v-if="item.cartGoodsStatus==0">
+				<checkbox-group @change='gouwuche'>
 					<view class="radios">
 						<!-- 店铺名称待确认 -->
 						<label class="radio">
@@ -780,7 +780,7 @@
 
 	.top {
 		width: 100%;
-		margin: 0 auto;
+		// margin: 0 auto;
 		overflow: hidden;
 		background-color: #FFFFFF;
 		// border-bottom: 1px solid #e5e5e5;
