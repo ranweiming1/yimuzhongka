@@ -101,7 +101,7 @@
 			padding-left: 40%;
 
 			text {
-				font-size: 38upx;
+				font-size: 28upx;
 				color: #333;
 				float: left;
 				line-height: 100upx;

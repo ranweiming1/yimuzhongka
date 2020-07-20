@@ -18,7 +18,7 @@
 			<!-- 购物车 -->
 
 			<view class="listBoxs" v-for="(item,index) in  cartList">
-				<checkbox-group @change='gouwuche'>
+				<checkbox-group @change='gouwuche' v-if="item.cartGoodsStatus==0">
 					<view class="radios">
 						<!-- 店铺名称待确认 -->
 						<label class="radio">
@@ -83,21 +83,21 @@
 				</view>
 			</view>
 			<!-- 失效宝贝 -->
-			<view class="Boxs">
-				<view class="lose">
+			<view class="Boxs" >
+				<view class="biaot">
+					<text>失效宝贝</text>
+					<view class="dele">
+						<text>清空</text>
+					</view>
+				</view>
+				<view class="lose" v-for="(item,index) in  cartList">
 					<view class="xinxi">
-						<view class="biaot">
-							<text>失效宝贝</text>
-							<view class="dele">
-								<text>清空</text>
-							</view>
-						</view>
 						<view class="imgBox_a">
-							<image src="../../static/img_09.jpg" mode=""></image>
+							<image :src="item.goodsLogo" mode=""></image>
 						</view>
 						<view class="txt_c">
 							<view class="title">
-								<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+								<text>{{item.goodsName}}</text>
 							</view>
 							<view class="spec">
 								<text>已选：＂黄色＂</text>
@@ -108,26 +108,7 @@
 						</view>
 					</view>
 				</view>
-
-				<view class="lose">
-					<view class="xinxi">
-						<view class="imgBox_a">
-							<image src="../../static/img_09.jpg" mode=""></image>
-						</view>
-						<view class="txt_c">
-							<view class="title">
-								<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
-							</view>
-							<view class="spec">
-								<text>已选：＂黄色＂</text>
-							</view>
-							<view class="radColor">
-								<text>已售罄</text>
-							</view>
-						</view>
-					</view>
 				</view>
-			</view>
 
 		</view>
 
@@ -266,11 +247,12 @@
 				this.valRe()
 				this.val = this.value
 				this.cartList[this.index].specList[this.n].goodsNum = this.value
-				this.jiage=0
-				this.shuju.map((n,index)=>{
-					n.s.map((c,indexz)=>{
-						if(c){
-							this.jiage+=this.cartList[index].specList[indexz].goodsNum*this.cartList[index].specList[indexz].goodsPrice+this.cartList[index].specList[indexz].kuaidi
+				this.jiage = 0
+				this.shuju.map((n, index) => {
+					n.s.map((c, indexz) => {
+						if (c) {
+							this.jiage += this.cartList[index].specList[indexz].goodsNum * this.cartList[index].specList[indexz].goodsPrice +
+								this.cartList[index].specList[indexz].kuaidi
 						}
 					})
 				})
@@ -698,7 +680,7 @@
 							_this.$set(_this.shuju[index].s, indexx, false)
 						})
 					})
-					this.jiage=0
+					this.jiage = 0
 					return false
 				} else {
 					this.xuan = true
@@ -1006,29 +988,30 @@
 		}
 	}
 
+	.biaot {
+		border-bottom: 1px solid #ccc;
+		font-size: 30upx;
+		line-height: 80upx;
+		padding-left: 20upx;
+
+		.dele {
+			float: right;
+			padding-right: 20upx;
+
+			text {
+				font-size: 26upx;
+				color: #666;
+				line-height: 50upx;
+			}
+		}
+	}
+
+
 	.lose {
 		.xinxi {
 			width: 750upx;
 			padding: 0upx;
 			padding-bottom: 20upx;
-		}
-
-		.biaot {
-			border-bottom: 1px solid #ccc;
-			font-size: 30upx;
-			line-height: 80upx;
-			padding-left: 20upx;
-
-			.dele {
-				float: right;
-				padding-right: 20upx;
-
-				text {
-					font-size: 26upx;
-					color: #666;
-					line-height: 50upx;
-				}
-			}
 		}
 
 		.radColor {

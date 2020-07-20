@@ -8,11 +8,11 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<input type="text" value="" placeholder="请输入密码" />
+				<input type="text" :value="phone" disabled="true" placeholder="请输入密码" />
 				<!-- <text></text> -->
 			</view>
 		</view>
-		<view class="basic">
+		<view class="basic" v-if="false">
 			<view class="left_a">
 				<text>关联账号</text>
 			</view>
@@ -83,8 +83,23 @@
 	export default {
 		data() {
 			return {
-
+				phone: ''
 			}
+		},
+		onLoad() {
+			var _this = this
+			this.$https({
+				url: '/api/user/my-info',
+				data: {},
+				denglu: false,
+				success: function(res) {
+					// _this.infoList = res.data.data
+					// _this.nickname = res.data.data.nickname
+					// // console.log(res.data.data)
+					_this.phone = res.data.data.phone
+					// console.log(res.data.data)
+				}
+			})
 		},
 		methods: {
 
@@ -104,6 +119,7 @@
 		overflow: hidden;
 		padding: 20upx;
 		padding-bottom: 20upx;
+		box-sizing: border-box;
 
 		.left_a {
 			float: left;
@@ -127,6 +143,15 @@
 				height: 70rpx;
 				font-size: 28upx;
 				float: right;
+				color: #999;
+				line-height: 70upx;
+			}
+
+			.input {
+				height: 70rpx;
+				font-size: 28upx;
+				float: right;
+				text-align: center;
 				color: #999;
 				line-height: 70upx;
 			}

@@ -98,7 +98,8 @@
 		{
 			"path": "pages/classify/classify",
 			"style": {
-				"navigationBarTitleText": "毅木重卡"
+				// "navigationBarTitleText": "毅木重卡"
+				"navigationStyle":"custom"
 			}
 		},
 		{
