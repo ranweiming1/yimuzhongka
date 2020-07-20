@@ -13,8 +13,7 @@
 		</view>
 		<!-- 这是轮播图 -->
 		<view class="banner">
-			<swiper class="swiper" style="height: 262rpx;" :autoplay="autoplay" :interval="interval"
-			 :duration="duration">
+			<swiper class="swiper" style="height: 262rpx;" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item v-for="(item, index) in banList">
 					<image :src="item.img" mode=""></image>
 				</swiper-item>
@@ -27,7 +26,8 @@
 				<text>{{item.cateTitle}}</text>
 			</view> -->
 		<!-- </view> -->
-		<swiper style="height: 440rpx;width:90%;margin-left:5%;text-align:center;" :interval="interval" :duration="duration" @change='qiehuan'>
+		<swiper style="height: 440rpx;width:90%;margin-left:5%;text-align:center;" :interval="interval" :duration="duration"
+		 @change='qiehuan'>
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key='item.id'>
 				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(index,indexs)">
 					<image :src="items.imgUrl" style='margin:0 auto;'></image>
@@ -42,8 +42,7 @@
 		<!-- <view class="lunb">
 			<image src="../../static/img_01.png" mode=""></image>
 		</view> -->
-		<swiper class="lunb" style="height: 160rpx;" :autoplay="autoplay" :interval="interval"
-		 :duration="duration">
+		<swiper class="lunb" style="height: 160rpx;" :autoplay="autoplay" :interval="interval" :duration="duration">
 			<swiper-item>
 				<image src="../../static/img_01.png" mode=""></image>
 			</swiper-item>
@@ -99,6 +98,15 @@
 				 @tap='guan'>X</view>
 			</view>
 		</view>
+		<view class='zhezhao' v-if='shangpinxiangqing'>
+			<view style='width:471rpx;margin:auto;height:200rpx;position:absolute;left:0;bottom:0;right:0;top:0;background:#fff;'>
+				<view style='font-size:22rpx;text-align:center;margin-top:20rpx;'>您的好友给您分享了一个商品，是否查看?</view>
+				<view style='text-align:center;margin-top:50rpx;'>
+					<view style='display:inline-block;width:100rpx;height:60rpx;line-height:60rpx;background:#fefefe;border:1px solid #eee;border-radius:10rpx;' @tap='quxiao'>取消</view>
+					<view style='display:inline-block;width:100rpx;height:60rpx;line-height:60rpx;background:#2b5cff;border-radius:10rpx;color:#fff;margin-left:20rpx;' @tap='tiaozhuan'>确定</view>
+				</view>
+			</view>
+		</view>
 		<view class="line" style="height: 40rpx;">
 
 		</view>
@@ -126,7 +134,9 @@
 				id: '',
 				index: '',
 				phone: '',
-				int: 0
+				int: 0,
+				shangpinxiangqing:false,
+				xinxi:''
 			}
 		},
 		components: {
@@ -134,7 +144,7 @@
 		},
 		onShow() {
 			var _this = this
-			this.list=[]
+			this.list = []
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
@@ -182,6 +192,29 @@
 			} else {
 				this.youhuiquanle = true
 			}
+			this.$https({
+				url: '/api/user/my-info',
+				data: {},
+				success: function(resa) {
+					//获取粘贴板内容
+					uni.getClipboardData({
+						success: function(res) {
+							if (resa.data.data.payPoints != res.data.split('分享给你')[1]) {
+								if (res.data.indexOf('我在毅木重卡发现一个好东西，分享给你') >= 0) {
+									uni.setClipboardData({
+										data: '',
+										success: function() {
+
+										}
+									})
+									_this.shangpinxiangqing=true
+									_this.xinxi=res.data
+								}
+							}
+						}
+					})
+				}
+			})
 		},
 		methods: {
 			detail(id) {
@@ -207,7 +240,7 @@
 			},
 			guan: function() {
 				this.youhuiquanle = false
-				uni.setStorageSync('y','123')
+				uni.setStorageSync('y', '123')
 			},
 			fenLei: function(id, index) {
 				// this.id=id
@@ -261,6 +294,14 @@
 			},
 			qiehuan: function(e) {
 				this.int = e.detail.current
+			},
+			quxiao:function(){
+				this.shangpinxiangqing=false
+			},
+			tiaozhuan:function(){
+				uni.navigateTo({
+					url:'productDetails?id='+this.xinxi.split(',')[1]+'&str='+this.xinxi.split(',')[0].split('分享给你')[1]
+				})
 			}
 
 		}
@@ -317,7 +358,8 @@
 		display: block;
 		box-shadow: 0 0 5px 3px #ccc;
 		border-radius: 20upx;
-		margin-bottom:20rpx;
+		margin-bottom: 20rpx;
+
 		image {
 			width: 100%;
 			height: 262upx;

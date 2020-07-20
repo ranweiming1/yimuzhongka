@@ -13,7 +13,8 @@
 	{
 		"path": "pages/index/productDetails",
 		"style": {
-			"navigationBarTitleText": "毅木重卡"
+			// "navigationBarTitleText": "毅木重卡"
+			"navigationStyle":"custom"
 		}
 	},
 	{

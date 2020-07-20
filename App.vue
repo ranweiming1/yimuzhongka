@@ -149,6 +149,9 @@
 	.toubu{
 		margin-top:60rpx!important;
 	}
+	.toubu1{
+		margin-top:70rpx!important;
+	}
 	button::after {
 		display: none;
 	}

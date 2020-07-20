@@ -13,7 +13,7 @@
 				<!-- 店铺名称待确认 -->
 				<text>店铺名称</text>
 				<view class="guanb">
-					<text>待卖家同意</text>
+					<text>{{item.approvalStatus==0?'审核已通过':item.approvalStatus==2?'待卖家同意':'卖家已拒绝'}}</text>
 				</view>
 			</view>
 			<view class="xinxi">
@@ -40,7 +40,7 @@
 
 				</view>
 				<view class="zongj">
-					<text>卖家已同意</text>
+					<text>{{item.refundDesc}}</text>
 				</view>
 			</view>
 		</view>
@@ -107,10 +107,11 @@
 			background-color: #f7f7f7;
 			border-radius: 25rpx;
 			margin-top: 10upx;
+			padding:8rpx 20rpx;
 	
 			text {
 				font-size: 26upx;
-				padding-left: 20rpx;
+				// padding-left: 20rpx;
 				color: #333;
 				line-height: 50rpx;
 			}

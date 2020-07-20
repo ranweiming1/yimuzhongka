@@ -332,7 +332,8 @@
 				huodong: false,
 				ind:1,
 				isShow:false,
-				toJump:''
+				toJump:'',
+				yao:''
 			}
 		},
 		components: {
@@ -572,21 +573,24 @@
 				})
 			},
 			shangpinxin: function() {
-				let shareData = {
-					shareUrl: 'https://kemean.com',
-					shaerTitle: '分享的标题',
-					shaerContent: '分享的描述',
-					shaerImg: 'https://qn.kemean.cn//upload/202004/18/1587189024467w6xj18b1.jpg',
-					appId: 'wxcfd9c1418eeb2e3',
-					appPath: 'pages/static/fh.png',
-					appWebUrl: 'htttps://kemean.com'
+					var _this=this
+					this.$https({
+						url: '/api/user/my-info',
+						data: {},
+						success: function(res) {
+							uni.setClipboardData({
+								data: '我在毅木重卡发现一个好东西，分享给你' + res.data.data.payPoints+','+_this.deId,
+								success: function() {
+									uni.showToast({
+										title: '复制成功，快去分享给好友吧',
+												icon: 'none'
+									})
+								}
+							})
+						}
+					})
 				}
-				let shareObj = appShare(shareData, res => {})
-				setTimeout(function() {
-					shareObj.close()
-				})
 			}
-		}
 
 	}
 </script>

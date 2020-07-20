@@ -6,7 +6,7 @@
 			</view>
 
 			<!-- 头部 -->
-			<view class="top toubu">
+			<view class="top toubu1">
 				<view class="textBox">
 					<input class="uni-input" @confirm="search" v-model="value" placeholder="请输入关键字" />
 				</view>
