@@ -50,7 +50,7 @@
 
 		<view :class="tog_Ca?'':'togActive'">
 			<!-- 头部 -->
-			<view class="top">
+			<view class="top toubu">
 				<view class="textBox">
 					<input class="uni-input" @blur="search" v-model="value" placeholder="请输入关键字" />
 				</view>
@@ -309,7 +309,7 @@
 <style lang="scss">
 	.top {
 		width: 710upx;
-		margin: 20upx;
+		// margin: 20upx;
 		overflow: hidden;
 
 		.textBox {

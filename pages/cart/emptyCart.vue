@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="top">
+		<view class="top toubu">
 			<view class="textBox">
 				<text>购物车(02)</text>
 			</view>
@@ -76,6 +76,8 @@
 		margin: 0 auto;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
+		height: 90rpx;
+		line-height: 90rpx;
 	
 		.textBox {
 			padding-left: 40%;
@@ -90,7 +92,10 @@
 	
 		.imgBox {
 			float: right;
-			padding: 30upx;
+			// padding: 30upx;
+			padding: 0 30rpx;
+			line-height:90rpx;
+			margin-top:15rpx;
 	
 			image {
 				width: 36upx;

@@ -6,7 +6,7 @@
 			</view>
 
 			<!-- 头部 -->
-			<view class="top">
+			<view class="top toubu">
 				<view class="textBox">
 					<input class="uni-input" @confirm="search" v-model="value" placeholder="请输入关键字" />
 				</view>
@@ -203,7 +203,7 @@
 
 	.top {
 		position: relative;
-		margin-top: 20upx;
+		// margin-top: 20upx;
 		margin-left: 100upx;
 		z-index: 99;
 		overflow: hidden;

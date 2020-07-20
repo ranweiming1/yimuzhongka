@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<!-- 头部 -->
-		<view class="top">
+		<view class="top toubu">
 			<view class="textBox">
-				<input class="uni-input" focus placeholder="请输入关键字" v-model="changeVal" />
+				<input class="uni-input" placeholder="请输入关键字" v-model="changeVal" />
 			</view>
 			<view class="wenbenBox" @tap="searchFun">
 				<view class="imgBox">
@@ -25,7 +25,7 @@
 				<image src="../../static/icon_46.png" mode=""></image>
 			</view>
 			<view class="ul">
-				<view class="li" v-for="(item , index) in searchAll">
+				<view class="li" v-for="(item , index) in searchAll" @tap="searchFun(item)">
 					<text>{{item}}</text>
 				</view>
 			</view>
@@ -36,7 +36,7 @@
 				<text>热门搜索</text>
 			</view>
 			<view class="ul">
-				<view class="li" v-for="(i , n) in 6">
+				<view class="li" v-for="(i , n) in 6" @tap="searchFun(i)">
 					<text>雨刷器</text>
 				</view>
 			</view>
@@ -65,7 +65,7 @@
 
 		},
 		methods: {
-			searchFun() {
+			searchFun(val) {
 				if (this.changeVal != '') {
 					var _this = this
 					this.searchAll.unshift(this.changeVal)
@@ -81,7 +81,13 @@
 					console.log('searchAll_key')
 					this.changeVal = ''
 					
+				}else if(val){
+					console.log(val)
+					uni.navigateTo({
+						url: '../classify/fenlOne?keywords=' + val
+					})
 				}
+			
 			},
 
 			del() {
