@@ -285,7 +285,7 @@
 		{
 			"path": "pages/news/news_details/news_details",
 			"style": {
-				"navigationBarTitleText": "咨询详情"
+				"navigationBarTitleText": "资讯详情"
 			}
 		},
 		{
@@ -345,7 +345,7 @@
 		{
 			"path":"pages/index/class",
 			"style":{
-				"navigationBarTitleText":"全部分类"
+				"navigationBarTitleText":"毅木重卡"
 			}
 		},{
 			"path":"pages/user/task/aiChe",
