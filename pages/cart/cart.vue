@@ -42,7 +42,7 @@
 								<view class="title">
 									<text>{{item.goodsName}}</text>
 								</view>
-								<view class="spec" @click="openPopup(index,n)">
+								<view class="spec">
 									<text>已选：＂{{i.specKeyName}}＂</text>
 								</view>
 								<!-- <view class=""> -->
@@ -266,6 +266,14 @@
 				this.valRe()
 				this.val = this.value
 				this.cartList[this.index].specList[this.n].goodsNum = this.value
+				this.jiage=0
+				this.shuju.map((n,index)=>{
+					n.map((c,indexz)=>{
+						if(c){
+							this.jiage+=this.cartList[index].specList[indexz].goodsNum*this.cartList[index].specList[indexz].goodsPrice+this.cartList[index].specList[indexz].kuaidi
+						}
+					})
+				})
 			},
 			valRe() {
 				this.mask_show = !this.mask_show
@@ -711,12 +719,12 @@
 			tiaozhuan: function() {
 				var ap = []
 				var _this = this
-				if (this.xuanzho.length == 0) {
+				if (this.shuju.length == 0) {
 					uni.showToast({
 						title: '请选择商品'
 					})
 				} else {
-					this.xuanzho.map(function(n, index) {
+					this.shuju.map(function(n, index) {
 						_this.cartList[index].name = _this.cartList[index].storeShopDTO.shopName
 						n.map(function(x, indexx) {
 							if (x) {
