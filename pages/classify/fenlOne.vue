@@ -54,7 +54,7 @@
 				<view class="textBox">
 					<input class="uni-input" @blur="search" v-model="value" placeholder="请输入关键字" />
 				</view>
-				<view class="imgBox">
+				<view class="imgBox" @tap='tiaozh'>
 					<image src="../../static/icon_43.png" mode=""></image>
 				</view>
 			</view>
@@ -300,6 +300,11 @@
 					success: function(res) {
 						_this.allList = res.data.data
 					}
+				})
+			},
+			tiaozh:function(){
+				uni.navigateTo({
+					url:'../cart/cart'
 				})
 			}
 		}

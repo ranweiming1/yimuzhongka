@@ -174,11 +174,13 @@
 				youhui: [],
 				shopId: 0,
 				xinxi: '',
-				str:''
+				str:'',
+				yao:''
 			}
 		},
 		onLoad: function(options) {
 			var _this = this
+			this.yao=options.str
 			if (options.goodsId) {
 				this.goodsId = options.goodsId
 				this.cartAttr = JSON.parse(options.cartAttr).cartAttr
@@ -312,7 +314,9 @@
 						addressId: '' + this.dizhi.id,
 						orderVoList: this.cartAttr,
 						orderFrom: +this.dingdan,
-						shopIds: arr
+						shopIds: arr,
+						myCode:this.yao
+						
 					}),
 					method: 'post',
 					haeder: true,
@@ -337,7 +341,7 @@
 								obj.sign = res.data.data.sign
 								uni.requestPayment({
 									provider: 'wxpay',
-									orderInfo: obj,
+									orderInfo: res.data.data,
 									success: function(res) {console.log('支付成功')},
 									fail: function(res) {
 										_this.str=JSON.stringify(res)

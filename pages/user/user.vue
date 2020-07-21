@@ -20,7 +20,7 @@
 		<!-- 用户名 -->
 		<view class="userBox" @tap='xiugaigerenxinxi'>
 			<view class="img_a">
-				<image src="../../static/img_06.jpg" mode=""></image>
+				<image :src="headimg" mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum">
@@ -223,6 +223,7 @@
 				couponCount: 0,
 				//收藏
 				collectCount: 0,
+				headimg:''
 				
 			}
 		},
@@ -237,6 +238,7 @@
 				denglu: false,
 				success: function(res) {
 					_this.nickname = res.data.data.nickname
+					_this.headimg=res.data.data.headimg
 					// console.log(res.data.data)
 					_this.phone = res.data.data.phone
 					// console.log(res.data.data)

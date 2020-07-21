@@ -29,7 +29,7 @@
 					<image src="../../static/icon_43.png" mode=""></image>
 				</view>
 				<view class="imgBox" style="padding-right: 18rpx;">
-					<image src="../../static/icon_49.png" mode=""></image>
+					<image src="../../static/icon_49.png" mode="" @tap='shangpinxin'></image>
 				</view>
 			</view>
 		</view>
@@ -42,7 +42,7 @@
 				<view class="imgBoxs" style="background: rgba(0, 0, 0, 0.5) !important;" @tap="tiaoCart">
 				</view>
 				<view class="imgBox" style="background: rgba(0, 0, 0, 0.5) !important;">
-					<image src="../../static/icon_47.png" mode=""></image>
+					<image src="../../static/icon_47.png" mode="" @tap='shangpinxin'></image>
 				</view>
 			</view>
 		</view>
