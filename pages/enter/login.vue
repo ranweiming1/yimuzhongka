@@ -17,7 +17,7 @@
 			</view>
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>
-				<input class="uni-input" password type="text" v-model='account.password' placeholder="请输入密码" />
+				<input class="uni-input" password type="" v-model='account.password' placeholder="请输入密码" />
 			</view>
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>

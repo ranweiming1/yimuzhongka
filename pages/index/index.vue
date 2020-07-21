@@ -302,6 +302,7 @@
 				uni.navigateTo({
 					url:'productDetails?id='+this.xinxi.split(',')[1]+'&str='+this.xinxi.split(',')[0].split('分享给你')[1]
 				})
+				this.shangpinxiangqing=false
 			}
 
 		}

@@ -30,7 +30,7 @@
 				<image src="../../../static/icon_26.png" mode="" style='width:20rpx;height:20rpx;margin-top:20rpx;float:right;'></image>
 			</view>
 		</view>
-
+{{str}}
 		<!-- 订单信息 -->
 		<view class="xinxi">
 			<view class="biaot">
@@ -173,7 +173,8 @@
 				//保存优惠券
 				youhui: [],
 				shopId: 0,
-				xinxi: ''
+				xinxi: '',
+				str:''
 			}
 		},
 		onLoad: function(options) {
@@ -338,9 +339,11 @@
 									provider: 'wxpay',
 									orderInfo: obj,
 									success: function(res) {console.log('支付成功')},
-									fail: function(res) {}
+									fail: function(res) {
+										_this.str=JSON.stringify(res)
+									}
 								})
-							}
+							},
 						})
 					}
 				})
