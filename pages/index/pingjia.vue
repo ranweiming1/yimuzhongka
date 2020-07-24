@@ -77,36 +77,7 @@
 		
 
 		<!-- 底部 -->
-		<view class="bottom">
-
-			<view class="leftA">
-				<view class="kefua" @tap="jindian(list.shopId)">
-					<image src="../../static/icon_50.png" mode=""></image>
-					<view class="keyboard">
-						<text>店铺</text>
-					</view>
-				</view>
-				<view class="kefua">
-					<image @tap="isActive" v-if="!isCollect" src="../../static/icon_51.png" mode=""></image>
-					<image @tap="isActive" v-if="isCollect" src="../../static/icon_52.png" mode=""></image>
-					<view class="keyboard">
-						<text>{{isCollect?'已收藏':'收藏'}}</text>
-					</view>
-				</view>
-				
-
-			</view>
-			<view class="rightA">
-				<view class="bottBoxss">
-					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="add">
-						<button type="primary">加入购物车</button>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @tap="add">
-						<button type="primary">立即购买</button>
-					</view>
-				</view>
-			</view>
-		</view>
+		
 
 	</view>
 </template>

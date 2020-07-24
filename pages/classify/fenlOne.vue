@@ -50,17 +50,20 @@
 
 		<view :class="tog_Ca?'':'togActive'">
 			<!-- 头部 -->
-			<view class="top toubu1">
+			<view class="top" style='position:fixed;left:0;top:60rpx;background:#fff;width:100%;z-index:99999;margin:20rpx 0;'>
+				<view class='back' @tap='back' style='float:left;margin-top:10rpx;margin-left:20rpx;'>
+					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+				</view>
 				<view class="textBox">
 					<input class="uni-input" @blur="search" v-model="value" placeholder="请输入关键字" />
 				</view>
-				<view class="imgBox" @tap='tiaozh'>
+				<view class="imgBox" @tap='tiaozh' style='margin-right:10rpx;'>
 					<image src="../../static/icon_43.png" mode=""></image>
 				</view>
 			</view>
 
 			<!-- 这里有一个筛选 -->
-			<view class="nav">
+			<view class="nav dne">
 				<view style='display:flex;'>
 					<view class="con" @tap="chexing">
 						<text>车型</text>
@@ -79,7 +82,7 @@
 
 					</view>
 				</view>
-				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;'
+				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;z-index:99999;'
 				 v-if='paixu'>
 					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PASC"'>√</view></view>
 					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PDESC"'>√</view></view>
@@ -108,7 +111,7 @@
 
 						</view>
 						<view class="txt_aas">
-							<text>税后价：<text>￥{{item.marketPrice?item.marketPrice:'暂无价格'}}</text></text>
+							<text>税后价：<text><text style='font-size:22rpx;'>￥</text>{{item.marketPrice?item.marketPrice+".00":'暂无价格'}}</text></text>
 							<text>销量：{{item.salesSum}}</text>
 						</view>
 
@@ -138,7 +141,7 @@
 				max: '',
 				goodsType: '',
 				paixu: false,
-				st: '',
+				st: 'PASC',
 				value: ''
 			}
 		},
@@ -306,6 +309,11 @@
 				uni.navigateTo({
 					url:'../cart/cart'
 				})
+			},
+			back:function(){
+				uni.navigateBack({
+					delta:1
+				})
 			}
 		}
 	}
@@ -319,7 +327,7 @@
 
 		.textBox {
 			float: left;
-			margin-left: 70upx;
+			margin-left: 40upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
 
@@ -413,7 +421,7 @@
 		border-bottom: 1px dotted #ccc;
 		padding-bottom: 20upx;
 		overflow: hidden;
-
+		position:relative;
 		.imgBox {
 			image {
 				width: 30%;
@@ -460,7 +468,10 @@
 
 			.txt_aas {
 				padding-top: 10upx;
-
+                position:absolute;
+				left:33%;
+				width:60%;
+				bottom:20rpx;
 				text {
 					color: #333;
 					font-size: 32upx;
@@ -492,7 +503,7 @@
 		width: 100%;
 		height: 100%;
 		background: rgba(0, 0, 0, 0.1);
-		z-index: 999;
+		z-index: 99999999;
 	}
 
 	.screen {
@@ -502,13 +513,14 @@
 		position: absolute;
 		float: right;
 		right: 0;
-		padding-top: 36rpx;
+		padding-top: 60rpx;
+		top:0;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		// box-sizing: border-box;
 		background-color: #FFFFFF;
-		z-index: 999;
+		z-index: 99999999;
 		// transform:translate(100rpx,100rpx);
 		//             transition: 2s;
 
@@ -615,17 +627,20 @@
 			justify-content: space-between;
 			padding: 0, 10rpx;
 			padding-bottom: 45rpx;
-
+			bottom:0;
+			position:fixed;
+			width:80%;
+			left:20%;
 			:first-child {
 				background-color: #dcdcdc;
 				color: #333333;
-				width: 35%;
+				width: 45%;
 				height: 77rpx;
 				line-height: 77rpx;
 			}
 
 			:last-child {
-				width: 35%;
+				width: 45%;
 				background-color: #2b5cff;
 				color: #FFFFFF;
 				height: 77rpx;
@@ -642,7 +657,7 @@
 
 			.textBox {
 				float: left;
-				margin-left: 70upx;
+				margin-left: 40upx;
 				background-color: #f0f0f0;
 				border-radius: 50upx;
 
@@ -734,7 +749,7 @@
 
 				.txt_aas {
 					padding-top: 10upx;
-
+					position:initial;
 					text {
 						color: #333;
 						font-size: 32upx;

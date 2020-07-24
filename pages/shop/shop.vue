@@ -7,6 +7,9 @@
 
 			<!-- 头部 -->
 			<view class="top toubu1">
+				<view class='back' @tap='back' style='float:left;margin-top:10rpx;margin-left:20rpx;'>
+					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+				</view>
 				<view class="textBox">
 					<input class="uni-input" @confirm="search" v-model="value" placeholder="请输入关键字" />
 				</view>
@@ -38,7 +41,7 @@
 			</view>
 
 			<!-- banner 轮播图-->
-			<swiper class="banner" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
+			<swiper class="banner" :autoplay="autoplay" :interval="interval" :duration="duration"
 			 style="height:262rpx;">
 				<swiper-item>
 					<image src="../../static/banner.jpg" mode=""></image>
@@ -183,6 +186,11 @@
 					url: './all?shopsId=' + this.shopsId + '&keywords=' + this.value
 				})
 				this.value = ''
+			},
+			back:function(){
+				uni.navigateBack({
+					delta:1
+				})
 			}
 
 		}
@@ -204,7 +212,6 @@
 	.top {
 		position: relative;
 		// margin-top: 20upx;
-		margin-left: 100upx;
 		z-index: 99;
 		overflow: hidden;
 
@@ -212,7 +219,7 @@
 			float: left;
 			background-color: rgba(255, 255, 255, 0.6);
 			border-radius: 50upx;
-
+			margin-left:50rpx;
 			input {
 				height: 60upx;
 				width: 520upx;
@@ -307,7 +314,7 @@
 	.banner {
 		width: 93%;
 		position: absolute;
-		top: 300upx;
+		top: 330upx;
 		left: 30upx;
 		margin: 0 auto;
 		display: block;

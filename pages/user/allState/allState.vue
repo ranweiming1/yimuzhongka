@@ -1,17 +1,20 @@
 <template>
 	<view>
 		<!-- 头部 -->
-		<view class="top toubu1">
+		<view class="top" style='width:100%;background:#fff;position:fixed;top:60rpx;z-index:99999;left:0;'>
+			<view class='back' @tap='back' style='float:left;margin-top:10rpx;'>
+				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+			</view>
 			<view class="textBox">
 				<input class="uni-input" placeholder="请输入关键字" />
 			</view>
-			<view class="imgBox" @tap="shopCar">
+			<view class="imgBox" @tap="shopCar" style='margin-right:20rpx;'>
 				<image src="../../../static/icon_43.png" mode=""></image>
 			</view>
 		</view>
 
 		<!-- 状态栏 -->
-		<view class="topBox">
+		<view class="topBox" style='position:fixed;top:135rpx;left:0;width:100%;background:#fff;padding-top:20rpx;z-index:99999;'>
 			<!-- 选中样式 -->
 			<view class="none on" @tap="toggle(0)">
 				<view class="ontext">
@@ -55,14 +58,14 @@
 				</view>
 			</view>
 		</view>
-
+        <view style='height:200rpx;'></view>
 		<!-- 订单信息 -->
 		<view class="listBox" v-for="(item,index) in dList">
 			<view class="radios">
 				<!-- 店铺名称待确认 -->
 				<text>{{item.storeShopDTO.shopName}}</text>
 				<view class="guanb">
-					<text>{{item.orderStatus==0?'待付款':item.orderStatus==1?'交易完成':'交易关闭'}}</text>
+					<text>{{item.status==0?'待付款':item.status==1?'已付款.待发货':item.status==2?'已发货.待收货':item.status==3?'退货中':item.status==4?'退货完成':item.status==5?'待评价':item.status==6?'已评价':''}}</text>
 				</view>
 			</view>
 			<view class="xinxi" v-for="(ite,inde) in item.goodsList">
@@ -95,11 +98,10 @@
 					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2" @tap="confirm(item.orderId)">
 						<button type="primary">确认收货</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status!=0">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0||item.orderStatus==1||item.orderStatus==2">
 						<button type="primary">删除订单</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId)" v-if="item.status==5&&item.orderStatus==1">
-						
 						<button type="primary">去评价</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
@@ -352,12 +354,15 @@
 							orderInfo: obj,
 							success: function(res) {},
 							fail: function(res) {
-								console.log(JSON.stringify(res))
 							}
 						})
 					}
 				})
-
+			},
+			back:function(){
+				uni.navigateBack({
+					delta:1
+				})
 			}
 		}
 	}
@@ -368,6 +373,7 @@
 		display: block;
 		
 		text-align: center;
+		margin-top:100rpx;
 	}
 	.top {
 		width: 710upx;

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="uni-form-item uni-column">
-			<text style="padding-left: 20rpx;">收货人</text>
+			<text style="padding-left: 20rpx;color:#666;">收货人</text>
 			<input style='float:right;width:200rpx;text-align:right;margin-right:40rpx;' class="uni-input" name="input" v-model='username'
 			 placeholder="收货人" />
 		</view>
@@ -30,7 +30,7 @@
 			</pick-regions>
 		</view>
 		<view class="uni-form-item uni-column beizs">
-			<text style="font-size: 28rpx;padding-left:20rpx;">详细地址:</text>
+			<text style="font-size: 28rpx;padding-left:20rpx;color:#666;">详细地址:</text>
 			<input class="uni-input" name="input" placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" v-model='address' />
 		</view>
 		<view class="uni-list">
@@ -38,15 +38,23 @@
 				<view class="uni-list-cell-db">
 					<text>设为默认地址</text>
 				</view>
-				<switch checked @change='xuanzhong' />
+				<switch :checked='checked==1' @change='xuanzhong' />
 			</view>
 		</view>
 
 		<view class="uni-padding-wrap uni-common-mt bott">
 			<button size="mini" type="primary" @tap='baocun' :style="isOk?'background: #2b5cff;width:60%':'background: #2b5cff'">保存</button>
-			<button size="mini" type="primary" v-if="!isOk" @tap="del(id)" style="background: #ff3334;">删除</button>
+			<button size="mini" type="primary" v-if="!isOk" @tap="xianshi(id)" style="background: #ff3334;">删除</button>
 		</view>
-
+		<view style='width:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:1000000;height:100%;' v-if='shanchu'>
+			<view style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;'>
+				<view style='text-align:center;margin-top:20rpx;'>您确定删除地址?</view>
+				<view style='text-align:center;margin-top:20rpx;'>
+					<view style='display:inline-block;background:#eee;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:10rpx;float:left;margin-left:20rpx;' @tap='quxiao'>取消</view>
+					<view style='display:inline-block;background:#2d5eff;color:#fff;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:10rpx;float:right;margin-right:20rpx;' @tap='del'>确定</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -62,7 +70,7 @@
 				isAdd: true,
 				isOk: true,
 				id: '',
-				checked: true,
+				checked: 0,
 				region: [],
 				defaultRegion: ['山东省', '济南市', '槐荫区'],
 				defaultRegionCode: '370104',
@@ -73,7 +81,8 @@
 				zhid:'',
 				dingdan:'',
 				shopId:'',
-				y:''
+				y:'',
+				shanchu:false
 			}
 		},
 		onLoad: function(option) {
@@ -88,6 +97,7 @@
 				this.address = ob.address
 				this.id = ob.id
 				this.isOk = false
+				this.checked=ob.isDefault
 			}
 			if (option.goodsId) {
 				this.goodsId = option.goodsId
@@ -129,6 +139,7 @@
 			},
 			baocun: function() {
 				var _this = this
+				if(!this.$jiaoyan(this.phone)){
 				this.$https({
 					url: '/api/user/address-add-edit',
 					data: JSON.stringify({
@@ -143,6 +154,9 @@
 					dengl: false,
 					method: 'post',
 					success: function(res) {
+						uni.showToast({
+							title:res.data.message
+						})
 						if (_this.goodsId) {
 							uni.navigateTo({
 								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr+'&zhid='+_this.zhid+'&money='+_this.moneys+'&id='+_this.youhuiid+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.y)
@@ -154,12 +168,17 @@
 						}
 					}
 				})
+				}else{
+					uni.showToast({
+						title:'请输入正确的手机号',
+						icon:'none'
+					})
+				}
 			},
 			xuanzhong: function(e) {
 				this.checked = e.detail.value
 			},
 			del() {
-				console.log(2222)
 				var _this = this
 				if (!this.isOk) {
 					_this.$https({
@@ -181,6 +200,12 @@
 
 				}
 
+			},
+			xianshi:function(){
+				this.shanchu=true
+			},
+			quxiao:function(){
+				this.shanchu=false
 			}
 
 		}
@@ -240,7 +265,8 @@
 		padding: 20upx;
 		padding-bottom: 10upx;
 		border-bottom: 1upx solid #f7f7f7;
-
+		font-size:28rpx;
+		color:#666;
 		.left_a {
 			float: left;
 

@@ -57,7 +57,7 @@
 				statusBarHeight: this.statusBarHeight,
 				//账户信息
 				account: {},
-				isLog:false,
+				isLog:true,
 				yanZ:50,
 				isYan:false,
 				yanText:'发送验证码'
@@ -165,6 +165,7 @@
 								dengl: true,
 								method: 'post',
 								success: function(res) {
+									if(res.data.data){
 									uni.showToast({
 										title: res.data.message
 									})
@@ -173,6 +174,11 @@
 											url: 'enter'
 										})
 									}, 1500)
+									}else{
+										uni.showToast({
+											title:res.data.message
+										})
+									}
 								}
 							})
 						}
@@ -195,8 +201,6 @@
 				// // this.isLog=1
 				// }
 				this.isLog=e.detail.value[0]
-				console.log(this.isLog)
-
 			}
 		}
 

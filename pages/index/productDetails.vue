@@ -1,7 +1,7 @@
 <template>
 	<scroll-view scroll-y="true" style="height: 90%;" scroll-into-view="toJump">
 		<!-- 产品图，这是轮播 -->
-		<view class="bg_img">
+		<view class="bg_img toubu">
 			<image :src="list.goodsLogo" mode=""></image>
 		</view>
 
@@ -25,10 +25,10 @@
 				</view>
 			</view>
 			<view class="">
-				<view class="imgBoxs" style="padding-left: 18rpx;" @tap="tiaoCart">
+				<view class="imgBoxs" style="padding-left: 18rpx;margin-top:-10rpx;" @tap="tiaoCart">
 					<image src="../../static/icon_43.png" mode=""></image>
 				</view>
-				<view class="imgBox" style="padding-right: 18rpx;">
+				<view class="imgBox" style="padding-right: 18rpx;margin-top:-10rpx;">
 					<image src="../../static/icon_49.png" mode="" @tap='shangpinxin'></image>
 				</view>
 			</view>
@@ -40,6 +40,7 @@
 			</view>
 			<view class="">
 				<view class="imgBoxs" style="background: rgba(0, 0, 0, 0.5) !important;" @tap="tiaoCart">
+					<image src='../../static/icon_48.png'></image>
 				</view>
 				<view class="imgBox" style="background: rgba(0, 0, 0, 0.5) !important;">
 					<image src="../../static/icon_47.png" mode="" @tap='shangpinxin'></image>
@@ -95,7 +96,7 @@
 				<text>优惠</text>
 			</view>
 			<view class="xiangqBox" @tap='huodongxian'>
-				<view class="oneBox" v-for="(i,n) in list.couponDTOS">
+				<view class="oneBox" v-for="(i,n) in youhuiqu">
 					<view class="preferential">
 						<text>满{{i.condition}}-{{i.money}}元</text>
 					</view>
@@ -154,18 +155,20 @@
 			<view class="mask" v-if="isAdd" @tap="add">
 			</view>
 			<view class="butt" v-if="isAdd">
-				<view style='position:absolute;top:30rpx;right:20rpx;' @tap='add'>X</view>
+				<view style='position:absolute;top:30rpx;right:50rpx;' @tap='add'>
+					<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
+				</view>
 				<view class="mTop">
 					<image class="cover" :src="list.goodsLogo" mode=""></image>
 					<view class="mRight">
 						<view class="price">¥ {{Price}}</view>
-						<view class="mItem">已选：{{gui}}</view>
+						<view class="mItem">已选：{{gui?gui:'暂未选择商品'}}</view>
 					</view>
 
 				</view>
 				<view class="mButton">
-					<view style='margin-top:20rpx;' v-for='(item,index) in canshu'>
-						<view style='color:#999;'>{{item.n}}</view>
+					<view style='margin-top:20rpx;border-bottom:1px solid #eee;padding-bottom:20rpx;' v-for='(item,index) in canshu'>
+						<view style='color:#999;font-size:24rpx;'>{{item.n}}</view>
 						<view style='margin-top:20rpx;'>
 							<view v-for='(items,indexs) in item.sa' :style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"'
 							 @tap='xuanzhong(index,indexs)'>{{items.item}}</view>
@@ -185,7 +188,7 @@
 						</view>
 					</view>
 					<view style='overflow:hidden;position:fixed;bottom:20rpx;left:5;width:90%;'>
-						<button style='width:50%;float:left;' @tap='gouwuche'>加入购物车</button>
+						<button style='width:40%;float:left;' @tap='gouwuche'>加入购物车</button>
 						<button class="btn" @tap='goumaia'>立即购买</button>
 					</view>
 				</view>
@@ -203,7 +206,7 @@
 					</view>
 				</view>
 				<view class="left_b" @tap="togPing(list.goodsId)">
-					<text>98%满意</text>
+					<text>100%满意</text>
 				</view>
 
 			</view>
@@ -260,12 +263,17 @@
 		<!--活动列表-->
 		<view v-if='huodong' style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;'
 		 @tap='yincang'>
-			<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:5% 5% 0 0;overflow-y:auto;'>
-				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:20rpx;top:30rpx;'>X</view>
+			<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:10rpx 10rpx 0 0;overflow-y:auto;'>
+				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:50rpx;top:30rpx;'>
+				<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
+				</view>
 				</view>
 				<view v-for='item in list.couponDTOS' style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
+					<view style='overflow:hidden;'>
 					<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
 					<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
+					</view>
+					<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}</view>
 				</view>
 			</view>
 		</view>
@@ -333,7 +341,9 @@
 				ind:1,
 				isShow:false,
 				toJump:'',
-				yao:''
+				yao:'',
+				xuanzh:false,
+				youhuiqu:[]
 			}
 		},
 		components: {
@@ -374,12 +384,13 @@
 					var numa = 0
 					for (var i in res.data.data.spec_price) {
 						if (numa == 0) {
-							_this.gui = res.data.data.spec_price[i].keyName
+							// _this.gui = res.data.data.spec_price[i].keyName
 						}
 						numa++
 					}
 					// 优惠券
 					_this.youhui = res.data.data.couponDTOS
+					_this.youhuiqu=[res.data.data.detail.couponDTOS[0]]
 					var arr = []
 					for (var k in _this.canshu) {
 						arr.push({
@@ -388,6 +399,13 @@
 						})
 					}
 					_this.shuList = arr
+					//添加商品浏览记录
+					//判断是否登录
+					if(uni.getStorageSync('Authorization')){
+					_this.$https({url:'/api/oauth/shop/goods-brows-history-add',data:{goodsId:option.id},method:'post',success:function(res){
+						}
+					})
+					}
 				}
 			})
 
@@ -467,6 +485,7 @@
 							this.Price = n.price * this.num
 							this.indexx = index
 							this.gui = n.keyName
+							this.xuanzh=true
 						}
 					})
 				}
@@ -524,6 +543,7 @@
 				})
 			},
 			gouwuche: function() {
+				if(this.xuanzh){
 				this.$https({
 					url: '/api/shop/order-add-cart',
 					data: JSON.stringify({
@@ -542,6 +562,12 @@
 						})
 					}
 				})
+				}else{
+					uni.showToast({
+						title:'请选择规格型号',
+						icon:'none'
+					})
+				}
 			},
 			qiehuan: function(ind) {
 				this.indexx = ind
@@ -549,6 +575,7 @@
 				this.Price = this.guige[ind].price
 			},
 			goumaia: function() {
+				if(this.xuanzh){
 				uni.navigateTo({
 					url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
 						cartAttr: [{
@@ -566,6 +593,12 @@
 						}]
 					}) + '&dingdan=2&goumai=1'
 				})
+				}else{
+					uni.showToast({
+						title:'请选择规格型号',
+						icon:'none'
+					})
+				}
 			},
 			tiaoCart() {
 				uni.switchTab({
@@ -579,7 +612,7 @@
 						data: {},
 						success: function(res) {
 							uni.setClipboardData({
-								data: '我在毅木重卡发现一个好东西，分享给你' + res.data.data.payPoints+','+_this.deId,
+								data: '我在毅木重卡发现一个好东西，分享给你' + res.data.data.myCode+','+_this.deId,
 								success: function() {
 									uni.showToast({
 										title: '复制成功，快去分享给好友吧',
@@ -606,7 +639,7 @@
 		height: 100vh;
 		background-color: rgba(0, 0, 0, 0.6);
 		position: fixed;
-		z-index: 10;
+		z-index: 9999999;
 		top: 0;
 		left: 0;
 	}
@@ -624,7 +657,7 @@
 		z-index: 20;
 		border-top-left-radius: 5%;
 		border-top-right-radius: 5%;
-		z-index: 99999;
+		z-index: 99999999;
 
 		.mTop {
 			display: flex;
@@ -719,6 +752,8 @@
 		.btn {
 			background-color: #2b5cff;
 			color: #fefefe;
+			width:40%;
+			float:right;
 		}
 	}
 
@@ -797,6 +832,7 @@
 			border-radius: 30upx;
 			width: 60upx;
 			height: 60upx;
+			margin-left:20rpx;
 			// background: rgba(0, 0, 0, 0.5) !important;
 
 			image {
@@ -860,7 +896,7 @@
 			float: left;
 			margin-right: 20upx;
 			background-color: #fde9e9;
-			padding: 5upx 20upx;
+			padding: 0 20upx;
 			border-radius: 10upx;
 
 			text {
@@ -894,7 +930,7 @@
 				color: #999;
 				position: absolute;
 				left: 25rpx;
-				bottom: 10rpx;
+				bottom: 19rpx;
 			}
 		}
 
@@ -906,7 +942,7 @@
 
 			text {
 				display: block;
-				font-size: 34upx;
+				font-size: 24upx;
 				color: #333;
 				line-height: 40upx;
 			}
@@ -920,7 +956,7 @@
 		padding: 20upx;
 		display: flex;
 		justify-content: space-between;
-
+		line-height:60rpx;
 		// position: absolute;
 		// top: 850upx;
 		.in_left {
@@ -980,7 +1016,7 @@
 		.huid {
 			float: left;
 			padding-right: 20upx;
-
+			margin-top:5rpx;
 			text {
 				color: #666;
 				font-size: 26upx;
@@ -997,10 +1033,10 @@
 
 				.preferential {
 					float: left;
-					margin-top: 10upx;
+					margin-top: 20upx;
 					margin-right: 20upx;
 					background-color: #fde9e9;
-					padding: 3upx 10upx;
+					padding: 0 10upx;
 					border-radius: 10upx;
 
 					text {

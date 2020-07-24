@@ -1,13 +1,17 @@
 <template>
 	<view>
-		<view class="top">
+		<view class="top toubu">
+			<view style='float:left;margin-left:20rpx;width:calc(20% - 20rpx);margin-top:20rpx;' @tap='back'>
+				<image src='../../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+			</view>
+			<view style='float:left;padding:20rpx 0;width:60%;text-align:center;'>新增地址</view>
 			<view class="imgBox" @tap='tianjia'>
 				<text>添加</text>
 			</view>
 		</view>
 		<radio-group @change='checkboxChange'>
 			<view class="siteBox" v-for='item in list'>
-				<view class="radios">
+				<view class="radios" v-if='xianshi'>
 					<radio :value='item.id' />
 				</view>
 				<view class="content">
@@ -133,6 +137,11 @@
 				uni.navigateTo({
 					url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+JSON.stringify(this.rds)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.y)
 				})
+			},
+			back:function(){
+				uni.navigateBack({
+					delta:1
+				})
 			}
 		}
 	}
@@ -162,11 +171,13 @@
 
 		.imgBox {
 			float: right;
-			padding: 20upx;
-
+			padding: 20upx 0;
+			width:20%;
+			text-align:right;
 			text {
 				font-size: 26upx;
 				color: #333;
+				margin-right:20rpx;
 			}
 		}
 	}

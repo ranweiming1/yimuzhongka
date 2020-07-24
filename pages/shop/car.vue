@@ -4,7 +4,7 @@
 		 placeholder='请输入关键字搜索...'>
 		<image src='../../static/sousuo.png' style='width:36rpx;height:36rpx;position:relative;margin-top:-50rpx;margin-left:91rpx;position:absolute;'></image>
 		<scroll-view :scroll-into-view='xuan' scroll-with-animation='true' scroll-y='true' style='top:100rpx;position:fixed;height:90%;'>
-			<view v-for='(item,index) in list' :id='item.name'>
+			<view v-for='(item,index) in list' :id='item.name' v-if='item.list.length>0'>
 				<view :style='index==0?"margin-top:30rpx;background:#eee;padding:0 44rpx;line-height:60rpx;":"background:#eee;padding:0 44rpx;line-height:60rpx;"'>{{item.name}}</view>
 				<view v-for='(items,indexs) in item.list' :style='indexs==item.list.length-1?"overflow:hidden;line-height:90rpx;margin:0 20rpx;":"overflow:hidden;line-height:90rpx;margin:0 20rpx;border-bottom:1px dashed #efefef;"'
 				 @tap='qiehuan(items.carId,items.carName)'>
@@ -13,8 +13,8 @@
 				</view>
 			</view>
 		</scroll-view>
-		<scroll-view scroll-y='true' style='position:fixed;top:5%;right:50rpx;width:50rpx;height:90%;text-align:center;border:1px solid #bfbfbf;border-radius:50rpx;background:#fff;'>
-			<view v-for='(item,index) in list' :style='xuanzhong==index?"color:#597cff;margin-top:10rpx;margin-bottom:10rpx;":"color:#555;margin-top:10rpx;margin-bottom:10rpx;"'
+		<scroll-view scroll-y='true' style='position:fixed;top:10%;right:20rpx;width:50rpx;height:79%;text-align:center;border:1px solid #bfbfbf;border-radius:50rpx;background:#fff;'>
+			<view v-for='(item,index) in list' :style='xuanzhong==index?"color:#597cff;margin-top:10rpx;margin-bottom:10rpx;":"color:#555;margin-top:10rpx;margin-bottom:10rpx;font-size:24rpx;"'
 			 @tap='gundong(item.name,index)'>{{item.name}}</view>
 		</scroll-view>
 		<view class='zhezhao' v-if='zhezhao'>

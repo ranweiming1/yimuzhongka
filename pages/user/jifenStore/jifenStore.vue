@@ -82,7 +82,6 @@
 					success: function(res) {
 						_this.jifList = res.data.data.list
 						_this.id = res.data.data.list[0].cateId
-						console.log(res.data.data.list)
 					}
 				}),
 				this.$https({
@@ -92,7 +91,6 @@
 					success: function(res) {
 						_this.user = res.data.data
 						_this.phone=res.data.data.phone
-						console.log(res.data.data)
 					}
 				})
 		},

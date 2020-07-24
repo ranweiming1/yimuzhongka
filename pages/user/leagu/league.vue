@@ -76,7 +76,7 @@
 		</view>
 
 		<view class="uni-padding-wrap uni-common-mt botts" style='background:#fff;width:100%;left:0;bottom:0;overflow:hidden;'>
-			<button type="primary" @tap='shangchuan' style='margin-bottom:20rpx;width:710rpx;'>提交</button>
+			<button type="primary" @tap='shangchuan' style='margin-bottom:20rpx;width:710rpx;'>{{t?'提交':'修改'}}</button>
 		</view>
 	</view>
 </template>
@@ -102,8 +102,32 @@
 				sex: '',
 				storeLogo: '../../../static/img_10.jpg.png',
 				storeName: '',
-				legalPhone: ''
+				legalPhone: '',
+				t:true
 			}
+		},
+		onLoad:function(){
+			var _this=this
+			this.$https({url:'/api/shop/appr-info',data:{},success:function(res){
+				if(res.data.data.id){
+					_this.accountName=res.data.data.accountName
+					_this.area=res.data.data.area
+					_this.email=res.data.data.email
+					_this.legalCardId=res.data.data.legalCardId
+					_this.inde=res.data.data.sex
+					_this.storeName=res.data.data.storeName
+					_this.legalName=res.data.data.legalName
+					_this.legalPhone=res.data.data.legalPhone
+					_this.principal=res.data.data.principal
+					_this.princPhone=res.data.data.princPhone
+					_this.storeLogo=res.data.data.storeLogo
+					_this.license=res.data.data.license
+					_this.cardImg1=res.data.data.cardImg1
+					_this.cardImg2=res.data.data.cardImg2
+					_this.holdImg=res.data.data.holdImg
+					_this.t=false
+				}
+			}})
 		},
 		methods: {
 			dianpu: function() {

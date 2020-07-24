@@ -39,7 +39,7 @@
 					<text>{{item.couponDTO.name}}</text>
 				</view>
 				<view class="span">
-					<text>使用时间：{{item.couponDTO.useStartTime}}-{{item.couponDTO.useEndTime}}</text>
+					<text>使用时间：{{item.couponDTO.useStartTime.split(' ')[0]}}-{{item.couponDTO.useEndTime.split(' ')[0]}}</text>
 				</view>
 			</view>
 			
@@ -110,6 +110,7 @@
 			//获取优惠券
 			youhui:function(){
 				var _this=this
+				this.youhuiquan=[]
 				this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
 					_this.youhuiquan=res.data.data?res.data.data:[]
 				}})
@@ -143,7 +144,7 @@
 					}})
 				}
 			}})
-			if(options){
+			if(options.goodsId){
 				this.goodsId=options.goodsId
 				this.cartAttr=options.cartAttr
 				this.zhid=options.zhid
@@ -197,6 +198,7 @@
 		border-radius: 10upx;
 		background-color: #fff;
 		padding-bottom:20rpx;
+		padding-right:20rpx;
 		>view{
 			overflow:hidden;
 			box-shadow:0 0 5px #ccc;
@@ -207,7 +209,7 @@
 			padding-right: 20upx;
 			image{
 				width:200upx ;
-				height: 205upx;
+				height: 210upx;
 				display: block;
 			}
 			.sum{

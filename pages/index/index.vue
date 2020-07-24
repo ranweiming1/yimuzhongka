@@ -13,9 +13,9 @@
 		</view>
 		<!-- 这是轮播图 -->
 		<view class="banner">
-			<swiper class="swiper" style="height: 262rpx;" :autoplay="autoplay" :interval="interval" :duration="duration">
-				<swiper-item v-for="(item, index) in banList">
-					<image :src="item.img" mode=""></image>
+			<swiper class="swiper" style="height: 262rpx;border-radius:20rpx;" :autoplay="autoplay" :interval="interval" :duration="duration">
+				<swiper-item v-for="(item, index) in banList" style='border-radius:20rpx;'>
+					<image :src="item.img" mode="" style='border-radius:20rpx;'></image>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -27,7 +27,7 @@
 			</view> -->
 		<!-- </view> -->
 		<swiper style="height: 440rpx;width:90%;margin-left:5%;text-align:center;" :interval="interval" :duration="duration"
-		 @change='qiehuan'>
+		 @change='qiehuan' :disable-programmatic-animation='true'>
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key='item.id'>
 				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(index,indexs)">
 					<image :src="items.imgUrl" style='margin:0 auto;'></image>
@@ -35,8 +35,8 @@
 				</view>
 			</swiper-item>
 		</swiper>
-		<view style='text-align:center;border-bottom:1px solid #efefef;padding-bottom:20rpx;'>
-			<view v-for='(item,index) in list' :style='int==index?"width:30rpx;height:10rpx;background:#dd524d;display:inline-block;margin-left:20rpx;":"width:30rpx;height:10rpx;background:#ddd;display:inline-block;margin-left:20rpx;"'></view>
+		<view style='text-align:center;border-bottom:10px solid #efefef;padding-bottom:20rpx;'>
+			<view v-for='(item,index) in list' :style='int==index?"width:30rpx;height:10rpx;background:#2d5eff;display:inline-block;margin-left:20rpx;border-radius:6rpx;":"width:30rpx;height:10rpx;background:#ddd;display:inline-block;margin-left:20rpx;border-radius:6rpx;"'></view>
 		</view>
 		<!-- 这也是轮播--优惠券 -->
 		<!-- <view class="lunb">
@@ -66,7 +66,7 @@
 							<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
 						</view>
 						<view class="txt_aas">
-							<text>税后价：<text>{{item.shopPrice?'￥'+item.shopPrice+'.00':'暂无价格'}}</text></text>
+							<text>税后价：<text><text style='font-size:22rpx;'>￥</text>{{item.shopPrice?item.shopPrice+'.00':'暂无价格'}}</text></text>
 							<text>销量：{{item.salesSum}}</text>
 						</view>
 
@@ -174,6 +174,7 @@
 			this.$https({
 				url: '/api/oauth/shop/coupon-couple-List',
 				data: {},
+				dengl:true,
 				success: function(res) {
 					_this.youhuiquan = res.data.data
 				}
@@ -192,14 +193,14 @@
 			} else {
 				this.youhuiquanle = true
 			}
-			this.$https({
-				url: '/api/user/my-info',
-				data: {},
-				success: function(resa) {
-					//获取粘贴板内容
+			// this.$https({
+			// 	url: '/api/user/my-info',
+			// 	data: {},
+			// 	success: function(resa) {
+			// 		//获取粘贴板内容
 					uni.getClipboardData({
 						success: function(res) {
-							if (resa.data.data.payPoints != res.data.split('分享给你')[1]) {
+			// 				if (resa.data.data.payPoints != res.data.split('分享给你')[1].split(',')[0]) {
 								if (res.data.indexOf('我在毅木重卡发现一个好东西，分享给你') >= 0) {
 									uni.setClipboardData({
 										data: '',
@@ -210,11 +211,11 @@
 									_this.shangpinxiangqing=true
 									_this.xinxi=res.data
 								}
-							}
+			// 				}
 						}
 					})
-				}
-			})
+			// 	}
+			// })
 		},
 		methods: {
 			detail(id) {
@@ -344,7 +345,7 @@
 		.right {
 			float: right;
 			margin-right: 20upx;
-
+			margin-top:10rpx;
 			image {
 				margin: 20upx;
 				width: 36upx;
@@ -360,7 +361,8 @@
 		box-shadow: 0 0 5px 3px #ccc;
 		border-radius: 20upx;
 		margin-bottom: 20rpx;
-
+		overflow:hidden;
+		margin-top:10rpx;
 		image {
 			width: 100%;
 			height: 262upx;
@@ -448,7 +450,7 @@
 				border-bottom: 1px dotted #ccc;
 				padding-bottom: 20upx;
 				overflow: hidden;
-
+				position:relative;
 				.imgBox {
 					image {
 						width: 30%;
@@ -493,7 +495,10 @@
 
 					.txt_aas {
 						padding-top: 10upx;
-
+						position:absolute;
+						left:33%;
+						bottom:20rpx;
+						width:60%;
 						text {
 							color: #333;
 							font-size: 32upx;

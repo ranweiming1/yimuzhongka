@@ -150,10 +150,10 @@
 		<view class="bottom">
 			<view class="leftA">
 				<view class="kefua">
-					<image src="../../../static/icon_36.png" mode=""></image>
+					<!-- <image src="../../../static/icon_36.png" mode=""></image>
 					<view class="keyboard">
 						<text>客服</text>
-					</view>
+					</view> -->
 
 				</view>
 

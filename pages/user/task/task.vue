@@ -17,7 +17,7 @@
 		<!-- 用户名 -->
 		<view class="userBox">
 			<view class="img_a">
-				<image :src="userList.heading" mode=""></image>
+				<image :src="userList.headimg" mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum">
@@ -38,7 +38,7 @@
 					<text>累计签到{{date?date:'0'}}天</text>
 				</view>
 				<view class="rig">
-					<text>{{userList.payPoints}} <text>积分数</text> </text>
+					<text style='float:left;'>{{userList.payPoints}} <text>积分数</text> </text>
 					<view class="img_o">
 						<image src="../../../static/icon_23.png" mode=""></image>
 					</view>
@@ -434,14 +434,13 @@
 				text-align: center;
 
 				text {
-					width: 100upx;
-					font-size: 58upx;
-					float: left;
+					width: 200upx;
+					font-size: 40upx;
 					color: #fff;
-
+					display:block;
 					text {
 						font-size: 20upx;
-						float: left;
+						display:block;
 					}
 				}
 

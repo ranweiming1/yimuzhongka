@@ -50,11 +50,10 @@
 			}
 		},
 		onLoad(option) {
-			console.log(option.id)
 			var _this=this
 			this.$https({
 				url:'/api/oauth/shop/mall-goods-detail',
-				data:{},
+				data:{goods_id:option.id},
 				dengl:true,
 				success:function(res){
 					console.log(res.data.data)

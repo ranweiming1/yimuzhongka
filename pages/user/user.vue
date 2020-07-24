@@ -18,20 +18,23 @@
 		</view>
  -->
 		<!-- 用户名 -->
-		<view class="userBox" @tap='xiugaigerenxinxi'>
-			<view class="img_a">
+		<view class="userBox">
+			<view class="img_a" @tap='xiugaigerenxinxi'>
 				<image :src="headimg" mode=""></image>
 			</view>
 			<view class="text_a">
-				<view class="yonghum">
-					<text>{{nickname?nickname:'暂无用户名'}}</text>
+				<view class="yonghum" @tap='xiugaigerenxinxi'>
+					<text>{{userName?userName:'暂无用户名'}}</text>
 				</view>
-				<view class="phone">
-					<text>{{phone}}</text>
+				<view class="phone" @tap='fuzhi' style='font-size:24rpx;'>
+					<text>{{myCode}}    <text style='background:#DD524D;color:#fff;margin-left:10rpx;'>复制邀请码</text></text>
 				</view>
 			</view>
-			<view class="imgRight">
+			<view class="imgRight" @tap='xiugaigerenxinxi'>
 				<image src="../../static/icon_23.png" mode=""></image>
+			</view>
+			<view style='float:left;color:#fff;margin-top:30rpx;margin-left:20rpx;' @tap='tiaozhuan'>
+				<view>去做任务</view>
 			</view>
 		</view>
 
@@ -204,6 +207,22 @@
 				</view>
 			</view>
 		</view>
+		<view style='margin-top:900rpx;margin-left:20rpx;'>
+			<view style='float:left;'>招商电话</view>
+			<view style='float:left;margin-left:20rpx;'>
+				<view v-for='item in pingtaidianhua' @tap='bodadianhua(item.phone)'>{{item.phone}}</view>
+			</view>
+		</view>
+		<view style='position:fixed;bottom:81rpx;left:0;width:100%;background:#f0ad4e;margin:20rpx;height:50rpx;line-height:50rpx;color:#fff;'>
+			<swiper :circular='true' :interval='3000' :duration='6000' :autoplay='true' :indicator-dots='false'>
+				<swiper-item></swiper-item>
+				<swiper-item>滑动文字滑动文字滑动文字滑动文字滑动文字</swiper-item>
+				<swiper-item>滑动滑动滑动滑动滑动滑动滑动滑动滑动滑动</swiper-item>
+				<swiper-item></swiper-item>
+			</swiper>
+		</view>
+		<view style='width:20rpx;position:fixed;bottom:81rpx;right:0;background:#fff;height:50rpx;margin-bottom:20rpx;'></view>
+		<view style='height:300rpx;'></view>
 	</view>
 </template>
 
@@ -213,7 +232,7 @@
 		data() {
 			return {
 				currentPage: 'user',
-				nickname: '',
+				userName: '',
 				phone: '',
 				//佣金
 				userMoney: 0,
@@ -223,8 +242,9 @@
 				couponCount: 0,
 				//收藏
 				collectCount: 0,
-				headimg:''
-				
+				headimg:'../../static/img_06.jpg',
+				myCode:'',
+				pingtaidianhua:''
 			}
 		},
 		components: {
@@ -237,11 +257,12 @@
 				data: {},
 				denglu: false,
 				success: function(res) {
-					_this.nickname = res.data.data.nickname
+					_this.userName = res.data.data.userName
 					_this.headimg=res.data.data.headimg
 					// console.log(res.data.data)
 					_this.phone = res.data.data.phone
 					// console.log(res.data.data)
+					_this.myCode=res.data.data.myCode
 				}
 			})
 			//
@@ -257,6 +278,9 @@
 					// console.log(res.data.data)
 				}
 			})
+			this.$https({url:'/api/user/my-platform-phone-list',success:function(res){
+				_this.pingtaidianhua=res.data.data
+			}})
 		},
 		methods: {
 			xiugaigerenxinxi: function() {
@@ -341,6 +365,28 @@
 				uni.navigateTo({
 					url:'task/aiChe'
 				})
+			},
+			//复制邀请码
+			fuzhi:function(){
+				uni.setClipboardData({
+					data:this.myCode,
+					success:function(){
+						uni.showToast({
+							title:'复制成功,快去邀请好友吧',
+							icon:'none'
+						})
+					}
+				})
+			},
+			tiaozhuan:function(){
+				uni.navigateTo({
+					url:'task/task'
+				})
+			},
+			bodadianhua:function(ph){
+				uni.makePhoneCall({
+					phoneNumber:ph
+				})
 			}
 		}
 	}
@@ -389,7 +435,7 @@
 		top: 30upx;
 		left: 25upx;
 		overflow: hidden;
-
+		width:700rpx;
 		.img_a {
 			float: left;
 

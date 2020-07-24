@@ -1,7 +1,10 @@
 <template>
 	<view>
 		<!-- <view class="line" style="height: 50rpx;"></view> -->
-		<view class="top toubu">
+		<view class="top" style='position:fixed;width:100%;left:0;top:60rpx;z-index:99999;background:#fff;'>
+			<view class='back' @tap='back' style='float:left;margin-top:30rpx;margin-left:20rpx;'>
+				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image>
+			</view>
 			<view class="textBox">
 				<text>全部分类</text>
 			</view>
@@ -11,7 +14,7 @@
 		</view>
 
 		<!-- 切换分类 -->
-		<view class="Box">
+		<view class="Box dne">
 			<!-- 一级 -->
 			<scroll-view class="left" scroll-y :style="'height:'+height+'px'">
 				<!-- 选中样式 -->
@@ -84,6 +87,11 @@
 			search:function(){
 				uni.navigateTo({
 					url:'../search/search'
+				})
+			},
+			back:function(){
+				uni.navigateBack({
+					delta:1
 				})
 			}
 		}

@@ -1,11 +1,14 @@
 <template>
 	<view>
-		<view class="top toubu">
+		<view class="top" style='position:fixed;top:60rpx;left:0;width:100%;background:#fff;'>
+			<view style='float:left;margin-top:20rpx;margin-left:20rpx;' @tap='back'>
+				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+			</view>
 			<view class="textBox">
 				<text>资讯详情</text>
 			</view>
 			<view class="imgBox">
-				<image src="../../../static/icon_18.png" mode=""></image>
+				<!-- <image src="../../../static/icon_18.png" mode=""></image> -->
 			</view>
 		</view>
 		
@@ -92,7 +95,8 @@
 				pinglun: false,
 				pinglunneirong: '',
 				newsid: '',
-				image:''
+				image:'',
+				shifoupingjia:true
 			}
 		},
 		onLoad: function(option) {
@@ -107,10 +111,11 @@
 				success: function(res) {
 					_this.title = res.data.data.article.title
 					_this.create_time = res.data.data.article.create_time
-					_this.description = res.data.data.article.description
+					_this.description = res.data.data.article.hits
 					_this.content = res.data.data.article.content
 					_this.image = res.data.data.article.image
 					_this.pingjia = res.data.data.commList
+					_this.shifoupingjia=res.data.data.article.allowComment=='Y'?true:res.data.data.allowComment=='N'?false:false
 				}
 			})
 		},
@@ -135,12 +140,20 @@
 								title: res.data.message
 							})
 							_this.pinglun = false
+							_this.$https({url:'/api/news/article-detail',data:{id:_this.newsid},success:function(res){
+								_this.pingjia=res.data.data.commList
+							}})
 						}
 					}
 				})
 			},
 			quxiaopinglun: function() {
 				this.pinglun = false
+			},
+			back:function(){
+				uni.navigateBack({
+					delta:1
+				})
 			}
 		}
 	}
@@ -156,7 +169,7 @@
 
 		.textBox {
 			padding-left: 40%;
-
+			float:left;
 			text {
 				font-size: 28upx;
 				color: #333;
@@ -178,9 +191,9 @@
 
 	.neir {
 		overflow: hidden;
-
+		margin-top:200rpx;
 		.title {
-			font-size: 36upx;
+			font-size: 39upx;
 			line-height: 40upx;
 			padding-top: 20upx;
 			padding-bottom: 20upx;

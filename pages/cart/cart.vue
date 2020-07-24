@@ -1,19 +1,19 @@
 <template>
 	<view class="bcg">
-		<view class="top toubu">
+		<view class="top" style='position:fixed;left:0;top:60rpx;width:100%;'>
 			<view class="textBox">
-				<text>购物车(02)</text>
+				<text>购物车({{numa}})</text>
 			</view>
 			<!-- 无消息通知状态 -->
 			<view class="imgBox">
 				<!-- <image src="../../static/icon_36.png" mode=""></image> -->
 			</view>
-			<view class="spanBox">
+			<view class="spanBox" @tap='shanchu'>
 				<text>编辑</text>
 			</view>
 		</view>
 
-		<view class="listBox">
+		<view class="listBox" style='margin-top:160rpx;'>
 
 			<!-- 购物车 -->
 
@@ -30,19 +30,19 @@
 					</view>
 					<view class="xinxi">
 						<!-- 订单信息 -->
-						<view class="xinxi1" v-for="(i,n) in item.specList">
+						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0'>
 							<view class="radi">
 								<checkbox :value='i.id' :checked='shuju[index].s[n]'></checkbox>
 							</view>
 
-							<view class="imgBox_a">
+							<view class="imgBox_a" @tap='openPopup(index,n)'>
 								<image :src="item.goodsLogo" mode=""></image>
 							</view>
 							<view class="txt_c">
-								<view class="title">
+								<view class="title" @tap='openPopup(index,n)'>
 									<text>{{item.goodsName}}</text>
 								</view>
-								<view class="spec">
+								<view class="spec" @tap='openPopup(index,n)'>
 									<text>已选：＂{{i.specKeyName}}＂</text>
 								</view>
 								<!-- <view class=""> -->
@@ -57,11 +57,11 @@
 								<text>X{{i.goodsNum}}</text>
 							</view> -->
 								<view class="num">
-									<view>-</view>
+									<view @tap='jian(index,n)'>-</view>
 									<view class="numm" @tap="valRe1(index,n,i.goodsNum)">
 										{{i.goodsNum}}
 									</view>
-									<view>+</view>
+									<view @tap='jia(index,n)'>+</view>
 								</view>
 							</view>
 							<!-- </view> -->
@@ -83,33 +83,35 @@
 				</view>
 			</view>
 			<!-- 失效宝贝 -->
-			<view class="Boxs" >
+			<view class="Boxs">
 				<view class="biaot">
 					<text>失效宝贝</text>
-					<view class="dele">
+					<view class="dele" @tap='qingkong'>
 						<text>清空</text>
 					</view>
 				</view>
-				<view class="lose" v-for="(item,index) in  cartList">
-					<view class="xinxi">
+				<view class="lose" v-for="(item,index) in  cartList" v-if='s'>
+					<view class="xinxi" v-for='items in item.specList' v-if='items.cartGoodsStatus==1||items.cartGoodsStatus==2'>
 						<view class="imgBox_a">
 							<image :src="item.goodsLogo" mode=""></image>
 						</view>
 						<view class="txt_c">
 							<view class="title">
-								<text>{{item.goodsName}}</text>
+								<text>{{items.goodsName}}</text>
 							</view>
 							<view class="spec">
-								<text>已选：＂黄色＂</text>
+								<text>已选：{{items.specKeyName}}</text>
 							</view>
 							<view class="radColor">
-								<text>已售罄</text>
+								<text>{{items.cartGoodsStatus==1?'已下架':items.cartGoodsStatus==2?'已下架':''}}</text>
 							</view>
 						</view>
 					</view>
 				</view>
-				</view>
-
+			</view>
+			<view class='lose' v-for='item in tuijian'>
+				
+			</view>
 		</view>
 
 		<!-- 底部 -->
@@ -119,11 +121,11 @@
 				 @tap='quanxuan'>√</view>
 				<text style='margin-left:20rpx;'>全选</text>
 			</view>
-			<view class="leftA">
+			<view class="leftA" v-if='shanchua'>
 				<text>合计：<text>￥{{jiage}}</text></text>
 			</view>
 			<view class="rightA" @tap='tiaozhuan'>
-				<text>结 算</text>
+				<text>{{shanchua?'结算':'删除'}}</text>
 			</view>
 		</view>
 
@@ -145,14 +147,16 @@
 				</view>
 
 				<view class="set">
+					<view v-for='(item,index) in guige'>
 					<view class="tit_k">
-						<text>规格</text>
+						<text>{{item.name}}</text>
 					</view>
 					<!-- 默认样式 -->
 					<view class="detail">
-						<view class="xiang" v-for='item in guige' @tap='xuanzeguige(item.keyName)'>
-							<text :class='keyName==item.keyName?"x":""'>{{item.keyName}}</text>
+						<view class="xiang" v-for='(items,a) in item.g' @tap='xuanzeguige(index,a)'>
+							<text :class='items.xuan?"x":""'>{{items.item}}</text>
 						</view>
+					</view>
 					</view>
 				</view>
 
@@ -162,9 +166,9 @@
 					</view>
 					<!-- 这是数量加减 -->
 					<view class="jia">
-						<view>-</view>
+						<view @tap='jiaa'>-</view>
 						<input v-model='num'>
-						<view>+</view>
+						<view @tap='jiaaz'>+</view>
 					</view>
 				</view>
 				<view class="uni-padding-wrap uni-common-mt bott">
@@ -206,7 +210,10 @@
 				mask_show: false,
 				index: 0,
 				n: 0,
-				shuju: []
+				shuju: [],
+				shanchua:true,
+				numa:0,
+				s:false
 			}
 		},
 		onShow() {
@@ -225,7 +232,11 @@
 							s: []
 						})
 						n.specList.map(function(z, indexx) {
+							if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
+								_this.s=true
+							}
 							_this.$set(_this.shuju[index].s, indexx, false)
+							_this.numa++
 						})
 					})
 					// _this.xuanzho.map(function(n, index) {
@@ -235,6 +246,9 @@
 					// })
 				}
 			})
+			this.$https({url:'/api/oauth/shop/mall-index',data:{mobileCode:13706412504},success:function(res){
+				_this.tuijian=res.data.data.recommedGoods
+			}})
 		},
 		components: {
 			tabBar,
@@ -274,6 +288,8 @@
 				//获得商品id
 				var _this = this
 				var goodsId = this.cartList[index].goodsId
+				//商品规格
+				
 				//商品的信息
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-detail',
@@ -288,9 +304,23 @@
 						_this.keyName = _this.cartList[index].specList[indexs].specKeyName
 						_this.key = _this.cartList[index].specList[indexs].id
 						_this.guige = []
-						for (var iz in res.data.data.spec_price) {
-							_this.guige.push(res.data.data.spec_price[iz])
+						for(var i in res.data.data.specs){
+							var obj={}
+							obj.name=i
+							obj.g=res.data.data.specs[i]
+							_this.guige.push(obj)
 						}
+						var asa=_this.keyName.split(',')
+						//判断当前选中的商品
+						_this.guige.map(function(z){
+							z.g.map(function(c){
+								asa.map(function(x){
+									if(x.split(':')[1]==c.item){
+										_this.$set(c,'xuan',true)
+									}
+								})
+							})
+						})
 						_this.goodsId = res.data.data.detail.goodsId
 					}
 				})
@@ -313,9 +343,9 @@
 							data: {},
 							success: function(res) {
 								_this.cartList = res.data.data.cartList
-								_this.xuanzho[index].splice(indexs, 1)
+								_this.shuju[index].splice(indexs, 1)
 								_this.jiage = 0
-								_this.xuanzho.map(function(x, index) {
+								_this.shuju.map(function(x, index) {
 									x.map(function(z, indexs) {
 										if (z) {
 											_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[
@@ -348,8 +378,8 @@
 						success: function(res) {
 							//计算价格
 							_this.jiage = 0
-							_this.xuanzho.map(function(n, index) {
-								n.map(function(z, indexs) {
+							_this.shuju.map(function(n, index) {
+								n.s.map(function(z, indexs) {
 									if (z) {
 										_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[
 											indexs].goodsPrice
@@ -404,8 +434,8 @@
 					haeder: true,
 					success: function() {
 						_this.jiage = 0
-						_this.xuanzho.map(function(n, index) {
-							n.map(function(z, indexs) {
+						_this.shuju.map(function(n, index) {
+							n.s.map(function(z, indexs) {
 								if (z) {
 									_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[indexs]
 										.goodsPrice
@@ -415,16 +445,31 @@
 					}
 				})
 			},
-			xuanzeguige: function(text) {
-				this.keyName = text
+			xuanzeguige: function(index,inde) {
 				var _this = this
 				//更改型号
 				//获得当前第几个
-				this.guige.map(function(n, index) {
-					if (text == n.keyName) {
-						_this.goodsPrice = n.price
+				this.guige.map(function(n,indexz) {
+					if(index==indexz){
+					n.g.map(function(x){
+						_this.$set(x,'xuan',false)
+					})
 					}
 				})
+				this.$set(this.guige[index].g[inde],'xuan',true)
+				this.keyName=''
+				for(var i=0;i<this.guige.length;i++){
+					//数组排序
+					this.guige[i].g.map(function(c){
+						if(c.xuan){
+							if(i==_this.guige.length-1){
+								_this.keyName+=_this.guige[i].name+':'+c.item
+							}else{
+						_this.keyName+=_this.guige[i].name+':'+c.item+','
+						}
+						}
+					})
+				}
 			},
 			ji: function() {
 				if (this.num > 1) {
@@ -437,23 +482,29 @@
 			queding: function() {
 				var key = ''
 				var _this = this
-				this.guige.map(function(n, index) {
+				this.$https({url:'/api/oauth/shop/mall-goods-detail',data:{goods_id:this.goodsId},dengl:true,success:function(res){
+					var arr=[]
+					for(var i in res.data.data.spec_price){
+						arr.push(res.data.data.spec_price[i])
+					}
+				arr.map(function(n, index) {
 					if (_this.keyName == n.keyName) {
 						key = n.key
 					}
 				})
-				this.$https({
+				_this.$https({
 					url: '/api/shop/order-update-spec-info',
 					data: {
-						goodsId: this.goodsId,
-						newPrice: this.goodsPrice,
+						goodsId: _this.goodsId,
+						newPrice: _this.goodsPrice,
 						newSpecKey: key,
-						newSpecValue: this.keyName,
-						cartId: this.key,
-						goodsNum: this.num
+						newSpecValue: _this.keyName,
+						cartId: _this.key,
+						goodsNum: _this.num
 					},
 					method: 'post',
 					success: function(res) {
+						if(res.data.code==0){
 						_this.$refs.popup.close()
 						_this.$https({
 							url: '/api/shop/order-cart-list',
@@ -462,8 +513,15 @@
 								_this.cartList = res.data.data.cartList
 							}
 						})
+						}else{
+							uni.showToast({
+								title:'更新规格失败，请重新选择',
+								icon:'none'
+							})
+						}
 					}
 				})
+				}})
 			},
 			xuanze: function(e) {
 				var arr = []
@@ -639,11 +697,23 @@
 				this.shuju.map((n, index) => {
 					n.s.map((x, indexa) => {
 						if (x) {
-							this.jiage += this.cartList[index].specList[indexa].goodsNum * this.cartList[index].specList[indexa].goodsPrice +
-								this.cartList[index].specList[indexa].kuaidi
+							this.jiage += this.cartList[index].specList[indexa].goodsNum * this.cartList[index].specList[indexa].goodsPrice
 						}
 					})
 				})
+				var quanxuan=true
+				this.shuju.map((n,index)=>{
+					n.s.map(function(x){
+						if(!x){
+							quanxuan=false
+						}
+					})
+				})
+				if(quanxuan){
+					this.xuan=true
+				}else{
+					this.xuan=false
+				}
 			},
 			quanxuan: function() {
 				var _this = this
@@ -693,12 +763,13 @@
 					this.jiage = 0
 					this.cartList.map(function(n) {
 						n.specList.map(function(z) {
-							_this.jiage += z.goodsNum * z.goodsPrice + z.kuaidi
+							_this.jiage += z.goodsNum * z.goodsPrice
 						})
 					})
 				}
 			},
 			tiaozhuan: function() {
+				if(this.shanchua){
 				var ap = []
 				var _this = this
 				if (this.shuju.length == 0) {
@@ -724,6 +795,73 @@
 						}) + '&dingdan=1'
 					})
 				}
+				}else{
+					var _this=this
+					this.shuju.map(function(m,index){
+						m.s.map(function(z,indez){
+							if(z){
+					            _this.$https({url:'/api/shop/order-del-spec-goods',data:{goodsId:_this.cartList[index].goodsId,specKey:_this.cartList[index].specList[indez].specKey},method:'post',success:function(res){
+									_this.$https({url:'/api/shop/order-cart-list',data:{},dengl:false,success:function(res){
+										_this.numa=0
+										_this.s=false
+										_this.cartList.map(function(c){
+											c.specList.map(function(z){
+												if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
+													_this.s=true
+												}
+												_this.numa++
+											})
+										})
+										_this.cartList=res.data.data.cartList
+										_this.shuju[index].s[indez].splice(0,1)
+										_this.shuju.map(function(z,indexx){
+											if(z.s.length==0){
+												_this.shuju[indexx].splice(0,1)
+											}
+										})
+									}})
+								}})
+					        }
+					})
+					})
+				}
+			},
+			qingkong:function(){
+				var _this=this
+				//获得失效宝贝id
+				var arr=[]
+				this.cartList.map(function(z){
+					z.specList.map(function(x){
+						if(x.cartGoodsStatus==1||x.cartGoodsStatus==2){
+				_this.$https({url:'/api/shop/order-del-spec-goods',data:{goodsId:z.goodsId,specKey:x.specKey},method:'post',success:function(res){
+					_this.$https({url:'/api/shop/order-cart-list',data:{},dengl:false,success:function(res){
+						_this.cartList=res.data.data.cartList
+						_this.numa=0
+						_this.s=false
+						res.data.data.cartList.map(function(c){
+							c.specList.map(function(z){
+								if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
+									_this.s=true
+								}
+								_this.numa++
+							})
+						})
+					}})
+				}})
+				}
+				})
+				})
+			},
+			jiaa:function(){
+				if(this.num>1){
+					this.num--
+				}
+			},
+			jiaaz:function(){
+				this.num++
+			},
+			shanchu:function(){
+				this.shanchua=!this.shanchua
 			}
 		}
 	}
@@ -732,6 +870,8 @@
 <style lang="scss">
 	.bcg {
 		background-color: #eeeeee;
+		min-height:100%;
+		position:fixed;
 	}
 
 	.mask {
@@ -986,6 +1126,23 @@
 		.listBoxs:last-child {
 			margin-bottom: 20rpx;
 		}
+		.wx-checkbox-input{
+			border-radius:50%;
+			width:30rpx;
+			height:30rpx;
+		}
+		.wx-checkbox-input.wx-checkbox-input-checked::before{
+			border-radius:50%;
+			width:30px;
+			height:30rpx;
+			line-height:30rpx;
+			text-align:center;
+			font-size:20rpx;
+			color:#fff;
+			background:transparent;
+			transform:translate(-50%,-50%) sale(1);
+			
+		}
 	}
 
 	.biaot {
@@ -1008,6 +1165,7 @@
 
 
 	.lose {
+		border-bottom:1px dashed #eee;
 		.xinxi {
 			width: 750upx;
 			padding: 0upx;
@@ -1068,7 +1226,7 @@
 
 		.radis {
 			float: left;
-			padding-top: 20upx;
+			padding-top: 24upx;
 
 			text {
 				font-size: 28upx;
@@ -1224,7 +1382,9 @@
 			width: 100%;
 			overflow: hidden;
 			padding-top: 30upx;
-
+			overflow-y:auto;
+			height:300rpx;
+			padding-bottom:100rpx;
 			.tit_k {
 				text {
 					color: #999;
@@ -1336,7 +1496,7 @@
 		bottom: 40upx;
 		border-radius: 40upx !important;
 		left: 40upx;
-
+		z-index:99999;
 		button {
 			position: initial;
 			border-radius: 40upx !important;

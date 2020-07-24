@@ -57,7 +57,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<input type="text" value="" placeholder="请输入密码" />
+				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
 				<!-- <text></text> -->
 			</view>
 		</view>
@@ -69,7 +69,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<input type="text" value="" placeholder="请输入密码" />
+				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
 				<!-- <text></text> -->
 			</view>
 		</view>

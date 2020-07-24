@@ -181,7 +181,7 @@
 	$isBg: transparent; //背景
 
 	// 选中设置
-	$chooseTextColor: #000000; //选中时字体颜色
+	$chooseTextColor: #2d5eff; //选中时字体颜色
 	$chooseBgColor: #ffffff; //选中时背景颜色 transparent为透明
 
 	//未选中设置

@@ -84,6 +84,7 @@
 		width: 100%;
 		z-index: 99;
 		height: 75rpx;
+		border-top:2rpx solid #eee;
 	}
 	
 	.index-d view {
@@ -114,7 +115,7 @@
 	/* 重写 checkbox 样式 */
 	/* 未选中的 背景样式 */
 	.checkboxs .wx-checkbox-input {
-		border-radius: 50%;
+		border-radius: 50% ;
 		/* 圆角 */
 		width: 21rpx;
 		/* 背景的宽 */
@@ -123,9 +124,9 @@
 	}
 	
 	/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
-	.checkboxs .wx-checkbox-input.wx-checkbox-input-checked {
-		border: 1rpx solid #ff783b;
-		background: #ff783b;
+	 .wx-checkbox-input.wx-checkbox-input-checked {
+		border: 1rpx solid #2b5cff;
+		background: #2b5cff;
 	}
 	
 	/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
@@ -147,10 +148,13 @@
 		-webkit-transform: translate(-50%, -50%) scale(1);
 	}
 	.toubu{
-		margin-top:60rpx!important;
+		margin-top:70rpx!important;
 	}
 	.toubu1{
-		margin-top:70rpx!important;
+		margin-top:90rpx!important;
+	}
+	.dne{
+		margin-top:160rpx;
 	}
 	button::after {
 		display: none;

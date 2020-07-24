@@ -165,7 +165,8 @@
 		{
 			"path": "pages/user/leagu/siteList/siteList",
 			"style": {
-				"navigationBarTitleText": "新增地址"
+				"navigationBarTitleText": "新增地址",
+				"navigationStyle":"custom"
 			}
 		},
 		{
@@ -191,7 +192,7 @@
 		{
 			"path": "pages/user/distr/distr",
 			"style": {
-
+				"navigationStyle":"custom",
 				"navigationBarTitleText": "毅木重卡"
 			}
 		},
@@ -204,7 +205,7 @@
 		{
 			"path": "pages/user/task/task",
 			"style": {
-				"navigationBarTitleText": "毅木重卡"
+				"navigationStyle":"custom"
 			}
 		},
 		{
@@ -290,7 +291,8 @@
 			"path": "pages/user/user",
 			"style": {
 				"navigationBarTitleText": "个人中心",
-				"navigationBarBackgroundColor":"#156af8"
+				"navigationBarBackgroundColor":"#156af8",
+				"navigationBarTextStyle":"white"
 			}
 		},
 		{

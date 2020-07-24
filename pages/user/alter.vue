@@ -32,7 +32,7 @@
 				<view class="img_a">
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
-				<text @tap='bangding' style='text-align:right;'>{{phone}}</text>
+				<text @tap='bangding' style='text-align:right;font-size:24rpx;line-height:79rpx;'>{{phone}}</text>
 			</view>
 		</view>
 
@@ -44,7 +44,7 @@
 				<view class="img_a">
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
-				<input v-model='userName' @blur='shurukuang' style='text-align:right;line-height:70rpx;'>
+				<input v-model='userName' @blur='shurukuang' style='text-align:right;line-height:79rpx;float:right;font-size:24rpx;height:79rpx;'>
 			</view>
 		</view>
 		<view class='basic'>
@@ -53,7 +53,7 @@
 			</view>
 			<view class='right_a'>
 				<pick-regions :defaultRegion='defaultRegionCode' @getRegion='handleGetRegion'>
-					<view>{{regionName}}</view>
+					<view style='font-size:24rpx;line-height:79rpx;'>{{regionName}}</view>
 				</pick-regions>
 			</view>
 		</view>
@@ -65,7 +65,7 @@
 				<view class="img_a">
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
-				<picker mode='date' :value='date' @change='bindDateC' style='width:220rpx;' class='shou'>{{date}}</picker>
+				<picker mode='date' :value='date' @change='bindDateC' style='width:220rpx;font-size:24rpx;line-height:79rpx;margin-top:0;' class='shou'>{{date}}</picker>
 			</view>
 		</view>
 		<view class="basic">
@@ -76,7 +76,7 @@
 				<view class="img_a">
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
-				<picker :range='arrsex' :value='index' class='shou' @change='sex'>{{arrsex[index]}}</picker>
+				<picker :range='arrsex' :value='index' class='shou' @change='sex' style='line-height:79rpx;margin-top:0;'>{{arrsex[index]}}</picker>
 			</view>
 		</view>
 		<view class=" uni-padding-wrap uni-common-mt quit">
@@ -216,6 +216,11 @@
 				uni.setStorageSync('Authorization', '')
 				uni.showToast({
 					title: '退出登录成功'
+				})
+				setTimeout(function(){
+					uni.navigateTo({
+						url:'../enter/enter'
+					})
 				})
 			},
 			toux: function() {

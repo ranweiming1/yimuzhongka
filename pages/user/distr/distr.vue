@@ -1,11 +1,11 @@
 <template>
 	<view>
 		<!-- 头部 -->
-		<view class="top">
+		<view class="top toubu">
 			<view class="textBox">
 				<text>分销员</text>
 			</view>
-			<view class="imgBox">
+			<view class="imgBox" @tap='wenti'>
 				<image src="../../../static/icon_34.png" mode=""></image>
 			</view>
 		</view>
@@ -53,11 +53,13 @@
 			</view>
 
 			<!-- 提现 -->
-			<view class="cash" @tap="tiX">
-				<text>提现</text>
+			<view class="cash" @tap="t">
+				<text style='display:block;border-radius:50%;'>?</text>
 			</view>
 		</view>
-
+<view style='width:100%;position:fixed;top:0;left:0;height:100%;background:rgba(0,0,0,0.5);z-index:99999;' v-if='gui' @tap='g'>
+	<view style='width:400rpx;height:500rpx;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;background:#fff;text-align:center'>提现规则</view>
+</view>
 		<!-- 历史明细 -->
 		<view class="history">
 			<view class="tit_b">
@@ -126,6 +128,11 @@
 				</view>
 			</view>
 		</view>
+		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;' v-if='wenzi' @tap='went'>
+			<view style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;'>
+				<view>问题</view>
+			</view>
+		</view>
 		<view class="uni-padding-wrap uni-common-mt botts">
 			<button @tap="tiX" type="primary" style="background: #2b5cff;">我要提现</button>
 		</view>
@@ -136,7 +143,8 @@
 	export default {
 		data() {
 			return {
-
+				wenzi:false,
+				gui:false
 			}
 		},
 		methods: {
@@ -144,6 +152,18 @@
 				uni.navigateTo({
 					url:'applyFor'
 				})
+			},
+			wenti:function(){
+				this.wenzi=true
+			},
+			went:function(){
+				this.wenzi=false
+			},
+			t:function(){
+				this.gui=true
+			},
+			g:function(){
+				this.gui=false
 			}
 		}
 	}
@@ -183,7 +203,7 @@
 
 	.distr {
 		position: relative;
-		top: 140upx;
+		top: 190upx;
 		left: 25upx;
 
 		.imgBox_a {
@@ -271,9 +291,9 @@
 		right: 80upx;
 		top: 30upx;
 		text-align: center;
-		width: 80upx;
+		width: 40upx;
 		border: 1px solid #fff;
-
+		border-radius:50%;
 		text {
 			line-height: 40upx;
 			color: #fff;
@@ -285,7 +305,7 @@
 		padding-bottom: 100upx;
 		width: 750upx;
 		position: absolute;
-		top: 410upx;
+		top: 460upx;
 		left: 0;
 
 		.tit_b {

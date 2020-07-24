@@ -2,6 +2,9 @@
 	<view>
 		<!-- 头部 -->
 		<view class="top toubu1">
+			<view class='back' style='float:left;margin-left;' @tap='back'>
+				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+			</view>
 			<view class="textBox">
 				<input class="uni-input" placeholder="请输入关键字" v-model="changeVal" />
 			</view>
@@ -95,6 +98,11 @@
 				this.searchAll=[]
 				// this.searchAll = uni.removeStorageSync('searchAll_key')
 				console.log(this.searchAll)
+			},
+			back:function(){
+				uni.navigateBack({
+					delta:1
+				})
 			}
 		}
 	}

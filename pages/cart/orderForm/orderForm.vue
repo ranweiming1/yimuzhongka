@@ -30,13 +30,13 @@
 				<image src="../../../static/icon_26.png" mode="" style='width:20rpx;height:20rpx;margin-top:20rpx;float:right;'></image>
 			</view>
 		</view>
-{{str}}
+        <view style='width:400rpx;overflow:hidden;'>{{str}}</view>
 		<!-- 订单信息 -->
 		<view class="xinxi">
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
-			<view v-for='(item,index) in cartAttr'>
+			<view v-for='(item,index) in cartAttr' v-if='item.cartAttr'>
 				<view style='padding:10rpx;background:#ddd;margin-top:10rpx;'>{{item.name}}</view>
 				<view v-for='(items,indexs) in item.cartAttr' style='margin-top:10rpx;border:1px solid #eee;overflow:hidden;'>
 					<view class="imgBox_a">
@@ -174,7 +174,6 @@
 				youhui: [],
 				shopId: 0,
 				xinxi: '',
-				str:'',
 				yao:''
 			}
 		},
@@ -233,10 +232,12 @@
 					console.log(JSON.parse(options.cartAttr))
 				}
 				this.cartAttr.map(function(n) {
+					if(n.cartAttr){
 					n.cartAttr.map(function(z) {
 						console.log(z.shopPrice, z.goodsNum)
 						_this.shangpin += z.shopPrice * z.goodsNum
 					})
+					}
 				})
 				this.shopId = options.shopId
 				//判断选的哪个店铺的优惠券
@@ -341,10 +342,10 @@
 								obj.sign = res.data.data.sign
 								uni.requestPayment({
 									provider: 'wxpay',
-									orderInfo: res.data.data,
+									orderInfo: obj,
 									success: function(res) {console.log('支付成功')},
 									fail: function(res) {
-										_this.str=JSON.stringify(res)
+										_this.str=JSON.stringify(res)+JSON.stringify(obj)
 									}
 								})
 							},
