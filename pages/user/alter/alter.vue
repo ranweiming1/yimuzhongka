@@ -5,25 +5,26 @@
 				<text>手机号</text>
 			</view>
 			<view class="right_a">
-				<view class="img_a">
+				<!-- <view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
-				<input type="text" :value="phone" disabled="true" placeholder="请输入密码" />
+				</view> -->
+				<!-- <input type="text" :value="phone" disabled="true" placeholder="请输入密码" /> -->
+				<text style='font-size:30rpx;line-height:70rpx;color:#999;'>{{phone?phone:'手机号'}}</text>
 				<!-- <text></text> -->
 			</view>
 		</view>
-		<view class="basic" v-if="false">
+		<!-- <view class="basic" v-if="false">
 			<view class="left_a">
 				<text>关联账号</text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
-				<input type="text" value="" placeholder="请输入密码" />
+				</view> -->
+				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
 				<!-- <text></text> -->
-			</view>
-		</view>
+			<!-- </view>
+		</view> -->
 		<view class="basic">
 			<view class="left_a">
 				<text>登录手机号修改</text>
@@ -32,7 +33,8 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<input type="number" placeholder="请输入手机号" placeholder-style="line-height:70rpx" />
+				<text style='font-size:30rpx;line-height:70rpx;color:#999;' @tap='gengg'>去修改手机号</text>
+				<!-- <input type="number" placeholder="请输入手机号" placeholder-style="line-height:70rpx" /> -->
 				<!-- <text>15066212365</text> -->
 			</view>
 		</view>
@@ -45,21 +47,22 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<input type="text" value="" placeholder="请输入密码" />
+				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
+				<text style='font-size:30rpx;line-height:70rpx;color:#999;' @tap='gm'>去修改密码</text>
 				<!-- <text></text> -->
 			</view>
 		</view>
-		<view class="basic">
+		<!-- <view class="basic">
 			<view class="left_a">
 				<text>安全中心</text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
+				</view> -->
 				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
 				<!-- <text></text> -->
-			</view>
+			<!-- </view>
 		</view>
 		<view class="basic">
 			<view class="left_a">
@@ -68,12 +71,12 @@
 			<view class="right_a">
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
+				</view> -->
 				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
 				<!-- <text></text> -->
-			</view>
-		</view>
-		<view class=" uni-padding-wrap uni-common-mt quit">
+			<!-- </view>
+		</view> -->
+		<view class=" uni-padding-wrap uni-common-mt quit" @tap='t'>
 			<button type="primary">退出登录</button>
 		</view>
 	</view>
@@ -102,7 +105,27 @@
 			})
 		},
 		methods: {
-
+			t:function(){
+				uni.setStorageSync('Authorization','')
+				uni.showToast({
+					title:'退出成功'
+				})
+				setTimeout(function(){
+					uni.navigateTo({
+						url:'../../enter/enter'
+					})
+				},1000)
+			},
+			gengg:function(){
+				uni.navigateTo({
+					url:'alterCall/alterCall'
+				})
+			},
+			gm:function(){
+				uni.navigateTo({
+					url:'alterPassword/alterPassword'
+				})
+			}
 		}
 	}
 </script>
@@ -141,7 +164,7 @@
 
 			input {
 				height: 70rpx;
-				font-size: 28upx;
+				font-size: 30upx;
 				float: right;
 				color: #999;
 				line-height: 70upx;

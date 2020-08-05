@@ -16,7 +16,10 @@
 		<view class="listBox" style='margin-top:160rpx;'>
 
 			<!-- 购物车 -->
-
+			<view>
+				<image src='../../static/g.png' style='width:320rpx;height:225rpx;display:block;margin:20rpx auto;'></image>
+				<view style='margin:30rpx;text-align:center;'>暂无商品</view>
+			</view>
 			<view class="listBoxs" v-for="(item,index) in  cartList">
 				<checkbox-group @change='gouwuche'>
 					<view class="radios">
@@ -83,8 +86,8 @@
 				</view>
 			</view>
 			<!-- 失效宝贝 -->
-			<view class="Boxs">
-				<view class="biaot">
+			<view class="Boxs" v-if='s'>
+				<view class="biaot" v-if='s'>
 					<text>失效宝贝</text>
 					<view class="dele" @tap='qingkong'>
 						<text>清空</text>
@@ -109,76 +112,96 @@
 					</view>
 				</view>
 			</view>
-			<view class='lose' v-for='item in tuijian'>
-				
-			</view>
-		</view>
-
-		<!-- 底部 -->
-		<view class="bottom">
-			<view class="radis">
-				<view :style='xuan?"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;background:#2b5cff;border:none;":"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"'
-				 @tap='quanxuan'>√</view>
-				<text style='margin-left:20rpx;'>全选</text>
-			</view>
-			<view class="leftA" v-if='shanchua'>
-				<text>合计：<text>￥{{jiage}}</text></text>
-			</view>
-			<view class="rightA" @tap='tiaozhuan'>
-				<text>{{shanchua?'结算':'删除'}}</text>
-			</view>
-		</view>
-
-		<!-- 弹出框内容 -->
-		<uni-popup ref="popup" type="bottom" class="tanchu">
-			<button @click="closePopup">×</button>
-			<view class="neira">
-				<view class="imgs">
-					<image :src="goodsLogo" mode=""></image>
+			<view style='background:#fff;overflow:hidden;'>
+				<view style='overflow:hidden;margin-top:20rpx;border-bottom:1px solid #ddd;padding-bottom:10rpx;'>
+					<view style='float:left;margin-left:20rpx;font-size:36rpx;color:#333;font-weight:bold;'>热门推荐</view>
+					<view style='float:right;font-size:24rpx;color:#999;font-weight:500;line-height:50rpx;margin-right:20rpx;' @tap='gengduo'>更多</view>
 				</view>
-
-				<view class="text_e">
-					<view class="price">
-						<text>￥{{goodsPrice}}</text>
-					</view>
-					<view class="speci">
-						<text>{{keyName}}</text>
-					</view>
-				</view>
-
-				<view class="set">
-					<view v-for='(item,index) in guige'>
-					<view class="tit_k">
-						<text>{{item.name}}</text>
-					</view>
-					<!-- 默认样式 -->
-					<view class="detail">
-						<view class="xiang" v-for='(items,a) in item.g' @tap='xuanzeguige(index,a)'>
-							<text :class='items.xuan?"x":""'>{{items.item}}</text>
+				<view class='lose' v-for='item in tuijian' style='overflow:hidden;margin:20rpx;position:relative;padding-bottom:20rpx;'
+				 @tap='g(item.goodsId)'>
+					<image :src='item.goodsLogo' style='width:200rpx;height:200rpx;float:left;'></image>
+					<view style='float:left;width:500rpx;margin-left:10rpx;'>
+						<view style='font-size:30rpx;font-family:Microsoft YaHei;'>{{item.goodsName}}</view>
+						<view style='margin-top:10rpx;overflow:hidden;'>
+							<view v-for='ite in item.couponDTOS' style='border:1px dashed #ff3333;background:#fff;line-height:30rpx;padding:5 rpx 10rpx;color:#333;margin-right:20rpx;font-size:20rpx;float:left;margin-left:10rpx;color:#ff3333;'>满{{ite.condition}}-{{ite.money}}元</view>
+						</view>
+						<view style='overflow:hidden;position:absolute;bottom:20rpx;left:210rpx;width:500rpx;'>
+							<view style='font-size:32rpx;color:#333;float:left;line-height:50rpx;'>税后价:</view>
+							<view style='float:left;color:#f61c1c;font-size:30rpx;font-weight:700;margin-top:10rpx;'>
+								<view style='float:left;color:#f61c1c;font-size:20rpx;margin-top:10rpx;'>￥</view>{{item.shopPrice}}.00
+							</view>
+							<view style='float:right;color:#999;font-size:24rpx;margin-right:20rpx;line-height:50rpx;'>销量:{{item.salesSum}}</view>
 						</view>
 					</view>
-					</view>
-				</view>
-
-				<view class="quantity">
-					<view class="tit_k">
-						<text>数量</text>
-					</view>
-					<!-- 这是数量加减 -->
-					<view class="jia">
-						<view @tap='jiaa'>-</view>
-						<input v-model='num'>
-						<view @tap='jiaaz'>+</view>
-					</view>
-				</view>
-				<view class="uni-padding-wrap uni-common-mt bott">
-					<button type="primary" @tap='queding'>确定</button>
 				</view>
 			</view>
 
-		</uni-popup>
-		<tabBar :currentPage='currentPage'></tabBar>
-	</view>
+			<!-- 底部 -->
+			<view class="bottom">
+				<view class="radis">
+					<view :style='xuan?"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;background:#2b5cff;border:none;":"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"'
+					 @tap='quanxuan'>√</view>
+					<text style='margin-left:20rpx;'>全选</text>
+				</view>
+				<view class="leftA" v-if='shanchua'>
+					<text>合计：<text>￥{{jiage}}</text></text>
+				</view>
+				<view class="rightA" @tap='tiaozhuan'>
+					<text>{{shanchua?'结算':'删除'}}</text>
+				</view>
+			</view>
+
+			<!-- 弹出框内容 -->
+			<uni-popup ref="popup" type="bottom" class="tanchu">
+				<button @click="closePopup">×</button>
+				<view class="neira">
+					<view class="imgs">
+						<image :src="goodsLogo" mode=""></image>
+					</view>
+
+					<view class="text_e">
+						<view class="price">
+							<text>￥{{goodsPrice}}</text>
+						</view>
+						<view class="speci">
+							<text>{{keyName}}</text>
+						</view>
+					</view>
+
+					<view class="set">
+						<view v-for='(item,index) in guige'>
+							<view class="tit_k">
+								<text>{{item.name}}</text>
+							</view>
+							<!-- 默认样式 -->
+							<view class="detail">
+								<view class="xiang" v-for='(items,a) in item.g' @tap='xuanzeguige(index,a)'>
+									<text :class='items.xuan?"x":""'>{{items.item}}</text>
+								</view>
+							</view>
+						</view>
+					</view>
+
+					<view class="quantity">
+						<view class="tit_k">
+							<text>数量</text>
+						</view>
+						<!-- 这是数量加减 -->
+						<view class="jia">
+							<view @tap='jiaa'>-</view>
+							<input v-model='num'>
+							<view @tap='jiaaz'>+</view>
+						</view>
+					</view>
+					<view class="uni-padding-wrap uni-common-mt bott">
+						<button type="primary" @tap='queding'>确定</button>
+					</view>
+				</view>
+
+			</uni-popup>
+			<tabBar :currentPage='currentPage'></tabBar>
+			</view>
+		</view>
 
 </template>
 
@@ -211,9 +234,10 @@
 				index: 0,
 				n: 0,
 				shuju: [],
-				shanchua:true,
-				numa:0,
-				s:false
+				shanchua: true,
+				numa: 0,
+				s: false,
+				tuijian: []
 			}
 		},
 		onShow() {
@@ -232,8 +256,8 @@
 							s: []
 						})
 						n.specList.map(function(z, indexx) {
-							if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
-								_this.s=true
+							if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
+								_this.s = true
 							}
 							_this.$set(_this.shuju[index].s, indexx, false)
 							_this.numa++
@@ -246,9 +270,15 @@
 					// })
 				}
 			})
-			this.$https({url:'/api/oauth/shop/mall-index',data:{mobileCode:13706412504},success:function(res){
-				_this.tuijian=res.data.data.recommedGoods
-			}})
+			this.$https({
+				url: '/api/oauth/shop/mall-index',
+				data: {
+					mobileCode: 13706412504
+				},
+				success: function(res) {
+					_this.tuijian = res.data.data.recommedGoods
+				}
+			})
 		},
 		components: {
 			tabBar,
@@ -289,7 +319,7 @@
 				var _this = this
 				var goodsId = this.cartList[index].goodsId
 				//商品规格
-				
+
 				//商品的信息
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-detail',
@@ -304,19 +334,19 @@
 						_this.keyName = _this.cartList[index].specList[indexs].specKeyName
 						_this.key = _this.cartList[index].specList[indexs].id
 						_this.guige = []
-						for(var i in res.data.data.specs){
-							var obj={}
-							obj.name=i
-							obj.g=res.data.data.specs[i]
+						for (var i in res.data.data.specs) {
+							var obj = {}
+							obj.name = i
+							obj.g = res.data.data.specs[i]
 							_this.guige.push(obj)
 						}
-						var asa=_this.keyName.split(',')
+						var asa = _this.keyName.split(',')
 						//判断当前选中的商品
-						_this.guige.map(function(z){
-							z.g.map(function(c){
-								asa.map(function(x){
-									if(x.split(':')[1]==c.item){
-										_this.$set(c,'xuan',true)
+						_this.guige.map(function(z) {
+							z.g.map(function(c) {
+								asa.map(function(x) {
+									if (x.split(':')[1] == c.item) {
+										_this.$set(c, 'xuan', true)
 									}
 								})
 							})
@@ -445,28 +475,28 @@
 					}
 				})
 			},
-			xuanzeguige: function(index,inde) {
+			xuanzeguige: function(index, inde) {
 				var _this = this
 				//更改型号
 				//获得当前第几个
-				this.guige.map(function(n,indexz) {
-					if(index==indexz){
-					n.g.map(function(x){
-						_this.$set(x,'xuan',false)
-					})
+				this.guige.map(function(n, indexz) {
+					if (index == indexz) {
+						n.g.map(function(x) {
+							_this.$set(x, 'xuan', false)
+						})
 					}
 				})
-				this.$set(this.guige[index].g[inde],'xuan',true)
-				this.keyName=''
-				for(var i=0;i<this.guige.length;i++){
+				this.$set(this.guige[index].g[inde], 'xuan', true)
+				this.keyName = ''
+				for (var i = 0; i < this.guige.length; i++) {
 					//数组排序
-					this.guige[i].g.map(function(c){
-						if(c.xuan){
-							if(i==_this.guige.length-1){
-								_this.keyName+=_this.guige[i].name+':'+c.item
-							}else{
-						_this.keyName+=_this.guige[i].name+':'+c.item+','
-						}
+					this.guige[i].g.map(function(c) {
+						if (c.xuan) {
+							if (i == _this.guige.length - 1) {
+								_this.keyName += _this.guige[i].name + ':' + c.item
+							} else {
+								_this.keyName += _this.guige[i].name + ':' + c.item + ','
+							}
 						}
 					})
 				}
@@ -482,46 +512,53 @@
 			queding: function() {
 				var key = ''
 				var _this = this
-				this.$https({url:'/api/oauth/shop/mall-goods-detail',data:{goods_id:this.goodsId},dengl:true,success:function(res){
-					var arr=[]
-					for(var i in res.data.data.spec_price){
-						arr.push(res.data.data.spec_price[i])
-					}
-				arr.map(function(n, index) {
-					if (_this.keyName == n.keyName) {
-						key = n.key
-					}
-				})
-				_this.$https({
-					url: '/api/shop/order-update-spec-info',
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-detail',
 					data: {
-						goodsId: _this.goodsId,
-						newPrice: _this.goodsPrice,
-						newSpecKey: key,
-						newSpecValue: _this.keyName,
-						cartId: _this.key,
-						goodsNum: _this.num
+						goods_id: this.goodsId
 					},
-					method: 'post',
+					dengl: true,
 					success: function(res) {
-						if(res.data.code==0){
-						_this.$refs.popup.close()
-						_this.$https({
-							url: '/api/shop/order-cart-list',
-							data: {},
-							success: function(res) {
-								_this.cartList = res.data.data.cartList
+						var arr = []
+						for (var i in res.data.data.spec_price) {
+							arr.push(res.data.data.spec_price[i])
+						}
+						arr.map(function(n, index) {
+							if (_this.keyName == n.keyName) {
+								key = n.key
 							}
 						})
-						}else{
-							uni.showToast({
-								title:'更新规格失败，请重新选择',
-								icon:'none'
-							})
-						}
+						_this.$https({
+							url: '/api/shop/order-update-spec-info',
+							data: {
+								goodsId: _this.goodsId,
+								newPrice: _this.goodsPrice,
+								newSpecKey: key,
+								newSpecValue: _this.keyName,
+								cartId: _this.key,
+								goodsNum: _this.num
+							},
+							method: 'post',
+							success: function(res) {
+								if (res.data.code == 0) {
+									_this.$refs.popup.close()
+									_this.$https({
+										url: '/api/shop/order-cart-list',
+										data: {},
+										success: function(res) {
+											_this.cartList = res.data.data.cartList
+										}
+									})
+								} else {
+									uni.showToast({
+										title: '更新规格失败，请重新选择',
+										icon: 'none'
+									})
+								}
+							}
+						})
 					}
 				})
-				}})
 			},
 			xuanze: function(e) {
 				var arr = []
@@ -615,6 +652,11 @@
 					}
 				}
 			},
+			gengduo: function() {
+				uni.navigateTo({
+					url: '../classify/fenlOne'
+				})
+			},
 			q: function(index, indexs) {
 				var num = 0
 				var _this = this
@@ -701,18 +743,18 @@
 						}
 					})
 				})
-				var quanxuan=true
-				this.shuju.map((n,index)=>{
-					n.s.map(function(x){
-						if(!x){
-							quanxuan=false
+				var quanxuan = true
+				this.shuju.map((n, index) => {
+					n.s.map(function(x) {
+						if (!x) {
+							quanxuan = false
 						}
 					})
 				})
-				if(quanxuan){
-					this.xuan=true
-				}else{
-					this.xuan=false
+				if (quanxuan) {
+					this.xuan = true
+				} else {
+					this.xuan = false
 				}
 			},
 			quanxuan: function() {
@@ -769,99 +811,131 @@
 				}
 			},
 			tiaozhuan: function() {
-				if(this.shanchua){
-				var ap = []
-				var _this = this
-				if (this.shuju.length == 0) {
-					uni.showToast({
-						title: '请选择商品'
-					})
+				if (this.shanchua) {
+					var ap = []
+					var _this = this
+					if (this.shuju.length == 0) {
+						uni.showToast({
+							title: '请选择商品'
+						})
+					} else {
+						this.shuju.map(function(n, index) {
+							var arr = []
+							arr[index].name = _this.cartList[index].storeShopDTO.shopName
+							n.s.map(function(x, indexx) {
+								if (x) {
+									_this.cartList[index].specList[indexx].xuanzhong = true
+									_this.cartList[index].cartAttr = _this.cartList[index].specList
+									_this.cartList[index].specList[indexx].goodsLogo = _this.cartList[index].goodsLogo
+									_this.cartList[index].specList[indexx].goodsId = _this.cartList[index].goodsId
+									_this.cartList[index].specList[indexx].shopPrice = _this.cartList[index].specList[indexx].goodsPrice
+								}
+							})
+						})
+						uni.navigateTo({
+							url: 'orderForm/orderForm?goodsId=1' + '&cartAttr=' + JSON.stringify({
+								cartAttr: this.cartList
+							}) + '&dingdan=1'
+						})
+					}
 				} else {
-					this.shuju.map(function(n, index) {
-						_this.cartList[index].name = _this.cartList[index].storeShopDTO.shopName
-						n.s.map(function(x, indexx) {
-							if (x) {
-								_this.cartList[index].specList[indexx].xuanzhong = true
-								_this.cartList[index].cartAttr = _this.cartList[index].specList
-								_this.cartList[index].specList[indexx].goodsLogo = _this.cartList[index].goodsLogo
-								_this.cartList[index].specList[indexx].goodsId = _this.cartList[index].goodsId
-								_this.cartList[index].specList[indexx].shopPrice = _this.cartList[index].specList[indexx].goodsPrice
+					var _this = this
+					this.shuju.map(function(m, index) {
+						m.s.map(function(z, indez) {
+							if (z) {
+								_this.$https({
+									url: '/api/shop/order-del-spec-goods',
+									data: {
+										goodsId: _this.cartList[index].goodsId,
+										specKey: _this.cartList[index].specList[indez].specKey
+									},
+									method: 'post',
+									success: function(res) {
+										_this.$https({
+											url: '/api/shop/order-cart-list',
+											data: {},
+											dengl: false,
+											success: function(res) {
+												_this.numa = 0
+												_this.s = false
+												_this.cartList.map(function(c) {
+													c.specList.map(function(z) {
+														if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
+															_this.s = true
+														}
+														_this.numa++
+													})
+												})
+												_this.cartList = res.data.data.cartList
+												_this.shuju[index].s[indez].splice(0, 1)
+												_this.shuju.map(function(z, indexx) {
+													if (z.s.length == 0) {
+														_this.shuju[indexx].splice(0, 1)
+													}
+												})
+											}
+										})
+									}
+								})
 							}
 						})
 					})
-					uni.navigateTo({
-						url: 'orderForm/orderForm?goodsId=1' + '&cartAttr=' + JSON.stringify({
-							cartAttr: this.cartList
-						}) + '&dingdan=1'
-					})
-				}
-				}else{
-					var _this=this
-					this.shuju.map(function(m,index){
-						m.s.map(function(z,indez){
-							if(z){
-					            _this.$https({url:'/api/shop/order-del-spec-goods',data:{goodsId:_this.cartList[index].goodsId,specKey:_this.cartList[index].specList[indez].specKey},method:'post',success:function(res){
-									_this.$https({url:'/api/shop/order-cart-list',data:{},dengl:false,success:function(res){
-										_this.numa=0
-										_this.s=false
-										_this.cartList.map(function(c){
-											c.specList.map(function(z){
-												if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
-													_this.s=true
-												}
-												_this.numa++
-											})
-										})
-										_this.cartList=res.data.data.cartList
-										_this.shuju[index].s[indez].splice(0,1)
-										_this.shuju.map(function(z,indexx){
-											if(z.s.length==0){
-												_this.shuju[indexx].splice(0,1)
-											}
-										})
-									}})
-								}})
-					        }
-					})
-					})
 				}
 			},
-			qingkong:function(){
-				var _this=this
+			qingkong: function() {
+				var _this = this
 				//获得失效宝贝id
-				var arr=[]
-				this.cartList.map(function(z){
-					z.specList.map(function(x){
-						if(x.cartGoodsStatus==1||x.cartGoodsStatus==2){
-				_this.$https({url:'/api/shop/order-del-spec-goods',data:{goodsId:z.goodsId,specKey:x.specKey},method:'post',success:function(res){
-					_this.$https({url:'/api/shop/order-cart-list',data:{},dengl:false,success:function(res){
-						_this.cartList=res.data.data.cartList
-						_this.numa=0
-						_this.s=false
-						res.data.data.cartList.map(function(c){
-							c.specList.map(function(z){
-								if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
-									_this.s=true
+				var arr = []
+				this.cartList.map(function(z) {
+					z.specList.map(function(x) {
+						if (x.cartGoodsStatus == 1 || x.cartGoodsStatus == 2) {
+							_this.$https({
+								url: '/api/shop/order-del-spec-goods',
+								data: {
+									goodsId: z.goodsId,
+									specKey: x.specKey
+								},
+								method: 'post',
+								success: function(res) {
+									_this.$https({
+										url: '/api/shop/order-cart-list',
+										data: {},
+										dengl: false,
+										success: function(res) {
+											_this.cartList = res.data.data.cartList
+											_this.numa = 0
+											_this.s = false
+											res.data.data.cartList.map(function(c) {
+												c.specList.map(function(z) {
+													if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
+														_this.s = true
+													}
+													_this.numa++
+												})
+											})
+										}
+									})
 								}
-								_this.numa++
 							})
-						})
-					}})
-				}})
-				}
-				})
+						}
+					})
 				})
 			},
-			jiaa:function(){
-				if(this.num>1){
+			jiaa: function() {
+				if (this.num > 1) {
 					this.num--
 				}
 			},
-			jiaaz:function(){
+			jiaaz: function() {
 				this.num++
 			},
-			shanchu:function(){
-				this.shanchua=!this.shanchua
+			shanchu: function() {
+				this.shanchua = !this.shanchua
+			},
+			g: function(id) {
+				uni.navigateTo({
+					url: '../index/productDetails?id=' + id
+				})
 			}
 		}
 	}
@@ -870,8 +944,6 @@
 <style lang="scss">
 	.bcg {
 		background-color: #eeeeee;
-		min-height:100%;
-		position:fixed;
 	}
 
 	.mask {
@@ -1126,22 +1198,24 @@
 		.listBoxs:last-child {
 			margin-bottom: 20rpx;
 		}
-		.wx-checkbox-input{
-			border-radius:50%;
-			width:30rpx;
-			height:30rpx;
+
+		.wx-checkbox-input {
+			border-radius: 50%;
+			width: 30rpx;
+			height: 30rpx;
 		}
-		.wx-checkbox-input.wx-checkbox-input-checked::before{
-			border-radius:50%;
-			width:30px;
-			height:30rpx;
-			line-height:30rpx;
-			text-align:center;
-			font-size:20rpx;
-			color:#fff;
-			background:transparent;
-			transform:translate(-50%,-50%) sale(1);
-			
+
+		.wx-checkbox-input.wx-checkbox-input-checked::before {
+			border-radius: 50%;
+			width: 30px;
+			height: 30rpx;
+			line-height: 30rpx;
+			text-align: center;
+			font-size: 20rpx;
+			color: #fff;
+			background: transparent;
+			transform: translate(-50%, -50%) sale(1);
+
 		}
 	}
 
@@ -1165,7 +1239,8 @@
 
 
 	.lose {
-		border-bottom:1px dashed #eee;
+		border-bottom: 1px dashed #eee;
+
 		.xinxi {
 			width: 750upx;
 			padding: 0upx;
@@ -1237,6 +1312,9 @@
 		.leftA {
 			float: left;
 			padding-left: 20upx;
+			margin-left: 100rpx;
+			width: 200rpx;
+			text-align: right;
 
 			text {
 				font-size: 28upx;
@@ -1382,9 +1460,10 @@
 			width: 100%;
 			overflow: hidden;
 			padding-top: 30upx;
-			overflow-y:auto;
-			height:300rpx;
-			padding-bottom:100rpx;
+			overflow-y: auto;
+			height: 300rpx;
+			padding-bottom: 100rpx;
+
 			.tit_k {
 				text {
 					color: #999;
@@ -1496,7 +1575,8 @@
 		bottom: 40upx;
 		border-radius: 40upx !important;
 		left: 40upx;
-		z-index:99999;
+		z-index: 99999;
+
 		button {
 			position: initial;
 			border-radius: 40upx !important;

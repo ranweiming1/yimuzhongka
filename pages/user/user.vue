@@ -20,21 +20,21 @@
 		<!-- 用户名 -->
 		<view class="userBox">
 			<view class="img_a" @tap='xiugaigerenxinxi'>
-				<image :src="headimg" mode=""></image>
+				<image :src="headimg?headimg:'../../static/img_06.jpg'" mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum" @tap='xiugaigerenxinxi'>
 					<text>{{userName?userName:'暂无用户名'}}</text>
 				</view>
 				<view class="phone" @tap='fuzhi' style='font-size:24rpx;'>
-					<text>{{myCode}}    <text style='background:#DD524D;color:#fff;margin-left:10rpx;'>复制邀请码</text></text>
+					<text>{{myCode}}    <text style='background:#5cb1f3;color:#fff;margin-left:10rpx;width:130rpx;display:inline-block;text-align:center;border-radius:10rpx;'>复制邀请码</text></text>
 				</view>
 			</view>
 			<view class="imgRight" @tap='xiugaigerenxinxi'>
-				<image src="../../static/icon_23.png" mode=""></image>
+				<!-- <image src="../../static/icon_23.png" mode=""></image> -->
 			</view>
-			<view style='float:left;color:#fff;margin-top:30rpx;margin-left:20rpx;' @tap='tiaozhuan'>
-				<view>去做任务</view>
+			<view style='float:left;color:#fff;margin-top:66rpx;margin-left:20rpx;' @tap='tiaozhuan'>
+				<view>任务中心</view>
 			</view>
 		</view>
 
@@ -207,13 +207,14 @@
 				</view>
 			</view>
 		</view>
-		<view style='margin-top:900rpx;margin-left:20rpx;'>
-			<view style='float:left;'>招商电话</view>
-			<view style='float:left;margin-left:20rpx;'>
+		<view style='margin-top:900rpx;margin-left:20rpx;font-size:30rpx;text-align:center;'>
+			<view style='display:inline-block;'>招商电话</view>
+			<view style='margin-left:20rpx;display:inline-block;'>
 				<view v-for='item in pingtaidianhua' @tap='bodadianhua(item.phone)'>{{item.phone}}</view>
 			</view>
 		</view>
-		<view style='position:fixed;bottom:81rpx;left:0;width:100%;background:#f0ad4e;margin:20rpx;height:50rpx;line-height:50rpx;color:#fff;'>
+		<view style='position:fixed;bottom:81rpx;left:0;width:100%;background:#a5cbf6;margin:20rpx;height:50rpx;line-height:50rpx;color:#fff;' v-if='t'>
+			<image src='../../static/close_901px_1199932_easyicon1.png' style='width:50rpx;height:50rpx;right:50rpx;position:absolute;top:0;z-index:9;' @tap='guanbi'></image>
 			<swiper :circular='true' :interval='3000' :duration='6000' :autoplay='true' :indicator-dots='false'>
 				<swiper-item></swiper-item>
 				<swiper-item>滑动文字滑动文字滑动文字滑动文字滑动文字</swiper-item>
@@ -244,7 +245,8 @@
 				collectCount: 0,
 				headimg:'../../static/img_06.jpg',
 				myCode:'',
-				pingtaidianhua:''
+				pingtaidianhua:'',
+				t:true
 			}
 		},
 		components: {
@@ -387,6 +389,9 @@
 				uni.makePhoneCall({
 					phoneNumber:ph
 				})
+			},
+			guanbi:function(){
+				this.t=false
 			}
 		}
 	}

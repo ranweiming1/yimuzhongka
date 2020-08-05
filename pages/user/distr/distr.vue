@@ -2,6 +2,9 @@
 	<view>
 		<!-- 头部 -->
 		<view class="top toubu">
+			<view style='float:left;margin-top:30rpx;margin-left:20rpx;' @tap='bac'>
+				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:30rpx;'></image>
+			</view>
 			<view class="textBox">
 				<text>分销员</text>
 			</view>
@@ -134,7 +137,7 @@
 			</view>
 		</view>
 		<view class="uni-padding-wrap uni-common-mt botts">
-			<button @tap="tiX" type="primary" style="background: #2b5cff;">我要提现</button>
+			<!-- <button @tap="tiX" type="primary" style="background: #2b5cff;">我要提现</button> -->
 		</view>
 	</view>
 </template>
@@ -146,6 +149,12 @@
 				wenzi:false,
 				gui:false
 			}
+		},
+		onLoad:function(){
+			//佣金
+			this.$https({url:'/api/user/my-order-rebate-log-list',data:{},success:function(res){
+				
+			}})
 		},
 		methods: {
 			tiX() {
@@ -164,6 +173,11 @@
 			},
 			g:function(){
 				this.gui=false
+			},
+			bac:function(){
+				uni.navigateBack({
+					delta:1
+				})
 			}
 		}
 	}

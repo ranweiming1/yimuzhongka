@@ -9,6 +9,10 @@
 				<text>添加</text>
 			</view>
 		</view>
+		<view v-if='list.length==0'>
+			<image src='../../../../static/s.png' style='width:299rpx;height:150rpx;display:block;margin:2rpx auto;'></image>
+			<view style='text-align:center;'>暂无收货地址</view>
+		</view>
 		<radio-group @change='checkboxChange'>
 			<view class="siteBox" v-for='item in list'>
 				<view class="radios" v-if='xianshi'>

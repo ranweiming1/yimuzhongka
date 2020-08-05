@@ -21,22 +21,26 @@
 		
 		<!-- 可使用状态优惠券 -->
 		<view class="valid " v-if='shixiao==0'>
+			<view v-if='youhuiquan.length==0'>
+				<image src='../../../static/y.png' style='width:300rpx;height:150rpx;display:block;margin:20rpx auto;'></image>
+				<view style='text-align:center;'>暂无可用优惠券</view>
+			</view>
 			<view v-for='item in youhuiquan'>
-			<view class="imgBox">
+			<view class="imgBox" style='position:relative;'>
 				<image src="../../../static/icon_27.png" mode=""></image>
-				<view class="sum">
-					<text>{{item.couponDTO.money}}<text>元</text></text>
+				<view class="sum" style='width:200rpx;position:absolute;height:210rpx;top:0;left:0;'>
+					<text>{{item.couponDTO.money?item.couponDTO.money:''}}<text>元</text></text>
 					<view class="tianjan">
-						<text>满{{item.couponDTO.condition}}可用</text>
+						<text>满{{item.couponDTO.condition?item.couponDTO.condition:''}}可用</text>
 					</view>
 				</view>
 			</view>
 			<view class="float">
 				<view class="h2">
-					<text>满{{item.couponDTO.condition}}-{{item.couponDTO.money}}立减券</text>
+					<text>满{{item.couponDTO.condition?item.couponDTO.condition:''}}-{{item.couponDTO.money?item.couponDTO.money:''}}立减券</text>
 				</view>
 				<view class="p">
-					<text>{{item.couponDTO.name}}</text>
+					<text>{{item.couponDTO.name?item.couponDTO.name:''}}</text>
 				</view>
 				<view class="span">
 					<text>使用时间：{{item.couponDTO.useStartTime.split(' ')[0]}}-{{item.couponDTO.useEndTime.split(' ')[0]}}</text>
@@ -52,22 +56,26 @@
 		<!-- 不可使用状态 -->
 		
 		<view class="cannot" v-if='shixiao==1'>
+			<view v-if='youhuiquan.length==0'>
+				<image src='../../../static/y.png' style='width:300rpx;height:150rpx;display:block;margin:20rpx auto;'></image>
+				<view style='text-align:center;'>暂无可用优惠券</view>
+			</view>
 			<view v-for='item in youhuiquan'>
-			<view class="imgBox">
+			<view class="imgBox" style='position:relative;'>
 				<image src="../../../static/icon_28.png" mode=""></image>
-				<view class="sum">
-					<text>{{item.couponDTO.money}}<text>元</text></text>
+				<view class="sum" style='position:absolute;left:0;top:0;width:200rpx;height:210rpx;'>
+					<text>{{item.couponDTO.money?item.couponDTO.money:''}}<text>元</text></text>
 					<view class="tianjan">
-						<text>满{{item.couponDTO.condtion}}可用</text>
+						<text>满{{item.couponDTO.condtion?item.couponDTO.condtion:''}}可用</text>
 					</view>
 				</view>
 			</view>
 			<view class="float">
 				<view class="h2">
-					<text>满{{item.couponDTO.condition}}-{{item.couponDTO.condition}}立减券</text>
+					<text>满{{item.couponDTO.condition?item.couponDTO.conditio:''}}-{{item.couponDTO.money?item.couponDTO.money:''}}立减券</text>
 				</view>
 				<view class="p">
-					<text>{{item.couponDTO.name}}</text>
+					<text>{{item.couponDTO.name?item.couponDTO.name:''}}</text>
 				</view>
 				<view class="span">
 					<text>使用时间：{{item.couponDTO.useStartTime}}-{{item.couponDTO.useEndTime}}</text>
@@ -213,7 +221,6 @@
 				display: block;
 			}
 			.sum{
-				margin-top:-205rpx;
 				text-align: center;
 				overflow:hidden;
 				>text{

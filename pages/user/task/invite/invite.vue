@@ -6,9 +6,9 @@
 			</view>
 
 			<!-- 文字较多时，内部进度条 -->
-			<view class="brief">
-				<rich-text :nodes='w'></rich-text>
-			</view>
+			<!-- <view class="brief"> -->
+				<!-- <rich-text :nodes='w'></rich-text> -->
+			<!-- </view> -->
 		</view>
 	</view>
 </template>
@@ -17,14 +17,14 @@
 	export default {
 		data() {
 			return {
-				s:'../../../../static/img_11.jpg',
+				s:'../../../../static/ff.jpg',
 				w:''
 			}
 		},
 		onLoad(){
 			var _this=this
 			this.$https({url:'/api/task/get-share-page',success:function(res){
-				_this.s=res.data.data.backgroundImg
+				// _this.s=res.data.data.backgroundImg
 				_this.w=res.data.data.content
 			}})
 		},

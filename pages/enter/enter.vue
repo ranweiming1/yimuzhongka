@@ -20,6 +20,7 @@
 				<input class="uni-input" password v-model='password' type="text" placeholder="请输入密码" />
 			</view>
 		</view>
+		<view style='overflow-x:auto;width:600rpx;'>{{q}}</view>
 		<!-- 提交按钮 -->
 		<view class="uni-padding-wrap uni-common-mt bott">
 			<button type="primary" @tap='denglusss'>登录</button>
@@ -33,11 +34,10 @@
 		<!-- 第三方登录 -->
 		<view class="shortcut">
 			<image src="../../static/icon_16.png" mode=""></image>
-			<text>第三方登录</text>
+			<text style='width:200rpx;height:700rpx;overflow:hidden;'>第三方登录{{q}}</text>
 			<image src="../../static/icon_17.png" mode=""></image>
-			<view class="link">
+			<view class="link" @tap='denglu'>
 				<image src="../../static/WeChat.png" mode=""></image>
-				<image src="../../static/QQ.png" mode=""></image>
 			</view>
 		</view>
 		
@@ -60,7 +60,8 @@
 				screenHeight: this.screenHeight,
 				statusBarHeight : this.statusBarHeight ,
 				phone:'',
-				password:''
+				password:'',
+				q:'1231'
 			}
 		},
 		computed: {
@@ -99,6 +100,42 @@
 			xiuga:function(){
 				uni.navigateTo({
 					url:'../user/alter/alterPassword/alterPassword'
+				})
+			},
+			denglu:function(){
+				var _this=this
+				uni.getProvider({
+					service:'oauth',
+					success:function(res){
+						if(res.provider.indexOf('weixin')>=0){
+							uni.login({
+								provider:'weixin',
+								success:function(res){
+									_this.q=JSON.stringify(res)
+									uni.getUserInfo({
+										provider:'weixin',
+										success:function(res){
+											_this.$https({url:'/api/oauth/wxLogin',data:JSON.stringify(res),method:'post',haeder:true,success:function(res){
+												
+											}})
+										}
+									})
+								},
+								fail:function(ress){
+									_this.q=JSON.stringify(res)+'123'
+									uni.getUserInfo({
+										provider:'weixin',
+										success:function(res){
+											_this.q=JSON.stringify(res)+'12312'
+										}
+									})
+								}
+							})
+						}
+					},
+					fail:function(re){
+						_this.q=JSON.stringify(re)
+					}
 				})
 			}
 		}

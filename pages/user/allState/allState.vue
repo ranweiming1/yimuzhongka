@@ -59,6 +59,10 @@
 			</view>
 		</view>
         <view style='height:200rpx;'></view>
+		<view v-if='dList.length==0' @tap='tiaozhuan'>
+			<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'></image>
+			<view style='text-align:center;'>您还未有订单,去逛逛</view>
+		</view>
 		<!-- 订单信息 -->
 		<view class="listBox" v-for="(item,index) in dList">
 			<view class="radios">
@@ -146,7 +150,7 @@
 			</view>
 
 		</uni-popup>
-		<text class="loading-text">
+		<text class="loading-text" v-if='dList.length>9'>
 			{{loadingType === 0 ? contentText.contentdown : loadingType === 1 ? contentText.contentrefresh : contentText.contentnomore}}
 		</text>
 	</view>
@@ -362,6 +366,11 @@
 			back:function(){
 				uni.navigateBack({
 					delta:1
+				})
+			},
+			tiaozhuan:function(){
+				uni.navigateTo({
+					url:'../../classify/fenlOne'
 				})
 			}
 		}

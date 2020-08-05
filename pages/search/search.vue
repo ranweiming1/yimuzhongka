@@ -39,8 +39,8 @@
 				<text>热门搜索</text>
 			</view>
 			<view class="ul">
-				<view class="li" v-for="(i , n) in 6" @tap="searchFun(i)">
-					<text>雨刷器</text>
+				<view class="li" v-for="(i , n) in lis" @tap="searchFun(i)">
+					<text>{{i.serachValue}}</text>
 				</view>
 			</view>
 		</view>
@@ -54,16 +54,19 @@
 			return {
 				changeVal: '',
 				searchAll: [],
-				shopsId: ''
+				shopsId: '',
+				lis:[]
 			}
 		},
 		onLoad(option) {
 			this.shopsId = option.shopsId
-			console.log(option)
 			if (uni.getStorageSync('searchAll_key')) {
 				this.searchAll = uni.getStorageSync('searchAll_key')
 			}
-			console.log(this.value)
+			var _this=this
+			this.$https({url:'/api/oauth/shop/mall-serach-value-list',data:{},dengl:true,success:function(res){
+				_this.lis=res.data.data
+			}})
 
 
 		},
@@ -85,7 +88,6 @@
 					this.changeVal = ''
 					
 				}else if(val){
-					console.log(val)
 					uni.navigateTo({
 						url: '../classify/fenlOne?keywords=' + val
 					})

@@ -199,7 +199,7 @@
 		{
 			"path": "pages/user/task/invite/invite",
 			"style": {
-				"navigationBarTitleText": "毅木重卡"
+				"navigationStyle":"custom"
 			}
 		},
 		{

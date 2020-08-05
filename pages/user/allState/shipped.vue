@@ -58,7 +58,7 @@
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
-			<view class="xinXi" v-for="(ite,inde) in deList.goodsList[0].specList">
+			<view class="xinXi" v-for="(ite,inde) in deList.goodsList[0].specList" @tap='g(item.goodsId)'>
 
 
 				<view class="imgBox_a">
@@ -215,8 +215,13 @@
 				uni.navigateTo({
 					url: "./deliver_01?oS=" + oS+'&lG='+lG+'&gN='+gN+'&gP='+gP+'&sKN='+sKN+'&time='+this.deList.addTime+'&num='+Num+'&orderId='+orderId
 				})
+			},
+			g:function(id){
+				uni.navigateTo({
+					url:'../../index/productDetails?id='+id
+				})
 			}
-		}
+		},
 	}
 </script>
 

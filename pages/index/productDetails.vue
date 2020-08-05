@@ -2,7 +2,11 @@
 	<scroll-view scroll-y="true" style="height: 90%;" scroll-into-view="toJump">
 		<!-- 产品图，这是轮播 -->
 		<view class="bg_img toubu">
-			<image :src="list.goodsLogo" mode=""></image>
+			<swiper style='height:610rpx;'>
+				<swiper-item v-for='item in list.goodsImgss'>
+					<image :src='item?item:""'></image>
+				</swiper-item>
+			</swiper>
 		</view>
 
 		<!-- 头部 -->
@@ -53,24 +57,24 @@
 			<view class="Box">
 				<view class="ThePrice">
 					<view class="h2Box">
-						<text>￥<text>{{list.shopPrice?list.shopPrice:'暂无价格'}}</text>.00</text>
+						<text>￥<text>{{list.shopPrice?(list.shopPrice+".00"):'暂无价格'}}</text></text>
 					</view>
 					<view class="spanBox">
-						<text>原价：￥{{list.marketPrice}}</text>
+						<text>原价：￥{{list.marketPrice?(list.marketPrice+".00"):""}}</text>
 					</view>
 				</view>
 				<view class="preferential" v-for="(i,n) in list.couponDTOS">
-					<text>满{{i.condition}}-{{i.money}}元</text>
+					<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
 				</view>
 
 			</view>
 
 			<view class="share">
 				<image src="../../static/icon_49.png" mode=""></image>
-				<text @tap='shangpinxin'>分享</text>
+				<text @tap='shangpinxin'>分享赚</text>
 			</view>
 			<view class="h2aBox">
-				<text>{{list.goodsName}}</text>
+				<text>{{list.goodsName?list.goodsName:''}}</text>
 			</view>
 		</view>
 
@@ -81,14 +85,14 @@
 					<text>发货</text>
 				</view>
 				<view class="diz">
-					<text>{{list.sendAddr}} |</text>
+					<text>{{list.sendAddr?list.sendAddr:''}} |</text>
 				</view>
 				<view class="kuaid">
-					<text>快递：{{list.kuaidi}}</text>
+					<text>快递：{{list.kuaidi?list.kuaidi:''}}</text>
 				</view>
 			</view>
 			<view class="yuex">
-				<text>月销量:{{list.salesSum}}</text>
+				<text>月销量:{{list.salesSum?list.salesSum:''}}</text>
 			</view>
 		</view>
 		<view class="xize">
@@ -98,10 +102,10 @@
 			<view class="xiangqBox" @tap='huodongxian'>
 				<view class="oneBox" v-for="(i,n) in youhuiqu">
 					<view class="preferential">
-						<text>满{{i.condition}}-{{i.money}}元</text>
+						<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
 					</view>
 					<view class="jies">
-						<text>满{{i.condition}}元，立减{{i.money}}元；不累积。</text>
+						<text>满{{i.condition?i.condition:''}}元，立减{{i.money?i.money:''}}元；不累积。</text>
 					</view>
 				</view>
 			</view>
@@ -117,7 +121,7 @@
 					<text>选择</text>
 				</view>
 				<view class="left_b">
-					<text>已选：{{gui}}</text>
+					<text>已选：{{gui?gui:'暂未选择商品'}}</text>
 				</view>
 				<!-- <view class="right_a">
 					<view class="img_a">
@@ -159,19 +163,19 @@
 					<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
 				</view>
 				<view class="mTop">
-					<image class="cover" :src="list.goodsLogo" mode=""></image>
+					<image class="cover" :src="list.goodsLogo?list.goodsLogo:''" mode=""></image>
 					<view class="mRight">
-						<view class="price">¥ {{Price}}</view>
+						<view class="price">¥ {{Price?Price:''}}</view>
 						<view class="mItem">已选：{{gui?gui:'暂未选择商品'}}</view>
 					</view>
 
 				</view>
 				<view class="mButton">
 					<view style='margin-top:20rpx;border-bottom:1px solid #eee;padding-bottom:20rpx;' v-for='(item,index) in canshu'>
-						<view style='color:#999;font-size:24rpx;'>{{item.n}}</view>
+						<view style='color:#999;font-size:24rpx;'>{{item.n?item.n:''}}</view>
 						<view style='margin-top:20rpx;'>
 							<view v-for='(items,indexs) in item.sa' :style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"'
-							 @tap='xuanzhong(index,indexs)'>{{items.item}}</view>
+							 @tap='xuanzhong(index,indexs)'>{{items.item?items.item:''}}</view>
 						</view>
 					</view>
 					<!-- <view class="detail">
@@ -183,7 +187,7 @@
 						<view class="name">数量</view>
 						<view class="n_right">
 							<view class="reduce" @tap="reduce">-</view>
-							<input class="cor" type="number" style='width:60rpx;' v-model="num"></input>
+							<input class="cor" type="number" style='width:60rpx;text-align:center;' v-model="num"></input>
 							<view class="add" @tap="jia">+</view>
 						</view>
 					</view>
@@ -253,9 +257,9 @@
 			<view class="titaa">
 				<text>商品详情</text>
 			</view>
-
+			<rich-text :nodes='list.goodsContent'></rich-text>
 			<!-- <view class="imgg"> -->
-			<jyf-parser :html="list.goodsContent" ref="article" style="margin-bottom:100rpx"></jyf-parser>
+			<!-- <jyf-parser :html="list.goodsContent" ref="article" style="margin-bottom:100rpx"></jyf-parser> -->
 			<!-- <rich-text>{{list.goodsContent}}</rich-text> -->
 			<!-- </view> -->
 			<!-- <view :style="margin-bottom:100rpx">所涉及的大家</view> -->
@@ -360,6 +364,7 @@
 				dengl: true,
 				success: function(res) {
 					_this.list = res.data.data.detail
+					_this.list.goodsImgss=res.data.data.detail.goodsImgs.split(',')
 					//修改返回的数据中的参数
 					Object.keys(res.data.data.specs).forEach(function(key) {
 						var obj = {}
@@ -929,7 +934,7 @@
 				font-size: 18upx;
 				color: #999;
 				position: absolute;
-				left: 25rpx;
+				left: 15rpx;
 				bottom: 19rpx;
 			}
 		}

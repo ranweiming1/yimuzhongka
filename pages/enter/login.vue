@@ -42,7 +42,6 @@
 			<image src="../../static/icon_17.png" mode=""></image>
 			<view class="link">
 				<image src="../../static/WeChat.png" mode=""></image>
-				<image src="../../static/QQ.png" mode=""></image>
 			</view>
 		</view>
 
@@ -64,16 +63,14 @@
 			}
 		},
 		onLoad(option) {
-			// console.log(option)
-			if (option.isOk) {
+			if (option.phone!='undefined') {
 				this.isLog = option.isOk
-				this.account.phone = option.phone
-				this.account.password = option.password
-				this.account.checkCode = option.checkCode
+				this.account.phone = option.phone=='undefined'?'':option.phone
+				this.account.password = option.password=='undefined'?'':option.password
+				this.account.checkCode = option.checkCode=='undefined'?'':option.checkCode
 			}
 			uni.getSystemInfo({
 				success: function(e) {
-					// console.log(e)
 				}
 			})
 		},
@@ -112,7 +109,6 @@
 								if(_this.yanZ==0){
 									_this.isYan=false
 									_this.yanZ=50
-									console.log(this.yanZ)
 									clearInterval(timer)
 								}
 								_this.yanText='重新发送'
@@ -178,6 +174,13 @@
 										uni.showToast({
 											title:res.data.message
 										})
+										if(res.data.message=='手机号已被注册'){
+											setTimeout(function(){
+												uni.navigateTo({
+													url:'enter'
+												})
+											},1000)
+										}
 									}
 								}
 							})

@@ -12,7 +12,7 @@
 			</view>
 			<view class="right_a">
 				<view class="img_a">
-					<input type="number" v-model='phone' style='float:left;text-align:right;margin-top:-20rpx;margin-right:10rpx;'>
+					<input type="number" v-model='phone' placeholder='请输入手机号' style='float:left;text-align:right;margin-top:-20rpx;margin-right:10rpx;'>
 					<image src="../../../../static/icon_26.png" mode=""></image>
 				</view>
 			</view>

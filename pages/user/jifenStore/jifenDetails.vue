@@ -6,16 +6,16 @@
 		<view class="top">
 			<!-- 轮播图 -->
 			<view class="imgBox">
-				<image src="../../../static/img_08.jpg" mode=""></image>
+				<image :src="shangpin" mode=""></image>
 			</view>
 			<view class="h2">
-				<text>行车记录仪行车记录仪G300行车记录仪G300G300</text>
+				<text>{{name}}</text>
 			</view>
 			<view class="p">
-				<text>269积分</text>
+				<text>{{q?q:0}}元+{{jifen?jifen:0}}积分</text>
 			</view>
 			<view class="span">
-				<text>25人已兑换</text>
+				<text>{{num?num:0}}人已兑换</text>
 			</view>
 		</view>
 
@@ -27,15 +27,10 @@
 				<text>兑换须知</text>
 			</view>
 			<view class="jians">
-				<text>1、点击“立即兑换",在“确认订单"页面点击“使用优惠”,在页面上方输入优惠码,点击“兑换”并返回即可看到优惠后的订单
-					2、点击"提交订单”并支付即可完成兑换(实付19元邮费即享)。使用说明1,每个ID限领取一次,同一收货地址、收货手机号、收货人姓名,默认为一个客户;
-					3、如您在使用中遇到问题,可咨询线上客服(周一至周五0:00-17:00) ;
-					4、领取后7天内券码有效,兑换码不退、不换;
-					5、.配送范围全国(除台湾,香港,澳门,西藏,新疆,宁夏,青海,甘肃,内蒙古,海南) 
-					</text>
+				<rich-text :nodes='xiangqing'></rich-text>
 					
 			</view>
-			<view class="uni-padding-wrap uni-common-mt bott">
+			<view class="uni-padding-wrap uni-common-mt bott" @tap='tiaozhuan'>
 				<button type="primary">立即兑换</button>
 			</view>
 		</view>
@@ -46,19 +41,43 @@
 	export default{
 		data(){
 			return{
-				goodList:{}
+				shangpin:'',
+				name:'',
+				jifen:'',
+				num:'',
+				xiangqing:'',
+				q:'',
+				id:''
 			}
 		},
 		onLoad(option) {
 			var _this=this
+			this.id=option.id
 			this.$https({
-				url:'/api/oauth/shop/mall-goods-detail',
+				url:'/api/oauth/shop/mall-integral-goods-detail',
 				data:{goods_id:option.id},
 				dengl:true,
 				success:function(res){
-					console.log(res.data.data)
+					_this.shangpin=res.data.data.detail.goodsLogo
+					_this.name=res.data.data.detail.goodsName
+					_this.jifen=res.data.data.detail.integral
+					_this.num=res.data.data.detail.salesSum
+					_this.xiangqing=res.data.data.detail.goodsContent
+					_this.q=res.data.data.detail.shopPrice
 				}
 			})
+		},
+		methods:{
+			tiaozhuan:function(){
+				// uni.navigateTo({
+				// 	url:'../../cart/orderForm/orderForm?goodsId='+this.id+'&cartAttr='+JSON.stringify({
+				// 		cartAttr:[{
+				// 			goodsNum:1,
+							
+				// 		}]
+				// 	})
+				// })
+			}
 		}
 	}
 </script>
