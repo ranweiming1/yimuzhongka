@@ -407,7 +407,7 @@
 					//添加商品浏览记录
 					//判断是否登录
 					if(uni.getStorageSync('Authorization')){
-					_this.$https({url:'/api/oauth/shop/goods-brows-history-add',data:{goodsId:option.id},method:'post',success:function(res){
+					_this.$https({url:'/api/shop/goods-brows-history-add',data:{goodsId:option.id},method:'post',success:function(res){
 						}
 					})
 					}
