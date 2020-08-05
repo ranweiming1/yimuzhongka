@@ -108,7 +108,7 @@
 					url: '../index/productDetails?id=' + id
 				})
 				this.$https({
-					url: '/api/oauth/shop/goods-brows-history-add',
+					url: '/api/shop/goods-brows-history-add',
 					data: {
 						goodsId: id
 					},

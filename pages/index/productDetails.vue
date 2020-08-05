@@ -95,7 +95,7 @@
 				<text>月销量:{{list.salesSum?list.salesSum:''}}</text>
 			</view>
 		</view>
-		<view class="xize">
+		<view class="xize" v-if="youhui.length>0">
 			<view class="huid">
 				<text>优惠</text>
 			</view>
@@ -394,7 +394,7 @@
 						numa++
 					}
 					// 优惠券
-					_this.youhui = res.data.data.couponDTOS
+					_this.youhui = res.data.data.detail.couponDTOS
 					_this.youhuiqu=[res.data.data.detail.couponDTOS[0]]
 					var arr = []
 					for (var k in _this.canshu) {
