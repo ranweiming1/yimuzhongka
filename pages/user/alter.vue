@@ -76,7 +76,7 @@
 				<view class="img_a">
 					<image src="../../static/icon_26.png" mode=""></image>
 				</view>
-				<picker :range='arrsex' :value='index' class='shou' @change='sex' style='line-height:79rpx;margin-top:0;'>{{arrsex[index]}}</picker>
+				<picker :range='arrsex' :value='index' class='shou' @change='sex' style='width:300rpx;line-height:79rpx;margin-top:0;'>{{arrsex[index]}}</picker>
 			</view>
 		</view>
 		<view class=" uni-padding-wrap uni-common-mt quit">

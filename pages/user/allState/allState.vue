@@ -102,22 +102,22 @@
 					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2" @tap="confirm(item.orderId)">
 						<button type="primary">确认收货</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0||item.orderStatus==1||item.orderStatus==2">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0||item.orderStatus==1||item.orderStatus==2" @tap='shanchu(item.orderId)'>
 						<button type="primary">删除订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId)" v-if="item.status==5&&item.orderStatus==1">
+					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId,item.goodsList)" v-if="item.status==5&&item.orderStatus==1">
 						<button type="primary">去评价</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
+					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
 						<button type="primary">再次购买</button>
-					</view>
+					</view> -->
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==2">
 						<button type="primary">追加评论</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.payStatus==0" @tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup" v-if="item.payStatus==0">
+					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address)">		
@@ -148,7 +148,6 @@
 					<button type="primary">确定</button>
 				</view>
 			</view>
-
 		</uni-popup>
 		<text class="loading-text" v-if='dList.length>9'>
 			{{loadingType === 0 ? contentText.contentdown : loadingType === 1 ? contentText.contentrefresh : contentText.contentnomore}}
@@ -165,7 +164,7 @@
 			return {
 				currentPage: 'cart',
 				id: '',
-				dList: [],
+				dList: [{}],
 				// 上拉加载
 				loadingType: 0,
 				contentText: {
@@ -277,6 +276,9 @@
 					}),
 					success: function(res) {
 						console.log(res)
+						uni.showToast({
+							title:res.data.message
+						})
 					}
 				})
 			},
@@ -290,7 +292,20 @@
 			closePopup() {
 				this.$refs.popup.close()
 			},
-
+			openPopup1:function(orderId){
+				this.$https({
+					url:'/api/user/order-handle',
+					data:JSON.stringify({orderId:orderId,type:1}),
+					method:'post',
+					haeder:true,
+					success:res=>{
+						uni.showToast({
+							title:res.data.message
+						})
+						this.toggle(1)
+					}
+				})
+			},
 			wuliu(code,order,com,dz) {
 				// console.log('222')
 				uni.navigateTo({
@@ -313,14 +328,13 @@
 				})
 
 			},
-			goPing(orderSn, orderId) {
-				console.log(orderId)
+			goPing(orderSn, orderId,goodids) {
 				uni.navigateTo({
-					url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId
+					url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId+'&goodsId='+goodids.goodsId
 				})
 			},
 			shopCar() {
-				uni.switchTab({
+				uni.reLaunch({
 					url: '../../cart/cart'
 				})
 			},

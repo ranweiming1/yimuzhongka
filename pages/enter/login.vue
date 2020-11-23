@@ -161,9 +161,9 @@
 								dengl: true,
 								method: 'post',
 								success: function(res) {
-									if(res.data.data){
+									if(res.data){
 									uni.showToast({
-										title: res.data.message
+										title: '操作成功'
 									})
 									setTimeout(function() {
 										uni.navigateTo({

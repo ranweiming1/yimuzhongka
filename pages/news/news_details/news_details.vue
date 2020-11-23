@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="top" style='position:fixed;top:60rpx;left:0;width:100%;background:#fff;'>
+		<view class="top" style='position:fixed;top:0rpx;left:0;width:100%;background:#fff;padding-top:60rpx;overflow:hidden;'>
 			<view style='float:left;margin-top:20rpx;margin-left:20rpx;' @tap='back'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
@@ -60,7 +60,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="publish">
+		<view class="publish" v-if='fabiao'>
 			<view class="imgBox_b">
 				<image src="../../../static/icon_19.png" mode=""></image>
 			</view>
@@ -96,14 +96,15 @@
 				pinglunneirong: '',
 				newsid: '',
 				image:'',
-				shifoupingjia:true
+				shifoupingjia:true,
+				fabiao:false
 			}
 		},
 		onLoad: function(option) {
 			this.newsid = option.id
 			var _this = this
 			this.$https({
-				url: '/api/news/article-detail',
+				url: '/api/oauth/news/article-detail',
 				data: {
 					id: option.id
 				},
@@ -116,6 +117,8 @@
 					_this.image = res.data.data.article.image
 					_this.pingjia = res.data.data.commList
 					_this.shifoupingjia=res.data.data.article.allowComment=='Y'?true:res.data.data.allowComment=='N'?false:false
+					_this.fabiao=res.data.data.article.allowComment
+					_this.fabiao=_this.fabiao=='Y'
 				}
 			})
 		},
@@ -140,7 +143,7 @@
 								title: res.data.message
 							})
 							_this.pinglun = false
-							_this.$https({url:'/api/news/article-detail',data:{id:_this.newsid},success:function(res){
+							_this.$https({url:'/api/oauth/news/article-detail',data:{id:_this.newsid},success:function(res){
 								_this.pingjia=res.data.data.commList
 							}})
 						}

@@ -8,7 +8,7 @@
 			<view class="textBox">
 				<input class="uni-input" placeholder="请输入关键字" v-model="changeVal" />
 			</view>
-			<view class="wenbenBox" @tap="searchFun">
+			<view class="wenbenBox" @tap="searchFun(false)">
 				<view class="imgBox">
 					<image src="../../static/icon_45.png" mode=""></image>
 				</view>
@@ -39,7 +39,7 @@
 				<text>热门搜索</text>
 			</view>
 			<view class="ul">
-				<view class="li" v-for="(i , n) in lis" @tap="searchFun(i)">
+				<view class="li" v-for="(i , n) in lis" @tap="searchFun(i.serachValue)">
 					<text>{{i.serachValue}}</text>
 				</view>
 			</view>
@@ -72,7 +72,7 @@
 		},
 		methods: {
 			searchFun(val) {
-				if (this.changeVal != '') {
+				if (!val) {
 					var _this = this
 					this.searchAll.unshift(this.changeVal)
 					uni.setStorageSync('searchAll_key', _this.searchAll)

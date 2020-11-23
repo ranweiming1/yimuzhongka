@@ -13,9 +13,9 @@
 				<view class="textBox">
 					<input class="uni-input" @confirm="search" v-model="value" placeholder="请输入关键字" />
 				</view>
-				<view class="imgBox">
+				<!-- <view class="imgBox">
 					<image src="../../static/icon_40.png" mode=""></image>
-				</view>
+				</view> -->
 			</view>
 
 			<view class="head">

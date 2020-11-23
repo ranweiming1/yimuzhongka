@@ -13,8 +13,8 @@
 				<view style='overflow:hidden;'>
 					<image :src='listz[nu].myCarImg' style='width:90%;margin:0 auto;display:block;' @tap='shangchuan'></image>
 					<view>
-						<input :value='listz[nu].carNum' style='border:1px solid #ddd;width:90%;margin:0 auto;font-size:20rpx;text-align:center;'>
-						<input :value='listz[nu].carCate.carName' style='border:1px solid #ddd;width:90%;margin:0 auto;margin-top:20rpx;font-size:20rpx;text-align:center;'>
+						<input :value='listz[nu].carNum' style='border:1px solid #ddd;width:90%;margin:0 auto;font-size:24rpx;text-align:center;'>
+						<input :value='listz[nu].carCate.carName' style='border:1px solid #ddd;width:90%;margin:0 auto;margin-top:20rpx;font-size:24rpx;text-align:center;'>
 					</view>
 					<view>
 						<view style='float:left;width:40%;margin-left:5%;background:#ddd;text-align:center;margin-top:50rpx;font-size:26rpx;line-height:60rpx;border-radius:10rpx;' @tap='quxiao'>取消</view>
@@ -36,6 +36,7 @@
 				<text @tap='bianji(index)'>编辑</text>
 			</view>
 		</view>
+		<view style='height:160rpx;'></view>
 		<view class="uni-padding-wrap uni-common-mt bott">
 			<button type="primary" style="background: #2b5cff" @tap='fanhui'>添加爱车</button>
 		</view>

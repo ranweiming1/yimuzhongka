@@ -53,7 +53,7 @@
 				</view> -->
 			</view>
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" name="input" style="text-overflow: ellipsis" v-model="value" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" />
+				<textarea class="uni-input" name="input" style="text-overflow: ellipsis" v-model="value" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" />
 				<view class="imgBox" @tap="chuanImg">
 					<image :src="cImg" mode="" v-model="img"></image>
 				</view>
@@ -103,7 +103,7 @@
 		},
 		onLoad(option) {
 			var _this = this
-			// this.goodsId=option.id
+			this.goodsId=option.goodsId
 			console.log(option)
 			this.$https({
 				url: '/api/user/order-detail',
@@ -144,7 +144,6 @@
 				})
 			},
 			primise() {
-				console.log(this.img)
 				var _this = this
 				this.$https({
 					url: '/api/shop/order-comm-submit',
@@ -157,8 +156,8 @@
 					}),
 					dengl: false,
 					haeder: true,
+					method:'post',
 					success() {
-						console.log('提交成功')
 						uni.navigateBack({
 
 						})

@@ -10,8 +10,8 @@
 			</view>
 		</view>
 		<view v-if='list.length==0'>
-			<image src='../../../../static/s.png' style='width:299rpx;height:150rpx;display:block;margin:2rpx auto;'></image>
-			<view style='text-align:center;'>暂无收货地址</view>
+			<image src='../../../../static/s.png' style='width:299rpx;height:150rpx;display:block;margin:2rpx auto;position:fixed;top:calc((100% - 150rpx)/2);left:calc((100% - 299rpx)/2);'></image>
+			<view style='text-align:center;position:fixed;top:calc((100% - 150rpx)/2+160rpx);width:100%;text-align:center;height:100rpx;'>暂无收货地址</view>
 		</view>
 		<radio-group @change='checkboxChange'>
 			<view class="siteBox" v-for='item in list'>
@@ -60,7 +60,8 @@
 				dingdan:'',
 				shopId:'',
 				y:'',
-				xianshi:false
+				xianshi:false,
+				jifenid:0
 			}
 		},
 		onLoad: function(options) {
@@ -73,6 +74,10 @@
 				this.shopId=options.shopId
 				this.y=JSON.parse(options.y)
 				this.xianshi=true
+			}
+			if(options.jifen){
+				this.xianshi=true
+				this.jifenid=options.id
 			}
 			var _this = this
 			this.$https({
@@ -138,9 +143,15 @@
 				})
 			},
 			fanhui:function(){
+				if(this.jifenid==0){
 				uni.navigateTo({
 					url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+JSON.stringify(this.rds)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.y)
 				})
+				}else{
+					uni.navigateTo({
+						url:'../../../cart/orderForm/jifen?dizhi='+JSON.stringify(this.rds)+'&id='+this.jifenid
+					})
+				}
 			},
 			back:function(){
 				uni.navigateBack({

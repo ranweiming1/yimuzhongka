@@ -111,7 +111,7 @@
 					case 'jump':
 						if (item.url !== this.currentPage) {
 							var isUrl = `/pages/${item.url}/${item.url}`;
-							uni.switchTab({
+							uni.navigateTo({
 								url: isUrl
 							});
 						} else {

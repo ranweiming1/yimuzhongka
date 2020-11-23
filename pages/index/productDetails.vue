@@ -1,5 +1,5 @@
 <template>
-	<scroll-view scroll-y="true" style="height: 90%;" scroll-into-view="toJump">
+	<scroll-view scroll-y="true" style="height: 100%;position:fixed;" :scroll-into-view="toJump">
 		<!-- 产品图，这是轮播 -->
 		<view class="bg_img toubu">
 			<swiper style='height:610rpx;'>
@@ -10,7 +10,7 @@
 		</view>
 
 		<!-- 头部 -->
-		<view class="top" v-if="isShow" style="background-color: #FFFFFF;">
+		<view class="top" style="background-color: #FFFFFF;z-index:999999999;">
 			<view class="back" @tap="back">
 				<image src="../../static/icon_26-2.png" mode=""></image>
 			</view>
@@ -57,10 +57,10 @@
 			<view class="Box">
 				<view class="ThePrice">
 					<view class="h2Box">
-						<text>￥<text>{{list.shopPrice?(list.shopPrice+".00"):'暂无价格'}}</text></text>
+						<text>￥<text>{{list.shopPrice?list.shopPrice:'暂无价格'}}</text></text>
 					</view>
 					<view class="spanBox">
-						<text>原价：￥{{list.marketPrice?(list.marketPrice+".00"):""}}</text>
+						<text>原价：￥{{list.marketPrice?list.marketPrice:""}}</text>
 					</view>
 				</view>
 				<view class="preferential" v-for="(i,n) in list.couponDTOS">
@@ -99,7 +99,7 @@
 			<view class="huid">
 				<text>优惠</text>
 			</view>
-			<view class="xiangqBox" @tap='huodongxian'>
+			<view class="xiangqBox" @tap='huodongxian' :v-if='youhuiqu.length>0'>
 				<view class="oneBox" v-for="(i,n) in youhuiqu">
 					<view class="preferential">
 						<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
@@ -109,13 +109,14 @@
 					</view>
 				</view>
 			</view>
-			<view class="imBox">
+			<view class='xiangqBox' :v-if='youhuiqu.length==0'>暂无优惠</view>
+			<view class="imBox" @tap='huodongxian'>
 				<image src="../../static/icon_26.png" mode=""></image>
 			</view>
 		</view>
 
 		<!-- 参数 -->
-		<view class="parameter">
+		<view class="parameter" >
 			<view class="basic" @tap="add">
 				<view class="left_a">
 					<text>选择</text>
@@ -187,7 +188,7 @@
 						<view class="name">数量</view>
 						<view class="n_right">
 							<view class="reduce" @tap="reduce">-</view>
-							<input class="cor" type="number" style='width:60rpx;text-align:center;' v-model="num"></input>
+							<input class="cor" type="number" style='width:100rpx;text-align:center;' v-model="num"></input>
 							<view class="add" @tap="jia">+</view>
 						</view>
 					</view>
@@ -303,10 +304,10 @@
 			</view>
 			<view class="rightA">
 				<view class="bottBoxss">
-					<view class="uni-padding-wrap uni-common-mt bott onna">
+					<view class="uni-padding-wrap uni-common-mt bott onna" style='width:45%;float:left;'>
 						<button type="primary" @tap='add'>加入购物车</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @tap="add">
+					<view class="uni-padding-wrap uni-common-mt bott" @tap="add" style='width:40%;float:right;'>
 						<button type="primary">立即购买</button>
 					</view>
 				</view>
@@ -347,7 +348,8 @@
 				toJump:'',
 				yao:'',
 				xuanzh:false,
-				youhuiqu:[]
+				youhuiqu:[],
+				j:0
 			}
 		},
 		components: {
@@ -365,6 +367,12 @@
 				success: function(res) {
 					_this.list = res.data.data.detail
 					_this.list.goodsImgss=res.data.data.detail.goodsImgs.split(',')
+					if(_this.list.shopPrice){
+						_this.list.shopPrice=_this.list.shopPrice.toFixed(2)
+					}
+					if(_this.list.marketPrice){
+						_this.list.marketPrice=_this.list.marketPrice.toFixed(2)
+					}
 					//修改返回的数据中的参数
 					Object.keys(res.data.data.specs).forEach(function(key) {
 						var obj = {}
@@ -395,7 +403,11 @@
 					}
 					// 优惠券
 					_this.youhui = res.data.data.couponDTOS
+					if(res.data.data.couponDTOS){
+					if(res.data.data.couponDTOS.length>0){
 					_this.youhuiqu=[res.data.data.detail.couponDTOS[0]]
+					}
+					}
 					var arr = []
 					for (var k in _this.canshu) {
 						arr.push({
@@ -429,12 +441,11 @@
 				})
 			},
 			jump(ind){
-				console.log(ind)
 				var _this=this
 				this.ind=ind
 				if(ind==2){	
 					_this.toJump='pingjia'
-				}else if(idn==3){
+				}else if(ind==3){
 					_this.toJump='xiangqi'
 				}
 				
@@ -491,6 +502,7 @@
 							this.indexx = index
 							this.gui = n.keyName
 							this.xuanzh=true
+							this.j=n.price
 						}
 					})
 				}
@@ -590,7 +602,7 @@
 							integral: this.list.integral,
 							goodsName: this.list.goodsName,
 							kuaidi: this.list.kuaidi,
-							shopPrice: this.Price,
+							shopPrice: this.j,
 							goodsId: this.list.goodsId,
 							specKey: this.guige[this.indexx].key,
 							shopId: this.shopId,
@@ -611,18 +623,22 @@
 				})
 			},
 			shangpinxin: function() {
+				console.log(12312)
 					var _this=this
 					this.$https({
 						url: '/api/user/my-info',
 						data: {},
 						success: function(res) {
-							uni.setClipboardData({
-								data: '我在毅木重卡发现一个好东西，分享给你' + res.data.data.myCode+','+_this.deId,
-								success: function() {
-									uni.showToast({
-										title: '复制成功，快去分享给好友吧',
-												icon: 'none'
-									})
+							uni.share({
+								provider:'weixin',
+								scene:'WXSceneSession',
+								type:0,
+								href:'https://www.yimuzk.com?'+res.data.data.myCode+','+_this.deId,
+								imageUrl:_this.list.goodsImgss[0],
+								title:'我在毅木重卡发现了一个好东西,分享给你看看',
+								summary:'商品描述',
+								success:res=>{
+									
 								}
 							})
 						}
@@ -726,12 +742,11 @@
 
 			.cor {
 				font-size: 26rpx;
-				padding: 10rpx 30rpx;
 				display: inline-block;
 				background-color: #f4f4f2;
 				border-radius: 8%;
 				margin-right: 30rpx;
-
+				line-height:50rpx;
 			}
 
 		}

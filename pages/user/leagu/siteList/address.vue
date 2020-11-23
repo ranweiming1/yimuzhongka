@@ -1,18 +1,18 @@
 <template>
 	<view>
 		<view class="uni-form-item uni-column">
-			<text style="padding-left: 20rpx;color:#666;">收货人</text>
-			<input style='float:right;width:200rpx;text-align:right;margin-right:40rpx;' class="uni-input" name="input" v-model='username'
+			<text style="padding-left: 20rpx;color:#000;font-size:25rpx;">收货人</text>
+			<input style='float:right;width:200rpx;text-align:right;margin-right:40rpx;font-size:25rpx;color:#000;' class="uni-input" name="input" v-model='username'
 			 placeholder="收货人" />
 		</view>
 
 		<view class="basic">
 			<view class="left_a">
-				<text>手机号</text>
+				<text style='font-size:25rpx;color:#000;'>手机号</text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
-					<input type="number" v-model='phone' placeholder='请输入手机号' style='float:left;text-align:right;margin-top:-20rpx;margin-right:10rpx;'>
+					<input type="number" v-model='phone' placeholder='请输入手机号' style='float:left;text-align:right;margin-top:-20rpx;margin-right:12rpx;font-size:25rpx;color:#000;'>
 					<image src="../../../../static/icon_26.png" mode=""></image>
 				</view>
 			</view>
@@ -20,23 +20,23 @@
 
 		<view class="basic">
 			<pick-regions :defaultRegion="defaultRegionCode" @getRegion="handleGetRegion">
-				<view class="left_a" style="font-size: 28rpx;color: #666;line-height: 50rpx" v-model="regionName">{{isOk?(isAdd?'点击选择省市区':regionName):addressss}}</view>
+				<view class="left_a" style="font-size: 25rpx;color: #000;line-height: 50rpx">点击选择省市县</view>
 				<view class="right_a">
 					<view class="img_a">
-						<input style='float:left;text-align:center;margin-top:-20rpx;'></input>
-						<image src="../../../../static/icon_26.png" mode=""></image>
+						<view style='float:left;font-size:25rpx;color:#999;'>{{isOk?(isAdd?'选择省市县':regionName):addressss}}</view>
+						<image style='margin-top:10rpx;float:left;margin-left:20rpx;' src="../../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
 			</pick-regions>
 		</view>
 		<view class="uni-form-item uni-column beizs">
-			<text style="font-size: 28rpx;padding-left:20rpx;color:#666;">详细地址:</text>
-			<input class="uni-input" name="input" placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" v-model='address' />
+			<text style="font-size: 25rpx;padding-left:20rpx;color:#000;">详细地址:</text>
+			<input class="uni-input" name="input" style='font-size:25rpx;color:#000;' placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" v-model='address' />
 		</view>
 		<view class="uni-list">
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-list-cell-db">
-					<text>设为默认地址</text>
+					<text style='font-size:25rpx;color:#000;'>设为默认地址</text>
 				</view>
 				<switch :checked='checked==1' @change='xuanzhong' />
 			</view>
@@ -82,11 +82,13 @@
 				dingdan:'',
 				shopId:'',
 				y:'',
-				shanchu:false
+				shanchu:false,
+				j:false,
+				ids:0,
+				regionName:''
 			}
 		},
 		onLoad: function(option) {
-			// console.log(option)
 			// option.address?this.isAdd=false:this.isAdd=true,
 			// if(ob){
 			if (option.address) {
@@ -109,6 +111,10 @@
 				this.shopId=option.shopId
 				this.y=JSON.parse(option.y)
 			}
+			if(option.j){
+				this.j=true
+				this.ids=option.id
+			}
 			// this.isAdd=false
 			// console.log(this.regionName))
 		},
@@ -129,6 +135,7 @@
 				if (this.region) {
 					_this.isAdd = false
 					_this.region = region
+					_this.regionName=region[0].name+region[1].name+region[2].name
 				}
 			},
 			switch1Change: function(e) {
@@ -139,31 +146,43 @@
 			},
 			baocun: function() {
 				var _this = this
-				if(!this.$jiaoyan(this.phone)){
+				if(this.$jiaoyan(this.phone)){
 				this.$https({
 					url: '/api/user/address-add-edit',
 					data: JSON.stringify({
 						address: this.address,
 						phone: this.phone,
-						cityInfo: this.regionName,
+						cityInfo: this.regionName?this.regionName:this.addressss,
 						username: this.username,
 						id: this.id,
-						isDefault: this.checked ? 1 : ''
+						isDefault: this.checked ? 1 : 0
 					}),
 					haeder: true,
 					dengl: false,
 					method: 'post',
 					success: function(res) {
+						if(res.data.code==0){
 						uni.showToast({
-							title:res.data.message
+							title:'操作成功'
 						})
+						if(_this.j){
+							uni.navigateTo({
+								url:'../../../cart/orderForm/jifen?id='+_this.ids+'&dizhi='+JSON.stringify(res.data.data)
+							})
+							return false
+						}
 						if (_this.goodsId) {
 							uni.navigateTo({
-								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr+'&zhid='+_this.zhid+'&money='+_this.moneys+'&id='+_this.youhuiid+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.y)
+								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr+'&zhid='+_this.zhid+'&money='+_this.moneys+'&id='+_this.youhuiid+'&dingdan='+_this.dingdan+'&shopId='+_this.shopId+'&y='+JSON.stringify(_this.y)
 							})
 						} else {
 							uni.navigateTo({
 								url: 'siteList'
+							})
+						}
+						}else{
+							uni.showToast({
+								title:res.data.message
 							})
 						}
 					}
@@ -341,11 +360,8 @@
 
 	.bott {
 		width: 670upx;
-		position: fixed;
-		bottom: 40upx;
-		left: 40upx;
 		display: flex;
-
+		margin-top:200rpx;
 		button {
 			width: 35%;
 			height: 65rpx;

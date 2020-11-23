@@ -1,6 +1,6 @@
 <template>
 	<view class="bcg">
-		<view class="top" style='position:fixed;left:0;top:60rpx;width:100%;'>
+		<view class="top" style='position:fixed;left:0;top:0rpx;width:100%;z-index:99;padding-top:60rpx;'>
 			<view class="textBox">
 				<text>购物车({{numa}})</text>
 			</view>
@@ -9,26 +9,26 @@
 				<!-- <image src="../../static/icon_36.png" mode=""></image> -->
 			</view>
 			<view class="spanBox" @tap='shanchu'>
-				<text>编辑</text>
+				<text>{{shanchu?'编辑':'取消'}}</text>
 			</view>
 		</view>
 
 		<view class="listBox" style='margin-top:160rpx;'>
 
 			<!-- 购物车 -->
-			<view>
+			<view v-if='cartList.length<=0'>
 				<image src='../../static/g.png' style='width:320rpx;height:225rpx;display:block;margin:20rpx auto;'></image>
 				<view style='margin:30rpx;text-align:center;'>暂无商品</view>
 			</view>
 			<view class="listBoxs" v-for="(item,index) in  cartList">
-				<checkbox-group @change='gouwuche'>
+				<checkbox-group @change='gouwuche' :data-index='index'>
 					<view class="radios">
 						<!-- 店铺名称待确认 -->
 						<label class="radio">
 							<!--加个d以区分某个店铺-->
 							<!-- <checkbox :value="'d'+item.goodsId" :checked='shuju[index].dian'></checkbox> -->
 						</label>
-						<text>{{item.storeShopDTO.shopName}}</text>
+						<text @tap='t(item.shopId)'>{{item.storeShopDTO.shopName}}</text>
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
 					<view class="xinxi">
@@ -112,13 +112,14 @@
 					</view>
 				</view>
 			</view>
-			<view style='background:#fff;overflow:hidden;'>
-				<view style='overflow:hidden;margin-top:20rpx;border-bottom:1px solid #ddd;padding-bottom:10rpx;'>
+			<view style='background:#fff;overflow:hidden;padding-bottom:200rpx;'>
+				<view style='overflow:hidden;margin-top:20rpx;border-bottom:1px solid #ddd;padding-bottom:10rpx;text-align:right;'>
 					<view style='float:left;margin-left:20rpx;font-size:36rpx;color:#333;font-weight:bold;'>热门推荐</view>
+					<image src='../../static/n8.png' style='width:34rpx;height:34rpx;display:inline-block;margin-top:10rpx;margin-right:20rpx;' @tap='qy'></image>
 					<view style='float:right;font-size:24rpx;color:#999;font-weight:500;line-height:50rpx;margin-right:20rpx;' @tap='gengduo'>更多</view>
 				</view>
 				<view class='lose' v-for='item in tuijian' style='overflow:hidden;margin:20rpx;position:relative;padding-bottom:20rpx;'
-				 @tap='g(item.goodsId)'>
+				 @tap='g(item.goodsId)' v-if='y'>
 					<image :src='item.goodsLogo' style='width:200rpx;height:200rpx;float:left;'></image>
 					<view style='float:left;width:500rpx;margin-left:10rpx;'>
 						<view style='font-size:30rpx;font-family:Microsoft YaHei;'>{{item.goodsName}}</view>
@@ -128,14 +129,25 @@
 						<view style='overflow:hidden;position:absolute;bottom:20rpx;left:210rpx;width:500rpx;'>
 							<view style='font-size:32rpx;color:#333;float:left;line-height:50rpx;'>税后价:</view>
 							<view style='float:left;color:#f61c1c;font-size:30rpx;font-weight:700;margin-top:10rpx;'>
-								<view style='float:left;color:#f61c1c;font-size:20rpx;margin-top:10rpx;'>￥</view>{{item.shopPrice}}.00
+								<view style='float:left;color:#f61c1c;font-size:20rpx;margin-top:10rpx;'>￥</view>{{item.shopPrice.toFixed(2)}}
 							</view>
 							<view style='float:right;color:#999;font-size:24rpx;margin-right:20rpx;line-height:50rpx;'>销量:{{item.salesSum}}</view>
 						</view>
 					</view>
 				</view>
+				<view v-for='item in tuijian' style='width:45%;margin:20rpx 2.5%;float:left;border-radius:10rpx;box-shadow:0px 0px 20px #ccc;box-sizing:border-box;' @tap='g(item.goodsId)' v-if='!y'>
+					<image :src='item.goodsLogo' style='width:100%;' mode='widthFix'></image>
+					<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:20rpx;'>
+						<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;padding:0 10rpx;display:inline-block;font-size:22rpx;'>自营</view>
+						{{item.goodsName}}
+					</view>
+					<view style='padding:0 20rpx;'>
+						<view v-for='ite in item.couponDTOS' style='display:inline-block;font-size:22rpx;padding:0 5rpx;border:1px dashed #ff6600;color:#ff6600;margin-left:10rpx;'>{{'满'+ite.condition+'-'+ite.money+'元'}}</view>
+					</view>
+					<view style='font-size:26rpx;color:#999;padding:0 20rpx;margin-top:20rpx;'>销量:{{item.salesSum}}</view>
+					<view style='padding:0 20rpx;color:#000;font-size:26rpx;margin-bottom:20rpx;'>税后价:<view style='color:#ff3333;font-size:19rpx;display:inline-block;'>￥</view><view style='display:inline-block;color:#ff3333;font-size:22rpx;'>{{item.shopPrice.toFixed(2)}}</view></view>
+				</view>
 			</view>
-
 			<!-- 底部 -->
 			<view class="bottom">
 				<view class="radis">
@@ -200,8 +212,8 @@
 
 			</uni-popup>
 			<tabBar :currentPage='currentPage'></tabBar>
-			</view>
 		</view>
+	</view>
 
 </template>
 
@@ -237,7 +249,8 @@
 				shanchua: true,
 				numa: 0,
 				s: false,
-				tuijian: []
+				tuijian: [],
+				y:true
 			}
 		},
 		onShow() {
@@ -260,9 +273,9 @@
 								_this.s = true
 							}
 							_this.$set(_this.shuju[index].s, indexx, false)
-							_this.numa++
 						})
 					})
+					_this.numa = res.data.data.cartList.length
 					// _this.xuanzho.map(function(n, index) {
 					// 	n.map(function(z, indexs) {
 					// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
@@ -488,14 +501,14 @@
 				})
 				this.$set(this.guige[index].g[inde], 'xuan', true)
 				this.keyName = ''
-				for (var i = 0; i < this.guige.length; i++) {
+				for (var i = this.guige.length-1; i < this.guige.length; i--) {
 					//数组排序
 					this.guige[i].g.map(function(c) {
 						if (c.xuan) {
 							if (i == _this.guige.length - 1) {
-								_this.keyName += _this.guige[i].name + ':' + c.item
+								_this.keyName += _this.guige[i].name + ':' + c.item+','
 							} else {
-								_this.keyName += _this.guige[i].name + ':' + c.item + ','
+								_this.keyName += _this.guige[i].name + ':' + c.item
 							}
 						}
 					})
@@ -710,52 +723,37 @@
 				}
 			},
 			gouwuche: function(e) {
-				var num = 0
-				//判断当前选的是哪个
-				e.detail.value.map((n) => {
-					this.cartList.map((x, index) => {
-						x.specList.map(function(v) {
-							if (v.id == n) {
-								num = index
+				if(e.detail.value.length>0){
+					this.shuju[e.currentTarget.dataset.index].dian=true
+					this.shuju[e.currentTarget.dataset.index].s.map((n,index)=>{
+						this.shuju[e.currentTarget.dataset.index].s[index]=false
+					})
+					this.cartList[e.currentTarget.dataset.index].specList.map((n,index)=>{
+						e.detail.value.map(v=>{
+							if(v==n.id){
+								this.shuju[e.currentTarget.dataset.index].s[index]=true
 							}
 						})
 					})
-				})
-				//将当前选中的下边的所有状态置为未选
-				this.shuju[num].s.map((b, index) => {
-					this.$set(this.shuju[num].s, index, false)
-				})
-				this.cartList.map((v, indexx) => {
-					v.specList.map((a, indexxx) => {
-						e.detail.value.map((z, index) => {
-							if (z == a.id) {
-								this.$set(this.shuju[indexx].s, indexxx, true)
-							}
-						})
-					})
-				})
-				this.jiage = 0
-				//计算选中的金额
-				this.shuju.map((n, index) => {
-					n.s.map((x, indexa) => {
-						if (x) {
-							this.jiage += this.cartList[index].specList[indexa].goodsNum * this.cartList[index].specList[indexa].goodsPrice
-						}
-					})
-				})
-				var quanxuan = true
-				this.shuju.map((n, index) => {
-					n.s.map(function(x) {
-						if (!x) {
-							quanxuan = false
-						}
-					})
-				})
-				if (quanxuan) {
-					this.xuan = true
-				} else {
-					this.xuan = false
 				}
+				if(e.detail.value.length==0){
+					this.shuju[e.currentTarget.dataset.index].dian=false
+					this.shuju[e.currentTarget.dataset.index].s.map((n,index)=>{
+						this.shuju[e.currentTarget.dataset.index].s[index]=false
+					})
+				}
+				//计算总数
+				var num=0
+				this.shuju.map((n,index)=>{
+					if(n.dian){
+						n.s.map((z,indexx)=>{
+							if(z){
+								num+=this.cartList[index].specList[indexx].goodsPrice*this.cartList[index].specList[indexx].goodsNum
+							}
+						})
+					}
+				})
+				this.jiage=num
 			},
 			quanxuan: function() {
 				var _this = this
@@ -814,14 +812,23 @@
 				if (this.shanchua) {
 					var ap = []
 					var _this = this
-					if (this.shuju.length == 0) {
+					var shuju=[]
+					this.shuju.map(function(n){
+						n.s.map(function(z){
+							if(z){
+								shuju.push(z)
+							}
+						})
+					})
+					if (shuju.length == 0) {
 						uni.showToast({
 							title: '请选择商品'
 						})
 					} else {
 						this.shuju.map(function(n, index) {
 							var arr = []
-							arr[index].name = _this.cartList[index].storeShopDTO.shopName
+							arr[index]={}
+							arr[index].name = _this.cartList[index].storeShopDTO?_this.cartList[index].storeShopDTO.shopName:''
 							n.s.map(function(x, indexx) {
 								if (x) {
 									_this.cartList[index].specList[indexx].xuanzhong = true
@@ -936,6 +943,14 @@
 				uni.navigateTo({
 					url: '../index/productDetails?id=' + id
 				})
+			},
+			t:function(id){
+				uni.navigateTo({
+					url:'../shop/shop?id='+id
+				})
+			},
+			qy:function(){
+				this.y=!this.y
 			}
 		}
 	}
@@ -944,6 +959,8 @@
 <style lang="scss">
 	.bcg {
 		background-color: #eeeeee;
+		width:100%;
+		overflow:hidden;
 	}
 
 	.mask {

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- <view class="line" style="height: 50rpx;"></view> -->
-		<view class="top" style='position:fixed;width:100%;left:0;top:60rpx;z-index:99999;background:#fff;'>
+		<view class="top" style='position:fixed;width:100%;left:0;top:0;z-index:99999;background:#fff;padding-top:60rpx;'>
 			<view class='back' @tap='back' style='float:left;margin-top:30rpx;margin-left:20rpx;'>
 				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image>
 			</view>
@@ -58,7 +58,7 @@
 		components: {
 			tabBar,
 		},
-		onShow() {
+		onLoad(options) {
 			// this.id=index
 			this.height = uni.getSystemInfoSync().windowHeight;
 			var _this = this
@@ -69,6 +69,15 @@
 				success: function(res) {
 					// console.log(res.data.data)
 					_this.AllList = res.data.data.goodsCates
+					if(options.id){
+						_this.AllList.map(function(n,index){
+							if(n.id==options.id){
+								_this.rList=res.data.data.goodsCates[index].childsList
+								_this.id=index
+							}
+						})
+						return false
+					}
 					_this.rList = res.data.data.goodsCates[0].childsList
 				},
 			})

@@ -45,7 +45,7 @@
 		<!-- 热门推荐 -->
 		<view class="biaot">
 			<text>热门推荐</text>
-			<view class="dele">
+			<view class="dele" @tap='gengduoxx'>
 				<text>更多</text>
 			</view>
 		</view>
@@ -140,6 +140,11 @@
 					}
 				})
 			},
+			gengduoxx:function(){
+				uni.navigateTo({
+					url:'../../classify/fenlOne'
+				})
+			}
 		}
 	}
 </script>

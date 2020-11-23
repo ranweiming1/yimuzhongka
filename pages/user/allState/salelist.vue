@@ -44,6 +44,7 @@
 				</view>
 			</view>
 		</view>
+		<view v-if='saleList.length==0' style='text-align:center;margin-top:100rpx;'>暂无订单</view>
 	</view>
 
 </template>

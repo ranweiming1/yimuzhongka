@@ -29,16 +29,22 @@
 			</view>
 		</view>
 		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.5);' v-if='chepaiz'>
-			<view style='width:500rpx;height:430rpx;position:absolute;margin:auto;top:0;left:0;right:0;bottom:0;background:#fff;'>
-				<view style='text-align:center;margin-top:10rpx;font-size:20rpx;'>填写车牌号</view>
-				<input v-model='chepai' style='border:1px solid #eee;margin:0 auto;margin-top:20rpx;width:200rpx;'>
-				<view style='text-align:center;margin-top:10rpx;font-size:20rpx;'>车辆照片</view>
-				<image :src='tupian' style='width:176rpx;height:176rpx;display:block;margin:0 auto;margin-top:20rpx;' @tap='tu'></image>
-				<view style='overflow:hidden;margin:0 auto;margin-top:20rpx;width:200rpx;'>
-					<view style='width:70rpx;float:left;border:1px solid #eee;border-radius:10rpx;line-height:30rpx;text-align:center;font-size:20rpx;' @tap='tian'>确定</view>
-					<view style='width:70rpx;float:right;border:1px solid #eee;border-radius:10rpx;line-height:30rpx;text-align:center;font-size:20rpx;' @tap='quxiao'>取消</view>
+			<view style='width:500rpx;height:530rpx;position:absolute;margin:auto;top:0;left:0;right:0;bottom:0;background:#fff;text-align:center;'>
+				<view style='margin-top:20px;text-align:center;'>添加爱车</view>
+				<view style='display:inline-block;margin-top:20rpx;'>
+					<view style='float:left;line-height:52rpx;width:100rpx;background:#ededed;' @tap='xuanze'>{{chenghumingcheng}}<i style='float:right;width:0;height:0;border:12rpx solid #ededed;border-top:12rpx solid #ddd;margin-top:20rpx;margin-right:10rpx;'></i></view>
+				    <input v-model='chepai' style='border:1px solid #eee;margin:0 auto;width:200rpx;line-height:30rpx;float:left;height:50rpx;'>
+				</view>
+				<view style='text-align:center;margin-top:10rpx;font-size:26rpx;'>车辆照片</view>
+				<image :src='tupian' style='width:136rpx;height:136rpx;display:block;margin:0 auto;margin-top:20rpx;' @tap='tu'></image>
+				<view style='overflow:hidden;margin:0 auto;margin-top:20rpx;width:360rpx;'>
+					<view style='width:160rpx;float:left;border:1px solid #eee;border-radius:2rpx;line-height:50rpx;text-align:center;font-size:26rpx;' @tap='quxiao'>取消</view>
+					<view style='width:160rpx;float:right;border:1px solid #eee;border-radius:2rpx;line-height:50rpx;text-align:center;font-size:26rpx;background:#2b5cff;color:#fff;' @tap='tian'>确定</view>
 				</view>
 			</view>
+		</view>
+		<view style='position:fixed;bottom:0;width:100%;left:0;height:250rpx;background:#ddd;color:#666;' v-if='xianshi'>
+			<view v-for='(item,z) in cheng' :style='index==z?"float:left;background:#2b64a4;width:50rpx;height:50rpx;text-align:center;line-height:50rpx;border-radius:5rpx;margin-left:10rpx;margin-top:20rpx;color:#fff;":"float:left;background:#fff;width:50rpx;height:50rpx;text-align:center;line-height:50rpx;margin-left:10rpx;margin-top:20rpx;"' @tap='dianji(z)'>{{item}}</view>
 		</view>
 	</view>
 </template>
@@ -57,7 +63,11 @@
 				chepaiz:false,
 				chepai:'',
 				tupian:'../../static/img_10.jpg.png',
-				id:''
+				id:'',
+				chenghumingcheng:'鲁',
+				cheng:['京','津','沪','渝','蒙','新','藏','宁','桂','黑','吉','辽','晋','冀','青','鲁','豫','苏','皖','浙','闽','赣','湘','鄂','粤','琼','甘','陕','贵','云','川'],
+				index:0,
+				xianshi:false
 			}
 		},
 		onLoad(option) {
@@ -130,11 +140,25 @@
 				this.chepaiz=false
 			},
 			tian:function(){
-				this.$https({url:'/api/user/edit-my-favorite-car',data:JSON.stringify({carCateId:this.id,carNum:this.chepai,myCarImg:this.tupian,id:0}),haeder:true,method:'post',success:function(res){
+				if(this.chepai.length!=5){
+					uni.showToast({
+						title:'请输入正确的车牌号',
+						icon:'none'
+					})
+					return 
+				}
+				this.$https({url:'/api/user/edit-my-favorite-car',data:JSON.stringify({carCateId:this.id,carNum:this.chenghumingcheng+this.chepai,myCarImg:this.tupian,id:0}),haeder:true,method:'post',success:function(res){
 					uni.navigateTo({
 						url:'../user/task/aiChe'
 					})
 				}})
+			},
+			xuanze:function(){
+				this.xianshi=!this.xianshi
+			},
+			dianji:function(z){
+				this.index=z
+				this.chenghumingcheng=this.cheng[z]
 			}
 		}
 	}

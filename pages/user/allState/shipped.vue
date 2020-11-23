@@ -105,7 +105,7 @@
 				<text>优惠券</text>
 			</view>
 			<view class="right_a">
-				<text>已抵扣<text style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice+'00':'0'}}</text></text>
+				<text>已抵扣<text style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice.toFixed(2):'0'}}</text></text>
 			</view>
 		</view>
 

@@ -37,8 +37,8 @@
 				<text>订单信息</text>
 			</view>
 			<view v-for='(item,index) in cartAttr' v-if='item.cartAttr'>
-				<view style='padding:10rpx;background:#ddd;margin-top:10rpx;'>{{item.name}}</view>
-				<view v-for='(items,indexs) in item.cartAttr' style='margin-top:10rpx;border:1px solid #eee;overflow:hidden;'>
+				<view style='padding:10rpx;background:#ddd;margin-top:10rpx;'>{{item.goodsName}}</view>
+				<view v-for='(items,indexs) in item.cartAttr' style='margin-top:10rpx;border:1px solid #eee;overflow:hidden;margin:10rpx auto;'>
 					<view class="imgBox_a">
 						<image :src="items.goodsLogo" mode=""></image>
 					</view>
@@ -56,7 +56,7 @@
 						<!-- 这是数量加减 -->
 						<view class="jia">
 							<text @tap='shangpinj(index,indexs)'>-</text>
-							<input v-model='items.goodsNum' @blur='shuzi' style='width:50px;border:1px solid #eee;float:left;margin-left:10px;'>
+							<input v-model='items.goodsNum' @blur='shuzi' style='width:50px;border:1px solid #eee;float:left;margin-left:10px;text-align:center;font-size:25rpx;'>
 							<text @tap='zengjia(index,indexs)'>+</text>
 						</view>
 					</view>
@@ -79,11 +79,11 @@
 				</view>
 
 
-				<view class="basic">
+				<view class="basic" style='padding-left:0;'>
 					<view class="left_a">
 						<text>优惠券</text>
 					</view>
-					<view class="right_a" @tap='youhuiquan(item.shopId)'>
+					<view class="right_a" @tap='youhuiquan(item.shopId,item.zongjia)'>
 						<view class="img_a">
 							<image src="../../../static/icon_26.png" mode=""></image>
 						</view>
@@ -183,6 +183,7 @@
 			if (options.goodsId) {
 				this.goodsId = options.goodsId
 				this.cartAttr = JSON.parse(options.cartAttr).cartAttr
+				
 				if (options.dingdan == 1) {
 					this.cartAttr.map(function(n, index) {
 						if(n.cartAttr){
@@ -202,7 +203,7 @@
 				}
 				this.id = options.id
 				this.dingdan = options.dingdan
-				if (options.y) {
+				if (options.y&&options.y!='undefined') {
 					this.youhui = JSON.parse(options.y)
 				}
 				if (!options.y) {
@@ -229,16 +230,15 @@
 						n.cartAttr = [n.cartAttr1]
 					})
 				} else {
-					console.log(JSON.parse(options.cartAttr))
 				}
 				this.cartAttr.map(function(n) {
 					if(n.cartAttr){
 					n.cartAttr.map(function(z) {
-						console.log(z.shopPrice, z.goodsNum)
 						_this.shangpin += z.shopPrice * z.goodsNum
 					})
 					}
 				})
+				if(options.shopId){
 				this.shopId = options.shopId
 				//判断选的哪个店铺的优惠券
 				this.cartAttr.map(function(n, index) {
@@ -247,6 +247,7 @@
 						_this.youhui[index].moneys = options.money
 					}
 				})
+				}
 			}
 			if (!options.zhid) {
 				//获取地址列表
@@ -265,15 +266,23 @@
 			}
 			//计算运费
 			this.cartAttr.map(function(n) {
-				n.cartAttr.map(function(z) {
+				if(n.specList){
+				n.specList.map(function(z) {
 					_this.yunfei += z.kuaidi
 				})
+				}
+				//计算总价
+				n.zongjia=0
+				if(n.specList){
+				n.specList.map(function(a){
+					n.zongjia+=a.goodsPrice
+				})
+				}
 			})
 			this.youhui.map(function(z) {
 				_this.moneys += +(z.moneys ? z.moneys : 0)
 			})
 			this.heji = (+this.yunfei) + (+this.shangpin) - this.moneys
-			console.log(this.cartAttr)
 		},
 		
 		methods: {
@@ -284,12 +293,14 @@
 					var a = []
 					n.cartVO = {}
 					n.cartVO.cartAttr = []
-					n.cartAttr.map(function(z) {
+					if(n.specList){
+					n.specList.map(function(z) {
 						var obj = {}
 						obj.goodsNum = z.goodsNum
 						obj.specKey = z.specKey
 						n.cartVO.cartAttr.push(obj)
 					})
+					}
 					n.cartVO.goodsId = n.goodsId
 					n.cartVO.shopId = n.shopId
 					n.cartVO.status = 'a'
@@ -298,16 +309,17 @@
 							n.couponId = s.couponId
 						}
 					})
-					n.cartAttr.map(function(n) {
+					if(n.specList){
+					n.specList.map(function(n) {
 						a.push(n.goodsId)
 					})
+					}
 					n.goodsIds = a.join(',')
 				})
 				this.cartAttr.map(function(n) {
 					arr.push(n.shopId)
 				})
 				var arr = arr.join(',')
-				console.log(this.dingdan)
 				//提交订单
 				this.$https({
 					url: '/api/shop/order-order-submitOrder',
@@ -373,7 +385,7 @@
 					this.cartAttr[0].goodsNum = this.cartAttr[0].cartAttr[0].goodsNum
 				}
 				uni.navigateTo({
-					url: '../../user/leagu/siteList/address?goodsId=' + this.godsId + '&cartAttr=' + JSON.stringify({
+					url: '../../user/leagu/siteList/address?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
 							cartAttr: this.cartAttr
 						}) + '&zhid=' + JSON.stringify(this.dizhi) + '&id=' + this.id + '&money=' + this.moneys + '&dingdan=' + this.dingdan +
 						'&shopId=' + this.shopId + '&y=' + JSON.stringify(this.youhui)
@@ -391,7 +403,7 @@
 						'&shopId=' + this.shopId + '&y=' + JSON.stringify(this.youhui)
 				})
 			},
-			youhuiquan: function(id) {
+			youhuiquan: function(id,pri) {
 				if (this.dingdan == 2) {
 					this.cartAttr[0].goodsNum = this.cartAttr[0].cartAttr[0].goodsNum
 				}
@@ -399,7 +411,7 @@
 					url: '../../user/sale/sale?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
 							cartAttr: this.cartAttr
 						}) + '&zhid=' + JSON.stringify(this.dizhi) + '&id=' + this.id + '&money=' + this.moneys + '&shopId=' + id +
-						'&dingdan=' + this.dingdan + '&y=' + JSON.stringify(this.youhui)
+						'&dingdan=' + this.dingdan + '&y=' + JSON.stringify(this.youhui)+'&jine='+pri
 				})
 			},
 			shangpinj: function(index, indexs) {
@@ -440,7 +452,7 @@
 	.noneBox {
 		width: 250upx;
 		text-align: center;
-		margin: 0 auto;
+		margin: 20rpx auto;
 		padding-top: 20upx;
 		padding-bottom: 40upx;
 		padding-bottom: 20upx;
@@ -504,13 +516,20 @@
 	.xinxi {
 		overflow: hidden;
 		width: 710upx;
-		padding: 20upx;
 		border-bottom: 1px dotted #ccc;
-
+		margin:0 auto;
+		>view{
+			margin-bottom:20rpx;
+		}
 		.biaoyi {
 			text {
 				font-size: 28upx;
 			}
+		}
+		.biaot{
+			padding:20rpx 0;
+			border:none;
+			margin-bottom:0;
 		}
 
 		.imgBox_a {
@@ -558,13 +577,14 @@
 					color: #666;
 					float: left;
 					margin-left: 10px;
+					line-height:1.4rem;
 				}
 			}
 		}
 	}
 
 	.basic {
-		width: 710upx;
+		width: 690upx;
 		background-color: #fff;
 		overflow: hidden;
 		padding: 20upx;
@@ -623,10 +643,8 @@
 	.uni-column {
 		background-color: #fff;
 		overflow: hidden;
-		border-bottom: 20upx solid #f7f7f7;
 
 		.title {
-			float: left;
 			padding-left: 20upx;
 
 			text {
@@ -636,7 +654,6 @@
 		}
 
 		.uni-input {
-			float: left;
 			padding-top: 27upx;
 			font-size: 28upx;
 			padding-left: 20upx;
@@ -671,6 +688,7 @@
 		position: fixed;
 		bottom: 0upx;
 		left: 0upx;
+		z-index:99999;
 
 		.leftA {
 			float: left;

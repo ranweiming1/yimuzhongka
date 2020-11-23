@@ -8,14 +8,15 @@
 				<view class="phone">
 					<text>用户{{phone}}</text>
 				</view>
-				<view class="neirs">
+				<view class="neirs" style='margin-top:10rpx;'>
 					<text>{{item.integralName}}</text>
 				</view>
 			</view>
 
 			<!-- 增值状态 -->
 			<view class="jine">
-				<text>分佣+{{item.integral}}</text>
+				<text style='display:block;text-align:right;font-size:26rpx;'>+{{item.integral}}</text>
+				<text style='color:#666;font-size:24rpx;'>{{item.createTime}}</text>
 			</view>
 		</view>
 	</view>
@@ -84,7 +85,7 @@
 			float: right;
 			padding-top: 20upx;
 			font-size: 30upx;
-			color: #ff0000;
+			color: #0062f6;
 			line-height: 35upx;
 		}
 

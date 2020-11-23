@@ -2,16 +2,16 @@
 	<view>
 		
 		<!-- 广告浮窗 链接到效果图/个人中心/6-3分销页面 -->
-		<view class="float">
+		<!-- <view class="float" bindtap='>
 			<image src="../../static/icon_20.png" mode=""></image>
-		</view>
+		</view> -->
 		
 		<!-- 超出一屏翻页 -->
 		<view class="list" v-for='item in newz' @tap='tiaozhuan(item.id)'>
 			<view class="tit">
 				<text>{{item.title}}</text>
 				<view class="span">
-					<text>发布时间:{{item.create_time}}</text>
+					<text>发布时间:{{item.createTime}}</text>
 				</view>
 			</view>
 			
@@ -36,7 +36,7 @@
 		onShow:function(){
 			var _this=this
 			//新闻资讯
-			this.$https({url:'/api/news/article-list',data:{},dengl:false,success:function(res){
+			this.$https({url:'/api/oauth/news/article-list',data:{},dengl:false,success:function(res){
 				_this.newz=res.data.data
 			}})
 		},

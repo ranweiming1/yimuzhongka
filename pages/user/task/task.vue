@@ -29,7 +29,7 @@
 			</view>
 			<view class="imgRight">
 				<view class="uni-padding-wrap uni-common-mt bott" @tap="qianD">
-					<button type="primary" :style="isQian?'':'background:#bfbfbf;color:#666666'">{{isQian?'点击签到':'已签到'}}</button>
+					<button type="primary" :style="isQian?'background:#bfbfbf;color:#666;':''">{{isQian?'点击签到':'已签到'}}</button>
 				</view>
 			</view>
 
@@ -37,7 +37,7 @@
 				<view class="leiji">
 					<text>累计签到{{date?date:'0'}}天</text>
 				</view>
-				<view class="rig">
+				<view class="rig" @tap='tiaozhuan'>
 					<text style='float:left;'>{{userList.payPoints}} <text>积分数</text> </text>
 					<view class="img_o">
 						<image src="../../../static/icon_23.png" mode=""></image>
@@ -53,7 +53,7 @@
 			<view class="Box">
 				<view class="formerly">
 					<view class="date" :style="state[0]?'color:#999999':''">
-						<text>+5分</text>
+						<text>+{{n}}分</text>
 					</view>
 					<view class="ima_p">
 						<image :src="state[0]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
@@ -65,7 +65,7 @@
 
 				<view class="formerly_a">
 					<view class="date" :style="state[1]?'color:#999999':''">
-						<text>+5分</text>
+						<text>+{{n1}}分</text>
 					</view>
 					<view class="ima_p">
 						<image :src="state[1]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
@@ -77,7 +77,7 @@
 
 				<view class="formerly_b">
 					<view class="date" :style="state[2]?'color:#999999':''">
-						<text>+5分</text>
+						<text>+{{n2}}分</text>
 					</view>
 					<view class="ima_p">
 						<image :src="state[2]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
@@ -88,7 +88,7 @@
 				</view>
 				<view class="formerly_c">
 					<view class="date" :style="state[3]?'color:#999999':''">
-						<text>+5分</text>
+						<text>+{{n3}}分</text>
 					</view>
 					<view class="ima_p">
 						<image :src="state[3]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
@@ -99,7 +99,7 @@
 				</view>
 				<view class="formerly_d">
 					<view class="date" :style="state[4]?'color:#999999':''">
-						<text>+5分</text>
+						<text>+{{n4}}分</text>
 					</view>
 					<view class="ima_p">
 						<image :src="state[4]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
@@ -110,7 +110,7 @@
 				</view>
 				<view class="formerly_e">
 					<view class="date" :style="state[5]?'color:#999999':''">
-						<text>+5分</text>
+						<text>+{{n5}}分</text>
 					</view>
 					<view class="ima_p">
 						<image :src="state[5]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
@@ -121,7 +121,7 @@
 				</view>
 				<view class="formerly_f">
 					<view class="date" :style="state[6]?'color:#999999':''">
-						<text>+5分</text>
+						<text>+{{n6}}分</text>
 					</view>
 					<view class="ima_p">
 						<image :src="state[6]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
@@ -146,7 +146,7 @@
 						<text>奖励{{item.integral}}积分</text>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item,4)">
-						<button type="primary" :style="item.taskStatus?'background:#bfbfbf;color:#666666':''">{{item.taskStatus?'已完成':'去完成'}}</button>
+						<button type="primary" :style="item.taskStatus?'':'background:#bfbfbf;color:#666;'">{{item.taskStatus?'已完成':'去完成'}}</button>
 					</view>
 				</view>
 
@@ -168,13 +168,17 @@
 				systemDate: '',
 				// isList: false,
 				state: [],
-				isRen: ''
+				isRen: '',
+				n:'',
+				n1:'',
+				n2:'',
+				n3:'',
+				n4:'',
+				n5:'',
+				n6:''
 			}
 		},
 		onLoad() {
-			this.xuanR()
-		},
-		onShow() {
 			this.xuanR()
 		},
 		methods: {
@@ -189,7 +193,17 @@
 						_this.userList = res.data.data.userInfo
 						_this.date = res.data.data.signInDays
 						_this.qianDate = res.data.data.storeIntegralLogList
-						console.log(res.data.data)
+						res.data.data.taskCenters.map(z=>{
+							if(z.taskType==0){
+								_this.n=z.integral
+								_this.n1=z.integral
+								_this.n2=z.integral
+								_this.n3=z.integral
+								_this.n4=z.integral
+								_this.n5=z.integral
+								_this.n6=z.integral
+							}
+						})
 
 						// 获取当前时间
 						function dateRiqi(i) {
@@ -269,7 +283,6 @@
 
 			},
 			lingJifen(taskId, isRen, taskType) {
-				console.log(taskId)
 				this.$https({
 					url: '/api/task/center-task-insert',
 					data: {
@@ -279,8 +292,6 @@
 					method: 'POST',
 					success: function(res) {
 						isRen = true
-						console.log(isRen)
-
 					}
 				})
 			},
@@ -288,13 +299,18 @@
 			renWu: function(item, id) {
 				// console.log(id)
 				var _this = this
-				console.log(item)
 				var state = item.postUrl
 				var isRen = item.taskStatus
 				var taskType = item.taskType
 				var taskId = item.taskId
 				// console.log(taskId)
 				if (!isRen) {
+					if(state==1){
+						this.$https({url:'/api/task/center-signIn',data:JSON.stringify({integral:5,taskId:0}),method:'post',haeder:true,success:res=>{
+							this.isQian=false
+							this.xuanR()
+						}})
+					}
 					if (state == 2 || state == 3) {
 						uni.navigateTo({
 							url: '../../classify/fenlOne'
@@ -303,7 +319,6 @@
 						setTimeout(function() {
 							state == 2 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
 							// _this.xuanR()
-							console.log('任务完成')
 						}, 5000)
 
 					}
@@ -325,6 +340,11 @@
 					// _this.xuanR()
 				}
 
+			},
+			tiaozhuan:function(){
+				uni.navigateTo({
+					url:'../jifenStore/jifenStore'
+				})
 			}
 		}
 	}

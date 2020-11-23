@@ -42,7 +42,7 @@
 			</view>
 		</view>
 		<view class='hahah list uni-flex uni-column' v-if='xiana==1'>
-			<view class='content' v-for="(item,index) in shopList" @tap="detail(item.goodsId)">
+			<view class='content' v-for="(item,index) in shopList" @tap="detail(item.goodsId)" v-if='item'>
 				<view class='imgBox'>
 					<image :src="item.goodsLogo" mode='widthFix'></image>
 				</view>
@@ -79,7 +79,6 @@
 				dengl: false,
 				success: function(res) {
 					_this.shopList = res.data.data
-					console.log(res.data.data)
 
 				}
 			})

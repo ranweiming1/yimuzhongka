@@ -40,7 +40,11 @@
 				if(this.dianji){
 					this.dianji=false
 				var _this=this
-				this.$https({url:'/pai/user'})
+				this.$https({url:'/api/oauth/sendSms/user-auth',data:{phone:this.oldPhone},denglu:true,success:res=>{
+					uni.showToast({
+						title:res.data.message
+					})
+				}})
 				this.yanzheng='60s重新获取'
 				var num=60
 				this.dingshiqi=setInterval(function(){
@@ -56,7 +60,17 @@
 			},
 			tijiaoxiugai:function(){
 				var _this=this
-				this.$https({url:''})
+				this.$https({url:'/api/user/change-phone',data:{newPhone:this.newPhone,oldPhone:this.oldPhone,smsCode:this.smsCode},method:'post',success:res=>{
+					if(res.data.code==0){
+						uni.showToast({
+							title:'操作成功'
+						})
+						return flase
+					}
+					uni.showToast({
+						title:res.data.message
+					})
+				}})
 			}
 		}
 	}

@@ -69,6 +69,9 @@
 		},
 		methods:{
 			tiaozhuan:function(){
+				uni.navigateTo({
+					url:'../../cart/orderForm/jifen?good='+this.id
+				})
 				// uni.navigateTo({
 				// 	url:'../../cart/orderForm/orderForm?goodsId='+this.id+'&cartAttr='+JSON.stringify({
 				// 		cartAttr:[{

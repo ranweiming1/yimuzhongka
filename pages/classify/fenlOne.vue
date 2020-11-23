@@ -50,7 +50,7 @@
 
 		<view :class="tog_Ca?'':'togActive'">
 			<!-- 头部 -->
-			<view class="top" style='position:fixed;left:0;top:60rpx;background:#fff;width:100%;z-index:99999;margin:20rpx 0;'>
+			<view class="top" style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;margin:20rpx 0;padding-top:60rpx;'>
 				<view class='back' @tap='back' style='float:left;margin-top:10rpx;margin-left:20rpx;'>
 					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 				</view>
@@ -82,7 +82,7 @@
 
 					</view>
 				</view>
-				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;z-index:99999;'
+				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:26rpx;z-index:99999;'
 				 v-if='paixu'>
 					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PASC"'>√</view></view>
 					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PDESC"'>√</view></view>
@@ -111,7 +111,7 @@
 
 						</view>
 						<view class="txt_aas">
-							<text>税后价：<text><text style='font-size:22rpx;'>￥</text>{{item.marketPrice?item.marketPrice+".00":'暂无价格'}}</text></text>
+							<text>税后价：<text><text style='font-size:22rpx;'>￥</text>{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text></text>
 							<text>销量：{{item.salesSum}}</text>
 						</view>
 
@@ -151,7 +151,6 @@
 				this.value = option.keywords
 				this.search()
 			} else{
-				console.log(option)
 			this.$https({
 				url: '/api/oauth/shop/mall-goods-ptList',
 				data: {

@@ -21,7 +21,7 @@
 		
 		<!-- 可使用状态优惠券 -->
 		<view class="valid " v-if='shixiao==0'>
-			<view v-if='youhuiquan.length==0'>
+			<view v-if='youhuiquan.length==0' style='box-shadow:none;'>
 				<image src='../../../static/y.png' style='width:300rpx;height:150rpx;display:block;margin:20rpx auto;'></image>
 				<view style='text-align:center;'>暂无可用优惠券</view>
 			</view>
@@ -55,8 +55,8 @@
 		
 		<!-- 不可使用状态 -->
 		
-		<view class="cannot" v-if='shixiao==1'>
-			<view v-if='youhuiquan.length==0'>
+		<view class="cannot" v-if='shixiao==1' style='height:auto;'>
+			<view v-if='youhuiquan.length==0' style='box-shadow:none;'>
 				<image src='../../../static/y.png' style='width:300rpx;height:150rpx;display:block;margin:20rpx auto;'></image>
 				<view style='text-align:center;'>暂无可用优惠券</view>
 			</view>
@@ -72,7 +72,7 @@
 			</view>
 			<view class="float">
 				<view class="h2">
-					<text>满{{item.couponDTO.condition?item.couponDTO.conditio:''}}-{{item.couponDTO.money?item.couponDTO.money:''}}立减券</text>
+					<text>满{{item.couponDTO.condition?item.couponDTO.condition:''}}-{{item.couponDTO.money?item.couponDTO.money:''}}立减券</text>
 				</view>
 				<view class="p">
 					<text>{{item.couponDTO.name?item.couponDTO.name:''}}</text>
@@ -103,7 +103,8 @@
 				shopId:0,
 				y:'',
 				id:'',
-				money:''
+				money:'',
+				jine:''
 			}
 		},
 		methods: {
@@ -126,6 +127,7 @@
 			shiyong:function(id,money){
 				var aum=0
 				var _this=this
+				if(this.y){
 				this.y.map(function(n){
 					if(_this.shopId==n.shopId){
 						n.money=money
@@ -135,19 +137,37 @@
 				uni.navigateTo({
 					url:'../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+this.zhid+'&id='+id+'&money='+money+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&coupid='+this.id+'&y='+JSON.stringify(this.y)
 				})
+				}else{
+					uni.reLaunch({
+						url:'../../index/index'
+					})
+				}
 			}
 		},
 		onLoad:function(options){
 			var _this=this
 			//获取优惠券
 			this.$https({url:'/api/shop/myCoupon-list',data:{type:this.shixiao},success:function(res){
-				_this.youhuiquan=res.data.data?res.data.data:[]
+				res.data.data=res.data.data?res.data.data:[]
+				var arr=[]
+				res.data.data.map(function(n){
+					if(n.condition<=options.jine){
+						arr.push(n)
+					}
+				})
+				_this.youhuiquan=options.jine?arr:res.data.data
 				if(options.shopId){
 					_this.$https({url:'/api/oauth/shop/store-coupon-list',data:{shopId:options.shopId},dengl:true,success:function(res){
 						res.data.data.map(function(n){
 							var obj={}
 							obj.couponDTO=n
+							if(options.jine){
+							if(n<=options.jine){
 							_this.youhuiquan.push(obj)
+							}
+							}else{
+								_this.youhuiquan.push(obj)
+							}
 						})
 					}})
 				}

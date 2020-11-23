@@ -1,6 +1,6 @@
 {
     "name" : "毅木重卡",
-    "appid" : "__UNI__69689CA",
+    "appid" : "__UNI__B766BB2",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : 101,
@@ -52,60 +52,71 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "urltypes" : ""
+            },
             /* SDK配置 */
             "sdkConfigs" : {
                 "oauth" : {
                     "weixin" : {
                         "appid" : "wxcfda9c1418eeb2e3",
                         "appsecret" : "8312160d9c9845f799e105f2ec3cb1c9",
-                        "UniversalLinks" : ""
+                        "UniversalLinks" : "https://www.yimuzhongka.com"
                     }
                 },
                 "ad" : {},
                 "payment" : {
                     "weixin" : {
                         "appid" : "wxcfda9c1418eeb2e3",
-                        "UniversalLinks" : ""
+                        "UniversalLinks" : "https://www.yimuzhongka.com"
                     }
                 },
                 "share" : {
                     "weixin" : {
                         "appid" : "wxcfda9c1418eeb2e3",
-                        "UniversalLinks" : ""
+                        "UniversalLinks" : "https://www.yimuzhongka.com"
                     }
-                }
+                },
+                "push" : {}
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "",
-                    "xhdpi" : "",
-                    "xxhdpi" : "",
-                    "xxxhdpi" : ""
+                    "hdpi" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                    "xhdpi" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                    "xxhdpi" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                    "xxxhdpi" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png"
                 },
                 "ios" : {
-                    "appstore" : "",
+                    "appstore" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
                     "ipad" : {
-                        "app" : "",
-                        "app@2x" : "",
-                        "notification" : "",
-                        "notification@2x" : "",
-                        "proapp@2x" : "",
-                        "settings" : "",
-                        "settings@2x" : "",
-                        "spotlight" : "",
-                        "spotlight@2x" : ""
+                        "app" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "app@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "notification" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "notification@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "proapp@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "settings" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "settings@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "spotlight" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "spotlight@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png"
                     },
                     "iphone" : {
-                        "app@2x" : "",
-                        "app@3x" : "",
-                        "notification@2x" : "",
-                        "notification@3x" : "",
-                        "settings@2x" : "",
-                        "settings@3x" : "",
-                        "spotlight@2x" : "",
-                        "spotlight@3x" : ""
+                        "app@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "app@3x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "notification@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "notification@3x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "settings@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "settings@3x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "spotlight@2x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                        "spotlight@3x" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png"
                     }
+                }
+            },
+            "splashscreen" : {
+                "androidStyle" : "default",
+                "android" : {
+                    "hdpi" : "C:/Users/Lenovo/Desktop/a4301c2af4e345eda80dfe7aceb688e9.png",
+                    "xhdpi" : "C:/Users/Lenovo/Desktop/a4301c2af4e345eda80dfe7aceb688e9.png",
+                    "xxhdpi" : "C:/Users/Lenovo/Desktop/a4301c2af4e345eda80dfe7aceb688e9.png"
                 }
             }
         }
