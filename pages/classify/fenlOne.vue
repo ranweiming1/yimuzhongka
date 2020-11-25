@@ -84,18 +84,23 @@
 				</view>
 				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:26rpx;z-index:99999;'
 				 v-if='paixu'>
-					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PASC"'>√</view></view>
-					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PDESC"'>√</view></view>
-					<view style='margin-top:20rpx;' @tap='p("SASC")'>销量从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SASC"'>√</view></view>
-					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='p("SDESC")'>销量从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SDESC"'>√</view></view>
+					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PASC"'>√</view>
+					</view>
+					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PDESC"'>√</view>
+					</view>
+					<view style='margin-top:20rpx;' @tap='p("SASC")'>销量从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SASC"'>√</view>
+					</view>
+					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='p("SDESC")'>销量从低到高<view style='display:inline-block;margin-left:10rpx;'
+						 v-if='st=="SDESC"'>√</view>
+					</view>
 				</view>
 			</view>
 
 
 
 			<!-- 热门推荐 -->
-			<view class="hahah list uni-flex uni-column" v-for="(item , index) in allList" @tap="detail(item.goodsId)">
-				<view class="content ">
+			<view class="hahah list uni-flex uni-column">
+				<view class="content " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
 					<view class="imgBox">
 						<image :src="item.goodsLogo" mode="widthFix"></image>
 					</view>
@@ -108,13 +113,27 @@
 							<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
 								<text>满{{items.condition}}-{{items.money}}元</text>
 							</view>
-
+						</view>
+						<view class="diZhi" v-if="tog_Ca">
+							<text>山东 济南</text>
 						</view>
 						<view class="txt_aas">
-							<text>税后价：<text><text style='font-size:22rpx;'>￥</text>{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text></text>
-							<text>销量：{{item.salesSum}}</text>
-						</view>
+							<text><text>
+									<text style='font-size:22rpx;'>￥</text>{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text></text>
+							<text v-if="!tog_Ca">销量：{{item.salesSum}}</text>
+							<view class="but_Icon" v-if="tog_Ca">
+								<view class="icons">
+									<text class="icon1">旺铺</text>
+									<view class="icon2">
+										<image src="../../static/qiyerenzheng.png" mode="">
+									</view>
+									<text class="icon2">购</text>
+									<text class="icon2">品</text>
+								</view>
 
+							</view>
+
+						</view>
 					</view>
 				</view>
 			</view>
@@ -150,34 +169,34 @@
 			if (option.keywords) {
 				this.value = option.keywords
 				this.search()
-			} else{
-			this.$https({
-				url: '/api/oauth/shop/mall-goods-ptList',
-				data: {
-					cat_id: option.id ? option.id : ''
-				},
-				dengl:true,
-				success(res) {
-					_this.allList = res.data.data
-					_this.goodsType = res.data.data.selfStatus
-					console.log(res.data.data)
-				}
-			})
-			this.$https({
-				url: '/api/oauth/oauth/shop/goods-recom',
-				data: {
-					// cat_id:option.id?option.id:''
-				},
-				dengl:true,
-				success(res) {
-					// _this.allList = res.data.data
-					// _this.goodsType = res.data.data.selfStatus
-					console.log(res.data.data)
-				}
-			})
-		}
-	},
-	components: {
+			} else {
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-ptList',
+					data: {
+						cat_id: option.id ? option.id : ''
+					},
+					dengl: true,
+					success(res) {
+						_this.allList = res.data.data
+						_this.goodsType = res.data.data.selfStatus
+						console.log(res.data.data)
+					}
+				})
+				this.$https({
+					url: '/api/oauth/oauth/shop/goods-recom',
+					data: {
+						// cat_id:option.id?option.id:''
+					},
+					dengl: true,
+					success(res) {
+						// _this.allList = res.data.data
+						// _this.goodsType = res.data.data.selfStatus
+						console.log(res.data.data)
+					}
+				})
+			}
+		},
+		components: {
 			tabBar,
 		},
 		methods: {
@@ -194,7 +213,7 @@
 						goodsId: id
 					},
 					method: 'POST',
-					dengl:true,
+					dengl: true,
 					success(res) {
 						// console.log('添加成功')
 						// console.log(res.data)
@@ -213,7 +232,7 @@
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serch',
 					data: {},
-					dengl:true,
+					dengl: true,
 					success: function(res) {
 						_this.shaiList = res.data.data.brandDTOS
 						_this.id = res.data.data.brandDTOS[0].id
@@ -231,7 +250,7 @@
 				var _this = this
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
-					dengl:true,
+					dengl: true,
 					method: 'post',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
@@ -273,7 +292,7 @@
 				var _this = this
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
-					dengl:true,
+					dengl: true,
 					method: 'post',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
@@ -298,20 +317,20 @@
 					data: {
 						keywords: this.value
 					},
-					dengl:true,
+					dengl: true,
 					success: function(res) {
 						_this.allList = res.data.data
 					}
 				})
 			},
-			tiaozh:function(){
+			tiaozh: function() {
 				uni.navigateTo({
-					url:'../cart/cart'
+					url: '../cart/cart'
 				})
 			},
-			back:function(){
+			back: function() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			}
 		}
@@ -420,7 +439,9 @@
 		border-bottom: 1px dotted #ccc;
 		padding-bottom: 20upx;
 		overflow: hidden;
-		position:relative;
+		position: relative;
+
+
 		.imgBox {
 			image {
 				width: 30%;
@@ -439,6 +460,59 @@
 				font-size: 30upx;
 			}
 
+			.diZhi {
+				float: right;
+
+				text {
+					font-size: 20rpx;
+				}
+
+				color: #666666;
+			}
+
+			.but_Icon {
+				// width: 100%;
+				overflow: hidden;
+
+				.icons {
+					float: right;
+					display: flex;
+					margin-top: 10rpx;
+
+					.icon1 {
+						background-color: #ff6600;
+						border-radius: 5rpx;
+						font-size: 18rpx;
+						color: #FFFFFF;
+						line-height: 22rpx;
+						padding: 5rpx 10rpx;
+						height: 22rpx;
+						border: 1rpx solid #ff6600;
+						display: inline-block;
+					}
+
+					.icon2 {
+						font-size: 18rpx;
+						height: 22rpx;
+						line-height: 22rpx;
+						width: 22rpx;
+						padding: 5rpx;
+						border-radius: 5rpx;
+						border: 1rpx solid #ff6600;
+						color: #ff6600;
+						display: inline-block;
+						margin-left: 10rpx;
+						text-align: center;
+
+						image {
+							width: 100%;
+							height: 100%;
+						}
+					}
+
+				}
+			}
+
 			.span_a {
 				background-color: #fff;
 				color: #ff6600;
@@ -454,12 +528,12 @@
 				display: inline-block;
 
 				text {
-					border: 1px dotted #ff3333;
+					border: 1px dotted #ff6600;
 					background-color: #fff;
 					font-size: 16upx;
 					line-height: 30upx;
 					padding: 5upx 10upx;
-					color: #ff3333;
+					color: #ff6600;
 					margin-right: 20upx;
 					font-size: 20upx;
 				}
@@ -467,18 +541,21 @@
 
 			.txt_aas {
 				padding-top: 10upx;
-                position:absolute;
-				left:33%;
-				width:60%;
-				bottom:20rpx;
+				position: absolute;
+				left: 33%;
+				width: 64%;
+				bottom: 20rpx;
+
 				text {
 					color: #333;
 					font-size: 32upx;
 
 					text {
-						color: #ff3333;
+						color: #ff6600;
 						font-size: 32upx;
 						font-weight: bold;
+						display: inline-block;
+						float: left;
 					}
 				}
 
@@ -513,7 +590,7 @@
 		float: right;
 		right: 0;
 		padding-top: 60rpx;
-		top:0;
+		top: 0;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -626,10 +703,11 @@
 			justify-content: space-between;
 			padding: 0, 10rpx;
 			padding-bottom: 45rpx;
-			bottom:0;
-			position:fixed;
-			width:80%;
-			left:20%;
+			bottom: 0;
+			position: fixed;
+			width: 80%;
+			left: 20%;
+
 			:first-child {
 				background-color: #dcdcdc;
 				color: #333333;
@@ -687,18 +765,30 @@
 			}
 		}
 
+		.list {
+			column-count: 2;
+			column-gap: 25rpx;
+			margin-left: 30rpx;
+			margin-right: 30rpx;
+			padding-bottom: 80rpx;
+		}
+
+
 		.content {
+			box-sizing: border-box;
+			break-inside: avoid;
 			margin-top: 20upx;
-			// margin-bottom: 10upx;
 			display: black;
-			width: 308upx;
-			margin-left: 20upx;
+			width: 330upx;
+			// margin-left: 20upx;
 			float: left;
 			box-shadow: 0 0 5px #ccc;
 			border-radius: 20upx;
-			padding-bottom: 20upx;
 			overflow: hidden;
-			border:none;
+			border: none;
+			padding: 0;
+			padding-bottom: 20upx;
+
 
 			.imgBox {
 				image {
@@ -716,10 +806,10 @@
 
 				text {
 					font-size: 30upx;
-					overflow:hidden;
-					max-width:100%;
-					text-overflow:ellipsis;
-					white-space:nowrap;
+					overflow: hidden;
+					max-width: 100%;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 
 				.span_a {
@@ -748,7 +838,8 @@
 
 				.txt_aas {
 					padding-top: 10upx;
-					position:initial;
+					position: initial;
+
 					text {
 						color: #333;
 						font-size: 32upx;

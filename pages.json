@@ -129,13 +129,7 @@
 				"navigationStyle":"custom"
 			}
 		},
-		{
-			"path": "pages/shop/shopTwo",
-			"style": {
-				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle":"custom"
-			}
-		},
+		
 		{
 			"path": "pages/cart/cart",
 			"style": {
