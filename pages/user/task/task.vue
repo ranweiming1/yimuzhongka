@@ -2,6 +2,7 @@
 	<view>
 		<!-- 背景图 -->
 		<view class="bg_img">
+			<image src="../../../static/jfBnner.png" mode=""></image>
 		</view>
 
 		<!-- 头部 -->
@@ -29,7 +30,7 @@
 			</view>
 			<view class="imgRight">
 				<view class="uni-padding-wrap uni-common-mt bott" @tap="qianD">
-					<button type="primary" :style="isQian?'background:#bfbfbf;color:#666;':''">{{isQian?'点击签到':'已签到'}}</button>
+					<button type="primary" :style="isQian?'background:#f9b52e;color:#fff;':'color:#666'">{{isQian?'点击签到':'已签到'}}</button>
 				</view>
 			</view>
 
@@ -52,101 +53,139 @@
 		<view class="bgWhite">
 			<view class="Box">
 				<view class="formerly">
-					<view class="date" :style="state[0]?'color:#999999':''">
+					<view class="date" :style="state[0]?'color:#fff':'color:rgba(0,0,0,0)'">
 						<text>+{{n}}分</text>
 					</view>
+					<!-- <view class="data" v-if="state[0]">
+						
+					</view> -->
 					<view class="ima_p">
-						<image :src="state[0]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
+						<image :src="state[0]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
+							<view class="hFrame_t" :style="state[0]?'':'border-bottom: 2px solid #fff'"></view>
+						</image>
 					</view>
 					<view class="date">
-						<text>周一</text>
+						<text>一</text>
 					</view>
+
 				</view>
 
 				<view class="formerly_a">
-					<view class="date" :style="state[1]?'color:#999999':''">
+					<view class="date" :style="state[1]?'color:#fff':'color:rgba(0,0,0,0)'">
 						<text>+{{n1}}分</text>
 					</view>
 					<view class="ima_p">
-						<image :src="state[1]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
+						<view class="hFrame_o" :style="state[1]?'':'border-bottom: 2px solid #fff'"></view>
+						<image :src="state[1]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
+						<view class="hFrame_t" :style="state[1]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
-						<text>周二</text>
+						<text>二</text>
 					</view>
+
 				</view>
 
 				<view class="formerly_b">
-					<view class="date" :style="state[2]?'color:#999999':''">
+					<view class="date" :style="state[2]?'color:#fff':'color:rgba(0,0,0,0)'">
 						<text>+{{n2}}分</text>
 					</view>
 					<view class="ima_p">
-						<image :src="state[2]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
+						<view class="hFrame_o" :style="state[2]?'':'border-bottom: 2px solid #fff'"></view>
+						<image :src="state[2]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
+						<view class="hFrame_t" :style="state[2]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
-						<text>周三</text>
+						<text>三</text>
 					</view>
 				</view>
 				<view class="formerly_c">
-					<view class="date" :style="state[3]?'color:#999999':''">
+					<view class="date" :style="state[3]?'color:#fff':'color:rgba(0,0,0,0)'">
 						<text>+{{n3}}分</text>
 					</view>
 					<view class="ima_p">
-						<image :src="state[3]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
+						<view class="hFrame_o" :style="state[3]?'':'border-bottom: 2px solid #fff'"></view>
+						<image :src="state[3]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
+						<view class="hFrame_t" :style="state[3]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
-						<text>周四</text>
+						<text>四</text>
 					</view>
 				</view>
 				<view class="formerly_d">
-					<view class="date" :style="state[4]?'color:#999999':''">
+					<view class="date" :style="state[4]?'color:#fff':'color:rgba(0,0,0,0)'">
 						<text>+{{n4}}分</text>
 					</view>
 					<view class="ima_p">
-						<image :src="state[4]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
+						<view class="hFrame_o" :style="state[4]?'':'border-bottom: 2px solid #fff'"></view>
+						<image :src="state[4]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
+						<view class="hFrame_t" :style="state[4]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
-						<text>周五</text>
+						<text>五</text>
 					</view>
 				</view>
 				<view class="formerly_e">
-					<view class="date" :style="state[5]?'color:#999999':''">
+					<view class="date" :style="state[5]?'color:#fff':'color:rgba(0,0,0,0)'">
 						<text>+{{n5}}分</text>
 					</view>
 					<view class="ima_p">
-						<image :src="state[5]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
+						<view class="hFrame_o" :style="state[5]?'':'border-bottom: 2px solid #fff'"></view>
+						<image :src="state[5]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
+						<view class="hFrame_t" :style="state[5]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
-						<text>周六</text>
+						<text>六</text>
 					</view>
 				</view>
 				<view class="formerly_f">
-					<view class="date" :style="state[6]?'color:#999999':''">
+					<view class="date" :style="state[6]?'color:#fff':'color:rgba(0,0,0,0)'">
 						<text>+{{n6}}分</text>
 					</view>
 					<view class="ima_p">
-						<image :src="state[6]?'../../../static/icon_32.png':'../../../static/icon_33.png'" mode=""></image>
+						<view class="hFrame_o" :style="state[6]?'':'border-bottom: 2px solid #fff'"></view>
+						<image :src="state[6]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
 					</view>
 					<view class="date">
-						<text>周日</text>
+						<text>日</text>
 					</view>
 				</view>
 			</view>
 		</view>
 
 		<view class="gain">
-			<view class="tit">
+			<!-- <view class="tit">
 				<text>做任务赚积分</text>
-			</view>
+			</view> -->
 			<view class="frame">
+				<view class="frameTop">
+					<view class="top_Left">
+						<text>任务列表</text>
+					</view>
+					<view class="top_right">
+						<text>当天未领取的奖励将于24点过期</text>
+					</view>
+				</view>
+				<view class="clear">
+
+				</view>
 				<view class="ul" v-for="(item,index) in taskList">
-					<view class="title_u">
-						<text>{{item.taskName}}</text>
+					<view class="icon_img">
+						<image src="../../../static/rw_icon6.png" mode=""></image>
 					</view>
-					<view class="span">
-						<text>奖励{{item.integral}}积分</text>
+					<view class="ruCenter">
+						<view class="title_u">
+							<text>{{item.taskName}}</text>
+						</view>
+						<view class="span">
+							<text>奖励{{item.integral}}积分</text>
+						</view>
 					</view>
+
 					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item,4)">
-						<button type="primary" :style="item.taskStatus?'':'background:#bfbfbf;color:#666;'">{{item.taskStatus?'已完成':'去完成'}}</button>
+						<view class="rwButt">{{item.taskStatus?'已完成':'去完成'}}
+
+						</view>
+						<!-- <button type="primary" :style="item.taskStatus?'':'background:#bfbfbf;color:#666;'">{{item.taskStatus?'已完成':'去完成'}}</button> -->
 					</view>
 				</view>
 
@@ -169,13 +208,13 @@
 				// isList: false,
 				state: [],
 				isRen: '',
-				n:'',
-				n1:'',
-				n2:'',
-				n3:'',
-				n4:'',
-				n5:'',
-				n6:''
+				n: '',
+				n1: '',
+				n2: '',
+				n3: '',
+				n4: '',
+				n5: '',
+				n6: ''
 			}
 		},
 		onLoad() {
@@ -193,15 +232,15 @@
 						_this.userList = res.data.data.userInfo
 						_this.date = res.data.data.signInDays
 						_this.qianDate = res.data.data.storeIntegralLogList
-						res.data.data.taskCenters.map(z=>{
-							if(z.taskType==0){
-								_this.n=z.integral
-								_this.n1=z.integral
-								_this.n2=z.integral
-								_this.n3=z.integral
-								_this.n4=z.integral
-								_this.n5=z.integral
-								_this.n6=z.integral
+						res.data.data.taskCenters.map(z => {
+							if (z.taskType == 0) {
+								_this.n = z.integral
+								_this.n1 = z.integral
+								_this.n2 = z.integral
+								_this.n3 = z.integral
+								_this.n4 = z.integral
+								_this.n5 = z.integral
+								_this.n6 = z.integral
 							}
 						})
 
@@ -305,11 +344,20 @@
 				var taskId = item.taskId
 				// console.log(taskId)
 				if (!isRen) {
-					if(state==1){
-						this.$https({url:'/api/task/center-signIn',data:JSON.stringify({integral:5,taskId:0}),method:'post',haeder:true,success:res=>{
-							this.isQian=false
-							this.xuanR()
-						}})
+					if (state == 1) {
+						this.$https({
+							url: '/api/task/center-signIn',
+							data: JSON.stringify({
+								integral: 5,
+								taskId: 0
+							}),
+							method: 'post',
+							haeder: true,
+							success: res => {
+								this.isQian = false
+								this.xuanR()
+							}
+						})
 					}
 					if (state == 2 || state == 3) {
 						uni.navigateTo({
@@ -341,9 +389,9 @@
 				}
 
 			},
-			tiaozhuan:function(){
+			tiaozhuan: function() {
 				uni.navigateTo({
-					url:'../jifenStore/jifenStore'
+					url: '../jifenStore/jifenStore'
 				})
 			}
 		}
@@ -352,9 +400,15 @@
 
 <style lang="scss">
 	.bg_img {
-		background-color: #2b5cff;
+		// background-color: #2b5cff;
 		width: 750upx;
-		height: 440upx;
+		height: 600upx;
+
+		// background: url('../../../static/jfBnner.png');
+		image {
+			width: 100%;
+			height: 100%;
+		}
 	}
 
 	.top {
@@ -429,7 +483,9 @@
 				width: 12upx;
 				height: 20upx;
 			}
+
 		}
+
 
 		.jil {
 			width: 710upx;
@@ -457,10 +513,11 @@
 					width: 200upx;
 					font-size: 40upx;
 					color: #fff;
-					display:block;
+					display: block;
+
 					text {
 						font-size: 20upx;
-						display:block;
+						display: block;
 					}
 				}
 
@@ -481,22 +538,24 @@
 	.bgWhite {
 		width: 660upx;
 		height: 120upx;
-		box-shadow: 0 0 5px #ccc;
+		// box-shadow: 0 0 5px #ccc;
 		position: absolute;
 		top: 380upx;
 		left: 25upx;
-		background-color: #fff;
+		// background-color: #fff;
 		border-radius: 20upx;
-		padding: 50upx 20upx 20upx 20upx;
+		padding: 0 20upx 20upx 20upx;
+		color: #FFFFFF;
 	}
 
 	.bott {
-		width: 195upx;
+		width: 165upx;
 		float: right;
 
 		button {
 			background-color: #fff;
-			color: #2b5cff;
+			color: #f9b52e;
+			color: #fff;
 			border-radius: 40upx;
 			font-size: 24upx;
 			font-family: Microsoft YaHei;
@@ -505,18 +564,41 @@
 	}
 
 	.Box {
-		position: relative;
-		padding-top: 30upx;
-		width: 620upx;
-		height: 2upx;
-		margin-left: 20upx;
-		border-bottom: 1px solid #007AFF;
+		// position: relative;
+		padding-top: 22upx;
+		width: 100%;
+		// height: 2upx;
+		// margin-left: 20upx;
+		display: flex;
+		justify-content: space-around;
+		flex-direction: row;
+		overflow: hidden;
+
+		.hFrame_t {
+			width: 33rpx;
+			border-bottom: 2px solid #ffd711;
+			top: 50%;
+			position: absolute;
+			/* margin-top: -3px;wxcs_style_margin-top; */
+			right: -33rpx;
+			margin-top: -4.5rpx;
+		}
+
+		.hFrame_o {
+			width: 33rpx;
+			border-bottom: 2px solid #ffd711;
+			top: 50%;
+			position: absolute;
+			/* margin-top: -3px;wxcs_style_margin-top; */
+			left: -33rpx;
+			margin-top: -4.5rpx;
+		}
 
 		.formerly {
-			position: absolute;
-			top: -30upx;
-			left: -15upx;
-			text-align: center;
+			// position: absolute;
+			// top: -30upx;
+			// left: -15upx;
+			// text-align: center;
 
 			.date {
 				text {
@@ -525,6 +607,9 @@
 			}
 
 			.ima_p {
+				position: relative;
+				width: 32upx;
+
 				image {
 					width: 32upx;
 					height: 32upx;
@@ -533,10 +618,10 @@
 		}
 
 		.formerly_a {
-			position: absolute;
-			top: -30upx;
-			left: 12%;
-			text-align: center;
+			// position: absolute;
+			// top: -30upx;
+			// left: 12%;
+			// text-align: center;
 
 			.date {
 				text {
@@ -545,6 +630,9 @@
 			}
 
 			.ima_p {
+				position: relative;
+				width: 32upx;
+
 				image {
 					width: 32upx;
 					height: 32upx;
@@ -553,10 +641,10 @@
 		}
 
 		.formerly_b {
-			position: absolute;
-			top: -30upx;
-			left: 28%;
-			text-align: center;
+			// position: absolute;
+			// top: -30upx;
+			// left: 28%;
+			// text-align: center;
 
 			.date {
 				text {
@@ -565,6 +653,9 @@
 			}
 
 			.ima_p {
+				width: 32upx;
+				position: relative;
+
 				image {
 					width: 32upx;
 					height: 32upx;
@@ -573,10 +664,10 @@
 		}
 
 		.formerly_c {
-			position: absolute;
-			top: -30upx;
-			left: 43%;
-			text-align: center;
+			// position: absolute;
+			// top: -30upx;
+			// left: 43%;
+			// text-align: center;
 
 			.date {
 				text {
@@ -585,6 +676,9 @@
 			}
 
 			.ima_p {
+				width: 32upx;
+				position: relative;
+
 				image {
 					width: 32upx;
 					height: 32upx;
@@ -593,10 +687,10 @@
 		}
 
 		.formerly_d {
-			position: absolute;
-			top: -30upx;
-			left: 60%;
-			text-align: center;
+			// position: absolute;
+			// top: -30upx;
+			// left: 60%;
+			// text-align: center;
 
 			.date {
 				text {
@@ -605,6 +699,9 @@
 			}
 
 			.ima_p {
+				width: 32upx;
+				position: relative;
+
 				image {
 					width: 32upx;
 					height: 32upx;
@@ -613,10 +710,10 @@
 		}
 
 		.formerly_e {
-			position: absolute;
-			top: -30upx;
-			right: 13%;
-			text-align: center;
+			// position: absolute;
+			// top: -30upx;
+			// right: 13%;
+			// text-align: center;
 
 			.date {
 				text {
@@ -625,6 +722,9 @@
 			}
 
 			.ima_p {
+				width: 32upx;
+				position: relative;
+
 				image {
 					width: 32upx;
 					height: 32upx;
@@ -633,10 +733,10 @@
 		}
 
 		.formerly_f {
-			position: absolute;
-			top: -30upx;
-			right: -20upx;
-			text-align: center;
+			// position: absolute;
+			// top: -30upx;
+			// right: -20upx;
+			// text-align: center;
 
 			.date {
 				text {
@@ -645,6 +745,9 @@
 			}
 
 			.ima_p {
+				width: 32upx;
+				position: relative;
+
 				image {
 					width: 32upx;
 					height: 32upx;
@@ -666,16 +769,50 @@
 			width: 660upx;
 			// height: 460upx;
 			margin-left: 8upx;
-			margin-top: 20upx;
-			box-shadow: 0 0 5px #ccc;
+			margin-top: -30upx;
+			box-shadow: 0 0 8px #b6b9e5;
 			background-color: #fff;
 			border-radius: 20upx;
 			padding: 20upx 20upx 20rpx 20upx;
 			overflow: hidden;
 			margin-bottom: 130rpx;
 
+			.frameTop {
+				overflow: hidden;
+
+				.top_Left {
+					float: left;
+					background-color: #0083f7;
+					color: #fff;
+					font-size: 26rpx;
+					width: 153rpx;
+					height: 57rpx;
+					position: absolute;
+					top: 8rpx;
+					left: 8rpx;
+					border-top-right-radius: 30rpx;
+					border-bottom-right-radius: 30rpx;
+					text-align: center;
+					line-height: 57rpx;
+				}
+
+				.top_right {
+					float: right;
+					color: #999;
+					font-size: 26rpx;
+					line-height: 57rpx;
+					position: absolute;
+					right: 30rpx;
+					top: 8rpx;
+				}
+			}
+
+			.clear {
+				height: 100rpx;
+			}
+
 			.ul {
-				border-bottom: 1px dotted #ccc;
+				// border-bottom: 1px dotted #ccc;
 				overflow: hidden;
 				// margin-bottom: 20upx;
 				margin-top: 20upx;
@@ -685,12 +822,28 @@
 					font-size: 30upx;
 					line-height: 50upx;
 					color: #333;
-					float: left;
+					// float: left;
 					padding-right: 20upx;
 				}
 
-				.span {
+				.ruCenter {
 					float: left;
+				}
+
+				.icon_img {
+					width: 96rpx;
+					height: 96rpx;
+					float: left;
+					margin-right: 30rpx;
+
+					image {
+						width: 100%;
+						height: 100%;
+					}
+				}
+
+				.span {
+					// float: left;
 					font-size: 24upx;
 					line-height: 50upx;
 					color: #999;
@@ -714,6 +867,16 @@
 				border-bottom: 0
 			}
 
+			.rwButt {
+				width: 140rpx;
+				height: 60rpx;
+				border: 1rpx solid #ef7e1e;
+				line-height: 60rpx;
+				text-align: center;
+				border-radius: 35rpx;
+				color: #ef7e1e;
+				margin-top: 18rpx;
+			}
 
 		}
 
