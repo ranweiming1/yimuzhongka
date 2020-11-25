@@ -113,7 +113,7 @@
 					</view>
 				</view>
 			</view>
-			<view style='background:#fff;overflow:hidden;padding-bottom:200rpx;'>
+			<view style='background:#fff;overflow:hidden;padding-bottom:200rpx;border-top:30rpx solid #eee;'>
 				<view style='overflow:hidden;margin-top:20rpx;border-bottom:1px solid #ddd;padding-bottom:10rpx;text-align:right;'>
 					<view style='float:left;margin-left:20rpx;font-size:36rpx;color:#333;font-weight:bold;'>热门推荐</view>
 					<image src='../../static/n8.png' style='width:34rpx;height:34rpx;display:inline-block;margin-top:10rpx;margin-right:20rpx;' @tap='qy'></image>

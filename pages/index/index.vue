@@ -74,9 +74,15 @@
 						<view class="txt_aa">
 							<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
 						</view>
+						<view style='text-align:right;color:#666;font-size:20rpx;'>{{item.sendAddr}}</view>
 						<view class="txt_aas">
-							<text>税后价：<text><text style='font-size:22rpx;'>￥</text>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</text></text>
-							<text>销量：{{item.salesSum}}</text>
+							<text><text><text style='font-size:22rpx;'>￥</text>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</text></text>
+							<view style='float:right;'>
+								<view style='background:#ff6600;border-radius:5rpx;line-height:22rpx;padding:5rpx 10rpx;height:22rpx;border:1px solid #ff6600;display:inline-block;color:#fff;font-size:15rpx;float:left;' @click.stop='dianpu(item.shopId)'>旺铺</view>
+								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;'><image style='width:100%;height:100%;display:block;' src='../../static/qiyerenzheng.png'></image></view>
+								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;line-height:22rpx;color:#ff6600;font-size:20rpx;'>购</view>
+								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;line-height:22rpx;color:#ff6600;font-size:20rpx;'>品</view>
+							</view>
 						</view>
 
 					</view>
@@ -351,6 +357,11 @@
 			},
 			q:function(){
 				this.y=!this.y
+			},
+			dianpu:function(id){
+				uni.navigateTo({
+					url:'../shop/shop?id='+id
+				})
 			}
 
 		}

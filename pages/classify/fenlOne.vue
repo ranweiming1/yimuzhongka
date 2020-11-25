@@ -115,15 +115,15 @@
 							</view>
 						</view>
 						<view class="diZhi" v-if="tog_Ca">
-							<text>山东 济南</text>
+							<text>{{item.sendAddr}}</text>
 						</view>
 						<view class="txt_aas">
 							<text><text>
-									<text style='font-size:22rpx;'>￥</text>{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text></text>
+									<text style='font-size:22rpx;float:left;margin-top:10rpx;'>￥</text>{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text></text>
 							<text v-if="!tog_Ca">销量：{{item.salesSum}}</text>
 							<view class="but_Icon" v-if="tog_Ca">
 								<view class="icons">
-									<text class="icon1">旺铺</text>
+									<text class="icon1" @click.stop='dianpu(item.shopId)'>旺铺</text>
 									<view class="icon2">
 										<image src="../../static/qiyerenzheng.png" mode="">
 									</view>
@@ -331,6 +331,11 @@
 			back: function() {
 				uni.navigateBack({
 					delta: 1
+				})
+			},
+			dianpu:function(id){
+				uni.navigateTo({
+					url:'../shop/shop?id='+id
 				})
 			}
 		}

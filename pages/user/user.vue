@@ -245,19 +245,19 @@
 				<view :style='n==0?"width:60rpx;height:8rpx;background:#ffae0c;border-radius:0 10rpx 10rpx 0;":"width:60rpx;height:8rpx;background:#ffae0c;border-radius:0 10rpx 10rpx 0;margin-left:20rpx;"'></view>
 			</view>
 		</view>
-		<swiper style='wdith:100%;height:179rpx;margin-top:100rpx;'>
+		<swiper style='wdith:100%;height:179rpx;margin-top:100rpx;margin-bottom:20rpx;'>
 			<swiper-item>
 				<image src='../../static/guangga.png' style='width:750rpx;height:179rpx;'></image>
 			</swiper-item>
 		</swiper>
 		<view style='text-align:center;'>
-			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;float:left;margin-top:15rpx;margin-left:273rpx;'></view>
+			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;float:left;margin-top:12rpx;margin-left:273rpx;'></view>
 			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:10rpx;'></view>
 			<view style='float:left;margin-left:20rpx;'>推荐产品</view>
 			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:20rpx;float:left;margin-top:10rpx;'></view>
 			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:15rpx;'></view>
 		</view>
-		<view style='overflow:hidden;margin-top:10rpx;'>
+		<view style='overflow:hidden;margin-top:30rpx;padding-top:20rpx;'>
 			<view v-for='(item,index) in list' style='width:45%;float:left;margin:20rpx 2.5%;border-radius:10rpx;box-shadow:0 0 20px #ccc;box-sizing:border-box;' @tap='tz(item.goodsId)'>
 				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;'></image>
 				<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 20rpx;'>
