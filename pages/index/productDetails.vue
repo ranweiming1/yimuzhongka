@@ -33,7 +33,7 @@
 					<image src="../../static/icon_43.png" mode=""></image>
 				</view>
 				<view class="imgBox" style="padding-right: 18rpx;margin-top:-10rpx;">
-					<image src="../../static/icon_49.png" mode="" @tap='shangpinxin'></image>
+					<image src="../../static/27249851bcd24e32864752afb9f29fb8.png" mode="" @tap='shangpinxin'></image>
 				</view>
 			</view>
 		</view>

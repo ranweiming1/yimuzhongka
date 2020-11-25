@@ -33,7 +33,7 @@
 					</view>
 					<view class="xinxi">
 						<!-- 订单信息 -->
-						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0' @touchstart='huadong' :data-index='index' :data-n='n' @touchmove='huadongjieshu' :style='huad[index][n]?"margin-left:-200rpx;transition:1s;":"margin-left:0;transition:1s;"'>
+						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0' @touchstart='huadong' @touchmove='huadongjieshu' :data-index='index' :data-n='n' :style='huad[index][n]?"margin-left:-200rpx;transition:1s;":"margin-left:0;transition:1s;"'>
 							<view class="radi">
 								<checkbox :value='i.id' :checked='shuju[index].s[n]'></checkbox>
 							</view>
@@ -68,10 +68,8 @@
 								</view>
 							</view>
 							<!-- </view> -->
-							<view style='position:absolute;right:0;width:200rpx;height:100%;writing-mode:vertical-lr;'>
-								<view style='width:90rpx;color:#fff;text-align:center;background:#ff3333;' @tap=shanshangpinshuzu(index,n)><view style='position:absolute;top:50%;transform:translate(-50%);width:50rpx;right:100rpx;'>删除</view></view>
-								<view style='width:90rpx;text-align:center;background:#ccc;color:#000;' @tap='quxiao(index,n)'><view style='position:absolute;top:50%;transform:translate(-50%);width:50rpx;right:20rpx;'>取消</view></view>
-							</view>
+							<view style='width:90rpx;background:#ff3333;color:#fff;height:100%;position:absolute;right:90rpx;' @tap='shanc(index,n)'><view style='top:37%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;'>删除</view></view>
+							<view style='width:90rpx;background:#ccc;color:#000;height:100%;position:absolute;right:0;' @tap='quxiao'><view style='top:37%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;'>取消</view></view>
 						</view>
 					</view>
 				</checkbox-group>
@@ -957,14 +955,13 @@
 				this.y=!this.y
 			},
 			huadong:function(e){
-				if(this.huad.length==0){
-					this.shuju.map((n,index)=>{
-						this.$set(this.huad,index,[])
-						n.s.map((z,ind)=>{
-							this.$set(this.huad[index],ind,false)
-						})
+				if(this.huad.length==0)
+				this.shuju.map((n,index)=>{
+					this.$set(this.huad,index,[])
+					n.s.map((x,inde)=>{
+						this.$set(this.huad[index],inde,false)
 					})
-				}
+				})
 				this.sta=e.changedTouches[0].clientX
 			},
 			huadongjieshu:function(e){
@@ -972,37 +969,39 @@
 					this.huad[e.currentTarget.dataset.index][e.currentTarget.dataset.n]=true
 				}
 			},
-			shanshangpinshuzu:function(index,n){
+			shanc:function(index,n){
 				this.$https({url:'/api/shop/order-del-spec-goods',data:{goodsId:this.cartList[index].goodsId,specKey:this.cartList[index].specList[n].specKey},method:'post',success:res=>{
 					if(res.data.code==0){
 						this.$https({url:'/api/shop/order-cart-list',data:{},success:res=>{
-							if(res.data.code==0){
-								this.numa=0
-								this.s=false
-								res.data.data.cartList.map(n=>{
-									n.specList.map(z=>{
-										if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
-											this.s=true
-										}
-										this.numa++
-									})
+							this.numa=0
+							this.s=false
+							res.data.data.cartList.map(n=>{
+								n.specList.map(z=>{
+									if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
+										this.s=true
+									}
+									this.numa++
 								})
-								this.cartList=res.data.data.cartList
-								this.shuju[index].s.splice(n,1)
-								if(this.shuju[index].length==0){
-									this.shuju.splice(index,1)
-								}
-								this.huad[index].splice(n,1)
-								if(this.huad[index].length==0){
-									this.huad.splice(index,1)
-								}
+							})
+							this.cartList=res.data.data.cartList
+							this.shuju[index].s.splice(n,1)
+							if(this.shuju[index].s.length==0){
+								this.shuju.splice(index,1)
+							}
+							this.huad[index].splice(n,1)
+							if(this.huad[index].length==0){
+								this.huad.splice(index,1)
 							}
 						}})
 					}
 				}})
 			},
-			quxiao:function(index,n){
-				this.huad[index][n]=false
+			quxiao:function(){
+				this.huad.map((n,index)=>{
+					n.map((x,ind)=>{
+						this.huad[index][ind]=false
+					})
+				})
 			}
 		}
 	}
@@ -1152,7 +1151,7 @@
 			border-bottom: 1px dotted #eee;
 			padding-bottom: 20rpx;
 			position:relative;
-			width:calc(100% + 250rpx);
+			width:130%;
 		}
 
 		.xinxi1:last-child {
@@ -1185,7 +1184,7 @@
 
 		.txt_c {
 			float: left;
-			width: 400rpx;
+			width: 430rpx;
 			padding-right: 10upx;
 			box-sizing: border-box;
 

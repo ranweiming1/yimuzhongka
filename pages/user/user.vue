@@ -6,11 +6,11 @@
 			<image src="../../static/icon_21.png" mode=""></image>
 		</view>
 		<tabBar :currentPage='currentPage'></tabBar>
-		<view class='top' style='position:fixed;left:0;top:0;width:100%;z-index:99;padding-top:60rpx;height:100rpx;'>
+		<view class='top' style='position:relative;width:100%;z-index:99;height:100rpx;z-index:99999;margin-top:-530rpx;'>
 			<view style='height:100rpx;position:absolute;width:100%;'>
 				<text style='position:absolute;width:100%;top:0;left:0;height:40rpx;text-align:center;color:#fff;font-size:38rpx;'>个人中心</text>
 			</view>
-			<view style='position:absolute;right:20rpx;top:60rpx;z-index:99999;'>
+			<view style='position:absolute;right:20rpx;top:0rpx;z-index:99999;'>
 				<image src='../../static/icon_22.png' style='width:38rpx;height:42rpx;'></image>
 				<image src='../../static/shezhi.png' style='width:41rpx;height:39rpx;margin-left:20rpx;'></image>
 			</view>
@@ -26,7 +26,7 @@
 		</view>
  -->
 		<!-- 用户名 -->
-		<view class="userBox" style='position:relative;margin:0 auto;margin-top:-450rpx;z-index:99999;'>
+		<view class="userBox" style='position:relative;margin:0 auto;z-index:99999;'>
 			<view class="img_a" @tap='xiugaigerenxinxi'>
 				<image :src="headimg?headimg:'../../static/img_06.jpg'" mode=""></image>
 			</view>
