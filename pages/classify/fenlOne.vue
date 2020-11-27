@@ -73,13 +73,16 @@
 						<text>综合排序</text>
 						<image src="../../static/icon_37.png" class="bot" mode=""></image>
 					</view>
-					<view class="con" style="border: 0">
+					<view class="con">
 						<view class="c_R" @tap="show">
 							<text>筛选</text>
 							<image src="../../static/icon_37.png" class="bot" mode=""></image>
 						</view>
-						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
 
+					</view>
+					<view class="con" @tap="shopClassify">
+						<text>店铺</text>
+						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
 					</view>
 				</view>
 				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:26rpx;z-index:99999;'
@@ -218,6 +221,11 @@
 						// console.log('添加成功')
 						// console.log(res.data)
 					}
+				})
+			},
+			shopClassify(){
+				uni.navigateTo({
+					url:'../shop/shopClassify'
 				})
 			},
 			chexing() {
@@ -423,12 +431,12 @@
 			flex-grow: 2;
 		}
 
-		.con:nth-child(3) {
+		.con:nth-child(4) {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			flex-wrap: nowrap;
-			padding-left: 55rpx;
+			padding-left: 30rpx;
 		}
 
 		.color text {

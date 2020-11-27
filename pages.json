@@ -382,6 +382,12 @@
 		// 		"navigationBarTitleText":"分类"
 		// 	}
 		// }
+        ,{
+            "path" : "pages/shop/shopClassify",
+            "style":{
+            	"navigationStyle":"custom"
+            }
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
