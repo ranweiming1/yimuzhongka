@@ -5,7 +5,7 @@
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
 			<view class="textBox">
-				<text>资讯详情</text>
+				<text>{{x?'资讯详情':'公告详情'}}</text>
 			</view>
 			<view class="imgBox">
 				<!-- <image src="../../../static/icon_18.png" mode=""></image> -->
@@ -15,22 +15,22 @@
 
 		<view class="neir">
 			<view class="title">
-				<text>{{title}}</text>
+				<text>{{x?title:objtitle}}</text>
 			</view>
 			<view class="left">
-				<text>发布时间：{{create_time}}</text>
+				<text>发布时间：{{x?create_time:objtz}}</text>
 			</view>
-			<view class="right">
+			<view class="right" v-if='x'>
 				<text>浏览量：{{description}}</text>
 			</view>
 		</view>
-		<view class="img">
+		<view class="img" v-if='x'>
 			<image :src="image" mode=""></image>
 		</view>
 		<view class="txt">
-			<rich-text :nodes='content'></rich-text>
+			<rich-text :nodes='x?content:objcont'></rich-text>
 		</view>
-		<view style="height: 20rpx;background-color: #f8f8f8;width: 100%;">
+		<view style="height: 20rpx;background-color: #f8f8f8;width: 100%;" v-if='x'>
 			
 		</view>
 		
@@ -40,7 +40,7 @@
 		</view> -->
 
 		<!-- 评价标题 -->
-		<view class="evaluate">
+		<view class="evaluate" v-if='x'>
 			<view class="title_a">
 				<text>用户评价</text>
 			</view>
@@ -97,7 +97,11 @@
 				newsid: '',
 				image:'',
 				shifoupingjia:true,
-				fabiao:false
+				fabiao:false,
+				objtitle:{},
+				x:true,
+				objcont:'',
+				objtz:''
 			}
 		},
 		onLoad: function(option) {
@@ -121,6 +125,12 @@
 					_this.fabiao=_this.fabiao=='Y'
 				}
 			})
+			if(option.i){
+				this.x=false
+				this.objtitle=JSON.parse(option.i).noticeTitle
+				this.objcont=JSON.parse(option.i).noticeContent
+				this.objtz=JSON.parse(option.i).createTime
+			}
 		},
 		methods: {
 			tianj: function() {

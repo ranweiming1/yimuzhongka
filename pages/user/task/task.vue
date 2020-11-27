@@ -413,12 +413,12 @@
 
 	.top {
 		position: fixed;
-		top: 0upx;
+		top: 10upx;
 		left: 0upx;
 		width: 750upx;
 		margin: 0 auto;
 		overflow: hidden;
-
+		padding-top:50rpx;
 		.textBox {
 			padding-left: 40%;
 
@@ -444,7 +444,7 @@
 	.userBox {
 		width: 700upx;
 		position: absolute;
-		top: 120upx;
+		top: 130upx;
 		left: 25upx;
 		overflow: hidden;
 

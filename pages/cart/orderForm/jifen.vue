@@ -6,11 +6,11 @@
 				<view class='name'>
 					<view style='color:#333;padding-right:10rpx;font-size:30rpx;float:left;'>{{dizhi.username}}</view>
 					<view style='float:left;font-size:24rpx;color:#666;line-height:40rpx;'>{{dizhi.phone}}</view>
-					<view style='float:left;font-size:18rpx;color:#ff6633;padding:5rpx;background:#fdf1ec;' v-if='!(dizhi.isDefault==0)'>默认</view>
+					<view style='float:left;font-size:18rpx;color:#ff6633;padding:5rpx;background:#fdf1ec;margin-top:5rpx;' v-if='!(dizhi.isDefault==0)'>默认</view>
 				</view>
 				<view style='font-size:26rpx;color:#333;line-height:40rpx;'>{{dizhi.address}}</view>
 			</view>
-			<image src='../../../static/icon_26.png' style='float:right;width:10rpx;height:10rpx;'></image>
+			<image src='../../../static/icon_26.png' style='float:right;width:20rpx;height:20rpx;margin-top:10rpx;'></image>
 		</view>
 		<view class='dingdan'>
 			<view class='dianpuxinxi'>订单信息</view>

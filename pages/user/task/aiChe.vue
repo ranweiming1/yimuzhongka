@@ -1,13 +1,5 @@
 <template>
 	<view>
-		<view class="top">
-			<view class="textBox">
-				<text>我的爱车</text>
-			</view>
-			<view class="imgBox" @tap='tianjia'>
-				<text>添加</text>
-			</view>
-		</view>
 		<view style='position:fixed;width:100%;height:100%;top:0;left:0;background:rgba(0,0,0,0.6);z-index:9999999;' v-if='tianj'>
 			<view style='width:70%;height:60%;background:#fff;top:0;left:0;bottom:0;right:0;margin:auto;position:fixed;'>
 				<view style='overflow:hidden;'>
@@ -23,22 +15,39 @@
 				</view>
 			</view>
 		</view>
+		<view>
+			
+		</view>
 		<view class="siteBox" v-for='(item,index) in listz'>
 			<view class="content">
-				<view class="d">
-					<text>{{item.carCate.carName}}</text>
+				<image :src='item.carCate.logo' style='width:80rpx;height:80rpx;border-radius:50%;border:4rpx solid #efefef;float:left;'></image>
+				<view style='float:left;margin-left:20rpx;'>
+					<view>{{item.carCate.carName}}</view>
+					<view>{{item.carNum}}</view>
 				</view>
-				<view class="nome">
-					<text>{{item.carNum}}</text>
-				</view>
+				<image :src='item.myCarImg' style='width:190rpx;height:150rpx;border-radius:20rpx;float:right;'></image>
 			</view>
 			<view class="edit">
-				<text @tap='bianji(index)'>编辑</text>
+				<view @tap='bianji(index)'><image src='../../../static/bianji.png' style='width:29rpx;height:29rpx;margin-right:20rpx;'></image>编辑</view>
+				<text style='float:left;margin-top:20rpx;'>|</text>
+				<view @tap='shanchuaichez(index)'><image src='../../../static/shanch.png' style='width:22rpx;height:29rpx;margin-right:20rpx;'></image>删除</view>
 			</view>
 		</view>
-		<view style='height:160rpx;'></view>
+		<view style='height:160rpx;' v-if='listz.length==0'>
+			<image src='../../../static/zanwu.png' style='width:259rpx;height:210rpx;margin:0 auto;displau:block;margin-left:245rpx;'></image>
+			<view style='margin-top:50rpx;text-align:center; '>暂无爱车，快去添加吧</view>
+		</view>
 		<view class="uni-padding-wrap uni-common-mt bott">
 			<button type="primary" style="background: #2b5cff" @tap='fanhui'>添加爱车</button>
+		</view>
+		<view style='width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;left:0;' v-if='x'>
+			<view style='background:#fff;width:690rpx;height:200rpx;position:absolute;right:0;top:0;left:0;bottom:0;margin:auto;text-align:center;padding:50rpx 0;'>
+				<view>你确定要删除{{listz[nu].carNum}}</view>
+				<view style='text-align:center;margin-top:50rpx;'>
+					<view style='display:inline-block;background:#2b5cff;color:#fff;width:200rpx;height:100rpx;line-height:100rpx;border-radius:20rpx;margin:20rpx;' @tap=shanchuche(index)>确定</view>
+					<view style='display:inline-block;background:#999;color:#000;width:200rpx;height:100rpx;line-height:100rpx;border-radius:20rpx;margin:20rpx;' @tap='quxiaoaiche'>取消</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -49,7 +58,8 @@
 			return {
 				listz: [],
 				tianj:false,
-				nu:0
+				nu:0,
+				x:false
 			}
 		},
 		onLoad: function() {
@@ -98,12 +108,43 @@
 						})
 					}
 				})
+			},
+			shanchuaiche:function(index){
+				this.$https({url:'/api/user/delete-my-favorite-car',data:{carId:this.listz[index].id},header:true,method:'post',success:res=>{
+					this.x=false
+					if(res.data.code==0){
+						uni.showToast({
+							title:'删除成功'
+						})
+					this.$https({url:'/api/user/my-favorite-car-list',data:{},success:res=>{
+						this.listz=res.data.data
+					}})
+					}else{
+						uni.showToast({
+							title:'删除失败'
+						})
+					}
+				}})
+			},
+			shanchuaichez:function(index){
+				this.nu=index
+				this.x=true
+			},
+			shanchuche:function(index){
+				var index=this.nu
+				this.shanchuaiche(index)
+			},
+			quxiaoaiche:function(){
+				this.x=false
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	page{
+		background:#f4f6f8;
+	}
 	checkbox {
 		border-radius: 50%;
 	}
@@ -137,12 +178,15 @@
 	}
 
 	.siteBox {
-		width: 710upx;
+		width: 680upx;
 		margin: 20upx;
 		overflow: hidden;
 		padding-top: 20upx;
 		padding-bottom: 40upx;
 		border-bottom: 1px solid #e5e5e5;
+		background:#fff;
+		border-radius:20rpx;
+		padding:30rpx 10rpx 20rpx 20rpx;
 
 		.radios {
 			float: left;
@@ -151,10 +195,10 @@
 		}
 
 		.content {
-			float: left;
-			width: 80%;
+			width: 100%;
 			line-height: 40rpx;
-
+			overflow:hidden;
+			margin-top:20rpx;
 			.nome {
 				float: left;
 				font-size: 30upx;
@@ -188,15 +232,15 @@
 		}
 
 		.edit {
-			float: right;
 			margin-top: 20upx;
-			border-left: 1px solid #e5e5e5;
 
-			text {
+			view {
 				font-size: 24upx;
 				color: #999;
 				line-height: 80upx;
-				padding-left: 20upx;
+				width:49%;
+				float:left;
+				text-align:center;
 			}
 		}
 

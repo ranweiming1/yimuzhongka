@@ -9,7 +9,7 @@
 				<!-- <image src="../../static/icon_36.png" mode=""></image> -->
 			</view>
 			<view class="spanBox">
-				<text>{{shanchu?'编辑':'取消'}}</text>
+				<text>{{shanchu?'管理':'取消'}}</text>
 			</view>
 		</view>
 
@@ -154,10 +154,8 @@
 				<view class="radis">
 					<view :style='xuan?"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;background:#2b5cff;border:none;":"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"'
 					 @tap='quanxuan'>√</view>
-					<text style='margin-left:20rpx;'>全选</text>
-				</view>
-				<view class="leftA" v-if='shanchua'>
-					<text>合计：<text>￥{{jiage}}</text></text>
+					<text style='margin-left:20rpx;float:left;margin-top:10rpx;'>全选</text>
+					<view style='float:left;margin-top:10rpx;'><view style='float:left;color:#f51111;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'>￥</view><view style='float:left;color:#f51111;font-size:30rpx;'>{{jiage}}</view><view style='float:left;color:#999;font-size:26rpx;margin-left:10rpx;'>(含运费)</view></view>
 				</view>
 				<view class="rightA" @tap='tiaozhuan'>
 					<text>{{shanchua?'结算':'删除'}}</text>
@@ -1362,7 +1360,7 @@
 
 	.bottom {
 		width: 750upx;
-		height: 90upx;
+		height: 100upx;
 		border-top: 1px solid #ccc;
 		position: fixed;
 		background-color: #fff;
@@ -1400,15 +1398,17 @@
 
 		.rightA {
 			float: right;
-			width: 260upx;
-			height: 100%;
+			width: 160upx;
+			height: 60rpx;
 			text-align: center;
 			background-color: #2b5cff;
-
+			border-radius:50rpx;
+			margin-top:20rpx;
+			margin-right:20rpx;
 			text {
 				font-size: 30upx;
 				color: #fff;
-				line-height: 90upx;
+				line-height: 60upx;
 
 			}
 		}

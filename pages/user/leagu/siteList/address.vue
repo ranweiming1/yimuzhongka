@@ -43,7 +43,7 @@
 		</view>
 
 		<view class="uni-padding-wrap uni-common-mt bott">
-			<button size="mini" type="primary" @tap='baocun' :style="isOk?'background: #2b5cff;width:60%':'background: #2b5cff'">保存</button>
+			<button size="mini" type="primary" @tap='baocun' :style="isOk?'background: #2b5cff;width:60%':'background: #2b5cff;'">保存</button>
 			<button size="mini" type="primary" v-if="!isOk" @tap="xianshi(id)" style="background: #ff3334;">删除</button>
 		</view>
 		<view style='width:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:1000000;height:100%;' v-if='shanchu'>
@@ -359,7 +359,7 @@
 	}
 
 	.bott {
-		width: 670upx;
+		width: 750upx;
 		display: flex;
 		margin-top:200rpx;
 		button {

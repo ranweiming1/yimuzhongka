@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style='overflow:hidden;width:100%;'>
 		
 		<!-- 广告浮窗 链接到效果图/个人中心/6-3分销页面 -->
 		<!-- <view class="float" bindtap='>

@@ -10,7 +10,7 @@
 			<view style='height:100rpx;position:absolute;width:100%;'>
 				<text style='position:absolute;width:100%;top:0;left:0;height:40rpx;text-align:center;color:#fff;font-size:38rpx;'>个人中心</text>
 			</view>
-			<view style='position:absolute;right:20rpx;top:0rpx;z-index:99999;'>
+			<view style='position:absolute;right:20rpx;top:0;z-index:99999;'>
 				<image src='../../static/icon_22.png' style='width:38rpx;height:42rpx;'></image>
 				<image src='../../static/shezhi.png' style='width:41rpx;height:39rpx;margin-left:20rpx;'></image>
 			</view>
@@ -245,20 +245,21 @@
 				<view :style='n==0?"width:60rpx;height:8rpx;background:#ffae0c;border-radius:0 10rpx 10rpx 0;":"width:60rpx;height:8rpx;background:#ffae0c;border-radius:0 10rpx 10rpx 0;margin-left:20rpx;"'></view>
 			</view>
 		</view>
-		<swiper style='wdith:100%;height:179rpx;margin-top:100rpx;margin-bottom:20rpx;'>
+		<swiper style='wdith:100%;height:179rpx;margin-top:60rpx;' @tap='jifen'>
 			<swiper-item>
 				<image src='../../static/guangga.png' style='width:750rpx;height:179rpx;'></image>
 			</swiper-item>
 		</swiper>
 		<view style='text-align:center;'>
-			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;float:left;margin-top:12rpx;margin-left:273rpx;'></view>
+			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;float:left;margin-top:15rpx;margin-left:273rpx;'></view>
 			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:10rpx;'></view>
 			<view style='float:left;margin-left:20rpx;'>推荐产品</view>
 			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:20rpx;float:left;margin-top:10rpx;'></view>
 			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:15rpx;'></view>
+			<image src='../../static/n8.png' style='float:right;width:30rpx;height:30rpx;margin-right:20rpx;margin-top:10rpx;' @tap='q'></image>
 		</view>
-		<view style='overflow:hidden;margin-top:30rpx;padding-top:20rpx;'>
-			<view v-for='(item,index) in list' style='width:45%;float:left;margin:20rpx 2.5%;border-radius:10rpx;box-shadow:0 0 20px #ccc;box-sizing:border-box;' @tap='tz(item.goodsId)'>
+		<view style='overflow:hidden;margin-top:10rpx;padding-top:10rpx;'>
+			<view v-for='(item,index) in list' style='width:45%;float:left;margin:20rpx 2.5%;border-radius:10rpx;box-shadow:0 0 20px #ccc;box-sizing:border-box;' @tap='tz(item.goodsId)' v-if='xianshi'>
 				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;'></image>
 				<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 20rpx;'>
 					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;'>自营</view>
@@ -269,7 +270,18 @@
 				</view>
 				<view style='padding:20rpx;'>
 					<view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view>
-					<view style='font-size:30rpx;color:#ff3333;'><view style='color:#000;float:left;'>税后价:</view><view style='color:#ff3333;font-size:19rpx;display:inline-block;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</view>
+					<view style='font-size:30rpx;color:#ff3333;'><view style='color:#000;float:left;'></view><view style='color:#ff3333;font-size:19rpx;display:inline-block;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</view>
+				</view>
+			</view>
+			<view v-for='(item,index) in list' style='overflow:hidden;border-bottom:1px dashed #ddd;padding-top:20rpx;' @tap='tz(item.goodsId)' v-if='!xianshi'>
+				<image :src='item.goodsLogo' mode='widthFix' style='width:230rpx;float:left;'></image>
+				<view style='float:left;margin-left:20rpx;padding-top:10rpx;width:calc(100% - 300rpx);'>
+					<view style='font-size:30rpx;'><view v-if='item.selfStatus=="Y"' style='color:#ff6600;border:1px solid #ff6600;border-radius:5rpx;padding:5rpx 10rpx;font-size:20rpx;line-height:30rpx;float:left;'>自营</view>{{item.goodsName}}</view>
+					<view style='overflow:hidden;margin-top:20rpx;'>
+						<view v-for='(ite,inde) in item.couponDTOS' style='border:1px dashed #ff3333;line-height:30rpx;padding:5rpx 10rpx;color:#ff3333;margin-right:20rpx;font-size:20rpx;float:left;margin-right:20rpx;'>满{{ite.condition}}-{{ite.money}}元</view>
+					</view>
+					<view style='text-align:right;font-size:20rpx;margin-top:20rpx;'>{{item.sendAddr}}</view>
+					<view style='margin-top:20rpx;overflow:hidden;margin-bottom:20rpx;'><view style='color:#ff3333;font-size:12rpx;float:left;margin-top:15rpx;'>￥</view><view style='color:#ff3333;font-size:30rpx;float:left;'>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</view><view style='float:right;'><view style='background:#ff6600;border-radius:5rpx;line-height:22rpx;padding:5rpx 10rpx;height:22rpx;border:1px solid #ff6600;font-size:16rpx;float:left;color:#fff;' @click.top='dianpu(item.shopId)'>旺铺</view><view style='border:1px solid #ff6600;width:22rpx;height:22rpx;padding:5rpx 10rpx;float:left;margin-left:10rpx;'><image style='width:22rpx;height:22rpx;display:block;' src='../../static/qiyerenzheng.png'></image></view><view style='width:22rpx;height:22rpx;padding:5rpx 10rpx;border:1px solid #ff6600;color:#ff6600;font-size:22rpx;float:left;margin-left:10rpx;line-height:22rpx;'>购</view><view style='width:22rpx;height:22rpx;padding:5rpx 10rpx;border:1px solid #ff6600;color:#ff6600;font-size:22rpx;float:left;margin-left:10rpx;line-height:22rpx;'>品</view></view></view>
 				</view>
 			</view>
 		</view>
@@ -320,7 +332,8 @@
 				t:true,
 				xianshidenglu:false,
 				list:[],
-				n:0
+				n:0,
+				xianshi:true
 			}
 		},
 		components: {
@@ -505,6 +518,14 @@
 			},
 			gaibian:function(e){
 				this.n=e.detail.current
+			},
+			q:function(){
+				this.xianshi=!this.xianshi
+			},
+			dianpu:function(id){
+				uni.navigateTo({
+					url:'../shop/shop?id='+id
+				})
 			}
 		}
 	}

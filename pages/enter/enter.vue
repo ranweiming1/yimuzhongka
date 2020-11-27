@@ -355,7 +355,7 @@
 			height:100rpx;
 			background:#00c486;
 			border-radius:50%;
-			margin-right:50rpx;
+			margin:50rpx;
 		}
 		.anniu view:nth-child(2){
 			background:#00baef;
@@ -371,7 +371,7 @@
 		.gengduo{
 			color:#666;
 			text-align:center;
-			margin-top:100rpx;
+			margin-top:60rpx;
 			font-size:28rpx;
 		}
 		.zhezhao{

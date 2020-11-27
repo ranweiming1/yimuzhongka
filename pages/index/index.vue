@@ -23,8 +23,7 @@
 			<image style='width:20rpx;height:20rpx;float:left;margin-top:10rpx;' src='../../static/gonggao.jpg'></image>
 			<view style='float:left;margin-left:10rpx;font-size:26rpx;'>[通知公告]</view>
 			<swiper class='swiper' style='height:40rpx;float:left;width:calc(100% - 200rpx);color:#999;font-size:20rpx;line-height:40rpx;' :autoplay='autoplay' :interval='interval' :duration='duration' :circular='true' :vertical='true'>
-				<swiper-item>通知公告通知公告公告</swiper-item>
-				<swiper-item>通知公告通知公告通知公告公告</swiper-item>
+				<swiper-item v-for='item in g' @tap='t(item)'>{{item.noticeTitle}}</swiper-item>
 			</swiper>
 		</view>
 		<!-- 分类 -->
@@ -146,6 +145,13 @@
 		<view class='main'>
 			<code-elf-guide></code-elf-guide>
 		</view>
+		<swiper style='position:fixed;top:0;left:0;height:100%;width:100%;z-index:999999999;' v-if='xianshi'>
+			<swiper-item v-for='item in l' style='width:100%;height:100%;position:absolute;z-index:9999999999;'>
+				<image :src='item.img' style='width:100%;height:100%;'></image>
+			</swiper-item>
+		</swiper>
+		<view style='width:100%;height:100%;position:fixed;left:0;top:0;z-index:99999;background:#fff;' v-if='xianshi'></view>
+		<view style='position:fixed;top:200rpx;right:20rpx;z-index:9999999999999;width:130rpx;height:50rpx;text-align:center;color:#fff;font-size:20rpx;line-height:50rpx;border:1px solid #fff;border-radius:50rpx;' v-if='xianshi' @tap='tiaoguo'>{{a}}s跳过广告</view>
 	</view>
 </template>
 
@@ -173,7 +179,11 @@
 				shangpinxiangqing:false,
 				xinxi:'',
 				xianshidenglu:false,
-				y:true
+				y:true,
+				l:[],
+				xianshi:true,
+				a:5,
+				g:[]
 			}
 		},
 		components: {
@@ -258,6 +268,20 @@
 					})
 			// 	}
 			// })
+			//广告
+			this.$https({url:'/api/oauth/get-start-advertise',data:{},method:'post',success:res=>{
+				this.l=res.data.data
+				setInterval(r=>{
+					if(this.a==0){
+						this.xianshi=false
+					}
+					this.a--
+				},1000)
+			}})
+			//公告
+			this.$https({url:'/api/oauth/get-system-notice',data:{},method:'post',success:res=>{
+				this.g=res.data.data
+			}})
 		},
 		methods: {
 			detail(id) {
@@ -361,6 +385,14 @@
 			dianpu:function(id){
 				uni.navigateTo({
 					url:'../shop/shop?id='+id
+				})
+			},
+			tiaoguo:function(){
+				this.xianshi=false
+			},
+			t:function(i){
+				uni.navigateTo({
+					url:'../news/news_details/news_details?i='+JSON.stringify(i)
 				})
 			}
 
@@ -555,10 +587,7 @@
 
 					.txt_aas {
 						padding-top: 10upx;
-						position:absolute;
-						left:33%;
-						bottom:20rpx;
-						width:60%;
+						margin-top:20rpx;
 						text {
 							color: #333;
 							font-size: 32upx;

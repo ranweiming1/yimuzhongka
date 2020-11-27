@@ -363,7 +363,7 @@
 				data: {
 					goods_id: option.id
 				},
-				dengl: true,
+				dengl: !uni.getStorageSync('Authorization'),
 				success: function(res) {
 					_this.list = res.data.data.detail
 					_this.list.goodsImgss=res.data.data.detail.goodsImgs.split(',')
@@ -560,6 +560,7 @@
 				})
 			},
 			gouwuche: function() {
+				var _this=this
 				if(this.xuanzh){
 				this.$https({
 					url: '/api/shop/order-add-cart',
@@ -574,9 +575,18 @@
 					method: 'post',
 					haeder: true,
 					success: function(res) {
+						if(res.data.code==0){
+							uni.showToast({
+								title:'加入购物车成功'
+							})
+							setTimeout(function(){
+							_this.isAdd=false
+							},2000)
+						}else{
 						uni.showToast({
 							title: res.data.message
 						})
+						}
 					}
 				})
 				}else{
