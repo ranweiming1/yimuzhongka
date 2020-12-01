@@ -295,10 +295,12 @@
 					n.cartVO.cartAttr = []
 					if(n.specList){
 					n.specList.map(function(z) {
+						if(z.xuanzhong){
 						var obj = {}
 						obj.goodsNum = z.goodsNum
 						obj.specKey = z.specKey
 						n.cartVO.cartAttr.push(obj)
+						}
 					})
 					}
 					n.cartVO.goodsId = n.goodsId
@@ -311,13 +313,39 @@
 					})
 					if(n.specList){
 					n.specList.map(function(n) {
+						if(n.xuanzhong){
 						a.push(n.goodsId)
+						}
 					})
 					}
 					n.goodsIds = a.join(',')
 				})
+				var dingdan=[]
+				dingdan=this.cartAttr
+				dingdan.map((n,index)=>{
+					var list=[]
+					n.specList.map(z=>{
+						if(z.xuanzhong){
+							list.push(z)
+						}
+					})
+					n.specList=list
+				})
+				var as=[]
+				dingdan.map((n,index)=>{
+					n.specList.map(z=>{
+						if(z.xuanzhong){
+							as.push(n)
+						}
+					})
+				})
 				this.cartAttr.map(function(n) {
 					arr.push(n.shopId)
+					n.specList.map(x=>{
+						if(x.xuanzhong){
+							arr.push(n.shopId)
+						}
+					})
 				})
 				var arr = arr.join(',')
 				//提交订单
@@ -325,7 +353,7 @@
 					url: '/api/shop/order-order-submitOrder',
 					data: JSON.stringify({
 						addressId: '' + this.dizhi.id,
-						orderVoList: this.cartAttr,
+						orderVoList: as,
 						orderFrom: +this.dingdan,
 						shopIds: arr,
 						myCode:this.yao
@@ -355,9 +383,13 @@
 								uni.requestPayment({
 									provider: 'wxpay',
 									orderInfo: obj,
-									success: function(res) {console.log('支付成功')},
+									success: function(res) {uni.reLaunch({
+										url:'../../user/allState/allState?id=2'
+									})},
 									fail: function(res) {
-										_this.str=JSON.stringify(res)+JSON.stringify(obj)
+										uni.reLaunch({
+											url:'../../user/allState/allState?id=1'
+										})
 									}
 								})
 							},

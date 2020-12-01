@@ -21,21 +21,26 @@
 				<view style='margin:30rpx;text-align:center;'>暂无商品</view>
 			</view>
 			<view class="listBoxs" v-for="(item,index) in  cartList">
-				<checkbox-group @change='gouwuche' :data-index='index'>
 					<view class="radios">
 						<!-- 店铺名称待确认 -->
 						<label class="radio">
 							<!--加个d以区分某个店铺-->
-							<!-- <checkbox :value="'d'+item.goodsId" :checked='shuju[index].dian'></checkbox> -->
+							<view style='width:20rpx;height:20rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-top:10rpx;position:relative;' @tap='dianpu(index)'>
+								<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;' v-if='shuju[index].dian'></view>
+							</view>
 						</label>
 						<text @tap='t(item.shopId)'>{{item.storeShopDTO.shopName}}</text>
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
 					<view class="xinxi">
+						<uni-swipe-action>
 						<!-- 订单信息 -->
-						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0' @touchstart='huadong' @touchmove='huadongjieshu' :data-index='index' :data-n='n' :style='huad[index][n]?"margin-left:-200rpx;transition:1s;":"margin-left:0;transition:1s;"'>
+						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0'>
+							<uni-swipe-action-item>
 							<view class="radi">
-								<checkbox :value='i.id' :checked='shuju[index].s[n]'></checkbox>
+								<view style='width:20rpx;height:20rpx;border:solid #ddd 1px;border-radius:50%;float:left;margin-top:10rpx;position:relative;' @tap='shangpin(index,n)'>
+									<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;' v-if='shuju[index].s[n]'></view>
+								</view>
 							</view>
 
 							<view class="imgBox_a" @tap='openPopup(index,n)'>
@@ -68,11 +73,13 @@
 								</view>
 							</view>
 							<!-- </view> -->
-							<view style='width:90rpx;background:#ff3333;color:#fff;height:100%;position:absolute;right:90rpx;' @tap='shanc(index,n)'><view style='top:37%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;'>删除</view></view>
-							<view style='width:90rpx;background:#ccc;color:#000;height:100%;position:absolute;right:0;' @tap='quxiao'><view style='top:37%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;'>取消</view></view>
+							<template v-slot:right>
+							<view style='width:90rpx;background:#ff3333;color:#fff;height:100%;' @tap='shanc(index,n)'><view style='top:27%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;font-size:29rpx;'>删除</view></view>
+							</template>
+							</uni-swipe-action-item>
 						</view>
+						</uni-swipe-action>
 					</view>
-				</checkbox-group>
 			</view>
 			<!-- 购物车弹框 -->
 			<view class="mask" v-if="mask_show"></view>
@@ -251,7 +258,8 @@
 				tuijian: [],
 				y:true,
 				sta:0,
-				huad:[]
+				huad:[],
+				baocun:[]
 			}
 		},
 		onShow() {
@@ -269,11 +277,13 @@
 							dian: false,
 							s: []
 						})
+						_this.$set(_this.huad,index,[])
 						n.specList.map(function(z, indexx) {
 							if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
 								_this.s = true
 							}
 							_this.$set(_this.shuju[index].s, indexx, false)
+							_this.$set(_this.huad[index],indexx,false)
 						})
 					})
 					_this.numa = res.data.data.cartList.length
@@ -723,37 +733,45 @@
 				}
 			},
 			gouwuche: function(e) {
-				if(e.detail.value.length>0){
-					this.shuju[e.currentTarget.dataset.index].dian=true
-					this.shuju[e.currentTarget.dataset.index].s.map((n,index)=>{
-						this.shuju[e.currentTarget.dataset.index].s[index]=false
-					})
-					this.cartList[e.currentTarget.dataset.index].specList.map((n,index)=>{
-						e.detail.value.map(v=>{
-							if(v==n.id){
-								this.shuju[e.currentTarget.dataset.index].s[index]=true
-							}
-						})
-					})
-				}
-				if(e.detail.value.length==0){
-					this.shuju[e.currentTarget.dataset.index].dian=false
-					this.shuju[e.currentTarget.dataset.index].s.map((n,index)=>{
-						this.shuju[e.currentTarget.dataset.index].s[index]=false
-					})
-				}
-				//计算总数
-				var num=0
+				//判断点的是店铺还是商品
 				this.shuju.map((n,index)=>{
-					if(n.dian){
-						n.s.map((z,indexx)=>{
-							if(z){
-								num+=this.cartList[index].specList[indexx].goodsPrice*this.cartList[index].specList[indexx].goodsNum
-							}
-						})
-					}
+					n.dian=false
+					n.s.map((z,cc)=>{
+						this.shuju[index].s[cc]=false
+					})
 				})
-				this.jiage=num
+				e.detail.value.map((n,index)=>{
+					this.cartList.map((z,inde)=>{
+						if(n.substring(1)==z.goodsId){
+							this.shuju[inde].dian=true
+							this.shuju[inde].s.map((c,zz)=>{
+								this.shuju[inde].s[zz]=true
+							})
+						}
+					})
+				})
+				//判断是否全选
+				
+				if(e.detail.value[e.detail.value.length-1].indexOf('d')!=-1){
+					//点的是店铺
+					this.cartList.map((n,index)=>{
+						if(n.goodsId==e.detail.value[e.detail.value.length-1].substring(1)){
+							this.shuju[index].dian=true
+							this.shuju[index].s.map((c,ind)=>{
+								this.shuju[index].s[ind]=true
+							})
+						}
+					})
+				}
+				//判断全选按钮
+				this.jiage=0
+				this.shuju.map((n,index)=>{
+					n.s.map((z,ind)=>{
+						if(z){
+							this.jiage+=this.cartList[index].specList[ind].goodsPrice*this.cartList[index].specList[ind].goodsNum
+						}
+					})
+				})
 			},
 			quanxuan: function() {
 				var _this = this
@@ -953,13 +971,6 @@
 				this.y=!this.y
 			},
 			huadong:function(e){
-				if(this.huad.length==0)
-				this.shuju.map((n,index)=>{
-					this.$set(this.huad,index,[])
-					n.s.map((x,inde)=>{
-						this.$set(this.huad[index],inde,false)
-					})
-				})
 				this.sta=e.changedTouches[0].clientX
 			},
 			huadongjieshu:function(e){
@@ -998,6 +1009,51 @@
 				this.huad.map((n,index)=>{
 					n.map((x,ind)=>{
 						this.huad[index][ind]=false
+					})
+				})
+			},
+			dianpu:function(index){
+				this.shuju[index].dian=!this.shuju[index].dian
+				if(this.shuju[index].dian){
+					this.shuju[index].s.map((n,inde)=>{
+						this.shuju[index].s[inde]=true
+					})
+				}else{
+					this.shuju[index].s.map((n,inde)=>{
+						this.shuju[index].s[inde]=false
+					})
+				}
+				this.jiage=0
+				this.shuju.map((n,index)=>{
+					n.s.map((z,inde)=>{
+						if(z){
+							this.jiage+=this.cartList[index].specList[inde].goodsPrice*this.cartList[index].specList[inde].goodsNum
+						}
+					})
+				})
+			},
+			shangpin:function(index,n){
+				var as=!this.shuju[index].s[n]
+				this.$set(this.shuju[index].s,n,as)
+				this.shuju.map((n,index)=>{
+					var num=0
+					n.s.map((z,inde)=>{
+						if(z){
+							num++
+						}
+					})
+					if(num==n.s.length){
+						this.shuju[index].dian=true
+					}else{
+						this.shuju[index].dian=false
+					}
+				})
+				this.jiage=0
+				this.shuju.map((n,index)=>{
+					n.s.map((x,inde)=>{
+						if(x){
+							this.jiage+=this.cartList[index].specList[inde].goodsPrice*this.cartList[index].specList[inde].goodsNum
+						}
 					})
 				})
 			}
@@ -1149,7 +1205,7 @@
 			border-bottom: 1px dotted #eee;
 			padding-bottom: 20rpx;
 			position:relative;
-			width:130%;
+			width:100%;
 		}
 
 		.xinxi1:last-child {

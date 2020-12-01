@@ -94,11 +94,11 @@
 					{{item.goodsName}}
 				</view>
 				<view style='overflow:hidden;'>
-					<view v-for='(ite,inde) in item.couponDTOS' style='border:1px dashed #ff6600;font-size:20rpx;padding:0 10rpx;float:left;margin-top:10rpx;margin-left:10rpx;'>满{{ite.condition}}-{{ite.money}}元</view>
+					<view v-for='(ite,inde) in item.couponDTOS' style='border:1px dashed #ff6600;font-size:20rpx;padding:0 10rpx;float:left;margin-top:10rpx;margin-left:10rpx;color:#ff3333;'>满{{ite.condition}}-{{ite.money}}元</view>
 				</view>
 				<view style='padding:20rpx;'>
-					<view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view>
-					<view style='font-size:30rpx;color:#ff3333;'><view style='color:#000;float:left;'>税后价:</view><view style='color:#ff3333;font-size:19rpx;display:inline-block;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</view>
+					<!-- <view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view> -->
+					<view style='font-size:30rpx;color:#ff3333;font-weight:900;'><view style='color:#ff3333;font-size:19rpx;display:inline-block;font-weight:600;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}<view style='float:right;'>{{item.sendAddr}}</view></view>
 				</view>
 			</view>
 		</view>
@@ -205,7 +205,6 @@
 				dengl: true,
 				// dengl: false,
 				success: function(res) {
-					_this.banList = res.data.data.bannerList
 					_this.cateList = res.data.data.cateList
 					_this.hotList = res.data.data.recommedGoods
 					// _this.id=res.data.data.cateList
@@ -269,8 +268,10 @@
 			// 	}
 			// })
 			//广告
-			this.$https({url:'/api/oauth/get-start-advertise',data:{},method:'post',success:res=>{
+			if(!uni.getStorageSync('g')){
+			this.$https({url:'/api/oauth/get-start-advertise',data:{},method:'post',dengl:true,success:res=>{
 				this.l=res.data.data
+				uni.setStorageSync('g',1)
 				setInterval(r=>{
 					if(this.a==0){
 						this.xianshi=false
@@ -278,8 +279,12 @@
 					this.a--
 				},1000)
 			}})
+			}
+			if(uni.getStorageSync('g')){
+				this.xianshi=false
+			}
 			//公告
-			this.$https({url:'/api/oauth/get-system-notice',data:{},method:'post',success:res=>{
+			this.$https({url:'/api/oauth/get-system-notice',data:{},method:'post',dengl:true,success:res=>{
 				this.g=res.data.data
 			}})
 		},
