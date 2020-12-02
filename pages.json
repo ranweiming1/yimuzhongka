@@ -213,7 +213,7 @@
 		{
 			"path": "pages/user/leagu/league",
 			"style": {
-				"navigationBarTitleText": "申请入驻"
+				"navigationBarTitleText": "商家入驻"
 			}
 		},
 		{
@@ -386,6 +386,12 @@
             "path" : "pages/shop/shopClassify",
             "style":{
             	"navigationStyle":"custom"
+            }
+        }
+        ,{
+            "path" : "pages/user/leagu/leagueTwo",
+            "style": {
+            	"navigationBarTitleText": "商家入驻"
             }
         }
     ],
