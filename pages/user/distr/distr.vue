@@ -1,12 +1,12 @@
 <template>
 	<view>
 		<!-- 头部 -->
-		<view class="top toubu">
-			<view style='float:left;margin-top:30rpx;margin-left:20rpx;' @tap='bac'>
+		<view class="top">
+			<view style='float:left;margin-top:2rpx;margin-left:20rpx;' @tap='bac'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:30rpx;'></image>
 			</view>
 			<view class="textBox">
-				<text>分销员</text>
+				<text>我的佣金</text>
 			</view>
 			<view class="imgBox" @tap='wenti'>
 				<image src="../../../static/icon_34.png" mode=""></image>
@@ -24,6 +24,9 @@
 				</view>
 				<view class="two">
 					<text>263.00</text>
+				</view>
+				<view class="three">
+					<text>已含冻结金额：100元</text>
 				</view>
 			</view>
 			<view class="shuzhi">
@@ -57,18 +60,49 @@
 
 			<!-- 提现 -->
 			<view class="cash" @tap="t">
-				<text style='display:block;border-radius:50%;'>?</text>
+				提现
 			</view>
 		</view>
-<view style='width:100%;position:fixed;top:0;left:0;height:100%;background:rgba(0,0,0,0.5);z-index:99999;' v-if='gui' @tap='g'>
-	<view style='width:400rpx;height:500rpx;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;background:#fff;text-align:center'>提现规则</view>
-</view>
+		<view style='width:100%;position:fixed;top:0;left:0;height:100%;background:rgba(0,0,0,0.5);z-index:99999;' v-if='gui'
+		 @tap='g'>
+			<view style='width:400rpx;height:500rpx;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;background:#fff;text-align:center'>提现规则</view>
+		</view>
 		<!-- 历史明细 -->
 		<view class="history">
 			<view class="tit_b">
 				<text>历史明细</text>
 			</view>
 
+			<view class="li">
+				<view class="text_y">
+					<view class="phone">
+						<text>用户188****2568</text>
+					</view>
+					<view class="neirs">
+						<text>推荐好友下单结算成功</text>
+					</view>
+				</view>
+
+				<!-- 增值状态 -->
+				<view class="jine">
+					<text>分佣+23.00</text>
+				</view>
+			</view>
+			<view class="li">
+				<view class="text_y">
+					<view class="phone">
+						<text>用户188****2568</text>
+					</view>
+					<view class="neirs">
+						<text>推荐好友下单结算成功</text>
+					</view>
+				</view>
+
+				<!-- 增值状态 -->
+				<view class="jine">
+					<text>分佣+23.00</text>
+				</view>
+			</view>
 			<view class="li">
 				<view class="text_y">
 					<view class="phone">
@@ -130,15 +164,21 @@
 					<text>提现-23.00</text>
 				</view>
 			</view>
+		<view class="uni-padding-wrap uni-common-mt botts">
+			<button @tap="tiX" type="primary" style="background: #2b5cff;">我要提现</button>
 		</view>
-		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;' v-if='wenzi' @tap='went'>
+		</view>
+		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;' v-if='wenzi'
+		 @tap='went'>
 			<view style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;'>
 				<view>问题</view>
 			</view>
 		</view>
-		<view class="uni-padding-wrap uni-common-mt botts">
-			<!-- <button @tap="tiX" type="primary" style="background: #2b5cff;">我要提现</button> -->
+
+		
+
 		</view>
+		
 	</view>
 </template>
 
@@ -146,37 +186,41 @@
 	export default {
 		data() {
 			return {
-				wenzi:false,
-				gui:false
+				wenzi: false,
+				gui: false
 			}
 		},
-		onLoad:function(){
+		onLoad: function() {
 			//佣金
-			this.$https({url:'/api/user/my-order-rebate-log-list',data:{},success:function(res){
-				
-			}})
+			this.$https({
+				url: '/api/user/my-order-rebate-log-list',
+				data: {},
+				success: function(res) {
+
+				}
+			})
 		},
 		methods: {
 			tiX() {
 				uni.navigateTo({
-					url:'applyFor'
+					url: 'applyFor'
 				})
 			},
-			wenti:function(){
-				this.wenzi=true
+			wenti: function() {
+				this.wenzi = true
 			},
-			went:function(){
-				this.wenzi=false
+			went: function() {
+				this.wenzi = false
 			},
-			t:function(){
-				this.gui=true
+			t: function() {
+				this.gui = true
 			},
-			g:function(){
-				this.gui=false
+			g: function() {
+				this.gui = false
 			},
-			bac:function(){
+			bac: function() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			}
 		}
@@ -184,23 +228,32 @@
 </script>
 
 <style lang="scss">
+	.clear {
+		height: 160rpx;
+	}
+
 	.top {
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid #e5e5e5;
 		position: fixed;
 		top: 0upx;
 		left: 0upx;
 		width: 750upx;
 		margin: 0 auto;
 		overflow: hidden;
+		height: 80rpx;
+		line-height: 80rpx;
+		z-index: 9;
+		background: #fff;
+		padding-top: 70rpx !important;
 
 		.textBox {
 			padding-left: 40%;
 
 			text {
-				font-size: 38upx;
-				color: #333;
+				font-size: 30upx;
+				color: #000;
 				float: left;
-				line-height: 90upx;
+				line-height: 80upx;
 			}
 		}
 
@@ -208,9 +261,9 @@
 			float: right;
 
 			image {
-				width: 42upx;
-				height: 42upx;
-				padding: 30upx;
+				width: 40upx;
+				height: 40upx;
+				padding: 15upx 30upx;
 			}
 		}
 	}
@@ -218,12 +271,16 @@
 	.distr {
 		position: relative;
 		top: 190upx;
-		left: 25upx;
+		// left: 25upx;
 
 		.imgBox_a {
+			position: absolute;
+			left: 30upx;
+			right: 30upx;
+
 			image {
-				width: 700upx;
-				height: 270upx;
+				width: 100%;
+				height: 330upx;
 				box-shadow: 0 0 8px #ccc;
 			}
 		}
@@ -232,7 +289,7 @@
 	.leijis {
 		position: absolute;
 		left: 30%;
-		top: 20upx;
+		top: 35upx;
 		text-align: center;
 
 		.one {
@@ -241,17 +298,25 @@
 		}
 
 		.two {
-			font-size: 72upx;
+			font-size: 60upx;
 			font-weight: bold;
 			color: #fff;
+			margin-top: 10rpx;
+			margin-bottom: 5rpx;
+			text-shadow: 2px 2px 5px #0994da;
+		}
+
+		.three {
+			color: #fff;
+			font-size: 28upx;
 		}
 	}
 
 	.shuzhi {
 		width: 700upx;
 		position: absolute;
-		top: 170upx;
-		left: 60upx;
+		top: 226upx;
+		left: 90upx;
 		overflow: hidden;
 
 		.jia {
@@ -277,7 +342,7 @@
 		}
 
 		.jian {
-			margin-left: 30%;
+			margin-left: 22%;
 			float: left;
 
 			.imgBox_b {
@@ -305,44 +370,47 @@
 		right: 80upx;
 		top: 30upx;
 		text-align: center;
-		width: 40upx;
+		width: 94upx;
+		height: 48upx;
 		border: 1px solid #fff;
-		border-radius:50%;
-		text {
-			line-height: 40upx;
-			color: #fff;
-			font-size: 26upx;
-		}
+		color: #fff;
+		font-size: 24upx;
+		line-height: 48upx;
 	}
 
 	.history {
-		padding-bottom: 100upx;
+		// margin-bottom: 200upx;
 		width: 750upx;
 		position: absolute;
-		top: 460upx;
+		top: 540upx;
 		left: 0;
 
 		.tit_b {
 			width: 750upx;
 			border-bottom: 20upx solid #f7f7f7;
 			padding: 20upx;
+			padding-left: 30upx;
 
 			text {
-				font-size: 36upx;
-				color: #333;
+				font-size: 34upx;
+				color: #010101;
 			}
 		}
 
 		.li {
-			width: 710upx;
-			padding: 20upx;
+			// width: 710upx;
+			margin: 0 25rpx 0 30upx;
 			overflow: hidden;
-			border-bottom: 1px dotted #ccc;
+			border-bottom: 1px dashed #ccc;
+			padding: 25rpx 0 25rpx 10rpx;
+			box-sizing: border-box;
 
 			.text_y {
 				float: left;
 
 				.phone {
+					margin-bottom: 10upx;
+
 					text {
 						font-size: 30upx;
 						color: #666;
@@ -365,7 +433,7 @@
 				padding-top: 20upx;
 				font-size: 30upx;
 				color: #ff0000;
-				line-height: 35upx;
+				line-height: 45upx;
 			}
 
 			.jineFu {
@@ -379,14 +447,14 @@
 	}
 
 	.botts {
-		width: 620upx;
-		position: fixed;
-		bottom: 40upx;
-		left: 65rpx;
+
+		margin: 80rpx 67rpx;
 
 		button {
-			border-radius: 40upx;
+			border-radius: 45upx;
 			font-family: Microsoft YaHei;
+			height: 80rpx;
+			line-height: 80rpx;
 		}
 
 	}

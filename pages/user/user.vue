@@ -69,7 +69,7 @@
 				</view>
 			</view>
 
-			<view class="shou">
+			<view class="shou" @tap='fenX'>
 				<text>{{userMoney}}</text>
 				<view class="cang">
 					<text>我的佣金</text>

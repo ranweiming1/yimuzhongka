@@ -394,6 +394,10 @@
             	"navigationBarTitleText": "商家入驻"
             }
         }
+        ,{
+            "path" : "pages/user/commission/commission",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
