@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view :class="xiana==2?'back':''">
 		<!-- 状态栏 -->
 		<view class="topBox">
 			<!-- 默认样式 -->
@@ -23,24 +23,44 @@
 			</view>
 		</view>
 
-		<view class="listBox" v-if='xiana==2'>
-			<view class="liBox" v-for="(item , index) in storeList">
-				<view class="imgBox">
-					<image :src="item.storeShopDTO.storeLogo" mode=""></image>
-				</view>
-				<view class="texBox">
-					<view class="h2Box">
-						<text>{{item.storeShopDTO.shopName}}</text>
+		<!-- 列表 -->
+		<view class="contents" v-if='xiana==2'>
+			<view class="content-item" v-for="(item,i) in storeList">
+				<view class="item-title">
+					<view class="item-title-logo fl">
+						<image :src="item.storeShopDTO.storeLogo" mode=""></image>
 					</view>
-					<view class="spanBox">
-						<text>销量：2562</text>
+					<view class="item-title-center fl">
+						<view class="center-shopName">
+							{{item.storeShopDTO.shopName}}
+						</view>
+						<view class="center-honor">
+							<view class="center-honorList" v-for="(item,i) in 5">
+								<image src="../../static/xing_icon1.png" mode=""></image>
+							</view>
+							<view class="center-honorList text">{{item.storeShopDTO.starId}}</view>
+						</view>
+					</view>
+					<view class="item-title-right fr" @tap="shopDetail(item.storeShopDTO.id)">
+						进店逛逛
 					</view>
 				</view>
-				<view class="bottBox">
-					<text @tap="jindian(item.storeShopDTO.id)">进店逛逛</text>
+				<view class="item-list">
+					<view class="itemsList fl" v-for="(i,t) in 3">
+						<view class="list-img">
+							<image src="../../static/img_03.jpg" mode=""></image>
+						</view>
+						<view class="list-name">
+							引擎内部清洗机
+						</view>
+						<view class="list-price">
+							￥188
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
+
 		<view class='hahah list uni-flex uni-column' v-if='xiana==1'>
 			<view class='content' v-for="(item,index) in shopList" @tap="detail(item.goodsId)" v-if='item'>
 				<view class='imgBox'>
@@ -67,8 +87,7 @@
 			return {
 				xiana: 1,
 				shopList: [],
-				storeList: {}
-
+				storeList: [],
 			}
 		},
 		onLoad: function() {
@@ -102,6 +121,11 @@
 					}
 				})
 			},
+			shopDetail(id) {
+				uni.navigateTo({
+					url: '../shop/shop?id=' + id
+				})
+			},
 			detail(id) {
 				uni.navigateTo({
 					url: '../index/productDetails?id=' + id
@@ -112,18 +136,18 @@
 						goodsId: id
 					},
 					method: 'POST',
-					dengl:true,
-					success(res) {
-					}
+					dengl: true,
+					success(res) {}
 				})
 			},
-			jindian(id){
+			jindian(id) {
 				uni.navigateTo({
-					url:'../shop/shop?id='+id
+					url: '../shop/shop?id=' + id
 				})
 			}
 
 		},
+
 	}
 </script>
 
@@ -133,6 +157,7 @@
 		border-bottom: 1px solid #f0f0f0;
 		width: 710upx;
 		padding: 20upx 20upx 0 20upx;
+		background-color: #FFFFFF;
 
 		.on {
 			.ontext {
@@ -141,6 +166,8 @@
 				}
 			}
 		}
+
+
 
 		.none {
 			text-align: center;
@@ -165,6 +192,13 @@
 				}
 			}
 		}
+	}
+
+	.back {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		background: #e5e5e5;
 	}
 
 	.listBox {
@@ -231,12 +265,145 @@
 		}
 	}
 
+	// 列表
+	.fl {
+		float: left;
+	}
+
+	.fr {
+		float: right;
+	}
+
+	.contents {
+		background-color: #e5e5e5;
+		padding: 28rpx;
+
+		.content-item {
+			background-color: #FFFFFF;
+			padding: 22rpx;
+			border-radius: 15rpx;
+			overflow: hidden;
+			margin-bottom: 25rpx;
+
+			.item-title {
+				overflow: hidden;
+
+				.item-title-logo {
+					image {
+						width: 96rpx;
+						height: 96rpx;
+						border-radius: 50%;
+						border: 1rpx solid #e5e5e5;
+					}
+				}
+
+
+			}
+
+			.item-title-center {
+				margin-top: 10rpx;
+				margin-left: 15rpx;
+				font-size: 30rpx;
+
+				.center-honor {
+					display: flex;
+					margin-top: 15rpx;
+
+					.text {
+						color: #666;
+						font-size: 24rpx;
+						margin-left: 10rpx;
+					}
+
+					.center-honorList {
+						width: 25rpx;
+						height: 25rpx;
+						margin-right: 6rpx;
+						line-height: 25rpx;
+
+						image {
+							width: 100%;
+							height: 100%;
+						}
+
+					}
+				}
+			}
+
+			.item-title-right {
+				width: 130rpx;
+				height: 50rpx;
+				line-height: 50rpx;
+				border-radius: 45rpx;
+				text-align: center;
+				color: #999999;
+				font-size: 22rpx;
+				border: 2rpx solid #999999;
+				box-sizing: border-box;
+				margin-top: 24rpx;
+			}
+
+			.item-list {
+				width: 100%;
+				overflow: hidden;
+				margin-top: 40rpx;
+
+				.itemsList {
+					width: calc((100% - 20rpx)/3);
+					margin-right: 10rpx;
+					font-size: 22rpx;
+					color: #333333;
+
+					.list-img {
+						border-radius: 15rpx;
+						overflow: hidden;
+
+						image {
+							width: 100%;
+							height: 160rpx;
+							display: block;
+						}
+					}
+
+					.list-name {
+						margin-top: 20rpx;
+					}
+
+					.list-price {
+						font-size: 20rpx;
+						color: #fa3535;
+						margin-top: 10rpx;
+						margin-bottom: 10rpx;
+					}
+				}
+
+				.itemsList:last-child {
+					margin-right: 0;
+				}
+			}
+
+
+
+		}
+	}
+
+	.list {
+		overflow: hidden;
+		column-count: 2;
+		column-gap: 25rpx;
+		padding-left: 30rpx;
+		padding-right: 30rpx;
+	}
+
 	.content {
+		break-inside: avoid;
+		box-sizing: border-box;
+
 		margin-top: 30upx;
 		margin-bottom: 10upx;
 		display: block;
-		width: 340upx;
-		margin-left: 25upx;
+		width: 330rpx;
+		// margin-left: 25upx;
 		float: left;
 		box-shadow: 0 0 5upx #ccc;
 		border-radius: 20upx;

@@ -1,83 +1,154 @@
 <template>
 	<view>
-		<view class='uni-form-item uni-column'>
-			<view class='title'><text>期望账户名</text></view>
-			<input class='uni-input' v-model='accountName' placeholder='请输入期望账户名仅限字母跟数字' @blur='zhanghu'>
-		</view>
-		<view class='uni-form-item uni-column'>
-			<view class='title'><text>地域</text></view>
-			<input class='uni-input' style='color:#666;' v-model='area' placeholder='地域'>
-		</view>
-		<view class='uni-form-item uni-column'>
-			<view class='title'><text>邮箱</text></view>
-			<input class='uni-input' v-model='email' placeholder='请输入邮箱'>
-		</view>
-		<view class='uni-form-item uni-column'>
-			<view class='title'><text>法人身份证号</text></view>
-			<input class='uni-input' v-model='legalCardId' placeholder='请输入法人身份证号'>
-		</view>
-		<view class='uni-form-item uni-column'>
-			<view class='title'><text>性别</text></view>
-			<picker class='uni-input' :value='inde' :range='xing'>{{xing[inde]}}</picker>
-		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>店铺名称</text></view>
-			<input class="uni-input" name="input" v-model='storeName' placeholder="请输入店铺名称" />
-		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>法人姓名</text></view>
-			<input class="uni-input" name="input" v-model='legalName' placeholder="请输入法人姓名" />
-		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>法人电话</text></view>
-			<input class="uni-input" name="input" v-model='legalPhone' placeholder="请输入手机号" />
-		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>负责人姓名</text></view>
-			<input class="uni-input" name="input" v-model='principal' placeholder="请输入负责人姓名" />
-		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>负责人电话</text></view>
-			<input class="uni-input" name="input" v-model='princPhone' placeholder="请输入新手机号" />
-		</view>
-
-
-		<!-- 提示 -->
-		<view class="tis">
-			<text>提示：上传图像格式为：png，jpg，大小不得大于1M</text>
-		</view>
-
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>上传店铺logo</text></view>
-			<view class="imgBox">
-				<image @tap='dianpu' :src="storeLogo" mode=""></image>
-			</view>
-		</view>
-		<view class='uni-form-item uni-column'>
-			<view class='title'><text>上传营业执照</text></view>
-			<view class='imgBox'>
-				<image @tap='yingyezhizhao' :src='license'></image>
-			</view>
-		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>上传法人身份证</text></view>
-			<view class="imgBox">
-				<image @tap='shenfenzheng' :src="cardImg1" mode=""></image>
-			</view>
-			<view class="imgBox">
-				<image @tap='shenfenzhengx' :src="cardImg2" mode=""></image>
-			</view>
-		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>法人手持身份证</text></view>
-			<view class="imgBox">
-				<image @tap='shenfenzhengxxx' :src="holdImg" mode=""></image>
+		<!-- 文字轮播 -->
+		<view class='swiperS'>
+			<view class="swiper-item">
+				<swiper :circular='true' style="height: 80rpx;" :interval='3000' :duration='6000' :autoplay='true' :indicator-dots='false'>
+					<swiper-item style="">{{text}}</swiper-item>
+					<swiper-item></swiper-item>
+					<swiper-item>{{text}}</swiper-item>
+					<swiper-item></swiper-item>
+				</swiper>
 			</view>
 		</view>
 
-		<view class="uni-padding-wrap uni-common-mt botts" style='background:#fff;width:100%;left:0;bottom:0;overflow:hidden;'>
-			<button type="primary" @tap='shangchuan' style='margin-bottom:20rpx;width:710rpx;'>{{t?'提交':'修改'}}</button>
+		<view class="form-item">
+			<view class='uni-form-item'>
+				<view class='title'><text>用户名</text></view>
+				<input class='uni-input' v-model='accountName' placeholder='请输入期望账户名仅限字母跟数字' @blur='zhanghu'>
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text>手机号</text></view>
+				<input class="uni-input" name="input" v-model='legalPhone' placeholder="请输入手机号" />
+			</view>
 		</view>
+		<!-- 填写信息 -->
+		<view class='uni-form-items'>
+			<text>填写公司信息</text>
+		</view>
+
+		<view class="form-item">
+			<view class="uni-form-item">
+				<view class="title"><text>店铺名称</text></view>
+				<input class="uni-input" name="input" v-model='storeName' placeholder="请输入店铺名称" />
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text>法人姓名</text></view>
+				<input class="uni-input" name="input" v-model='legalName' placeholder="请输入法人姓名" />
+			</view>
+			<view class="uni-form-item">
+				<view class="title">
+					<text class="texts" style="margin-top: 15rpx;">统一社会信用代码</text>
+					<text class="texts">营业执照号</text>
+				</view>
+				<input class="uni-input" name="input" v-model='businessName' placeholder="请输入营业执照号" />
+			</view>
+			<view class='uni-form-item'>
+				<view class='title'><text>银行卡号</text></view>
+				<input class='uni-input' v-model='bankCardNum' placeholder='请输入银行卡号'>
+			</view>
+			<view class='uni-form-item'>
+				<view class='title'><text>银行</text></view>
+				<input class='uni-input' v-model='bankName' placeholder='请输入银行'>
+			</view>
+			<view class="uni-form-item" style="height: 135rpx;">
+				<view class="title">
+					<text class="texts" style="margin-top: 20rpx;font-size:28rpx;line-height: 50rpx;">详细地址</text>
+					<text class="texts">这里是详细地址什么大厦几零几</text>
+				</view>
+				<input class="uni-input" name="input" style="line-height: 135rpx;height: 135rpx;" v-model='area' placeholder='详细地址' />
+			</view>
+			<view class='uni-form-item'>
+				<view class='title'><text>邮箱</text></view>
+				<input class='uni-input' v-model='email' placeholder='请输入邮箱'>
+			</view>
+		</view>
+
+		<view class='uni-form-items'>
+			<text>填写负责人信息</text>
+		</view>
+
+		<view class="form-item">
+			<view class="uni-form-item">
+				<view class="title"><text>负责人姓名</text></view>
+				<input class="uni-input" name="input" v-model='principal' placeholder="请输入负责人姓名" />
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text>负责人电话</text></view>
+				<input class="uni-input" name="input" v-model='princPhone' placeholder="请输入新手机号" />
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text>部门</text></view>
+				<input class="uni-input" name="input" v-model='departmentName' placeholder="请输入部门名称" />
+			</view>
+		</view>
+
+		<view class='uni-form-items'>
+			<text>填写旺铺信息</text>
+		</view>
+
+		<view class="form-item">
+			<view class="uni-form-item">
+				<view class="title"><text>主营行业</text></view>
+				<view class="item-cont"  @tap="beCareful">
+					<view class="imgBox">
+						<image src="../../../static/icon_26.png" mode=""></image>
+					</view>
+					<view class="cont">
+						<text>{{industry}}</text>
+					</view>
+
+				</view>
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text>主营汽车品牌</text></view>
+				<view class="imgBox">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<view class="cont">
+					<text>奥迪</text>
+				</view>
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text>主营分类</text></view>
+				<view class="imgBox">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<view class="cont">
+					<text>商用汽车配件</text>
+				</view>
+			</view>
+		</view>
+
+		<view class="uni-buttom">
+			<view class="check-item">
+				<view class="chec-item" @tap="checks">
+					<view :class="isCheck?'':'add'"></view>
+				</view>
+				<text>我已阅读并同意《<text style="color: #ee4646;">商家入驻协议</text>》</text>
+			</view>
+			<view class="bott-item" @tap="nextPage">
+				<text>下一页</text>
+			</view>
+		</view>
+
+		<view class="mask-item" v-if="isMask">
+			<view class="mask-content">
+				<view class="item-title">
+					主营行业
+				</view>
+				<view class="item-content">
+					<view :class="isActive==item?'item-add item-content-item ':'item-content-item '" @tap="activeCss(item)" v-for="(item,index) in hangyeList">
+						{{item}}
+					</view>
+				</view>
+				<view class="item-bot" @tap="beConfirm">
+					确定
+				</view>
+			</view>
+		</view>
+
+
 	</view>
 </template>
 
@@ -93,8 +164,6 @@
 				cardImg2: '../../../static/img_10.jpg.png',
 				email: '',
 				holdImg: '../../../static/img_10.jpg.png',
-				legalCardId: '',
-				legalName: '',
 				license: '../../../static/img_10.jpg.png',
 				mermberId: '',
 				princPhone: '',
@@ -103,31 +172,44 @@
 				storeLogo: '../../../static/img_10.jpg.png',
 				storeName: '',
 				legalPhone: '',
-				t:true
+				departmentName: '',
+				businessName: '',
+				bankName: '',
+				t: true,
+				text: '依据《中华人民共和国电子商务法》规定，用户在网络平台发布信息需提供真实身份信息建立登记档案，并定期核验更新，否则网络平台运营者不得为其提供相关服务。请根据您的实际情况选择备案方式（提交后不可变更）感谢您的配合。',
+				isCheck: false,
+				hangyeList: ['商用车配件', '工程机械配件', '整车及专用车', '其他配件'],
+				isActive: '',
+				industry: '',
+				isMask: false,
 			}
 		},
-		onLoad:function(){
-			var _this=this
-			this.$https({url:'/api/shop/appr-info',data:{},success:function(res){
-				if(res.data.data.id){
-					_this.accountName=res.data.data.accountName
-					_this.area=res.data.data.area
-					_this.email=res.data.data.email
-					_this.legalCardId=res.data.data.legalCardId
-					_this.inde=res.data.data.sex
-					_this.storeName=res.data.data.storeName
-					_this.legalName=res.data.data.legalName
-					_this.legalPhone=res.data.data.legalPhone
-					_this.principal=res.data.data.principal
-					_this.princPhone=res.data.data.princPhone
-					_this.storeLogo=res.data.data.storeLogo
-					_this.license=res.data.data.license
-					_this.cardImg1=res.data.data.cardImg1
-					_this.cardImg2=res.data.data.cardImg2
-					_this.holdImg=res.data.data.holdImg
-					_this.t=false
+		onLoad: function() {
+			var _this = this
+			this.$https({
+				url: '/api/shop/appr-info',
+				data: {},
+				success: function(res) {
+					if (res.data.data.id) {
+						_this.accountName = res.data.data.accountName
+						_this.area = res.data.data.area
+						_this.email = res.data.data.email
+						_this.legalCardId = res.data.data.legalCardId
+						_this.inde = res.data.data.sex
+						_this.storeName = res.data.data.storeName
+						_this.legalName = res.data.data.legalName
+						_this.legalPhone = res.data.data.legalPhone
+						_this.principal = res.data.data.principal
+						_this.princPhone = res.data.data.princPhone
+						_this.storeLogo = res.data.data.storeLogo
+						_this.license = res.data.data.license
+						_this.cardImg1 = res.data.data.cardImg1
+						_this.cardImg2 = res.data.data.cardImg2
+						_this.holdImg = res.data.data.holdImg
+						_this.t = false
+					}
 				}
-			}})
+			})
 		},
 		methods: {
 			dianpu: function() {
@@ -143,6 +225,24 @@
 							}
 						})
 					}
+				})
+			},
+			activeCss(index) {
+				this.isActive = index
+			},
+			beConfirm: function() {
+				this.beCareful()
+				this.industry = this.isActive
+			},
+			beCareful: function() {
+				this.isMask = !this.isMask
+			},
+			checks() {
+				this.isCheck = !this.isCheck
+			},
+			nextPage: function() {
+				uni.navigateTo({
+					url: './leagueTwo'
 				})
 			},
 			yingyezhizhao: function() {
@@ -205,18 +305,18 @@
 			//上传信息
 			shangchuan: function() {
 				var _this = this
-				var nu=false
-				for(var i=0;i<this.accountName.length;i++){
-					if(this.accountName.charCodeAt(i)>255){
-						nu=true
+				var nu = false
+				for (var i = 0; i < this.accountName.length; i++) {
+					if (this.accountName.charCodeAt(i) > 255) {
+						nu = true
 					}
 				}
-				if(nu){
+				if (nu) {
 					uni.showToast({
-						title:'账户名不能包含汉字重新输入',
-						icon:'none'
+						title: '账户名不能包含汉字重新输入',
+						icon: 'none'
 					})
-				}else if (!_this.$jiaoyanEmail(_this.email)) {
+				} else if (!_this.$jiaoyanEmail(_this.email)) {
 					uni.showToast({
 						title: '请输入有效邮箱',
 						icon: 'none'
@@ -266,13 +366,13 @@
 					})
 				}
 			},
-			zhanghu:function(){
-				var nu=0
-				for(var i=0;i<this.accountName.length;i++){
-					if(this.accountName.charCodeAt(i)>255){
+			zhanghu: function() {
+				var nu = 0
+				for (var i = 0; i < this.accountName.length; i++) {
+					if (this.accountName.charCodeAt(i) > 255) {
 						uni.showToast({
-							title:'账户名不能包含汉字重新输入',
-							icon:'none'
+							title: '账户名不能包含汉字重新输入',
+							icon: 'none'
 						})
 					}
 				}
@@ -284,41 +384,216 @@
 <style lang="scss">
 	page {
 		background-color: #f7f7f7;
-		padding-bottom: 150upx;
+		// padding-bottom: 150upx;
 	}
 
-	.uni-column {
-		margin-bottom: 20upx;
-		background-color: #fff;
-		overflow: hidden;
+	.mask-item {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+		font-size: 28rpx;
+		color: #333;
+		z-index: 99;
 
+		.mask-content {
+			position: absolute;
+			z-index: 99;
+			background-color: #fff;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 50rpx;
+			right: 50rpx;
+			border-radius: 15rpx;
+			text-align: center;
+
+			.item-title {
+				font-size: 32rpx;
+				padding-top: 40rpx;
+				font-weight: 500;
+			}
+
+			.item-content {
+				line-height: 50rpx;
+				padding: 15rpx 25rpx;
+				text-align: left;
+				overflow: hidden;
+
+				.item-content-item {
+					float: left;
+					width: fit-content;
+					background-color: #f7f7f7;
+					color: #333;
+					height: 50rpx;
+					line-height: 50rpx;
+					padding: 10rpx 15rpx;
+					border-radius: 10rpx;
+					margin-right: 15rpx;
+					margin-bottom: 15rpx;
+				}
+
+				.item-add {
+					background-color: #2b5cff;
+					color: #fff;
+				}
+			}
+
+			.item-bot {
+				width: 200rpx;
+				height: 60rpx;
+				line-height: 60rpx;
+				background-color: #2b5cff;
+				border-radius: 45rpx;
+				color: #fff;
+				text-align: center;
+				display: inline-block;
+				margin-bottom: 40rpx;
+			}
+		}
+	}
+
+	.swiperS {
+		position: relative;
+		height: 80rpx;
+		background: #f7f7f7;
+
+		.swiper-item {
+			position: absolute;
+			top: 0;
+			left: 30rpx;
+			width: 100%;
+			background-color: #f7f7f7;
+			// margin: 20rpx;
+			height: 80rpx;
+			line-height: 80rpx;
+			color: #ee4646;
+			font-size: 22rpx;
+
+			swiper-item {
+				// white-space: nowrap
+			}
+		}
+	}
+
+	.uni-form-items {
+		height: 96rpx;
+		line-height: 96rpx;
+		padding-left: 30rpx;
+		color: #333333;
+		font-size: 28rpx;
+	}
+
+	.form-item {
+		background-color: #fff;
+		padding-left: 30rpx;
+		box-sizing: border-box;
+	}
+
+	.uni-form-item {
+		height: 100rpx;
+		line-height: 100rpx;
+		border-bottom: 1rpx solid #f1f1f1;
+		overflow: hidden;
+		padding-right: 30rpx;
+		.item-cont{
+			height: 100%;
+			overflow: hidden;
+		}
 		.title {
 			float: left;
-			padding-left: 20upx;
+			color: #666666;
+			font-size: 28rpx;
 
-			text {
-				line-height: 90upx;
-				font-size: 32upx;
+			.texts {
+				font-size: 22rpx;
+				display: block;
+				line-height: 35rpx;
 			}
+
 		}
 
 		.uni-input {
-			float: left;
-			padding-top: 27upx;
-			font-size: 28upx;
+			float: right;
+			text-align: right;
+			font-size: 28rpx;
 			padding-left: 20upx;
 			font-family: Microsoft YaHei;
+			height: 100rpx;
+			line-height: 100rpx;
+			color: #333333;
+		}
+
+		.cont {
+			float: right;
+			color: #333;
+			font-size: 28rpx;
+			margin-right: 15rpx;
 		}
 
 		.imgBox {
-			float: left;
-			padding-top: 30upx;
-			padding-left: 20upx;
+			width: 14rpx;
+			height: 25rpx;
+			float: right;
 
 			image {
-				width: 175upx;
-				height: 175upx;
+				width: 100%;
+				height: 100%;
 			}
+		}
+	}
+
+	.uni-form-item:last-child {
+		border: none;
+	}
+
+	.uni-buttom {
+		background-color: #fff;
+		font-size: 22rpx;
+		color: #333;
+		margin-top: 40rpx;
+		padding-bottom: 25rpx;
+
+		.check-item {
+			height: 84rpx;
+			line-height: 84rpx;
+			padding-left: 30rpx;
+
+			.chec-item {
+				border: 1rpx solid #e6e6e6;
+				border-radius: 50%;
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 15rpx;
+				box-sizing: border-box;
+
+				view {
+					box-sizing: border-box;
+					margin: 6rpx;
+					background: #2b5cff;
+					width: 25rpx;
+					height: 25rpx;
+					border-radius: 50%;
+				}
+
+				.add {
+					background: #fff;
+				}
+			}
+		}
+
+		.bott-item {
+			background-color: #2b5cff;
+			height: 90rpx;
+			border-radius: 45rpx;
+			font-family: Microsoft YaHei;
+			text-align: center;
+			margin-right: 30rpx;
+			margin-left: 30rpx;
+			font-size: 24rpx;
+			color: #fff;
+			line-height: 90rpx;
 		}
 	}
 
