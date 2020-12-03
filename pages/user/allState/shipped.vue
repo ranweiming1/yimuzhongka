@@ -3,7 +3,7 @@
 		<!-- <view class="one_line">
 		</view> -->
 		<view class="await">
-			<text>{{deList.shippingStatus==0?'未发货':deList.shippingStatus==1?'已发货':deList.shippingStatus==2?'退货中':'退货完成'}}</text>
+			<text>{{t?'待付款':deList.shippingStatus==0?'未发货':deList.shippingStatus==1?'已发货':deList.shippingStatus==2?'退货中':'退货完成'}}</text>
 		</view>
 
 		<!-- 揽件信息 -->
@@ -160,8 +160,9 @@
 			</view>
 			<view class="rightA">
 				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="wuliu">
-						<button type="primary">查看物流</button>
+					<view class="uni-padding-wrap uni-common-mt bott onna">
+						<button type="primary" @tap='wuliu' v-if='!t'>查看物流</button>
+						<button type='primary' @tap='zhifu' v-if='t'>去支付</button>
 					</view>
 
 				</view>
@@ -179,7 +180,8 @@
 				order: '',
 				com: '',
 				dz: '',
-				kuaidi: ''
+				kuaidi: '',
+				t:false
 			}
 		},
 		onLoad(option) {
@@ -202,6 +204,9 @@
 					console.log(res.data.data.shippingCode)
 				}
 			})
+			if(option.zhuangtai==0){
+				this.t=true
+			}
 		},
 		methods: {
 			wuliu() {
@@ -220,6 +225,9 @@
 				uni.navigateTo({
 					url:'../../index/productDetails?id='+id
 				})
+			},
+			zhifu:function(){
+				this.$https({url:'/api/pay/unifiedOrder',data:JSON.stringify({orderNo:this.deList.orderSn,payMethod:1}),method:'post',haeder:true,success:res=>{var obj={};obj.appid=res.data.data.appId;obj.partnerid=res.data.data.partnerId;obj.prepayid=res.data.data.prepayId;obj.package=res.data.data.packageValue;obj.noncestr=res.data.data.nonceStr;obj.timestamp=res.data.data.timeStamp;obj.sign=res.data.data.sign;uni.requestPayment({provider:'wxpay',orderInfo:obj,success:res=>{this.t=false}})}})
 			}
 		},
 	}

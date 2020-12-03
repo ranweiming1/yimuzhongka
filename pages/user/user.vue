@@ -621,8 +621,8 @@
 		border-radius: 20rpx 20rpx 0 0;
 		position:relative;
 		margin:0 auto;
-		margin-top:50rpx;
-		padding-top:40rpx;
+		margin-top:46rpx;
+		padding-top:43rpx;
 		z-index:999;
 		.yong {
 			text-align: center;

@@ -14,7 +14,7 @@
 		<!-- 这是轮播图 -->
 		<view class="banner">
 			<swiper class="swiper" style="height: 360rpx;border-radius:20rpx;" :autoplay="autoplay" :interval="interval" :duration="duration" :circular='true'>
-				<swiper-item v-for="(item, index) in banList" style='border-radius:20rpx;'>
+				<swiper-item v-for="(item, index) in banList" style='border-radius:20rpx;' @tap='b(item.businessId,item.type)'>
 					<image :src="item.img" mode="" style='border-radius:20rpx;'></image>
 				</swiper-item>
 			</swiper>
@@ -221,6 +221,9 @@
 					}
 				},
 			})
+			this.$https({url:'/api/oauth/get-index-banner-list',data:{},method:'post',dengl:true,success:res=>{
+				this.banList=res.data.data
+			}})
 			//获取优惠券
 			this.$https({
 				url: '/api/oauth/shop/coupon-couple-List',
@@ -399,6 +402,17 @@
 				uni.navigateTo({
 					url:'../news/news_details/news_details?i='+JSON.stringify(i)
 				})
+			},
+			b:function(id,type){
+				if(type==1){
+					uni.navigateTo({
+						url:'productDetails?id='+id
+					})
+				}else if(type==2){
+					uni.navigateTo({
+						url:'../shop/shop?id='+id
+					})
+				}
 			}
 
 		}
