@@ -33,6 +33,10 @@
 			<text style="font-size: 25rpx;padding-left:20rpx;color:#000;">详细地址:</text>
 			<input class="uni-input" name="input" style='font-size:25rpx;color:#000;' placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" v-model='address' />
 		</view>
+		<view class='uni-form-item uni-column beizs'>
+			<text style='font-size:25rpx;padding:20rpx;color:#000;'>公司位置:</text>
+			<input class='uni-input' name='input' style='font-size:25rpx;color:#000;' placeholder='请输入详细地址信息' v-model='la'>
+		</view>
 		<view class="uni-list">
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-list-cell-db">
@@ -85,7 +89,8 @@
 				shanchu:false,
 				j:false,
 				ids:0,
-				regionName:''
+				regionName:'',
+				la:''
 			}
 		},
 		onLoad: function(option) {
@@ -100,6 +105,7 @@
 				this.id = ob.id
 				this.isOk = false
 				this.checked=ob.isDefault
+				this.la=ob.label
 			}
 			if (option.goodsId) {
 				this.goodsId = option.goodsId
@@ -110,6 +116,7 @@
 				this.dingdan=option.dingdan
 				this.shopId=option.shopId
 				this.y=JSON.parse(option.y)
+				this.la=option.label
 			}
 			if(option.j){
 				this.j=true
@@ -155,7 +162,8 @@
 						cityInfo: this.regionName?this.regionName:this.addressss,
 						username: this.username,
 						id: this.id,
-						isDefault: this.checked ? 1 : 0
+						isDefault: this.checked ? 1 : 0,
+						label:this.la
 					}),
 					haeder: true,
 					dengl: false,

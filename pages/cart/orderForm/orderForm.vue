@@ -142,9 +142,9 @@
 		</view>
 		<!-- 底部 -->
 		<view class="bottom">
-			<view class="leftA">
+			<view class="leftA" style='margin-top:10rpx;'>
 				<view class="ppp">
-					<text>合计：<text>￥{{heji}}</text></text>
+					<text>合计：<text style='font-size:20rpx;'>￥<text style='font-size:30rpx;display:inline-block;'>{{heji}}</text></text></text>
 				</view>
 				<view class="yunf">
 					<text>(含运费)</text>
@@ -228,6 +228,10 @@
 						n.cartAttr1.shopPrice = n.shopPrice
 						n.cartAttr1.goodsId = n.goodsId
 						n.cartAttr = [n.cartAttr1]
+					})
+					this.cartAttr[0].specList=this.cartAttr[0].cartAttr
+					this.cartAttr.map(n=>{
+						n.specList[0].xuanzhong=true
 					})
 				} else {
 				}
@@ -324,11 +328,13 @@
 				dingdan=this.cartAttr
 				dingdan.map((n,index)=>{
 					var list=[]
+					if(n.specList){
 					n.specList.map(z=>{
 						if(z.xuanzhong){
 							list.push(z)
 						}
 					})
+					}
 					n.specList=list
 				})
 				var as=[]
@@ -383,13 +389,9 @@
 								uni.requestPayment({
 									provider: 'wxpay',
 									orderInfo: obj,
-									success: function(res) {uni.reLaunch({
-										url:'../../user/allState/allState?id=2'
-									})},
+									success: function(res) {_this.$https({url:'/api/user/order-list',status:2,success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId})}})},
 									fail: function(res) {
-										uni.reLaunch({
-											url:'../../user/allState/allState?id=1'
-										})
+										_this.$https({url:'/api/user/order-list',status:1,success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId})}})
 									}
 								})
 							},
@@ -757,15 +759,18 @@
 
 		.rightA {
 			float: right;
-			width: 260upx;
-			height: 100%;
+			width: 200upx;
+			height: 69rpx;
 			text-align: center;
 			background-color: #2b5cff;
-
+			border-radius:50rpx;
+			line-height:69rpx;
+			margin-top:20rpx;
+			margin-right:20rpx;
 			text {
-				font-size: 30upx;
+				font-size: 20upx;
 				color: #fff;
-				line-height: 90upx;
+				display:block;
 
 			}
 		}

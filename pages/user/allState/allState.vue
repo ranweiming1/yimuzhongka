@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 头部 -->
-		<view class="top" style='width:100%;background:#fff;position:fixed;top:60rpx;z-index:99999;left:0;'>
+		<view class="top" style='width:100%;background:#fff;position:fixed;top:0rpx;z-index:99999;left:0;padding-top:60rpx;'>
 			<view class='back' @tap='back' style='float:left;margin-top:10rpx;'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
@@ -73,7 +73,7 @@
 				</view>
 			</view>
 			<view class="xinxi" v-for="(ite,inde) in item.goodsList">
-				<view class="xinxi1" @tap="detail(item.orderId)" v-for="(i,n) in ite.specList">
+				<view class="xinxi1" @tap="detail(item.orderId,item.status)" v-for="(i,n) in ite.specList">
 					<view class="imgBox_a">
 						<image :src="ite.goodsLogo" mode=""></image>
 					</view>
@@ -164,7 +164,7 @@
 			return {
 				currentPage: 'cart',
 				id: '',
-				dList: [{}],
+				dList: [],
 				// 上拉加载
 				loadingType: 0,
 				contentText: {
@@ -236,7 +236,6 @@
 			getNewsList: function() { //第一次回去数据
 				var _this = this;
 				_this.loadingType = 0;
-				console.log(_this.id)
 				uni.showNavigationBarLoading();
 				this.$https({
 					url: '/api/user/order-list',
@@ -338,16 +337,14 @@
 					url: '../../cart/cart'
 				})
 			},
-			detail(id) {
+			detail(id,t) {
 				uni.navigateTo({
-					url: './shipped?orderId=' + id
+					url: './shipped?orderId=' + id+'&zhuangtai='+t
 				})
 			},
 			zhifu(orderSn) {
 				var _this = this
 				var orderNo = orderSn
-				console.log(orderNo)
-				console.log('支付')
 				this.$https({
 					url: '/api/pay/unifiedOrder',
 					data: JSON.stringify({
@@ -386,6 +383,10 @@
 				uni.navigateTo({
 					url:'../../classify/fenlOne'
 				})
+			},
+			//删除订单
+			shanchu:function(id){
+				
 			}
 		}
 	}
