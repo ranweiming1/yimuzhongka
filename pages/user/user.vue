@@ -259,7 +259,7 @@
 			<image src='../../static/n8.png' style='float:right;width:30rpx;height:30rpx;margin-right:20rpx;margin-top:10rpx;' @tap='q'></image>
 		</view>
 		<view style='overflow:hidden;margin-top:10rpx;padding-top:10rpx;'>
-			<view v-for='(item,index) in list' style='width:45%;float:left;margin:20rpx 2.5%;border-radius:10rpx;box-shadow:0 0 20px #ccc;box-sizing:border-box;' @tap='tz(item.goodsId)' v-if='xianshi'>
+			<view v-for='(item,index) in list' style='width:45%;float:left;margin:20rpx 2.5%;border-radius:10rpx;box-shadow:0 0 20px #ccc;box-sizing:border-box;height:550rpx;' @tap='tz(item.goodsId)' v-if='xianshi'>
 				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;'></image>
 				<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 20rpx;'>
 					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;'>自营</view>
@@ -270,7 +270,7 @@
 				</view>
 				<view style='padding:20rpx;'>
 					<view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view>
-					<view style='font-size:30rpx;color:#ff3333;'><view style='color:#000;float:left;'></view><view style='color:#ff3333;font-size:19rpx;display:inline-block;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</view>
+					<view style='font-size:30rpx;color:#ff3333;'><view style='color:#000;float:left;'></view><view style='color:#ff3333;font-size:19rpx;display:inline-block;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}<view style='width:100rpx;float:right;font-size:20rpx;'>{{item.sendAddr}}</view></view>
 				</view>
 			</view>
 			<view v-for='(item,index) in list' style='overflow:hidden;border-bottom:1px dashed #ddd;padding-top:20rpx;' @tap='tz(item.goodsId)' v-if='!xianshi'>

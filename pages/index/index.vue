@@ -87,7 +87,7 @@
 					</view>
 				</view>
 			</view>
-			<view v-for='(item,index) in hotList' style='width:45%;float:left;border-radius:10rpx;box-shadow:0px 0px 20px #ccc;box-sizing:border-box;margin:20rpx 2.5%;' @tap='detail(item.goodsId)' v-if='!y'>
+			<view v-for='(item,index) in hotList' style='width:45%;float:left;border-radius:10rpx;box-shadow:0px 0px 20px #ccc;box-sizing:border-box;margin:20rpx 2.5%;height:500rpx;' @tap='detail(item.goodsId)' v-if='!y'>
 				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;'></image>
 				<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 20rpx;'>
 					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;'>自营</view>
@@ -98,7 +98,7 @@
 				</view>
 				<view style='padding:20rpx;'>
 					<!-- <view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view> -->
-					<view style='font-size:30rpx;color:#ff3333;font-weight:900;'><view style='color:#ff3333;font-size:19rpx;display:inline-block;font-weight:600;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}<view style='float:right;'>{{item.sendAddr}}</view></view>
+					<view style='font-size:30rpx;color:#ff3333;font-weight:900;'><view style='color:#ff3333;font-size:19rpx;display:inline-block;font-weight:600;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}<view style='float:right;width:100rpx;font-size:20rpx;'>{{item.sendAddr}}</view></view>
 				</view>
 			</view>
 		</view>

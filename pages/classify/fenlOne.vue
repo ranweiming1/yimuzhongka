@@ -80,8 +80,8 @@
 						</view>
 
 					</view>
-					<view class="con" @tap="shopClassify">
-						<text>店铺</text>
+					<view class="con">
+						<text @tap='shopClassify'>店铺</text>
 						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
 					</view>
 				</view>
