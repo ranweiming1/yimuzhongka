@@ -67,13 +67,16 @@
 					<image :src="item.goodsLogo" mode='widthFix'></image>
 				</view>
 				<view class='txt_a'>
-					<text class='span_a' v-if="item.selfStatus=='Y'">自营</text>
-					<text>{{item.goodsName}}</text>
+					<view class="txt_title">
+						<view><text class='span_a' v-if="item.selfStatus=='Y'">自营</text>{{item.goodsName}}</view>
+					</view>
+
 					<view class='txt_aa'>
 						<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
 					</view>
 					<view class='txt_aas'>
-						<text>税后价：<text>{{item.shopPrice?'￥'+item.shopPrice:'暂无价格'}}</text></text>
+						<view class="view"><text>{{item.shopPrice?'￥'+item.shopPrice:'暂无价格'}}</text></view>
+						<view style='text-align:right;color:#666;font-size:22rpx;font-weight: bold;'>{{item.sendAddr}}</view>
 					</view>
 				</view>
 			</view>
@@ -285,6 +288,7 @@
 			overflow: hidden;
 			margin-bottom: 25rpx;
 
+
 			.item-title {
 				overflow: hidden;
 
@@ -409,6 +413,8 @@
 		border-radius: 20upx;
 		padding-bottom: 20upx;
 		overflow: hidden;
+		height: 500rpx;
+		box-sizing: border-box;
 
 		.imgBox {
 			image {
@@ -423,9 +429,19 @@
 			width: 90%;
 			margin-left: 20upx;
 			float: left;
-
+			.txt_title{
+				view{
+					
+				width: 100%;
+				font-size: 30upx;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis
+				}
+			}
 			text {
 				font-size: 30upx;
+			
 			}
 
 			.span_a {
@@ -437,6 +453,7 @@
 				font-size: 18upx;
 				margin-right: 10upx;
 				line-height: 30upx;
+				display: inline-block;
 			}
 
 			.txt_aa {
@@ -454,10 +471,11 @@
 
 			.txt_aas {
 				padding-top: 10upx;
-
-				text {
+				overflow: hidden;
+				.view {
 					color: #333;
 					font-size: 32upx;
+					float: left;
 
 					text {
 						color: #ff3333;
