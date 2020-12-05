@@ -286,7 +286,7 @@
 			transform:rotateZ(135deg);
 		}
 		.qin{
-			margin-top:200rpx;
+			margin-top:160rpx;
 			font-size:50rpx;
 			color:#000;
 			margin-bottom:100rpx;

@@ -391,7 +391,7 @@
 									orderInfo: obj,
 									success: function(res) {_this.$https({url:'/api/user/order-list',status:2,success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId})}})},
 									fail: function(res) {
-										_this.$https({url:'/api/user/order-list',status:1,success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId})}})
+										_this.$https({url:'/api/user/order-list',status:1,success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId+'&zhuangtai=1'})}})
 									}
 								})
 							},

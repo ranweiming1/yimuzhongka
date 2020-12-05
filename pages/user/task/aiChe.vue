@@ -5,8 +5,8 @@
 				<view style='overflow:hidden;'>
 					<image :src='listz[nu].myCarImg' style='width:90%;margin:0 auto;display:block;' @tap='shangchuan'></image>
 					<view>
-						<input :value='listz[nu].carNum' style='border:1px solid #ddd;width:90%;margin:0 auto;font-size:24rpx;text-align:center;'>
-						<input :value='listz[nu].carCate.carName' style='border:1px solid #ddd;width:90%;margin:0 auto;margin-top:20rpx;font-size:24rpx;text-align:center;'>
+						<input :value='listz[nu].carNum' @input='chepai' style='border:1px solid #ddd;width:90%;margin:0 auto;font-size:24rpx;text-align:center;'>
+						<input :value='listz[nu].carCate.carName' @input='pinpai' style='border:1px solid #ddd;width:90%;margin:0 auto;margin-top:20rpx;font-size:24rpx;text-align:center;'>
 					</view>
 					<view>
 						<view style='float:left;width:40%;margin-left:5%;background:#ddd;text-align:center;margin-top:50rpx;font-size:26rpx;line-height:60rpx;border-radius:10rpx;' @tap='quxiao'>取消</view>
@@ -91,8 +91,37 @@
 				this.tianj=false
 			},
 			tijiao:function(){
+				var a=0
+				if(this.listz[this.nu].carNum.substring(1,2)=='A'||this.listz[this.nu].carNum.substring(1,2)=='B'||this.listz[this.nu].carNum.substring(1,2)=='C'||this.listz[this.nu].carNum.substring(1,2)=='D'||this.listz[this.nu].carNum.substring(1,2)=='E'||this.listz[this.nu].carNum.substring(1,2)=='F'||this.listz[this.nu].carNum.substring(1,2)=='G'||this.listz[this.nu].carNum.substring(1,2)=='H'||this.listz[this.nu].carNum.substring(1,2)=='I'||this.listz[this.nu].carNum.substring(1,2)=='J'||this.listz[this.nu].carNum.substring(1,2)=='K'||this.listz[this.nu].carNum.substring(1,2)=='L'||this.listz[this.nu].carNum=='M'||this.listz[this.nu].carNum.substring(1,2)=='N'||this.listz[this.nu].carNum.substring(1,2)=='O'||this.listz[this.nu].carNum.substring(1,2)=='P'||this.listz[this.nu].carNum.substring(1,2)=='Q'||this.listz[this.nu].carNum.substring(1,2)=='I'||this.listz[this.nu].carNum.substring(1,2)=='S'||this.listz[this.nu].carNum.substring(1,2)=='T'||this.listz[this.nu].carNum.substring(1,2)=='U'||this.listz[this.nu].carNum.substring(1,2)=='V'||this.listz[this.nu].carNum.substring(1,2)=='W'||this.listz[this.nu].carNum.substring(1,2)=='X'||this.listz[this.nu].carNum.substring(1,2)=='Y'||this.listz[this.nu].carNum.substring(1,2)=='Z'){
+					a=1
+				}
+				if(a==0||this.listz[this.nu].carNum.length>8||this.listz[this.nu].carNum.length<7){
+					uni.showToast({
+						title:'请输入正确的车牌号'
+					})
+					return false
+				}
+				var a=0
+				if(!/^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/.test(this.listz[this.nu].carNum)){
+					a=1
+				}
+				if(a==1){
+					uni.showToast({
+						title:'请输入正确的车牌号'
+					})
+					return false
+				}
 				this.$https({url:'/api/user/edit-my-favorite-car',data:JSON.stringify({carCateId:this.listz[this.nu].carCateId,carNum:this.listz[this.nu].carNum,id:this.listz[this.nu].id,myCarImg:this.listz[this.nu].myCarImg}),method:'post',haeder:true,success:function(res){
-					
+					if(res.data.code==0){
+						uni.showToast({
+							title:'修改成功'
+						})
+						this.$https({url:'/api/user/my-favorite-car-list',data:{},success:res=>{this.listz=res.data.data}})
+					}else{
+						uni.showToast({
+							title:res.data.message
+						})
+					}
 				}})
 			},
 			shangchuan:function(){
@@ -136,6 +165,12 @@
 			},
 			quxiaoaiche:function(){
 				this.x=false
+			},
+			chepai:function(e){
+				this.listz[this.nu].carNum=e.detail.value
+			},
+			pinpai:function(e){
+				this.listz[this.nu].carCate.carName=e.detail.value
 			}
 		}
 	}

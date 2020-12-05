@@ -140,12 +140,12 @@
 				this.chepaiz=false
 			},
 			tian:function(){
-				if(this.chepai.length!=5){
+				if(!/^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/.test(this.chenghumingcheng+this.chepai)){
 					uni.showToast({
 						title:'请输入正确的车牌号',
 						icon:'none'
 					})
-					return 
+					return false
 				}
 				this.$https({url:'/api/user/edit-my-favorite-car',data:JSON.stringify({carCateId:this.id,carNum:this.chenghumingcheng+this.chepai,myCarImg:this.tupian,id:0}),haeder:true,method:'post',success:function(res){
 					uni.navigateTo({
