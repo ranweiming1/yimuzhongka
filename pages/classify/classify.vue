@@ -26,11 +26,11 @@
 				</view>
 			</scroll-view>
 			<!-- 二级 -->
-			<scroll-view class="right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'"
+			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'px'"
 			 scroll-with-animation>
 				<view class="scroll-img">
 					<swiper class="swiper" autoplay="true" style="height: 230rpx;" interval="5000" duration="1500">
-						<swiper-item  v-for="(item , index) in imgSlide"  :key="index">
+						<swiper-item v-for="(item , index) in imgSlide" :key="index">
 							<image :src="item.img" mode=""></image>
 						</swiper-item>
 					</swiper>
@@ -53,7 +53,7 @@
 				</view>
 			</scroll-view>
 		</view>
-		<tabBar :currentPage='currentPage'></tabBar>
+		<tabBar id='tabbar' :currentPage='currentPage'></tabBar>
 	</view>
 </template>
 
@@ -69,7 +69,7 @@
 				height: 0,
 				scrollTop: 0,
 				id: 0,
-				imgSlide:[]
+				imgSlide: []
 			}
 		},
 		components: {
@@ -77,8 +77,27 @@
 		},
 		onLoad(options) {
 			// this.id=index
-			this.height = uni.getSystemInfoSync().windowHeight;
 			var _this = this
+			// this.height = uni.getSystemInfoSync().windowHeight;
+			uni.getSystemInfo({
+				success(res) {
+					console.log(res.windowHeight, res);
+
+					let view = uni.createSelectorQuery().select('.top');
+					view.boundingClientRect(data => {
+						// _this.navHeight = data.height;
+						console.log(data);
+						let tab = uni.createSelectorQuery().select('#tabbar');
+						tab.boundingClientRect(heig => {
+							_this.height = res.windowHeight - data.height - heig.height;
+						}).exec();
+					}).exec();
+
+
+
+				}
+			});
+
 			this.$https({
 				url: '/api/oauth/shop/mall-lists',
 				data: {},
@@ -111,7 +130,7 @@
 			})
 		},
 		methods: {
-			togLi(index,id) {
+			togLi(index, id) {
 				this.id = index;
 				this.rList = this.AllList[index].childsList
 				this.rList.map(function(val, i) {
@@ -127,7 +146,7 @@
 				this.rList[i].isHide = false
 			},
 			scrollPic: function(id) {
-				var that=this
+				var that = this
 				this.$https({
 					url: '/api/shop/get-cate-type-banner-list',
 					data: {
@@ -136,8 +155,8 @@
 					dengl: false,
 					method: 'POST',
 					success(res) {
-						console.log(res.data.data,99)
-						that.imgSlide=res.data.data
+						console.log(res.data.data, 99)
+						that.imgSlide = res.data.data
 					}
 				})
 
