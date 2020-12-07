@@ -30,7 +30,7 @@
 			</view>
 			<view style='overflow:hidden;margin-top:30rpx;'>给卖家备注</view>
 			<textarea style='border:1px solid #f1f1f1;height:300rpx;width:690rpx;margin-top:20rpx;' v-model='remak'></textarea>
-			<view style='margin:20rpx auto;width:300rpx;background:#1aad19;color:#fff;font-size:30rpx;line-height:90rpx;text-align:center;border-radius:40rpx;' @tap='tijiao'>立即兑换</view>
+			<view style='margin:20rpx auto;width:300rpx;background:#3366ff;color:#fff;font-size:30rpx;line-height:90rpx;text-align:center;border-radius:45rpx;' @tap='tijiao'>立即兑换</view>
 		</view>
 	</view>
 </template>

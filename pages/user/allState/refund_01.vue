@@ -11,9 +11,9 @@
 		</view> -->
 		<!-- 订单信息 -->
 		<view class="xinxi">
-			<view class="biaot">
+			<!-- <view class="biaot">
 				<text>订单信息</text>
-			</view>
+			</view> -->
 			<view class="imgBox_a">
 				<image :src="content.lG" mode=""></image>
 			</view>
@@ -24,20 +24,32 @@
 				<view class="spec">
 					<text>已选：＂{{content.sKN}}＂</text>
 				</view>
-				<view class="radColor">
+				<!-- <view class="radColor">
 					<text>{{content.gP?'￥'+content.gP+'.00':'0'}}</text>
-				</view>
+				</view> -->
 
 				<!-- 这是数量加减 -->
 				<view class="jia">
-					<text>X{{content.num}}</text>
+					<text>X {{content.num}}</text>
 				</view>
 			</view>
 		</view>
 
 		<view class="basic aa" @tap="openPopup">
 			<view class="left_a">
-				<text>退货原因</text>
+				<text>货物状态 <text style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<text v-model="typeValue">{{typeValue}}</text>
+			</view>
+		</view>
+
+		<view class="basic aa" @tap="openPopup">
+			<view class="left_a">
+				<text>退货原因 <text style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
@@ -46,29 +58,31 @@
 				<text v-model="value">{{value}}</text>
 			</view>
 		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>退款金额</text></view>
-			<input class="uni-input" disabled="true" name="input" :placeholder="content.gP?'￥'+content.gP+'.00':'0'" />
-		</view>
-		<view class="basic aa">
-			<view class="left_a">
-				<text>退款方式</text>
+
+		<view class="reason-list">
+			<view class="reason-item">
+				<view class="title"><text>退款金额：</text></view>
+				<input class="uni-input" style="color: #ff0000;" disabled="true" name="input" :value="content.gP?'￥'+content.gP+'.00':'0'" />
 			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
+			<view class="reason-item">
+				<view class="title">
+					<text>退款方式</text>
+				</view>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../../static/icon_26.png" mode=""></image>
+					</view>
+				</view>
+				<view class="input-text" style="float: right;">
+
+					<text>卖家同意退货后再决定</text>
 				</view>
 			</view>
-			<view class="" style="float: left;">
-
-				<text style="line-height: 50rpx;font-size: 28rpx;color:#808080;">卖家同意后，请您自行寄回，并填写物流单号</text>
+			<view class="reason-item">
+				<view class="title"><text>退货说明：</text></view>
+				<input class="uni-input" name="input" v-model="exp" placeholder="选填" />
 			</view>
 		</view>
-		<view class="uni-form-item uni-column">
-			<view class="title"><text>退货说明</text></view>
-			<input class="uni-input" name="input" v-model="exp" placeholder="选填" />
-		</view>
-
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>上传凭证</text></view>
 			<view class="imgBox" @tap="chuanImg">
@@ -117,6 +131,7 @@
 				gId: '',
 				exp: '',
 				pric: '',
+				typeValue: '请选择'
 			}
 		},
 		components: {
@@ -130,7 +145,8 @@
 				url: '/api/user/order-detail',
 				dengl: false,
 				data: {
-					order_id: option.orderId
+					// order_id: option.orderId
+					order_id: '943'
 				},
 				success(res) {
 					// console.log(res.data.data)
@@ -145,37 +161,37 @@
 				// if (!_this.value)
 				console.log(this.content.gP)
 				var _this = this
-				var num = this.content.type==1?1:0
-				if(_this.value=="请选择退款原因"){
+				var num = this.content.type == 1 ? 1 : 0
+				if (_this.value == "请选择退款原因") {
 					console.log(2222)
 					uni.showToast({
 						title: '请选择退款原因',
 						icon: 'none'
 					})
-				}else{
-					
-				this.$https({
-					url: '/api/shop/order-refund-info-add',
-					dengl: false,
-					method: 'post',
-					haeder: true,
-					data: JSON.stringify({
-						goodsId: _this.gId,
-						orderNo: _this.content.oS,
-						proofImg: _this.pingImg,
-						refundCaption: _this.exp,
-						refundFee: _this.content.gP,
-						refundDesc: _this.value,
-						refundMethod:num
-					}),
-					success(res) {
-						uni.showToast({
-							title: '提交成功',
-							icon: 'none'
-						})
-						// console.log(_this.pingImg)
-					}
-				})
+				} else {
+
+					this.$https({
+						url: '/api/shop/order-refund-info-add',
+						dengl: false,
+						method: 'post',
+						haeder: true,
+						data: JSON.stringify({
+							goodsId: _this.gId,
+							orderNo: _this.content.oS,
+							proofImg: _this.pingImg,
+							refundCaption: _this.exp,
+							refundFee: _this.content.gP,
+							refundDesc: _this.value,
+							refundMethod: num
+						}),
+						success(res) {
+							uni.showToast({
+								title: '提交成功',
+								icon: 'none'
+							})
+							// console.log(_this.pingImg)
+						}
+					})
 				}
 			},
 			confirm() {
@@ -215,46 +231,93 @@
 
 <style lang="scss">
 	page {
-		background-color: #f7f7f7;
+		background-color: #f5f5f4;
+	}
+
+	.reason-list {
+		background-color: #fff;
+		padding-left: 25rpx;
+		padding-right: 20rpx;
+		overflow: hidden;
+		margin-bottom: 20rpx;
+
+		.reason-item {
+			height: 83rpx;
+			line-height: 83rpx;
+			font-size: 28rpx;
+			color: #333;
+
+			.title {
+				float: left;
+			}
+			input {
+				height: 100%;
+				line-height: 100%;
+				float: left;
+				text-align: left;
+				color: #ff0336;
+			}
+
+			.img_a {
+				float: right;
+				padding-left: 30rpx;
+				// padding-top: 10rpx;
+				vertical-align: middle;
+
+				image {
+					width: 14rpx;
+					height: 24rpx;
+					display: inline-block;
+					vertical-align: middle;
+				}
+
+			}
+
+		}
 	}
 
 	.xinxi {
 		margin-bottom: 20upx;
 		background-color: #fff;
 		overflow: hidden;
-		width: 710upx;
-		padding: 20upx;
-		border-bottom: 1px dotted #ccc;
+		// width: 710upx;
+		padding: 27upx 30rpx;
+		border-top: 1px solid #e5e5e5;
 
 		.imgBox_a {
 			float: left;
-			padding-top: 20upx;
+			// padding-top: 20upx;
 
 			image {
 				width: 215upx;
 				height: 160upx;
+				display: block;
 			}
 		}
 
 		.txt_c {
 			float: left;
-			width: 460upx;
+			width: calc(100% - 215rpx);
 			padding-left: 20upx;
-
+			box-sizing: border-box;
+			
 			.title {
 				padding-top: 10upx;
-
+				color: #0c0c0c;
+				font-size: 26rpx;
+				margin-bottom: 15rpx;
 				text {
 					font-size: 30upx;
-					line-height: 30upx;
+					line-height: 34upx;
 					color: #333;
 				}
 			}
 
 			.spec {
-				font-size: 26upx;
+				font-size: 24upx;
 				line-height: 40upx;
-				color: #666;
+				color: #999999;
+				width: calc(100% - 40rpx);
 			}
 
 			.radColor {
@@ -266,9 +329,10 @@
 			.jia {
 				float: right;
 
+
 				text {
 					font-size: 20upx;
-					color: #666;
+					color: #0c0c0c;
 				}
 			}
 		}
@@ -306,20 +370,24 @@
 	}
 
 	.basic {
-		width: 710upx;
+		width: 100%;
 		background-color: #fff;
 		overflow: hidden;
-		padding: 20upx;
-		padding-bottom: 10upx;
-		border-bottom: 20upx solid #f7f7f7;
+		padding: 30rpx 20rpx 0 25rpx;
+		border-bottom: 1rpx solid #fdfdfc;
+		height: 135rpx;
+		border-top: 1rpx solid #fdfdfc;
+		font-size: 29rpx;
+		margin-bottom: 20rpx;
+		box-sizing: border-box;
 
 		.left_a {
 			float: left;
 
 			text {
-				font-size: 28upx;
+				font-size: 28rpx;
 				color: #333;
-				line-height: 50upx;
+				// line-height: 50upx;
 			}
 		}
 
@@ -330,7 +398,8 @@
 			text {
 				font-size: 28upx;
 				float: right;
-				line-height: 50upx;
+				// line-height: 50upx;
+				color: #949494;
 
 				text {
 					color: #ff670c;
@@ -351,11 +420,12 @@
 
 			.img_a {
 				float: right;
-				padding: 20upx 0upx 20upx 20upx;
+				padding-left: 30rpx;
+				padding-top: 10rpx;
 
 				image {
-					width: 12upx;
-					height: 14upx;
+					width: 14rpx;
+					height: 24rpx;
 					display: block;
 				}
 
@@ -369,17 +439,16 @@
 		border-bottom: 20upx solid #f7f7f7;
 
 		.title {
-			float: left;
-			padding-left: 20upx;
-
+			padding-left: 25upx;
+			padding-top: 25rpx;
 			text {
-				line-height: 90upx;
+				// line-height: 90upx;
+				color: #333;
 				font-size: 28upx;
 			}
 		}
 
 		.uni-input {
-			float: left;
 			padding-top: 27upx;
 			font-size: 28upx;
 			color: #ff0000;
@@ -389,12 +458,12 @@
 
 		.imgBox {
 			float: left;
-			padding-top: 30upx;
-			padding-left: 20upx;
+			padding: 25rpx 25rpx 40rpx 25rpx;
 
 			image {
 				width: 175upx;
 				height: 175upx;
+				display: block;
 			}
 		}
 	}
@@ -408,6 +477,7 @@
 		button {
 			border-radius: 40upx;
 			font-family: Microsoft YaHei;
+			background-color: #2b5cff;
 		}
 
 	}

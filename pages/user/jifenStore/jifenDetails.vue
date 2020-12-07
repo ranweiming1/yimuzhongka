@@ -157,6 +157,7 @@
 			button{
 				border-radius: 40upx;
 				font-family:Microsoft YaHei;
+				background-color: #3366ff;
 			}
 			
 		}

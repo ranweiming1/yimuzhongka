@@ -22,65 +22,74 @@
 				<image :src="headimg" mode="" @tap='toux'></image>
 			</view>
 		</view>
+		<view class="basic-list">
 
-		<!-- 基础资料 -->
-		<view class="basic">
-			<view class="left_a">
-				<text>绑定手机号</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../static/icon_26.png" mode=""></image>
+			<!-- 基础资料 -->
+			<view class="basic">
+				<view class="left_a">
+					<text>绑定手机号</text>
 				</view>
-				<text @tap='bangding' style='text-align:right;font-size:24rpx;line-height:79rpx;'>{{phone}}</text>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../static/icon_26.png" mode=""></image>
+					</view>
+					<text @tap='bangding' style='text-align:right;font-size:24rpx;line-height:105rpx;'>{{phone}}</text>
+				</view>
+			</view>
+
+			<view class="basic">
+				<view class="left_a">
+					<text>性别</text>
+				</view>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../static/icon_26.png" mode=""></image>
+					</view>
+					<picker :range='arrsex' :value='index' class='shou' @change='sex' style='width:300rpx;line-height:105rpx;margin-top:0;'>{{arrsex[index]}}</picker>
+				</view>
+			</view>
+
+			<view class="basic">
+				<view class="left_a">
+					<text>生日</text>
+				</view>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../static/icon_26.png" mode=""></image>
+					</view>
+					<picker mode='date' :value='date' @change='bindDateC' style='width:220rpx;font-size:24rpx;line-height:105rpx;margin-top:0;'
+					 class='shou'>{{date}}</picker>
+				</view>
 			</view>
 		</view>
 
-		<view class="basic">
-			<view class="left_a">
-				<text>姓名</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../static/icon_26.png" mode=""></image>
+		<view class="basic-list basic-list-two">
+			<view class="basic">
+				<view class="left_a">
+					<text>公司名称</text>
 				</view>
-				<input v-model='userName' @blur='shurukuang' style='text-align:right;line-height:79rpx;float:right;font-size:24rpx;height:79rpx;'>
-			</view>
-		</view>
-		<view class='basic'>
-			<view class='left_a'>
-				<text>请选择地址</text>
-			</view>
-			<view class='right_a'>
-				<pick-regions :defaultRegion='defaultRegionCode' @getRegion='handleGetRegion'>
-					<view style='font-size:24rpx;line-height:79rpx;'>{{regionName}}</view>
-				</pick-regions>
-			</view>
-		</view>
-		<view class="basic">
-			<view class="left_a">
-				<text>生日</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../static/icon_26.png" mode=""></image>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../static/icon_26.png" mode=""></image>
+					</view>
+					<input v-model='userName' @blur='shurukuang' style='text-align:right;line-height:105rpx;float:right;font-size:24rpx;height:105rpx;'>
 				</view>
-				<picker mode='date' :value='date' @change='bindDateC' style='width:220rpx;font-size:24rpx;line-height:79rpx;margin-top:0;' class='shou'>{{date}}</picker>
 			</view>
-		</view>
-		<view class="basic">
-			<view class="left_a">
-				<text>性别</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../static/icon_26.png" mode=""></image>
+			<view class='basic'>
+				<view class='left_a'>
+					<text>请选择地址</text>
 				</view>
-				<picker :range='arrsex' :value='index' class='shou' @change='sex' style='width:300rpx;line-height:79rpx;margin-top:0;'>{{arrsex[index]}}</picker>
+				<view class='right_a'>
+					<pick-regions :defaultRegion='defaultRegionCode' @getRegion='handleGetRegion'>
+						<view style='font-size:24rpx;line-height:105rpx;'>{{regionName}}</view>
+					</pick-regions>
+				</view>
 			</view>
+
 		</view>
+
 		<view class=" uni-padding-wrap uni-common-mt quit">
-			<button type="primary" @tap='tuichu'>退出登录</button>
+			<view @tap='tuichu'>退出登录</view>
 		</view>
 	</view>
 </template>
@@ -101,11 +110,11 @@
 				date: '2020-05-06',
 				phone: '手机',
 				headimg: '../../static/img_06.jpg',
-				userName:'',
-				defaultRegion:['山东省','济南市','历城区'],
-				defaultRegionCode:'370104',
-				region:[],
-				regionName:'请选择省市县'
+				userName: '',
+				defaultRegion: ['山东省', '济南市', '历城区'],
+				defaultRegionCode: '370104',
+				region: [],
+				regionName: '请选择省市县'
 			}
 		},
 		onLoad: function() {
@@ -119,14 +128,14 @@
 						this.phone = res.data.data.phone
 						this.index = res.data.data.sex ? res.data.data.sex : 0
 						this.birth = res.data.data.birth ? res.data.data.birth : '2020-05-06'
-						this.userName=res.data.data.userName
-						this.headimg=res.data.data.headimg
-						this.regionName=res.data.data.area?res.data.data.area:'请选择省市县'
+						this.userName = res.data.data.userName
+						this.headimg = res.data.data.headimg
+						this.regionName = res.data.data.area ? res.data.data.area : '请选择省市县'
 					}
 				}
 			})
 		},
-		components:{
+		components: {
 			pickRegions
 		},
 		methods: {
@@ -135,7 +144,7 @@
 			},
 			bindDateC: function(e) {
 				this.date = e.target.value
-				var _this=this
+				var _this = this
 				this.$https({
 					url: '/api/user/edit-member-info',
 					data: {
@@ -206,9 +215,9 @@
 						_this.phone = res.data.data.phone
 						_this.index = res.data.data.sex
 						_this.birth = res.data.data.birth ? res.data.data.birth : '2020-05-06'
-						_this.userName=res.data.data.userName
-						_this.headimg=res.data.data.headimg
-						_this.regionName=res.data.data.area?res.data.data.area:'请选择省市县'
+						_this.userName = res.data.data.userName
+						_this.headimg = res.data.data.headimg
+						_this.regionName = res.data.data.area ? res.data.data.area : '请选择省市县'
 					}
 				})
 			},
@@ -217,9 +226,9 @@
 				uni.showToast({
 					title: '退出登录成功'
 				})
-				setTimeout(function(){
+				setTimeout(function() {
 					uni.navigateTo({
-						url:'../enter/enter'
+						url: '../enter/enter'
 					})
 				})
 			},
@@ -250,19 +259,35 @@
 					}
 				})
 			},
-			shurukuang:function(){
-				var _this=this
-				this.$https({url:'/api/user/edit-member-info',data:{userName:this.userName},method:'post',haeder:true,success:function(res){
-					_this.qingqiu()
-				}})
-			},
-			handleGetRegion:function(region){
-				var _this=this
-				if(this.region){
-					this.regionName=region[0].name+'-'+region[1].name+'-'+region[2].name
-					this.$https({url:'/api/user/edit-member-info',data:{area:this.regionName},method:'post',haeder:true,success:function(res){
+			shurukuang: function() {
+				var _this = this
+				this.$https({
+					url: '/api/user/edit-member-info',
+					data: {
+						userName: this.userName
+					},
+					method: 'post',
+					haeder: true,
+					success: function(res) {
 						_this.qingqiu()
-					}})
+					}
+				})
+			},
+			handleGetRegion: function(region) {
+				var _this = this
+				if (this.region) {
+					this.regionName = region[0].name + '-' + region[1].name + '-' + region[2].name
+					this.$https({
+						url: '/api/user/edit-member-info',
+						data: {
+							area: this.regionName
+						},
+						method: 'post',
+						haeder: true,
+						success: function(res) {
+							_this.qingqiu()
+						}
+					})
 				}
 			}
 		}
@@ -270,12 +295,18 @@
 </script>
 
 <style lang="scss">
+	.bg {
+		border-top: 6rpx solid #fff;
+	}
+
 	.alter {
 		width: 750upx;
 		background-color: #fff;
 		overflow: hidden;
 		padding-bottom: 20upx;
-		border-bottom: 20upx solid #f2f4f7;
+		border-bottom: 1rpx solid #eeeeee;
+		border-top: 1rpx solid #e5e5e5;
+		margin-bottom: 20rpx;
 
 		.left {
 			float: left;
@@ -334,13 +365,29 @@
 		background: #f7f7f7;
 	}
 
+
+
+	.basic-list {
+		width: 100%;
+		background-color: #FFFFFF;
+		border-top: 1rpx solid #eeeeee;
+	}
+
+	.basic-list-two {
+		border-top: none;
+		margin-top: 15rpx;
+	}
+
 	.basic {
-		width: 710upx;
+		// width: 710upx;
 		background-color: #fff;
 		overflow: hidden;
-		padding: 20upx;
-		padding-bottom: 20upx;
-		border-bottom: 1px dotted #ccc;
+		margin: 0 25rpx 0 30rpx;
+		height: 105rpx;
+		line-height: 105rpx;
+		// margin: 0 20rpx;
+		// padding-bottom: 20upx;
+		border-bottom: 1px dashed #ccc;
 
 		.left_a {
 			float: left;
@@ -360,7 +407,10 @@
 
 		.right_a {
 			float: right;
-			padding-right: 10upx;
+			padding-right: 18upx;
+			height: 100%;
+			line-height: 100%;
+
 
 			text {
 				font-size: 28upx;
@@ -370,11 +420,16 @@
 
 			.img_a {
 				float: right;
-				padding: 30upx 0upx 20upx 20upx;
+				// padding: 30upx 0upx 20upx 20upx;
+				// margin-top: 50%;
+				margin-top: 44rpx;
+				margin-left: 25rpx;
+				
 
 				image {
+
 					width: 12upx;
-					height: 14upx;
+					height: 19upx;
 					display: block;
 				}
 
@@ -391,22 +446,30 @@
 
 	}
 
+	.basic:last-child {
+		border: none;
+	}
+
 	.quit {
 		overflow: hidden;
-		padding-top: 10%;
-		width: 650upx;
+
 		margin: 0 auto;
 		color: #fff;
 		position: fixed;
-		bottom: 5%;
-		left: 7%;
+		bottom: 10%;
+		left: 75rpx;
+		right: 75rpx;
 
 		font-family: Microsoft YaHei;
 
-		button {
+		view {
 
 			border-radius: 50upx 50upx;
 			background-color: #dce0e6;
+			color: #fff;
+			height: 80rpx;
+			line-height: 80rpx;
+			text-align: center;
 		}
 	}
 </style>

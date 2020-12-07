@@ -50,7 +50,7 @@
 
 		<view :class="tog_Ca?'':'togActive'">
 			<!-- 头部 -->
-			<view class="top" style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;margin:20rpx 0;padding-top:60rpx;'>
+			<view class="top" style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;padding-top:80rpx;padding-bottom: 20rpx;'>
 				<view class='back' @tap='back' style='float:left;margin-top:10rpx;margin-left:20rpx;'>
 					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 				</view>
@@ -67,16 +67,17 @@
 				<view style='display:flex;'>
 					<view class="con" @tap="chexing">
 						<text>车型</text>
-						<image src="../../static/icon_37.png" class="bot" mode=""></image>
+						<p class="activeBf"></p>
+						<!-- <image src="../../static/icon_37.png" class="bot" mode=""></image> -->
 					</view>
 					<view class="con" @tap='zonghe'>
-						<text>综合排序</text>
-						<image src="../../static/icon_37.png" class="bot" mode=""></image>
+						<text :style="paixu?'color:#3462ff':''">综合排序</text>
+						<p :class="paixu?'activeAf':'activeBf'"></p>
 					</view>
 					<view class="con">
 						<view class="c_R" @tap="show">
 							<text>筛选</text>
-							<image src="../../static/icon_37.png" class="bot" mode=""></image>
+							<p class="activeBf"></p>
 						</view>
 
 					</view>
@@ -85,24 +86,31 @@
 						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
 					</view>
 				</view>
-				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:26rpx;z-index:99999;'
-				 v-if='paixu'>
-					<view style='margin-top:20rpx;' @tap='p("PASC")'>价格从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PASC"'>√</view>
+
+
+			</view>
+
+			<view class="zhMask"  v-if='paixu'>
+				<view class="mask-content">
+					<view class="mask-cont-item" @tap='p("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
+							<image src="../../static/price_xuanze_icon.png" mode=""></image>
+						</view>
 					</view>
-					<view style='margin-top:20rpx;' @tap='p("PDESC")'>价格从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="PDESC"'>√</view>
+					<view class="mask-cont-item" @tap='p("PDESC")'>信用<view class="cont-item-icon" v-if='st=="PDESC"'>
+							<image src="../../static/price_xuanze_icon.png" mode=""></image>
+						</view>
 					</view>
-					<view style='margin-top:20rpx;' @tap='p("SASC")'>销量从高到低<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SASC"'>√</view>
+					<view class="mask-cont-item" @tap='p("SASC")'>价格高/低<view class="cont-item-icon" v-if='st=="SASC"'>
+							<image :src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''" mode=""></image>
+						</view>
 					</view>
-					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='p("SDESC")'>销量从低到高<view style='display:inline-block;margin-left:10rpx;'
-						 v-if='st=="SDESC"'>√</view>
-					</view>
+					<!-- <view class="mask-cont-item" @tap='p("SDESC")'>销量从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SDESC"'>√</view>
+					</view> -->
 				</view>
 			</view>
 
-
-
 			<!-- 热门推荐 -->
-			<view class="hahah list uni-flex uni-column">
+			<view class="hahah list uni-flex uni-column" style="padding-top: 250rpx;">
 				<view class="content " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
 					<view class="imgBox">
 						<image :src="item.goodsLogo" mode="widthFix"></image>
@@ -223,9 +231,9 @@
 					}
 				})
 			},
-			shopClassify(){
+			shopClassify() {
 				uni.navigateTo({
-					url:'../shop/shopClassify'
+					url: '../shop/shopClassify'
 				})
 			},
 			chexing() {
@@ -341,9 +349,9 @@
 					delta: 1
 				})
 			},
-			dianpu:function(id){
+			dianpu: function(id) {
 				uni.navigateTo({
-					url:'../shop/shop?id='+id
+					url: '../shop/shop?id=' + id
 				})
 			}
 		}
@@ -351,9 +359,67 @@
 </script>
 
 <style lang="scss">
+	// .dne{
+	// 	margin-top: 0;
+	// }
+	.zhMask {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.3);
+		overflow: hidden;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 250rpx;
+		bottom: 0;
+		z-index: 999;
+
+		.mask-content {
+			position: absolute;
+			left: 0;
+			top: 0;
+			box-sizing: border-box;
+			padding: 0 20rpx;
+			text-align: center;
+			width: 100%;
+			background: #fff;
+			// border: 1px solid #ddd;
+			font-size: 14px;
+			z-index: 99999;
+
+			.mask-cont-item {
+				height: 88rpx;
+				line-height: 88rpx;
+				border-bottom: 1rpx solid #eeeeee;
+				text-align: left;
+				padding-left: 10rpx;
+				overflow: hidden;
+				.cont-item-icon {
+					display: inline-block;
+					margin-right: 5px;
+					float: right;
+
+					image {
+						width: 28rpx;
+						height: 20rpx;
+					}
+				}
+
+			}
+
+			.mask-cont-item:last-child {
+				border: 0;
+				image{
+					height: 28rpx;
+					width: 29rpx;
+				}
+			}
+		}
+	}
+
 	.top {
 		width: 710upx;
-		margin: 20upx;
+		// margin: 20upx;
 		overflow: hidden;
 
 		.textBox {
@@ -392,10 +458,12 @@
 	.nav {
 		width: 710upx;
 		padding: 20upx;
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid #eeeeee;
 		text-align: center;
-		position: relative;
+		position: fixed;
 		height: 50rpx;
+		background-color: #fff;
+		z-index: 99;
 
 		.con {
 			// width: 33.3%;
@@ -406,9 +474,31 @@
 
 			text {
 				line-height: 36rpx;
-				font-size: 28rpx;
+				font-size: 30rpx;
 				padding-right: 18rpx;
+				color: #333333;
 
+			}
+
+			.activeBf {
+				width: 0;
+				height: 0;
+				border: 12.5rpx solid #cccccc;
+				border-bottom: 0;
+				border-color: #cccccc transparent transparent transparent;
+				display: inline-block;
+				vertical-align: middle;
+
+			}
+
+			.activeAf {
+				width: 0;
+				height: 0;
+				border: 13rpx solid #cccccc;
+				border-top: 0;
+				border-color: transparent transparent #cccccc transparent;
+				display: inline-block;
+				vertical-align: middle;
 			}
 
 			image {
@@ -742,7 +832,7 @@
 	.togActive {
 		.top {
 			width: 710upx;
-			margin: 20upx;
+			// margin: 20upx;
 			overflow: hidden;
 
 			.textBox {
@@ -779,20 +869,20 @@
 		}
 
 		.list {
-			column-count: 2;
-			column-gap: 25rpx;
-			margin-left: 30rpx;
-			margin-right: 30rpx;
+			overflow: hidden;
+			padding-left: 30rpx;
+			padding-right: 30rpx;
 			padding-bottom: 80rpx;
 		}
 
 
 		.content {
 			box-sizing: border-box;
-			break-inside: avoid;
+			height: 500rpx;
 			margin-top: 20upx;
 			display: black;
-			width: 330upx;
+			// width: 330upx;
+			width: calc(50% - 15rpx);
 			// margin-left: 20upx;
 			float: left;
 			box-shadow: 0 0 5px #ccc;
@@ -852,7 +942,7 @@
 				.txt_aas {
 					padding-top: 10upx;
 					position: initial;
-
+					width: 100%;
 					text {
 						color: #333;
 						font-size: 32upx;
@@ -874,7 +964,9 @@
 
 			}
 		}
-
+		.content:nth-child(even){
+			float: right;
+		}
 		.Boxaaa {
 			overflow: hidden;
 			margin-bottom: 20upx;

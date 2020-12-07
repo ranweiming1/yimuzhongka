@@ -84,17 +84,21 @@
 		margin-bottom: 20upx;
     	background-color: #fff;
     	overflow: hidden;
+		height: 100rpx;
+		line-height: 100rpx;
     	.title{
     		float: left;
     		padding-left: 20upx;
     		text{
-    			line-height: 90upx;
+    			line-height: 100upx;
     			font-size: 32upx;
     		}
     	}
     	.uni-input{
     		float: left;
-    		padding-top: 27upx;
+    		// padding-top: 27upx;
+			line-height: 100rpx;
+			height: 100rpx;
     		font-size: 28upx;
     		padding-left: 20upx;
     		font-family:Microsoft YaHei ;
@@ -109,6 +113,7 @@
 			border-radius: 40upx;
 			font-size:24upx;
 			font-family:Microsoft YaHei;
+			background-color: #2b5cff;
 		}
 		
 	}
@@ -121,6 +126,7 @@
 		button{
 			border-radius: 40upx;
 			font-family:Microsoft YaHei;
+			background-color: #2b5cff;
 		}
 		
 	}

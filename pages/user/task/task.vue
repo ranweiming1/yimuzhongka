@@ -412,7 +412,7 @@
 	}
 
 	.top {
-		position: fixed;
+		position: absolute;
 		top: 10upx;
 		left: 0upx;
 		width: 750upx;
@@ -444,7 +444,7 @@
 	.userBox {
 		width: 700upx;
 		position: absolute;
-		top: 130upx;
+		top: 170upx;
 		left: 25upx;
 		overflow: hidden;
 
@@ -506,7 +506,7 @@
 
 			.rig {
 				float: right;
-				padding-right: 50upx;
+				padding-right: 30upx;
 				text-align: center;
 
 				text {
@@ -536,11 +536,11 @@
 	}
 
 	.bgWhite {
-		width: 660upx;
+		width:700upx;
 		height: 120upx;
 		// box-shadow: 0 0 5px #ccc;
 		position: absolute;
-		top: 380upx;
+		top: 400upx;
 		left: 25upx;
 		// background-color: #fff;
 		border-radius: 20upx;
@@ -575,22 +575,22 @@
 		overflow: hidden;
 
 		.hFrame_t {
-			width: 33rpx;
+			width: 35rpx;
 			border-bottom: 2px solid #ffd711;
 			top: 50%;
 			position: absolute;
 			/* margin-top: -3px;wxcs_style_margin-top; */
-			right: -33rpx;
+			right: -35rpx;
 			margin-top: -4.5rpx;
 		}
 
 		.hFrame_o {
-			width: 33rpx;
+			width: 35rpx;
 			border-bottom: 2px solid #ffd711;
 			top: 50%;
 			position: absolute;
 			/* margin-top: -3px;wxcs_style_margin-top; */
-			left: -33rpx;
+			left: -35rpx;
 			margin-top: -4.5rpx;
 		}
 
@@ -608,7 +608,7 @@
 
 			.ima_p {
 				position: relative;
-				width: 32upx;
+				width: 33upx;
 
 				image {
 					width: 32upx;
@@ -631,7 +631,7 @@
 
 			.ima_p {
 				position: relative;
-				width: 32upx;
+				width: 33upx;
 
 				image {
 					width: 32upx;
@@ -769,8 +769,7 @@
 			width: 660upx;
 			// height: 460upx;
 			margin-left: 8upx;
-			margin-top: -30upx;
-			box-shadow: 0 0 8px #b6b9e5;
+			box-shadow: 0 0 5px #b6b9e5;
 			background-color: #fff;
 			border-radius: 20upx;
 			padding: 20upx 20upx 20rpx 20upx;

@@ -13,7 +13,8 @@
 		</view>
 		<!-- 这是轮播图 -->
 		<view class="banner">
-			<swiper class="swiper" style="height: 360rpx;border-radius:20rpx;" :autoplay="autoplay" :interval="interval" :duration="duration" :circular='true'>
+			<swiper class="swiper" style="height: 360rpx;border-radius:20rpx;" :autoplay="autoplay" :interval="interval"
+			 :duration="duration" :circular='true'>
 				<swiper-item v-for="(item, index) in banList" style='border-radius:20rpx;' @tap='b(item.businessId,item.type)'>
 					<image :src="item.img" mode="" style='border-radius:20rpx;'></image>
 				</swiper-item>
@@ -22,7 +23,8 @@
 		<view style='margin:20rpx;overflow:hidden;'>
 			<image style='width:20rpx;height:20rpx;float:left;margin-top:10rpx;' src='../../static/gonggao.jpg'></image>
 			<view style='float:left;margin-left:10rpx;font-size:26rpx;'>[通知公告]</view>
-			<swiper class='swiper' style='height:40rpx;float:left;width:calc(100% - 200rpx);color:#999;font-size:20rpx;line-height:40rpx;' :autoplay='autoplay' :interval='interval' :duration='duration' :circular='true' :vertical='true'>
+			<swiper class='swiper' style='height:40rpx;float:left;width:calc(100% - 200rpx);color:#999;font-size:20rpx;line-height:40rpx;'
+			 :autoplay='autoplay' :interval='interval' :duration='duration' :circular='true' :vertical='true'>
 				<swiper-item v-for='item in g' @tap='t(item)'>{{item.noticeTitle}}</swiper-item>
 			</swiper>
 		</view>
@@ -59,7 +61,8 @@
 		<view class="recommend" style='overflow:hidden;'>
 			<view class="title">
 				<text>热门推荐</text>
-				<image style='display:inline-block;width:36rpx;height:34rpx;margin-top:10rpx;margin-right:30rpx;' src='../../static/n8.png' @tap='q'></image>
+				<image style='display:inline-block;width:36rpx;height:34rpx;margin-top:10rpx;margin-right:30rpx;' src='../../static/n8.png'
+				 @tap='q'></image>
 				<text @tap="more">更多</text>
 			</view>
 			<view class="hahah list uni-flex uni-column" v-for="(item , index) in hotList" v-if='y'>
@@ -77,8 +80,11 @@
 						<view class="txt_aas">
 							<text><text><text style='font-size:22rpx;'>￥</text>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</text></text>
 							<view style='float:right;'>
-								<view style='background:#ff6600;border-radius:5rpx;line-height:22rpx;padding:5rpx 10rpx;height:22rpx;border:1px solid #ff6600;display:inline-block;color:#fff;font-size:15rpx;float:left;' @click.stop='dianpu(item.shopId)'>旺铺</view>
-								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;'><image style='width:100%;height:100%;display:block;' src='../../static/qiyerenzheng.png'></image></view>
+								<view style='background:#ff6600;border-radius:5rpx;line-height:22rpx;padding:5rpx 10rpx;height:22rpx;border:1px solid #ff6600;display:inline-block;color:#fff;font-size:15rpx;float:left;'
+								 @click.stop='dianpu(item.shopId)'>旺铺</view>
+								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;'>
+									<image style='width:100%;height:100%;display:block;' src='../../static/qiyerenzheng.png'></image>
+								</view>
 								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;line-height:22rpx;color:#ff6600;font-size:20rpx;'>购</view>
 								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;line-height:22rpx;color:#ff6600;font-size:20rpx;'>品</view>
 							</view>
@@ -87,18 +93,21 @@
 					</view>
 				</view>
 			</view>
-			<view v-for='(item,index) in hotList' style='width:45%;float:left;border-radius:10rpx;box-shadow:0px 0px 20px #ccc;box-sizing:border-box;margin:20rpx 2.5%;height:500rpx;' @tap='detail(item.goodsId)' v-if='!y'>
+			<view class="content-item" v-for='(item,index) in hotList' @tap='detail(item.goodsId)' v-if='!y'>
 				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;'></image>
 				<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 20rpx;'>
-					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;'>自营</view>
+					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;border-radius: 4px;margin-right: 6px;'>自营</view>
 					{{item.goodsName}}
 				</view>
-				<view style='overflow:hidden;'>
+				<view style='overflow:hidden;margin-left: 10rpx;'>
 					<view v-for='(ite,inde) in item.couponDTOS' style='border:1px dashed #ff6600;font-size:20rpx;padding:0 10rpx;float:left;margin-top:10rpx;margin-left:10rpx;color:#ff3333;'>满{{ite.condition}}-{{ite.money}}元</view>
 				</view>
 				<view style='padding:20rpx;'>
 					<!-- <view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view> -->
-					<view style='font-size:30rpx;color:#ff3333;font-weight:900;'><view style='color:#ff3333;font-size:19rpx;display:inline-block;font-weight:600;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}<view style='float:right;width:100rpx;font-size:20rpx;'>{{item.sendAddr}}</view></view>
+					<view style='font-size:30rpx;color:#ff3333;font-weight:900;'>
+						<view style='color:#ff3333;font-size:19rpx;display:inline-block;font-weight:600;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}
+						<view style='float:right;width:100rpx;font-size:20rpx;'>{{item.sendAddr}}</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -129,15 +138,18 @@
 			<view style='width:471rpx;margin:auto;height:200rpx;position:absolute;left:0;bottom:0;right:0;top:0;background:#fff;'>
 				<view style='font-size:22rpx;text-align:center;margin-top:20rpx;'>您的好友给您分享了一个商品，是否查看?</view>
 				<view style='text-align:center;margin-top:50rpx;'>
-					<view style='display:inline-block;width:100rpx;height:60rpx;line-height:60rpx;background:#fefefe;border:1px solid #eee;border-radius:10rpx;' @tap='quxiao'>取消</view>
-					<view style='display:inline-block;width:100rpx;height:60rpx;line-height:60rpx;background:#2b5cff;border-radius:10rpx;color:#fff;margin-left:20rpx;' @tap='tiaozhuan'>确定</view>
+					<view style='display:inline-block;width:100rpx;height:60rpx;line-height:60rpx;background:#fefefe;border:1px solid #eee;border-radius:10rpx;'
+					 @tap='quxiao'>取消</view>
+					<view style='display:inline-block;width:100rpx;height:60rpx;line-height:60rpx;background:#2b5cff;border-radius:10rpx;color:#fff;margin-left:20rpx;'
+					 @tap='tiaozhuan'>确定</view>
 				</view>
 			</view>
 		</view>
 		<view class="line" style="height: 140rpx;">
 
 		</view>
-		<view style='position:fixed;left:0;width:calc(100% - 50rpx);height:100rpx;background:rgba(0,0,0,0.6);bottom:100rpx;line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;' v-if='xianshidenglu' @tap='denglu'>
+		<view style='position:fixed;left:0;width:calc(100% - 50rpx);height:100rpx;background:rgba(0,0,0,0.6);bottom:100rpx;line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
+		 v-if='xianshidenglu' @tap='denglu'>
 			登录查看更多
 			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'>一键登录</view>
 		</view>
@@ -151,7 +163,8 @@
 			</swiper-item>
 		</swiper>
 		<view style='width:100%;height:100%;position:fixed;left:0;top:0;z-index:99999;background:#fff;' v-if='xianshi'></view>
-		<view style='position:fixed;top:200rpx;right:20rpx;z-index:9999999999999;width:130rpx;height:50rpx;text-align:center;color:#fff;font-size:20rpx;line-height:50rpx;border:1px solid #fff;border-radius:50rpx;' v-if='xianshi' @tap='tiaoguo'>{{a}}s跳过广告</view>
+		<view style='position:fixed;top:200rpx;right:20rpx;z-index:9999999999999;width:130rpx;height:50rpx;text-align:center;color:#fff;font-size:20rpx;line-height:50rpx;border:1px solid #fff;border-radius:50rpx;'
+		 v-if='xianshi' @tap='tiaoguo'>{{a}}s跳过广告</view>
 	</view>
 </template>
 
@@ -176,24 +189,24 @@
 				index: '',
 				phone: '',
 				int: 0,
-				shangpinxiangqing:false,
-				xinxi:'',
-				xianshidenglu:false,
-				y:true,
-				l:[],
-				xianshi:true,
-				a:5,
-				g:[]
+				shangpinxiangqing: false,
+				xinxi: '',
+				xianshidenglu: false,
+				y: true,
+				l: [],
+				xianshi: true,
+				a: 5,
+				g: []
 			}
 		},
 		components: {
 			tabBar,
 		},
 		onShow() {
-			if(uni.getStorageSync('Authorization')){
-				this.xianshidenglu=false
-			}else{
-				this.xianshidenglu=true
+			if (uni.getStorageSync('Authorization')) {
+				this.xianshidenglu = false
+			} else {
+				this.xianshidenglu = true
 			}
 			var _this = this
 			this.list = []
@@ -221,14 +234,20 @@
 					}
 				},
 			})
-			this.$https({url:'/api/oauth/get-index-banner-list',data:{},method:'post',dengl:true,success:res=>{
-				this.banList=res.data.data
-			}})
+			this.$https({
+				url: '/api/oauth/get-index-banner-list',
+				data: {},
+				method: 'post',
+				dengl: true,
+				success: res => {
+					this.banList = res.data.data
+				}
+			})
 			//获取优惠券
 			this.$https({
 				url: '/api/oauth/shop/coupon-couple-List',
 				data: {},
-				dengl:true,
+				dengl: true,
 				success: function(res) {
 					_this.youhuiquan = res.data.data
 				}
@@ -252,44 +271,56 @@
 			// 	data: {},
 			// 	success: function(resa) {
 			// 		//获取粘贴板内容
-					uni.getClipboardData({
-						success: function(res) {
-			// 				if (resa.data.data.payPoints != res.data.split('分享给你')[1].split(',')[0]) {
-								if (res.data.indexOf('我在毅木重卡发现一个好东西，分享给你') >= 0) {
-									uni.setClipboardData({
-										data: '',
-										success: function() {
+			uni.getClipboardData({
+				success: function(res) {
+					// 				if (resa.data.data.payPoints != res.data.split('分享给你')[1].split(',')[0]) {
+					if (res.data.indexOf('我在毅木重卡发现一个好东西，分享给你') >= 0) {
+						uni.setClipboardData({
+							data: '',
+							success: function() {
 
-										}
-									})
-									_this.shangpinxiangqing=true
-									_this.xinxi=res.data
-								}
-			// 				}
-						}
-					})
+							}
+						})
+						_this.shangpinxiangqing = true
+						_this.xinxi = res.data
+					}
+					// 				}
+				}
+			})
 			// 	}
 			// })
 			//广告
-			if(!uni.getStorageSync('g')){
-			this.$https({url:'/api/oauth/get-start-advertise',data:{},method:'post',dengl:true,success:res=>{
-				this.l=res.data.data
-				uni.setStorageSync('g',1)
-				setInterval(r=>{
-					if(this.a==0){
-						this.xianshi=false
+			if (!uni.getStorageSync('g')) {
+				this.$https({
+					url: '/api/oauth/get-start-advertise',
+					data: {},
+					method: 'post',
+					dengl: true,
+					success: res => {
+						this.l = res.data.data
+						uni.setStorageSync('g', 1)
+						setInterval(r => {
+							if (this.a == 0) {
+								this.xianshi = false
+							}
+							this.a--
+						}, 1000)
 					}
-					this.a--
-				},1000)
-			}})
+				})
 			}
-			if(uni.getStorageSync('g')){
-				this.xianshi=false
+			if (uni.getStorageSync('g')) {
+				this.xianshi = false
 			}
 			//公告
-			this.$https({url:'/api/oauth/get-system-notice',data:{},method:'post',dengl:true,success:res=>{
-				this.g=res.data.data
-			}})
+			this.$https({
+				url: '/api/oauth/get-system-notice',
+				data: {},
+				method: 'post',
+				dengl: true,
+				success: res => {
+					this.g = res.data.data
+				}
+			})
 		},
 		methods: {
 			detail(id) {
@@ -302,8 +333,7 @@
 						goodsId: id
 					},
 					method: 'POST',
-					success(res) {
-					}
+					success(res) {}
 				})
 			},
 			more() {
@@ -368,49 +398,49 @@
 			qiehuan: function(e) {
 				this.int = e.detail.current
 			},
-			quxiao:function(){
-				this.shangpinxiangqing=false
+			quxiao: function() {
+				this.shangpinxiangqing = false
 			},
-			tiaozhuan:function(){
+			tiaozhuan: function() {
 				uni.navigateTo({
-					url:'productDetails?id='+this.xinxi.split(',')[1]+'&str='+this.xinxi.split(',')[0].split('分享给你')[1]
+					url: 'productDetails?id=' + this.xinxi.split(',')[1] + '&str=' + this.xinxi.split(',')[0].split('分享给你')[1]
 				})
-				this.shangpinxiangqing=false
+				this.shangpinxiangqing = false
 			},
-			tiaoz:function(){
+			tiaoz: function() {
 				uni.navigateTo({
-					url:'../user/sale/sale'
-				})
-			},
-			denglu:function(){
-				uni.navigateTo({
-					url:'../enter/enter'
+					url: '../user/sale/sale'
 				})
 			},
-			q:function(){
-				this.y=!this.y
-			},
-			dianpu:function(id){
+			denglu: function() {
 				uni.navigateTo({
-					url:'../shop/shop?id='+id
+					url: '../enter/enter'
 				})
 			},
-			tiaoguo:function(){
-				this.xianshi=false
+			q: function() {
+				this.y = !this.y
 			},
-			t:function(i){
+			dianpu: function(id) {
 				uni.navigateTo({
-					url:'../news/news_details/news_details?i='+JSON.stringify(i)
+					url: '../shop/shop?id=' + id
 				})
 			},
-			b:function(id,type){
-				if(type==1){
+			tiaoguo: function() {
+				this.xianshi = false
+			},
+			t: function(i) {
+				uni.navigateTo({
+					url: '../news/news_details/news_details?i=' + JSON.stringify(i)
+				})
+			},
+			b: function(id, type) {
+				if (type == 1) {
 					uni.navigateTo({
-						url:'productDetails?id='+id
+						url: 'productDetails?id=' + id
 					})
-				}else if(type==2){
+				} else if (type == 2) {
 					uni.navigateTo({
-						url:'../shop/shop?id='+id
+						url: '../shop/shop?id=' + id
 					})
 				}
 			}
@@ -454,7 +484,8 @@
 		.right {
 			float: right;
 			margin-right: 20upx;
-			margin-top:10rpx;
+			margin-top: 10rpx;
+
 			image {
 				margin: 20upx;
 				width: 36upx;
@@ -470,8 +501,9 @@
 		box-shadow: 0 0 5px 3px #ccc;
 		border-radius: 20upx;
 		margin-bottom: 20rpx;
-		overflow:hidden;
-		margin-top:10rpx;
+		overflow: hidden;
+		margin-top: 10rpx;
+
 		image {
 			width: 100%;
 			height: 360upx;
@@ -525,16 +557,35 @@
 
 	.recommend {
 		padding: 20upx;
+
 		.title {
 			border-bottom: 1px solid #ccc;
 			height: 50upx;
 			padding-bottom: 20upx;
 			overflow: hidden;
-			text-align:right;
+			text-align: right;
 		}
-		>view:nth-child(2n){
-			clear:left
+
+		>view:nth-child(2n) {
+			// clear: left
 		}
+
+		.content-item {
+			width: calc(50% - 15rpx);
+			float: left;
+			box-shadow: 0px 0px 4px #ccc;
+			background: #fff;
+			box-sizing: border-box;
+			margin: 20rpx 0;
+			height: 500rpx;
+			border-radius: 15rpx;
+			overflow: hidden;
+		}
+
+		.content-item:nth-child(even) {
+			float: right;
+		}
+
 		.title text {
 			float: left;
 			font-size: 36upx;
@@ -561,7 +612,8 @@
 				border-bottom: 1px dotted #ccc;
 				padding-bottom: 20upx;
 				overflow: hidden;
-				position:relative;
+				position: relative;
+
 				.imgBox {
 					image {
 						width: 30%;
@@ -606,7 +658,8 @@
 
 					.txt_aas {
 						padding-top: 10upx;
-						margin-top:20rpx;
+						margin-top: 20rpx;
+
 						text {
 							color: #333;
 							font-size: 32upx;

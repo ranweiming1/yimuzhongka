@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<view class="uni-form-item uni-column">
+		<view class="uni-form-item uni-column uni-top">
 			<text style="padding-left: 20rpx;color:#000;font-size:25rpx;">收货人</text>
-			<input style='float:right;width:200rpx;text-align:right;margin-right:40rpx;font-size:25rpx;color:#000;' class="uni-input" name="input" v-model='username'
-			 placeholder="收货人" />
+			<input style='float:right;width:200rpx;text-align:right;margin-right:40rpx;font-size:25rpx;color:#000;' class="uni-input"
+			 name="input" v-model='username' placeholder="收货人" />
 		</view>
 
 		<view class="basic">
@@ -12,7 +12,7 @@
 			</view>
 			<view class="right_a">
 				<view class="img_a">
-					<input type="number" v-model='phone' placeholder='请输入手机号' style='float:left;text-align:right;margin-top:-20rpx;margin-right:12rpx;font-size:25rpx;color:#000;'>
+					<input type="number" v-model='phone' placeholder='请输入手机号' style='float:left;text-align:right;;margin-right:12rpx;font-size:25rpx;color:#000;'>
 					<image src="../../../../static/icon_26.png" mode=""></image>
 				</view>
 			</view>
@@ -20,21 +20,22 @@
 
 		<view class="basic">
 			<pick-regions :defaultRegion="defaultRegionCode" @getRegion="handleGetRegion">
-				<view class="left_a" style="font-size: 25rpx;color: #000;line-height: 50rpx">点击选择省市县</view>
+				<view class="left_a" style="font-size: 25rpx;color: #000;height: 100rpx;line-height: 100rpx;">点击选择省市县</view>
 				<view class="right_a">
 					<view class="img_a">
 						<view style='float:left;font-size:25rpx;color:#999;'>{{isOk?(isAdd?'选择省市县':regionName):addressss}}</view>
-						<image style='margin-top:10rpx;float:left;margin-left:20rpx;' src="../../../../static/icon_26.png" mode=""></image>
+						<image style='margin-left:20rpx;' src="../../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
 			</pick-regions>
 		</view>
 		<view class="uni-form-item uni-column beizs">
-			<text style="font-size: 25rpx;padding-left:20rpx;color:#000;">详细地址:</text>
-			<input class="uni-input" name="input" style='font-size:25rpx;color:#000;' placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等" v-model='address' />
+			<text style="font-size: 25rpx;padding-left:20rpx;color:#000;">详细地址</text>
+			<input class="uni-input" name="input" style='font-size:25rpx;color:#000;' placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等"
+			 v-model='address' />
 		</view>
 		<view class='uni-form-item uni-column beizs'>
-			<text style='font-size:25rpx;padding:20rpx;color:#000;'>公司位置:</text>
+			<text style='font-size:25rpx;padding:0 20rpx;color:#000;'>公司位置</text>
 			<input class='uni-input' name='input' style='font-size:25rpx;color:#000;' placeholder='请输入详细地址信息' v-model='la'>
 		</view>
 		<view class="uni-list">
@@ -54,8 +55,10 @@
 			<view style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;'>
 				<view style='text-align:center;margin-top:20rpx;'>您确定删除地址?</view>
 				<view style='text-align:center;margin-top:20rpx;'>
-					<view style='display:inline-block;background:#eee;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:10rpx;float:left;margin-left:20rpx;' @tap='quxiao'>取消</view>
-					<view style='display:inline-block;background:#2d5eff;color:#fff;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:10rpx;float:right;margin-right:20rpx;' @tap='del'>确定</view>
+					<view style='display:inline-block;background:#eee;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:10rpx;float:left;margin-left:20rpx;'
+					 @tap='quxiao'>取消</view>
+					<view style='display:inline-block;background:#2d5eff;color:#fff;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:10rpx;float:right;margin-right:20rpx;'
+					 @tap='del'>确定</view>
 				</view>
 			</view>
 		</view>
@@ -80,17 +83,17 @@
 				defaultRegionCode: '370104',
 				goodsId: '',
 				cartAttr: '',
-				youhuiid:'',
-				moneys:'',
-				zhid:'',
-				dingdan:'',
-				shopId:'',
-				y:'',
-				shanchu:false,
-				j:false,
-				ids:0,
-				regionName:'',
-				la:''
+				youhuiid: '',
+				moneys: '',
+				zhid: '',
+				dingdan: '',
+				shopId: '',
+				y: '',
+				shanchu: false,
+				j: false,
+				ids: 0,
+				regionName: '',
+				la: ''
 			}
 		},
 		onLoad: function(option) {
@@ -104,23 +107,23 @@
 				this.address = ob.address
 				this.id = ob.id
 				this.isOk = false
-				this.checked=ob.isDefault
-				this.la=ob.label
+				this.checked = ob.isDefault
+				this.la = ob.label
 			}
 			if (option.goodsId) {
 				this.goodsId = option.goodsId
 				this.cartAttr = option.cartAttr
-				this.zhid=option.zhid
-				this.youhuiid=option.id
-				this.moneys=option.money
-				this.dingdan=option.dingdan
-				this.shopId=option.shopId
-				this.y=JSON.parse(option.y)
-				this.la=option.label
+				this.zhid = option.zhid
+				this.youhuiid = option.id
+				this.moneys = option.money
+				this.dingdan = option.dingdan
+				this.shopId = option.shopId
+				this.y = JSON.parse(option.y)
+				this.la = option.label
 			}
-			if(option.j){
-				this.j=true
-				this.ids=option.id
+			if (option.j) {
+				this.j = true
+				this.ids = option.id
 			}
 			// this.isAdd=false
 			// console.log(this.regionName))
@@ -142,7 +145,7 @@
 				if (this.region) {
 					_this.isAdd = false
 					_this.region = region
-					_this.regionName=region[0].name+region[1].name+region[2].name
+					_this.regionName = region[0].name + region[1].name + region[2].name
 				}
 			},
 			switch1Change: function(e) {
@@ -153,52 +156,54 @@
 			},
 			baocun: function() {
 				var _this = this
-				if(this.$jiaoyan(this.phone)){
-				this.$https({
-					url: '/api/user/address-add-edit',
-					data: JSON.stringify({
-						address: this.address,
-						phone: this.phone,
-						cityInfo: this.regionName?this.regionName:this.addressss,
-						username: this.username,
-						id: this.id,
-						isDefault: this.checked ? 1 : 0,
-						label:this.la
-					}),
-					haeder: true,
-					dengl: false,
-					method: 'post',
-					success: function(res) {
-						if(res.data.code==0){
-						uni.showToast({
-							title:'操作成功'
-						})
-						if(_this.j){
-							uni.navigateTo({
-								url:'../../../cart/orderForm/jifen?id='+_this.ids+'&dizhi='+JSON.stringify(res.data.data)
-							})
-							return false
+				if (this.$jiaoyan(this.phone)) {
+					this.$https({
+						url: '/api/user/address-add-edit',
+						data: JSON.stringify({
+							address: this.address,
+							phone: this.phone,
+							cityInfo: this.regionName ? this.regionName : this.addressss,
+							username: this.username,
+							id: this.id,
+							isDefault: this.checked ? 1 : 0,
+							label: this.la
+						}),
+						haeder: true,
+						dengl: false,
+						method: 'post',
+						success: function(res) {
+							if (res.data.code == 0) {
+								uni.showToast({
+									title: '操作成功'
+								})
+								if (_this.j) {
+									uni.navigateTo({
+										url: '../../../cart/orderForm/jifen?id=' + _this.ids + '&dizhi=' + JSON.stringify(res.data.data)
+									})
+									return false
+								}
+								if (_this.goodsId) {
+									uni.navigateTo({
+										url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr +
+											'&zhid=' + _this.zhid + '&money=' + _this.moneys + '&id=' + _this.youhuiid + '&dingdan=' + _this.dingdan +
+											'&shopId=' + _this.shopId + '&y=' + JSON.stringify(_this.y)
+									})
+								} else {
+									uni.navigateTo({
+										url: 'siteList'
+									})
+								}
+							} else {
+								uni.showToast({
+									title: res.data.message
+								})
+							}
 						}
-						if (_this.goodsId) {
-							uni.navigateTo({
-								url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr+'&zhid='+_this.zhid+'&money='+_this.moneys+'&id='+_this.youhuiid+'&dingdan='+_this.dingdan+'&shopId='+_this.shopId+'&y='+JSON.stringify(_this.y)
-							})
-						} else {
-							uni.navigateTo({
-								url: 'siteList'
-							})
-						}
-						}else{
-							uni.showToast({
-								title:res.data.message
-							})
-						}
-					}
-				})
-				}else{
+					})
+				} else {
 					uni.showToast({
-						title:'请输入正确的手机号',
-						icon:'none'
+						title: '请输入正确的手机号',
+						icon: 'none'
 					})
 				}
 			},
@@ -228,11 +233,11 @@
 				}
 
 			},
-			xianshi:function(){
-				this.shanchu=true
+			xianshi: function() {
+				this.shanchu = true
 			},
-			quxiao:function(){
-				this.shanchu=false
+			quxiao: function() {
+				this.shanchu = false
 			}
 
 		}
@@ -244,14 +249,19 @@
 	page {
 		background-color: #f7f7f7;
 	}
+	.uni-top{
+		line-height: 100rpx;
+		height: 100rpx;
+	}
 
 	.uni-column {
 		width: 750upx;
 		display: block;
-		padding-top: 30upx;
+		// padding-top: 30upx;
 		background-color: #fff;
 		overflow: hidden;
 		border-bottom: 1upx solid #f7f7f7;
+		
 
 		.uni-input {
 			background-color: #fff;
@@ -261,7 +271,8 @@
 			margin-left: 20upx;
 			font-family: Microsoft YaHei;
 			display: block;
-			padding-bottom: 30upx;
+			height: 100rpx;
+			line-height: 100rpx;
 		}
 
 		.imgBox {
@@ -279,7 +290,11 @@
 	.beizs {
 		width: 750upx;
 		border-bottom: 20upx solid #f7f7f7;
-
+		text{
+			display: block;
+			height: 80rpx;
+			line-height: 100rpx;
+		}
 		.uni-input {
 			height: 100upx;
 		}
@@ -289,11 +304,13 @@
 		width: 710upx;
 		background-color: #fff;
 		overflow: hidden;
-		padding: 20upx;
-		padding-bottom: 10upx;
+		height: 100rpx;
+		line-height: 100rpx;
+		padding: 0 20rpx;
 		border-bottom: 1upx solid #f7f7f7;
-		font-size:28rpx;
-		color:#666;
+		font-size: 28rpx;
+		color: #666;
+
 		.left_a {
 			float: left;
 
@@ -332,12 +349,19 @@
 
 			.img_a {
 				float: right;
-				padding: 20upx 0upx 20upx 20upx;
+				// padding: 20upx 0upx 20upx 20upx;
+				height: 100rpx;
+				line-height: 100rpx;
+
+				input {
+					height: 100%;
+					line-height: 100rpx;
+				}
 
 				image {
-					width: 12upx;
-					height: 14upx;
-					display: block;
+					width: 13upx;
+					height: 19upx;
+					// display: block;
 				}
 
 			}
@@ -347,9 +371,10 @@
 	.uni-list {
 		width: 710upx;
 		height: 60upx;
-		padding: 20upx;
+		padding:0 20upx;
 		background: #fff;
-
+		height: 100rpx;
+		line-height: 100rpx;
 		.uni-list-cell-db {
 			float: left;
 			background-color: #fff;
@@ -369,7 +394,8 @@
 	.bott {
 		width: 750upx;
 		display: flex;
-		margin-top:200rpx;
+		margin-top: 200rpx;
+
 		button {
 			width: 35%;
 			height: 65rpx;

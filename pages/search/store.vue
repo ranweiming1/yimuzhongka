@@ -393,20 +393,22 @@
 
 	.list {
 		overflow: hidden;
-		column-count: 2;
-		column-gap: 25rpx;
+		// column-count: 2;
+		// column-gap: 25rpx;
 		padding-left: 30rpx;
 		padding-right: 30rpx;
 	}
-
+	.content:nth-child(even){
+		float: right;
+	}
 	.content {
-		break-inside: avoid;
+		// break-inside: avoid;
 		box-sizing: border-box;
 
 		margin-top: 30upx;
 		margin-bottom: 10upx;
 		display: block;
-		width: 330rpx;
+		width: calc(50% - 15rpx);
 		// margin-left: 25upx;
 		float: left;
 		box-shadow: 0 0 5upx #ccc;
@@ -452,8 +454,10 @@
 				padding: 5upx 10upx;
 				font-size: 18upx;
 				margin-right: 10upx;
-				line-height: 30upx;
+				line-height: 20upx;
 				display: inline-block;
+				border-radius: 6rpx;
+				vertical-align: middle;
 			}
 
 			.txt_aa {
