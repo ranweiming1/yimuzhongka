@@ -86,8 +86,8 @@
 					<view class="tit_box">
 						<text>选择退款原因</text>
 					</view>
-					<radio-group class="li_box" v-for="(i , n) in 5" @change="change(n)">
-						<text v-model="values">{{values}}</text>
+					<radio-group class="li_box" v-for="(i , n) in values" @change="change(n)">
+						<text v-model="values">{{i.label}}</text>
 						<label class="radioss">
 							<radio :value="i" :checked="index==n" />
 						</label>
@@ -112,7 +112,7 @@
 				orList: [],
 				value: '请选择退款原因',
 				index: 'c',
-				values: '质量问题',
+				values: '',
 				content: {},
 				gId: '',
 				exp: '',
@@ -123,7 +123,6 @@
 			uniPopup
 		},
 		onLoad(option) {
-			console.log(option)
 			this.content = option
 			var _this = this
 			this.$https({
@@ -139,6 +138,8 @@
 					_this.gId = res.data.data.goodsList[0].goodsId
 				}
 			})
+			//退款原因
+			this.$https({url:'/api/oauth/get-refund-reason-list',data:{},method:'post',success:res=>{this.values=res.data.data}})
 		},
 		methods: {
 			primary() {
@@ -147,7 +148,6 @@
 				var _this = this
 				var num = this.content.type==1?1:0
 				if(_this.value=="请选择退款原因"){
-					console.log(2222)
 					uni.showToast({
 						title: '请选择退款原因',
 						icon: 'none'
@@ -173,7 +173,6 @@
 							title: '提交成功',
 							icon: 'none'
 						})
-						// console.log(_this.pingImg)
 					}
 				})
 				}
@@ -181,7 +180,7 @@
 			confirm() {
 				// console.log(this.values)
 				// console.log(this.pric)
-				this.value = this.values
+				this.value = this.values[this.index].label
 				this.closePopup()
 			},
 			change(n) {
