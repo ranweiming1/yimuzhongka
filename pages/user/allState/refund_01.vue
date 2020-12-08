@@ -64,6 +64,10 @@
 				<view class="title"><text>退款金额：</text></view>
 				<input class="uni-input" style="color: #ff0000;" disabled="true" name="input" :value="content.gP?'￥'+content.gP+'.00':'0'" />
 			</view>
+
+			<view class="reason-item">
+				<view class="title"><text style="color: #999999;font-size: 24rpx;">可修改，最多{{content.gP?'￥'+content.gP+'.00':'0'}},含发货邮费￥00.00</text></view>
+			</view>
 			<view class="reason-item">
 				<view class="title">
 					<text>退款方式</text>
@@ -78,9 +82,10 @@
 					<text>卖家同意退货后再决定</text>
 				</view>
 			</view>
+
 			<view class="reason-item">
 				<view class="title"><text>退货说明：</text></view>
-				<input class="uni-input" name="input" v-model="exp" placeholder="选填" />
+				<input class="uni-input" style="color: #999999;" name="input" v-model="exp" placeholder="选填" />
 			</view>
 		</view>
 		<view class="uni-form-item uni-column">
@@ -100,10 +105,10 @@
 					<view class="tit_box">
 						<text>选择退款原因</text>
 					</view>
-					<radio-group class="li_box" v-for="(i , n) in 5" @change="change(n)">
-						<text v-model="values">{{values}}</text>
+					<radio-group class="li_box" v-for="(i , n) in values" @change="change(n)">
+						<text>{{i.label}}</text>
 						<label class="radioss">
-							<radio :value="i" :checked="index==n" />
+							<radio color="#007AEE" :value="i" :checked="index==n" />
 						</label>
 					</radio-group>
 				</view>
@@ -126,7 +131,7 @@
 				orList: [],
 				value: '请选择退款原因',
 				index: 'c',
-				values: '质量问题',
+				values: [],
 				content: {},
 				gId: '',
 				exp: '',
@@ -155,6 +160,8 @@
 					_this.gId = res.data.data.goodsList[0].goodsId
 				}
 			})
+			//退款原因
+			this.$https({url:'/api/oauth/get-refund-reason-list',data:{},method:'post',success:res=>{this.values=res.data.data}})
 		},
 		methods: {
 			primary() {
@@ -195,9 +202,8 @@
 				}
 			},
 			confirm() {
-				// console.log(this.values)
-				// console.log(this.pric)
-				this.value = this.values
+
+				this.value = this.values[this.index].label
 				this.closePopup()
 			},
 			change(n) {
@@ -242,6 +248,7 @@
 		margin-bottom: 20rpx;
 
 		.reason-item {
+			overflow: hidden;
 			height: 83rpx;
 			line-height: 83rpx;
 			font-size: 28rpx;
@@ -250,6 +257,7 @@
 			.title {
 				float: left;
 			}
+
 			input {
 				height: 100%;
 				line-height: 100%;
@@ -300,12 +308,13 @@
 			width: calc(100% - 215rpx);
 			padding-left: 20upx;
 			box-sizing: border-box;
-			
+
 			.title {
 				padding-top: 10upx;
 				color: #0c0c0c;
 				font-size: 26rpx;
 				margin-bottom: 15rpx;
+
 				text {
 					font-size: 30upx;
 					line-height: 34upx;
@@ -441,6 +450,7 @@
 		.title {
 			padding-left: 25upx;
 			padding-top: 25rpx;
+
 			text {
 				// line-height: 90upx;
 				color: #333;

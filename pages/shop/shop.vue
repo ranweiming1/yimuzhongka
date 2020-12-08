@@ -43,8 +43,8 @@
 			<!-- banner 轮播图-->
 			<swiper class="banner" :autoplay="autoplay" :indicator-active-color="activeColor" :indicator-color="indColor"
 			 scroll-x indicator-dots :interval="interval" :duration="duration" style="height:262rpx;">
-				<swiper-item>
-					<image src="../../static/banner.jpg" mode=""></image>
+				<swiper-item v-for='(item,index) in banner' @tap='tiaozhuan(item.type,item.businessId)'>
+					<image :src="item.img" mode=""></image>
 				</swiper-item>
 
 			</swiper>
@@ -52,21 +52,21 @@
 
 		<!-- 优惠券轮播-->
 		<scroll-view style="width:calc(100% - 30rpx);" scroll-x="true" class="swipe-list">
-			<view class="swiperPage" v-for="(item,i) in 2">
+			<view class="swiperPage" v-for="(item,i) in quan">
 				<view class="pageLeft">
 					<image src="../../static/yhq_bag.png" mode=""></image>
 					<view class="spansTop">
-						<text>50</text>
+						<text>{{item.money}}</text>
 						<span>元</span>
 					</view>
 					<view class="spansBut">
-						<text>满400可用</text>
+						<text>满{{item.condition}}可用</text>
 					</view>
 				</view>
 				<view class="pageCenter">
-					<p style="font-size: 22rpx;color: #000000;line-height: 30rpx;">满400-50立减劵</p>
-					<p style="font-size: 20rpx;color: #282828;line-height: 30rpx">限自营类内饰分类下使用</p>
-					<p style="font-size: 18rpx;color: #888888;line-height: 30rpx">使用时间:2020.11.21-2020.12.12</p>
+					<p style="font-size: 22rpx;color: #000000;line-height: 30rpx;">满{{item.condition}}-{{item.money}}立减劵</p>
+					<p style="font-size: 20rpx;color: #282828;line-height: 30rpx">{{item.name}}</p>
+					<p style="font-size: 18rpx;color: #888888;line-height: 30rpx">使用时间:{{item.useStartTime.split(' ')[0]}}-{{item.useEndTime.split(' ')[0]}}</p>
 				</view>
 				<view class="pageRight">
 					<view class="right_bot">
@@ -162,6 +162,8 @@
 				indColor: '#fff',
 				activeColor: '#2b5cff',
 				scrollLeft: '30rpx',
+				banner:[],
+				quan:[]
 			}
 		},
 		components: {
@@ -171,7 +173,6 @@
 			// console.log(2222)
 			var shopsId = option.id
 			this.shopsId = option.id
-			console.log(option)
 			var _this = this
 			this.$https({
 					url: '/api/shop/store-index',
@@ -199,7 +200,8 @@
 						_this.isShow = res.data.data.shopCollectStatus
 					}
 				})
-			console.log(this.bottom)
+				this.$https({url:'/api/shop/get-store-banner-list',data:{shopId:option.id},method:'post',success:res=>{this.banner=res.data.data}})
+				this.$https({url:'/api/oauth/shop/store-coupon-list',data:{shopId:option.id},success:res=>{this.quan=res.data.data}})
 		},
 		methods: {
 			detail(id) {
@@ -215,7 +217,6 @@
 					dengl: true,
 					success(res) {
 						// console.log('添加成功')
-						console.log(res.data)
 					}
 				})
 			},
@@ -249,6 +250,17 @@
 				uni.navigateBack({
 					delta: 1
 				})
+			},
+			tiaozhuan:function(type,businessId){
+				if(type==1){
+					uni.navigateTo({
+						url:'../index/productDetails?id='+businessId
+					})
+				}else if(type==2){
+					uni.navigateTo({
+						url:'shop?id='+businessId
+					})
+				}
 			}
 
 		}

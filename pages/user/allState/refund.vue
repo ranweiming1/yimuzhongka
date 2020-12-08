@@ -1,23 +1,12 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
 		
 		<view class="await">
 			<text>卖家同意退货</text>
 		</view>
 		
-		<view class="radios">
-			<text>订单编号：45644152412141</text>
-			<view class="guanb">
-				<text>2019-05-25 15:55:56</text>
-			</view>
-		</view>
 		<!-- 订单信息 -->
 		<view class="xinxi">
-			<view class="biaot">
-				<text>订单信息</text>
-			</view>
 			<view class="imgBox_a">
 				<image src="../../../static/img_09.jpg" mode=""></image>
 			</view>
@@ -92,17 +81,18 @@
 
 <style lang="scss">
 	page{
-		background-color: #f7f7f7;
+		background-color: #f5f5f4;
 	}
 	.await {
 		background-color: #fff;
 		width: 710upx;
-		padding: 20upx;
-		border-bottom: 20upx solid #f7f7f7;
-	
+		padding:0 30upx;
+		margin-bottom: 20rpx;
+		height: 90rpx;
+		line-height: 90rpx;
+		border-top: 1px solid #e5e5e5;
 		text {
-			font-size: 28upx;
-			line-height:30upx;
+			font-size: 30rpx;
 			color: #333;
 		}
 	}

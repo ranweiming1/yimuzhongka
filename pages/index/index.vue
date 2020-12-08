@@ -102,7 +102,7 @@
 				<view style='overflow:hidden;margin-left: 10rpx;'>
 					<view v-for='(ite,inde) in item.couponDTOS' style='border:1px dashed #ff6600;font-size:20rpx;padding:0 10rpx;float:left;margin-top:10rpx;margin-left:10rpx;color:#ff3333;'>满{{ite.condition}}-{{ite.money}}元</view>
 				</view>
-				<view style='padding:20rpx;'>
+				<view style='padding:10rpx 20rpx;'>
 					<!-- <view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view> -->
 					<view style='font-size:30rpx;color:#ff3333;font-weight:900;'>
 						<view style='color:#ff3333;font-size:19rpx;display:inline-block;font-weight:600;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}

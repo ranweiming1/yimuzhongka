@@ -265,11 +265,7 @@
 						_this.systemDate = dateRiqi(new Date)
 						// console.log(_this.qianDate)
 						// 获取返回数据的时间
-						for (var i = 0; i < _this.qianDate.length; i++) {
-							if (_this.qianDate[i].taskId == 0 && _this.systemDate == _this.qianDate[i].createTime) {
-								_this.isQian = false
-							}
-						}
+						_this.isQian=!res.data.data.signInStatus
 						// console.log(_this.systemDate)
 						// 周几
 						var week = new Date(_this.systemDate).getDay()
