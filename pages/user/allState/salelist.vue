@@ -11,13 +11,13 @@
 		<view class="listBox" v-for="(item,index) in saleList">
 			<view class="radios">
 				<!-- 店铺名称待确认 -->
-				<text>店铺名称</text>
+				<text>{{item.storeShopDTO.shopName}}</text>
 				<view class="guanb">
 					<text>{{item.approvalStatus==0?'审核已通过':item.approvalStatus==2?'待卖家同意':'卖家已拒绝'}}</text>
 				</view>
 			</view>
 			<view class="xinxi">
-				<view class="xinxi1" @tap="detail(item.orderId)">
+				<view class="xinxi1" @tap="detail(item.id,item.goodsName,item.specValue,item.goodsImg)">
 					<view class="imgBox_a">
 						<image :src="item.goodsImg" mode=""></image>
 					</view>
@@ -34,7 +34,7 @@
 
 						<!-- 数量 -->
 						<view class="jia">
-							<text>X{{item.buyNum}}</text>
+							<text>x{{item.buyNum}}</text>
 						</view>
 					</view>
 
@@ -70,6 +70,13 @@
 					console.log(res.data.data)
 				}
 			})
+		},
+		methods:{
+			detail:function(id,name,value,logo){
+				uni.navigateTo({
+					url:'./refund?id='+id
+				})
+			}
 		}
 	}
 </script>

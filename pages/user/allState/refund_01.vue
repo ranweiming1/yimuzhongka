@@ -30,7 +30,7 @@
 
 				<!-- 这是数量加减 -->
 				<view class="jia">
-					<text>X {{content.num}}</text>
+					<text>x{{content.num}}</text>
 				</view>
 			</view>
 		</view>
@@ -150,8 +150,7 @@
 				url: '/api/user/order-detail',
 				dengl: false,
 				data: {
-					// order_id: option.orderId
-					order_id: '943'
+					order_id: option.orderId
 				},
 				success(res) {
 					// console.log(res.data.data)
@@ -324,9 +323,11 @@
 
 			.spec {
 				font-size: 24upx;
-				line-height: 40upx;
 				color: #999999;
-				width: calc(100% - 40rpx);
+
+				text{
+					line-height: 30rpx;
+				}
 			}
 
 			.radColor {

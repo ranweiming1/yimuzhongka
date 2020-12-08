@@ -1,29 +1,25 @@
 <template>
 	<view>
-		
+
 		<view class="await">
 			<text>卖家同意退货</text>
 		</view>
-		
+
 		<!-- 订单信息 -->
 		<view class="xinxi">
 			<view class="imgBox_a">
-				<image src="../../../static/img_09.jpg" mode=""></image>
+				<image :src="baseCont.goodsImg" mode=""></image>
 			</view>
 			<view class="txt_c">
 				<view class="title">
-					<text>车载商品监控稍等稍等程等程序做序做着的限制性</text>
+					<text>{{baseCont.goodsName}}</text>
 				</view>
 				<view class="spec">
-					<text>已选：＂黄色＂</text>
+					<text>已选：＂{{baseCont.specValue}}＂</text>
 				</view>
-				<view class="radColor">
-					<text>562积分</text>
-				</view>
-		
 				<!-- 这是数量加减 -->
 				<view class="jia">
-					<text>X1</text>
+					<text>x{{baseCont.buyNum}}</text>
 				</view>
 			</view>
 		</view>
@@ -33,38 +29,45 @@
 				<view class="biaot">
 					<text>退货信息</text>
 				</view>
-				<view class="nome">
-					<text>张继科</text>
-				</view>
-				<view class="call">
-					<text>15066458795</text>
-				</view>
+
 				<view class="p">
 					<text>山东省济南市槐荫区张庄路街道路街道明南区16号楼明南区16号楼(菜鸟驿站代收)</text>
 				</view>
-			</view>
-		
-			<view class="imgBox">
-				<image src="../../../static/icon_26.png" mode=""></image>
-			</view>
-		</view>
-		<view class="basic aa">
-			<view class="left_a">
-				<text>选择物流公司</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
+				<view class="nome">
+					<text>收件人：张继科</text>
+				</view>
+				<view class="call">
+					<text>手机号：15066458795</text>
 				</view>
 			</view>
+
 		</view>
-		<view class="basic aa">
-			<view class="left_a">
-				<text>填写物流单号</text>
+		<view class="basic-list">
+			<view class="basic aa">
+				<view class="left_a">
+					<text>选择物流公司</text>
+				</view>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../../static/icon_26.png" mode=""></image>
+					</view>
+				</view>
+				<view class="right_input">
+					<input type="text" value="请输入物流公司" />
+				</view>
 			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
+			<view class="basic aa">
+				<view class="left_a">
+					<text>填写物流单号</text>
+				</view>
+
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../../static/icon_26.png" mode=""></image>
+					</view>
+				</view>
+				<view class="right_input">
+					<input type="text" value="请输入物流单号" />
 				</view>
 			</view>
 		</view>
@@ -72,201 +75,235 @@
 </template>
 
 <script>
-	export default{
-		onLoad() {
-			
+	export default {
+		data() {
+			return {
+				baseCont: {}
+			}
+		},
+		onLoad(option) {
+			console.log(option)
+			var that = this
+			this.$https({
+				url: '/api/shop/order-refund-detail',
+				dengl: false,
+				data: {
+					refundId: option.id
+				},
+				method: 'post',
+				success(res) {
+					that.baseCont = res.data.data
+					console.log(res.data.data)
+				}
+			})
+
 		}
 	}
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background-color: #f5f5f4;
 	}
+
 	.await {
 		background-color: #fff;
-		width: 710upx;
-		padding:0 30upx;
+		width: 100%;
+		padding: 0 30upx;
 		margin-bottom: 20rpx;
 		height: 90rpx;
 		line-height: 90rpx;
 		border-top: 1px solid #e5e5e5;
+
 		text {
 			font-size: 30rpx;
 			color: #333;
 		}
 	}
-	.radios {
-		background-color: #fff;
-		width: 710upx;
-		padding: 20upx;
-		overflow: hidden;
-		padding-top: 10upx;
-		overflow: hidden;
-		border-bottom: 1px solid #f7f7f7;
-	
-		text {
-			font-size: 28upx;
-			color: #333;
-			line-height: 40upx;
-			padding-right: 10upx;
-		}
-	
-		image {
-			width: 12upx;
-			height: 26upx;
-		}
-		.guanb {
-			float: right;
-		
-			text {
-				font-size: 28upx;
-				color: #999;
-			}
-		}
-	}
-	.biaot {
-		padding-bottom: 20upx;
-		text {
-			font-size: 28upx;
-		}
-	}
+
 	.xinxi {
-		margin-bottom: 20upx;
+		margin-bottom: 20rpx;
 		background-color: #fff;
 		overflow: hidden;
-		width: 710upx;
-		padding: 20upx;
-		border-bottom: 1px dotted #ccc;
+		width: 100%;
+		padding: 30rpx;
+		box-sizing: border-box;
+
 		.imgBox_a {
 			float: left;
-			padding-top: 20upx;
-	
+
 			image {
-				width: 215upx;
+				width: 215rpx;
 				height: 160upx;
+				display: block;
 			}
 		}
-	
+
 		.txt_c {
 			float: left;
-			width: 460upx;
-			padding-left: 20upx;
-	
+			width: calc(100% - 215rpx);
+			padding-left: 20rpx;
+			box-sizing: border-box;
+
 			.title {
-				padding-top: 10upx;
-	
+				margin-bottom: 20rpx;
+
 				text {
 					font-size: 30upx;
 					line-height: 30upx;
 					color: #333;
 				}
 			}
-	
+
 			.spec {
 				font-size: 26upx;
-				line-height: 40upx;
-				color: #666;
+				color: #999999;
+				width: 95%;
+				float: left;
+
+				text {
+					line-height: 30rpx;
+				}
 			}
-	
+
 			.radColor {
 				float: left;
 				color: #ff0000;
 				font-size: 32upx;
 			}
-	
+
 			.jia {
 				float: right;
-	
+				width: 5%;
+				box-sizing: border-box;
+				padding-left: 10rpx;
+
 				text {
-					font-size: 20upx;
-					color: #666;
+					font-size: 26upx;
+					color: #333;
 				}
 			}
 		}
 	}
+
 	.siteBox {
-		width: 710upx;
+		width: 100%;
 		height: initial;
-		padding: 20upx;
+		padding: 28rpx 30upx;
 		background-color: #fff;
 		overflow: hidden;
-		border-bottom: 1px solid #ccc;
-	
+		margin-bottom: 20rpx;
+		box-sizing: border-box;
+
 		.content {
 			float: left;
-			width: 80%;
-	
+
+			.biaot {
+				padding-bottom: 20rpx;
+
+				text {
+					font-size: 30rpx;
+				}
+			}
+
 			.nome {
 				float: left;
-				font-size: 30upx;
+				font-size: 26upx;
 				color: #333;
 				padding-right: 10upx;
+				line-height: 45rpx;
+				margin-bottom: 10rpx;
 			}
-	
+
 			.call {
-				float: left;
-				font-size: 24upx;
-				color: #666;
-				line-height: 40upx;
+				float: right;
+				font-size: 26upx;
+				color: #333;
+				line-height: 45rpx;
 				padding-right: 10upx;
 			}
+
 			.p {
 				float: left;
 				font-size: 26upx;
 				color: #333;
-				line-height: 40upx;
+				line-height: 45rpx;
 			}
 		}
 	}
+
+	.basic:last-child {
+		border: none;
+	}
+
 	.basic {
-		width: 710upx;
+		width: 100%;
 		background-color: #fff;
 		overflow: hidden;
-		padding: 20upx;
-		padding-bottom: 10upx;
-		border-bottom: 20upx solid #f7f7f7;
+		padding: 0 30rpx;
+		border-bottom: 1px solid #e5e5e5;
+		height: 100rpx;
+		line-height: 100rpx;
+		box-sizing: border-box;
+
 		.left_a {
 			float: left;
-	
+
 			text {
 				font-size: 28upx;
 				color: #333;
-				line-height: 50upx;
 			}
 		}
-	
+
+		.right_input {
+			float: right;
+			height: 100%;
+
+			input {
+				height: 100%;
+				line-height: 100%;
+				font-size: 28rpx;
+				color: #999999;
+				text-align: right;
+			}
+		}
+
 		.right_a {
 			float: right;
 			padding-right: 10upx;
+			margin-left: 15rpx;
+
 			text {
 				font-size: 28upx;
 				float: right;
-				line-height: 50upx;
-				text{
+
+				text {
 					color: #ff670c;
 				}
 			}
-	        .img_l{
-				float:left;
+
+			.img_l {
+				float: left;
 				padding-right: 10upx;
 				padding-top: 5upx;
-				image{
+
+				image {
 					width: 45upx;
 					height: 45upx;
 				}
-				
+
 			}
+
 			.img_a {
 				float: right;
-				padding: 20upx 0upx 20upx 20upx;
-	
+
 				image {
 					width: 12upx;
-					height: 14upx;
-					display: block;
+					height: 19upx;
+					display: inline-block;
+					vertical-align: middle;
 				}
-	
+
 			}
 		}
 	}

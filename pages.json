@@ -396,7 +396,11 @@
         }
         ,{
             "path" : "pages/user/commission/commission",
-            "style" : {}
+            "style" : {"navigationStyle":"custom"}
+        }
+        ,{
+            "path" : "pages/shop/shopTwo",
+            "style" : {"navigationStyle":"custom"}
         }
     ],
 	"globalStyle": {
