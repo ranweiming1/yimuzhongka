@@ -49,11 +49,12 @@
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "schemes" : "yimuzhongka"
             },
             /* ios打包配置 */
             "ios" : {
-                "urltypes" : ""
+                "urltypes" : "yimuzhongka"
             },
             /* SDK配置 */
             "sdkConfigs" : {
