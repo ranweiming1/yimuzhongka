@@ -17,7 +17,7 @@
 				</div>
 			</view>
 			<view class="shop-search">
-				<view class="shop-search-back">
+				<view class="shop-search-back"  @tap='back'>
 					<image src="../../static/icon_26-2.png" mode=""></image>
 				</view>
 				<view class="shop-search-input">
@@ -152,6 +152,11 @@
 		methods: {
 			swierChange(e) {
 				this.currentIndex = e.detail.current
+			},
+			back: function() {
+				uni.navigateBack({
+					delta: 1
+				})
 			},
 		},
 		components: {

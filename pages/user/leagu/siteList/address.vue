@@ -1,18 +1,18 @@
 <template>
 	<view>
 		<view class="uni-form-item uni-column uni-top">
-			<text style="padding-left: 20rpx;color:#000;font-size:25rpx;">收货人</text>
-			<input style='float:right;width:200rpx;text-align:right;margin-right:40rpx;font-size:25rpx;color:#000;' class="uni-input"
+			<text style="padding-left: 20rpx;color:#000;font-size:26rpx;">收货人</text>
+			<input style='float:right;width:200rpx;text-align:right;margin-right:40rpx;font-size:26rpx;color:#000;' class="uni-input"
 			 name="input" v-model='username' placeholder="收货人" />
 		</view>
 
 		<view class="basic">
 			<view class="left_a">
-				<text style='font-size:25rpx;color:#000;'>手机号</text>
+				<text style='font-size:26rpx;color:#000;'>手机号</text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
-					<input type="number" v-model='phone' placeholder='请输入手机号' style='float:left;text-align:right;;margin-right:12rpx;font-size:25rpx;color:#000;'>
+					<input type="number" v-model='phone' placeholder='+86' style='float:left;text-align:right;;margin-right:12rpx;font-size:26rpx;color:#000;'>
 					<image src="../../../../static/icon_26.png" mode=""></image>
 				</view>
 			</view>
@@ -20,30 +20,41 @@
 
 		<view class="basic">
 			<pick-regions :defaultRegion="defaultRegionCode" @getRegion="handleGetRegion">
-				<view class="left_a" style="font-size: 25rpx;color: #000;height: 100rpx;line-height: 100rpx;">点击选择省市县</view>
+				<view class="left_a" style="font-size: 26rpx;color: #000;height: 100rpx;line-height: 100rpx;">所在地区</view>
 				<view class="right_a">
 					<view class="img_a">
-						<view style='float:left;font-size:25rpx;color:#999;'>{{isOk?(isAdd?'选择省市县':regionName):addressss}}</view>
+						<view style='float:left;font-size:26rpx;color:#999;'>{{isOk?(isAdd?'选择省市县':regionName):addressss}}</view>
 						<image style='margin-left:20rpx;' src="../../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
 			</pick-regions>
 		</view>
 		<view class="uni-form-item uni-column beizs">
-			<text style="font-size: 25rpx;padding-left:20rpx;color:#000;">详细地址</text>
-			<input class="uni-input" name="input" style='font-size:25rpx;color:#000;' placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等"
+			<text style="font-size: 26rpx;padding-left:20rpx;color:#000;">详细地址：</text>
+			<input class="uni-input" name="input" style='font-size:26rpx;color:#000;' placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等"
 			 v-model='address' />
 		</view>
-		<view class='uni-form-item uni-column beizs'>
-			<text style='font-size:25rpx;padding:0 20rpx;color:#000;'>公司位置</text>
-			<input class='uni-input' name='input' style='font-size:25rpx;color:#000;' placeholder='请输入详细地址信息' v-model='la'>
+		<view class='uni-list' style="border-bottom: 1rpx solid #e5e5e5;">
+			<view class="title">地址标签</view>
+			<view class="item-bott">
+				<view class="item-bott-item" :class="botIndex==1?'activeItem':''" @tap="checkedBot(1)">
+					家
+				</view>
+				<view class="item-bott-item" :class="botIndex==2?'activeItem':''" @tap="checkedBot(2)">
+					公司
+				</view>
+				<view class="item-bott-item" :class="botIndex==3?'activeItem':''" @tap="checkedBot(3)">
+					学校
+				</view>
+			</view>
 		</view>
+
 		<view class="uni-list">
 			<view class="uni-list-cell uni-list-cell-pd">
 				<view class="uni-list-cell-db">
-					<text style='font-size:25rpx;color:#000;'>设为默认地址</text>
+					<text style='color:#000;'>设为默认地址</text>
 				</view>
-				<switch :checked='checked==1' @change='xuanzhong' />
+				<switch :checked='checked==1' color="#2b5cff" @change='xuanzhong' />
 			</view>
 		</view>
 
@@ -93,7 +104,8 @@
 				j: false,
 				ids: 0,
 				regionName: '',
-				la: ''
+				la: '',
+				botIndex:''
 			}
 		},
 		onLoad: function(option) {
@@ -109,6 +121,7 @@
 				this.isOk = false
 				this.checked = ob.isDefault
 				this.la = ob.label
+				this.botIndex=ob.label=='家'?'1':ob.label=='公司'?'2':ob.label=='学校'?'3':'0'
 			}
 			if (option.goodsId) {
 				this.goodsId = option.goodsId
@@ -120,6 +133,7 @@
 				this.shopId = option.shopId
 				this.y = JSON.parse(option.y)
 				this.la = option.label
+				this.botIndex=option.label=='家'?'1':option.label=='公司'?'2':option.label=='学校'?'3':'0'
 			}
 			if (option.j) {
 				this.j = true
@@ -153,6 +167,10 @@
 			},
 			switch2Change: function(e) {
 				console.log('switch2 发生 change 事件，携带值为', e.target.value)
+			},
+			checkedBot:function(index){
+				this.botIndex=index
+				this.la=index==1?'家':index==2?'公司':index==3?'学校':''
 			},
 			baocun: function() {
 				var _this = this
@@ -249,9 +267,14 @@
 	page {
 		background-color: #f7f7f7;
 	}
-	.uni-top{
+
+	.uni-top {
 		line-height: 100rpx;
 		height: 100rpx;
+	}
+
+	.uni-column:first-child {
+		border-top: 1rpx solid #e5e5e5;
 	}
 
 	.uni-column {
@@ -260,11 +283,11 @@
 		// padding-top: 30upx;
 		background-color: #fff;
 		overflow: hidden;
-		border-bottom: 1upx solid #f7f7f7;
-		
+		border-bottom: 1upx solid #ebebef;
+
 
 		.uni-input {
-			background-color: #fff;
+			// background-color: #fff;
 			width: 700upx;
 			float: left;
 			font-size: 28upx;
@@ -289,12 +312,15 @@
 
 	.beizs {
 		width: 750upx;
-		border-bottom: 20upx solid #f7f7f7;
-		text{
+		border-bottom: 1rpx solid #ebebef;
+		margin-bottom: 20rpx;
+
+		text {
 			display: block;
 			height: 80rpx;
 			line-height: 100rpx;
 		}
+
 		.uni-input {
 			height: 100upx;
 		}
@@ -307,7 +333,7 @@
 		height: 100rpx;
 		line-height: 100rpx;
 		padding: 0 20rpx;
-		border-bottom: 1upx solid #f7f7f7;
+		border-bottom: 1upx solid #ebebef;
 		font-size: 28rpx;
 		color: #666;
 
@@ -371,17 +397,53 @@
 	.uni-list {
 		width: 710upx;
 		height: 60upx;
-		padding:0 20upx;
+		padding: 0 20upx;
 		background: #fff;
-		height: 100rpx;
-		line-height: 100rpx;
+		height: 125rpx;
+		line-height: 125rpx;
+		overflow: hidden;
+
 		.uni-list-cell-db {
 			float: left;
 			background-color: #fff;
 
 			text {
-				font-size: 30upx;
+				font-size: 30rpx;
 				color: #999;
+			}
+
+			.title {
+				float: left;
+			}
+		}
+
+
+		.title {
+			float: left;
+		}
+
+		.item-bott {
+			float: right;
+
+			.item-bott-item {
+				box-sizing: border-box;
+				width: 120rpx;
+				border: 1rpx solid #e5e5e5;
+				color: #666666;
+				height: 50rpx;
+				display: inline-block;
+				text-align: center;
+				border-radius: 25rpx;
+				line-height: 50rpx;
+				margin-right: 15rpx;
+				font-size: 22rpx;
+			}
+			.activeItem{
+				border: 1rpx solid #2b5cff;
+				color: #2b5cff;
+			}
+			.item-bott-item:last-child{
+				margin-right: 0;
 			}
 		}
 
