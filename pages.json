@@ -402,6 +402,10 @@
             "path" : "pages/shop/shopTwo",
             "style" : {"navigationStyle":"custom"}
         }
+        ,{
+            "path" : "pages/shop/shopThree",
+            "style" : {"navigationStyle":"custom"}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
