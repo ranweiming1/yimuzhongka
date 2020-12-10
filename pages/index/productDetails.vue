@@ -37,7 +37,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="top" v-if="!isShow">
 			<view class="back" @tap="back">
 				<image src="../../static/icon_26-2.png" mode=""></image>
@@ -51,7 +51,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- 标题 -->
 		<view class="titleBox">
 			<view class="Box">
@@ -116,7 +116,7 @@
 		</view>
 
 		<!-- 参数 -->
-		<view class="parameter" >
+		<view class="parameter">
 			<view class="basic" @tap="add">
 				<view class="left_a">
 					<text>选择</text>
@@ -270,13 +270,13 @@
 		 @tap='yincang'>
 			<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:10rpx 10rpx 0 0;overflow-y:auto;'>
 				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:50rpx;top:30rpx;'>
-				<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
-				</view>
+						<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
+					</view>
 				</view>
 				<view v-for='item in list.couponDTOS' style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
 					<view style='overflow:hidden;'>
-					<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
-					<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
+						<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
+						<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
 					</view>
 					<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}</view>
 				</view>
@@ -298,6 +298,10 @@
 					<view class="keyboard">
 						<text>{{isCollect?'已收藏':'收藏'}}</text>
 					</view>
+				</view>
+				<view class='kefua' @tap='tiaozhuan'>
+					<image src='../../static/icon_36.png'></image>
+					<view style='font-size:26rpx;'>客服</view>
 				</view>
 
 
@@ -343,13 +347,13 @@
 				Price: 0,
 				shuzu: [],
 				huodong: false,
-				ind:1,
-				isShow:false,
-				toJump:'',
-				yao:'',
-				xuanzh:false,
-				youhuiqu:[],
-				j:0
+				ind: 1,
+				isShow: false,
+				toJump: '',
+				yao: '',
+				xuanzh: false,
+				youhuiqu: [],
+				j: 0
 			}
 		},
 		components: {
@@ -366,12 +370,12 @@
 				dengl: !uni.getStorageSync('Authorization'),
 				success: function(res) {
 					_this.list = res.data.data.detail
-					_this.list.goodsImgss=res.data.data.detail.goodsImgs.split(',')
-					if(_this.list.shopPrice){
-						_this.list.shopPrice=_this.list.shopPrice.toFixed(2)
+					_this.list.goodsImgss = res.data.data.detail.goodsImgs.split(',')
+					if (_this.list.shopPrice) {
+						_this.list.shopPrice = _this.list.shopPrice.toFixed(2)
 					}
-					if(_this.list.marketPrice){
-						_this.list.marketPrice=_this.list.marketPrice.toFixed(2)
+					if (_this.list.marketPrice) {
+						_this.list.marketPrice = _this.list.marketPrice.toFixed(2)
 					}
 					//修改返回的数据中的参数
 					Object.keys(res.data.data.specs).forEach(function(key) {
@@ -403,10 +407,10 @@
 					}
 					// 优惠券
 					_this.youhui = res.data.data.couponDTOS
-					if(res.data.data.couponDTOS){
-					if(res.data.data.couponDTOS.length>0){
-					_this.youhuiqu=[res.data.data.detail.couponDTOS[0]]
-					}
+					if (res.data.data.couponDTOS) {
+						if (res.data.data.couponDTOS.length > 0) {
+							_this.youhuiqu = [res.data.data.detail.couponDTOS[0]]
+						}
 					}
 					var arr = []
 					for (var k in _this.canshu) {
@@ -418,36 +422,41 @@
 					_this.shuList = arr
 					//添加商品浏览记录
 					//判断是否登录
-					if(uni.getStorageSync('Authorization')){
-					_this.$https({url:'/api/shop/goods-brows-history-add',data:{goodsId:option.id},method:'post',success:function(res){
-						}
-					})
+					if (uni.getStorageSync('Authorization')) {
+						_this.$https({
+							url: '/api/shop/goods-brows-history-add',
+							data: {
+								goodsId: option.id
+							},
+							method: 'post',
+							success: function(res) {}
+						})
 					}
 				}
 			})
 		},
-		onPageScroll(e){
-			this.isShow=true
-			if(e.scrollTop==0){
-				this.isShow=false
+		onPageScroll(e) {
+			this.isShow = true
+			if (e.scrollTop == 0) {
+				this.isShow = false
 			}
 		},
-			
+
 		methods: {
-			back(){
+			back() {
 				uni.navigateBack({
-					
+
 				})
 			},
-			jump(ind){
-				var _this=this
-				this.ind=ind
-				if(ind==2){	
-					_this.toJump='pingjia'
-				}else if(ind==3){
-					_this.toJump='xiangqi'
+			jump(ind) {
+				var _this = this
+				this.ind = ind
+				if (ind == 2) {
+					_this.toJump = 'pingjia'
+				} else if (ind == 3) {
+					_this.toJump = 'xiangqi'
 				}
-				
+
 			},
 			add() {
 				this.isAdd = !this.isAdd
@@ -500,8 +509,8 @@
 							this.Price = n.price * this.num
 							this.indexx = index
 							this.gui = n.keyName
-							this.xuanzh=true
-							this.j=n.price
+							this.xuanzh = true
+							this.j = n.price
 						}
 					})
 				}
@@ -559,39 +568,39 @@
 				})
 			},
 			gouwuche: function() {
-				var _this=this
-				if(this.xuanzh){
-				this.$https({
-					url: '/api/shop/order-add-cart',
-					data: JSON.stringify({
-						cartAttr: [{
-							goodsNum: this.num,
-							specKey: this.guige[this.indexx].key
-						}],
-						goodsId: this.goodsId,
-						shopId: this.shopId
-					}),
-					method: 'post',
-					haeder: true,
-					success: function(res) {
-						if(res.data.code==0){
-							uni.showToast({
-								title:'加入购物车成功'
-							})
-							setTimeout(function(){
-							_this.isAdd=false
-							},2000)
-						}else{
-						uni.showToast({
-							title: res.data.message
-						})
+				var _this = this
+				if (this.xuanzh) {
+					this.$https({
+						url: '/api/shop/order-add-cart',
+						data: JSON.stringify({
+							cartAttr: [{
+								goodsNum: this.num,
+								specKey: this.guige[this.indexx].key
+							}],
+							goodsId: this.goodsId,
+							shopId: this.shopId
+						}),
+						method: 'post',
+						haeder: true,
+						success: function(res) {
+							if (res.data.code == 0) {
+								uni.showToast({
+									title: '加入购物车成功'
+								})
+								setTimeout(function() {
+									_this.isAdd = false
+								}, 2000)
+							} else {
+								uni.showToast({
+									title: res.data.message
+								})
+							}
 						}
-					}
-				})
-				}else{
+					})
+				} else {
 					uni.showToast({
-						title:'请选择规格型号',
-						icon:'none'
+						title: '请选择规格型号',
+						icon: 'none'
 					})
 				}
 			},
@@ -601,28 +610,28 @@
 				this.Price = this.guige[ind].price
 			},
 			goumaia: function() {
-				if(this.xuanzh){
-				uni.navigateTo({
-					url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
-						cartAttr: [{
-							goodsNum: this.num,
-							specKeyName: this.guige[this.indexx].keyName,
-							goodsLogo: this.list.goodsLogo,
-							integral: this.list.integral,
-							goodsName: this.list.goodsName,
-							kuaidi: this.list.kuaidi,
-							shopPrice: this.j,
-							goodsId: this.list.goodsId,
-							specKey: this.guige[this.indexx].key,
-							shopId: this.shopId,
-							name: this.list.couponDTOS[0].name,
-						}]
-					}) + '&dingdan=2&goumai=1'
-				})
-				}else{
+				if (this.xuanzh) {
+					uni.navigateTo({
+						url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
+							cartAttr: [{
+								goodsNum: this.num,
+								specKeyName: this.guige[this.indexx].keyName,
+								goodsLogo: this.list.goodsLogo,
+								integral: this.list.integral,
+								goodsName: this.list.goodsName,
+								kuaidi: this.list.kuaidi,
+								shopPrice: this.j,
+								goodsId: this.list.goodsId,
+								specKey: this.guige[this.indexx].key,
+								shopId: this.shopId,
+								name: this.list.couponDTOS[0].name,
+							}]
+						}) + '&dingdan=2&goumai=1'
+					})
+				} else {
 					uni.showToast({
-						title:'请选择规格型号',
-						icon:'none'
+						title: '请选择规格型号',
+						icon: 'none'
 					})
 				}
 			},
@@ -632,27 +641,32 @@
 				})
 			},
 			shangpinxin: function() {
-					var _this=this
-					this.$https({
-						url: '/api/user/my-info',
-						data: {},
-						success: function(res) {
-							uni.share({
-								provider:'weixin',
-								scene:'WXSceneSession',
-								type:0,
-								href:'https://www.yimuzk.com?myCode='+res.data.data.myCode,
-								imageUrl:_this.list.goodsImgss[0],
-								title:'我在毅木重卡发现了一个好东西,分享给你看看',
-								summary:'商品描述',
-								success:res=>{
-									
-								}
-							})
-						}
-					})
-				}
+				var _this = this
+				this.$https({
+					url: '/api/user/my-info',
+					data: {},
+					success: function(res) {
+						uni.share({
+							provider: 'weixin',
+							scene: 'WXSceneSession',
+							type: 0,
+							href: 'https://www.yimuzk.com?myCode=' + res.data.data.myCode + ',' + _this.deId,
+							imageUrl: _this.list.goodsImgss[0],
+							title: '我在毅木重卡发现了一个好东西,分享给你看看',
+							summary: '商品描述',
+							success: res => {
+
+							}
+						})
+					}
+				})
+			},
+			tiaozhuan:function(){
+				uni.navigateTo({
+					url:'ke'
+				})
 			}
+		}
 
 	}
 </script>
@@ -754,7 +768,7 @@
 				background-color: #f4f4f2;
 				border-radius: 8%;
 				margin-right: 30rpx;
-				line-height:50rpx;
+				line-height: 50rpx;
 			}
 
 		}
@@ -780,8 +794,8 @@
 		.btn {
 			background-color: #2b5cff;
 			color: #fefefe;
-			width:40%;
-			float:right;
+			width: 40%;
+			float: right;
 		}
 	}
 
@@ -810,6 +824,7 @@
 
 		.back {
 			margin-right: 40px;
+
 			image {
 				width: 18rpx;
 				height: 32rpx;
@@ -860,7 +875,7 @@
 			border-radius: 30upx;
 			width: 60upx;
 			height: 60upx;
-			margin-left:20rpx;
+			margin-left: 20rpx;
 			// background: rgba(0, 0, 0, 0.5) !important;
 
 			image {
@@ -984,7 +999,8 @@
 		padding: 20upx;
 		display: flex;
 		justify-content: space-between;
-		line-height:60rpx;
+		line-height: 60rpx;
+
 		// position: absolute;
 		// top: 850upx;
 		.in_left {
@@ -1044,7 +1060,8 @@
 		.huid {
 			float: left;
 			padding-right: 20upx;
-			margin-top:5rpx;
+			margin-top: 5rpx;
+
 			text {
 				color: #666;
 				font-size: 26upx;
