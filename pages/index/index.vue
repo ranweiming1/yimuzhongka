@@ -65,50 +65,77 @@
 				 @tap='q'></image>
 				<text @tap="more">更多</text>
 			</view>
-			<view class="hahah list uni-flex uni-column" v-for="(item , index) in hotList" v-if='y'>
-				<view @tap="detail(item.goodsId)" class="content ">
-					<view class="imgBox">
-						<image :src="item.goodsLogo" mode="widthFix"></image>
-					</view>
-					<view class="txt_a">
-						<text v-if="item.selfStatus=='Y'" class="span_a">自营</text>
-						<text class="titleText">{{item.goodsName}}</text>
-						<view class="txt_aa">
-							<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
+			<view class="clearCss">
+				<view class="content-item" v-for="(item , index) in hotList" v-if='y'>
+					<view @tap="detail(item.goodsId)" class="content ">
+						<view class="imgBox">
+							<image :src="item.goodsLogo" mode="widthFix"></image>
 						</view>
-						<view style='text-align:right;color:#666;font-size:20rpx;'>{{item.sendAddr}}</view>
-						<view class="txt_aas">
-							<text><text><text style='font-size:22rpx;'>￥</text>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</text></text>
-							<view style='float:right;'>
-								<view style='background:#ff6600;border-radius:5rpx;line-height:22rpx;padding:5rpx 10rpx;height:22rpx;border:1px solid #ff6600;display:inline-block;color:#fff;font-size:15rpx;float:left;'
-								 @click.stop='dianpu(item.shopId)'>旺铺</view>
-								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;'>
-									<image style='width:100%;height:100%;display:block;' src='../../static/qiyerenzheng.png'></image>
-								</view>
-								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;line-height:22rpx;color:#ff6600;font-size:20rpx;'>购</view>
-								<view style='width:22rpx;padding:5rpx;border:1px solid #ff6600;float:left;margin-left:10rpx;height:22rpx;line-height:22rpx;color:#ff6600;font-size:20rpx;'>品</view>
+						<view class="content-item-text">
+							<view class="title_top">
+								<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+								<text class="titleText">{{item.goodsName}}</text>
 							</view>
-						</view>
+							<view class="item-coupon">
+								<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+									<text>满{{items.condition}}-{{items.money}}元</text>
+								</view>
+								<view class="coupon-item">
+									<text>包邮</text>
+								</view>
+							</view>
 
+							<view class="diZhi">
+								<text>{{item.sendAddr}}</text>
+							</view>
+							<view class="item-price">
+								<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+								<view class="but_Icon">
+									<view class="icons">
+										<text class="icon1" @click.stop='dianpu(item.shopId)'>旺铺</text>
+										<view class="icon2">
+											<image src="../../static/qiyerenzheng.png" mode="">
+										</view>
+										<text class="icon2">购</text>
+										<text class="icon2">品</text>
+									</view>
+
+								</view>
+
+							</view>
+
+						</view>
 					</view>
 				</view>
+
 			</view>
-			<view class="content-item" v-for='(item,index) in hotList' @tap='detail(item.goodsId)' v-if='!y' style="border-radius: 20rpx;overflow: hidden;">
-				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;height: 320rpx;'></image>
-				<view style='overflow:hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;padding:0 20rpx;font-size: 26rpx;'>
-					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;border-radius: 4px;margin-right: 6px;'>自营</view>
-					{{item.goodsName}}
-				</view>
-				<view style='overflow:hidden;margin-left: 10rpx;'>
-					<view v-for='(ite,inde) in item.couponDTOS' style='border:1px dashed #ff6600;font-size:20rpx;padding:0 10rpx;float:left;margin-top:10rpx;margin-left:10rpx;color:#ff3333;'>满{{ite.condition}}-{{ite.money}}元</view>
-				</view>
-				<view style='padding:10rpx 20rpx;'>
-					<!-- <view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view> -->
-					<view style='font-size:26rpx;color:#ff3333;font-weight:900;'>
-						<view style='color:#ff3333;font-size:19rpx;display:inline-block;font-weight:600;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}
-						<view style='float:right;width:fit-content;font-size:20rpx;'>{{item.sendAddr}}</view>
+			<view class="activeCss">
+				<view class="content-item" v-for='(item,index) in hotList' @tap='detail(item.goodsId)' v-if='!y' style="border-radius: 20rpx;overflow: hidden;">
+					<view class="imgBox">
+						<!-- <image :src="item.goodsLogo" mode="widthFix"></image> -->
+						<image :src="item.goodsLogo" mode=""></image>
+					</view>
+					<view class="content-item-text">
+						<view class="title_top">
+							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+							<text class="titleText">{{item.goodsName}}</text>
+						</view>
+						<view class="item-coupon">
+							<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+								<text>满{{items.condition}}-{{items.money}}元</text>
+							</view>
+							<view class="coupon-item">
+								<text>包邮</text>
+							</view>
+
+						</view>
+						<view class="item-price">
+							<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+							<text class="shop-sales">销量：{{item.salesSum}}</text>
+						</view>
 					</view>
 				</view>
+
 			</view>
 		</view>
 		<view class='zhezhao' v-if='youhuiquanle'>
@@ -451,7 +478,11 @@
 
 <style lang="scss" scoped>
 	@import '../../style/gg.css';
-
+.clearCss{
+	.content-item{
+		padding: 20rpx 10rpx;	
+	}
+}
 	.loading-text {
 		display: block;
 
@@ -570,26 +601,6 @@
 			// clear: left
 		}
 
-		.content-item {
-			width: calc(50% - 15rpx);
-			float: left;
-			box-shadow: 0px 0px 4px #ccc;
-			background: #fff;
-			box-sizing: border-box;
-			// margin: 20rpx 0;
-			margin-top: 28rpx;
-			height: 500rpx;
-			border-radius: 15rpx;
-			overflow: hidden;
-			image{
-				height: 320rpx!important;
-			}
-		}
-
-		.content-item:nth-child(even) {
-			float: right;
-		}
-
 		.title text {
 			float: left;
 			font-size: 36upx;
@@ -621,7 +632,7 @@
 				.imgBox {
 					image {
 						width: 200rpx;
-						height: 200rpx!important;
+						height: 200rpx !important;
 						float: left;
 					}
 				}

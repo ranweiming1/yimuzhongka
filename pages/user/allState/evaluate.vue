@@ -1,7 +1,7 @@
 <template>
 	<view class="">
-		<view class="one_line">
-		</view>
+	<!-- 	<view class="one_line">
+		</view> -->
 		<view class="radios">
 			<text>订单编号：{{dList.orderSn}}</text>
 			<view class="guanb">
@@ -300,6 +300,7 @@
 		button {
 			border-radius: 40upx;
 			font-family: Microsoft YaHei;
+			background-color: #007AFF;
 		}
 
 	}

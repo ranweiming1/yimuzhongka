@@ -48,7 +48,7 @@
 			</view>
 		</view>
 
-		<view :class="tog_Ca?'':'togActive'">
+		<view :class="tog_Ca?'clearCss':'togActive'">
 			<!-- 头部 -->
 			<view class="top" style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;padding-top:80rpx;padding-bottom: 20rpx;'>
 				<view class='back' @tap='back' style='float:left;margin-top:10rpx;margin-left:20rpx;'>
@@ -111,28 +111,30 @@
 
 			<!-- 热门推荐 -->
 			<view class="hahah list uni-flex uni-column" style="padding-top: 250rpx;">
-				<view class="content " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
+				<view class="content-item " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
 					<view class="imgBox">
 						<!-- <image :src="item.goodsLogo" mode="widthFix"></image> -->
-						<image  :src="item.goodsLogo" mode=""></image>
+						<image :src="item.goodsLogo" mode=""></image>
 					</view>
-					<view class="txt_a">
+					<view class="content-item-text">
 						<view class="title_top">
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
 							<text class="titleText">{{item.goodsName}}</text>
 						</view>
-						<view class="youhui_bo">
-							<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
+						<view class="item-coupon">
+							<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
 								<text>满{{items.condition}}-{{items.money}}元</text>
+							</view>
+							<view class="coupon-item">
+								<text>包邮</text>
 							</view>
 						</view>
 						<view class="diZhi" v-if="tog_Ca">
 							<text>{{item.sendAddr}}</text>
 						</view>
-						<view class="txt_aas">
-							<text><text>
-									<text style='font-size:22rpx;float:left;'>￥</text>{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text></text>
-							<text v-if="!tog_Ca">销量：{{item.salesSum}}</text>
+						<view class="item-price">
+							<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+							<text class="shop-sales" v-if="!tog_Ca">销量：{{item.salesSum}}</text>
 							<view class="but_Icon" v-if="tog_Ca">
 								<view class="icons">
 									<text class="icon1" @click.stop='dianpu(item.shopId)'>旺铺</text>
@@ -360,12 +362,7 @@
 </script>
 
 <style lang="scss">
-	// .dne{
-	// 	margin-top: 0;
-	// }
-	.youhui_bo{
-		// margin-top: 10rpx;
-	}
+	
 	.zhMask {
 		width: 100%;
 		height: 100%;
@@ -541,163 +538,6 @@
 		}
 	}
 
-	.content {
-		display: black;
-		width: 710upx;
-		padding: 20upx;
-		border-bottom: 1px dotted #ccc;
-		padding-bottom: 20upx;
-		overflow: hidden;
-		position: relative;
-
-
-		.imgBox {
-			overflow: hidden;
-			float: left;
-			image {
-				width: 200rpx;
-				height: 200rpx;
-				float: left;
-			}
-		}
-
-		.txt_a {
-			.title_top {
-				overflow: hidden;
-			}
-
-			.titleText {
-				overflow: hidden;
-				text-overflow: ellipsis;
-				display: -webkit-box;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
-			}
-
-			padding-top: 10upx;
-			width: calc(100% - 200rpx);
-			box-sizing: border-box;
-			padding-left: 20upx;
-			float: left;
-
-			text {
-				font-size: 26upx;
-			}
-
-			.diZhi {
-				float: right;
-
-				text {
-					font-size: 20rpx;
-				}
-
-				color: #666666;
-			}
-
-			.but_Icon {
-				// width: 100%;
-				overflow: hidden;
-
-				.icons {
-					float: right;
-					display: flex;
-					margin-top: 10rpx;
-
-					.icon1 {
-						background-color: #ff6600;
-						border-radius: 5rpx;
-						font-size: 18rpx;
-						color: #FFFFFF;
-						line-height: 22rpx;
-						padding: 5rpx 10rpx;
-						height: 22rpx;
-						border: 1rpx solid #ff6600;
-						display: inline-block;
-					}
-
-					.icon2 {
-						font-size: 18rpx;
-						height: 22rpx;
-						line-height: 22rpx;
-						width: 22rpx;
-						padding: 5rpx;
-						border-radius: 5rpx;
-						border: 1rpx solid #ff6600;
-						color: #ff6600;
-						display: inline-block;
-						margin-left: 10rpx;
-						text-align: center;
-
-						image {
-							width: 100%;
-							height: 100%;
-						}
-					}
-
-				}
-			}
-
-			.span_a {
-				background-color: #fff;
-				color: #ff6600;
-				border: 1px solid #ff6600;
-				border-radius: 5upx;
-				padding: 5upx 10upx;
-				font-size: 18upx;
-				margin-right: 10upx;
-				line-height: 25upx;
-				box-sizing: border-box;
-				float: left;
-			}
-
-			.txt_aa {
-				display: inline-block;
-
-				text {
-					border: 1px dotted #ff6600;
-					background-color: #fff;
-					font-size: 16upx;
-					line-height: 30upx;
-					padding: 5upx 10upx;
-					color: #ff6600;
-					margin-right: 20upx;
-					font-size: 20upx;
-				}
-			}
-
-			.txt_aas {
-				padding-top: 10upx;
-				position: absolute;
-				left: 33%;
-				width: 64%;
-				bottom: 20rpx;
-				overflow: hidden;
-
-				text {
-					color: #333;
-					font-size: 26upx;
-
-					text {
-						color: #ff6600;
-						font-size:26upx;
-						font-weight: bold;
-						display: inline-block;
-						float: left;
-					}
-				}
-
-				text:nth-child(2) {
-					color: #999999;
-					font-size: 24upx;
-					float: right;
-					line-height: 50upx;
-				}
-			}
-
-
-
-		}
-	}
 
 	.mask {
 		position: fixed;
@@ -900,26 +740,25 @@
 		}
 
 
-		.content {
+		.content-item {
 			box-sizing: border-box;
-			height: 500rpx;
+			height: 515rpx;
 			margin-top: 20upx;
 			display: black;
 			// width: 330upx;
 			width: calc(50% - 15rpx);
 			// margin-left: 20upx;
-			float: left;
 			box-shadow: 0 0 5px #ccc;
 			border-radius: 20upx;
 			overflow: hidden;
 			border: none;
 			padding: 0;
-			padding-bottom: 20upx;
 
 
 			.imgBox {
 				height: 320rpx;
 				width: 100%;
+
 				image {
 					width: 100%;
 					height: inherit;
@@ -927,17 +766,39 @@
 				}
 			}
 
-			.txt_a {
-				padding-top: 10upx;
-				width: 90%;
-				padding-left: 20upx;
+			.content-item-text {
+				padding: 10rpx 20rpx;
+				width: 100%;
 				float: left;
+				height: calc(100% - 320rpx);
+				box-sizing: border-box;
+				position: relative;
 
-				text {
-					font-size: 26upx;
-					max-width: 100%;
+				.item-coupon {
+					margin-top: 10rpx;
+					// height: 30rpx;
+					line-height: 30rpx;
 
+					.coupon-item {
+						margin-right: 15rpx;
+						display: inline-block;
+
+						text {
+							border: 1px dotted #ff6600;
+							background-color: #fff;
+							font-size: 18upx;
+							line-height: 30upx;
+							padding: 0 8rpx;
+							color: #ff6600;
+							display: block;
+						}
+					}
+
+					.coupon-item:last-child {
+						margin-right: 0;
+					}
 				}
+
 
 				.titleText {
 					overflow: hidden;
@@ -945,62 +806,60 @@
 					display: -webkit-box;
 					-webkit-line-clamp: 2;
 					-webkit-box-orient: vertical;
+					font-size: 26rpx;
+					display: inline-block;
+					vertical-align: middle;
 				}
 
 				.span_a {
-					background-color: #fff;
-					color: #ff6600;
-					border: 1px solid #ff6600;
+					background-color: #ff6600;
+					color: #fff;
 					border-radius: 5upx;
-					padding: 5upx 10upx;
+					padding: 5rpx 10rpx;
 					font-size: 18upx;
 					margin-right: 10upx;
-					line-height: 25upx;
 					box-sizing: border-box;
+					line-height: 25rpx;
+					box-sizing: border-box;
+					display: inline-block;
+					vertical-align: middle;
 				}
 
-				.txt_aa {
-					text {
-						border: 1px dotted #ff3333;
-						background-color: #fff;
-						font-size: 16upx;
-						line-height: 30upx;
-						padding: 5upx 10upx;
-						color: #ff3333;
-						margin-right: 6upx;
-						font-size: 20upx;
-					}
-				}
 
-				.txt_aas {
+
+				.item-price {
 					// padding-top: 10upx;
-					position: initial;
-					width: 100%;
-					line-height: 40rpx;
-					text {
-						color: #333;
-						font-size: 26upx;
+					position: absolute;
+					width: calc(100% - 40rpx);
+					// line-height: 40rpx;
+					bottom: 10rpx;
+					left: 20rpx;
+					right: 20rpx;
+					line-height: 50rpx;
 
-						text {
-							color: #ff3333;
-							font-size: 26upx;
-							font-weight: bold;
-						}
+					.price-text {
+						color: #ff6600;
+						font-size: 26upx;
+						font-weight: bold;
 					}
 
-					text:nth-child(2) {
+					.shop-sales {
 						color: #999999;
-						font-size: 24upx;
+						font-size:22upx;
 						float: right;
-						line-height: 40upx;
+
 					}
 				}
 
 			}
 		}
 
-		.content:nth-child(even) {
+		.content-item:nth-child(even) {
 			float: right;
+		}
+
+		.content-item:nth-child(odd) {
+			float: left;
 		}
 
 		.Boxaaa {

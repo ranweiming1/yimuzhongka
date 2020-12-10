@@ -41,7 +41,8 @@
 			<view class="imgRight" @tap='xiugaigerenxinxi'>
 				<!-- <image src="../../static/icon_23.png" mode=""></image> -->
 			</view>
-			<view style='float:right;color:#fff;margin-top:66rpx;margin-right:45rpx;width:116rpx;height:51rpx;line-height:51rpx;text-align:center;color:#fff;font-size:24rpx;background:linear-gradient(#ff9a3b,#fb751e);border-radius:50rpx;' @tap='tiaozhuan'>
+			<view style='float:right;color:#fff;margin-top:66rpx;margin-right:45rpx;width:116rpx;height:51rpx;line-height:51rpx;text-align:center;color:#fff;font-size:24rpx;background:linear-gradient(#ff9a3b,#fb751e);border-radius:50rpx;'
+			 @tap='tiaozhuan'>
 				<view>签到</view>
 			</view>
 		</view>
@@ -76,9 +77,10 @@
 				</view>
 			</view>
 		</view>
-        <view style='position:relative;z-index:99;background:#fff;width:100%;border-radius:20rpx;'>
+		<view style='position:relative;z-index:99;background:#fff;width:100%;border-radius:20rpx;'>
 			<image src='../../static/jifen.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;' @tap='jifen'></image>
-			<image src='../../static/fenxiangxianjin.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;' @tap='ques'></image>
+			<image src='../../static/fenxiangxianjin.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;'
+			 @tap='ques'></image>
 		</view>
 		<view style='width:670rpx;margin:0 auto;margin-top:50rpx;overflow:hidden;position:relative;'>
 			<view style='font-size:34rpx;color:#000;float:left;'>我的订单</view>
@@ -144,82 +146,83 @@
 			</view>
 			<swiper style='height:400rpx;background:#f4f7f9;margin-top:20rpx;' @change='gaibian' :current='n'>
 				<swiper-item>
-			        <view class="icons">
-				        <view @tap="about">
-					        <view class="imgBox">
-						        <image src="../../static/wt.png" mode=""></image>
-					        </view>
-					        <view class="textBox">
-						        <text>关于我们</text>
-					        </view>
-				        </view>
+					<view class="icons">
+						<view @tap="about">
+							<view class="imgBox">
+								<image src="../../static/wt.png" mode=""></image>
+							</view>
+							<view class="textBox">
+								<text>关于我们</text>
+							</view>
+						</view>
 
-				        <view @tap='dizhiguanli'>
-					        <view class="imgBox">
-						        <image src="../../static/wz.png" mode=""></image>
-					        </view>
-					        <view class="textBox">
-						        <text>地址管理</text>
-					        </view>
-				        </view>
+						<view @tap='dizhiguanli'>
+							<view class="imgBox">
+								<image src="../../static/wz.png" mode=""></image>
+							</view>
+							<view class="textBox">
+								<text>地址管理</text>
+							</view>
+						</view>
 
-				        <view @tap="aiChe">
-					        <view class="imgBox">
-						        <image src="../../static/kf.png" mode=""></image>
-					        </view>
-					        <view class="textBox">
-						        <text>我的爱车</text>
-					        </view>
-				        </view>
+						<view @tap="aiChe">
+							<view class="imgBox">
+								<image src="../../static/kf.png" mode=""></image>
+							</view>
+							<view class="textBox">
+								<text>我的爱车</text>
+							</view>
+						</view>
 
-				        <view @tap="liulan">
-					        <view class="imgBox">
-						        <image src="../../static/hb.png" mode=""></image>
-					        </view>
-					        <view class="textBox">
-						        <text>浏览记录  <!-- #ifdef APP-PLUS -->
-						
-						        <!-- #endif --></text>
-					        </view>
-				        </view>
+						<view @tap="liulan">
+							<view class="imgBox">
+								<image src="../../static/hb.png" mode=""></image>
+							</view>
+							<view class="textBox">
+								<text>浏览记录
+									<!-- #ifdef APP-PLUS -->
 
-				        <view @tap="ques">
-					        <view class="imgBox">
-						        <image src="../../static/sm.png" mode=""></image>
-					        </view>
-					        <view class="textBox">
-						        <text>推荐好友</text>
-					        </view>
-				        </view>
+									<!-- #endif --></text>
+							</view>
+						</view>
 
-				        <view>
-					        <view class="imgBox">
-						        <image src="../../static/zj.png" mode=""></image>
-					        </view>
-					        <view class="textBox">
-						        <text>常见问题</text>
-					        </view>
-				        </view>
+						<view @tap="ques">
+							<view class="imgBox">
+								<image src="../../static/sm.png" mode=""></image>
+							</view>
+							<view class="textBox">
+								<text>推荐好友</text>
+							</view>
+						</view>
 
-				        <view>
-					        <view class="imgBox">
-						        <image src="../../static/sc.png" mode=""></image>
-					        </view>
-					        <view class="textBox">
-						        <text>官方客服</text>
-					        </view>
-				        </view>
+						<view>
+							<view class="imgBox">
+								<image src="../../static/zj.png" mode=""></image>
+							</view>
+							<view class="textBox">
+								<text>常见问题</text>
+							</view>
+						</view>
 
-				        <view @tap='shezhi'>
-					        <view class="imgBox">
-						        <image src="../../static/sz.png" mode=""></image>
-					        </view>
-					        <view class="textBox">
-						        <text>我的设置</text>
-					        </view>
-				        </view>
-			        </view>
-			    </swiper-item>
+						<view>
+							<view class="imgBox">
+								<image src="../../static/sc.png" mode=""></image>
+							</view>
+							<view class="textBox">
+								<text>官方客服</text>
+							</view>
+						</view>
+
+						<view @tap='shezhi'>
+							<view class="imgBox">
+								<image src="../../static/sz.png" mode=""></image>
+							</view>
+							<view class="textBox">
+								<text>我的设置</text>
+							</view>
+						</view>
+					</view>
+				</swiper-item>
 				<swiper-item>
 					<view class='icons'>
 						<view @tap='ruzhu'>
@@ -256,32 +259,51 @@
 			<view style='float:left;margin-left:20rpx;'>推荐产品</view>
 			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:20rpx;float:left;margin-top:10rpx;'></view>
 			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:15rpx;'></view>
-			<image src='../../static/n8.png' style='float:right;width:30rpx;height:30rpx;margin-right:20rpx;margin-top:10rpx;' @tap='q'></image>
+			<image src='../../static/n8.png' style='float:right;width:30rpx;height:30rpx;margin-right:20rpx;margin-top:10rpx;'
+			 @tap='q'></image>
 		</view>
-		<view style='overflow:hidden;margin-top:10rpx;padding-top:10rpx;'>
-			<view v-for='(item,index) in list' style='width:45%;float:left;margin:20rpx 2.5%;border-radius:10rpx;box-shadow:0 0 20px #ccc;box-sizing:border-box;height:550rpx;' @tap='tz(item.goodsId)' v-if='xianshi'>
-				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;'></image>
-				<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 20rpx;'>
-					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;'>自营</view>
-					{{item.goodsName}}
+		<view class="content-one">
+			<view v-for='(item,index) in list' class="content-list-one" @tap='tz(item.goodsId)' v-if='xianshi'>
+				<image :src='item.goodsLogo' mode='widthFix'></image>
+				<view class="list-one-bottom">
+					<view class="list-one-bottom-title">
+						<view v-if='item.selfStatus=="Y"' class="title-icon">自营</view>
+						{{item.goodsName}}
+					</view>
+					<view style='overflow:hidden;'>
+						<view v-for='(ite,inde) in item.couponDTOS' class="list-one-bottom-coupon">满{{ite.condition}}-{{ite.money}}元</view>
+					</view>
+					<view class="list-one-bottom-price">
+						<!-- <view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view> -->
+						<view style='color:#ff3333;display:inline-block;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}
+						<view class="list-one-bottom-adress">{{item.sendAddr}}</view>
+					</view>
 				</view>
-				<view style='overflow:hidden;'>
-					<view v-for='(ite,inde) in item.couponDTOS' style='border:1px solid #ff6600;font-size:20rpx;padding:0 10rpx;float:left;margin-top:10rpx;margin-left:10rpx;'>满{{ite.condition}}-{{ite.money}}元</view>
-				</view>
-				<view style='padding:20rpx;'>
-					<view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view>
-					<view style='font-size:30rpx;color:#ff3333;'><view style='color:#000;float:left;'></view><view style='color:#ff3333;font-size:19rpx;display:inline-block;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}<view style='width:100rpx;float:right;font-size:20rpx;'>{{item.sendAddr}}</view></view>
-				</view>
+
 			</view>
-			<view v-for='(item,index) in list' style='overflow:hidden;border-bottom:1px dashed #ddd;padding-top:20rpx;' @tap='tz(item.goodsId)' v-if='!xianshi'>
-				<image :src='item.goodsLogo' mode='widthFix' style='width:230rpx;float:left;'></image>
+			<view v-for='(item,index) in list' class="content-list-two" @tap='tz(item.goodsId)' v-if='!xianshi'>
+				<image :src='item.goodsLogo' mode='widthFix'></image>
 				<view style='float:left;margin-left:20rpx;padding-top:10rpx;width:calc(100% - 300rpx);'>
-					<view style='font-size:30rpx;'><view v-if='item.selfStatus=="Y"' style='color:#ff6600;border:1px solid #ff6600;border-radius:5rpx;padding:5rpx 10rpx;font-size:20rpx;line-height:30rpx;float:left;'>自营</view>{{item.goodsName}}</view>
+					<view style='font-size:30rpx;'>
+						<view v-if='item.selfStatus=="Y"' style='color:#ff6600;border:1px solid #ff6600;border-radius:5rpx;padding:5rpx 10rpx;font-size:20rpx;line-height:30rpx;float:left;'>自营</view>{{item.goodsName}}
+					</view>
 					<view style='overflow:hidden;margin-top:20rpx;'>
 						<view v-for='(ite,inde) in item.couponDTOS' style='border:1px dashed #ff3333;line-height:30rpx;padding:5rpx 10rpx;color:#ff3333;margin-right:20rpx;font-size:20rpx;float:left;margin-right:20rpx;'>满{{ite.condition}}-{{ite.money}}元</view>
 					</view>
 					<view style='text-align:right;font-size:20rpx;margin-top:20rpx;'>{{item.sendAddr}}</view>
-					<view style='margin-top:20rpx;overflow:hidden;margin-bottom:20rpx;'><view style='color:#ff3333;font-size:12rpx;float:left;margin-top:15rpx;'>￥</view><view style='color:#ff3333;font-size:30rpx;float:left;'>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</view><view style='float:right;'><view style='background:#ff6600;border-radius:5rpx;line-height:22rpx;padding:5rpx 10rpx;height:22rpx;border:1px solid #ff6600;font-size:16rpx;float:left;color:#fff;' @click.top='dianpu(item.shopId)'>旺铺</view><view style='border:1px solid #ff6600;width:22rpx;height:22rpx;padding:5rpx 10rpx;float:left;margin-left:10rpx;'><image style='width:22rpx;height:22rpx;display:block;' src='../../static/qiyerenzheng.png'></image></view><view style='width:22rpx;height:22rpx;padding:5rpx 10rpx;border:1px solid #ff6600;color:#ff6600;font-size:22rpx;float:left;margin-left:10rpx;line-height:22rpx;'>购</view><view style='width:22rpx;height:22rpx;padding:5rpx 10rpx;border:1px solid #ff6600;color:#ff6600;font-size:22rpx;float:left;margin-left:10rpx;line-height:22rpx;'>品</view></view></view>
+					<view style='margin-top:20rpx;overflow:hidden;margin-bottom:20rpx;'>
+						<view style='color:#ff3333;font-size:12rpx;float:left;margin-top:15rpx;'>￥</view>
+						<view style='color:#ff3333;font-size:30rpx;float:left;'>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</view>
+						<view style='float:right;'>
+							<view style='background:#ff6600;border-radius:5rpx;line-height:22rpx;padding:5rpx 10rpx;height:22rpx;border:1px solid #ff6600;font-size:16rpx;float:left;color:#fff;'
+							 @click.top='dianpu(item.shopId)'>旺铺</view>
+							<view style='border:1px solid #ff6600;width:22rpx;height:22rpx;padding:5rpx 10rpx;float:left;margin-left:10rpx;'>
+								<image style='width:22rpx;height:22rpx;display:block;' src='../../static/qiyerenzheng.png'></image>
+							</view>
+							<view style='width:22rpx;height:22rpx;padding:5rpx 10rpx;border:1px solid #ff6600;color:#ff6600;font-size:22rpx;float:left;margin-left:10rpx;line-height:22rpx;'>购</view>
+							<view style='width:22rpx;height:22rpx;padding:5rpx 10rpx;border:1px solid #ff6600;color:#ff6600;font-size:22rpx;float:left;margin-left:10rpx;line-height:22rpx;'>品</view>
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -303,7 +325,8 @@
 		<view style='width:20rpx;position:fixed;bottom:81rpx;right:0;background:#fff;height:50rpx;margin-bottom:20rpx;'></view>
 		<view style='height:300rpx;'></view>
 		<view style='position:fixed;top:0;left:0;width:100%;height:100%;' v-if='xianshidenglu' @tap='dengluweizhi'></view>
-		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;' @tap='deng' v-if='xianshidenglu'>
+		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
+		 @tap='deng' v-if='xianshidenglu'>
 			登录查看更多
 			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'>一键登录</view>
 		</view>
@@ -326,14 +349,14 @@
 				couponCount: 0,
 				//收藏
 				collectCount: 0,
-				headimg:'../../static/img_06.jpg',
-				myCode:'',
-				pingtaidianhua:'',
-				t:true,
-				xianshidenglu:false,
-				list:[],
-				n:0,
-				xianshi:true
+				headimg: '../../static/img_06.jpg',
+				myCode: '',
+				pingtaidianhua: '',
+				t: true,
+				xianshidenglu: false,
+				list: [],
+				n: 0,
+				xianshi: true
 			}
 		},
 		components: {
@@ -341,43 +364,53 @@
 		},
 		onShow: function() {
 			var _this = this
-			if(!uni.getStorageSync('Authorization')){
-				this.xianshidenglu=true
+			if (!uni.getStorageSync('Authorization')) {
+				this.xianshidenglu = true
 			}
 			//判断是否登录
-			if(uni.getStorageSync('Authorization')){
-			this.$https({
-				url: '/api/user/my-info',
-				data: {},
-				denglu: false,
-				success: function(res) {
-					_this.userName = res.data.data.nickname
-					_this.headimg=res.data.data.headimg
-					// console.log(res.data.data)
-					_this.phone = res.data.data.phone
-					// console.log(res.data.data)
-					_this.myCode=res.data.data.myCode
-				}
-			})
-			//
-			this.$https({
-				url: '/api/user/my-index',
-				data: {},
-				dengl: false,
-				success: function(res) {
-					_this.userMoney = res.data.data.userMoney
-					_this.payPoints = res.data.data.payPoints
-					_this.couponCount = res.data.data.couponCount
-					_this.collectCount = res.data.data.collectCount
-					// console.log(res.data.data)
-				}
-			})
-			this.$https({url:'/api/user/my-platform-phone-list',success:function(res){
-				_this.pingtaidianhua=res.data.data
-			}})
-			this.$https({url:'/api/oauth/shop/mall-index',data:{mobileCode:''},dengl:true,success:res=>{
-				this.list=res.data.data.recommedGoods
-			}})
+			if (uni.getStorageSync('Authorization')) {
+				this.$https({
+					url: '/api/user/my-info',
+					data: {},
+					denglu: false,
+					success: function(res) {
+						_this.userName = res.data.data.nickname
+						_this.headimg = res.data.data.headimg
+						// console.log(res.data.data)
+						_this.phone = res.data.data.phone
+						// console.log(res.data.data)
+						_this.myCode = res.data.data.myCode
+					}
+				})
+				//
+				this.$https({
+					url: '/api/user/my-index',
+					data: {},
+					dengl: false,
+					success: function(res) {
+						_this.userMoney = res.data.data.userMoney
+						_this.payPoints = res.data.data.payPoints
+						_this.couponCount = res.data.data.couponCount
+						_this.collectCount = res.data.data.collectCount
+						// console.log(res.data.data)
+					}
+				})
+				this.$https({
+					url: '/api/user/my-platform-phone-list',
+					success: function(res) {
+						_this.pingtaidianhua = res.data.data
+					}
+				})
+				this.$https({
+					url: '/api/oauth/shop/mall-index',
+					data: {
+						mobileCode: ''
+					},
+					dengl: true,
+					success: res => {
+						this.list = res.data.data.recommedGoods
+					}
+				})
 			}
 		},
 		methods: {
@@ -424,14 +457,14 @@
 				// 	url: './task/invite/invite'
 				// })
 				uni.share({
-					provider:'weixin',
-					scene:'WXSceneSession',
-					type:0,
-					href:'httep://yimuzk.com',
-					title:'我在毅木重卡发现了一个好东西,分享给你看看',
-					summary:'商品描述',
-					success:function(){
-						
+					provider: 'weixin',
+					scene: 'WXSceneSession',
+					type: 0,
+					href: 'httep://yimuzk.com',
+					title: '我在毅木重卡发现了一个好东西,分享给你看看',
+					summary: '商品描述',
+					success: function() {
+
 					}
 				})
 
@@ -451,80 +484,86 @@
 					url: './leagu/league'
 				})
 			},
-			daiFu:function(index){
+			daiFu: function(index) {
 				uni.navigateTo({
-					url: 'allState/allState?id='+index
+					url: 'allState/allState?id=' + index
 				})
 			},
-			liulan:function(){
+			liulan: function() {
 				uni.navigateTo({
-					url:'task/liulan'
+					url: 'task/liulan'
 				})
 			},
-			shezhi:function(){
+			shezhi: function() {
 				uni.navigateTo({
-					url:"./alter/alter"
+					url: "./alter/alter"
 				})
 			},
-			tuiKuan:function(){
+			tuiKuan: function() {
 				uni.navigateTo({
-					url:'./allState/salelist'
+					url: './allState/salelist'
 				})
 			},
-			aiChe:function(){
+			aiChe: function() {
 				uni.navigateTo({
-					url:'task/aiChe'
+					url: 'task/aiChe'
 				})
 			},
 			//复制邀请码
-			fuzhi:function(){
+			fuzhi: function() {
 				uni.setClipboardData({
-					data:this.myCode,
-					success:function(){
+					data: this.myCode,
+					success: function() {
 						uni.showToast({
-							title:'复制成功,快去邀请好友吧',
-							icon:'none'
+							title: '复制成功,快去邀请好友吧',
+							icon: 'none'
 						})
 					}
 				})
 			},
-			tiaozhuan:function(){
+			tiaozhuan: function() {
 				uni.navigateTo({
-					url:'task/task'
+					url: 'task/task'
 				})
 			},
-			bodadianhua:function(ph){
+			bodadianhua: function(ph) {
 				uni.makePhoneCall({
-					phoneNumber:ph
+					phoneNumber: ph
 				})
 			},
-			guanbi:function(){
-				this.t=false
+			guanbi: function() {
+				this.t = false
 			},
-			dengluweizhi:function(){
-			},
-			deng:function(){
+			dengluweizhi: function() {},
+			deng: function() {
 				uni.navigateTo({
-					url:'../enter/enter'
+					url: '../enter/enter'
 				})
 			},
-			tz:function(id){
+			tz: function(id) {
 				uni.navigateTo({
-					url:'../index/productDetails?id='+id
+					url: '../index/productDetails?id=' + id
 				})
-				this.$https({url:'/api/shop/goods-brows-history-add',data:{goodsId:id},methods:'POST',success:res=>{
-					
-				}})
+				this.$https({
+					url: '/api/shop/goods-brows-history-add',
+					data: {
+						goodsId: id
+					},
+					methods: 'POST',
+					success: res => {
+
+					}
+				})
 			},
-			gaibian:function(e){
-				this.n=e.detail.current
+			gaibian: function(e) {
+				this.n = e.detail.current
 			},
-			q:function(){
-				this.xianshi=!this.xianshi
+			q: function() {
+				this.xianshi = !this.xianshi
 			},
-			dianpu:function(id){
+			dianpu: function(id) {
 				uni.navigateTo({
-					url:'../shop/shop?id='+id
+					url: '../shop/shop?id=' + id
 				})
 			}
 		}
@@ -532,16 +571,118 @@
 </script>
 
 <style lang="scss">
-	
+	.content-one {
+		overflow: hidden;
+		padding: 20rpx 28rpx;
+		box-sizing: border-box;
+
+		.list-one-bottom-title {
+			font-size: 26rpx;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+
+			.title-icon {
+				display: inline-block;
+				padding: 0 10rpx;
+				font-size: 20rpx;
+				line-height: 30rpx;
+				box-sizing: border-box;
+				border-radius: 6rpx;
+				margin-right: 10rpx;
+				background: #ff6600;
+				color: #fff;
+			}
+		}
+
+		.list-one-bottom-price {
+			font-size: 26rpx;
+			color: #ff3333;
+			font-weight: bold;
+		}
+
+		.list-one-bottom-adress {
+			width: fit-content;
+			float: right;
+			font-weight: normal;
+			color: #333;
+			font-size: 20rpx;
+		}
+	}
+
+	.list-one-bottom {
+		padding: 8rpx 20rpx;
+		box-sizing: border-box;
+
+		.list-one-bottom-coupon {
+			border: 1px dashed #ff3333;
+			background-color: #fff;
+			line-height: 30rpx;
+			padding: 5rpx 10rpx;
+			color: #ff3333;
+			margin-right: 10rpx;
+			font-size: 20rpx;
+			box-sizing: border-box;
+			display: block;
+			float: left;
+			margin-top: 8rpx;
+		}
+
+		.list-one-bottom-price {
+			margin-top: 8rpx;
+		}
+	}
+
+	.content-list-two {
+		overflow: hidden;
+		border-bottom: 1px dashed #ddd;
+		padding-top: 20rpx;
+
+		image {
+			width: 200rpx;
+			height: 200rpx;
+			float: left;
+		}
+	}
+
+	.content-list-one {
+		width: calc(50% - 13rpx);
+		border-radius: 20rpx;
+		overflow: hidden;
+		box-shadow: 0 0 8px #ccc;
+		box-sizing: border-box;
+		height: 550rpx;
+		margin-top: 28rpx;
+		height: 500rpx;
+
+		image {
+			width: 100%;
+			height: 320rpx !important;
+		}
+	}
+
+	.content-list-one:nth-child(odd) {
+		float: left;
+	}
+
+	.content-list-one:nth-child(even) {
+		float: right;
+	}
+
+
 	.bg_img {
 		image {
 			width: 750upx;
 			height: 460upx;
 		}
 	}
-	.tool+swiper+view+view{
-		width:100%;
+
+	.tool+swiper+view+view {
+		width: 100%;
 	}
+
 	.top {
 		position: fixed;
 		top: 33upx;
@@ -576,7 +717,8 @@
 		top: 30upx;
 		left: 25upx;
 		overflow: hidden;
-		width:700rpx;
+		width: 700rpx;
+
 		.img_a {
 			float: left;
 
@@ -590,6 +732,7 @@
 		.text_a {
 			float: left;
 			padding-left: 20upx;
+
 			.yonghum {
 				font-size: 34upx;
 				color: #fff;
@@ -619,11 +762,12 @@
 		box-shadow: 0 0 5px #ccc;
 		background-color: #fff;
 		border-radius: 20rpx 20rpx 0 0;
-		position:relative;
-		margin:0 auto;
-		margin-top:46rpx;
-		padding-top:43rpx;
-		z-index:999;
+		position: relative;
+		margin: 0 auto;
+		margin-top: 46rpx;
+		padding-top: 43rpx;
+		z-index: 999;
+
 		.yong {
 			text-align: center;
 			width: 160upx;
@@ -698,10 +842,11 @@
 		background-color: #f4f7f9;
 		border-radius: 20upx;
 		padding: 30upx 20upx 20upx 20upx;
-		margin:0 auto;
-		position:relative;
-		z-index:99;
-		margin-top:30rpx;
+		margin: 0 auto;
+		position: relative;
+		z-index: 99;
+		margin-top: 30rpx;
+
 		>view {
 			float: left;
 			text-align: center;
@@ -709,8 +854,8 @@
 
 			text {
 				font-size: 22upx;
-				margin-top:30rpx;
-				display:block;
+				margin-top: 30rpx;
+				display: block;
 			}
 
 			image {
@@ -719,7 +864,7 @@
 				display: block;
 				position: relative;
 				margin: 0 auto;
-				margin-top:30rpx;
+				margin-top: 30rpx;
 			}
 		}
 	}
@@ -738,8 +883,9 @@
 		height: 420upx;
 		background-color: #fff;
 		margin-bottom: 120upx;
-		margin:0 auto;
-		margin-top:45rpx;
+		margin: 0 auto;
+		margin-top: 45rpx;
+
 		.tit_a {
 			text {
 				font-size: 34upx;
@@ -748,15 +894,17 @@
 		}
 
 		.icons {
-			overflow:hidden;
-			border-radius:20rpx;
-			padding:30rpx 20rpx 20rpx 20rpx;
-			padding-top:10rpx;
+			overflow: hidden;
+			border-radius: 20rpx;
+			padding: 30rpx 20rpx 20rpx 20rpx;
+			padding-top: 10rpx;
+
 			>view {
 				float: left;
 				text-align: center;
 				width: 25%;
 				margin-top: 40upx;
+
 				text {
 					font-size: 26upx;
 				}
