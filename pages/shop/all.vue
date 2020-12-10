@@ -420,20 +420,23 @@
 		border-bottom: 1px dotted #ccc;
 		padding-bottom: 20upx;
 		overflow: hidden;
-
+		
 		.imgBox {
+			overflow: hidden;
+			float: left;
 			image {
-				width: 30%;
-				height: inherit;
+				width:200rpx;
+				height: 200rpx;
 				float: left;
 			}
 		}
 
 		.txt_a {
 			padding-top: 10upx;
-			width: 67%;
+			width: calc(100% - 220rpx);
 			margin-left: 20upx;
 			float: left;
+			box-sizing: border-box;
 
 			.title_top {
 				// margin-bottom: 10rpx;
@@ -711,21 +714,20 @@
 			// margin-bottom: 10upx;
 			display: black;
 			width: calc(50% - 13rpx);
-			// margin-left: 20upx;
-			// float: left;
 			box-shadow: 0 0 5px #ccc;
 			border-radius: 20upx;
 			padding-bottom: 20upx;
 			overflow: hidden;
 			box-sizing: border-box;
 			height: 500rpx;
+			padding: 0;
 
 			.imgBox {
 				overflow: hidden;
-
+				width: 100%;
 				image {
 					width: 100%;
-					height: inherit;
+					height: 320rpx!important;
 					float: left;
 				}
 			}
@@ -737,7 +739,7 @@
 				float: left;
 				box-sizing: border-box;
 				margin-left: 0;
-
+				    padding: 0 20rpx 20rpx 20rpx;
 				.titleText {
 					overflow: hidden;
 					text-overflow: ellipsis;

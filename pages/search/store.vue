@@ -419,9 +419,10 @@
 		box-sizing: border-box;
 
 		.imgBox {
+			overflow: hidden;
 			image {
 				width: 100%;
-				height: inherit;
+				height: 320rpx!important;
 				float: left;
 			}
 		}

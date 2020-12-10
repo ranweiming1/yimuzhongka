@@ -93,8 +93,8 @@
 					</view>
 				</view>
 			</view>
-			<view class="content-item" v-for='(item,index) in hotList' @tap='detail(item.goodsId)' v-if='!y'>
-				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;'></image>
+			<view class="content-item" v-for='(item,index) in hotList' @tap='detail(item.goodsId)' v-if='!y' style="border-radius: 20rpx;overflow: hidden;">
+				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;height: 320rpx;'></image>
 				<view style='overflow:hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;padding:0 20rpx;font-size: 26rpx;'>
 					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;border-radius: 4px;margin-right: 6px;'>自营</view>
 					{{item.goodsName}}
@@ -581,6 +581,9 @@
 			height: 500rpx;
 			border-radius: 15rpx;
 			overflow: hidden;
+			image{
+				height: 320rpx!important;
+			}
 		}
 
 		.content-item:nth-child(even) {
@@ -617,8 +620,8 @@
 
 				.imgBox {
 					image {
-						width: 30%;
-						height: inherit;
+						width: 200rpx;
+						height: 200rpx!important;
 						float: left;
 					}
 				}

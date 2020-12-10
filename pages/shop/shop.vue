@@ -594,9 +594,10 @@
 			height: 500rpx;
 
 			.imgBox {
+				
 				image {
 					width: 100%;
-					height: inherit;
+					height: 320rpx!important;
 					float: left;
 				}
 			}

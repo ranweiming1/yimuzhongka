@@ -113,7 +113,8 @@
 			<view class="hahah list uni-flex uni-column" style="padding-top: 250rpx;">
 				<view class="content " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
 					<view class="imgBox">
-						<image :src="item.goodsLogo" mode="widthFix"></image>
+						<!-- <image :src="item.goodsLogo" mode="widthFix"></image> -->
+						<image  :src="item.goodsLogo" mode=""></image>
 					</view>
 					<view class="txt_a">
 						<view class="title_top">
@@ -551,9 +552,11 @@
 
 
 		.imgBox {
+			overflow: hidden;
+			float: left;
 			image {
-				width: 30%;
-				height: inherit;
+				width: 200rpx;
+				height: 200rpx;
 				float: left;
 			}
 		}
@@ -572,8 +575,9 @@
 			}
 
 			padding-top: 10upx;
-			width: 67%;
-			margin-left: 20upx;
+			width: calc(100% - 200rpx);
+			box-sizing: border-box;
+			padding-left: 20upx;
 			float: left;
 
 			text {
@@ -914,6 +918,8 @@
 
 
 			.imgBox {
+				height: 320rpx;
+				width: 100%;
 				image {
 					width: 100%;
 					height: inherit;
@@ -924,7 +930,7 @@
 			.txt_a {
 				padding-top: 10upx;
 				width: 90%;
-				margin-left: 20upx;
+				padding-left: 20upx;
 				float: left;
 
 				text {
