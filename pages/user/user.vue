@@ -351,7 +351,7 @@
 				data: {},
 				denglu: false,
 				success: function(res) {
-					_this.userName = res.data.data.userName
+					_this.userName = res.data.data.nickname
 					_this.headimg=res.data.data.headimg
 					// console.log(res.data.data)
 					_this.phone = res.data.data.phone
