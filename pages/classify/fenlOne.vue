@@ -90,7 +90,7 @@
 
 			</view>
 
-			<view class="zhMask"  v-if='paixu'>
+			<view class="zhMask" v-if='paixu'>
 				<view class="mask-content">
 					<view class="mask-cont-item" @tap='p("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
@@ -118,7 +118,7 @@
 					<view class="txt_a">
 						<view class="title_top">
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-							<text style='display:inline-block;'>{{item.goodsName}}</text>
+							<text class="titleText">{{item.goodsName}}</text>
 						</view>
 						<view class="youhui_bo">
 							<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
@@ -130,7 +130,7 @@
 						</view>
 						<view class="txt_aas">
 							<text><text>
-									<text style='font-size:22rpx;float:left;margin-top:10rpx;'>￥</text>{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text></text>
+									<text style='font-size:22rpx;float:left;'>￥</text>{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text></text>
 							<text v-if="!tog_Ca">销量：{{item.salesSum}}</text>
 							<view class="but_Icon" v-if="tog_Ca">
 								<view class="icons">
@@ -362,6 +362,9 @@
 	// .dne{
 	// 	margin-top: 0;
 	// }
+	.youhui_bo{
+		// margin-top: 10rpx;
+	}
 	.zhMask {
 		width: 100%;
 		height: 100%;
@@ -394,6 +397,7 @@
 				text-align: left;
 				padding-left: 10rpx;
 				overflow: hidden;
+
 				.cont-item-icon {
 					display: inline-block;
 					margin-right: 5px;
@@ -409,7 +413,8 @@
 
 			.mask-cont-item:last-child {
 				border: 0;
-				image{
+
+				image {
 					height: 28rpx;
 					width: 29rpx;
 				}
@@ -554,13 +559,25 @@
 		}
 
 		.txt_a {
+			.title_top {
+				overflow: hidden;
+			}
+
+			.titleText {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+			}
+
 			padding-top: 10upx;
 			width: 67%;
 			margin-left: 20upx;
 			float: left;
 
 			text {
-				font-size: 30upx;
+				font-size: 26upx;
 			}
 
 			.diZhi {
@@ -624,7 +641,9 @@
 				padding: 5upx 10upx;
 				font-size: 18upx;
 				margin-right: 10upx;
-				line-height: 30upx;
+				line-height: 25upx;
+				box-sizing: border-box;
+				float: left;
 			}
 
 			.txt_aa {
@@ -648,14 +667,15 @@
 				left: 33%;
 				width: 64%;
 				bottom: 20rpx;
+				overflow: hidden;
 
 				text {
 					color: #333;
-					font-size: 32upx;
+					font-size: 26upx;
 
 					text {
 						color: #ff6600;
-						font-size: 32upx;
+						font-size:26upx;
 						font-weight: bold;
 						display: inline-block;
 						float: left;
@@ -908,11 +928,17 @@
 				float: left;
 
 				text {
-					font-size: 30upx;
-					overflow: hidden;
+					font-size: 26upx;
 					max-width: 100%;
+
+				}
+
+				.titleText {
+					overflow: hidden;
 					text-overflow: ellipsis;
-					white-space: nowrap;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
 				}
 
 				.span_a {
@@ -923,7 +949,8 @@
 					padding: 5upx 10upx;
 					font-size: 18upx;
 					margin-right: 10upx;
-					line-height: 30upx;
+					line-height: 25upx;
+					box-sizing: border-box;
 				}
 
 				.txt_aa {
@@ -940,16 +967,17 @@
 				}
 
 				.txt_aas {
-					padding-top: 10upx;
+					// padding-top: 10upx;
 					position: initial;
 					width: 100%;
+					line-height: 40rpx;
 					text {
 						color: #333;
-						font-size: 32upx;
+						font-size: 26upx;
 
 						text {
 							color: #ff3333;
-							font-size: 32upx;
+							font-size: 26upx;
 							font-weight: bold;
 						}
 					}
@@ -958,15 +986,17 @@
 						color: #999999;
 						font-size: 24upx;
 						float: right;
-						line-height: 50upx;
+						line-height: 40upx;
 					}
 				}
 
 			}
 		}
-		.content:nth-child(even){
+
+		.content:nth-child(even) {
 			float: right;
 		}
+
 		.Boxaaa {
 			overflow: hidden;
 			margin-bottom: 20upx;

@@ -5,7 +5,7 @@
 				<image src="../../static/shopBagTwo.png" mode=""></image>
 			</view>
 			<view class="shop-search">
-				<view class="shop-search-back"  @tap='back'>
+				<view class="shop-search-back" @tap='back'>
 					<image src="../../static/icon_26-2.png" mode=""></image>
 				</view>
 				<view class="shop-search-input">
@@ -142,6 +142,54 @@
 			return {
 				currentIndex: 0
 			}
+		},
+		onLoad() {
+			var _this = this
+			this.$https({
+					url: '/api/shop/store-index',
+					data: {
+						// shopId: option.id
+						shopId: 6
+					},
+					dengl: false,
+					success: function(res) {
+						_this.store = res.data.data.storeShop
+						_this.gList = res.data.data.goodsList
+						_this.ban = res.data.data.banners
+						_this.youhui = res.data.data.goodsList.couponDTOS
+
+					}
+
+				}),
+				this.$https({
+					url: '/api/shop/store-shop-detail',
+					data: {
+						shopId: option.id
+					},
+					dengl: false,
+					success: function(res) {
+						_this.isShow = res.data.data.shopCollectStatus
+					}
+				})
+			this.$https({
+				url: '/api/shop/get-store-banner-list',
+				data: {
+					shopId: option.id
+				},
+				method: 'post',
+				success: res => {
+					this.banner = res.data.data
+				}
+			})
+			this.$https({
+				url: '/api/oauth/shop/store-coupon-list',
+				data: {
+					shopId: option.id
+				},
+				success: res => {
+					this.quan = res.data.data
+				}
+			})
 		},
 		methods: {
 			swierChange(e) {
@@ -570,7 +618,7 @@
 					.item-right-bottom {
 						overflow: hidden;
 						font-size: 24rpx;
-						margin-top:80rpx;
+						margin-top: 80rpx;
 
 						.item-right-price {
 							float: left;

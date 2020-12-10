@@ -68,7 +68,7 @@
 				</view>
 				<view class='txt_a'>
 					<view class="txt_title">
-						<view><text class='span_a' v-if="item.selfStatus=='Y'">自营</text>{{item.goodsName}}</view>
+						<view class="titleText"><text class='span_a' v-if="item.selfStatus=='Y'">自营</text>{{item.goodsName}}</view>
 					</view>
 
 					<view class='txt_aa'>
@@ -431,18 +431,22 @@
 			width: 90%;
 			margin-left: 20upx;
 			float: left;
+			.titleText {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+			}
 			.txt_title{
 				view{
 					
 				width: 100%;
-				font-size: 30upx;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis
+				font-size: 26upx;
 				}
 			}
 			text {
-				font-size: 30upx;
+				font-size: 26upx;
 			
 			}
 
@@ -478,12 +482,12 @@
 				overflow: hidden;
 				.view {
 					color: #333;
-					font-size: 32upx;
+					font-size:26upx;
 					float: left;
 
 					text {
 						color: #ff3333;
-						font-size: 32upx;
+						font-size: 26upx;
 						font-weight: bold;
 					}
 				}

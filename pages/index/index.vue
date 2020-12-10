@@ -58,7 +58,7 @@
 		</swiper>
 
 		<!-- 热门推荐 ps:懒加载-->
-		<view class="recommend" style='overflow:hidden;'>
+		<view class="recommend" style='overflow:hidden; padding: 20rpx 28rpx;'>
 			<view class="title">
 				<text>热门推荐</text>
 				<image style='display:inline-block;width:36rpx;height:34rpx;margin-top:10rpx;margin-right:30rpx;' src='../../static/n8.png'
@@ -72,7 +72,7 @@
 					</view>
 					<view class="txt_a">
 						<text v-if="item.selfStatus=='Y'" class="span_a">自营</text>
-						<text>{{item.goodsName}}</text>
+						<text class="titleText">{{item.goodsName}}</text>
 						<view class="txt_aa">
 							<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
 						</view>
@@ -95,7 +95,7 @@
 			</view>
 			<view class="content-item" v-for='(item,index) in hotList' @tap='detail(item.goodsId)' v-if='!y'>
 				<image :src='item.goodsLogo' mode='widthFix' style='width:100%;'></image>
-				<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 20rpx;'>
+				<view style='overflow:hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;padding:0 20rpx;font-size: 26rpx;'>
 					<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;display:inline-block;padding:0 10rpx;font-size:22rpx;line-height:35rpx;border-radius: 4px;margin-right: 6px;'>自营</view>
 					{{item.goodsName}}
 				</view>
@@ -104,9 +104,9 @@
 				</view>
 				<view style='padding:10rpx 20rpx;'>
 					<!-- <view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view> -->
-					<view style='font-size:30rpx;color:#ff3333;font-weight:900;'>
+					<view style='font-size:26rpx;color:#ff3333;font-weight:900;'>
 						<view style='color:#ff3333;font-size:19rpx;display:inline-block;font-weight:600;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}
-						<view style='float:right;width:100rpx;font-size:20rpx;'>{{item.sendAddr}}</view>
+						<view style='float:right;width:fit-content;font-size:20rpx;'>{{item.sendAddr}}</view>
 					</view>
 				</view>
 			</view>
@@ -576,7 +576,8 @@
 			box-shadow: 0px 0px 4px #ccc;
 			background: #fff;
 			box-sizing: border-box;
-			margin: 20rpx 0;
+			// margin: 20rpx 0;
+			margin-top: 28rpx;
 			height: 500rpx;
 			border-radius: 15rpx;
 			overflow: hidden;
@@ -628,8 +629,16 @@
 					margin-left: 20upx;
 					float: left;
 
+					.titleText {
+						overflow: hidden;
+						text-overflow: ellipsis;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+						-webkit-box-orient: vertical;
+					}
+
 					text {
-						font-size: 30upx;
+						font-size: 26upx;
 					}
 
 					.span_a {
@@ -662,11 +671,11 @@
 
 						text {
 							color: #333;
-							font-size: 32upx;
+							font-size: 26upx;
 
 							text {
 								color: #ff3333;
-								font-size: 32upx;
+								font-size: 26upx;
 								font-weight: bold;
 							}
 						}

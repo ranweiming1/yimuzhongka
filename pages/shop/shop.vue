@@ -105,7 +105,7 @@
 					</view>
 					<view class="txt_a">
 						<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-						<text>{{item.goodsName}}</text>
+						<text class="titleText">{{item.goodsName}}</text>
 						<view class="txt_aa">
 							<!-- <text>买一送三</text> -->
 							<text v-for="(items,indexs) in item.couponDTOS">满{{items.condition}}-{{items.money}}元</text>
@@ -162,8 +162,8 @@
 				indColor: '#fff',
 				activeColor: '#2b5cff',
 				scrollLeft: '30rpx',
-				banner:[],
-				quan:[]
+				banner: [],
+				quan: []
 			}
 		},
 		components: {
@@ -200,8 +200,25 @@
 						_this.isShow = res.data.data.shopCollectStatus
 					}
 				})
-				this.$https({url:'/api/shop/get-store-banner-list',data:{shopId:option.id},method:'post',success:res=>{this.banner=res.data.data}})
-				this.$https({url:'/api/oauth/shop/store-coupon-list',data:{shopId:option.id},success:res=>{this.quan=res.data.data}})
+			this.$https({
+				url: '/api/shop/get-store-banner-list',
+				data: {
+					shopId: option.id
+				},
+				method: 'post',
+				success: res => {
+					this.banner = res.data.data
+				}
+			})
+			this.$https({
+				url: '/api/oauth/shop/store-coupon-list',
+				data: {
+					shopId: option.id
+				},
+				success: res => {
+					this.quan = res.data.data
+				}
+			})
 		},
 		methods: {
 			detail(id) {
@@ -251,14 +268,14 @@
 					delta: 1
 				})
 			},
-			tiaozhuan:function(type,businessId){
-				if(type==1){
+			tiaozhuan: function(type, businessId) {
+				if (type == 1) {
 					uni.navigateTo({
-						url:'../index/productDetails?id='+businessId
+						url: '../index/productDetails?id=' + businessId
 					})
-				}else if(type==2){
+				} else if (type == 2) {
 					uni.navigateTo({
-						url:'shop?id='+businessId
+						url: 'shop?id=' + businessId
 					})
 				}
 			}
@@ -555,20 +572,26 @@
 		overflow: hidden;
 		padding-top: 10upx;
 		position: relative;
-		column-count: 2;
-		column-gap: 25rpx;
+
+		.content:nth-child(odd) {
+			float: left;
+		}
+
+		.content:nth-child(even) {
+			float: right;
+		}
 
 		.content {
-			break-inside: avoid;
 			margin-bottom: 20upx;
 			display: black;
-			width: 330rpx;
+			width: calc(50% - 13rpx);
 			// float: left;
 			box-shadow: 0 0 5px #ccc;
 			border-radius: 20upx;
 			padding-bottom: 20upx;
 			overflow: hidden;
 			background-color: #FFFFFF;
+			height: 500rpx;
 
 			.imgBox {
 				image {
@@ -583,6 +606,14 @@
 				width: 90%;
 				margin-left: 20upx;
 				float: left;
+
+				.titleText {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+				}
 
 				text {
 					font-size: 26upx;

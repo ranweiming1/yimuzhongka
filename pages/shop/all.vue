@@ -89,8 +89,8 @@
 
 
 			<!-- 热门推荐 -->
-			<view class="hahah list uni-flex uni-column" v-for="(item , index) in allList" @tap="detail(item.goodsId)">
-				<view class="content ">
+			<view class="hahah list uni-flex uni-column">
+				<view class="content " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
 					<view class="imgBox">
 						<image :src="item.goodsLogo" mode="widthFix"></image>
 					</view>
@@ -98,7 +98,7 @@
 						<view class="title_top">
 
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-							<text>{{item.goodsName}}</text>
+							<text class="titleText">{{item.goodsName}}</text>
 						</view>
 						<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
 							<text>满{{items.condition}}-{{items.money}}元</text>
@@ -144,7 +144,7 @@
 			if (option.keywords && option.shopsId) {
 				this.value = option.keywords
 				this.shopsId = option.shopsId
-				this.isOK=false
+				this.isOK = false
 				console.log(this.value, this.shopsId)
 				this.search()
 			} else {
@@ -167,7 +167,7 @@
 							shop_id: _this.shopsId,
 							cat_id: option.cateId
 						},
-						dengl:true,
+						dengl: true,
 						success: function(res) {
 							console.log(res.data.data)
 							console.log(2222)
@@ -197,7 +197,7 @@
 						goodsId: id
 					},
 					method: 'POST',
-					dengl:true,
+					dengl: true,
 					success(res) {
 						// console.log('添加成功')
 						// console.log(res.data)
@@ -216,7 +216,7 @@
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serch',
 					data: {},
-					dengl:true,
+					dengl: true,
 					success: function(res) {
 						_this.shaiList = res.data.data.brandDTOS
 						_this.id = res.data.data.brandDTOS[0].id
@@ -235,7 +235,7 @@
 				var _this = this
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
-					dengl:true,
+					dengl: true,
 					method: 'POST',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
@@ -278,7 +278,7 @@
 				var _this = this
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
-					dengl:true,
+					dengl: true,
 					method: 'post',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
@@ -300,7 +300,7 @@
 				console.log(this.value)
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-ptList',
-					dengl:true,
+					dengl: true,
 					data: {
 						keywords: this.value,
 						shop_id: this.shopsId,
@@ -435,8 +435,20 @@
 			margin-left: 20upx;
 			float: left;
 
+			.title_top {
+				// margin-bottom: 10rpx;
+			}
+
+			.titleText {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+			}
+
 			text {
-				font-size: 30upx;
+				font-size: 26upx;
 			}
 
 			.span_a {
@@ -470,11 +482,11 @@
 
 				text {
 					color: #333;
-					font-size: 32upx;
+					font-size: 26upx;
 
 					text {
 						color: #ff3333;
-						font-size: 32upx;
+						font-size: 26upx;
 						font-weight: bold;
 					}
 				}
@@ -681,19 +693,36 @@
 			}
 		}
 
+		.list {
+			padding: 0 20rpx;
+			overflow: hidden;
+		}
+
+		.content:nth-child(odd) {
+			float: left;
+		}
+
+		.content:nth-child(even) {
+			float: right;
+		}
+
 		.content {
-			margin-top: 20upx;
+			margin-top: 30upx;
 			// margin-bottom: 10upx;
 			display: black;
-			width: 308upx;
-			margin-left: 20upx;
-			float: left;
+			width: calc(50% - 13rpx);
+			// margin-left: 20upx;
+			// float: left;
 			box-shadow: 0 0 5px #ccc;
 			border-radius: 20upx;
 			padding-bottom: 20upx;
 			overflow: hidden;
+			box-sizing: border-box;
+			height: 500rpx;
 
 			.imgBox {
+				overflow: hidden;
+
 				image {
 					width: 100%;
 					height: inherit;
@@ -703,12 +732,23 @@
 
 			.txt_a {
 				padding-top: 10upx;
-				width: 90%;
-				margin-left: 20upx;
+				width: 100%;
+				// margin-left: 20upx
 				float: left;
+				box-sizing: border-box;
+				margin-left: 0;
+
+				.titleText {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+				}
+
 
 				text {
-					font-size: 30upx;
+					font-size: 26upx;
 				}
 
 				.span_a {
@@ -740,11 +780,11 @@
 
 					text {
 						color: #333;
-						font-size: 32upx;
+						font-size: 26upx;
 
 						text {
 							color: #ff3333;
-							font-size: 32upx;
+							font-size: 26upx;
 							font-weight: bold;
 						}
 					}
