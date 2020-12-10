@@ -11,7 +11,7 @@
 				<!-- <image src="../../../static/icon_18.png" mode=""></image> -->
 			</view>
 		</view>
-		
+
 
 		<view class="neir">
 			<view class="title">
@@ -31,9 +31,9 @@
 			<rich-text :nodes='x?content:objcont'></rich-text>
 		</view>
 		<view style="height: 20rpx;background-color: #f8f8f8;width: 100%;" v-if='x'>
-			
+
 		</view>
-		
+
 
 		<!-- 华丽丽的分割线 -->
 		<!-- <view class="one_line">
@@ -52,7 +52,7 @@
 				<view class="mingc">
 					<text>{{item.userDTO.nickname}}</text>
 					<view class="time">
-						<text>{{item.userDTO.birth}}</text>
+						<text>{{item.createTime}}</text>
 					</view>
 					<view class="huay">
 						<text>{{item.content}}</text>
@@ -95,13 +95,13 @@
 				pinglun: false,
 				pinglunneirong: '',
 				newsid: '',
-				image:'',
-				shifoupingjia:true,
-				fabiao:false,
-				objtitle:{},
-				x:true,
-				objcont:'',
-				objtz:''
+				image: '',
+				shifoupingjia: true,
+				fabiao: false,
+				objtitle: {},
+				x: true,
+				objcont: '',
+				objtz: ''
 			}
 		},
 		onLoad: function(option) {
@@ -120,16 +120,17 @@
 					_this.content = res.data.data.article.content
 					_this.image = res.data.data.article.image
 					_this.pingjia = res.data.data.commList
-					_this.shifoupingjia=res.data.data.article.allowComment=='Y'?true:res.data.data.allowComment=='N'?false:false
-					_this.fabiao=res.data.data.article.allowComment
-					_this.fabiao=_this.fabiao=='Y'
+					_this.shifoupingjia = res.data.data.article.allowComment == 'Y' ? true : res.data.data.allowComment == 'N' ?
+						false : false
+					_this.fabiao = res.data.data.article.allowComment
+					_this.fabiao = _this.fabiao == 'Y'
 				}
 			})
-			if(option.i){
-				this.x=false
-				this.objtitle=JSON.parse(option.i).noticeTitle
-				this.objcont=JSON.parse(option.i).noticeContent
-				this.objtz=JSON.parse(option.i).createTime
+			if (option.i) {
+				this.x = false
+				this.objtitle = JSON.parse(option.i).noticeTitle
+				this.objcont = JSON.parse(option.i).noticeContent
+				this.objtz = JSON.parse(option.i).createTime
 			}
 		},
 		methods: {
@@ -140,7 +141,7 @@
 				var _this = this
 				this.$https({
 					url: '/api/news/article-comm-add',
-					data:{
+					data: {
 						content: _this.pinglunneirong,
 						newsId: _this.newsid
 					},
@@ -153,9 +154,15 @@
 								title: res.data.message
 							})
 							_this.pinglun = false
-							_this.$https({url:'/api/oauth/news/article-detail',data:{id:_this.newsid},success:function(res){
-								_this.pingjia=res.data.data.commList
-							}})
+							_this.$https({
+								url: '/api/oauth/news/article-detail',
+								data: {
+									id: _this.newsid
+								},
+								success: function(res) {
+									_this.pingjia = res.data.data.commList
+								}
+							})
 						}
 					}
 				})
@@ -163,9 +170,9 @@
 			quxiaopinglun: function() {
 				this.pinglun = false
 			},
-			back:function(){
+			back: function() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			}
 		}
@@ -182,7 +189,8 @@
 
 		.textBox {
 			padding-left: 40%;
-			float:left;
+			float: left;
+
 			text {
 				font-size: 28upx;
 				color: #333;
@@ -204,12 +212,12 @@
 
 	.neir {
 		overflow: hidden;
-		margin-top:200rpx;
+		margin-top: 200rpx;
+
 		.title {
-			font-size: 39upx;
+			font-size: 36upx;
 			line-height: 40upx;
-			padding-top: 20upx;
-			padding-bottom: 20upx;
+			padding: 20rpx 25rpx;
 			color: #333;
 			text-align: center;
 		}
@@ -232,12 +240,11 @@
 	}
 
 	.img {
-		padding-left: 25upx;
-		padding-top: 30upx;
+		margin: 30rpx 25rpx 0 25rpx;
 
 		image {
 			display: block;
-			width: 700upx;
+			width: 100%;
 			height: 300upx;
 		}
 	}
@@ -296,6 +303,9 @@
 			color: #333;
 			font-size: 26upx;
 			line-height: 50upx;
+			text{
+				font-size: 24rpx;
+			}
 		}
 	}
 

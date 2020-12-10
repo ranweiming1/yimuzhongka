@@ -420,12 +420,13 @@
 		border-bottom: 1px dotted #ccc;
 		padding-bottom: 20upx;
 		overflow: hidden;
-		
+
 		.imgBox {
 			overflow: hidden;
 			float: left;
+
 			image {
-				width:200rpx;
+				width: 200rpx;
 				height: 200rpx;
 				float: left;
 			}
@@ -725,9 +726,10 @@
 			.imgBox {
 				overflow: hidden;
 				width: 100%;
+
 				image {
 					width: 100%;
-					height: 320rpx!important;
+					height: 320rpx !important;
 					float: left;
 				}
 			}
@@ -739,7 +741,8 @@
 				float: left;
 				box-sizing: border-box;
 				margin-left: 0;
-				    padding: 0 20rpx 20rpx 20rpx;
+				padding: 0 20rpx 20rpx 20rpx;
+
 				.titleText {
 					overflow: hidden;
 					text-overflow: ellipsis;
