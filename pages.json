@@ -405,7 +405,11 @@
         ,{
             "path" : "pages/shop/shopThree",
             "style" : {"navigationStyle":"custom"}
-        }
+        },
+		{
+			"path":"pages/index/ke",
+			"style":{"navigationStyle":"custom"}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
