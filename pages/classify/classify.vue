@@ -39,7 +39,7 @@
 					<view class="li-title">
 						{{item.cateTitle}}
 					</view>
-					<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in item.childsList">
+					<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in rList">
 						<view class="imgpp">
 							<image :src="ite.imgUrl" mode=""></image>
 						</view>
@@ -99,7 +99,7 @@
 
 					_this.rList = res.data.data.goodsCates[0].childsList
 					_this.rList.map(function(val, i) {
-						val.isHide = true
+						_this.$set(val,'isHide',true)
 						if (val.childsList.length < 6) {
 							val.isHide = false
 						}
@@ -250,6 +250,7 @@
 		.li-load {
 			font-size: 26rpx;
 			color: #3c60e4;
+			clear:both;
 
 		}
 
