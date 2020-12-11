@@ -78,25 +78,7 @@
 		onLoad(options) {
 			// this.id=index
 			var _this = this
-			// this.height = uni.getSystemInfoSync().windowHeight;
-			uni.getSystemInfo({
-				success(res) {
-
-					let view = uni.createSelectorQuery().select('.top');
-					view.boundingClientRect(data => {
-						// _this.navHeight = data.height;
-						console.log(data);
-						let tab = uni.createSelectorQuery().select('#tabbar');
-						tab.boundingClientRect(heig => {
-							_this.height = res.windowHeight - data.height - heig.height;
-						}).exec();
-					}).exec();
-
-
-
-				}
-			});
-
+			this.height = uni.getSystemInfoSync().windowHeight-100;
 			this.$https({
 				url: '/api/oauth/shop/mall-lists',
 				data: {},
