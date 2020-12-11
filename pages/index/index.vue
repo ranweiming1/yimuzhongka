@@ -79,7 +79,7 @@
 							<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
 								<text>满{{items.condition}}-{{items.money}}元</text>
 							</view>
-							<view class="coupon-item">
+							<view class="coupon-item" v-if='item.kuaidi==0'>
 								<text>包邮</text>
 							</view>
 						</view>
@@ -122,7 +122,7 @@
 							<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
 								<text>满{{items.condition}}-{{items.money}}元</text>
 							</view>
-							<view class="coupon-item">
+							<view class="coupon-item" v-if='item.kuaidi==0'>
 								<text>包邮</text>
 							</view>
 
@@ -350,7 +350,7 @@
 		methods: {
 			detail(id) {
 				uni.navigateTo({
-					url: 'productDetails?id=' + id
+					url: 'productDetails?id=' + id+'&tiaozhuan=1'
 				})
 				this.$https({
 					url: '/api/shop/goods-brows-history-add',

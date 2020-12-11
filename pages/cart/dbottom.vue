@@ -33,20 +33,20 @@
 			//跳转首页
 			index: function(can) {
 			console.log(can)
-				uni.navigateTo({
+				uni.redirectTo({
 					url: '../shop/shop?id='+can,
 				
 				})
 			},
 			// 全部宝贝
 			commodity: function(can) {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: '../shop/all?id='+can
 				})
 			},
 			//分类
 			tongzhi: function(can) {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: '../shop/classifys?id='+can
 				})
 			},

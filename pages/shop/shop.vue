@@ -273,8 +273,8 @@
 				this.value = ''
 			},
 			back: function() {
-				uni.reLaunch({
-					url: '../index/productDetails?id=' + this.id
+				uni.navigateBack({
+					delta:1
 				})
 			},
 			tiaozhuan: function(type, businessId) {

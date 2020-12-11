@@ -445,7 +445,7 @@
 		methods: {
 			back() {
 				uni.navigateBack({
-
+					delta:1
 				})
 			},
 			jump(ind) {
