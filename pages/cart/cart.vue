@@ -852,6 +852,7 @@
 				if (this.xuan) {
 					this.xuan = false
 					this.shuju.map(function(n, index) {
+						_this.$set(_this.shuju[index],'dian',false)
 						n.s.map(function(v, indexx) {
 							_this.$set(_this.shuju[index].s, indexx, false)
 						})
@@ -861,6 +862,7 @@
 				} else {
 					this.xuan = true
 					this.shuju.map(function(n, index) {
+						_this.$set(_this.shuju[index],'dian',true)
 						n.s.map(function(v, indexx) {
 							_this.$set(_this.shuju[index].s, indexx, true)
 						})
@@ -1084,13 +1086,22 @@
 					})
 				}
 				this.jiage = 0
+				var num=0
 				this.shuju.map((n, index) => {
+					if(n.dian){
+						num++
+					}
 					n.s.map((z, inde) => {
 						if (z) {
 							this.jiage += this.cartList[index].specList[inde].goodsPrice * this.cartList[index].specList[inde].goodsNum
 						}
 					})
 				})
+				if(num==this.shuju.length){
+					this.xuan=true
+				}else{
+					xian=false
+				}
 			},
 			shangpin: function(index, n) {
 				var as = !this.shuju[index].s[n]
@@ -1109,13 +1120,22 @@
 					}
 				})
 				this.jiage = 0
+				var num=0
 				this.shuju.map((n, index) => {
+					if(n.dian){
+						num++
+					}
 					n.s.map((x, inde) => {
 						if (x) {
 							this.jiage += this.cartList[index].specList[inde].goodsPrice * this.cartList[index].specList[inde].goodsNum
 						}
 					})
 				})
+				if(num==this.shuju.length){
+					this.xuan=true
+				}else{
+					this.xuan=false
+				}
 			}
 		}
 	}
