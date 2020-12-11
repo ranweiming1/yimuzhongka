@@ -352,6 +352,7 @@
 			color: #999;
 			font-size: 28rpx;
 				border-bottom: 1px solid #ddd;
+				padding: 0 10rpx;
 		}
 	}
 
