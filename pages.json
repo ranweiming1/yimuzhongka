@@ -407,8 +407,7 @@
             "style" : {"navigationStyle":"custom"}
         },
 		{
-			"path":"pages/index/ke",
-			"style":{"navigationStyle":"custom"}
+			"path":"pages/index/ke"
 		}
     ],
 	"globalStyle": {

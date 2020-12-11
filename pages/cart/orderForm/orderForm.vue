@@ -3,12 +3,12 @@
 
 		<view class="siteBox">
 			<!-- 无地址样式 -->
-			<view class="noneBox">
+			<view class="noneBox" v-if='!z'>
 				<text @tap='tiaozhuan'>+ 添加收货地址</text>
 			</view>
 
 			<!-- 已设置地址样式 -->
-			<view class="content" @tap='qiehuandizhi'>
+			<view class="content" @tap='qiehuandizhi' v-if='z'>
 				<view style='overflow:hidden;'>
 					<view class="nome">
 						<text>{{dizhi.username}}</text>
@@ -174,7 +174,8 @@
 				youhui: [],
 				shopId: 0,
 				xinxi: '',
-				yao:''
+				yao:'',
+				z:[]
 			}
 		},
 		onLoad: function(options) {
@@ -197,6 +198,7 @@
 				}
 				if (options.zhid) {
 					this.dizhi = JSON.parse(options.zhid)
+					this.z=1
 				}
 				if (options.moneys) {
 					this.moneys = options.money
@@ -259,6 +261,7 @@
 					url: '/api/user/my-address',
 					data: {},
 					success: function(res) {
+						_this.z=res.data.data.length
 						res.data.data.map(function(n) {
 							if (n.isDefault == 1) {
 								//默认地址
@@ -514,7 +517,7 @@
 		.content {
 			float: left;
 			width: 80%;
-
+			overflow:hidden;
 			.nome {
 				float: left;
 				font-size: 30upx;
