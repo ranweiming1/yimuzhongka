@@ -596,6 +596,8 @@
 					float: left;
 					box-sizing: border-box;
 					padding-left: 20rpx;
+					height: 145rpx;
+					position: relative;
 
 					.item-right-title {
 						font-size: 26rpx;
@@ -618,7 +620,8 @@
 					.item-right-bottom {
 						overflow: hidden;
 						font-size: 24rpx;
-						margin-top: 80rpx;
+						position: absolute;
+						bottom:0;
 
 						.item-right-price {
 							float: left;

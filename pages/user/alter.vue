@@ -465,7 +465,7 @@
 		view {
 
 			border-radius: 50upx 50upx;
-			background-color: #dce0e6;
+			background-color: #2b5cff;
 			color: #fff;
 			height: 80rpx;
 			line-height: 80rpx;

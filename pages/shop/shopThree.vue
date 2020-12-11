@@ -17,7 +17,7 @@
 				</div>
 			</view>
 			<view class="shop-search">
-				<view class="shop-search-back"  @tap='back'>
+				<view class="shop-search-back" @tap='back'>
 					<image src="../../static/icon_26-2.png" mode=""></image>
 				</view>
 				<view class="shop-search-input">
@@ -551,7 +551,7 @@
 				border-radius: 15rpx;
 				overflow: hidden;
 				margin-bottom: 28rpx;
-				box-shadow: 0 1px 2px 1px rgba(0,19,41,0.08);
+				box-shadow: 0 1px 2px 1px rgba(0, 19, 41, 0.08);
 
 				.list-item-logo {
 					width: 100%;
@@ -579,6 +579,8 @@
 
 				.list-item-right {
 					box-sizing: border-box;
+					height: calc(100% - 296rpx);
+					position: relative;
 
 					.hort-title-right {
 						// padding-left: ;
@@ -611,7 +613,9 @@
 					.item-right-bottom {
 						overflow: hidden;
 						font-size: 24rpx;
-						margin-top:18rpx;
+
+						position: absolute;
+						bottom: 20rpx;
 
 						.item-right-price {
 							float: left;

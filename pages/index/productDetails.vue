@@ -161,7 +161,7 @@
 			</view>
 			<view class="butt" v-if="isAdd">
 				<view style='position:absolute;top:30rpx;right:50rpx;' @tap='add'>
-					<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
+					<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:50rpx;height:50rpx;'></image>
 				</view>
 				<view class="mTop">
 					<image class="cover" :src="list.goodsLogo?list.goodsLogo:''" mode=""></image>
@@ -192,10 +192,11 @@
 							<view class="add" @tap="jia">+</view>
 						</view>
 					</view>
-					<view style='overflow:hidden;position:fixed;bottom:20rpx;left:5;width:90%;height:40rpx;z-index:99999;'>
-						<button style='width:40%;float:left;' @tap='gouwuche'>加入购物车</button>
-						<button class="btn" @tap='goumaia'>立即购买</button>
-					</view>
+
+				</view>
+				<view style='overflow:hidden;position:absolute;bottom:50rpx;left:5;width:90%;z-index:99999;'>
+					<button style='width:40%;float:left;' @tap='gouwuche'>加入购物车</button>
+					<button class="btn" @tap='goumaia'>立即购买</button>
 				</view>
 			</view>
 		</view>
@@ -445,7 +446,7 @@
 		methods: {
 			back() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			},
 			jump(ind) {
@@ -558,7 +559,7 @@
 			},
 			jindian(shopId) {
 				uni.navigateTo({
-					url: '../shop/shop?id=' + shopId+'&s='+this.deId
+					url: '../shop/shop?id=' + shopId + '&s=' + this.deId
 				})
 			},
 			togPing() {
@@ -660,9 +661,9 @@
 					}
 				})
 			},
-			tiaozhuan:function(){
+			tiaozhuan: function() {
 				uni.navigateTo({
-					url:'ke'
+					url: 'ke'
 				})
 			}
 		}
