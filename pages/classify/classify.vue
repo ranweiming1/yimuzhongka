@@ -39,7 +39,7 @@
 					<view class="li-title">
 						{{item.cateTitle}}
 					</view>
-					<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in rList">
+					<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in item.childsList">
 						<view class="imgpp">
 							<image :src="ite.imgUrl" mode=""></image>
 						</view>
