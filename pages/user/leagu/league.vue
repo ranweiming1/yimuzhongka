@@ -86,9 +86,9 @@
 		</view>
 
 		<view class="form-item">
-			<view class="uni-form-item">
+			<!-- <view class="uni-form-item">
 				<view class="title"><text>主营行业</text></view>
-				<view class="item-cont"  @tap="beCareful">
+				<view class="item-cont" @tap="beCareful">
 					<view class="imgBox">
 						<image src="../../../static/icon_26.png" mode=""></image>
 					</view>
@@ -97,8 +97,8 @@
 					</view>
 
 				</view>
-			</view>
-			<view class="uni-form-item">
+			</view> -->
+			<!-- <view class="uni-form-item">
 				<view class="title"><text>主营汽车品牌</text></view>
 				<view class="imgBox">
 					<image src="../../../static/icon_26.png" mode=""></image>
@@ -106,7 +106,7 @@
 				<view class="cont">
 					<text>奥迪</text>
 				</view>
-			</view>
+			</view> -->
 			<view class="uni-form-item">
 				<view class="title"><text>主营分类</text></view>
 				<view class="imgBox">
@@ -146,6 +146,47 @@
 			</view>
 		</view>
 
+		<view class="class-mask" v-if="classType">
+			<view class="Box">
+				<scroll-view class="left" scroll-y style="height: 100%">
+					<view :class="id==index?'on':'none'" @tap="togLi(index)" v-for="(item ,index) in allList" :key=item.id>
+						<text v-if='id==index' class="image"></text>
+						<text>{{item.cateTitle}}</text>
+					</view>
+				</scroll-view>
+				<view class="class-mask-right">
+					<scroll-view scroll-y :scroll-top="scrollTop" scroll-with-animation>
+						<view class="li-content" v-for="(item , index) in rList" @tap="tiaozhuan(shopsId,isOK,item.id)">
+							<view class="li-title">
+								{{item.cateTitle}}
+							</view>
+							<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in rList">
+								<view class="imgpp">
+									<image :src="ite.imgUrl" mode=""></image>
+								</view>
+								<view class="zhiya">
+									<text>{{ite.cateTitle}}</text>
+								</view>
+							</view>
+
+
+						</view>
+					</scroll-view>
+
+					<view class="mask-buttom">
+						<view class="mask-buttom-cancel">
+							取消
+						</view>
+						<view class="mask-buttom-confirm">
+							确定
+						</view>
+					</view>
+
+				</view>
+
+			</view>
+
+		</view>
 
 	</view>
 </template>
@@ -180,10 +221,32 @@
 				isActive: '',
 				industry: '',
 				isMask: false,
+				height: "",
+				allList: [],
+				rList: {},
+				id: 0,
+				classType: true,
 			}
 		},
 		onLoad: function() {
 			var _this = this
+			if (this.classType) {
+				uni.setNavigationBarTitle({
+					title: '商家入驻（选择主营分类）'
+				})
+			}
+			this.height = uni.getSystemInfoSync().windowHeight;
+			this.$https({
+				url: '/api/oauth/shop/mall-lists',
+				data: {},
+				dengl: true,
+				success: function(res) {
+					_this.allList = res.data.data.goodsCates
+					_this.rList = res.data.data.goodsCates[0].childsList
+
+				},
+			})
+
 			this.$https({
 				url: '/api/shop/appr-info',
 				data: {},
@@ -224,6 +287,10 @@
 						})
 					}
 				})
+			},
+			togLi(index, id) {
+				this.id = index;
+				this.rList = this.AllList[index].childsList
 			},
 			activeCss(index) {
 				this.isActive = index
@@ -385,6 +452,153 @@
 		// padding-bottom: 150upx;
 	}
 
+	.class-mask {
+		height: 100%;
+		width: 100%;
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background-color: #FFFFFF;
+		z-index: 99;
+
+		.Box {
+			width: 750upx;
+			overflow: hidden;
+			height: 100%;
+
+			.li-content {
+				font-size: 26rpx;
+				color: #333;
+				overflow: hidden;
+
+				.li-title {
+					margin-top: 10rpx;
+					text-align: left;
+					padding-left: 25rpx;
+					padding-bottom: 25rpx;
+				}
+			}
+
+			.li-content:nth-child(n+1) {
+				margin-top: 35rpx;
+			}
+
+
+
+			.left {
+				text-align: center;
+				width: 170upx;
+				height: 1135upx;
+				float: left;
+				background-color: #f6f6f6;
+
+				.on {
+					width: 100%;
+					box-sizing: border-box;
+					// height: 90upx;
+					background-color: #fff;
+					padding: 25rpx 25rpx;
+					margin-top: 25rpx;
+					position: relative;
+
+					.image {
+						position: absolute;
+						background: #2b5cff;
+						width: 8rpx;
+						height: 80%;
+						display: block;
+						left: 0;
+						top: 0;
+						bottom: 0;
+						right: 0;
+						margin: auto;
+						margin-left: 0;
+						border-radius: 5rpx;
+
+					}
+
+					text {
+						color: #007AFF;
+						font-size: 26upx;
+					}
+				}
+
+				.none {
+					margin-top: 25rpx;
+					width: 100%;
+					box-sizing: border-box;
+					padding: 25rpx 25rpx;
+					background-color: #f6f6f6;
+
+					text {
+						color: #333;
+						font-size: 26upx;
+						margin-left: 15rpx;
+					}
+				}
+			}
+
+			.class-mask-right {
+				width: calc(100% - 170rpx);
+				text-align: center;
+				overflow: hidden;
+				background-color: #fff;
+				height: 100%;
+
+				scroll-view {
+					height: calc(100% - 200rpx);
+				}
+
+				.mask-buttom {
+					height: 200rpx;
+					line-height: 200rpx;
+					padding: 20rpx 30rpx;
+					box-sizing: border-box;
+					overflow: hidden;
+					view{
+						width:calc(50% - 15rpx);
+						border-radius: 45rpx;
+						background-color: #ccc;
+						height: 80rpx;
+						line-height: 80rpx;
+					}
+					view:first-child{
+						float: left;
+					}
+					view:last-child{
+						float: right;
+					}
+				}
+
+				.li {
+					margin-bottom: 40upx;
+					width: 33.33%;
+					float: left;
+
+					.imgpp {
+						image {
+							width: 120upx;
+							height: 120upx;
+						}
+					}
+
+					.zhiya {
+						text {
+							font-size: 26upx;
+							color: #333;
+							line-height: 50upx;
+						}
+					}
+				}
+
+			}
+
+		}
+
+	}
+
 	.mask-item {
 		width: 100%;
 		height: 100%;
@@ -495,10 +709,12 @@
 		border-bottom: 1rpx solid #f1f1f1;
 		overflow: hidden;
 		padding-right: 30rpx;
-		.item-cont{
+
+		.item-cont {
 			height: 100%;
 			overflow: hidden;
 		}
+
 		.title {
 			float: left;
 			color: #666666;
