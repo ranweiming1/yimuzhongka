@@ -7,6 +7,9 @@
 
 		<!-- 头部 -->
 		<view class="top">
+			<view class="topImg" @tap="toUser">
+				<image src="../../../static/icon_26-2.png" mode=""></image>
+			</view>
 			<view class="textBox">
 				<text>任务中心</text>
 			</view>
@@ -330,7 +333,12 @@
 					}
 				})
 			},
-
+			toUser:function(){
+				console.log(232)
+				uni.reLaunch({
+					url:'../user'
+				})
+			},
 			renWu: function(item, id) {
 				// console.log(id)
 				var _this = this
@@ -415,6 +423,16 @@
 		margin: 0 auto;
 		overflow: hidden;
 		padding-top:50rpx;
+		.topImg{
+			float: left;
+			padding: 30rpx;
+			image{
+				width: 18rpx;
+				height: 32rpx;
+				display: block;
+				
+			}
+		}
 		.textBox {
 			padding-left: 40%;
 
