@@ -81,7 +81,6 @@
 			// this.height = uni.getSystemInfoSync().windowHeight;
 			uni.getSystemInfo({
 				success(res) {
-					console.log(res.windowHeight, res);
 
 					let view = uni.createSelectorQuery().select('.top');
 					view.boundingClientRect(data => {

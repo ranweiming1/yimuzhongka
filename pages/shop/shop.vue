@@ -163,7 +163,8 @@
 				activeColor: '#2b5cff',
 				scrollLeft: '30rpx',
 				banner: [],
-				quan: []
+				quan: [],
+				id:''
 			}
 		},
 		components: {
@@ -173,6 +174,7 @@
 			// console.log(2222)
 			var shopsId = option.id
 			this.shopsId = option.id
+			this.id=option.s
 			var _this = this
 			this.$https({
 					url: '/api/shop/store-index',
@@ -264,8 +266,8 @@
 				this.value = ''
 			},
 			back: function() {
-				uni.navigateBack({
-					delta: 1
+				uni.reLaunch({
+					url: '../index/productDetails?id='+this.id
 				})
 			},
 			tiaozhuan: function(type, businessId) {

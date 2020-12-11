@@ -192,7 +192,7 @@
 							<view class="add" @tap="jia">+</view>
 						</view>
 					</view>
-					<view style='overflow:hidden;position:fixed;bottom:20rpx;left:5;width:90%;'>
+					<view style='overflow:hidden;position:fixed;bottom:20rpx;left:5;width:90%;height:40rpx;z-index:99999;'>
 						<button style='width:40%;float:left;' @tap='gouwuche'>加入购物车</button>
 						<button class="btn" @tap='goumaia'>立即购买</button>
 					</view>
@@ -557,9 +557,8 @@
 
 			},
 			jindian(shopId) {
-				// console.log(shopId)
 				uni.navigateTo({
-					url: '../shop/shop?id=' + shopId
+					url: '../shop/shop?id=' + shopId+'&s='+this.deId
 				})
 			},
 			togPing() {
@@ -650,7 +649,7 @@
 							provider: 'weixin',
 							scene: 'WXSceneSession',
 							type: 0,
-							href: 'https://www.yimuzk.com?myCode=' + res.data.data.myCode + ',' + _this.deId,
+							href: 'http://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId,
 							imageUrl: _this.list.goodsImgss[0],
 							title: '我在毅木重卡发现了一个好东西,分享给你看看',
 							summary: '商品描述',
