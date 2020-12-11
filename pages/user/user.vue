@@ -259,7 +259,7 @@
 			<view style='float:left;margin-left:20rpx;'>推荐产品</view>
 			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:20rpx;float:left;margin-top:10rpx;'></view>
 			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:15rpx;'></view>
-			<image src='../../static/n8.png' style='float:right;width:30rpx;height:30rpx;margin-right:20rpx;margin-top:10rpx;'
+			<image src='../../static/n8.png' style='float:right;width:30rpx;height:30rpx;padding: 0 28rpx; padding-top: 10rpx;'
 			 @tap='q'></image>
 		</view>
 		<view class="activeCss">
