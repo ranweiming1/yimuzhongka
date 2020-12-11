@@ -203,7 +203,7 @@
 								if (_this.goodsId) {
 									uni.navigateTo({
 										url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr +
-											'&zhid=' + _this.zhid + '&money=' + _this.moneys + '&id=' + _this.youhuiid + '&dingdan=' + _this.dingdan +
+											'&zhid=' + res.data.data + '&money=' + _this.moneys + '&id=' + _this.youhuiid + '&dingdan=' + _this.dingdan +
 											'&shopId=' + _this.shopId + '&y=' + JSON.stringify(_this.y)
 									})
 								} else {
