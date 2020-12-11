@@ -19,7 +19,7 @@
 			</view>
 			<!-- 点击图标也可修改昵称 -->
 			<view class="right">
-				<image :src="headimg" mode="" @tap='toux'></image>
+				<image :src="headimg?headimg:'../../static/img_06.jpg'" mode="" @tap='toux'></image>
 			</view>
 		</view>
 		<view class="basic-list">
