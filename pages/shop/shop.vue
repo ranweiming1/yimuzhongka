@@ -98,21 +98,28 @@
 				<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:15rpx;'></view>
 			</view>
 
-			<view class="hahah list uni-flex uni-column">
-				<view class="content" @click="detail(item.goodsId)" v-for="(item , index) in gList">
+			<view class="activeCss">
+				<view class="content-item" @click="detail(item.goodsId)" v-for="(item , index) in gList">
 					<view class="imgBox">
-						<image :src="item.goodsLogo" mode="widthFix"></image>
+						<image :src="item.goodsLogo" mode=""></image>
 					</view>
-					<view class="txt_a">
-						<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-						<text class="titleText">{{item.goodsName}}</text>
-						<view class="txt_aa">
-							<!-- <text>买一送三</text> -->
-							<text v-for="(items,indexs) in item.couponDTOS">满{{items.condition}}-{{items.money}}元</text>
+					<view class="content-item-text">
+						<view class="title_top">
+							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+							<text class="titleText">{{item.goodsName}}</text>
 						</view>
-						<view class="txt_aas">
-							<text>税后价：<text>￥{{item.shopPrice?item.shopPrice:'暂无价格'}}</text></text>
-							<text>包邮</text>
+						<view class="item-coupon">
+							<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+								<text>满{{items.condition}}-{{items.money}}元</text>
+							</view>
+							<view class="coupon-item">
+								<text>包邮</text>
+							</view>
+							
+						</view>
+						<view class="item-price">
+							<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+							<text class="shop-sales">销量：{{item.salesSum}}</text>
 						</view>
 
 					</view>
@@ -164,7 +171,7 @@
 				scrollLeft: '30rpx',
 				banner: [],
 				quan: [],
-				id:''
+				id: ''
 			}
 		},
 		components: {
@@ -174,13 +181,13 @@
 			// console.log(2222)
 			var shopsId = option.id
 			this.shopsId = option.id
-			this.id=option.s
+			this.id = option.s
 			var _this = this
 			this.$https({
 					url: '/api/shop/store-index',
 					data: {
-						shopId: option.id
-						// shopId: 6
+						// shopId: option.id
+						shopId: 6
 					},
 					dengl: false,
 					success: function(res) {
@@ -267,7 +274,7 @@
 			},
 			back: function() {
 				uni.reLaunch({
-					url: '../index/productDetails?id='+this.id
+					url: '../index/productDetails?id=' + this.id
 				})
 			},
 			tiaozhuan: function(type, businessId) {
@@ -287,6 +294,12 @@
 </script>
 
 <style lang="scss">
+	.activeCss{
+		padding: 20rpx 28rpx;
+		.content-item{
+			background-color: #fff;
+		}
+	}
 	.bg {
 		position: absolute;
 		top: 0upx;
@@ -596,10 +609,10 @@
 			height: 500rpx;
 
 			.imgBox {
-				
+
 				image {
 					width: 100%;
-					height: 320rpx!important;
+					height: 320rpx !important;
 					float: left;
 				}
 			}

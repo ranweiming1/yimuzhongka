@@ -334,7 +334,6 @@
 				})
 			},
 			toUser:function(){
-				console.log(232)
 				uni.reLaunch({
 					url:'../user'
 				})

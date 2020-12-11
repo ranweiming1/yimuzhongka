@@ -48,7 +48,7 @@
 			</view>
 		</view>
 
-		<view :class="tog_Ca?'':'togActive'">
+		<view :class="tog_Ca?'clearCss':'togActive'">
 			<!-- 头部 -->
 			<view class="top toubu1">
 				<view class="textBox">
@@ -90,22 +90,28 @@
 
 			<!-- 热门推荐 -->
 			<view class="hahah list uni-flex uni-column">
-				<view class="content " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
+				<view class="content-item " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
 					<view class="imgBox">
 						<image :src="item.goodsLogo" mode="widthFix"></image>
 					</view>
-					<view class="txt_a">
+					<view class="content-item-text">
 						<view class="title_top">
 
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
 							<text class="titleText">{{item.goodsName}}</text>
 						</view>
-						<view class="txt_aa" v-for="(items,indexs) in item.couponDTOS">
-							<text>满{{items.condition}}-{{items.money}}元</text>
+						<view class="item-coupon">
+							<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+								<text>满{{items.condition}}-{{items.money}}元</text>
+							</view>
+							<view class="coupon-item">
+								<text>包邮</text>
+							</view>
 						</view>
-						<view class="txt_aas">
-							<text>税后价：<text>￥{{item.marketPrice?item.marketPrice:'暂无价格'}}</text></text>
-							<text>销量：{{item.salesSum}}</text>
+
+						<view class="item-price">
+							<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+							<text class="shop-sales">销量：{{item.salesSum}}</text>
 						</view>
 
 					</view>
@@ -319,6 +325,14 @@
 </script>
 
 <style lang="scss">
+	.clearCss{
+		.shop-sales {
+						color: #999999;
+						font-size: 22upx;
+						float: right;
+
+					}
+	}
 	.top {
 		width: 710upx;
 		// margin: 20upx;
@@ -698,50 +712,71 @@
 		}
 
 		.list {
-			padding: 0 20rpx;
 			overflow: hidden;
+			padding-left: 30rpx;
+			padding-right: 30rpx;
+			padding-bottom: 80rpx;
 		}
 
-		.content:nth-child(odd) {
-			float: left;
-		}
-
-		.content:nth-child(even) {
-			float: right;
-		}
-
-		.content {
-			margin-top: 30upx;
-			// margin-bottom: 10upx;
+		.content-item {
+			box-sizing: border-box;
+			height: 515rpx;
+			margin-top: 20upx;
 			display: black;
-			width: calc(50% - 13rpx);
+			// width: 330upx;
+			width: calc(50% - 15rpx);
+			// margin-left: 20upx;
 			box-shadow: 0 0 5px #ccc;
 			border-radius: 20upx;
-			padding-bottom: 20upx;
 			overflow: hidden;
-			box-sizing: border-box;
-			height: 500rpx;
+			border: none;
 			padding: 0;
 
+
 			.imgBox {
-				overflow: hidden;
+				height: 320rpx;
 				width: 100%;
 
 				image {
 					width: 100%;
-					height: 320rpx !important;
+					height: inherit;
 					float: left;
 				}
 			}
 
-			.txt_a {
-				padding-top: 10upx;
+			.content-item-text {
+				padding: 10rpx 20rpx;
 				width: 100%;
-				// margin-left: 20upx
 				float: left;
+				height: calc(100% - 320rpx);
 				box-sizing: border-box;
-				margin-left: 0;
-				padding: 0 20rpx 20rpx 20rpx;
+				position: relative;
+
+				.item-coupon {
+					margin-top: 10rpx;
+					// height: 30rpx;
+					line-height: 30rpx;
+
+					.coupon-item {
+						margin-right: 15rpx;
+						display: inline-block;
+
+						text {
+							border: 1px dotted #ff6600;
+							background-color: #fff;
+							font-size: 18upx;
+							line-height: 30upx;
+							padding: 0 8rpx;
+							color: #ff6600;
+							display: block;
+						}
+					}
+
+					.coupon-item:last-child {
+						margin-right: 0;
+					}
+				}
+
 
 				.titleText {
 					overflow: hidden;
@@ -749,60 +784,60 @@
 					display: -webkit-box;
 					-webkit-line-clamp: 2;
 					-webkit-box-orient: vertical;
-				}
-
-
-				text {
-					font-size: 26upx;
+					font-size: 26rpx;
+					display: inline-block;
+					vertical-align: middle;
 				}
 
 				.span_a {
-					background-color: #fff;
-					color: #ff6600;
-					border: 1px solid #ff6600;
+					background-color: #ff6600;
+					color: #fff;
 					border-radius: 5upx;
-					padding: 5upx 10upx;
+					padding: 5rpx 10rpx;
 					font-size: 18upx;
 					margin-right: 10upx;
-					line-height: 30upx;
+					box-sizing: border-box;
+					line-height: 25rpx;
+					box-sizing: border-box;
+					display: inline-block;
+					vertical-align: middle;
 				}
 
-				.txt_aa {
-					text {
-						border: 1px dotted #ff3333;
-						background-color: #fff;
-						font-size: 16upx;
-						line-height: 30upx;
-						padding: 5upx 10upx;
-						color: #ff3333;
-						margin-right: 6upx;
-						font-size: 20upx;
-					}
-				}
 
-				.txt_aas {
-					padding-top: 10upx;
 
-					text {
-						color: #333;
+				.item-price {
+					// padding-top: 10upx;
+					position: absolute;
+					width: calc(100% - 40rpx);
+					// line-height: 40rpx;
+					bottom: 15rpx;
+					left: 20rpx;
+					right: 20rpx;
+					line-height: 50rpx;
+
+					.price-text {
+						color: #ff6600;
 						font-size: 26upx;
-
-						text {
-							color: #ff3333;
-							font-size: 26upx;
-							font-weight: bold;
-						}
+						font-weight: bold;
 					}
 
-					text:nth-child(2) {
+					.shop-sales {
 						color: #999999;
-						font-size: 24upx;
+						font-size: 22upx;
 						float: right;
-						line-height: 50upx;
+
 					}
 				}
 
 			}
+		}
+
+		.content-item:nth-child(even) {
+			float: right;
+		}
+
+		.content-item:nth-child(odd) {
+			float: left;
 		}
 
 		.Boxaaa {
