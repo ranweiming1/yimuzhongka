@@ -530,6 +530,7 @@
 			align-items: center;
 			flex-wrap: nowrap;
 			padding-left: 30rpx;
+			border-right: none;
 		}
 
 		.color text {

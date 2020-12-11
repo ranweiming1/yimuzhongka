@@ -207,8 +207,8 @@
 					 @tap='quanxuan'>√</view>
 					<text style='margin-left:20rpx;float:left;margin-top:10rpx;'>全选</text>
 					<view style='float:left;margin-top:10rpx;'>
-						<view style='float:left;color:#f51111;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'>￥</view>
-						<view style='float:left;color:#f51111;font-size:30rpx;'>{{jiage}}</view>
+						<view style='float:left;color:#ff6600;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'>￥</view>
+						<view style='float:left;color:#ff6600;font-size:30rpx;'>{{jiage}}</view>
 						<view style='float:left;color:#999;font-size:26rpx;margin-left:10rpx;'>(含运费)</view>
 					</view>
 				</view>
@@ -335,6 +335,7 @@
 						})
 					})
 					_this.numa = res.data.data.cartList.length
+					_this.xuan=false
 					// _this.xuanzho.map(function(n, index) {
 					// 	n.map(function(z, indexs) {
 					// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
@@ -1164,6 +1165,7 @@
 		width: 100%;
 		height: 100%;
 		background: rgba(0, 0, 0, 0.2);
+		z-index: 99;
 	}
 
 	.mask_content {
@@ -1174,6 +1176,7 @@
 		right: 60rpx;
 		border-radius: 15rpx;
 		padding: 30rpx;
+		z-index: 999;
 
 		.title {
 			text {
@@ -1359,7 +1362,8 @@
 				float: left;
 				// display: flex;
 
-				color: #ff0000;
+				color: #ff6600;
+				font-weight: bold;
 
 				text {
 
