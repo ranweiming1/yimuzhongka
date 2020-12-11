@@ -325,14 +325,19 @@
 </script>
 
 <style lang="scss">
-	.clearCss{
+	.clearCss {
 		.shop-sales {
-						color: #999999;
-						font-size: 22upx;
-						float: right;
+			color: #999999;
+			font-size: 22upx;
+			float: right;
 
-					}
+		}
+
+		.item-price {
+			button: rpx;
+		}
 	}
+
 	.top {
 		width: 710upx;
 		// margin: 20upx;
