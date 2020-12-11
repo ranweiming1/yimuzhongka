@@ -21,65 +21,71 @@
 				<view style='margin:30rpx;text-align:center;'>暂无商品</view>
 			</view>
 			<view class="listBoxs" v-for="(item,index) in  cartList">
-					<view class="radios">
-						<!-- 店铺名称待确认 -->
-						<label class="radio">
-							<!--加个d以区分某个店铺-->
-							<view style='width:20rpx;height:20rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-top:10rpx;position:relative;' @tap='dianpu(index)'>
-								<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;' v-if='shuju[index].dian'></view>
-							</view>
-						</label>
-						<text @tap='t(item.shopId)'>{{item.storeShopDTO.shopName}}</text>
-						<image src="../../static/icon_26.png" mode=""></image>
-					</view>
-					<view class="xinxi">
-						<uni-swipe-action>
+				<view class="radios">
+					<!-- 店铺名称待确认 -->
+					<label class="radio">
+						<!--加个d以区分某个店铺-->
+						<view style='width:20rpx;height:20rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
+						 @tap='dianpu(index)'>
+							<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;'
+							 v-if='shuju[index].dian'></view>
+						</view>
+					</label>
+					<text @tap='t(item.shopId)'>{{item.storeShopDTO.shopName}}</text>
+					<image src="../../static/icon_26.png" mode=""></image>
+				</view>
+				<view class="xinxi">
+					<uni-swipe-action>
 						<!-- 订单信息 -->
 						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0'>
 							<uni-swipe-action-item>
-							<view class="radi">
-								<view style='width:20rpx;height:20rpx;border:solid #ddd 1px;border-radius:50%;float:left;margin-top:10rpx;position:relative;' @tap='shangpin(index,n)'>
-									<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;' v-if='shuju[index].s[n]'></view>
-								</view>
-							</view>
-
-							<view class="imgBox_a" @tap='openPopup(index,n)'>
-								<image :src="item.goodsLogo" mode=""></image>
-							</view>
-							<view class="txt_c">
-								<view class="title" @tap='openPopup(index,n)'>
-									<text>{{item.goodsName}}</text>
-								</view>
-								<view class="spec" @tap='openPopup(index,n)'>
-									<text>已选：＂{{i.specKeyName}}＂</text>
-								</view>
-								<!-- <view class=""> -->
-
-
-								<view class="radColor">
-									<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
+								<view class="radi">
+									<view style='width:20rpx;height:20rpx;border:solid #ddd 1px;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
+									 @tap='shangpin(index,n)'>
+										<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;'
+										 v-if='shuju[index].s[n]'></view>
+									</view>
 								</view>
 
-								<!-- 数量 -->
-								<!-- <view class="jia">
+								<view class="imgBox_a" @tap='openPopup(index,n)'>
+									<image :src="item.goodsLogo" mode=""></image>
+								</view>
+								<view class="txt_c">
+									<view class="title" @tap='openPopup(index,n)'>
+										<text>{{item.goodsName}}</text>
+									</view>
+									<view class="spec" @tap='openPopup(index,n)'>
+										<text>已选：＂{{i.specKeyName}}＂</text>
+									</view>
+									<!-- <view class=""> -->
+
+
+									<view class="radColor">
+										<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
+									</view>
+
+									<!-- 数量 -->
+									<!-- <view class="jia">
 								<text>X{{i.goodsNum}}</text>
 							</view> -->
-								<view class="num">
-									<view @tap='jian(index,n)'>-</view>
-									<view class="numm" @tap="valRe1(index,n,i.goodsNum)">
-										{{i.goodsNum}}
+									<view class="num">
+										<view @tap='jian(index,n)'>-</view>
+										<view class="numm" @tap="valRe1(index,n,i.goodsNum)">
+											{{i.goodsNum}}
+										</view>
+										<view @tap='jia(index,n)'>+</view>
 									</view>
-									<view @tap='jia(index,n)'>+</view>
 								</view>
-							</view>
-							<!-- </view> -->
-							<template v-slot:right>
-							<view style='width:90rpx;background:#ff3333;color:#fff;height:100%;' @tap='shanc(index,n)'><view style='top:27%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;font-size:29rpx;'>删除</view></view>
-							</template>
+								<!-- </view> -->
+								<template v-slot:right>
+									<view style='width:90rpx;background:#ff3333;color:#fff;height:100%;' @tap='shanc(index,n)'>
+										<view style='top:27%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;font-size:29rpx;'>删除</view>
+									</view>
+								</template>
 							</uni-swipe-action-item>
 						</view>
-						</uni-swipe-action>
-					</view>
+					</uni-swipe-action>
+				</view>
 			</view>
 			<!-- 购物车弹框 -->
 			<view class="mask" v-if="mask_show"></view>
@@ -123,37 +129,75 @@
 			<view style='background:#fff;overflow:hidden;padding-bottom:200rpx;border-top:30rpx solid #eee;'>
 				<view style='overflow:hidden;margin-top:20rpx;border-bottom:1px solid #ddd;padding-bottom:10rpx;text-align:right;'>
 					<view style='float:left;margin-left:20rpx;font-size:36rpx;color:#333;font-weight:bold;'>热门推荐</view>
-					<image src='../../static/n8.png' style='width:34rpx;height:34rpx;display:inline-block;margin-top:10rpx;margin-right:20rpx;' @tap='qy'></image>
+					<image src='../../static/n8.png' style='width:34rpx;height:34rpx;display:inline-block;margin-top:10rpx;margin-right:20rpx;'
+					 @tap='qy'></image>
 					<view style='float:right;font-size:24rpx;color:#999;font-weight:500;line-height:50rpx;margin-right:20rpx;' @tap='gengduo'>更多</view>
 				</view>
-				<view class='lose' v-for='item in tuijian' style='overflow:hidden;margin:20rpx;position:relative;padding-bottom:20rpx;'
-				 @tap='g(item.goodsId)' v-if='y'>
-					<image :src='item.goodsLogo' style='width:200rpx;height:200rpx;float:left;'></image>
-					<view style='float:left;width:500rpx;margin-left:10rpx;'>
-						<view style='font-size:30rpx;font-family:Microsoft YaHei;'>{{item.goodsName}}</view>
-						<view style='margin-top:10rpx;overflow:hidden;'>
-							<view v-for='ite in item.couponDTOS' style='border:1px dashed #ff3333;background:#fff;line-height:30rpx;padding:5 rpx 10rpx;color:#333;margin-right:20rpx;font-size:20rpx;float:left;margin-left:10rpx;color:#ff3333;'>满{{ite.condition}}-{{ite.money}}元</view>
+				<view class="clearCss">
+					<view class='content-item' v-for='item in tuijian' @tap='g(item.goodsId)' v-if='y'>
+						<view class="imgBox">
+							<image :src="item.goodsLogo" mode="widthFix"></image>
 						</view>
-						<view style='overflow:hidden;position:absolute;bottom:20rpx;left:210rpx;width:500rpx;'>
-							<view style='font-size:32rpx;color:#333;float:left;line-height:50rpx;'>税后价:</view>
-							<view style='float:left;color:#f61c1c;font-size:30rpx;font-weight:700;margin-top:10rpx;'>
-								<view style='float:left;color:#f61c1c;font-size:20rpx;margin-top:10rpx;'>￥</view>{{item.shopPrice.toFixed(2)}}
+						<view class="content-item-text">
+							<view class="title_top">
+								<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+								<text class="titleText">{{item.goodsName}}</text>
 							</view>
-							<view style='float:right;color:#999;font-size:24rpx;margin-right:20rpx;line-height:50rpx;'>销量:{{item.salesSum}}</view>
+							<view class="item-coupon">
+								<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+									<text>满{{items.condition}}-{{items.money}}元</text>
+								</view>
+								<view class="coupon-item">
+									<text>包邮</text>
+								</view>
+							</view>
+							<view class="diZhi">
+								<text>{{item.sendAddr}}</text>
+							</view>
+							<view class="item-price">
+								<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+								<view class="but_Icon">
+									<view class="icons">
+										<text class="icon1" @click.stop='dianpu(item.shopId)'>旺铺</text>
+										<view class="icon2">
+											<image src="../../static/qiyerenzheng.png" mode="">
+										</view>
+										<text class="icon2">购</text>
+										<text class="icon2">品</text>
+									</view>
+
+								</view>
+
+							</view>
 						</view>
 					</view>
 				</view>
-				<view v-for='item in tuijian' style='width:45%;margin:20rpx 2.5%;float:left;border-radius:10rpx;box-shadow:0px 0px 20px #ccc;box-sizing:border-box;' @tap='g(item.goodsId)' v-if='!y'>
-					<image :src='item.goodsLogo' style='width:100%;' mode='widthFix'></image>
-					<view style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:20rpx;'>
-						<view v-if='item.selfStatus=="Y"' style='border:1px solid #ff6600;padding:0 10rpx;display:inline-block;font-size:22rpx;'>自营</view>
-						{{item.goodsName}}
+				<view class="activeCss">
+					<view v-for='item in tuijian' class="content-item" @tap='g(item.goodsId)' v-if='!y'>
+						<view class="imgBox">
+							<image :src="item.goodsLogo" mode=""></image>
+						</view>
+						<view class="content-item-text">
+							<view class="title_top">
+								<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+								<text class="titleText">{{item.goodsName}}</text>
+							</view>
+							<view class="item-coupon">
+								<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+									<text>满{{items.condition}}-{{items.money}}元</text>
+								</view>
+								<view class="coupon-item">
+									<text>包邮</text>
+								</view>
+
+							</view>
+							<view class="item-price">
+								<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+								<text class="shop-sales">销量：{{item.salesSum}}</text>
+							</view>
+						</view>
 					</view>
-					<view style='padding:0 20rpx;'>
-						<view v-for='ite in item.couponDTOS' style='display:inline-block;font-size:22rpx;padding:0 5rpx;border:1px dashed #ff6600;color:#ff6600;margin-left:10rpx;'>{{'满'+ite.condition+'-'+ite.money+'元'}}</view>
-					</view>
-					<view style='font-size:26rpx;color:#999;padding:0 20rpx;margin-top:20rpx;'>销量:{{item.salesSum}}</view>
-					<view style='padding:0 20rpx;color:#000;font-size:26rpx;margin-bottom:20rpx;'>税后价:<view style='color:#ff3333;font-size:19rpx;display:inline-block;'>￥</view><view style='display:inline-block;color:#ff3333;font-size:22rpx;'>{{item.shopPrice.toFixed(2)}}</view></view>
+
 				</view>
 			</view>
 			<!-- 底部 -->
@@ -162,7 +206,11 @@
 					<view :style='xuan?"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;background:#2b5cff;border:none;":"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"'
 					 @tap='quanxuan'>√</view>
 					<text style='margin-left:20rpx;float:left;margin-top:10rpx;'>全选</text>
-					<view style='float:left;margin-top:10rpx;'><view style='float:left;color:#f51111;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'>￥</view><view style='float:left;color:#f51111;font-size:30rpx;'>{{jiage}}</view><view style='float:left;color:#999;font-size:26rpx;margin-left:10rpx;'>(含运费)</view></view>
+					<view style='float:left;margin-top:10rpx;'>
+						<view style='float:left;color:#f51111;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'>￥</view>
+						<view style='float:left;color:#f51111;font-size:30rpx;'>{{jiage}}</view>
+						<view style='float:left;color:#999;font-size:26rpx;margin-left:10rpx;'>(含运费)</view>
+					</view>
 				</view>
 				<view class="rightA" @tap='tiaozhuan'>
 					<text>{{shanchua?'结算':'删除'}}</text>
@@ -256,10 +304,10 @@
 				numa: 0,
 				s: false,
 				tuijian: [],
-				y:true,
-				sta:0,
-				huad:[],
-				baocun:[]
+				y: true,
+				sta: 0,
+				huad: [],
+				baocun: []
 			}
 		},
 		onShow() {
@@ -277,13 +325,13 @@
 							dian: false,
 							s: []
 						})
-						_this.$set(_this.huad,index,[])
+						_this.$set(_this.huad, index, [])
 						n.specList.map(function(z, indexx) {
 							if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
 								_this.s = true
 							}
 							_this.$set(_this.shuju[index].s, indexx, false)
-							_this.$set(_this.huad[index],indexx,false)
+							_this.$set(_this.huad[index], indexx, false)
 						})
 					})
 					_this.numa = res.data.data.cartList.length
@@ -512,12 +560,12 @@
 				})
 				this.$set(this.guige[index].g[inde], 'xuan', true)
 				this.keyName = ''
-				for (var i = this.guige.length-1; i < this.guige.length; i--) {
+				for (var i = this.guige.length - 1; i < this.guige.length; i--) {
 					//数组排序
 					this.guige[i].g.map(function(c) {
 						if (c.xuan) {
 							if (i == _this.guige.length - 1) {
-								_this.keyName += _this.guige[i].name + ':' + c.item+','
+								_this.keyName += _this.guige[i].name + ':' + c.item + ','
 							} else {
 								_this.keyName += _this.guige[i].name + ':' + c.item
 							}
@@ -734,41 +782,41 @@
 			},
 			gouwuche: function(e) {
 				//判断点的是店铺还是商品
-				this.shuju.map((n,index)=>{
-					n.dian=false
-					n.s.map((z,cc)=>{
-						this.shuju[index].s[cc]=false
+				this.shuju.map((n, index) => {
+					n.dian = false
+					n.s.map((z, cc) => {
+						this.shuju[index].s[cc] = false
 					})
 				})
-				e.detail.value.map((n,index)=>{
-					this.cartList.map((z,inde)=>{
-						if(n.substring(1)==z.goodsId){
-							this.shuju[inde].dian=true
-							this.shuju[inde].s.map((c,zz)=>{
-								this.shuju[inde].s[zz]=true
+				e.detail.value.map((n, index) => {
+					this.cartList.map((z, inde) => {
+						if (n.substring(1) == z.goodsId) {
+							this.shuju[inde].dian = true
+							this.shuju[inde].s.map((c, zz) => {
+								this.shuju[inde].s[zz] = true
 							})
 						}
 					})
 				})
 				//判断是否全选
-				
-				if(e.detail.value[e.detail.value.length-1].indexOf('d')!=-1){
+
+				if (e.detail.value[e.detail.value.length - 1].indexOf('d') != -1) {
 					//点的是店铺
-					this.cartList.map((n,index)=>{
-						if(n.goodsId==e.detail.value[e.detail.value.length-1].substring(1)){
-							this.shuju[index].dian=true
-							this.shuju[index].s.map((c,ind)=>{
-								this.shuju[index].s[ind]=true
+					this.cartList.map((n, index) => {
+						if (n.goodsId == e.detail.value[e.detail.value.length - 1].substring(1)) {
+							this.shuju[index].dian = true
+							this.shuju[index].s.map((c, ind) => {
+								this.shuju[index].s[ind] = true
 							})
 						}
 					})
 				}
 				//判断全选按钮
-				this.jiage=0
-				this.shuju.map((n,index)=>{
-					n.s.map((z,ind)=>{
-						if(z){
-							this.jiage+=this.cartList[index].specList[ind].goodsPrice*this.cartList[index].specList[ind].goodsNum
+				this.jiage = 0
+				this.shuju.map((n, index) => {
+					n.s.map((z, ind) => {
+						if (z) {
+							this.jiage += this.cartList[index].specList[ind].goodsPrice * this.cartList[index].specList[ind].goodsNum
 						}
 					})
 				})
@@ -830,10 +878,10 @@
 				if (this.shanchua) {
 					var ap = []
 					var _this = this
-					var shuju=[]
-					this.shuju.map(function(n){
-						n.s.map(function(z){
-							if(z){
+					var shuju = []
+					this.shuju.map(function(n) {
+						n.s.map(function(z) {
+							if (z) {
 								shuju.push(z)
 							}
 						})
@@ -845,8 +893,8 @@
 					} else {
 						this.shuju.map(function(n, index) {
 							var arr = []
-							arr[index]={}
-							arr[index].name = _this.cartList[index].storeShopDTO?_this.cartList[index].storeShopDTO.shopName:''
+							arr[index] = {}
+							arr[index].name = _this.cartList[index].storeShopDTO ? _this.cartList[index].storeShopDTO.shopName : ''
 							n.s.map(function(x, indexx) {
 								if (x) {
 									_this.cartList[index].specList[indexx].xuanzhong = true
@@ -962,97 +1010,109 @@
 					url: '../index/productDetails?id=' + id
 				})
 			},
-			t:function(id){
+			t: function(id) {
 				uni.navigateTo({
-					url:'../shop/shop?id='+id
+					url: '../shop/shop?id=' + id
 				})
 			},
-			qy:function(){
-				this.y=!this.y
+			qy: function() {
+				this.y = !this.y
 			},
-			huadong:function(e){
-				this.sta=e.changedTouches[0].clientX
+			huadong: function(e) {
+				this.sta = e.changedTouches[0].clientX
 			},
-			huadongjieshu:function(e){
-				if(this.sta-e.changedTouches[0].clientX>100){
-					this.huad[e.currentTarget.dataset.index][e.currentTarget.dataset.n]=true
+			huadongjieshu: function(e) {
+				if (this.sta - e.changedTouches[0].clientX > 100) {
+					this.huad[e.currentTarget.dataset.index][e.currentTarget.dataset.n] = true
 				}
 			},
-			shanc:function(index,n){
-				this.$https({url:'/api/shop/order-del-spec-goods',data:{goodsId:this.cartList[index].goodsId,specKey:this.cartList[index].specList[n].specKey},method:'post',success:res=>{
-					if(res.data.code==0){
-						this.$https({url:'/api/shop/order-cart-list',data:{},success:res=>{
-							this.numa=0
-							this.s=false
-							res.data.data.cartList.map(n=>{
-								n.specList.map(z=>{
-									if(z.cartGoodsStatus==1||z.cartGoodsStatus==2){
-										this.s=true
+			shanc: function(index, n) {
+				this.$https({
+					url: '/api/shop/order-del-spec-goods',
+					data: {
+						goodsId: this.cartList[index].goodsId,
+						specKey: this.cartList[index].specList[n].specKey
+					},
+					method: 'post',
+					success: res => {
+						if (res.data.code == 0) {
+							this.$https({
+								url: '/api/shop/order-cart-list',
+								data: {},
+								success: res => {
+									this.numa = 0
+									this.s = false
+									res.data.data.cartList.map(n => {
+										n.specList.map(z => {
+											if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
+												this.s = true
+											}
+											this.numa++
+										})
+									})
+									this.cartList = res.data.data.cartList
+									this.shuju[index].s.splice(n, 1)
+									if (this.shuju[index].s.length == 0) {
+										this.shuju.splice(index, 1)
 									}
-									this.numa++
-								})
+									this.huad[index].splice(n, 1)
+									if (this.huad[index].length == 0) {
+										this.huad.splice(index, 1)
+									}
+								}
 							})
-							this.cartList=res.data.data.cartList
-							this.shuju[index].s.splice(n,1)
-							if(this.shuju[index].s.length==0){
-								this.shuju.splice(index,1)
-							}
-							this.huad[index].splice(n,1)
-							if(this.huad[index].length==0){
-								this.huad.splice(index,1)
-							}
-						}})
+						}
 					}
-				}})
+				})
 			},
-			quxiao:function(){
-				this.huad.map((n,index)=>{
-					n.map((x,ind)=>{
-						this.huad[index][ind]=false
+			quxiao: function() {
+				this.huad.map((n, index) => {
+					n.map((x, ind) => {
+						this.huad[index][ind] = false
 					})
 				})
 			},
-			dianpu:function(index){
-				this.shuju[index].dian=!this.shuju[index].dian
-				if(this.shuju[index].dian){
-					this.shuju[index].s.map((n,inde)=>{
-						this.shuju[index].s[inde]=true
+			dianpu: function(index) {
+				this.shuju[index].dian = !this.shuju[index].dian
+				if (this.shuju[index].dian) {
+					this.shuju[index].s.map((n, inde) => {
+						this.shuju[index].s[inde] = true
 					})
-				}else{
-					this.shuju[index].s.map((n,inde)=>{
-						this.shuju[index].s[inde]=false
+				} else {
+					this.shuju[index].s.map((n, inde) => {
+						this.shuju[index].s[inde] = false
 					})
 				}
-				this.jiage=0
-				this.shuju.map((n,index)=>{
-					n.s.map((z,inde)=>{
-						if(z){
-							this.jiage+=this.cartList[index].specList[inde].goodsPrice*this.cartList[index].specList[inde].goodsNum
+				this.jiage = 0
+				this.shuju.map((n, index) => {
+					n.s.map((z, inde) => {
+						if (z) {
+							this.jiage += this.cartList[index].specList[inde].goodsPrice * this.cartList[index].specList[inde].goodsNum
 						}
 					})
 				})
 			},
-			shangpin:function(index,n){
-				var as=!this.shuju[index].s[n]
-				this.$set(this.shuju[index].s,n,as)
-				this.shuju.map((n,index)=>{
-					var num=0
-					n.s.map((z,inde)=>{
-						if(z){
+			shangpin: function(index, n) {
+				var as = !this.shuju[index].s[n]
+				this.$set(this.shuju[index].s, n, as)
+				this.shuju.map((n, index) => {
+					var num = 0
+					n.s.map((z, inde) => {
+						if (z) {
 							num++
 						}
 					})
-					if(num==n.s.length){
-						this.shuju[index].dian=true
-					}else{
-						this.shuju[index].dian=false
+					if (num == n.s.length) {
+						this.shuju[index].dian = true
+					} else {
+						this.shuju[index].dian = false
 					}
 				})
-				this.jiage=0
-				this.shuju.map((n,index)=>{
-					n.s.map((x,inde)=>{
-						if(x){
-							this.jiage+=this.cartList[index].specList[inde].goodsPrice*this.cartList[index].specList[inde].goodsNum
+				this.jiage = 0
+				this.shuju.map((n, index) => {
+					n.s.map((x, inde) => {
+						if (x) {
+							this.jiage += this.cartList[index].specList[inde].goodsPrice * this.cartList[index].specList[inde].goodsNum
 						}
 					})
 				})
@@ -1062,10 +1122,19 @@
 </script>
 
 <style lang="scss">
+	.activeCss{
+		padding: 0 28rpx;
+		padding-bottom: 10rpx;
+	}
+	.clearCss{
+	.content-item{
+		padding: 20rpx 28rpx;
+	}
+	}
 	.bcg {
 		background-color: #eeeeee;
-		width:100%;
-		overflow:hidden;
+		width: 100%;
+		overflow: hidden;
 	}
 
 	.mask {
@@ -1204,8 +1273,8 @@
 			overflow: hidden;
 			border-bottom: 1px dotted #eee;
 			padding-bottom: 20rpx;
-			position:relative;
-			width:100%;
+			position: relative;
+			width: 100%;
 		}
 
 		.xinxi1:last-child {
@@ -1458,9 +1527,10 @@
 			height: 60rpx;
 			text-align: center;
 			background-color: #2b5cff;
-			border-radius:50rpx;
-			margin-top:20rpx;
-			margin-right:20rpx;
+			border-radius: 50rpx;
+			margin-top: 20rpx;
+			margin-right: 20rpx;
+
 			text {
 				font-size: 30upx;
 				color: #fff;

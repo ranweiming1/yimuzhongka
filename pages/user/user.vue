@@ -253,7 +253,7 @@
 				<image src='../../static/guangga.png' style='width:750rpx;height:179rpx;'></image>
 			</swiper-item>
 		</swiper>
-		<view style='text-align:center;'>
+		<view style='text-align:center;overflow: hidden;'>
 			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;float:left;margin-top:15rpx;margin-left:273rpx;'></view>
 			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:10rpx;'></view>
 			<view style='float:left;margin-left:20rpx;'>推荐产品</view>
@@ -262,51 +262,72 @@
 			<image src='../../static/n8.png' style='float:right;width:30rpx;height:30rpx;margin-right:20rpx;margin-top:10rpx;'
 			 @tap='q'></image>
 		</view>
-		<view class="content-one">
-			<view v-for='(item,index) in list' class="content-list-one" @tap='tz(item.goodsId)' v-if='xianshi'>
-				<image :src='item.goodsLogo' mode='widthFix'></image>
-				<view class="list-one-bottom">
-					<view class="list-one-bottom-title">
-						<view v-if='item.selfStatus=="Y"' class="title-icon">自营</view>
-						{{item.goodsName}}
+		<view class="activeCss">
+			<view v-for='(item,index) in list' class="content-item" @tap='tz(item.goodsId)' v-if='xianshi'>
+				<view class="imgBox">
+					<image :src="item.goodsLogo" mode=""></image>
+				</view>
+				<view class="content-item-text">
+					<view class="title_top">
+						<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+						<text class="titleText">{{item.goodsName}}</text>
 					</view>
-					<view style='overflow:hidden;'>
-						<view v-for='(ite,inde) in item.couponDTOS' class="list-one-bottom-coupon">满{{ite.condition}}-{{ite.money}}元</view>
+					<view class="item-coupon">
+						<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+							<text>满{{items.condition}}-{{items.money}}元</text>
+						</view>
+						<view class="coupon-item">
+							<text>包邮</text>
+						</view>
 					</view>
-					<view class="list-one-bottom-price">
-						<!-- <view style='font-size:26rpx;color:#999;'>销量:{{item.salesSum}}</view> -->
-						<view style='color:#ff3333;display:inline-block;'>￥</view>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}
-						<view class="list-one-bottom-adress">{{item.sendAddr}}</view>
+					<view class="item-price">
+						<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+						<text class="shop-sales">销量：{{item.salesSum}}</text>
 					</view>
 				</view>
 
 			</view>
-			<view v-for='(item,index) in list' class="content-list-two" @tap='tz(item.goodsId)' v-if='!xianshi'>
-				<image :src='item.goodsLogo' mode='widthFix'></image>
-				<view style='float:left;margin-left:20rpx;padding-top:10rpx;width:calc(100% - 300rpx);'>
-					<view style='font-size:30rpx;'>
-						<view v-if='item.selfStatus=="Y"' style='color:#ff6600;border:1px solid #ff6600;border-radius:5rpx;padding:5rpx 10rpx;font-size:20rpx;line-height:30rpx;float:left;'>自营</view>{{item.goodsName}}
+		</view>
+		<view class="clearCss">
+
+
+			<view v-for='(item,index) in list' class="content-item" @tap='tz(item.goodsId)' v-if='!xianshi'>
+				<view class="imgBox">
+					<image :src="item.goodsLogo" mode=""></image>
+				</view>
+				<view class="content-item-text">
+					<view class="title_top">
+						<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+						<text class="titleText">{{item.goodsName}}</text>
 					</view>
-					<view style='overflow:hidden;margin-top:20rpx;'>
-						<view v-for='(ite,inde) in item.couponDTOS' style='border:1px dashed #ff3333;line-height:30rpx;padding:5rpx 10rpx;color:#ff3333;margin-right:20rpx;font-size:20rpx;float:left;margin-right:20rpx;'>满{{ite.condition}}-{{ite.money}}元</view>
+					<view class="item-coupon">
+						<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+							<text>满{{items.condition}}-{{items.money}}元</text>
+						</view>
+						<view class="coupon-item">
+							<text>包邮</text>
+						</view>
 					</view>
-					<view style='text-align:right;font-size:20rpx;margin-top:20rpx;'>{{item.sendAddr}}</view>
-					<view style='margin-top:20rpx;overflow:hidden;margin-bottom:20rpx;'>
-						<view style='color:#ff3333;font-size:12rpx;float:left;margin-top:15rpx;'>￥</view>
-						<view style='color:#ff3333;font-size:30rpx;float:left;'>{{item.shopPrice?item.shopPrice.toFixed(2):'暂无价格'}}</view>
-						<view style='float:right;'>
-							<view style='background:#ff6600;border-radius:5rpx;line-height:22rpx;padding:5rpx 10rpx;height:22rpx;border:1px solid #ff6600;font-size:16rpx;float:left;color:#fff;'
-							 @click.top='dianpu(item.shopId)'>旺铺</view>
-							<view style='border:1px solid #ff6600;width:22rpx;height:22rpx;padding:5rpx 10rpx;float:left;margin-left:10rpx;'>
-								<image style='width:22rpx;height:22rpx;display:block;' src='../../static/qiyerenzheng.png'></image>
+					<view class="diZhi">
+						<text>{{item.sendAddr}}</text>
+					</view>
+					<view class="item-price">
+						<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+						<view class="but_Icon">
+							<view class="icons">
+								<text class="icon1" @click.stop='dianpu(item.shopId)'>旺铺</text>
+								<view class="icon2">
+									<image src="../../static/qiyerenzheng.png" mode="">
+								</view>
+								<text class="icon2">购</text>
+								<text class="icon2">品</text>
 							</view>
-							<view style='width:22rpx;height:22rpx;padding:5rpx 10rpx;border:1px solid #ff6600;color:#ff6600;font-size:22rpx;float:left;margin-left:10rpx;line-height:22rpx;'>购</view>
-							<view style='width:22rpx;height:22rpx;padding:5rpx 10rpx;border:1px solid #ff6600;color:#ff6600;font-size:22rpx;float:left;margin-left:10rpx;line-height:22rpx;'>品</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
+
 		<!-- <view style='margin-top:900rpx;margin-left:20rpx;font-size:30rpx;text-align:center;'>
 			<view style='display:inline-block;'>招商电话</view>
 			<view style='margin-left:20rpx;display:inline-block;'>
@@ -571,106 +592,11 @@
 </script>
 
 <style lang="scss">
-	.content-one {
-		overflow: hidden;
+	.activeCss {
 		padding: 20rpx 28rpx;
+		width: 100%;
 		box-sizing: border-box;
-
-		.list-one-bottom-title {
-			font-size: 26rpx;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			display: -webkit-box;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-
-			.title-icon {
-				display: inline-block;
-				padding: 0 10rpx;
-				font-size: 20rpx;
-				line-height: 30rpx;
-				box-sizing: border-box;
-				border-radius: 6rpx;
-				margin-right: 10rpx;
-				background: #ff6600;
-				color: #fff;
-			}
-		}
-
-		.list-one-bottom-price {
-			font-size: 26rpx;
-			color: #ff3333;
-			font-weight: bold;
-		}
-
-		.list-one-bottom-adress {
-			width: fit-content;
-			float: right;
-			font-weight: normal;
-			color: #333;
-			font-size: 20rpx;
-		}
 	}
-
-	.list-one-bottom {
-		padding: 8rpx 20rpx;
-		box-sizing: border-box;
-
-		.list-one-bottom-coupon {
-			border: 1px dashed #ff3333;
-			background-color: #fff;
-			line-height: 30rpx;
-			padding: 5rpx 10rpx;
-			color: #ff3333;
-			margin-right: 10rpx;
-			font-size: 20rpx;
-			box-sizing: border-box;
-			display: block;
-			float: left;
-			margin-top: 8rpx;
-		}
-
-		.list-one-bottom-price {
-			margin-top: 8rpx;
-		}
-	}
-
-	.content-list-two {
-		overflow: hidden;
-		border-bottom: 1px dashed #ddd;
-		padding-top: 20rpx;
-
-		image {
-			width: 200rpx;
-			height: 200rpx;
-			float: left;
-		}
-	}
-
-	.content-list-one {
-		width: calc(50% - 13rpx);
-		border-radius: 20rpx;
-		overflow: hidden;
-		box-shadow: 0 0 8px #ccc;
-		box-sizing: border-box;
-		height: 550rpx;
-		margin-top: 28rpx;
-		height: 500rpx;
-
-		image {
-			width: 100%;
-			height: 320rpx !important;
-		}
-	}
-
-	.content-list-one:nth-child(odd) {
-		float: left;
-	}
-
-	.content-list-one:nth-child(even) {
-		float: right;
-	}
-
 
 	.bg_img {
 		image {
@@ -679,9 +605,6 @@
 		}
 	}
 
-	.tool+swiper+view+view {
-		width: 100%;
-	}
 
 	.top {
 		position: fixed;

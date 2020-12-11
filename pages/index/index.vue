@@ -58,7 +58,7 @@
 		</swiper>
 
 		<!-- 热门推荐 ps:懒加载-->
-		<view class="recommend" style='overflow:hidden; padding: 20rpx 28rpx;'>
+		<view class="recommend" style='overflow:hidden; padding: 20rpx 0'>
 			<view class="title">
 				<text>热门推荐</text>
 				<image style='display:inline-block;width:36rpx;height:34rpx;margin-top:10rpx;margin-right:30rpx;' src='../../static/n8.png'
@@ -66,45 +66,43 @@
 				<text @tap="more">更多</text>
 			</view>
 			<view class="clearCss">
-				<view class="content-item" v-for="(item , index) in hotList" v-if='y'>
-					<view @tap="detail(item.goodsId)" class="content ">
-						<view class="imgBox">
-							<image :src="item.goodsLogo" mode="widthFix"></image>
+				<view class="content-item" v-for="(item , index) in hotList" v-if='y' @tap="detail(item.goodsId)">
+					<view class="imgBox">
+						<image :src="item.goodsLogo" mode="widthFix"></image>
+					</view>
+					<view class="content-item-text">
+						<view class="title_top">
+							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+							<text class="titleText">{{item.goodsName}}</text>
 						</view>
-						<view class="content-item-text">
-							<view class="title_top">
-								<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-								<text class="titleText">{{item.goodsName}}</text>
+						<view class="item-coupon">
+							<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+								<text>满{{items.condition}}-{{items.money}}元</text>
 							</view>
-							<view class="item-coupon">
-								<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
-									<text>满{{items.condition}}-{{items.money}}元</text>
-								</view>
-								<view class="coupon-item">
-									<text>包邮</text>
-								</view>
+							<view class="coupon-item">
+								<text>包邮</text>
 							</view>
+						</view>
 
-							<view class="diZhi">
-								<text>{{item.sendAddr}}</text>
-							</view>
-							<view class="item-price">
-								<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
-								<view class="but_Icon">
-									<view class="icons">
-										<text class="icon1" @click.stop='dianpu(item.shopId)'>旺铺</text>
-										<view class="icon2">
-											<image src="../../static/qiyerenzheng.png" mode="">
-										</view>
-										<text class="icon2">购</text>
-										<text class="icon2">品</text>
+						<view class="diZhi">
+							<text>{{item.sendAddr}}</text>
+						</view>
+						<view class="item-price">
+							<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+							<view class="but_Icon">
+								<view class="icons">
+									<text class="icon1" @click.stop='dianpu(item.shopId)'>旺铺</text>
+									<view class="icon2">
+										<image src="../../static/qiyerenzheng.png" mode="">
 									</view>
-
+									<text class="icon2">购</text>
+									<text class="icon2">品</text>
 								</view>
 
 							</view>
 
 						</view>
+
 					</view>
 				</view>
 
@@ -478,11 +476,18 @@
 
 <style lang="scss" scoped>
 	@import '../../style/gg.css';
-.clearCss{
-	.content-item{
-		padding: 20rpx 10rpx;	
+
+	.clearCss {
+		padding: 0 28rpx;
+		.content-item {
+			padding: 20rpx 10rpx;
+		}
 	}
-}
+	.activeCss{
+		padding: 0 28rpx;
+		padding-bottom: 10rpx;
+	}
+
 	.loading-text {
 		display: block;
 
@@ -595,6 +600,7 @@
 			padding-bottom: 20upx;
 			overflow: hidden;
 			text-align: right;
+			margin: 0 28rpx;
 		}
 
 		>view:nth-child(2n) {
