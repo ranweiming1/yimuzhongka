@@ -912,11 +912,11 @@
 
 				text {
 					font-size: 30upx;
-					color: #ff0000;
+					color: #ff6600;
 
 					text {
 						font-size: 48upx;
-						color: #FF0000;
+						color: #ff6600;
 					}
 				}
 			}
