@@ -22,7 +22,7 @@
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>
 				<input class="uni-input" type="number" v-model='account.checkCode' placeholder="请输入验证码" />
-				<text @tap='fasongyanzhengma'><text v-if='isYan' style="border-left: 0;padding-left: 2rpx;">({{yanZ}}s)</text>{{yanText}}</text>	
+				<view @tap='fasongyanzhengma'><text v-if='isYan' style="border-left: 0;padding-left: 2rpx;">({{yanZ}}s)</text>{{yanText}}</view>
 			</view>
 		</view>
 		<!-- 提交按钮 -->
@@ -56,22 +56,21 @@
 				statusBarHeight: this.statusBarHeight,
 				//账户信息
 				account: {},
-				isLog:true,
-				yanZ:50,
-				isYan:false,
-				yanText:'发送验证码'
+				isLog: true,
+				yanZ: 50,
+				isYan: false,
+				yanText: '发送验证码'
 			}
 		},
 		onLoad(option) {
-			if (option.phone!='undefined') {
+			if (option.phone != 'undefined') {
 				this.isLog = option.isOk
-				this.account.phone = option.phone=='undefined'?'':option.phone
-				this.account.password = option.password=='undefined'?'':option.password
-				this.account.checkCode = option.checkCode=='undefined'?'':option.checkCode
+				this.account.phone = option.phone == 'undefined' ? '' : option.phone
+				this.account.password = option.password == 'undefined' ? '' : option.password
+				this.account.checkCode = option.checkCode == 'undefined' ? '' : option.checkCode
 			}
 			uni.getSystemInfo({
-				success: function(e) {
-				}
+				success: function(e) {}
 			})
 		},
 		computed: {
@@ -88,14 +87,14 @@
 				})
 			},
 			fasongyanzhengma: function() {
-				var _this=this
-				if(_this.isYan){
+				var _this = this
+				if (_this.isYan) {
 					uni.showToast({
 						title: '已发送验证码'
 					})
-				return;	
+					return;
 				}
-				
+
 				if (this.$jiaoyan(this.account.phone)) {
 					this.$https({
 						url: '/api/oauth/sendSms/user-register',
@@ -104,17 +103,17 @@
 						},
 						dengl: true,
 						success: function(res) {
-							_this.isYan=true
-						var timer=setInterval(function(){
-								if(_this.yanZ==0){
-									_this.isYan=false
-									_this.yanZ=50
+							_this.isYan = true
+							var timer = setInterval(function() {
+								if (_this.yanZ == 0) {
+									_this.isYan = false
+									_this.yanZ = 50
 									clearInterval(timer)
 								}
-								_this.yanText='重新发送'
+								_this.yanText = '重新发送'
 								_this.yanZ--
-							},1000)
-		
+							}, 1000)
+
 							if (res.data.data) {
 								uni.showToast({
 									title: '发送成功'
@@ -134,34 +133,34 @@
 					})
 				}
 			},
-			
+
 			//注册按钮
 			zhuce: function() {
-				var _this=this
-				if(this.isLog){
+				var _this = this
+				if (this.isLog) {
 					if (!_this.$jiaoyan(_this.account.phone)) {
-							uni.showToast({
-								title: '请输入正确的手机号',
-								icon: 'none'
-							})
-						} else if (!_this.account.password.length>5) {
-							uni.showToast({
-								title: '请输入大于6位的密码',
-								icon: 'none'
-							})
-						} else if (!_this.account.checkCode) {
-							uni.showToast({
-								title: '请输入验证码',
-								icon: 'none'
-							})
-						} else {
-							_this.$https({
-								url: '/api/oauth/register',
-								data: _this.account,
-								dengl: true,
-								method: 'post',
-								success: function(res) {
-									if(res.data){
+						uni.showToast({
+							title: '请输入正确的手机号',
+							icon: 'none'
+						})
+					} else if (!_this.account.password.length > 5) {
+						uni.showToast({
+							title: '请输入大于6位的密码',
+							icon: 'none'
+						})
+					} else if (!_this.account.checkCode) {
+						uni.showToast({
+							title: '请输入验证码',
+							icon: 'none'
+						})
+					} else {
+						_this.$https({
+							url: '/api/oauth/register',
+							data: _this.account,
+							dengl: true,
+							method: 'post',
+							success: function(res) {
+								if (res.data) {
 									uni.showToast({
 										title: '操作成功'
 									})
@@ -170,29 +169,29 @@
 											url: 'enter'
 										})
 									}, 1500)
-									}else{
-										uni.showToast({
-											title:res.data.message
-										})
-										if(res.data.message=='手机号已被注册'){
-											setTimeout(function(){
-												uni.navigateTo({
-													url:'enter'
-												})
-											},1000)
-										}
+								} else {
+									uni.showToast({
+										title: res.data.message
+									})
+									if (res.data.message == '手机号已被注册') {
+										setTimeout(function() {
+											uni.navigateTo({
+												url: 'enter'
+											})
+										}, 1000)
 									}
 								}
-							})
-						}
-					
-				}else{
+							}
+						})
+					}
+
+				} else {
 					uni.showToast({
-					    title: '请勾选注册协议',
+						title: '请勾选注册协议',
 					});
 				}
-				
-				},
+
+			},
 			prot() {
 				uni.navigateTo({
 					url: './protocol?phone=' + this.account.phone + '&password=' + this.account.password + '&checkCode=' + this.account
@@ -203,7 +202,7 @@
 				// if(this.isLog){
 				// // this.isLog=1
 				// }
-				this.isLog=e.detail.value[0]
+				this.isLog = e.detail.value[0]
 			}
 		}
 
@@ -245,47 +244,70 @@
 
 	.uni-common-mt {
 		position: fixed;
-		left: 20upx;
+		left: 30rpx;
 		top: 470upx;
-		width: 90%;
-		margin: 0 auto;
-		margin-left: 2%;
+		right: 30rpx;
+		box-sizing: border-box;
 
 		image {
 			width: 30upx;
 			height: 38upx;
 			float: left;
 			padding-right: 20upx;
-			padding-bottom: 20upx;
+			margin-top: 31rpx;
 		}
 
 		.uni-form-item {
+			overflow: hidden;
 			margin: 0 auto;
 			width: 100%;
 			float: left;
-			margin-bottom: 40upx;
+			height: 100rpx;
+			line-height: 100rpx;
 			border-bottom: 1px solid #ccc;
+			padding: 0 10rpx;
+			box-sizing: border-box;
 
-			text {
+
+			input {
+				height: 100rpx;
+				line-height: 100rpx;
+				width: calc(100% - 50rpx);
+				font-size: 24upx;
+				color: #999;
+			}
+
+		}
+
+		.uni-form-item:nth-child(3) {
+			input {
+				width: calc(60% - 50rpx);
+			}
+
+			view {
 				font-size: 24upx;
 				color: #666;
 				float: right;
-				padding-right: 50upx;
+				// padding-right: 50upx;
+				width: 40%;
+				text-align: center;
 				border-left: 1px solid #ccc;
-				padding-left: 50upx;
+				box-sizing: border-box;
+				height: 40rpx;
+				line-height: 40rpx;
+				margin-top:25rpx ;
 			}
 		}
 
 		.uni-input {
 			float: left;
-			line-height: 40upx;
 			font-size: 24upx;
 			color: #999;
 		}
 	}
 
 	.bott {
-		top: 800upx !important;
+		top: 830upx !important;
 		font-family: Microsoft YaHei;
 	}
 
