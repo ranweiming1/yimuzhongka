@@ -1322,6 +1322,7 @@
 		padding: 20upx;
 		background-color: #fff;
 		margin-top: 20upx;
+		margin-bottom: 100rpx;
 
 		text {
 			font-size: 30upx;

@@ -84,7 +84,8 @@
 							}, 1900)
 						} else {
 							uni.showToast({
-								title: res.data.message
+								title: res.data.message,
+								icon:'none'
 							})
 						}
 					}
