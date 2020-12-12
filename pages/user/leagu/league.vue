@@ -112,8 +112,8 @@
 				<view class="imgBox">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<view class="cont">
-					<text>商用汽车配件</text>
+				<view class="cont" @tap="checkType">
+					<text>请选择分类</text>
 				</view>
 			</view>
 		</view>
@@ -156,25 +156,26 @@
 				</scroll-view>
 				<view class="class-mask-right">
 					<scroll-view scroll-y :scroll-top="scrollTop" scroll-with-animation>
-						<view class="li-content" v-for="(item , index) in rList" @tap="tiaozhuan(shopsId,isOK,item.id)">
+						<view class="li-content" v-for="(item , index) in rList">
 							<view class="li-title">
 								{{item.cateTitle}}
 							</view>
-							<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in rList">
+							<view class="li" v-for="(ite , inde) in item.childsList" @tap="checkList(ite.id)">
 								<view class="imgpp">
 									<image :src="ite.imgUrl" mode=""></image>
+								</view>
+								<view class="checked" v-if='ite.isCheck'>
+									<image src="../../../static/checked.png" mode=""></image>
 								</view>
 								<view class="zhiya">
 									<text>{{ite.cateTitle}}</text>
 								</view>
 							</view>
-
-
 						</view>
 					</scroll-view>
 
 					<view class="mask-buttom">
-						<view class="mask-buttom-cancel">
+						<view @tap="checkType" class="mask-buttom-cancel">
 							取消
 						</view>
 						<view class="mask-buttom-confirm">
@@ -226,6 +227,7 @@
 				rList: {},
 				id: 0,
 				classType: true,
+				checkedList: []
 			}
 		},
 		onLoad: function() {
@@ -242,7 +244,15 @@
 				dengl: true,
 				success: function(res) {
 					_this.allList = res.data.data.goodsCates
+
 					_this.rList = res.data.data.goodsCates[0].childsList
+					_this.rList.map(function(val, i) {
+						val.childsList.map(function(item, index) {
+							_this.$set(item, 'isCheck', false)
+						})
+						console.log(val)
+
+					})
 
 				},
 			})
@@ -288,9 +298,35 @@
 					}
 				})
 			},
+			checkList: function(id) {
+				var that = this
+				// this.rList[index].childsList[indexs].isCheck =!this.rList[index].childsList[indexs].isCheck
+				// 把Id添加到数组
+				this.rList.map(function(val, i) {
+					val.childsList.map(function(item, index) {
+						if (id == item.id) {
+							item.isCheck = !item.isCheck
+							if (item.isCheck) {
+								that.checkedList.push(item.id)
+							}
+						}
+					})
+				})
+				this.checkedList.map(function(ite,ind){
+					if(id==ite){
+					console.log(ite,2222)
+						that.checkedList.splice(ite)
+					}
+				})
+				console.log(this.checkedList)
+			},
+
+			checkType: function() {
+				this.classType = !this.classType
+			},
 			togLi(index, id) {
 				this.id = index;
-				this.rList = this.AllList[index].childsList
+				this.rList = this.allList[index].childsList
 			},
 			activeCss(index) {
 				this.isActive = index
@@ -479,10 +515,22 @@
 					padding-left: 25rpx;
 					padding-bottom: 25rpx;
 				}
+
+				.checked {
+					width: 30rpx;
+					height: 30rpx;
+					position: absolute;
+					right: 3rpx;
+
+					image {
+						width: 100%;
+						height: 100%;
+					}
+				}
 			}
 
 			.li-content:nth-child(n+1) {
-				margin-top: 35rpx;
+				margin-top: 30rpx;
 			}
 
 
@@ -490,7 +538,6 @@
 			.left {
 				text-align: center;
 				width: 170upx;
-				height: 1135upx;
 				float: left;
 				background-color: #f6f6f6;
 
@@ -548,34 +595,48 @@
 				height: 100%;
 
 				scroll-view {
-					height: calc(100% - 200rpx);
+					height: calc(100% - 140rpx);
+					padding-right: 20rpx;
+					box-sizing: border-box;
 				}
 
 				.mask-buttom {
-					height: 200rpx;
-					line-height: 200rpx;
-					padding: 20rpx 30rpx;
+					padding: 20rpx 30rpx 10rpx 30rpx;
 					box-sizing: border-box;
 					overflow: hidden;
-					view{
-						width:calc(50% - 15rpx);
+					position: fixed;
+					bottom: 20rpx;
+					left: 170rpx;
+					right: 0;
+					background-color: #FFFFFF;
+
+					view {
+						width: calc(50% - 15rpx);
 						border-radius: 45rpx;
 						background-color: #ccc;
 						height: 80rpx;
 						line-height: 80rpx;
+						font-size: 28rpx;
 					}
-					view:first-child{
+
+					view:first-child {
 						float: left;
+						color: #333;
+
 					}
-					view:last-child{
+
+					view:last-child {
 						float: right;
+						background-color: #2b5cff;
+						color: #fff;
 					}
 				}
 
 				.li {
-					margin-bottom: 40upx;
+					margin-bottom: 30upx;
 					width: 33.33%;
 					float: left;
+					position: relative;
 
 					.imgpp {
 						image {
