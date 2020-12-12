@@ -4,7 +4,7 @@
 			<view style='float:left;margin-left:20rpx;width:calc(20% - 20rpx);margin-top:20rpx;' @tap='back'>
 				<image src='../../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
-			<view style='float:left;padding:20rpx 0;width:60%;text-align:center;'>新增地址</view>
+			<view style='float:left;padding:20rpx 0;width:60%;text-align:center;'>地址管理</view>
 			<view class="imgBox" @tap='tianjia'>
 				<text>添加</text>
 			</view>
