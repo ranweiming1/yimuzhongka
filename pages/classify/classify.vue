@@ -98,6 +98,12 @@
 								_this.rList = res.data.data.goodsCates[index].childsList
 								_this.id = index
 								_this.scrollPic(options.id)
+								_this.rList.map(function(val, i) {
+									_this.$set(val,'isHide',true)
+									if (val.childsList.length < 6) {
+										val.isHide = false
+									}
+								})
 							}
 						})
 						return false

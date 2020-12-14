@@ -216,6 +216,8 @@ $uni-font-size-paragraph:30upx;
 					width: 100%;
 					bottom: 0;
 					overflow: hidden;
+					box-sizing: border-box;
+					padding-left: 20rpx;
 					
 					.price-text {
 						color: #ff6600;
