@@ -63,7 +63,13 @@
 			}
 		},
 		onLoad(option) {
-			this.height = uni.getSystemInfoSync().windowHeight -150;
+			// this.height = uni.getSystemInfoSync().windowHeight -150;
+			uni.getSystemInfo({
+			  success:function (res) {
+			   _this.height = (res.windowHeight * (750 / res.windowWidth))-250; 
+			  }
+			})
+			
 			this.shopsId = option.id
 			this.shopsId = '6'
 			// console.log(option)

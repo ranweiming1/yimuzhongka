@@ -16,7 +16,7 @@
 		<!-- 切换分类 -->
 		<view class="Box dne">
 			<!-- 一级 -->
-			<scroll-view class="left" scroll-y :style="'height:'+height+'px'">
+			<scroll-view class="left" scroll-y :style="'height:'+height+'rpx'">
 				<!-- 选中样式 -->
 				<!-- 未选中样式 -->
 				<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList" :key=item.id>
@@ -26,7 +26,7 @@
 				</view>
 			</scroll-view>
 			<!-- 二级 -->
-			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'px'"
+			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'rpx'"
 			 scroll-with-animation>
 				<view class="scroll-img">
 					<swiper class="swiper" autoplay="true" style="height: 230rpx;" interval="5000" duration="1500">
@@ -78,7 +78,13 @@
 		onLoad(options) {
 			// this.id=index
 			var _this = this
-			this.height = uni.getSystemInfoSync().windowHeight-100;
+			// this.height = uni.getSystemInfoSync().windowHeight-100;
+			uni.getSystemInfo({
+			  success:function (res) {
+			   _this.height = (res.windowHeight * (750 / res.windowWidth))-250; 
+			  }
+			})
+
 			this.$https({
 				url: '/api/oauth/shop/mall-lists',
 				data: {},

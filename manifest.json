@@ -1,6 +1,6 @@
 {
     "name" : "毅木重卡",
-    "appid" : "__UNI__914265B",
+    "appid" : "__UNI__A03DB31",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : 101,
@@ -82,42 +82,42 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
-                    "xhdpi" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
-                    "xxhdpi" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
-                    "xxxhdpi" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png"
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
                 },
                 "ios" : {
-                    "appstore" : "C:/Users/Lenovo/Desktop/230abf8eb0244a128649f337a7d4aae3.png",
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
                     "ipad" : {
-                        "app" : "C:/Users/Lenovo/Desktop/12312/icon-76.png",
-                        "app@2x" : "C:/Users/Lenovo/Desktop/12312/icon-76@2x.png",
-                        "notification" : "C:/Users/Lenovo/Desktop/12312/icon-20-ipad.png",
-                        "notification@2x" : "C:/Users/Lenovo/Desktop/12312/icon-20@2x-ipad.png",
-                        "proapp@2x" : "C:/Users/Lenovo/Desktop/12312/icon-83.5@2x.png",
-                        "settings" : "C:/Users/Lenovo/Desktop/12312/icon-29.png",
-                        "settings@2x" : "C:/Users/Lenovo/Desktop/12312/icon-29@2x.png",
-                        "spotlight" : "C:/Users/Lenovo/Desktop/12312/icon-40.png",
-                        "spotlight@2x" : "C:/Users/Lenovo/Desktop/12312/icon-40@2x.png"
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
                     },
                     "iphone" : {
-                        "app@2x" : "C:/Users/Lenovo/Desktop/12312/icon-60@2x.png",
-                        "app@3x" : "C:/Users/Lenovo/Desktop/12312/icon-60@3x.png",
-                        "notification@2x" : "C:/Users/Lenovo/Desktop/12312/icon-40.png",
-                        "notification@3x" : "C:/Users/Lenovo/Desktop/12312/icon-20@3x.png",
-                        "settings@2x" : "C:/Users/Lenovo/Desktop/12312/icon-29@2x.png",
-                        "settings@3x" : "C:/Users/Lenovo/Desktop/12312/icon-29@3x.png",
-                        "spotlight@2x" : "C:/Users/Lenovo/Desktop/12312/icon-40@2x.png",
-                        "spotlight@3x" : "C:/Users/Lenovo/Desktop/12312/icon-40@3x.png"
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
                     }
                 }
             },
             "splashscreen" : {
                 "androidStyle" : "default",
                 "android" : {
-                    "hdpi" : "C:/Users/Lenovo/Desktop/a4301c2af4e345eda80dfe7aceb688e9.png",
-                    "xhdpi" : "C:/Users/Lenovo/Desktop/a4301c2af4e345eda80dfe7aceb688e9.png",
-                    "xxhdpi" : "C:/Users/Lenovo/Desktop/a4301c2af4e345eda80dfe7aceb688e9.png"
+                    "hdpi" : "C:/Users/秦建伟/Desktop/405752d3fe82480cb394584668017685.png",
+                    "xhdpi" : "C:/Users/秦建伟/Desktop/405752d3fe82480cb394584668017685.png",
+                    "xxhdpi" : "C:/Users/秦建伟/Desktop/405752d3fe82480cb394584668017685.png"
                 }
             }
         }
