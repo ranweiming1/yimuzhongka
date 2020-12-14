@@ -3,11 +3,9 @@
 		<!-- 文字轮播 -->
 		<view class='swiperS'>
 			<view class="swiper-item">
-				<swiper :circular='true' style="height: 75rpx;" :interval='3000' :duration='6000' :autoplay='true' :indicator-dots='false'>
-					<swiper-item>{{text}}</swiper-item>
-					<swiper-item></swiper-item>
-					<swiper-item>{{text}}</swiper-item>
-					<swiper-item></swiper-item>
+				<swiper :circular='true' style="height: 80rpx;" :interval='2000' :duration='6000' :autoplay='true' :indicator-dots='false'>
+					<swiper-item style="padding-right:20rpx;">{{text}}</swiper-item>
+					<swiper-item style='padding-right:20rpx;'>{{text}}</swiper-item>
 				</swiper>
 			</view>
 		</view>

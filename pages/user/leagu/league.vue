@@ -232,11 +232,6 @@
 		},
 		onLoad: function() {
 			var _this = this
-			if (this.classType) {
-				uni.setNavigationBarTitle({
-					title: '商家入驻（选择主营分类）'
-				})
-			}
 			this.height = uni.getSystemInfoSync().windowHeight;
 			this.$https({
 				url: '/api/oauth/shop/mall-lists',
@@ -321,6 +316,15 @@
 
 			checkType: function() {
 				this.classType = !this.classType
+				if (this.classType) {
+					uni.setNavigationBarTitle({
+						title: '商家入驻（选择主营分类）'
+					})
+				}else{
+					uni.setNavigationBarTitle({
+						title: '商家入驻'
+					})
+				}
 			},
 			togLi(index, id) {
 				this.id = index;
