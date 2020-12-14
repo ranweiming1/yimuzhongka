@@ -636,7 +636,7 @@
 				}
 			},
 			tiaoCart() {
-				uni.switchTab({
+				uni.navigateTo({
 					url: '../cart/cart'
 				})
 			},
