@@ -145,19 +145,29 @@
 				})
 			},
 			shenfenzheng: function() {
-				
+				uni.chooseImage({
+					success: res => {
+						uni.uploadFile({
+							url: this.webUrl + '/api/oauth/oss/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'img',
+							success: res => {
+								this.cardImg1 = JSON.parse(res.data).data.url
 								uni.request({
-									url:this.webUrl+'/oauth/get-ocr-id-card-info',
+									url:this.webUrl+'/api/oauth/get-ocr-id-card-info',
 									data:{
-										imgPath:'http://ymzk-shop.oss-cn-beijing.aliyuncs.com/ymzk/20201214/90a10f3a-86ea-4057-b578-a5928fa956da.jpg',
-										imgType:'0'
+										imgPath:this.cardImg1,
+										imgType:0
 									},
-									method:'POST',
+									method:'post',
 									success:res=>{
 										
 									}
 								})
-				
+							}
+						})
+					}
+				})
 			},
 			shenfenzhengF: function() {
 				uni.chooseImage({
