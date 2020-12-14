@@ -17,7 +17,7 @@
 			</view>
 			<view class="uni-form-item">
 				<view class="title"><text>手机号</text></view>
-				<input class="uni-input" name="input" v-model='legalPhone' placeholder="请输入手机号" />
+				<input class="uni-input" name="input" v-model='sqrPhone' placeholder="请输入手机号" />
 			</view>
 		</view>
 		<!-- 填写信息 -->
@@ -39,15 +39,7 @@
 					<text class="texts" style="margin-top: 15rpx;">统一社会信用代码</text>
 					<text class="texts">营业执照号</text>
 				</view>
-				<input class="uni-input" name="input" v-model='businessName' placeholder="请输入营业执照号" />
-			</view>
-			<view class='uni-form-item'>
-				<view class='title'><text>银行卡号</text></view>
-				<input class='uni-input' v-model='bankCardNum' placeholder='请输入银行卡号'>
-			</view>
-			<view class='uni-form-item'>
-				<view class='title'><text>银行</text></view>
-				<input class='uni-input' v-model='bankName' placeholder='请输入银行'>
+				<input class="uni-input" name="input" v-model='licenseNo' placeholder="请输入营业执照号" />
 			</view>
 			<view class="uni-form-item" style="height: 135rpx;">
 				<view class="title">
@@ -77,7 +69,7 @@
 			</view>
 			<view class="uni-form-item">
 				<view class="title"><text>部门</text></view>
-				<input class="uni-input" name="input" v-model='departmentName' placeholder="请输入部门名称" />
+				<input class="uni-input" name="input" v-model='fzrDept' placeholder="请输入部门名称" />
 			</view>
 		</view>
 
@@ -113,7 +105,7 @@
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
 				<view class="cont" @tap="checkType">
-					<text>请选择分类</text>
+					<text>{{lei}}</text>
 				</view>
 			</view>
 		</view>
@@ -178,7 +170,7 @@
 						<view @tap="checkType" class="mask-buttom-cancel">
 							取消
 						</view>
-						<view class="mask-buttom-confirm">
+						<view @tap='queding' class="mask-buttom-confirm">
 							确定
 						</view>
 					</view>
@@ -211,9 +203,11 @@
 				sex: '',
 				storeLogo: '../../../static/img_10.jpg.png',
 				storeName: '',
+				sqrPhone:'',
 				legalPhone: '',
 				departmentName: '',
-				businessName: '',
+				licenseNo: '',
+				bankCardNo:'',
 				bankName: '',
 				t: true,
 				text: '依据《中华人民共和国电子商务法》规定，用户在网络平台发布信息需提供真实身份信息建立登记档案，并定期核验更新，否则网络平台运营者不得为其提供相关服务。请根据您的实际情况选择备案方式（提交后不可变更）感谢您的配合。',
@@ -227,7 +221,8 @@
 				rList: {},
 				id: 0,
 				classType: false,
-				checkedList: []
+				checkedList: [],
+				lei:'请选择分类'
 			}
 		},
 		onLoad: function() {
@@ -271,6 +266,10 @@
 						_this.cardImg1 = res.data.data.cardImg1
 						_this.cardImg2 = res.data.data.cardImg2
 						_this.holdImg = res.data.data.holdImg
+						_this.sqrPhone=res.data.data.sqrPhone
+						_this.licenseNo=res.data.data.licenseNo
+						_this.fzrDept=res.data.data.fzrDept
+						_this.lei=res.data.data.cateIdList.length>0?'已选择分类':'请选择分类'
 						_this.t = false
 					}
 				}
@@ -344,8 +343,49 @@
 				this.isCheck = !this.isCheck
 			},
 			nextPage: function() {
+				var nu=false
+				for(var i=0;i<this.accountName.length;i++){
+					if(this.accountName.charCodeAt(i)>255){
+						this.nu=true
+					}
+				}
+				if(nu){
+					uni.showToast({
+						title:'账户名不能包含汉字重新输入',
+						icon:'none'
+					})
+					return false
+				}
+				if(!this.$jiaoyan(this.sqrPhone)||!this.$jiaoyan(this.princPhone)){
+					uni.showToast({
+						title:'请输入正确的手机号',
+						icon:'none'
+					})
+					return false
+				}
+				if(!this.$jiaoyanEmail(this.email)){
+					uni.showToast({
+						title:'请输入正确的邮箱号',
+						icon:'none'
+					})
+					return false
+				}
+				var obj={}
+				obj.accountName=this.accountName
+				obj.sqrPhone=this.sqrPhone
+				obj.storeName=this.storeName
+				obj.legalName=this.legalName
+				obj.licenseNo=this.licenseNo
+				obj.bankCarNo=this.bankCarNo
+				obj.bankName=this.bankName
+				obj.area=this.area
+				obj.email=this.email
+				obj.principal=this.principal
+				obj.princPhone=this.princPhone
+				obj.fzrDept=this.fzrDept
+				obj.cateIdList=JSON.stringify(this.checkedList)
 				uni.navigateTo({
-					url: './leagueTwo'
+					url: './leagueTwo?o='+JSON.stringify(obj)
 				})
 			},
 			yingyezhizhao: function() {
@@ -479,6 +519,10 @@
 						})
 					}
 				}
+			},
+			queding:function(){
+				this.classType=false
+				this.lei='已选择分类'
 			}
 		}
 	}
