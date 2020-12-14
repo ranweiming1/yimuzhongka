@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="view-style">
 		<!-- 背景图 -->
 		<view class="bg_img">
 			<image src="../../../static/jfBnner.png" mode=""></image>

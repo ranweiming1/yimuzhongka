@@ -350,7 +350,7 @@
 		methods: {
 			detail(id) {
 				uni.navigateTo({
-					url: 'productDetails?id=' + id+'&tiaozhuan=1'
+					url: 'productDetails?id=' + id + '&tiaozhuan=1'
 				})
 				this.$https({
 					url: '/api/shop/goods-brows-history-add',
@@ -479,11 +479,13 @@
 
 	.clearCss {
 		padding: 0 28rpx;
+
 		.content-item {
 			padding: 20rpx 10rpx;
 		}
 	}
-	.activeCss{
+
+	.activeCss {
 		padding: 0 28rpx;
 		padding-bottom: 10rpx;
 	}
@@ -498,6 +500,10 @@
 		width: 100%;
 		height: 90upx;
 		overflow: hidden;
+		position: fixed;
+		background: #fff;
+		top: 0;
+		z-index: 99;
 
 		.left {
 			float: left;
@@ -538,7 +544,7 @@
 		border-radius: 20upx;
 		margin-bottom: 20rpx;
 		overflow: hidden;
-		margin-top: 10rpx;
+		margin-top: 180rpx;
 
 		image {
 			width: 100%;

@@ -63,12 +63,12 @@
 			<button size="mini" type="primary" v-if="!isOk" @tap="xianshi(id)" style="background: #ff3334;">删除</button>
 		</view>
 		<view style='width:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:1000000;height:100%;' v-if='shanchu'>
-			<view style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;'>
-				<view style='text-align:center;margin-top:20rpx;'>您确定删除地址?</view>
-				<view style='text-align:center;margin-top:20rpx;'>
-					<view style='display:inline-block;background:#eee;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:10rpx;float:left;margin-left:20rpx;'
+			<view style='height:200rpx;background:#fff;position:absolute;top:0;left:50rpx;right:50rpx;bottom:0;margin:auto;border-radius: 15rpx;padding: 25rpx;'>
+				<view style='text-align:center;margin-top:35rpx;padding-bottom: 10rpx;'>您确定删除地址?</view>
+				<view style='text-align:center;margin-top:20rpx;overflow: hidden;'>
+					<view style='display:inline-block;background:#eee;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:45rpx;float:left;margin-left:20rpx;'
 					 @tap='quxiao'>取消</view>
-					<view style='display:inline-block;background:#2d5eff;color:#fff;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:10rpx;float:right;margin-right:20rpx;'
+					<view style='display:inline-block;background:#2d5eff;color:#fff;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:45rpx;float:right;margin-right:20rpx;'
 					 @tap='del'>确定</view>
 				</view>
 			</view>
@@ -195,20 +195,20 @@
 									title: '操作成功'
 								})
 								if (_this.j) {
-									uni.navigateTo({
+									uni.redirectTo({
 										url: '../../../cart/orderForm/jifen?id=' + _this.ids + '&dizhi=' + JSON.stringify(res.data.data)
 									})
 									return false
 								}
 								if (_this.goodsId) {
-									uni.navigateTo({
+									uni.redirectTo({
 										url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr +
 											'&zhid=' + res.data.data + '&money=' + _this.moneys + '&id=' + _this.youhuiid + '&dingdan=' + _this.dingdan +
 											'&shopId=' + _this.shopId + '&y=' + JSON.stringify(_this.y)
 									})
 								} else {
-									uni.navigateTo({
-										url: 'siteList'
+									uni.navigateBack({
+										delta:1
 									})
 								}
 							} else {
@@ -241,10 +241,9 @@
 						dengl: false,
 						success: function(res) {
 							// alert('确定要删除')
-							uni.navigateTo({
-								url: 'siteList'
+							uni.navigateBack({
+								delta:1
 							})
-							console.log(res.data)
 						}
 					})
 

@@ -51,7 +51,7 @@
 		<view :class="tog_Ca?'clearCss':'togActive'">
 			<!-- 头部 -->
 			<view class="top" style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;padding-top:80rpx;padding-bottom: 20rpx;'>
-				<view class='back' @tap='back' style='float:left;margin-top:10rpx;margin-left:20rpx;'>
+				<view class='back' @tap='back' style='float:left;padding: 20rpx 35rpx;'>
 					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 				</view>
 				<view class="textBox">
@@ -427,7 +427,7 @@
 
 		.textBox {
 			float: left;
-			margin-left: 40upx;
+			margin-left: 25upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
 
