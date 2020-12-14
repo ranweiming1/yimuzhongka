@@ -250,7 +250,6 @@
 						val.childsList.map(function(item, index) {
 							_this.$set(item, 'isCheck', false)
 						})
-						console.log(val)
 
 					})
 
@@ -308,17 +307,16 @@
 							item.isCheck = !item.isCheck
 							if (item.isCheck) {
 								that.checkedList.push(item.id)
+							} else {
+								that.checkedList.map(function(ite, ind) {
+									if (id == ite) {
+										that.checkedList.splice(ind, 1)
+									} 
+								})
 							}
 						}
 					})
 				})
-				this.checkedList.map(function(ite,ind){
-					if(id==ite){
-					console.log(ite,2222)
-						that.checkedList.splice(ite)
-					}
-				})
-				console.log(this.checkedList)
 			},
 
 			checkType: function() {
