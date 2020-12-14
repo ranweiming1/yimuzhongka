@@ -11,7 +11,7 @@
 
 		<!-- 切换分类 -->
 		<view class="Box">
-			<scroll-view class="left" scroll-y :style="'height:'+height+'px'">
+			<scroll-view class="left" scroll-y :style="'height:'+height+'rpx'">
 				<!-- 选中样式 -->
 				<!-- 未选中样式 -->
 				<view :class="id==index?'on':'none'" @tap="togLi(index)" v-for="(item ,index) in allList" :key=item.id>
@@ -20,7 +20,7 @@
 				</view>
 			</scroll-view>
 
-			<scroll-view class="right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'"
+			<scroll-view class="right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'rpx'"
 			 scroll-with-animation>
 
 				<view :class="item.isHide?'li-content isHidden':'li-content'" v-for="(item , index) in rList" @tap="tiaozhuan(shopsId,isOK,item.id)">
@@ -64,9 +64,10 @@
 		},
 		onLoad(option) {
 			// this.height = uni.getSystemInfoSync().windowHeight -150;
+			var _this=this
 			uni.getSystemInfo({
 			  success:function (res) {
-			   _this.height = (res.windowHeight * (750 / res.windowWidth))-250; 
+			   _this.height = (res.windowHeight * (750 / res.windowWidth))-260; 
 			  }
 			})
 			
@@ -205,6 +206,7 @@
 				text-align: left;
 				padding-left: 25rpx;
 				padding-bottom: 25rpx;
+				font-weight: bold;
 			}
 		}
 

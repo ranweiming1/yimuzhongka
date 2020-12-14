@@ -7,7 +7,7 @@
 
 			<!-- 头部 -->
 			<view class="top toubu1">
-				<view class='back' @tap='back' style='float:left;margin-top:10rpx;margin-left:20rpx;'>
+				<view class='back' @tap='back' style='float:left;padding: 10rpx 35rpx;'>
 					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 				</view>
 				<view class="textBox">

@@ -255,8 +255,7 @@
 
 			.shop-search-back {
 				float: left;
-				margin-left: 20rpx;
-				margin-top: 14rpx;
+				padding: 15rpx 35rpx;
 				height: 100%;
 
 

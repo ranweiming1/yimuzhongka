@@ -2,7 +2,7 @@
 	<view>
 		<!-- <view class="line" style="height: 50rpx;"></view> -->
 		<view class="top" style='position:fixed;width:100%;left:0;top:0;z-index:99999;background:#fff;padding-top:60rpx;'>
-			<view class='back' @tap='back' style='float:left;margin-top:30rpx;margin-left:20rpx;'>
+			<view class='back' @tap='back' style='float:left;padding: 30rpx 35rpx;'>
 				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image>
 			</view>
 			<view class="textBox">
@@ -252,6 +252,7 @@
 				text-align: left;
 				padding-left: 25rpx;
 				padding-bottom: 25rpx;
+				font-weight: bold;
 			}
 		}
 

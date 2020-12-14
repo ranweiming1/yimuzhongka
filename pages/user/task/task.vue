@@ -424,7 +424,7 @@
 		padding-top:50rpx;
 		.topImg{
 			float: left;
-			padding: 30rpx;
+			padding: 30rpx 35rpx;
 			image{
 				width: 18rpx;
 				height: 32rpx;

@@ -34,7 +34,7 @@
 				<view class="discount-top-icon">
 					<image src="../../static/honerIcon.png" mode=""></image>
 				</view>
-				<view class="discount-top-bott"  @tap="shouC(shopsId)">
+				<view class="discount-top-bott" @tap="shouC(shopsId)">
 					{{!isShow?'收藏':'取消收藏'}}
 				</view>
 			</view>
@@ -143,13 +143,13 @@
 				currentIndex: 0,
 				banner: [],
 				store: {},
-				isShow:''
-				
+				isShow: ''
+
 			}
 		},
 		onLoad() {
 			var _this = this
-			
+
 			this.$https({
 					url: '/api/shop/store-index',
 					data: {
@@ -200,7 +200,7 @@
 			})
 		},
 		methods: {
-			swierChange:function(e) {
+			swierChange: function(e) {
 				this.currentIndex = e.detail.current
 			},
 			back: function() {
@@ -208,7 +208,7 @@
 					delta: 1
 				})
 			},
-			shouC:function(id) {
+			shouC: function(id) {
 				var _this = this
 				this.$https({
 					url: '/api/shop/shop-collect',
@@ -219,7 +219,7 @@
 					success: function(res) {
 						_this.isShow = !_this.isShow
 					},
-			
+
 				})
 			},
 		},
@@ -255,8 +255,7 @@
 
 			.shop-search-back {
 				float: left;
-				margin-left: 20rpx;
-				margin-top: 14rpx;
+				padding: 15rpx 35rpx;
 				height: 100%;
 
 
@@ -643,7 +642,7 @@
 						overflow: hidden;
 						font-size: 24rpx;
 						position: absolute;
-						bottom:0;
+						bottom: 0;
 
 						.item-right-price {
 							float: left;

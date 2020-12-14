@@ -370,6 +370,7 @@
 				},
 				dengl: !uni.getStorageSync('Authorization'),
 				success: function(res) {
+					res.data.data.detail.goodsContent = _this.$richText(res.data.data.detail.goodsContent)
 					_this.list = res.data.data.detail
 					_this.list.goodsImgss = res.data.data.detail.goodsImgs.split(',')
 					if (_this.list.shopPrice) {
@@ -610,6 +611,7 @@
 				this.Price = this.guige[ind].price
 			},
 			goumaia: function() {
+				console.log(this.list)
 				if (this.xuanzh) {
 					uni.navigateTo({
 						url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
@@ -823,7 +825,9 @@
 		z-index: 999;
 
 		.back {
-			margin-right: 40px;
+			padding-right: 40px;
+			margin-top: 10rpx;
+			padding: 10rpx 40rpx 0 15rpx;
 
 			image {
 				width: 18rpx;

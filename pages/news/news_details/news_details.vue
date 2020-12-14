@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="top" style='position:fixed;top:0rpx;left:0;width:100%;background:#fff;padding-top:60rpx;overflow:hidden;'>
+		<view class="top" style='position:fixed;top:0rpx;left:0;width:100%;background:#fff;padding-top:60rpx;overflow:hidden;z-index: 999;'>
 			<view style='float:left;margin-top:20rpx;margin-left:20rpx;' @tap='back'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
@@ -24,9 +24,9 @@
 				<text>浏览量：{{description}}</text>
 			</view>
 		</view>
-		<view class="img" v-if='x'>
+		<!-- <view class="img" v-if='x'>
 			<image :src="image" mode=""></image>
-		</view>
+		</view> -->
 		<view class="txt">
 			<rich-text :nodes='x?content:objcont'></rich-text>
 		</view>
@@ -286,7 +286,7 @@
 
 	.evaluate {
 		width: 750upx;
-		margin-bottom: 100upx;
+		padding-bottom: 100upx;
 	}
 
 	.mingc {

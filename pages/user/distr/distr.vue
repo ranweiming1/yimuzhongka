@@ -2,7 +2,7 @@
 	<view>
 		<!-- 头部 -->
 		<view class="top">
-			<view style='float:left;margin-top:2rpx;margin-left:20rpx;' @tap='bac'>
+			<view style='float:left;padding: 4rpx 35rpx;' @tap='bac'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:30rpx;'></image>
 			</view>
 			<view class="textBox">
