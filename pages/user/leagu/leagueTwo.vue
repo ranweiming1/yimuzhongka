@@ -61,6 +61,14 @@
 				<view class='title'><text>身份证号</text></view>
 				<input type="number" class='uni-input' v-model='legalCardId' placeholder='请输入身份证号'>
 			</view>
+			<view class='uni-form-item'>
+				<view class='title'><text>银行卡号</text></view>
+				<input class='uni-input' v-model='bankCardNo'>
+			</view>
+			<view class='uni-form-item'>
+				<view class='title'><text>预留手机号</text></view>
+				<view class='uni-input' v-model='shoujihao'></view>
+			</view>
 
 		</view>
 		<view class="uni-buttom">
@@ -104,7 +112,13 @@
 				isMask:false,
 				legalCardId: '',
 				legalName: '',
+				shuju:'',
+				bankCardNo:'',
+				shoujihao:''
 			}
+		},
+		onLoad:function(option){
+			this.shuju=JSON.parse(option.o)
 		},
 		methods: {
 			checks() {
@@ -131,18 +145,19 @@
 				})
 			},
 			shenfenzheng: function() {
-				uni.chooseImage({
-					success: res => {
-						uni.uploadFile({
-							url: this.webUrl + '/api/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
-							name: 'img',
-							success: res => {
-								this.cardImg1 = JSON.parse(res.data).data.url
-							}
-						})
-					}
-				})
+				
+								uni.request({
+									url:this.webUrl+'/oauth/get-ocr-id-card-info',
+									data:{
+										imgPath:'http://ymzk-shop.oss-cn-beijing.aliyuncs.com/ymzk/20201214/90a10f3a-86ea-4057-b578-a5928fa956da.jpg',
+										imgType:'0'
+									},
+									method:'POST',
+									success:res=>{
+										
+									}
+								})
+				
 			},
 			shenfenzhengF: function() {
 				uni.chooseImage({

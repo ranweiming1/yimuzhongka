@@ -197,15 +197,13 @@
 					}
 				})
 				this.$https({
-					url: '/api/oauth/oauth/shop/goods-recom',
+					url: '/api/oauth/shop/goods-recom',
 					data: {
 						// cat_id:option.id?option.id:''
 					},
-					dengl: true,
 					success(res) {
 						// _this.allList = res.data.data
 						// _this.goodsType = res.data.data.selfStatus
-						console.log(res.data.data)
 					}
 				})
 			}

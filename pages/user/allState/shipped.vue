@@ -58,13 +58,13 @@
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
-			<view class="xinXi" v-for="(ite,inde) in deList.goodsList[0].specList" @tap='g(item.goodsId)'>
+			<view class="xinXi" v-for="(ite,inde) in deList.goodsList[0].specList">
 
 
-				<view class="imgBox_a">
+				<view class="imgBox_a" @tap='g(item.goodsId)'>
 					<image :src="item.goodsLogo" mode=""></image>
 				</view>
-				<view class="txt_c">
+				<view class="txt_c" @tap='g(item.goodsId)'>
 					<view class="title">
 						<text>{{item.goodsName}}</text>
 					</view>

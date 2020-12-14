@@ -98,13 +98,14 @@
 				goodsId: '',
 				value: '',
 				img: '',
-				dList:[]
+				dList:[],
+				orderId:''
 			}
 		},
 		onLoad(option) {
 			var _this = this
 			this.goodsId=option.goodsId
-			console.log(option)
+			this.orderId=option.orderId
 			this.$https({
 				url: '/api/user/order-detail',
 				data: {
@@ -150,16 +151,17 @@
 					data: JSON.stringify({
 						content: _this.value,
 						goodsId: _this.goodsId,
-						img: "",
+						img: _this.cImg,
 						readStatus: "",
-						score: 0
+						score: 0,
+						orderId:this.orderId
 					}),
 					dengl: false,
 					haeder: true,
 					method:'post',
 					success() {
-						uni.navigateBack({
-
+						uni.showToast({
+							title:res.data.message
 						})
 					}
 				})
