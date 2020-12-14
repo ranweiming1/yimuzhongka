@@ -186,8 +186,8 @@
 			this.$https({
 					url: '/api/shop/store-index',
 					data: {
-						// shopId: option.id
-						shopId: 6
+						shopId: option.id
+						// shopId: 6
 					},
 					dengl: false,
 					success: function(res) {

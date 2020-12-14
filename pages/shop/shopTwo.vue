@@ -15,12 +15,12 @@
 			<view class="shop-logo-swper">
 				<swiper class="logo-swper-list" :current="currentIndex" :circular="true" next-margin="95rpx" :duration="100"
 				 @change="swierChange">
-					<swiper-item class="logo-swper-item" v-for="(item,i) in 5" :key="i">
-						<image src="../../static/Bitmap.png" class="slide-image" :class="currentIndex === i?'active':''" mode=""></image>
+					<swiper-item class="logo-swper-item" v-for="(item,i) in banner" :key="i">
+						<image :src="item.img" class="slide-image" :class="currentIndex === i?'active':''" mode=""></image>
 					</swiper-item>
 				</swiper>
 				<div class="logo-swper-dots">
-					<div v-for="(item,i) in 5" class="dots-item">
+					<div v-for="(item,i) in banner" class="dots-item">
 						<div :class="i==currentIndex?'add-dots':'move-dots'"></div>
 					</div>
 				</div>
@@ -29,13 +29,13 @@
 		<view class="shop-discount">
 			<view class="shop-discount-top">
 				<view class="discount-top-name">
-					开山东开创集团
+					{{store.shopName}}
 				</view>
 				<view class="discount-top-icon">
 					<image src="../../static/honerIcon.png" mode=""></image>
 				</view>
-				<view class="discount-top-bott">
-					收藏
+				<view class="discount-top-bott"  @tap="shouC(shopsId)">
+					{{!isShow?'收藏':'取消收藏'}}
 				</view>
 			</view>
 			<view class="shop-discount-center">
@@ -140,11 +140,16 @@
 	export default {
 		data() {
 			return {
-				currentIndex: 0
+				currentIndex: 0,
+				banner: [],
+				store: {},
+				isShow:''
+				
 			}
 		},
 		onLoad() {
 			var _this = this
+			
 			this.$https({
 					url: '/api/shop/store-index',
 					data: {
@@ -164,7 +169,8 @@
 				this.$https({
 					url: '/api/shop/store-shop-detail',
 					data: {
-						shopId: option.id
+						// shopId: option.id
+						shopId: 6
 					},
 					dengl: false,
 					success: function(res) {
@@ -174,7 +180,8 @@
 			this.$https({
 				url: '/api/shop/get-store-banner-list',
 				data: {
-					shopId: option.id
+					// shopId: option.id
+					shopId: 6
 				},
 				method: 'post',
 				success: res => {
@@ -184,7 +191,8 @@
 			this.$https({
 				url: '/api/oauth/shop/store-coupon-list',
 				data: {
-					shopId: option.id
+					// shopId: option.id
+					shopId: 6
 				},
 				success: res => {
 					this.quan = res.data.data
@@ -192,12 +200,26 @@
 			})
 		},
 		methods: {
-			swierChange(e) {
+			swierChange:function(e) {
 				this.currentIndex = e.detail.current
 			},
 			back: function() {
 				uni.navigateBack({
 					delta: 1
+				})
+			},
+			shouC:function(id) {
+				var _this = this
+				this.$https({
+					url: '/api/shop/shop-collect',
+					data: {
+						shopId: id
+					},
+					method: 'POST',
+					success: function(res) {
+						_this.isShow = !_this.isShow
+					},
+			
 				})
 			},
 		},
