@@ -498,6 +498,7 @@
 		bottom: 0;
 		background-color: #FFFFFF;
 		z-index: 99;
+		box-sizing: border-box;
 
 		.Box {
 			width: 750upx;
