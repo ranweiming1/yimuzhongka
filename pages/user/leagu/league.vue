@@ -226,7 +226,7 @@
 				allList: [],
 				rList: {},
 				id: 0,
-				classType: true,
+				classType: false,
 				checkedList: []
 			}
 		},
