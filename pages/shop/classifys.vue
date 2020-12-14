@@ -72,7 +72,7 @@
 			})
 			
 			this.shopsId = option.id
-			this.shopsId = '6'
+
 			// console.log(option)
 			var _this = this
 			this.$https({

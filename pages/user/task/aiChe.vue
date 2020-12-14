@@ -41,11 +41,11 @@
 			<button type="primary" style="background: #2b5cff" @tap='fanhui'>添加爱车</button>
 		</view>
 		<view style='width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;left:0;' v-if='x'>
-			<view style='background:#fff;width:690rpx;height:200rpx;position:absolute;right:0;top:0;left:0;bottom:0;margin:auto;text-align:center;padding:50rpx 0;'>
-				<view>你确定要删除{{listz[nu].carNum}}</view>
+			<view style='background:#fff;height:200rpx;position:absolute;right:50rpx;top:0;left:50rpx;bottom:0;padding: 25rpx;margin:auto;text-align:center;padding:50rpx 0;border-radius: 15rpx;'>
+				<view style='text-align:center;margin-top:35rpx;padding-bottom: 10rpx;'>你确定要删除{{listz[nu].carNum}}</view>
 				<view style='text-align:center;margin-top:50rpx;'>
-					<view style='display:inline-block;background:#2b5cff;color:#fff;width:200rpx;height:100rpx;line-height:100rpx;border-radius:20rpx;margin:20rpx;' @tap=shanchuche(index)>确定</view>
-					<view style='display:inline-block;background:#999;color:#000;width:200rpx;height:100rpx;line-height:100rpx;border-radius:20rpx;margin:20rpx;' @tap='quxiaoaiche'>取消</view>
+					<view style='display:inline-block;background:#2b5cff;color:#fff;width:200rpx;height:70rpx;line-height:70rpx;border-radius:45rpx;margin:20rpx;' @tap=shanchuche(index)>确定</view>
+					<view style='display:inline-block;background:#999;color:#000;width:200rpx;height:70rpx;line-height:70rpx;border-radius:45rpx;margin:20rpx;' @tap='quxiaoaiche'>取消</view>
 				</view>
 			</view>
 		</view>

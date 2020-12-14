@@ -11,7 +11,7 @@
 		</view>
 		<view v-if='list.length==0'>
 			<image src='../../../../static/s.png' style='width:299rpx;height:150rpx;display:block;margin:2rpx auto;position:fixed;top:calc((100% - 150rpx)/2);left:calc((100% - 299rpx)/2);'></image>
-			<view style='text-align:center;position:fixed;top:calc((100% - 150rpx)/2+160rpx);width:100%;text-align:center;height:100rpx;'>暂无收货地址</view>
+			<view style='text-align:center;position:fixed;top:200rpx;width:100%;text-align:center;height:100rpx;'>暂无收货地址</view>
 		</view>
 		<radio-group @change='checkboxChange'>
 			<view class="siteBox" v-for='item in list'>
@@ -121,6 +121,20 @@
 			
 			
 		},
+		onShow() {
+			var _this=this
+			this.$https({
+				url: '/api/user/my-address',
+				data: {},
+				dengl: false,
+				success: function(res) {
+					res.data.data.map(function(n, index) {
+						n.index = index
+					})
+					_this.list = res.data.data
+				}
+			})
+		},
 		methods: {
 			tianjia: function() {
 				// console.log(1111)
@@ -166,12 +180,16 @@
 	checkbox {
 		border-radius: 50%;
 	}
-
+radio-group{
+	margin-top: 160rpx;
+}
 	.top {
 		width: 750upx;
 		margin: 0 auto;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
+		position: fixed;
+		top: 0;
 
 		.textBox {
 			padding-left: 40%;

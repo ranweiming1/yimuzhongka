@@ -59,7 +59,7 @@
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>身份证号</text></view>
-				<input class='uni-input' v-model='legalCardId' placeholder='请输入身份证号'>
+				<input type="number" class='uni-input' v-model='legalCardId' placeholder='请输入身份证号'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行卡号</text></view>
@@ -372,6 +372,7 @@
 			height: 100rpx;
 			line-height: 100rpx;
 			color: #333333;
+			width: 70%;
 		}
 
 		.cont {
