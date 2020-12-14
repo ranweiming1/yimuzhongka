@@ -522,6 +522,7 @@
 					height: 30rpx;
 					position: absolute;
 					right: 3rpx;
+					top: 0;
 
 					image {
 						width: 100%;
