@@ -8,9 +8,9 @@
 			<view class="imgBox">
 				<!-- <image src="../../static/icon_36.png" mode=""></image> -->
 			</view>
-			<view class="spanBox">
+			<!-- <view class="spanBox">
 				<text>{{shanchu?'管理':'取消'}}</text>
-			</view>
+			</view> -->
 		</view>
 
 		<view class="listBox" style='margin-top:160rpx;'>
