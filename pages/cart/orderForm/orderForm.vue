@@ -3,7 +3,7 @@
 
 		<view class="siteBox">
 			<!-- 无地址样式 -->
-			<view class="noneBox"  v-if='!z'>
+			<view class="noneBox" v-if='!z'>
 				<text @tap='tiaozhuan'>+ 添加收货地址</text>
 			</view>
 
@@ -27,7 +27,7 @@
 					</view>
 				</view>
 
-				<view class="imgBox"  @tap='qiehuandizhi'>
+				<view class="imgBox" @tap='qiehuandizhi'>
 					<image src="../../../static/icon_26.png" mode="" style='width:12rpx;height:19rpx;margin-top:20rpx;float:right;'></image>
 				</view>
 			</view>
@@ -40,6 +40,7 @@
 				<text>订单信息</text>
 			</view>
 			<!-- 一级列表：店铺列表循环 -->
+			
 			<view class="shop-list" v-for='(item,index) in cartAttr' v-if='item.cartAttr'>
 				<!-- 店铺名称 -->
 				<view style='padding-bottom: 25rpx;'>{{item.goodsName}}</view>
@@ -70,21 +71,22 @@
 									</view>
 								</view>
 							</view>
+							<view class="basic">
+								<view class="left_a">
+									<text>运费</text>
+								</view>
+								<view class="right_a">
+									<!-- <view class="img_a">
+									<image src="../../../static/icon_26.png" mode=""></image>
+								</view> -->
+									<text>￥{{items.kuaidi}}</text>
+								</view>
+							</view>
 						</view>
 
 					</view>
 					<!-- 一个店铺，一个运费一个备注；所以运费需要累加 ；-->
-					<view class="basic aa">
-						<view class="left_a">
-							<text>运费</text>
-						</view>
-						<view class="right_a">
-							<!-- <view class="img_a">
-								<image src="../../../static/icon_26.png" mode=""></image>
-							</view> -->
-							<text>￥{{items.kuaidi}}</text>
-						</view>
-					</view>
+
 					<!-- 存在店铺优惠券，不取消隐藏即可 -->
 					<view class="basic aa">
 						<view class="left_a">
@@ -572,7 +574,7 @@
 	}
 
 	.siteBox {
-		width:100%;
+		width: 100%;
 		// height: initial;
 		padding: 20upx;
 		background-color: #fff;
@@ -666,7 +668,7 @@
 			width: 100%;
 			box-sizing: border-box;
 			overflow: hidden;
-			padding-bottom: 30rpx;
+			// padding-bottom: 30rpx;
 		}
 
 		.box-content:last-child {
