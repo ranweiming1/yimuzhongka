@@ -16,7 +16,7 @@
 				<swiper class="logo-swper-list" :current="currentIndex" :circular="true" next-margin="95rpx" :duration="100"
 				 @change="swierChange">
 					<swiper-item class="logo-swper-item" v-for="(item,i) in banner" :key="i">
-						<image :src="item.img" class="slide-image" :class="currentIndex === i?'active':''" mode=""></image>
+						<image  class="slide-image"	:src="item.img" :class="currentIndex === i?'active':''" mode=""></image>
 					</swiper-item>
 				</swiper>
 				<div class="logo-swper-dots">
@@ -323,14 +323,14 @@
 
 			.logo-swper-list {
 				// width: 625rpx;
-				height: 352rpx;
+				height: 313rpx;
 				// border-radius: 20rpx;
 				overflow: hidden;
 
 				.slide-image {
 					position: absolute;
-					height: 300rpx;
-					width: 530rpx;
+					height: 260rpx;
+					width: 520rpx;
 					opacity: 0.7;
 					margin-right: 20rpx;
 					border-radius: 20rpx;
@@ -339,8 +339,8 @@
 				}
 
 				.active {
-					width: 625rpx;
-					height: 352rpx;
+					width: 626rpx;
+					height: 313rpx;
 					opacity: 1;
 					z-index: 10;
 					border-radius: 20rpx;
@@ -604,8 +604,8 @@
 					float: left;
 
 					image {
-						width: 216rpx;
-						height: 145rpx;
+						width: 200rpx;
+						height:200rpx;
 						border-radius: 15rpx;
 						overflow: hidden;
 						display: block;
@@ -613,11 +613,11 @@
 				}
 
 				.list-item-right {
-					width: calc(100% - 216rpx);
+					width: calc(100% - 200rpx);
 					float: left;
 					box-sizing: border-box;
 					padding-left: 20rpx;
-					height: 145rpx;
+					height: 200rpx;
 					position: relative;
 
 					.item-right-title {
@@ -642,7 +642,7 @@
 						overflow: hidden;
 						font-size: 24rpx;
 						position: absolute;
-						bottom: 0;
+						bottom: 10rpx;
 
 						.item-right-price {
 							float: left;

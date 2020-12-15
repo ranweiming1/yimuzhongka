@@ -1,24 +1,39 @@
 <template>
 	<view>
-		<view style='position:fixed;width:100%;height:100%;top:0;left:0;background:rgba(0,0,0,0.6);z-index:9999999;' v-if='tianj'>
-			<view style='width:70%;height:60%;background:#fff;top:0;left:0;bottom:0;right:0;margin:auto;position:fixed;'>
-				<view style='overflow:hidden;'>
-					<image :src='listz[nu].myCarImg' style='width:90%;margin:0 auto;display:block;' @tap='shangchuan'></image>
-					<view>
-						<input :value='listz[nu].carNum' @input='chepai' style='border:1px solid #ddd;width:90%;margin:0 auto;font-size:24rpx;text-align:center;'>
-						<input :value='listz[nu].carCate.carName' @input='pinpai' style='border:1px solid #ddd;width:90%;margin:0 auto;margin-top:20rpx;font-size:24rpx;text-align:center;'>
+		
+		<view class="edit-mask" v-if='tianj'>
+			<view class="edit-mask-cont">
+				<view class="edit-title">
+					编辑爱车
+				</view>
+				<view class="edit-img">
+					<image :src='listz[nu].myCarImg' @tap='shangchuan'  mode=""></image>
+				</view>
+				<view class="edit-cont">
+					<view class="edit-cont-top">
+						<view class="country-left" @tap='xuanze'>
+							<text>鲁</text>
+							<i></i>
+						</view>
+						<input  type="text" value="" :value='listz[nu].carNum' @input='chepai'/>
 					</view>
-					<view>
-						<view style='float:left;width:40%;margin-left:5%;background:#ddd;text-align:center;margin-top:50rpx;font-size:26rpx;line-height:60rpx;border-radius:10rpx;'
-						 @tap='quxiao'>取消</view>
-						<view style='float:right;width:40%;margin-right:5%;background:#2b5cff;color:#fff;text-align:center;margin-top:50rpx;font-size:26rpx;line-height:60rpx;border-radius:10rpx;'
-						 @tap='tijiao'>确定</view>
+					<view class="edit-cont-top">
+						<input type="text" :value='listz[nu].carCate.carName' style="width: 100%;" />
+					</view>
+				</view>
+				<view @tap='quxiao' class="edit-bot">
+					<view class="edit-bot-left">
+						取消
+					</view>
+					<view  @tap='tijiao' class="edit-bot-right">
+						确定
 					</view>
 				</view>
 			</view>
 		</view>
-		<view>
-
+		<view style='position:fixed;bottom:0;width:100%;left:0;height:250rpx;background:#ddd;color:#666; z-index: 99;' v-if='xianshi'>
+			<view v-for='(item,z) in cheng' :style='index==z?"float:left;background:#2b64a4;width:50rpx;height:50rpx;text-align:center;line-height:50rpx;border-radius:5rpx;margin-left:10rpx;margin-top:20rpx;color:#fff;":"float:left;background:#fff;width:50rpx;height:50rpx;text-align:center;line-height:50rpx;margin-left:10rpx;margin-top:20rpx;"'
+			 @tap='dianji(z)'>{{item}}</view>
 		</view>
 		<view class="siteBox-list">
 			<view class="siteBox" v-for='(item,index) in listz'>
@@ -68,7 +83,13 @@
 				listz: [],
 				tianj: false,
 				nu: 0,
-				x: false
+				x: false,
+				xianshi: false,
+				chenghumingcheng: '鲁',
+				cheng: ['京', '津', '沪', '渝', '蒙', '新', '藏', '宁', '桂', '黑', '吉', '辽', '晋', '冀', '青', '鲁', '豫', '苏', '皖', '浙', '闽',
+					'赣', '湘', '鄂', '粤', '琼', '甘', '陕', '贵', '云', '川'
+				],
+				index: '',
 			}
 		},
 		onLoad: function() {
@@ -96,6 +117,13 @@
 				uni.navigateTo({
 					url: '../../shop/car?id=1'
 				})
+			},
+			dianji: function(z) {
+				this.index = z
+				this.chenghumingcheng = this.cheng[z]
+			},
+			xuanze: function() {
+				this.xianshi = !this.xianshi
 			},
 			tianjia: function() {
 				uni.navigateTo({
@@ -242,8 +270,140 @@
 		background: #f4f6f8;
 	}
 
-	checkbox {
+	.checkbox {
 		border-radius: 50%;
+	}
+
+	.edit-mask {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 99;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+
+		.edit-mask-cont {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 70rpx;
+			right: 70rpx;
+			z-index: 999;
+			background: #fff;
+			border-radius: 10rpx;
+			text-align: center;
+
+			.edit-title {
+				font-size: 30rpx;
+				color: #333333;
+				padding-top: 50rpx;
+				padding-bottom: 40rpx;
+			}
+
+			.edit-img {
+				margin-left: 50rpx;
+				margin-right: 50rpx;
+				box-sizing: border-box;
+				border-radius: 15rpx;
+				overflow: hidden;
+				margin-bottom: 20rpx;
+
+				image {
+					width: 100%;
+					height: 335rpx;
+					display: block;
+				}
+			}
+
+			.edit-cont {
+				margin-left: 50rpx;
+				margin-right: 50rpx;
+				box-sizing: border-box;
+
+				.edit-cont-top {
+					overflow: hidden;
+					width: 100%;
+					border: 1rpx solid #efefef;
+					height: 75rpx;
+					line-height: 75rpx;
+					box-sizing: border-box;
+					border-radius: 10rpx;
+					margin-bottom: 20rpx;
+
+
+
+				}
+
+				.country-left {
+					float: left;
+					width: 130rpx;
+					background: #efefef;
+					font-size: 28rpx;
+
+					i {
+						width: 0;
+						height: 0;
+						border: 10rpx solid #949494;
+						border-bottom: 0;
+						border-color: #949494 transparent transparent transparent;
+						display: inline-block;
+						vertical-align: middle;
+						margin-left: 15rpx;
+					}
+				}
+
+				input {
+					height: 75rpx;
+					line-height: 75rpx;
+					width: calc(100% - 130rpx);
+					box-sizing: border-box;
+					text-align: left;
+					padding-left: 35rpx;
+					font-size: 26rpx;
+					color: #999999;
+				}
+			}
+
+			.edit-bot {
+				margin-top: 30rpx;
+				overflow: hidden;
+				margin-left: 50rpx;
+				margin-right: 50rpx;
+				box-sizing: border-box;
+				margin-bottom: 50rpx;
+
+				view {
+					width: calc(50% - 30rpx);
+					height: 75rpx;
+					line-height: 75rpx;
+					border-radius: 10rpx;
+					font-size: 24rpx;
+				}
+
+				.edit-bot-left {
+					float: left;
+					background: #eeeeee;
+					color: #666666;
+				}
+
+				.edit-bot-right {
+					float: right;
+					background-color: #2b5cff;
+					color: #FFFFFF;
+				}
+
+			}
+		}
+	}
+
+
+	.cont-top {
+		display: inline-block;
+		margin-top: 25rpx;
 	}
 
 	.top {

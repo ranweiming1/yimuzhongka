@@ -46,7 +46,7 @@
 				<view class="item-list">
 					<view class="itemsList fl" v-for="(i,t) in 3">
 						<view class="list-img">
-							<image src="../../static/img_03.jpg" mode=""></image>
+							<image src="../../static/ff.jpg" mode=""></image>
 						</view>
 						<view class="list-name">
 							引擎内部清洗机
@@ -300,10 +300,10 @@
 					.list-img {
 						border-radius: 15rpx;
 						overflow: hidden;
+						height: 160rpx;
 
 						image {
 							width: 100%;
-							height: 160rpx;
 							display: block;
 						}
 					}

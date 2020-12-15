@@ -179,7 +179,7 @@
 			right: 0;
 
 			swiper {
-				height: 470rpx;
+				height: 375rpx;
 			}
 
 			image {
@@ -546,7 +546,7 @@
 				border-bottom: 1rpx solid #f6f6f6;
 				width: calc((100% - 28rpx)/2);
 				box-sizing: border-box;
-				height: 420rpx;
+				height: 456rpx;
 				border-radius: 15rpx;
 				overflow: hidden;
 				margin-bottom: 28rpx;
@@ -554,7 +554,7 @@
 
 				.list-item-logo {
 					width: 100%;
-					height: 296rpx;
+					height: 332rpx;
 					box-sizing: border-box;
 					position: relative;
 
@@ -578,7 +578,7 @@
 
 				.list-item-right {
 					box-sizing: border-box;
-					height: calc(100% - 296rpx);
+					height: calc(100% - 332rpx);
 					position: relative;
 
 					.hort-title-right {

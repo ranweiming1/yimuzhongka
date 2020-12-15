@@ -137,7 +137,7 @@
 
 	.basic {
 		margin-top: 20upx;
-		width: 710upx;
+		width: 100%;
 		background-color: #fff;
 		overflow: hidden;
 		padding: 20upx;

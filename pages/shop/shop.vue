@@ -1,6 +1,6 @@
 <template>
 	<view style="background-color: #f4f6f8;">
-		<view style='posotion:relative;height:570rpx;'>
+		<view style='posotion:relative;height:660rpx;'>
 			<view class="bg">
 				<image src="../../static/icon_39_2.png" mode=""></image>
 			</view>
@@ -42,9 +42,9 @@
 
 			<!-- banner 轮播图-->
 			<swiper class="banner" :autoplay="autoplay" :indicator-active-color="activeColor" :indicator-color="indColor"
-			 scroll-x indicator-dots :interval="interval" :duration="duration" style="height:262rpx;">
+			 scroll-x indicator-dots :interval="interval" :duration="duration" style="height:350rpx;">
 				<swiper-item v-for='(item,index) in banner' @tap='tiaozhuan(item.type,item.businessId)'>
-					<image :src="item.img" mode=""></image>
+					<image :src="item.img"  mode=""></image>
 				</swiper-item>
 
 			</swiper>
@@ -416,10 +416,11 @@
 	}
 
 	.banner {
-		width: 93%;
+		width:700rpx;
 		position: absolute;
 		top: 330upx;
-		left: 30upx;
+		left: 25upx;
+		right: 25rpx;
 		margin: 0 auto;
 		display: block;
 		box-shadow: 0 0 5px #999;
@@ -427,7 +428,7 @@
 
 		image {
 			width: 100%;
-			height: 262upx;
+			height: 350upx;
 			margin: 0 auto;
 			display: block;
 			border-radius: 20upx;
