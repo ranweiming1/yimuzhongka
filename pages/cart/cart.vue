@@ -202,8 +202,10 @@
 			<!-- 底部 -->
 			<view class="bottom">
 				<view class="radis">
-					<view :style='xuan?"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;background:#2b5cff;border:none;":"width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"'
-					 @tap='quanxuan'>√</view>
+					<view style="width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"
+					 @tap='quanxuan'>
+						<image src="../../static/checked.png" style="width: 100%; height: 100%; display: block;" v-if="xuan" mode=""></image>
+					</view>
 					<text style='margin-left:20rpx;float:left;margin-top:10rpx;'>全选</text>
 					<view style='float:left;margin-top:10rpx;'>
 						<!-- <view style='float:left;color:#ff6600;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'></view> -->
@@ -1535,6 +1537,8 @@
 		.radis {
 			float: left;
 			padding-top: 24upx;
+			overflow: hidden;
+			width: 60%;
 
 			text {
 				font-size: 28upx;
