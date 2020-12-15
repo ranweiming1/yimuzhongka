@@ -14,6 +14,7 @@
 				<text>任务中心</text>
 			</view>
 			<view class="imgBox">
+				
 				<image src="../../../static/icon_31.png" mode=""></image>
 			</view>
 		</view>

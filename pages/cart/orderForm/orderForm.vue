@@ -36,64 +36,83 @@
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
-			<view>
-				<view style='padding-bottom: 25rpx;' v-for='(item,index) in cartAttr' v-if='item.cartAttr'>{{item.goodsName}}开创集团</view>
-				<view class="content-list">
-					<!-- v-for='(items,indexs) in item.cartAttr' -->
-					<view class="box-content">
-						<view class="imgBox_a">
-							<image src="../../../static/Bitmap.png" mode=""></image>
-							<!-- :src="items.goodsLogo" -->
-						</view>
-						<view class="txt_c">
-							<view class="title">
-								<text>{{item.goodsName}}开创云体系
-								</text>
+			<view class="shop-list" v-for='(item,index) in cartAttr' v-if='item.cartAttr'>
+				
+				<view style='padding-bottom: 25rpx;'>{{item.goodsName}}</view>
+				<view class="content-list" 	>
+					<view class="box-list-single">
+						<view class="box-content" v-for='(items,indexs) in item.cartAttr'>
+							<view class="imgBox_a">
+								<image src="../../../static/Bitmap.png" mode=""></image>
+								<!-- :src="items.goodsLogo" -->
 							</view>
-							<view class="spec">
-								<text>已选：{{items.specKeyName}}</text>
+							<view class="txt_c">
+								<view class="title">
+									<text>{{item.goodsName}}
+									</text>
+								</view>
+								<view class="spec">
+									<text>已选：{{items.specKeyName}}</text>
+								</view>
+								<view class="box-bottom">
+									<view class="order-price">
+										￥999
+									</view>
+									<view class="jia">
+										<text @tap='shangpinj(index,indexs)'>-</text>
+										<input type="number" v-model='items.goodsNum' @blur='shuzi'>
+										<text @tap='zengjia(index,indexs)'>+</text>
+									</view>
+								</view>
 							</view>
+						</view>
 
-							<view class="jia">
-								<text @tap='shangpinj(index,indexs)'>-</text>
-								<input type="number" v-model='items.goodsNum' @blur='shuzi'>
-								<text @tap='zengjia(index,indexs)'>+</text>
+					</view>
+					<view class="basic aa">
+						<view class="left_a">
+							<text>运费</text>
+						</view>
+						<view class="right_a">
+							<!-- <view class="img_a">
+								<image src="../../../static/icon_26.png" mode=""></image>
+							</view> -->
+							<text>￥{{items.kuaidi}}</text>
+						</view>
+					</view>
+					<view class="basic aa">
+						<view class="left_a">
+							<text>店铺优惠券</text>
+						</view>
+						<view class="right_a" @tap='youhuiquan(item.shopId,item.zongjia)'>
+							<view class="img_a">
+								<image src="../../../static/icon_26.png" mode=""></image>
 							</view>
+							<text>已抵扣<text>￥{{youhui[index].money?youhui[index].money:0}}</text></text>
 						</view>
+					</view>
+					<view class="basic">
+						<view class="title"><text>给卖家备注</text></view>
+						<input class="uni-input" name="input" v-model='item.userNote' placeholder="添加备注" />
 					</view>
 
 				</view>
-				<view class="basic">
-					<view class="left_a">
-						<text>运费</text>
-					</view>
-					<view class="right_a">
-						<view class="img_a">
-							<image src="../../../static/icon_26.png" mode=""></image>
-						</view>
-						<text>￥{{items.kuaidi}}45646</text>
-					</view>
-				</view>
-				<view class="uni-form-item uni-column">
-					<view class="title"><text>给卖家备注</text></view>
-					<input class="uni-input" name="input" v-model='item.userNote' placeholder="添加备注" />
-				</view>
 
-
-				<view class="basic" style='padding-left:0;'>
-					<view class="left_a">
-						<text>优惠券</text>
-					</view>
-					<view class="right_a" @tap='youhuiquan(item.shopId,item.zongjia)'>
-						<view class="img_a">
-							<image src="../../../static/icon_26.png" mode=""></image>
-						</view>
-						<text>已抵扣<text>￥{{youhui[index].money?youhui[index].money:0}}</text></text>
-					</view>
+			</view>
+			
+		</view>
+		
+		<view class="basic mar-buttom" v-if="false">
+			<view class="left_a">
+				<text>优惠券</text>
+			</view>
+			<view class="right_a" @tap='youhuiquan(item.shopId,item.zongjia)'>
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
+				<text>已抵扣<text>￥{{youhui[index].money?youhui[index].money:0}}</text></text>
 			</view>
 		</view>
-		<!-- <view class="basic">
+		<view class="basic mar-buttom">
 			<view class="left_a">
 				<text>支付方式</text>
 			</view>
@@ -106,40 +125,42 @@
 				</view>
 				<text>微信安全支付</text>
 			</view>
-		</view> -->
-
-		<view class="basic aa">
-			<view class="left_a">
-				<text>商品金额</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
-				<text>￥{{shangpin}}</text>
-			</view>
 		</view>
-		<view class="basic aa">
-			<view class="left_a">
-				<text>优惠券减免</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
+		<view class=" mar-buttom" style="margin-bottom: 100rpx;">
+			<view class="basic aa">
+				<view class="left_a">
+					<text>商品金额</text>
 				</view>
-				<text>-￥{{moneys}}</text>
-			</view>
-		</view>
-		<view class="basic aa ssa">
-			<view class="left_a">
-				<text>运费</text>
-			</view>
-			<view class="right_a">
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../../static/icon_26.png" mode=""></image>
+					</view>
+					<text>￥{{shangpin}}</text>
 				</view>
-				<text>￥{{yunfei}}</text>
 			</view>
+			<view class="basic aa">
+				<view class="left_a">
+					<text>优惠券减免</text>
+				</view>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../../static/icon_26.png" mode=""></image>
+					</view>
+					<text>-￥{{moneys}}</text>
+				</view>
+			</view>
+			<view class="basic">
+				<view class="left_a">
+					<text>运费</text>
+				</view>
+				<view class="right_a">
+					<!-- <view class="img_a">
+						<image src="../../../static/icon_26.png" mode=""></image>
+					</view> -->
+					<text>￥{{yunfei}}</text>
+				</view>
+			</view>
+			
 		</view>
 		<!-- 底部 -->
 		<view class="bottom">
@@ -395,7 +416,9 @@
 									success: function(res) {
 										_this.$https({
 											url: '/api/user/order-list',
-											data:{status: 2},
+											data: {
+												status: 2
+											},
 											success: res => {
 												uni.redirectTo({
 													url: '../../user/allState/shipped?orderId=' + res.data.data[0].orderId
@@ -406,7 +429,9 @@
 									fail: function(res) {
 										_this.$https({
 											url: '/api/user/order-list',
-											data:{status: 1},
+											data: {
+												status: 1
+											},
 											success: res => {
 												uni.redirectTo({
 													url: '../../user/allState/shipped?orderId=' + res.data.data[0].orderId + '&zhuangtai=0'
@@ -504,6 +529,18 @@
 </script>
 
 <style lang="scss">
+	.shop-list {
+		margin-bottom: 20rpx;
+		background-color: #fff;
+		padding: 25rpx 25rpx 0 25rpx;
+		box-sizing: border-box;
+
+	}
+
+	page {
+		background-color: #fafafa;
+	}
+
 	.noneBox {
 		width: 250upx;
 		text-align: center;
@@ -573,15 +610,11 @@
 
 	.xinxi {
 		overflow: hidden;
-		padding: 0 25rpx;
+
 		width: 100%;
 		box-sizing: border-box;
-		border-bottom: 1px dotted #ccc;
+		// border-bottom: 1px dotted #ccc;
 		margin: 0 auto;
-
-		// >view {
-		// 	margin-bottom: 20rpx;
-		// }
 
 		.biaoyi {
 			text {
@@ -592,10 +625,13 @@
 		.biaot {
 			border: none;
 			margin-bottom: 0;
-			height: 95rpx;
-			line-height: 95rpx;
 			font-size: 28rpx;
+			background-color: #fff;
+			padding: 0 25rpx;
+			padding-top: 30rpx;
+
 		}
+
 
 		.box-content {
 			width: 100%;
@@ -620,8 +656,11 @@
 
 		.txt_c {
 			float: left;
-			width: 460upx;
+			width: calc(100% - 215rpx);
 			padding-left: 20upx;
+			box-sizing: border-box;
+			position: relative;
+			min-height: 160rpx;
 
 			.title {
 				padding-top: 10upx;
@@ -641,8 +680,64 @@
 
 			.spec {
 				font-size: 22upx;
-				line-height: 40upx;
+				line-height: 32upx;
 				color: #666;
+
+				text {
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
+				}
+
+				margin-bottom: 10rpx;
+
+			}
+
+			.box-bottom {
+				position: absolute;
+				bottom: 0;
+				overflow: hidden;
+				width: calc(100% - 20rpx);
+				line-height: 40rpx;
+
+				.order-price {
+					float: left;
+					color: #ff6600;
+					font-size: 26rpx;
+					font-weight: 500;
+				}
+
+				.jia {
+					float: right;
+					border: 2rpx solid #ececec;
+					border-radius: 8rpx;
+					height: 40rpx;
+					line-height: 40rpx;
+					box-sizing: border-box;
+					float: right;
+					overflow: hidden;
+
+					text {
+						font-size: 26upx;
+						color: #666;
+						float: left;
+						padding: 0 13rpx;
+					}
+
+					input {
+						width: 50px;
+						border-left: 1rpx solid #ececec;
+						border-right: 1rpx solid #ececec;
+						float: left;
+						height: 40rpx;
+						line-height: 40rpx;
+						text-align: center;
+						font-size: 18rpx;
+						color: #979797;
+					}
+				}
+
 			}
 
 			.radColor {
@@ -650,91 +745,82 @@
 				color: #ff0000;
 				font-size: 32upx;
 			}
-
-			.jia {
-				float: right;
-				border: 2rpx solid #ececec;
-				border-radius: 8rpx;
-				height: 40rpx;
-				line-height: 40rpx;
-				box-sizing: border-box;
-
-				text {
-					font-size: 26upx;
-					color: #666;
-					float: left;
-					padding: 0 13rpx;
-				}
-
-				input {
-					width: 50px;
-					border-left: 1rpx solid  #ececec;
-					border-right: 1rpx solid  #ececec;
-					float: left;
-					height: 40rpx;
-					line-height: 40rpx;
-					text-align: center;
-					font-size: 18rpx;
-					color: #979797;
-				}
-			}
 		}
+	}
+	.mar-buttom{
+		margin-bottom: 20rpx;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 25rpx;
 	}
 
 	.basic {
-		width: 690upx;
 		background-color: #fff;
 		overflow: hidden;
-		padding: 20upx;
-		padding-bottom: 10upx;
+		height: 90rpx;
+		line-height: 90rpx;
+		// border-bottom: 1rpx dashed #bfbfbf;
+		width: 100%;
+		font-size: 26upx;
+		color: #333;
+
+		.title {
+			float: left;
+			width: 25%
+		}
+
+		input {
+			height: 90rpx;
+			line-height: 90rpx;
+			width: 75%;
+			float: right;
+			text-align: right;
+		}
 
 		.left_a {
 			float: left;
 
 			text {
-				font-size: 28upx;
+				font-size: 26upx;
 				color: #333;
-				line-height: 50upx;
 			}
 		}
 
 		.right_a {
 			float: right;
-			padding-right: 10upx;
 
 			text {
-				font-size: 28upx;
+				font-size: 24upx;
 				float: right;
-				line-height: 50upx;
-
-				text {
-					color: #ff670c;
-				}
+				color: #333333;
 			}
 
 			.img_l {
 				float: left;
 				padding-right: 10upx;
-				padding-top: 5upx;
+				padding-top:22.5rpx;
 
 				image {
 					width: 45upx;
 					height: 45upx;
+					display: block;
 				}
 
 			}
 
 			.img_a {
 				float: right;
-				padding: 20upx 0upx 20upx 20upx;
+				padding: 35.5rpx 0 35.5rpx 20rpx;
 
 				image {
 					width: 12upx;
-					height: 14upx;
+					height: 19upx;
 					display: block;
 				}
 
 			}
+
+
 		}
 	}
 
@@ -771,7 +857,7 @@
 	}
 
 	.aa {
-		border-bottom: 1px dotted #ccc;
+		border-bottom: 1rpx dashed #bfbfbf;
 	}
 
 	.ssa {
@@ -802,7 +888,7 @@
 
 					text {
 						font-size: 28upx;
-						color: #ff0000;
+						color: #ff6600;
 					}
 
 				}
@@ -833,7 +919,7 @@
 			margin-right: 20rpx;
 
 			text {
-				font-size: 20upx;
+				font-size: 28upx;
 				color: #fff;
 				display: block;
 

@@ -236,10 +236,7 @@ $uni-font-size-paragraph:30upx;
 
 	}
 
-.view-style{
-	width: 100%;
-	box-sizing: border-box;
-}
+
 
 .activeCss{
 	overflow: hidden;
@@ -417,4 +414,12 @@ $uni-font-size-paragraph:30upx;
 		}
 		
 	}
+}
+page{
+	width: 100%;
+	box-sizing: border-box;
+}
+.view-style{
+	width: 100%;
+	box-sizing: border-box;
 }
