@@ -163,6 +163,13 @@
 						uni.showToast({
 							title:res.data.message
 						})
+						if(res.data.code==0){
+							setTimeout(function(){
+								uni.redirectTo({
+									url:'allState?id=4'
+								})
+							},1000)
+						}
 					}
 				})
 			}
@@ -389,5 +396,8 @@
 		text {
 			font-size: 28upx;
 		}
+	}
+	textarea{
+		width:100%;
 	}
 </style>

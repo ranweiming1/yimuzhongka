@@ -111,9 +111,9 @@
 					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
 						<button type="primary">再次购买</button>
 					</view> -->
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==2">
+					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==2">
 						<button type="primary">追加评论</button>
-					</view>
+					</view> -->
 					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0" @tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
 					</view>
@@ -232,6 +232,9 @@
 			});
 
 		},
+		onPullDownRefresh:function(){
+			this.getNewsList()
+		},
 		methods: {
 			getNewsList: function() { //第一次回去数据
 				var _this = this;
@@ -274,10 +277,10 @@
 						type: 2
 					}),
 					success: function(res) {
-						console.log(res)
 						uni.showToast({
 							title:res.data.message
 						})
+						_this.getNewsList()
 					}
 				})
 			},
