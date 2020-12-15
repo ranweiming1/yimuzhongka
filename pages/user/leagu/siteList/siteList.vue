@@ -39,7 +39,7 @@
 			</view>
 		</radio-group>
 		<view class="line" style="height: 120rpx;">
-			
+
 		</view>
 		<view class="uni-padding-wrap uni-common-mt bott" v-if='xianshi'>
 			<button type="primary" style="background: #2b5cff" @tap='fanhui'>确定并返回</button>
@@ -53,31 +53,31 @@
 			return {
 				list: [],
 				rds: '',
-				goodsId:'',
-				cartAttr:'',
-				id:'',
-				moneys:'',
-				dingdan:'',
-				shopId:'',
-				y:'',
-				xianshi:false,
-				jifenid:0
+				goodsId: '',
+				cartAttr: '',
+				id: '',
+				moneys: '',
+				dingdan: '',
+				shopId: '',
+				y: '',
+				xianshi: false,
+				jifenid: 0
 			}
 		},
 		onLoad: function(options) {
-			if(options.goodsId){
-				this.goodsId=options.goodsId
-				this.cartAttr=options.cartAttr
-				this.id=options.id
-				this.moneys=options.money
-				this.dingdan=options.dingdan
-				this.shopId=options.shopId
-				this.y=JSON.parse(options.y)
-				this.xianshi=true
+			if (options.goodsId) {
+				this.goodsId = options.goodsId
+				this.cartAttr = options.cartAttr
+				this.id = options.id
+				this.moneys = options.money
+				this.dingdan = options.dingdan
+				this.shopId = options.shopId
+				this.y = JSON.parse(options.y)
+				this.xianshi = true
 			}
-			if(options.jifen){
-				this.xianshi=true
-				this.jifenid=options.id
+			if (options.jifen) {
+				this.xianshi = true
+				this.jifenid = options.id
 			}
 			var _this = this
 			this.$https({
@@ -118,11 +118,11 @@
 			// 		})
 			// 	}
 			// })
-			
-			
+
+
 		},
 		onShow() {
-			var _this=this
+			var _this = this
 			this.$https({
 				url: '/api/user/my-address',
 				data: {},
@@ -144,10 +144,10 @@
 				})
 			},
 			checkboxChange: function(e) {
-				var _this=this
-				this.list.map(function(n){
-					if(e.detail.value==n.id){
-						_this.rds=n
+				var _this = this
+				this.list.map(function(n) {
+					if (e.detail.value == n.id) {
+						_this.rds = n
 					}
 				})
 			},
@@ -156,20 +156,22 @@
 					url: 'address?address=' + JSON.stringify(this.list[index])
 				})
 			},
-			fanhui:function(){
-				if(this.jifenid==0){
-				uni.navigateTo({
-					url:'../../../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+this.cartAttr+'&zhid='+JSON.stringify(this.rds)+'&id='+this.id+'&money='+this.moneys+'&dingdan='+this.dingdan+'&shopId='+this.shopId+'&y='+JSON.stringify(this.y)
-				})
-				}else{
+			fanhui: function() {
+				if (this.jifenid == 0) {
 					uni.navigateTo({
-						url:'../../../cart/orderForm/jifen?dizhi='+JSON.stringify(this.rds)+'&id='+this.jifenid
+						url: '../../../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + this.cartAttr + '&zhid=' +
+							JSON.stringify(this.rds) + '&id=' + this.id + '&money=' + this.moneys + '&dingdan=' + this.dingdan +
+							'&shopId=' + this.shopId + '&y=' + JSON.stringify(this.y)
+					})
+				} else {
+					uni.navigateTo({
+						url: '../../../cart/orderForm/jifen?dizhi=' + JSON.stringify(this.rds) + '&id=' + this.jifenid
 					})
 				}
 			},
-			back:function(){
+			back: function() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			}
 		}
@@ -180,9 +182,11 @@
 	checkbox {
 		border-radius: 50%;
 	}
-radio-group{
-	margin-top: 160rpx;
-}
+
+	radio-group {
+		margin-top: 160rpx;
+	}
+
 	.top {
 		width: 750upx;
 		margin: 0 auto;
@@ -205,12 +209,13 @@ radio-group{
 		.imgBox {
 			float: right;
 			padding: 20upx 0;
-			width:20%;
-			text-align:right;
+			width: 20%;
+			text-align: right;
+
 			text {
 				font-size: 26upx;
 				color: #333;
-				margin-right:20rpx;
+				margin-right: 20rpx;
 			}
 		}
 	}
@@ -261,8 +266,8 @@ radio-group{
 				font-size: 26upx;
 				color: #333;
 				line-height: 40upx;
-				width:100%;
-				clear:both;
+				width: 100%;
+				clear: both;
 			}
 		}
 
