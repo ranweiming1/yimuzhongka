@@ -102,7 +102,7 @@
 					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2" @tap="confirm(item.orderId)">
 						<button type="primary">确认收货</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0||item.orderStatus==1||item.orderStatus==2" @tap='shanchu(item.orderId)'>
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0" @tap='shanchu(item.orderId)'>
 						<button type="primary">删除订单</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId,item.goodsList)" v-if="item.status==5&&item.orderStatus==1">
@@ -117,9 +117,9 @@
 					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.payStatus==0" @tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
+<!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
-					</view>
+					</view> -->
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address)">		
 						<button type="primary">查看物流</button>
 					</view>
@@ -329,7 +329,7 @@
 			},
 			goPing(orderSn, orderId,goodids) {
 				uni.navigateTo({
-					url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId+'&goodsId='+goodids.goodsId
+					url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId+'&goodsId='+goodids[0].goodsId
 				})
 			},
 			shopCar() {
@@ -386,7 +386,7 @@
 			},
 			//删除订单
 			shanchu:function(id){
-				
+				this.openPopup1(id)
 			}
 		}
 	}
