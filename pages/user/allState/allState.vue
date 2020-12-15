@@ -69,7 +69,7 @@
 				<!-- 店铺名称待确认 -->
 				<text>{{item.storeShopDTO.shopName}}</text>
 				<view class="guanb">
-					<text>{{item.status==0?'待付款':item.status==1?'已付款.待发货':item.status==2?'已发货.待收货':item.status==3?'退货中':item.status==4?'退货完成':item.status==5?'待评价':item.status==6?'已评价':''}}</text>
+					<text>{{item.status==0?'待付款':item.status==1?'待发货':item.status==2?'待收货':item.status==3?'退货中':item.status==4?'退货完成':item.status==5?'待评价':item.status==6?'已评价':''}}</text>
 				</view>
 			</view>
 			<view class="xinxi" v-for="(ite,inde) in item.goodsList">
@@ -114,7 +114,7 @@
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==2">
 						<button type="primary">追加评论</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.payStatus==0" @tap="zhifu(item.orderSn)">
+					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0" @tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
 					</view>
 <!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">

@@ -11,8 +11,8 @@
 				<text style='position:absolute;width:100%;top:0;left:0;height:40rpx;text-align:center;color:#fff;font-size:38rpx;'>个人中心</text>
 			</view>
 			<view style='position:absolute;right:20rpx;top:0;z-index:99999;'>
-				<image src='../../static/icon_22.png' style='width:38rpx;height:42rpx;'></image>
-				<image src='../../static/shezhi.png' style='width:41rpx;height:39rpx;margin-left:20rpx;'></image>
+				<image src='../../static/icon_22.png' style='width:38rpx;height:42rpx;' @tap='k'></image>
+				<image src='../../static/shezhi.png' style='width:41rpx;height:39rpx;margin-left:20rpx;' @tap='shezhi'></image>
 			</view>
 		</view>
 		<!-- 头部 -->
@@ -204,7 +204,7 @@
 							</view>
 						</view>
 
-						<view>
+						<view @tap='k'>
 							<view class="imgBox">
 								<image src="../../static/sc.png" mode=""></image>
 							</view>
@@ -377,7 +377,8 @@
 				xianshidenglu: false,
 				list: [],
 				n: 0,
-				xianshi: true
+				xianshi: true,
+				id:''
 			}
 		},
 		components: {
@@ -401,6 +402,7 @@
 						_this.phone = res.data.data.phone
 						// console.log(res.data.data)
 						_this.myCode = res.data.data.myCode
+						_this.id=res.data.data.id
 					}
 				})
 				//
@@ -585,6 +587,11 @@
 			dianpu: function(id) {
 				uni.navigateTo({
 					url: '../shop/shop?id=' + id
+				})
+			},
+			k:function(){
+				uni.navigateTo({
+					url:'../index/ke?id='+this.id
 				})
 			}
 		}
