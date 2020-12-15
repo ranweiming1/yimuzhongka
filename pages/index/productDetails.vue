@@ -354,7 +354,9 @@
 				yao: '',
 				xuanzh: false,
 				youhuiqu: [],
-				j: 0
+				j: 0,
+				cishu:3,
+				yihuodecishu:0
 			}
 		},
 		components: {
@@ -433,6 +435,12 @@
 							method: 'post',
 							success: function(res) {}
 						})
+						//增加积分
+						setInterval(function(){
+							if(_this.cishu>_this.yihuodecishu){
+								_this.$https({url:'/api/task/center-task-insert',data:{taskId:2,taskType:1},method:'post',success:res=>{_this.cishu++}})
+							}
+						},60000)
 					}
 				}
 			})
