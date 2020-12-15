@@ -50,7 +50,7 @@
 
 		<view :class="tog_Ca?'clearCss':'togActive'">
 			<!-- 头部 -->
-			<view class="top toubu1">
+			<view class="top">
 				<view class="textBox">
 					<input class="uni-input" @blur="search" v-model="value" placeholder="请输入关键字" />
 				</view>
@@ -60,36 +60,54 @@
 			</view>
 
 			<!-- 这里有一个筛选 -->
-			<view class="nav">
+			<view class="nav dne">
 				<view style='display:flex;'>
 					<view class="con" @tap="chexing">
 						<text>车型</text>
-						<image src="../../static/icon_37.png" class="bot" mode=""></image>
+						<p class="activeBf"></p>
 					</view>
 					<view class="con" @tap='zonghe'>
-						<text>综合排序</text>
-						<image src="../../static/icon_37.png" class="bot" mode=""></image>
+						<text :style="paixu?'color:#3462ff':''">综合排序</text>
+						<p :class="paixu?'activeAf':'activeBf'"></p>
 					</view>
 					<view class="con" style="border: 0">
 						<view class="c_R" @tap="show">
 							<text>筛选</text>
-							<image src="../../static/icon_37.png" class="bot" mode=""></image>
+							<p class="activeBf"></p>
 						</view>
 						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
 					</view>
 				</view>
-				<view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;'
+
+				<!-- <view style='position:absolute;left:25%;top:70rpx;text-align:center;width:33%;background:#fff;border:1px solid #ddd;font-size:22rpx;'
 				 v-if='paixu'>
 					<view style='margin-top:20rpx;' @tap='x("PASC")'>价格从高到低</view>
 					<view style='margin-top:20rpx;' @tap='x("PDESC")'>价格从低到高</view>
 					<view style='margin-top:20rpx;' @tap='x("SASC")'>销量从高到低</view>
 					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='x("SDESC")'>销量从低到高</view>
+				</view> -->
+			</view>
+			<view class="zhMask" v-if='paixu'>
+				<view class="mask-content">
+					<view class="mask-cont-item" @tap='x("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
+							<image src="../../static/price_xuanze_icon.png" mode=""></image>
+						</view>
+					</view>
+					<view class="mask-cont-item" @tap='x("PDESC")'>信用<view class="cont-item-icon" v-if='st=="PDESC"'>
+							<image src="../../static/price_xuanze_icon.png" mode=""></image>
+						</view>
+					</view>
+					<view class="mask-cont-item" @tap='x("SASC")'>价格高/低<view class="cont-item-icon" v-if='st=="SASC"'>
+							<image :src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''" mode=""></image>
+						</view>
+					</view>
+					<!-- <view class="mask-cont-item" @tap='p("SDESC")'>销量从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SDESC"'>√</view>
+						</view> -->
 				</view>
 			</view>
 
-
 			<!-- 热门推荐 -->
-			<view class="hahah list uni-flex uni-column">
+			<view class="hahah list uni-flex uni-column " style="padding-top: 250rpx;">
 				<view class="content-item " v-for="(item , index) in allList" @tap="detail(item.goodsId)">
 					<view class="imgBox">
 						<image :src="item.goodsLogo" mode="widthFix"></image>
@@ -325,6 +343,63 @@
 </script>
 
 <style lang="scss">
+	.zhMask {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.3);
+		overflow: hidden;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 250rpx;
+		bottom: 0;
+		z-index: 999;
+
+		.mask-content {
+			position: absolute;
+			left: 0;
+			top: 0;
+			box-sizing: border-box;
+			padding: 0 20rpx;
+			text-align: center;
+			width: 100%;
+			background: #fff;
+			// border: 1px solid #ddd;
+			font-size: 14px;
+			z-index: 99999;
+
+			.mask-cont-item {
+				height: 88rpx;
+				line-height: 88rpx;
+				border-bottom: 1rpx solid #eeeeee;
+				text-align: left;
+				padding-left: 10rpx;
+				overflow: hidden;
+
+				.cont-item-icon {
+					display: inline-block;
+					margin-right: 5px;
+					float: right;
+
+					image {
+						width: 28rpx;
+						height: 20rpx;
+					}
+				}
+
+			}
+
+			.mask-cont-item:last-child {
+				border: 0;
+
+				image {
+					height: 28rpx;
+					width: 29rpx;
+				}
+			}
+		}
+	}
+
 	.clearCss {
 		.shop-sales {
 			color: #999999;
@@ -339,13 +414,19 @@
 	}
 
 	.top {
-		width: 710upx;
-		// margin: 20upx;
 		overflow: hidden;
+		position: fixed;
+		left: 0;
+		top: 0rpx;
+		background: #fff;
+		width: 100%;
+		z-index: 99999;
+		padding-top: 80rpx;
+		padding-bottom: 20rpx;
 
 		.textBox {
 			float: left;
-			margin-left: 70upx;
+			margin-left: 25upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
 
@@ -379,10 +460,12 @@
 	.nav {
 		width: 710upx;
 		padding: 20upx;
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid #eeeeee;
 		text-align: center;
-		position: relative;
+		position: fixed;
 		height: 50rpx;
+		background-color: #fff;
+		z-index: 99;
 
 		.con {
 			// width: 33.3%;
@@ -397,6 +480,28 @@
 				padding-right: 18rpx;
 
 			}
+
+			.activeBf {
+				width: 0;
+				height: 0;
+				border: 12.5rpx solid #cccccc;
+				border-bottom: 0;
+				border-color: #cccccc transparent transparent transparent;
+				display: inline-block;
+				vertical-align: middle;
+
+			}
+
+			.activeAf {
+				width: 0;
+				height: 0;
+				border: 13rpx solid #cccccc;
+				border-top: 0;
+				border-color: transparent transparent #cccccc transparent;
+				display: inline-block;
+				vertical-align: middle;
+			}
+
 
 			image {
 				// line-height: 36rpx;
