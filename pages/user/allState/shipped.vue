@@ -80,7 +80,7 @@
 						<text>X{{item.goodsNum}}</text>
 					</view>
 				</view>
-				<view class="uni-padding-wrap uni-common-mt bott" @tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId)" v-if='s'>
+				<view class="uni-padding-wrap uni-common-mt bott" @tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId)">
 					<button type="primary">申请售后</button>
 				</view>
 			</view>
@@ -181,8 +181,7 @@
 				com: '',
 				dz: '',
 				kuaidi: '',
-				t:false,
-				s:false
+				t:false
 			}
 		},
 		onLoad(option) {
