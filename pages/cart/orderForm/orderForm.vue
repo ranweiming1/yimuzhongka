@@ -36,9 +36,8 @@
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
-			<!-- v-for='(item,index) in cartAttr' v-if='item.cartAttr' -->
 			<view>
-				<view style='padding-bottom: 25rpx;'>{{item.goodsName}}开创集团</view>
+				<view style='padding-bottom: 25rpx;' v-for='(item,index) in cartAttr' v-if='item.cartAttr'>{{item.goodsName}}开创集团</view>
 				<view class="content-list">
 					<!-- v-for='(items,indexs) in item.cartAttr' -->
 					<view class="box-content">

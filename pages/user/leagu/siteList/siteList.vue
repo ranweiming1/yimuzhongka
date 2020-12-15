@@ -158,13 +158,13 @@
 			},
 			fanhui: function() {
 				if (this.jifenid == 0) {
-					uni.navigateTo({
+					uni.redirectTo({
 						url: '../../../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + this.cartAttr + '&zhid=' +
 							JSON.stringify(this.rds) + '&id=' + this.id + '&money=' + this.moneys + '&dingdan=' + this.dingdan +
 							'&shopId=' + this.shopId + '&y=' + JSON.stringify(this.y)
 					})
 				} else {
-					uni.navigateTo({
+					uni.redirectTo({
 						url: '../../../cart/orderForm/jifen?dizhi=' + JSON.stringify(this.rds) + '&id=' + this.jifenid
 					})
 				}

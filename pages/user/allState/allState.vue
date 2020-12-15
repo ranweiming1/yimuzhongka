@@ -399,9 +399,15 @@
 		text-align: center;
 		margin-top:100rpx;
 	}
+	page{
+		background-color: #f7f7f7;
+	}
+	.listBox{
+		background-color: #fff;
+	}
 	.top {
 		width: 710upx;
-		margin: 20upx;
+		padding: 20upx;
 		overflow: hidden;
 
 		.textBox {

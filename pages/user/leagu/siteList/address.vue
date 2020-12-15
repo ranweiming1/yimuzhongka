@@ -62,14 +62,12 @@
 			<button size="mini" type="primary" @tap='baocun' :style="isOk?'background: #2b5cff;width:60%':'background: #2b5cff;'">保存</button>
 			<button size="mini" type="primary" v-if="!isOk" @tap="xianshi(id)" style="background: #ff3334;">删除</button>
 		</view>
-		<view style='width:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:1000000;height:100%;' v-if='shanchu'>
-			<view style='height:200rpx;background:#fff;position:absolute;top:0;left:50rpx;right:50rpx;bottom:0;margin:auto;border-radius: 15rpx;padding: 25rpx;'>
-				<view style='text-align:center;margin-top:35rpx;padding-bottom: 10rpx;'>您确定删除地址?</view>
-				<view style='text-align:center;margin-top:20rpx;overflow: hidden;'>
-					<view style='display:inline-block;background:#eee;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:45rpx;float:left;margin-left:20rpx;'
-					 @tap='quxiao'>取消</view>
-					<view style='display:inline-block;background:#2d5eff;color:#fff;width:230rpx;text-align:center;line-height:70rpx;height:70rpx;border-radius:45rpx;float:right;margin-right:20rpx;'
-					 @tap='del'>确定</view>
+		<view class="del-mask" v-if='shanchu'>
+			<view class="del-mask-content">
+				<view class="mask-title">您确定删除地址?</view>
+				<view class="mask-bot">
+					<view class="bot-left"  @tap='quxiao'>取消</view>
+					<view class="bot-right"  @tap='del'>确定</view>
 				</view>
 			</view>
 		</view>
