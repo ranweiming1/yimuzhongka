@@ -611,7 +611,6 @@
 				this.Price = this.guige[ind].price
 			},
 			goumaia: function() {
-				console.log(this.list)
 				if (this.xuanzh) {
 					uni.navigateTo({
 						url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({

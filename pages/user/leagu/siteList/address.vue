@@ -201,7 +201,7 @@
 								if (_this.goodsId) {
 									uni.redirectTo({
 										url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr +
-											'&zhid=' + res.data.data + '&money=' + _this.moneys + '&id=' + _this.youhuiid + '&dingdan=' + _this.dingdan +
+											'&zhid=' + JSON.stringify(res.data.data) + '&money=' + _this.moneys + '&id=' + _this.youhuiid + '&dingdan=' + _this.dingdan +
 											'&shopId=' + _this.shopId + '&y=' + JSON.stringify(_this.y)
 									})
 								} else {
