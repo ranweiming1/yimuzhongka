@@ -9,7 +9,7 @@
 
 			<!-- 已设置地址样式 -->
 			<view class="addBox" v-if='z'>
-				<view class="content">
+				<view class="content" @tap='qiehuandizhi'>
 					<view style='overflow:hidden;margin-bottom: 10rpx;'>
 						<view class="nome">
 							<text>{{dizhi.username}}</text>
@@ -62,7 +62,7 @@
 								</view>
 								<view class="box-bottom">
 									<view class="order-price">
-										￥999
+										￥{{items.shopPrice}}
 									</view>
 									<view class="jia">
 										<text @tap='shangpinj(index,indexs)'>-</text>
@@ -208,17 +208,15 @@
 				shopId: 0,
 				xinxi: '',
 				yao: '',
-				z: []
+				z: ''
 			}
 		},
 		onLoad: function(options) {
 			var _this = this
 			this.yao = options.str
-			console.log(options)
 			if (options.goodsId) {
 				this.goodsId = options.goodsId
 				this.cartAttr = JSON.parse(options.cartAttr).cartAttr
-				console.log(this.cartAttr)
 				if (options.dingdan == 1) {
 					this.cartAttr.map(function(n, index) {
 						if (n.cartAttr) {
@@ -294,7 +292,7 @@
 					url: '/api/user/my-address',
 					data: {},
 					success: function(res) {
-						_this.z = res.data.data.length
+						_this.z = res.data.data.length>0
 						res.data.data.map(function(n) {
 							if (n.isDefault == 1) {
 								//默认地址
@@ -324,7 +322,15 @@
 			})
 			this.heji = (+this.yunfei) + (+this.shangpin) - this.moneys
 		},
-
+		onShow:function(){
+			//更新收货地址
+			this.$https({url:'/api/user/my-address',data:{},success:res=>{
+				if(res.data.data.length==0){
+					this.dizhi={}
+					this.z=false
+				}
+			}})
+		},
 		methods: {
 			tanchuang: function() {
 				var arr = []
