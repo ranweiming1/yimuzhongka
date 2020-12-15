@@ -44,7 +44,7 @@
 			<view class="uni-form-item" style="height: 135rpx;">
 				<view class="title">
 					<text class="texts" style="margin-top: 20rpx;font-size:28rpx;line-height: 50rpx;">详细地址</text>
-					<text class="texts">这里是详细地址什么大厦几零几</text>
+					<textarea class="texts" v-model='area'>这里是详细地址什么大厦几零几</textarea>
 				</view>
 				<input class="uni-input" name="input" style="line-height: 135rpx;height: 135rpx;" v-model='area' placeholder='详细地址' />
 			</view>

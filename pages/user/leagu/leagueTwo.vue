@@ -63,11 +63,15 @@
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行卡号</text></view>
-				<input class='uni-input' v-model='bankCardNo' placeholder='请输入银行卡号'>
+				<input class='uni-input' v-model='bankCardNo' placeholder='请输入银行卡号' @blur='jiaoyanyinhangka'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>预留手机号</text></view>
-				<view class='uni-input' v-model='shoujihao' placeholder='请输入预留手机号'></view>
+				<input class='uni-input' v-model='shoujihao' placeholder='请输入预留手机号' @blur='jiaoyanyinhangka'></input>
+			</view>
+			<view class='uni-form-item'>
+				<view class='title'><text>银行名称</text></view>
+				<input class='uni-input' v-model='mingcheng' placeholder='请输入银行名称'>
 			</view>
 
 		</view>
@@ -109,16 +113,23 @@
 				license: '../../../static/uploadBag.png',
 				storeLogo: '../../../static/uploadBag.png',
 				logoCare: '上传图像格式为：JPG、png,  大小不得大于1M.',
-				isMask:false,
+				isMask: false,
 				legalCardId: '',
 				legalName: '',
-				shuju:'',
-				bankCardNo:'',
-				shoujihao:''
+				shuju: '',
+				bankCardNo: '',
+				shoujihao: '',
+				jiaoyananniu: false,
+				mingcheng:'',
+				id:''
 			}
 		},
-		onLoad:function(option){
-			this.shuju=JSON.parse(option.o)
+		onLoad: function(option) {
+			this.shuju = JSON.parse(option.o)
+			//获取用户id
+			this.$https({url:'/api/user/my-info',data:{},success:res=>{
+				this.id=res.data.data.id
+			}})
 		},
 		methods: {
 			checks() {
@@ -126,8 +137,8 @@
 				this.isCheck = !this.isCheck
 				console.log((this.isCheck))
 			},
-			beCareful:function(){
-				this.isMask=!this.isMask
+			beCareful: function() {
+				this.isMask = !this.isMask
 			},
 			yingyezhizhao: function() {
 				var _this = this
@@ -154,18 +165,19 @@
 							success: res => {
 								this.cardImg1 = JSON.parse(res.data).data.url
 								uni.request({
-									url:this.webUrl+'/api/oauth/get-ocr-id-card-info',
-									data:{
-										imgPath:this.cardImg1,
-										imgType:0
+									url: this.webUrl + '/api/oauth/get-ocr-id-card-info',
+									data: {
+										imgPath: this.cardImg1,
+										imgType: 0
 									},
-									header:{
-										'Content-Type':'application/x-www-form-urlencoded'
+									header: {
+										'Content-Type': 'application/x-www-form-urlencoded'
 									},
-									method:'post',
-									success:res=>{
-										this.legalName=JSON.parse(res.data.data).name
-										this.legalCardId=JSON.parse(res.data.data).num
+									method: 'post',
+									success: res => {
+										this.legalName = JSON.parse(res.data.data).name
+										this.legalCardId = JSON.parse(res.data.data).num
+										this.jiaoyanyinhangka()
 									}
 								})
 							}
@@ -202,9 +214,37 @@
 					}
 				})
 			},
-		submit:function(){
-			console.log(this.legalCardId,this.legalName)
-		},
+			submit: function() {
+				var obj={}
+				var shuju=this.shuju
+				obj.accountName=shuju.accountName
+				obj.sqrPhone=shuju.sqrPhone
+				obj.storeName=shuju.storeName
+				obj.legalName=this.legalName
+				obj.lecenseNo=shuju.lecenseNo
+				obj.area=shuju.area
+				obj.email=shuju.email
+				obj.principal=shuju.principal
+				obj.princPhone=shuju.princPhone
+				obj.fzrDept=shuju.fzrDept
+				obj.cateIdList=JSON.parse(shuju.cateIdList)
+				obj.storeLogo=this.storeLogo
+				obj.license=shuju.license
+				obj.cardImg1=shuju.cardImg1
+				obj.cardImg2=shuju.cardImg2
+				obj.legalCardId=this.legalCardId
+				obj.bankCardNo=this.bankCardNo
+				obj.bankName=this.mingcheng
+				obj.mermberId=this.id
+				if(this.jiaoyananniu){
+					this.$https({url:'/api/shop/add-merchat',data:obj,haeder:true,method:'post',success:res=>{uni.showToast({title:res.data.message,icon:'none'})}})
+				}
+			},
+			jiaoyanyinhangka:function(){
+				if(this.bankCardNo&&this.legalCardId&&this.legalName&&this.shoujihao){
+					uni.request({url:this.webUrl+'/api/oauth/get-bank-card4',data:{cardNumber:this.bankCardNo,idNumber:this.legalCardId,name:this.legalName,phoneNumber:this.shoujihao},header:{'Content-Type':'application/x-www-form-urlencoded'},method:'post',success:res=>{if(res.data.code==0){this.jiaoyananniu=true}else{this.jiaoyananniu=false}uni.showToast({title:res.data.message})}})
+				}
+			}
 		}
 	}
 </script>
