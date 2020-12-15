@@ -159,7 +159,7 @@
 					dengl: false,
 					haeder: true,
 					method:'post',
-					success() {
+					success(res) {
 						uni.showToast({
 							title:res.data.message
 						})

@@ -1,7 +1,7 @@
 <template>
 	<scroll-view scroll-y="true" style="height: 100%;position:fixed;" :scroll-into-view="toJump">
 		<!-- 产品图，这是轮播 -->
-		<view class="bg_img toubu">
+		<view class="bg_img toubu" id='s'>
 			<swiper style='height:610rpx;'>
 				<swiper-item v-for='item in list.goodsImgss'>
 					<image :src='item?item:""'></image>
@@ -461,6 +461,9 @@
 			jump(ind) {
 				var _this = this
 				this.ind = ind
+				if(ind==1){
+					this.toJump='s'
+				}
 				if (ind == 2) {
 					_this.toJump = 'pingjia'
 				} else if (ind == 3) {

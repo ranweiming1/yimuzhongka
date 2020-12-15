@@ -370,6 +370,12 @@
 					})
 					return false
 				}
+				if(!this.this.accountName){
+					uni.showToast({
+						title:'请输入账户名'
+					})
+					return false
+				}
 				var obj={}
 				obj.accountName=this.accountName
 				obj.sqrPhone=this.sqrPhone
