@@ -58,7 +58,7 @@
 				</view>
 			</view>
 		</view>
-        <view style='height:240rpx;'></view>
+		<view style='height:240rpx;'></view>
 		<view v-if='dList.length==0' @tap='tiaozhuan'>
 			<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'></image>
 			<view style='text-align:center;'>您还未有订单,去逛逛</view>
@@ -105,7 +105,8 @@
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0" @tap='shanchu(item.orderId)'>
 						<button type="primary">删除订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId,item.goodsList)" v-if="item.status==5&&item.orderStatus==1">
+					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId,item.goodsList)"
+					 v-if="item.status==5&&item.orderStatus==1">
 						<button type="primary">去评价</button>
 					</view>
 					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
@@ -117,10 +118,10 @@
 					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0" @tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
 					</view>
-<!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
+					<!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view> -->
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address)">		
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address)">
 						<button type="primary">查看物流</button>
 					</view>
 
@@ -202,7 +203,7 @@
 		onReachBottom: function() {
 			var _this = this
 			_this.page++; //每触底一次 page +1
-			var page_num=_this.page*10
+			var page_num = _this.page * 10
 			// console.log(_this.hotRecommendlist.length);
 			if (_this.loadingType != 0) { //loadingType!=0;直接返回
 				return false;
@@ -212,19 +213,19 @@
 			uni.showNavigationBarLoading(); //显示加载动画
 			this.$https({
 				url: '/api/user/order-list',
-				dengl:false,
+				dengl: false,
 				data: {
 					status: _this.id,
-					page_num:page_num
+					page_num: page_num
 				},
 				success: function(res) {
 					_this.dList = res.data.data
-					if (_this.dList.length<page_num) { //没有数据
-					// console.log(page_num)
+					if (_this.dList.length < page_num) { //没有数据
+						// console.log(page_num)
 						_this.loadingType = 2;
 						uni.hideNavigationBarLoading(); //关闭加载动画
-					}else{
-					_this.loadingType = 0; //将loadingType归0重	
+					} else {
+						_this.loadingType = 0; //将loadingType归0重	
 					}
 					uni.hideNavigationBarLoading(); //关闭加载动画
 
@@ -232,7 +233,7 @@
 			});
 
 		},
-		onPullDownRefresh:function(){
+		onPullDownRefresh: function() {
 			this.getNewsList()
 		},
 		methods: {
@@ -278,7 +279,7 @@
 					}),
 					success: function(res) {
 						uni.showToast({
-							title:res.data.message
+							title: res.data.message
 						})
 						_this.getNewsList()
 					}
@@ -294,21 +295,24 @@
 			closePopup() {
 				this.$refs.popup.close()
 			},
-			openPopup1:function(orderId){
+			openPopup1: function(orderId) {
 				this.$https({
-					url:'/api/user/order-handle',
-					data:JSON.stringify({orderId:orderId,type:1}),
-					method:'post',
-					haeder:true,
-					success:res=>{
+					url: '/api/user/order-handle',
+					data: JSON.stringify({
+						orderId: orderId,
+						type: 1
+					}),
+					method: 'post',
+					haeder: true,
+					success: res => {
 						uni.showToast({
-							title:res.data.message
+							title: res.data.message
 						})
 						this.toggle(1)
 					}
 				})
 			},
-			wuliu(code,order,com,dz) {
+			wuliu(code, order, com, dz) {
 				// console.log('222')
 				uni.navigateTo({
 					url: './deliver?code=' + code + '&order=' + order + '&com=' + com + '&dz=' + dz
@@ -330,9 +334,9 @@
 				})
 
 			},
-			goPing(orderSn, orderId,goodids) {
+			goPing(orderSn, orderId, goodids) {
 				uni.navigateTo({
-					url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId+'&goodsId='+goodids[0].goodsId
+					url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId + '&goodsId=' + goodids[0].goodsId
 				})
 			},
 			shopCar() {
@@ -340,9 +344,9 @@
 					url: '../../cart/cart'
 				})
 			},
-			detail(id,t) {
+			detail(id, t) {
 				uni.navigateTo({
-					url: './shipped?orderId=' + id+'&zhuangtai='+t
+					url: './shipped?orderId=' + id + '&zhuangtai=' + t
 				})
 			},
 			zhifu(orderSn) {
@@ -371,24 +375,23 @@
 							provider: 'wxpay',
 							orderInfo: obj,
 							success: function(res) {},
-							fail: function(res) {
-							}
+							fail: function(res) {}
 						})
 					}
 				})
 			},
-			back:function(){
+			back: function() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			},
-			tiaozhuan:function(){
+			tiaozhuan: function() {
 				uni.navigateTo({
-					url:'../../classify/fenlOne'
+					url: '../../classify/fenlOne'
 				})
 			},
 			//删除订单
-			shanchu:function(id){
+			shanchu: function(id) {
 				this.openPopup1(id)
 			}
 		}
@@ -396,18 +399,21 @@
 </script>
 
 <style lang="scss">
-	.loading-text{
+	.loading-text {
 		display: block;
-		
+
 		text-align: center;
-		margin-top:100rpx;
+		margin-top: 100rpx;
 	}
-	page{
+
+	page {
 		background-color: #f7f7f7;
 	}
-	.listBox{
+
+	.listBox {
 		background-color: #fff;
 	}
+
 	.top {
 		width: 710upx;
 		padding: 20upx;
@@ -490,11 +496,12 @@
 
 		.imgBox_a {
 			float: left;
-			padding-top: 20upx;
+			margin-bottom: 20rpx;
 
 			image {
-				width: 215upx;
-				height: 160upx;
+				width: 200upx;
+				height: 200upx;
+				display: block;
 			}
 		}
 
@@ -510,16 +517,25 @@
 
 		.txt_c {
 			float: left;
-			width: 470upx;
+			width: calc(100% - 200rpx);
 			padding-left: 20upx;
+			height: 200rpx;
+			box-sizing: border-box;
+			position: relative;
 
 			.title {
 				padding-top: 10upx;
 
 				text {
-					font-size: 30upx;
-					line-height: 30upx;
+					font-size: 28upx;
+					line-height: 45upx;
 					color: #333;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
 				}
 			}
 
@@ -527,16 +543,24 @@
 				font-size: 26upx;
 				line-height: 40upx;
 				color: #666;
+				margin-top: 10rpx;
 			}
 
 			.radColor {
 				float: left;
 				color: #ff0000;
 				font-size: 32upx;
+				position: absolute;
+				bottom: 0;
+				left: 20rpx;
 			}
 
 			.jia {
 				float: right;
+				float: right;
+				position: absolute;
+				bottom: 0;
+				right: 20rpx;
 
 				text {
 					font-size: 20upx;
@@ -553,7 +577,8 @@
 		padding-top: 10upx;
 		overflow: hidden;
 		border-bottom: 1px solid #f7f7f7;
-		padding-bottom:30rpx;
+		padding-bottom: 30rpx;
+
 		text {
 			font-size: 28upx;
 			color: #333;
