@@ -11,11 +11,7 @@
 				</view>
 				<view class="edit-cont">
 					<view class="edit-cont-top">
-						<view class="country-left" @tap='xuanze'>
-							<text>鲁</text>
-							<i></i>
-						</view>
-						<input  type="text" value="" :value='listz[nu].carNum' @input='chepai'/>
+						<input  type="text" :value='listz[nu].carNum' @input='chepai'/>
 					</view>
 					<view class="edit-cont-top">
 						<input type="text" :value='listz[nu].carCate.carName' style="width: 100%;" />
@@ -31,10 +27,7 @@
 				</view>
 			</view>
 		</view>
-		<view style='position:fixed;bottom:0;width:100%;left:0;height:250rpx;background:#ddd;color:#666; z-index: 99;' v-if='xianshi'>
-			<view v-for='(item,z) in cheng' :style='index==z?"float:left;background:#2b64a4;width:50rpx;height:50rpx;text-align:center;line-height:50rpx;border-radius:5rpx;margin-left:10rpx;margin-top:20rpx;color:#fff;":"float:left;background:#fff;width:50rpx;height:50rpx;text-align:center;line-height:50rpx;margin-left:10rpx;margin-top:20rpx;"'
-			 @tap='dianji(z)'>{{item}}</view>
-		</view>
+		
 		<view class="siteBox-list">
 			<view class="siteBox" v-for='(item,index) in listz'>
 				<view class="content">
@@ -155,7 +148,8 @@
 				}
 				if (a == 0 || this.listz[this.nu].carNum.length > 8 || this.listz[this.nu].carNum.length < 7) {
 					uni.showToast({
-						title: '请输入正确的车牌号'
+						title: '请输入正确的车牌号',
+						icon:'none'
 					})
 					return false
 				}
@@ -167,7 +161,15 @@
 				}
 				if (a == 1) {
 					uni.showToast({
-						title: '请输入正确的车牌号'
+						title: '请输入正确的车牌号',
+						icon:'none'
+					})
+					return false
+				}
+				if(this.listz[this.nu].myCarImg=='../../static/img_10.jpg.png'){
+					uni.showToast({
+						title: '请选择图片',
+						icon:'none'
 					})
 					return false
 				}
@@ -359,7 +361,7 @@
 				input {
 					height: 75rpx;
 					line-height: 75rpx;
-					width: calc(100% - 130rpx);
+					width:100%;
 					box-sizing: border-box;
 					text-align: left;
 					padding-left: 35rpx;
