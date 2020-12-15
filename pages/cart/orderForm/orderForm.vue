@@ -35,21 +35,25 @@
 		<view style='width:400rpx;overflow:hidden;'>{{str}}</view>
 		<!-- 订单信息 -->
 		<view class="xinxi">
+			<!-- 标题 -->
 			<view class="biaot">
 				<text>订单信息</text>
 			</view>
+			<!-- 一级列表：店铺列表循环 -->
 			<view class="shop-list" v-for='(item,index) in cartAttr' v-if='item.cartAttr'>
-
+				<!-- 店铺名称 -->
 				<view style='padding-bottom: 25rpx;'>{{item.goodsName}}</view>
 				<view class="content-list">
 					<view class="box-list-single">
+						<!-- 二级列表：相同店铺内商品循环（不同规格或不同商品） ；只循环商品信息 -->
 						<view class="box-content" v-for='(items,indexs) in item.cartAttr'>
 							<view class="imgBox_a">
 								<image :src="items.goodsLogo" mode=""></image>
 							</view>
 							<view class="txt_c">
+								<!-- 商品名称（缺失单个商品名称） -->
 								<view class="title">
-									<text>{{item.goodsName}}
+									<text>{{items.goodsName}}
 									</text>
 								</view>
 								<view class="spec">
@@ -69,6 +73,7 @@
 						</view>
 
 					</view>
+					<!-- 一个店铺，一个运费一个备注；所以运费需要累加 ；-->
 					<view class="basic aa">
 						<view class="left_a">
 							<text>运费</text>
@@ -80,6 +85,7 @@
 							<text>￥{{items.kuaidi}}</text>
 						</view>
 					</view>
+					<!-- 存在店铺优惠券，不取消隐藏即可 -->
 					<view class="basic aa">
 						<view class="left_a">
 							<text>店铺优惠券</text>
@@ -102,6 +108,8 @@
 
 		</view>
 
+		<!-- 总数据 -->
+		<!-- 总优惠券无数据 -->
 		<view class="basic mar-buttom" v-if="false">
 			<view class="left_a">
 				<text>优惠券</text>
@@ -563,13 +571,14 @@
 	}
 
 	.siteBox {
-		width: 710upx;
-		height: initial;
+		width:100%;
+		// height: initial;
 		padding: 20upx;
 		background-color: #fff;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
 		border-top: 1px solid #e5e5e5;
+		box-sizing: border-box;
 
 		.addBox {
 			overflow: hidden;
