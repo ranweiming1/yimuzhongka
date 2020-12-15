@@ -3,31 +3,33 @@
 
 		<view class="siteBox">
 			<!-- 无地址样式 -->
-			<view class="noneBox" v-if='!z'>
+			<view class="noneBox"  v-if='!z'>
 				<text @tap='tiaozhuan'>+ 添加收货地址</text>
 			</view>
 
 			<!-- 已设置地址样式 -->
-			<view class="content" @tap='qiehuandizhi' v-if='z'>
-				<view style='overflow:hidden;margin-bottom: 10rpx;'>
-					<view class="nome">
-						<text>{{dizhi.username}}</text>
+			<view class="addBox" v-if='z'>
+				<view class="content">
+					<view style='overflow:hidden;margin-bottom: 10rpx;'>
+						<view class="nome">
+							<text>{{dizhi.username}}</text>
+						</view>
+						<view class="call">
+							<text>{{dizhi.phone}}</text>
+						</view>
+						<!-- 默认地址标签样式 -->
+						<view class="label" v-if='dizhi.isDefault'>
+							<text>默认</text>
+						</view>
 					</view>
-					<view class="call">
-						<text>{{dizhi.phone}}</text>
-					</view>
-					<!-- 默认地址标签样式 -->
-					<view class="label" v-if='dizhi.isDefault'>
-						<text>默认</text>
+					<view class="p">
+						<text>{{dizhi.address}}</text>
 					</view>
 				</view>
-				<view class="p">
-					<text>{{dizhi.address}}</text>
-				</view>
-			</view>
 
-			<view class="imgBox">
-				<image src="../../../static/icon_26.png" mode="" style='width:12rpx;height:19rpx;margin-top:20rpx;float:right;'></image>
+				<view class="imgBox"  @tap='qiehuandizhi'>
+					<image src="../../../static/icon_26.png" mode="" style='width:12rpx;height:19rpx;margin-top:20rpx;float:right;'></image>
+				</view>
 			</view>
 		</view>
 		<view style='width:400rpx;overflow:hidden;'>{{str}}</view>
@@ -37,14 +39,13 @@
 				<text>订单信息</text>
 			</view>
 			<view class="shop-list" v-for='(item,index) in cartAttr' v-if='item.cartAttr'>
-				
+
 				<view style='padding-bottom: 25rpx;'>{{item.goodsName}}</view>
-				<view class="content-list" 	>
+				<view class="content-list">
 					<view class="box-list-single">
 						<view class="box-content" v-for='(items,indexs) in item.cartAttr'>
 							<view class="imgBox_a">
-								<image src="../../../static/Bitmap.png" mode=""></image>
-								<!-- :src="items.goodsLogo" -->
+								<image :src="items.goodsLogo" mode=""></image>
 							</view>
 							<view class="txt_c">
 								<view class="title">
@@ -98,9 +99,9 @@
 				</view>
 
 			</view>
-			
+
 		</view>
-		
+
 		<view class="basic mar-buttom" v-if="false">
 			<view class="left_a">
 				<text>优惠券</text>
@@ -160,7 +161,7 @@
 					<text>￥{{yunfei}}</text>
 				</view>
 			</view>
-			
+
 		</view>
 		<!-- 底部 -->
 		<view class="bottom">
@@ -570,6 +571,24 @@
 		border-bottom: 1px solid #e5e5e5;
 		border-top: 1px solid #e5e5e5;
 
+		.addBox {
+			overflow: hidden;
+
+		}
+
+		.imgBox {
+			overflow: hidden;
+			float: right;
+			padding-top: 20rpx;
+			padding-left: 30rpx;
+			padding-bottom: 20rpx;
+
+			image {
+				width: 6px;
+				height: 10px;
+				display: block;
+			}
+		}
 
 		.content {
 			float: left;
@@ -747,7 +766,8 @@
 			}
 		}
 	}
-	.mar-buttom{
+
+	.mar-buttom {
 		margin-bottom: 20rpx;
 		width: 100%;
 		box-sizing: border-box;
@@ -798,7 +818,7 @@
 			.img_l {
 				float: left;
 				padding-right: 10upx;
-				padding-top:22.5rpx;
+				padding-top: 22.5rpx;
 
 				image {
 					width: 45upx;
