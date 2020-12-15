@@ -61,7 +61,7 @@
 								</view>
 								<view class="box-bottom">
 									<view class="order-price">
-										￥{{items.shopPrice}}
+										￥999
 									</view>
 									<view class="jia">
 										<text @tap='shangpinj(index,indexs)'>-</text>
