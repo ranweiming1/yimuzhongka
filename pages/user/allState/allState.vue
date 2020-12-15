@@ -1,20 +1,20 @@
 <template>
 	<view>
 		<!-- 头部 -->
-		<view class="top" style='width:100%;background:#fff;position:fixed;top:0rpx;z-index:99999;left:0;padding-top:60rpx;'>
+		<view class="top" style='width:100%;background:#fff;position:fixed;top:0rpx;z-index:99999;left:0;padding-top:90rpx;'>
 			<view class='back' @tap='back' style='float:left;padding:10rpx 20rpx 15rpx 20rpx;'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
 			<view class="textBox">
 				<input class="uni-input" placeholder="请输入关键字" />
 			</view>
-			<view class="imgBox" @tap="shopCar" style='margin-right:20rpx;'>
+			<!-- <view class="imgBox" @tap="shopCar" style='margin-right:20rpx;'>
 				<image src="../../../static/icon_43.png" mode=""></image>
-			</view>
+			</view> -->
 		</view>
 
 		<!-- 状态栏 -->
-		<view class="topBox" style='position:fixed;top:135rpx;left:0;width:100%;background:#fff;padding-top:20rpx;z-index:99999;'>
+		<view class="topBox" style='position:fixed;top:170rpx;left:0;width:100%;background:#fff;padding-top:20rpx;z-index:99999;'>
 			<!-- 选中样式 -->
 			<view class="none on" @tap="toggle(0)">
 				<view class="ontext">
@@ -58,7 +58,7 @@
 				</view>
 			</view>
 		</view>
-        <view style='height:200rpx;'></view>
+        <view style='height:240rpx;'></view>
 		<view v-if='dList.length==0' @tap='tiaozhuan'>
 			<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'></image>
 			<view style='text-align:center;'>您还未有订单,去逛逛</view>

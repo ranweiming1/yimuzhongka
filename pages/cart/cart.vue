@@ -46,7 +46,6 @@
 										 v-if='shuju[index].s[n]'></view>
 									</view>
 								</view>
-
 								<view class="imgBox_a" @tap='openPopup(index,n)'>
 									<image :src="item.goodsLogo" mode=""></image>
 								</view>
@@ -207,8 +206,8 @@
 					 @tap='quanxuan'>√</view>
 					<text style='margin-left:20rpx;float:left;margin-top:10rpx;'>全选</text>
 					<view style='float:left;margin-top:10rpx;'>
-						<view style='float:left;color:#ff6600;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'>￥</view>
-						<view style='float:left;color:#ff6600;font-size:30rpx;'>{{jiage}}</view>
+						<!-- <view style='float:left;color:#ff6600;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'></view> -->
+						<view style='float:left;color:#ff6600;font-size:30rpx;'>￥{{jiage}}</view>
 						<view style='float:left;color:#999;font-size:26rpx;margin-left:10rpx;'>(含运费)</view>
 					</view>
 				</view>
@@ -335,7 +334,7 @@
 						})
 					})
 					_this.numa = res.data.data.cartList.length
-					_this.xuan=false
+					_this.xuan = false
 					// _this.xuanzho.map(function(n, index) {
 					// 	n.map(function(z, indexs) {
 					// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
@@ -853,7 +852,7 @@
 				if (this.xuan) {
 					this.xuan = false
 					this.shuju.map(function(n, index) {
-						_this.$set(_this.shuju[index],'dian',false)
+						_this.$set(_this.shuju[index], 'dian', false)
 						n.s.map(function(v, indexx) {
 							_this.$set(_this.shuju[index].s, indexx, false)
 						})
@@ -863,7 +862,7 @@
 				} else {
 					this.xuan = true
 					this.shuju.map(function(n, index) {
-						_this.$set(_this.shuju[index],'dian',true)
+						_this.$set(_this.shuju[index], 'dian', true)
 						n.s.map(function(v, indexx) {
 							_this.$set(_this.shuju[index].s, indexx, true)
 						})
@@ -1087,9 +1086,9 @@
 					})
 				}
 				this.jiage = 0
-				var num=0
+				var num = 0
 				this.shuju.map((n, index) => {
-					if(n.dian){
+					if (n.dian) {
 						num++
 					}
 					n.s.map((z, inde) => {
@@ -1098,10 +1097,10 @@
 						}
 					})
 				})
-				if(num==this.shuju.length){
-					this.xuan=true
-				}else{
-					xian=false
+				if (num == this.shuju.length) {
+					this.xuan = true
+				} else {
+					xian = false
 				}
 			},
 			shangpin: function(index, n) {
@@ -1121,9 +1120,9 @@
 					}
 				})
 				this.jiage = 0
-				var num=0
+				var num = 0
 				this.shuju.map((n, index) => {
-					if(n.dian){
+					if (n.dian) {
 						num++
 					}
 					n.s.map((x, inde) => {
@@ -1132,10 +1131,10 @@
 						}
 					})
 				})
-				if(num==this.shuju.length){
-					this.xuan=true
-				}else{
-					this.xuan=false
+				if (num == this.shuju.length) {
+					this.xuan = true
+				} else {
+					this.xuan = false
 				}
 			}
 		}
@@ -1143,15 +1142,17 @@
 </script>
 
 <style lang="scss">
-	.activeCss{
+	.activeCss {
 		padding: 0 28rpx;
 		padding-bottom: 10rpx;
 	}
-	.clearCss{
-	.content-item{
-		padding: 20rpx 28rpx;
+
+	.clearCss {
+		.content-item {
+			padding: 20rpx 28rpx;
+		}
 	}
-	}
+
 	.bcg {
 		background-color: #eeeeee;
 		width: 100%;
@@ -1319,29 +1320,38 @@
 
 		.imgBox_a {
 			float: left;
-			padding-top: 20upx;
+			// padding-top: 20upx;
 
 
 			image {
-				width: 212upx;
-				height: 160upx;
+				width: 200upx;
+				height: 200upx;
+				display: block;
 			}
 		}
 
 		.txt_c {
 			float: left;
-			width: 430rpx;
-			padding-right: 10upx;
+			width: calc(100% - 240rpx);
 			box-sizing: border-box;
+			padding-left: 20rpx;
+			position: relative;
 
 			.title {
 				padding-top: 10upx;
-				margin-bottom: 15rpx;
+				margin-bottom: 10rpx;
 
 				text {
-					font-size: 29upx;
-					line-height: 30upx;
+					font-size: 28upx;
+					line-height: 40upx;
 					color: #0c0c0c;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
+
 				}
 			}
 
@@ -1364,6 +1374,9 @@
 
 				color: #ff6600;
 				font-weight: bold;
+				position: absolute;
+				bottom: 0;
+				left: 20rpx;
 
 				text {
 
@@ -1378,6 +1391,9 @@
 				display: flex;
 				width: 35%;
 				line-height: 45rpx;
+				position: absolute;
+				bottom: 0;
+				right: 0;
 
 				view {
 					padding-right: 10rpx;

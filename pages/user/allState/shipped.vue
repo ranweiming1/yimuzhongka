@@ -375,22 +375,25 @@
 
 		.xinXi:last-child {
 			border: none;
-			
+			padding-top: 20rpx;
+			box-sizing: border-box;
+			 width: 100%;
 		}
 
 		.imgBox_a {
 			float: left;
-			padding-top: 20upx;
+			// padding-top: 20upx;
 
 			image {
-				width: 215upx;
-				height: 160upx;
+				width: 200upx;
+				height: 200upx;
 			}
 		}
 
 		.txt_c {
 			float: left;
-			width: 460upx;
+			width: calc(100% - 200rpx);
+			box-sizing: border-box;
 			padding-left: 20upx;
 
 			.title {

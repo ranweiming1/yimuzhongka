@@ -10,7 +10,7 @@
 			<!-- 已设置地址样式 -->
 			<view class="addBox" v-if='z'>
 				<view class="content" @tap='qiehuandizhi'>
-					<view style='overflow:hidden;margin-bottom: 10rpx;'>
+					<view style="overflow: hidden;">
 						<view class="nome">
 							<text>{{dizhi.username}}</text>
 						</view>
@@ -623,8 +623,8 @@
 			.call {
 				float: left;
 				font-size: 24upx;
-				color: #666;
-				line-height: 40upx;
+				color: #989898;
+				line-height: 47upx;
 				padding-right: 10upx;
 			}
 
@@ -640,7 +640,8 @@
 			.p {
 				font-size: 26upx;
 				color: #333;
-				line-height: 40upx;
+				line-height: 47upx;
+				display: block;
 			}
 		}
 	}
@@ -685,19 +686,19 @@
 			float: left;
 
 			image {
-				width: 215upx;
-				height: 160upx;
+				width: 200upx;
+				height: 200upx;
 				display: block;
 			}
 		}
 
 		.txt_c {
 			float: left;
-			width: calc(100% - 215rpx);
+			width: calc(100% - 200rpx);
 			padding-left: 20upx;
 			box-sizing: border-box;
 			position: relative;
-			min-height: 160rpx;
+			min-height: 200rpx;
 
 			.title {
 				padding-top: 10upx;

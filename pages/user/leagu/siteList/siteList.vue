@@ -159,14 +159,24 @@
 			},
 			fanhui: function() {
 				if (this.jifenid == 0) {
-					uni.redirectTo({
-						url: '../../../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + this.cartAttr + '&zhid=' +
-							JSON.stringify(this.rds) + '&id=' + this.id + '&money=' + this.moneys + '&dingdan=' + this.dingdan +
-							'&shopId=' + this.shopId + '&y=' + JSON.stringify(this.y)
+					// uni.redirectTo({
+					// 	url: '../../../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + this.cartAttr + '&zhid=' +
+					// 		JSON.stringify(this.rds) + '&id=' + this.id + '&money=' + this.moneys + '&dingdan=' + this.dingdan +
+					// 		'&shopId=' + this.shopId + '&y=' + JSON.stringify(this.y)
+					// })
+					var pages = getCurrentPages(); 
+					var prevPage = pages[pages.length - 2];
+					prevPage.$vm.dizhi = this.rds
+					uni.navigateBack({
 					})
 				} else {
-					uni.redirectTo({
-						url: '../../../cart/orderForm/jifen?dizhi=' + JSON.stringify(this.rds) + '&id=' + this.jifenid
+					// uni.redirectTo({
+					// 	url: '../../../cart/orderForm/jifen?dizhi=' + JSON.stringify(this.rds) + '&id=' + this.jifenid
+					// })
+					var pages = getCurrentPages();
+					var prevPage = pages[pages.length - 2];
+					prevPage.$vm.dizhi = this.rds
+					uni.navigateBack({
 					})
 				}
 			},
