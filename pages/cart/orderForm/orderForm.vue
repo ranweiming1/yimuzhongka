@@ -212,7 +212,6 @@
 		onLoad: function(options) {
 			var _this = this
 			this.yao = options.str
-			console.log(options)
 			if (options.goodsId) {
 				this.goodsId = options.goodsId
 				this.cartAttr = JSON.parse(options.cartAttr).cartAttr
