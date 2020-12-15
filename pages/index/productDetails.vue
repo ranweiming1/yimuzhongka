@@ -775,12 +775,13 @@
 			}
 
 			.cor {
-				font-size: 26rpx;
+				font-size: 24rpx;
 				display: inline-block;
 				background-color: #f4f4f2;
 				border-radius: 8%;
 				margin-right: 30rpx;
 				line-height: 50rpx;
+				height: 50rpx;
 			}
 
 		}
@@ -831,12 +832,13 @@
 		top: 0;
 		justify-content: space-between;
 		// background-color: #fff;
-		padding-top: 75rpx;
+		padding-top: 90rpx;
 		z-index: 999;
+		padding-bottom: 10rpx;
 
 		.back {
 			padding-right: 40px;
-			margin-top: 10rpx;
+			// margin-top: 10rpx;
 			padding: 10rpx 40rpx 0 15rpx;
 
 			image {
@@ -851,7 +853,7 @@
 			.title {
 				padding-right: 35rpx;
 				padding-left: 35rpx;
-				line-height: 25rpx;
+				line-height: 20rpx;
 
 				// display:
 				text {
@@ -894,7 +896,7 @@
 
 			image {
 				width: 34upx;
-				padding-top: 12upx;
+				padding-top: 15upx;
 				height: 32upx;
 			}
 		}
