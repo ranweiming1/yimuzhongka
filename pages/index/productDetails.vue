@@ -665,7 +665,7 @@
 			},
 			tiaozhuan: function() {
 				uni.navigateTo({
-					url: 'ke'
+					url: 'ke?id='+this.deId
 				})
 			}
 		}

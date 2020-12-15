@@ -4,13 +4,13 @@ import App from './App'
 // import './style/gg.css'
 Vue.config.productionTip = false
 var webUrl = 'https://yimuzk.com'
-var webUrl = 'http://192.168.100.77:8089'
+// var webUrl = 'http://192.168.100.77:8089'
 Vue.prototype.webUr = webUrl
 var $http = function(obj) {
 	if (obj.dengl) {
 		uni.request({
 			url: webUrl + obj.url,
-			url: webUrl + obj.url.substring(4),
+			// url: webUrl + obj.url.substring(4),
 			data: obj.data,
 			method: obj.method ? obj.method : 'GET',
 			header: {
@@ -25,7 +25,7 @@ var $http = function(obj) {
 		if (uni.getStorageSync('Authorization')) {
 			uni.request({
 				url: webUrl + obj.url,
-				url: webUrl + obj.url.substring(4),
+				// url: webUrl + obj.url.substring(4),
 				data: obj.data,
 				method: obj.method ? obj.method : 'GET',
 				header: {

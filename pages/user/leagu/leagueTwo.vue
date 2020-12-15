@@ -59,15 +59,15 @@
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>身份证号</text></view>
-				<input type="number" class='uni-input' v-model='legalCardId' placeholder='请输入身份证号'>
+				<input class='uni-input' v-model='legalCardId' placeholder='请输入身份证号'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行卡号</text></view>
-				<input class='uni-input' v-model='bankCardNo'>
+				<input class='uni-input' v-model='bankCardNo' placeholder='请输入银行卡号'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>预留手机号</text></view>
-				<view class='uni-input' v-model='shoujihao'></view>
+				<view class='uni-input' v-model='shoujihao' placeholder='请输入预留手机号'></view>
 			</view>
 
 		</view>
@@ -159,9 +159,13 @@
 										imgPath:this.cardImg1,
 										imgType:0
 									},
+									header:{
+										'Content-Type':'application/x-www-form-urlencoded'
+									},
 									method:'post',
 									success:res=>{
-										
+										this.legalName=JSON.parse(res.data.data).name
+										this.legalCardId=JSON.parse(res.data.data).num
 									}
 								})
 							}
@@ -372,7 +376,6 @@
 			height: 100rpx;
 			line-height: 100rpx;
 			color: #333333;
-			width: 70%;
 		}
 
 		.cont {
