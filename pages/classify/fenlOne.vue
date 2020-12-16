@@ -700,7 +700,7 @@
 
 			.textBox {
 				float: left;
-				margin-left: 40upx;
+				margin-left: 25upx;
 				background-color: #f0f0f0;
 				border-radius: 50upx;
 

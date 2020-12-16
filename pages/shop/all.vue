@@ -426,7 +426,7 @@
 
 		.textBox {
 			float: left;
-			margin-left: 25upx;
+			margin-left:50upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
 
@@ -784,13 +784,13 @@
 
 	.togActive {
 		.top {
-			width: 710upx;
-			margin: 20upx;
+			width: 100%;
+			// margin: 20upx;
 			overflow: hidden;
 
 			.textBox {
 				float: left;
-				margin-left: 70upx;
+				margin-left: 50upx;
 				background-color: #f0f0f0;
 				border-radius: 50upx;
 
