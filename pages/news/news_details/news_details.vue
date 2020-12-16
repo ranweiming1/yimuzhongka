@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style='width:100%;overflow:hidden;'>
 		<view class="top" style='position:fixed;top:0rpx;left:0;width:100%;background:#fff;padding-top:60rpx;overflow:hidden;z-index: 999;'>
 			<view style='float:left;margin-top:20rpx;margin-left:20rpx;' @tap='back'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>

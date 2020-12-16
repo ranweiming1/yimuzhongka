@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style='width:100%;overflow:hidden;'>
 		<!-- <view class="one_line">
 		</view> -->
 
