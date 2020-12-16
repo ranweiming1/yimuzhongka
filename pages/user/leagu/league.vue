@@ -406,13 +406,15 @@
 				}
 				if(!this.fzrDept){
 					uni.showToast({
-						title:'请输入部门'
+						title:'请输入部门',
+						icon:'none'
 					})
 					return false
 				}
 				if(this.checkedList.length==0){
 					uni.showToast({
-						title:'请选择分类'
+						title:'请选择分类',
+						icon:'none'
 					})
 					return false
 				}
@@ -547,7 +549,8 @@
 						haeder: true,
 						success: function(res) {
 							uni.showToast({
-								title: res.data.message
+								title: res.data.message,
+								icon:'none'
 							})
 						}
 					})
