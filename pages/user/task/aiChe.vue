@@ -475,8 +475,8 @@
 			}
 
 			.car-logo {
-				width: 205rpx;
-				height: 160rpx;
+				width: 190rpx;
+				height: 150rpx;
 				border-radius: 20rpx;
 				float: right;
 				overflow: hidden;
