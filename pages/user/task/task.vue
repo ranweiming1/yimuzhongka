@@ -232,7 +232,6 @@
 					dengl: false,
 					data: {},
 					success: function(res) {
-						_this.taskList = res.data.data.taskCenters
 						_this.userList = res.data.data.userInfo
 						_this.date = res.data.data.signInDays
 						_this.qianDate = res.data.data.storeIntegralLogList
@@ -299,6 +298,7 @@
 						_this.state = state
 					}
 				})
+				this.$https({url:'/api/task/center-get-task-list',data:{},method:'post',success:res=>{this.taskList=res.data.data}})
 				// },
 			},
 			qianD() {
