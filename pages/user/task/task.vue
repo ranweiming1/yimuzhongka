@@ -235,17 +235,17 @@
 						_this.userList = res.data.data.userInfo
 						_this.date = res.data.data.signInDays
 						_this.qianDate = res.data.data.storeIntegralLogList
-						res.data.data.taskCenters.map(z => {
-							if (z.taskType == 0) {
-								_this.n = z.integral
-								_this.n1 = z.integral
-								_this.n2 = z.integral
-								_this.n3 = z.integral
-								_this.n4 = z.integral
-								_this.n5 = z.integral
-								_this.n6 = z.integral
-							}
-						})
+						// res.data.data.taskCenters.map(z => {
+						// 	if (z.taskType == 0) {
+						// 		_this.n = z.integral
+						// 		_this.n1 = z.integral
+						// 		_this.n2 = z.integral
+						// 		_this.n3 = z.integral
+						// 		_this.n4 = z.integral
+						// 		_this.n5 = z.integral
+						// 		_this.n6 = z.integral
+						// 	}
+						// })
 
 						// 获取当前时间
 						function dateRiqi(i) {
@@ -298,7 +298,58 @@
 						_this.state = state
 					}
 				})
-				this.$https({url:'/api/task/center-get-task-list',data:{},method:'post',success:res=>{this.taskList=res.data.data}})
+				this.$https({url:'/api/task/center-get-task-list',data:{},method:'post',success:res=>{
+					this.taskList=res.data.data
+					// 获取当前时间
+					function dateRiqi(i) {
+						var nowDate = new Date(i);
+						let date = {
+							year: nowDate.getFullYear(),
+							month: nowDate.getMonth() + 1,
+							date: nowDate.getDate(),
+						}
+					
+						function pan(i) {
+							if (i < 10) {
+								i = '0' + i;
+							}
+							return i;
+						}
+						var systemDate = date.year + '-' + pan(date.month) + '-' + pan(date.date);
+						return systemDate
+					}
+					_this.systemDate = dateRiqi(new Date)
+					// console.log(_this.qianDate)
+					// 获取返回数据的时间
+					_this.isQian=!res.data.data.signInStatus
+					// console.log(_this.systemDate)
+					// 周几
+					var week = new Date(_this.systemDate).getDay()
+					// 时间戳
+					var dateTime = Date.parse(_this.systemDate)
+					// console.log(dateTime)
+					// 当天之前
+					var arr = []
+					var state = []
+					
+					for (var i = week - 1; i > 0; i--) {
+						arr.push(dateRiqi(dateTime - (i) * 86400000))
+					}
+					arr.push(_this.systemDate)
+					for (var i = 0; i < 7 - week; i++) {
+						arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
+					}
+					for (var i = 0; i < arr.length; i++) {
+						var nu = 0
+						for (var j = 0; j < _this.qianDate.length; j++) {
+							if (arr[i] == _this.qianDate[j].createTime) {
+								nu++
+							}
+						}
+						nu > 0 ? state.push(true) : state.push(false)
+					}
+					_this.state = state
+					}})
 				// },
 			},
 			qianD() {
