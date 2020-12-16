@@ -215,6 +215,7 @@
 							name: 'img',
 							success: res => {
 								this.listz[this.nu].myCarImg = JSON.parse(res.data).data.url
+								console.log(JSON.parse(res.data),this.listz[this.nu].myCarImg)
 							}
 						})
 					}
