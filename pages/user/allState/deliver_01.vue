@@ -176,12 +176,14 @@
 	}
 
 	.basic {
-		width: 710upx;
-		background-color: #fff;
-		overflow: hidden;
-		padding: 20upx;
-		padding-bottom: 10upx;
-		border-bottom: 20upx solid #f7f7f7;
+		    width: 100%;
+		    background-color: #fff;
+		    overflow: hidden;
+		    padding:0 20rpx;
+		    box-sizing: border-box;
+		    height: 90rpx;
+		    line-height: 90rpx;
+		    margin-bottom: 20rpx;
 
 		.left_a {
 			float: left;
@@ -189,7 +191,6 @@
 			text {
 				font-size: 28upx;
 				color: #333;
-				line-height: 50upx;
 			}
 		}
 
@@ -200,7 +201,6 @@
 			text {
 				font-size: 28upx;
 				float: right;
-				line-height: 50upx;
 
 				text {
 					color: #ff670c;
@@ -221,11 +221,11 @@
 
 			.img_a {
 				float: right;
-				padding: 20upx 0upx 20upx 20upx;
+				padding: 35.5rpx 0upx 35.5upx 20upx;
 
 				image {
 					width: 12upx;
-					height: 14upx;
+					height: 19upx;
 					display: block;
 				}
 

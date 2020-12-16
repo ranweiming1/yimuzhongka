@@ -1477,12 +1477,14 @@
 		border-bottom: 1px dashed #eee;
 
 		.xinxi {
-			width: 750upx;
-			padding: 0upx;
-			padding-bottom: 20upx;
+			width: 100%;
+			padding: 20rpx;
+			box-sizing: border-box;
 		}
 
 		.radColor {
+			position: absolute;
+			bottom: 0;
 			text {
 				font-size: 30upx;
 				color: #999;
@@ -1490,13 +1492,16 @@
 		}
 
 		.imgBox_a {
-			padding-left: 20upx;
+			// padding-left: 20upx;
 		}
 
 		.txt_c {
 			float: left;
-			width: 470upx;
+			width: calc(100% - 200rpx);
+			box-sizing: border-box;
 			padding-left: 20upx;
+			position: relative;
+			height: 200rpx;
 		}
 	}
 
