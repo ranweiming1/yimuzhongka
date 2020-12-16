@@ -3,10 +3,7 @@
 		<!-- 文字轮播 -->
 		<view class='swiperS'>
 			<view class="swiper-item">
-				<swiper :circular='true' style="height: 80rpx;" :interval='2000' :duration='6000' :autoplay='true' :indicator-dots='false'>
-					<swiper-item style="padding-right:20rpx;">{{text}}</swiper-item>
-					<swiper-item style='padding-right:20rpx;'>{{text}}</swiper-item>
-				</swiper>
+				<view :style='nu'>{{text+text+text+text+text+text+text+text+text+text}}</view>
 			</view>
 		</view>
 
@@ -36,16 +33,17 @@
 			</view>
 			<view class="uni-form-item">
 				<view class="title">
-					<text class="texts" style="margin-top: 15rpx;">统一社会信用代码</text>
-					<text class="texts">营业执照号</text>
+					<text style="margin-top: 15rpx;">统一社会信用代码</text>
+					<text class="texts"></text>
 				</view>
 				<input class="uni-input" name="input" v-model='licenseNo' placeholder="请输入营业执照号" />
 			</view>
 			<view class="uni-form-item" style="height: 135rpx;">
 				<view class="title">
-					<text class="texts" style="margin-top: 20rpx;font-size:28rpx;line-height: 50rpx;">详细地址</text>
-					<textarea class="texts" v-model='area' style='width:700rpx;' placeholder='详细地址信息'></textarea>
+					<text style="margin-top: 20rpx;font-size:28rpx;line-height: 50rpx;">详细地址</text>
+					<view class="texts"></view>
 				</view>
+				<input class='uni-input' v-model='area' name='input' placeholder='请输入详细地址信息'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>邮箱</text></view>
@@ -215,7 +213,8 @@
 				id: 0,
 				classType: false,
 				checkedList: [],
-				lei:'请选择分类'
+				lei:'请选择分类',
+				nu:''
 			}
 		},
 		onLoad: function() {
@@ -266,6 +265,9 @@
 						_this.t = false
 					}
 				}
+			})
+			setTimeout(function(){
+				_this.nu='margin-left:-3300%;transition:210s;'
 			})
 		},
 		methods: {
@@ -837,8 +839,8 @@
 			color: #ee4646;
 			font-size: 22rpx;
 
-			swiper-item {
-				// white-space: nowrap
+			view{
+				width:3300%;
 			}
 		}
 	}

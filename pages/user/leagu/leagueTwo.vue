@@ -238,37 +238,43 @@
 				obj.mermberId=this.id
 				if(obj.storeLogo=='../../../static/uploadBag.png'){
 					uni.showToast({
-						title:'请上传店铺logo'
+						title:'请上传店铺logo',
+						icon:'none'
 					})
 					return false
 				}
 				if(obj.license=='../../../static/uploadBag.png'){
 					uni.showToast({
-						title:'请上传营业执照'
+						title:'请上传营业执照',
+						icon:'none'
 					})
 					return false
 				}
 				if(obj.cardImg1=='../../../static/uploadBag.png'){
 					uni.showToast({
-						titel:'请上传身份证正面'
+						title:'请上传身份证正面',
+						icon:'none'
 					})
 					return false
 				}
 				if(obj.cardImg2=='../../../static/uploadBag.png'){
 					uni.showToast({
-						title:'请上传身份证反面'
+						title:'请上传身份证反面',
+						icon:'none'
 					})
 					return false
 				}
 				if(!this.jiaoyananniu){
 					uni.showToast({
-						title:'请输入银行卡信息'
+						title:'请输入银行卡信息',
+						icon:'none'
 					})
 					return false
 				}
 				if(!this.isCheck){
 					uni.showToast({
-						title:'请阅读并同意商家入驻协议'
+						title:'请阅读并同意商家入驻协议',
+						icon:'none'
 					})
 					return false
 				}
@@ -278,7 +284,7 @@
 			},
 			jiaoyanyinhangka:function(){
 				if(this.bankCardNo&&this.legalCardId&&this.legalName&&this.shoujihao){
-					uni.request({url:this.webUrl+'/api/oauth/get-bank-card4',data:{cardNumber:this.bankCardNo,idNumber:this.legalCardId,name:this.legalName,phoneNumber:this.shoujihao},header:{'Content-Type':'application/x-www-form-urlencoded'},method:'post',success:res=>{if(res.data.code==0){this.jiaoyananniu=true}else{this.jiaoyananniu=false}uni.showToast({title:res.data.message})}})
+					uni.request({url:this.webUrl+'/api/oauth/get-bank-card4',data:{cardNumber:this.bankCardNo,idNumber:this.legalCardId,name:this.legalName,phoneNumber:this.shoujihao},header:{'Content-Type':'application/x-www-form-urlencoded'},method:'post',success:res=>{if(res.data.code==0){this.jiaoyananniu=true}else{this.jiaoyananniu=false}uni.showToast({title:res.data.message,icon:'none'})}})
 				}
 			}
 		}
