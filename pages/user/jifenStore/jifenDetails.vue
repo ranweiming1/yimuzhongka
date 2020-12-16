@@ -8,14 +8,18 @@
 			<view class="imgBox">
 				<image :src="shangpin" mode=""></image>
 			</view>
-			<view class="h2">
-				<text>{{name}}</text>
-			</view>
-			<view class="p">
-				<text>{{q?q:0}}元+{{jifen?jifen:0}}积分</text>
-			</view>
-			<view class="span">
-				<text>{{num?num:0}}人已兑换</text>
+			<view class="texie-title">
+
+
+				<view class="h2">
+					<text>{{name}}</text>
+				</view>
+				<view class="p">
+					<text>{{q?q:0}}元+{{jifen?jifen:0}}积分</text>
+				</view>
+				<view class="span">
+					<text>{{num?num:0}}人已兑换</text>
+				</view>
 			</view>
 		</view>
 
@@ -28,7 +32,7 @@
 			</view>
 			<view class="jians">
 				<rich-text :nodes='xiangqing'></rich-text>
-					
+
 			</view>
 			<view class="uni-padding-wrap uni-common-mt bott" @tap='tiaozhuan'>
 				<button type="primary">立即兑换</button>
@@ -38,45 +42,47 @@
 </template>
 
 <script>
-	export default{
-		data(){
-			return{
-				shangpin:'',
-				name:'',
-				jifen:'',
-				num:'',
-				xiangqing:'',
-				q:'',
-				id:''
+	export default {
+		data() {
+			return {
+				shangpin: '',
+				name: '',
+				jifen: '',
+				num: '',
+				xiangqing: '',
+				q: '',
+				id: ''
 			}
 		},
 		onLoad(option) {
-			var _this=this
-			this.id=option.id
+			var _this = this
+			this.id = option.id
 			this.$https({
-				url:'/api/oauth/shop/mall-integral-goods-detail',
-				data:{goods_id:option.id},
-				dengl:true,
-				success:function(res){
-					_this.shangpin=res.data.data.detail.goodsLogo
-					_this.name=res.data.data.detail.goodsName
-					_this.jifen=res.data.data.detail.integral
-					_this.num=res.data.data.detail.salesSum
-					_this.xiangqing=res.data.data.detail.goodsContent
-					_this.q=res.data.data.detail.shopPrice
+				url: '/api/oauth/shop/mall-integral-goods-detail',
+				data: {
+					goods_id: option.id
+				},
+				dengl: true,
+				success: function(res) {
+					_this.shangpin = res.data.data.detail.goodsLogo
+					_this.name = res.data.data.detail.goodsName
+					_this.jifen = res.data.data.detail.integral
+					_this.num = res.data.data.detail.salesSum
+					_this.xiangqing = res.data.data.detail.goodsContent
+					_this.q = res.data.data.detail.shopPrice
 				}
 			})
 		},
-		methods:{
-			tiaozhuan:function(){
+		methods: {
+			tiaozhuan: function() {
 				uni.navigateTo({
-					url:'../../cart/orderForm/jifen?good='+this.id
+					url: '../../cart/orderForm/jifen?good=' + this.id
 				})
 				// uni.navigateTo({
 				// 	url:'../../cart/orderForm/orderForm?goodsId='+this.id+'&cartAttr='+JSON.stringify({
 				// 		cartAttr:[{
 				// 			goodsNum:1,
-							
+
 				// 		}]
 				// 	})
 				// })
@@ -87,23 +93,31 @@
 
 <style lang="scss">
 	.top {
-		width: 710upx;
-		padding: 20upx;
+		width: 100%;
 		border-bottom: 20upx solid #f7f7f7;
 		overflow: hidden;
+		box-sizing: border-box;
 
 		.imgBox {
 			float: left;
+			width: 100%;
+			overflow: hidden;
 
 			image {
-				width: 750upx;
-				height: 350upx;
+				width: 100%;
+				height: 610rpx;
+				display: block;
 			}
+		}
+
+		.texie-title {
+			padding: 20rpx;
+			overflow: hidden;
 		}
 
 		.h2 {
 			font-size: 30upx;
-			line-height: 60upx;
+			margin-bottom: 15rpx;
 			color: #333;
 		}
 
@@ -141,25 +155,27 @@
 			font-size: 30upx;
 			color: #333;
 		}
-		.jians{
+
+		.jians {
 			padding-top: 20upx;
 			font-size: 24upx;
 			padding-bottom: 100upx;
 			line-height: 40upx;
 			color: #666;
 		}
-		.bott{
+
+		.bott {
 			width: 670upx;
 			position: fixed;
 			bottom: 40upx;
 			left: 40upx;
-			
-			button{
+
+			button {
 				border-radius: 40upx;
-				font-family:Microsoft YaHei;
+				font-family: Microsoft YaHei;
 				background-color: #3366ff;
 			}
-			
+
 		}
 	}
 </style>

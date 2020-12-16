@@ -9,7 +9,7 @@
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view> -->
 				<!-- <input type="text" :value="phone" disabled="true" placeholder="请输入密码" /> -->
-				<text style='font-size:30rpx;line-height:70rpx;color:#999;'>{{phone?phone:'手机号'}}</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;'>{{phone?phone:'手机号'}}</text>
 				<!-- <text></text> -->
 			</view>
 		</view>
@@ -33,7 +33,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:30rpx;line-height:70rpx;color:#999;' @tap='gengg'>去修改手机号</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='gengg'>去修改手机号</text>
 				<!-- <input type="number" placeholder="请输入手机号" placeholder-style="line-height:70rpx" /> -->
 				<!-- <text>15066212365</text> -->
 			</view>
@@ -48,7 +48,7 @@
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
 				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
-				<text style='font-size:30rpx;line-height:70rpx;color:#999;' @tap='gm'>去修改密码</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='gm'>去修改密码</text>
 				<!-- <text></text> -->
 			</view>
 		</view>

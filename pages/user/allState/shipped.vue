@@ -80,7 +80,8 @@
 						<text>X{{item.goodsNum}}</text>
 					</view>
 				</view>
-				<view class="uni-padding-wrap uni-common-mt bott" @tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId)" v-if='s'>
+				<view class="uni-padding-wrap uni-common-mt bott" @tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId)"
+				 v-if='s'>
 					<button type="primary">申请售后</button>
 				</view>
 			</view>
@@ -181,8 +182,8 @@
 				com: '',
 				dz: '',
 				kuaidi: '',
-				t:false,
-				s:true
+				t: false,
+				s: true
 			}
 		},
 		onLoad(option) {
@@ -199,15 +200,15 @@
 					_this.com = res.data.data.shippingName
 					_this.dz = res.data.data.cityInfo
 					_this.kuaidi = res.data.data.goodsList[0].specList[0].kuaidi
-					_this.code=res.data.data.shippingCode
+					_this.code = res.data.data.shippingCode
 					console.log(res.data.data)
 					// _this.code=res.data.data.shippingCode
 					console.log(res.data.data.shippingCode)
 				}
 			})
-			if(option.zhuangtai==0){
-				this.t=true
-				this.s=false
+			if (option.zhuangtai == 0) {
+				this.t = true
+				this.s = false
 			}
 		},
 		methods: {
@@ -217,19 +218,45 @@
 					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' + this.dz
 				})
 			},
-			afterSole(oS,lG,gN,gP,sKN,Num,orderId) {
+			afterSole(oS, lG, gN, gP, sKN, Num, orderId) {
 				// console.log(22222)
 				uni.navigateTo({
-					url: "./deliver_01?oS=" + oS+'&lG='+lG+'&gN='+gN+'&gP='+gP+'&sKN='+sKN+'&time='+this.deList.addTime+'&num='+Num+'&orderId='+orderId
+					url: "./deliver_01?oS=" + oS + '&lG=' + lG + '&gN=' + gN + '&gP=' + gP + '&sKN=' + sKN + '&time=' + this.deList.addTime +
+						'&num=' + Num + '&orderId=' + orderId
 				})
 			},
-			g:function(id){
+			g: function(id) {
 				uni.navigateTo({
-					url:'../../index/productDetails?id='+id
+					url: '../../index/productDetails?id=' + id
 				})
 			},
-			zhifu:function(){
-				this.$https({url:'/api/pay/unifiedOrder',data:JSON.stringify({orderNo:this.deList.orderSn,payMethod:1}),method:'post',haeder:true,success:res=>{var obj={};obj.appid=res.data.data.appId;obj.partnerid=res.data.data.partnerId;obj.prepayid=res.data.data.prepayId;obj.package=res.data.data.packageValue;obj.noncestr=res.data.data.nonceStr;obj.timestamp=res.data.data.timeStamp;obj.sign=res.data.data.sign;uni.requestPayment({provider:'wxpay',orderInfo:obj,success:res=>{this.t=false}})}})
+			zhifu: function() {
+				this.$https({
+					url: '/api/pay/unifiedOrder',
+					data: JSON.stringify({
+						orderNo: this.deList.orderSn,
+						payMethod: 1
+					}),
+					method: 'post',
+					haeder: true,
+					success: res => {
+						var obj = {};
+						obj.appid = res.data.data.appId;
+						obj.partnerid = res.data.data.partnerId;
+						obj.prepayid = res.data.data.prepayId;
+						obj.package = res.data.data.packageValue;
+						obj.noncestr = res.data.data.nonceStr;
+						obj.timestamp = res.data.data.timeStamp;
+						obj.sign = res.data.data.sign;
+						uni.requestPayment({
+							provider: 'wxpay',
+							orderInfo: obj,
+							success: res => {
+								this.t = false
+							}
+						})
+					}
+				})
 			}
 		},
 	}
@@ -355,6 +382,7 @@
 			width: 710upx;
 			// padding: 20upx;
 			border-bottom: 1px dotted #ccc;
+
 			// padding: 20rpx;
 			.bott {
 				margin: 20rpx;
@@ -362,7 +390,7 @@
 				width: 180upx;
 				margin-right: 20upx;
 				float: right;
-			
+
 				button {
 					background-color: #fff;
 					border: 1px solid #999;
@@ -371,7 +399,7 @@
 					color: #999;
 					font-family: Microsoft YaHei;
 				}
-			
+
 			}
 		}
 
@@ -379,7 +407,7 @@
 			border: none;
 			padding-top: 20rpx;
 			box-sizing: border-box;
-			 width: 100%;
+			width: 100%;
 		}
 
 		.imgBox_a {
@@ -540,6 +568,8 @@
 		position: fixed;
 		bottom: 0upx;
 		left: 0upx;
+		// padding-right: 10rpx;
+		// box-sizing: border-box;
 
 		.leftA {
 			float: left;

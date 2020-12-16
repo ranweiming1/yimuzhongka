@@ -917,6 +917,8 @@
 		bottom: 0upx;
 		left: 0upx;
 		z-index: 99999;
+		padding: 0 15rpx;
+		    box-sizing: border-box;
 
 		.leftA {
 			float: left;

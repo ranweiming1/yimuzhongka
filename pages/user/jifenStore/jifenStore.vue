@@ -42,12 +42,15 @@
 				<view class="imgBox">
 					<image :src="item.goodsLogo" mode=""></image>
 				</view>
-				<view class="tit">
-					<text>{{item.goodsName}}</text>
+				<view class="bot-bottom">
+					<view class="tit">
+						<text>{{item.goodsName}}</text>
+					</view>
+					<view class="span">
+						<text>{{item.integral}}积分{{item.shopPrice?'+￥'+item.shopPrice:''}}</text>
+					</view>
 				</view>
-				<view class="span">
-					<text>{{item.integral}}积分{{item.shopPrice?'+￥'+item.shopPrice:''}}</text>
-				</view>
+
 			</view>
 		</view>
 	</view>
@@ -62,7 +65,7 @@
 				id: '',
 				i: '1',
 				isXu: true,
-				phone:''
+				phone: ''
 			}
 		},
 		props: ['num'],
@@ -71,7 +74,7 @@
 			this.$https({
 					url: '/api/oauth/shop/mall-goods-jfList',
 					method: 'POST',
-					dengl:true,
+					dengl: true,
 					data: JSON.stringify({
 						jfAsc: '',
 						jfDesc: '',
@@ -90,14 +93,14 @@
 					data: {},
 					success: function(res) {
 						_this.user = res.data.data
-						_this.phone=res.data.data.phone
+						_this.phone = res.data.data.phone
 					}
 				})
 		},
 		methods: {
 			jDetail() {
 				uni.navigateTo({
-					url: '../distr/distrDetail?id='+this.phone
+					url: '../distr/distrDetail?id=' + this.phone
 				})
 			},
 			taggle(i) {
@@ -108,7 +111,7 @@
 					this.$https({
 						url: '/api/oauth/shop/mall-goods-jfList',
 						method: 'POST',
-						dengl:true,
+						dengl: true,
 						data: JSON.stringify({
 							jfAsc: '',
 							jfDesc: '',
@@ -128,7 +131,7 @@
 					this.$https({
 						url: '/api/oauth/shop/mall-goods-jfList',
 						method: 'POST',
-						dengl:true,
+						dengl: true,
 						data: JSON.stringify(
 
 							_this.isXu ? {
@@ -155,7 +158,7 @@
 					this.$https({
 						url: '/api/oauth/shop/mall-goods-jfList',
 						method: 'POST',
-						dengl:true,
+						dengl: true,
 						data: JSON.stringify(
 							_this.isXu ? {
 								jfAsc: '',
@@ -179,12 +182,12 @@
 				}
 
 			},
-			shopDetail(id){
+			shopDetail(id) {
 				uni.navigateTo({
-					url:'./jifenDetails?id='+id
+					url: './jifenDetails?id=' + id
 				})
 			}
-		
+
 		}
 	}
 </script>
@@ -294,41 +297,69 @@
 	}
 
 	.listBox {
-		width: 750upx;
+		width: 100%;
+		box-sizing: border-box;
 		overflow: hidden;
-		margin-left: 25upx;
+		padding: 0 28rpx;
 		padding-top: 20upx;
 
-		.block {
-			width: 330upx;
+		.block:nth-child(odd) {
 			float: left;
-			margin: 5upx;
-			margin-bottom: 20upx;
-			margin-right: 30upx;
+		}
+
+		.block:nth-child(even) {
+			float: right;
+		}
+
+		.block {
+			width: calc(50% - 14rpx);
+			// float: left;
+			margin-bottom: 28upx;
 			border-radius: 10upx;
 			box-shadow: 0 0 5px #ccc;
-			;
+			height: 450rpx;
+
 
 			.imgBox {
+				height: 320rpx;
+				width: 100%;
+				border-radius: 10upx;
+				overflow: hidden;
+
 				image {
-					width: 330upx;
-					height: 200upx;
-					border-radius: 10upx;
+					height: 320rpx;
+					width: 100%;
+					display: block;
 				}
 
 			}
 
+			.bot-bottom {
+				position: relative;
+				height: calc(100% - 320rpx);
+				box-sizing: border-box;
+			}
+
 			.tit {
-				font-size: 28upx;
-				padding: 10upx;
+				font-size:26upx;
+				padding: 10rpx 20rpx;
 				color: #333;
+
+				text {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+				}
 			}
 
 			.span {
-				font-size: 28upx;
+				font-size:26upx;
 				color: #ff0000;
-				padding-left: 10upx;
-				padding-bottom: 10upx;
+				padding: 15rpx 20rpx;
+				position: absolute;
+				bottom: 0;
 			}
 		}
 	}

@@ -202,12 +202,12 @@
 			<!-- 底部 -->
 			<view class="bottom">
 				<view class="radis">
-					<view style="width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:10rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"
+					<view style="width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:35rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"
 					 @tap='quanxuan'>
 						<image src="../../static/checked.png" style="width: 100%; height: 100%; display: block;" v-if="xuan" mode=""></image>
 					</view>
-					<text style='margin-left:20rpx;float:left;margin-top:10rpx;'>全选</text>
-					<view style='float:left;margin-top:10rpx;'>
+					<text style='margin-left:20rpx;float:left;'>全选</text>
+					<view style='float:left;'>
 						<!-- <view style='float:left;color:#ff6600;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'></view> -->
 						<view style='float:left;color:#ff6600;font-size:30rpx;'>￥{{jiage}}</view>
 						<view style='float:left;color:#999;font-size:26rpx;margin-left:10rpx;'>(含运费)</view>
@@ -1485,6 +1485,7 @@
 		.radColor {
 			position: absolute;
 			bottom: 0;
+
 			text {
 				font-size: 30upx;
 				color: #999;
@@ -1541,9 +1542,12 @@
 
 		.radis {
 			float: left;
-			padding-top: 24upx;
+
 			overflow: hidden;
 			width: 60%;
+			height: 100rpx;
+			line-height: 100rpx;
+			box-sizing: border-box;
 
 			text {
 				font-size: 28upx;
