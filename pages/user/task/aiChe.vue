@@ -1,17 +1,17 @@
 <template>
 	<view>
-		
+
 		<view class="edit-mask" v-if='tianj'>
 			<view class="edit-mask-cont">
 				<view class="edit-title">
 					编辑爱车
 				</view>
 				<view class="edit-img">
-					<image :src='listz[nu].myCarImg' @tap='shangchuan'  mode=""></image>
+					<img :src='listz[nu].myCarImg' @tap='shangchuan' mode=""></img>
 				</view>
 				<view class="edit-cont">
 					<view class="edit-cont-top">
-						<input  type="text" :value='listz[nu].carNum' @input='chepai'/>
+						<input type="text" :value='listz[nu].carNum' @input='chepai' />
 					</view>
 					<view class="edit-cont-top">
 						<input type="text" :value='listz[nu].carCate.carName' style="width: 100%;" />
@@ -21,13 +21,13 @@
 					<view class="edit-bot-left">
 						取消
 					</view>
-					<view  @tap='tijiao' class="edit-bot-right">
+					<view @tap='tijiao' class="edit-bot-right">
 						确定
 					</view>
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="siteBox-list">
 			<view class="siteBox" v-for='(item,index) in listz'>
 				<view class="content">
@@ -36,7 +36,10 @@
 						<view>{{item.carCate.carName}}</view>
 						<view>{{item.carNum}}</view>
 					</view>
-					<image :src='item.myCarImg' style='width:190rpx;height:150rpx;border-radius:20rpx;float:right;'></image>
+					<view class="car-logo">
+
+						<img :src='item.myCarImg'></img>
+					</view>
 				</view>
 				<view class="edit">
 					<view @tap='bianji(index)'>
@@ -149,7 +152,7 @@
 				if (a == 0 || this.listz[this.nu].carNum.length > 8 || this.listz[this.nu].carNum.length < 7) {
 					uni.showToast({
 						title: '请输入正确的车牌号',
-						icon:'none'
+						icon: 'none'
 					})
 					return false
 				}
@@ -162,14 +165,14 @@
 				if (a == 1) {
 					uni.showToast({
 						title: '请输入正确的车牌号',
-						icon:'none'
+						icon: 'none'
 					})
 					return false
 				}
-				if(this.listz[this.nu].myCarImg=='../../static/img_10.jpg.png'){
+				if (this.listz[this.nu].myCarImg == '../../static/img_10.jpg.png') {
 					uni.showToast({
 						title: '请选择图片',
-						icon:'none'
+						icon: 'none'
 					})
 					return false
 				}
@@ -307,23 +310,24 @@
 			}
 
 			.edit-img {
-				margin-left: 50rpx;
-				margin-right: 50rpx;
+				margin: auto;
+				width: 485rpx;
 				box-sizing: border-box;
 				border-radius: 15rpx;
 				overflow: hidden;
 				margin-bottom: 20rpx;
+				height: 335rpx;
 
-				image {
+				img {
 					width: 100%;
-					height: 335rpx;
 					display: block;
+					object-fit: cover;
 				}
 			}
 
 			.edit-cont {
-				margin-left: 50rpx;
-				margin-right: 50rpx;
+				margin: auto;
+				width: 485rpx;
 				box-sizing: border-box;
 
 				.edit-cont-top {
@@ -361,7 +365,7 @@
 				input {
 					height: 75rpx;
 					line-height: 75rpx;
-					width:100%;
+					width: 100%;
 					box-sizing: border-box;
 					text-align: left;
 					padding-left: 35rpx;
@@ -373,8 +377,8 @@
 			.edit-bot {
 				margin-top: 30rpx;
 				overflow: hidden;
-				margin-left: 50rpx;
-				margin-right: 50rpx;
+				margin: auto;
+				width: 485rpx;
 				box-sizing: border-box;
 				margin-bottom: 50rpx;
 
@@ -468,6 +472,21 @@
 				font-size: 30upx;
 				color: #333;
 				padding-right: 10upx;
+			}
+
+			.car-logo {
+				width: 205rpx;
+				height: 160rpx;
+				border-radius: 20rpx;
+				float: right;
+				overflow: hidden;
+
+				img {
+					width: 100%;
+					// height: 100%;
+					display: block;
+					object-fit: cover;
+				}
 			}
 
 			// .call {
