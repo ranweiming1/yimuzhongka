@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style='huangdong'>
 		<!-- 文字轮播 -->
 		<view class='swiperS'>
 			<view class="swiper-item">
@@ -146,7 +146,7 @@
 					success: res => {
 						uni.uploadFile({
 							url: _this.webUrl + '/api/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: res.tempFiles[0].path,
 							name: 'img',
 							success: res => {
 								this.license = JSON.parse(res.data).data.url
@@ -286,6 +286,10 @@
 </script>
 
 <style lang="scss">
+	.huangdong{
+		width:100%;
+		overflow:hidden;
+	}
 	.mask-item {
 		width: 100%;
 		height: 100%;

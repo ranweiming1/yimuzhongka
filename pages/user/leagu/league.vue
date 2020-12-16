@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class='huangdong'>
 		<!-- 文字轮播 -->
 		<view class='swiperS'>
 			<view class="swiper-item">
@@ -575,7 +575,10 @@
 		background-color: #f7f7f7;
 		// padding-bottom: 150upx;
 	}
-
+	.huangdong{
+		width:100%;
+		overflow:hidden;
+	}
 	.class-mask {
 		height: 100%;
 		width: 100%;

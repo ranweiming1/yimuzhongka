@@ -403,6 +403,10 @@
 </script>
 
 <style lang="scss">
+	.view-style{
+		width:100%;
+		overflow:hidden;
+	}
 	.bg_img {
 		// background-color: #2b5cff;
 		width: 750upx;
