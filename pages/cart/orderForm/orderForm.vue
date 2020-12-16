@@ -293,12 +293,17 @@
 					data: {},
 					success: function(res) {
 						_this.z = res.data.data.length>0
+						var isDzhi=false
 						res.data.data.map(function(n) {
 							if (n.isDefault == 1) {
 								//默认地址
+								isDzhi=true
 								_this.dizhi = n
 							}
 						})
+						if(!isDzhi){
+							_this.dizhi=res.data.data[0]
+						}
 					}
 				})
 			}
