@@ -44,9 +44,8 @@
 			<view class="uni-form-item" style="height: 135rpx;">
 				<view class="title">
 					<text class="texts" style="margin-top: 20rpx;font-size:28rpx;line-height: 50rpx;">详细地址</text>
-					<textarea class="texts" v-model='area'>这里是详细地址什么大厦几零几</textarea>
+					<textarea class="texts" v-model='area' style='width:700rpx;' placeholder='详细地址信息'></textarea>
 				</view>
-				<input class="uni-input" name="input" style="line-height: 135rpx;height: 135rpx;" v-model='area' placeholder='详细地址' />
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>邮箱</text></view>
@@ -111,12 +110,6 @@
 		</view>
 
 		<view class="uni-buttom">
-			<view class="check-item">
-				<view class="chec-item" @tap="checks">
-					<view :class="isCheck?'':'add'"></view>
-				</view>
-				<text>我已阅读并同意《<text style="color: #ee4646;">商家入驻协议</text>》</text>
-			</view>
 			<view class="bott-item" @tap="nextPage">
 				<text>下一页</text>
 			</view>
@@ -370,9 +363,54 @@
 					})
 					return false
 				}
-				if(!this.this.accountName){
+				if(!this.accountName){
 					uni.showToast({
 						title:'请输入账户名'
+					})
+					return false
+				}
+				if(!this.storeName){
+					uni.showToast({
+						title:'请输入店铺名'
+					})
+					return false
+				}
+				if(!this.legalName){
+					uni.showToast({
+						title:'请输入法人姓名',
+						icon:'none'
+					})
+					return false
+				}
+				if(!this.licenseNo){
+					uni.showToast({
+						title:'请输入营业执照号',
+						icon:'none'
+					})
+					return false
+				}
+				if(!this.area){
+					uni.showToast({
+						title:'请输入详细地址'
+					})
+					return false
+				}
+				if(!this.principal){
+					uni.showToast({
+						title:'请输入负责人姓名',
+						icon:'none'
+					})
+					return false
+				}
+				if(!this.fzrDept){
+					uni.showToast({
+						title:'请输入部门'
+					})
+					return false
+				}
+				if(this.checkedList.length==0){
+					uni.showToast({
+						title:'请选择分类'
 					})
 					return false
 				}
@@ -382,8 +420,6 @@
 				obj.storeName=this.storeName
 				obj.legalName=this.legalName
 				obj.licenseNo=this.licenseNo
-				obj.bankCarNo=this.bankCarNo
-				obj.bankName=this.bankName
 				obj.area=this.area
 				obj.email=this.email
 				obj.principal=this.principal
@@ -852,6 +888,7 @@
 			height: 100rpx;
 			line-height: 100rpx;
 			color: #333333;
+			width:420rpx;
 		}
 
 		.cont {

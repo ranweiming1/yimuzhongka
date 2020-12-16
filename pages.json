@@ -96,7 +96,8 @@
 			"path": "pages/user/allState/allState",
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle":"custom"
+				"navigationStyle":"custom",
+				"enablePullDownRefresh":true
 				
 			}
 		},

@@ -55,19 +55,19 @@
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>姓名</text></view>
-				<input class='uni-input' v-model='legalName' placeholder='请输入姓名'>
+				<input class='uni-input' v-model='legalName' placeholder='请输入姓名' :disabled='jiaoyananniu'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>身份证号</text></view>
-				<input class='uni-input' v-model='legalCardId' placeholder='请输入身份证号'>
+				<input class='uni-input' v-model='legalCardId' placeholder='请输入身份证号' :disabled='jiaoyananniu'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行卡号</text></view>
-				<input class='uni-input' v-model='bankCardNo' placeholder='请输入银行卡号' @blur='jiaoyanyinhangka'>
+				<input class='uni-input' v-model='bankCardNo' placeholder='请输入银行卡号' @blur='jiaoyanyinhangka' :disabled='jiaoyananniu'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>预留手机号</text></view>
-				<input class='uni-input' v-model='shoujihao' placeholder='请输入预留手机号' @blur='jiaoyanyinhangka'></input>
+				<input class='uni-input' v-model='shoujihao' placeholder='请输入预留手机号' @blur='jiaoyanyinhangka' :disabled='jiaoyananniu'></input>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行名称</text></view>
@@ -230,12 +230,48 @@
 				obj.cateIdList=JSON.parse(shuju.cateIdList)
 				obj.storeLogo=this.storeLogo
 				obj.license=shuju.license
-				obj.cardImg1=shuju.cardImg1
-				obj.cardImg2=shuju.cardImg2
+				obj.cardImg1=this.cardImg1
+				obj.cardImg2=this.cardImg2
 				obj.legalCardId=this.legalCardId
 				obj.bankCardNo=this.bankCardNo
 				obj.bankName=this.mingcheng
 				obj.mermberId=this.id
+				if(obj.storeLogo=='../../../static/uploadBag.png'){
+					uni.showToast({
+						title:'请上传店铺logo'
+					})
+					return false
+				}
+				if(obj.license=='../../../static/uploadBag.png'){
+					uni.showToast({
+						title:'请上传营业执照'
+					})
+					return false
+				}
+				if(obj.cardImg1=='../../../static/uploadBag.png'){
+					uni.showToast({
+						titel:'请上传身份证正面'
+					})
+					return false
+				}
+				if(obj.cardImg2=='../../../static/uploadBag.png'){
+					uni.showToast({
+						title:'请上传身份证反面'
+					})
+					return false
+				}
+				if(!this.jiaoyananniu){
+					uni.showToast({
+						title:'请输入银行卡信息'
+					})
+					return false
+				}
+				if(!this.isCheck){
+					uni.showToast({
+						title:'请阅读并同意商家入驻协议'
+					})
+					return false
+				}
 				if(this.jiaoyananniu){
 					this.$https({url:'/api/shop/add-merchat',data:obj,haeder:true,method:'post',success:res=>{uni.showToast({title:res.data.message,icon:'none'})}})
 				}
