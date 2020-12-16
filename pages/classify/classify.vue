@@ -124,18 +124,19 @@
 		},
 		methods: {
 			togLi(index, id) {
+				var that=this
 				this.id = index;
 				this.rList = this.AllList[index].childsList
 				this.rList.map(function(val, i) {
-					val.isHide = true
+					that.$set(val,'isHide',true)
 					if (val.childsList.length < 6) {
 						val.isHide = false
 					}
 				})
+				
 				this.scrollPic(id)
 			},
 			toggelHide: function(i) {
-				console.log(i)
 				this.rList[i].isHide = false
 			},
 			scrollPic: function(id) {

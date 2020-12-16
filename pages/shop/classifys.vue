@@ -23,11 +23,11 @@
 			<scroll-view class="right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'rpx'"
 			 scroll-with-animation>
 
-				<view :class="item.isHide?'li-content isHidden':'li-content'" v-for="(item , index) in rList" @tap="tiaozhuan(shopsId,isOK,item.id)">
+				<view :class="item.isHide?'li-content isHidden':'li-content'" v-for="(item , index) in rList" >
 					<view class="li-title">
 						{{item.cateTitle}}
 					</view>
-					<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in item.childsList">
+					<view class="li" v-for="(ite , inde) in item.childsList" @tap="tiaozhuan(shopsId,isOK,ite.id)">
 						<view class="imgpp">
 							<image :src="ite.imgUrl" mode=""></image>
 						</view>
@@ -82,13 +82,29 @@
 				success(res) {
 					_this.allList = res.data.data.goodsCates
 					_this.rList = res.data.data.goodsCates[0].childsList
+					_this.rList.map(function(val, i) {
+						_this.$set(val,'isHide',true)
+						if (val.childsList.length < 6) {
+							val.isHide = false
+						}
+					})
 				}
 			})
 		},
 		methods: {
 			togLi(index) {
+				var that=this
 				this.id = index;
 				this.rList = this.allList[index].childsList
+				this.rList.map(function(val, i) {
+					that.$set(val,'isHide',true)
+					if (val.childsList.length < 6) {
+						val.isHide = false
+					}
+				})
+			},
+			toggelHide: function(i) {
+				this.rList[i].isHide = false
 			},
 			tiaozhuan(shop, isok, cateId) {
 				// console.log(this.shopsId)
