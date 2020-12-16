@@ -41,7 +41,7 @@
 				<view style='overflow:hidden;margin:0 auto; position: absolute;left: 50rpx; right: 50rpx;z-index: 99;bottom: 50rpx; position: absolute;left: 50rpx;right: 50rpx;z-index: 99; bottom: 50rpx'>
 					<view style='width:160rpx;float:left;border:1px solid #eee;border-radius:2rpx;line-height:50rpx;text-align:center;font-size:26rpx ;border-radius: 6rpx;'
 					 @tap='quxiao'>取消</view>
-					<view style='width:160rpx;float:right;border:1px solid #eee;border-radius:2rpx;line-height:50rpx;text-align:center;font-size:26rpx;background:#2b5cff;color:#fff;border-radius: 6rpx;'
+					<view style='width:160rpx;float:right;border-radius:2rpx;line-height:50rpx;text-align:center;font-size:26rpx;background:#2b5cff;color:#fff;border-radius: 6rpx;'
 					 @tap='tian'>确定</view>
 				</view>
 			</view>

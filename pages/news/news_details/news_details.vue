@@ -70,10 +70,10 @@
 		</view>
 		<view style='position:fixed;top:0;left:0;bottom:0;right:0;background:rgba(0,0,0,0.5);z-index:99999;' v-if='pinglun'>
 			<view style='width:600rpx;height:600rpx;background:#fff;border-radius:10rpx;position:absolute;left:0;top:0;right:0;bottom:0;margin:auto;'>
-				<view style='text-align:center;margin-top:20rpx;'>添加评论</view>
-				<textarea placeholder='请输入评论' style='width:500rpx;margin:0 auto;height:300rpx;border:1px solid #eee;margin-top:20rpx;'
+				<view style='text-align:center;margin-top:40rpx;margin-bottom: 50rpx;'>添加评论</view>
+				<textarea placeholder='请输入评论' style='width:500rpx;margin:0 auto;height:300rpx;border:1px solid #eee;padding: 20rpx;box-sizing: border-box;'
 				 v-model='pinglunneirong'></textarea>
-				<view style='overflow:hidden;width:400rpx;margin:10rpx auto;'>
+				<view style='overflow:hidden;width:400rpx;margin:10rpx auto;position: absolute;left: 0;right: 0;bottom: 30rpx;'>
 					<button style='color:#666;width:45%;float:left;max-width:45%;' @tap='quxiaopinglun'>取消</button>
 					<button style='color:#fff;background:#007aff;width:45%;float:right;max-width:45%;' @tap='tianjia'>确定</button>
 				</view>
