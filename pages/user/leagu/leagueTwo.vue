@@ -3,10 +3,7 @@
 		<!-- 文字轮播 -->
 		<view class='swiperS'>
 			<view class="swiper-item">
-				<swiper :circular='true' style="height: 80rpx;" :interval='2000' :duration='6000' :autoplay='true' :indicator-dots='false'>
-					<swiper-item style="padding-right:20rpx;">{{text}}</swiper-item>
-					<swiper-item style='padding-right:20rpx;'>{{text}}</swiper-item>
-				</swiper>
+				<view :style='nu'>{{text+text+text+text+text+text+text+text+text+text}}</view>
 			</view>
 		</view>
 		<view class='uni-form-items'>
@@ -121,7 +118,8 @@
 				shoujihao: '',
 				jiaoyananniu: false,
 				mingcheng:'',
-				id:''
+				id:'',
+				nu:''
 			}
 		},
 		onLoad: function(option) {
@@ -130,6 +128,9 @@
 			this.$https({url:'/api/user/my-info',data:{},success:res=>{
 				this.id=res.data.data.id
 			}})
+			setTimeout(()=>{
+				this.nu='margin-left:-3300%;transition:210s;'
+			})
 		},
 		methods: {
 			checks() {
@@ -370,9 +371,8 @@
 			font-size: 22rpx;
 
 
-			swiper-item {
-				// white-space: nowrap
-				width: fit-content;
+			view{
+				width:3300%;
 			}
 		}
 	}
