@@ -7,7 +7,6 @@
 			<!-- 中间的功能按钮 ；  样式用计算属性style覆盖 -->
 			<view v-for="(item, index) in tabBar" :key="index" :style="item.type == 'scanning' ? style : ''" :class="item.type == 'jump' && item.url == currentPage ? 'tabbar_item  active' : 'tabbar_item'"
 			 @click="navTo(item)" style='position:relative;'>
-			 <view v-if='item.text=="购物车"' style='position:absolute;top:0;right:30rpx;padding:0 9rpx;border:1px solid #fb751e;border-radius:50%;color:#fb751e;background:#fff;font-size:20rpx;'>{{nu}}</view>
 				<image :class="item.type == 'scanning' ? 'IMGstyle' : ''" :style="item.type == 'scanning' ? IMGstyle : ''" v-if="item.url == currentPage"
 				 :src="item.imgClick" mode=""></image>
 				<image :class="item.type == 'scanning' ? 'IMGstyle' : ''" :style="item.type == 'scanning' ? IMGstyle : ''" v-else
@@ -98,27 +97,11 @@
 						imgNormal: '/static/n5.png',
 						imgClick: '/static/s5.png'
 					}
-				],
-				nu:0
+				]
 			};
 		},
 		created() {
 			uni.hideTabBar({}); 
-			if(uni.getStorageSync('Authorization')){
-				this.$https({
-					url:'/api/shop/order-cart-list',
-					data:{},
-					success:res=>{
-						res.data.data.cartList.map(n=>{
-							if(n.specList){
-								n.specList.map(()=>{
-									this.nu++
-								})
-							}
-						})
-					}
-				})
-			}
 		},
 		methods: {
 			navTo(item) {
