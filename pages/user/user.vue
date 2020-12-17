@@ -450,13 +450,13 @@
 					data:{status:0,page_num:10000000},
 					success:res=>{
 						res.data.data.map(n=>{
-							if(n.status==1){
+							if(n.status==0){
 								this.fukuan++
-							}else if(n.status==2){
+							}else if(n.status==1){
 								this.fahuo++
-							}else if(n.status==3){
+							}else if(n.status==2){
 								this.shouhuo++
-							}else if(n.status==4){
+							}else if(n.status==3){
 								this.pingjia++
 							}
 						})
