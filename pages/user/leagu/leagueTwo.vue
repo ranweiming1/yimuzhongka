@@ -75,7 +75,7 @@
 		<view class="uni-buttom">
 			<view class="check-item">
 				<view class="chec-item" @tap="checks">
-					<view :class="isCheck?'':'add'"></view>
+						<image v-if="isCheck" src="../../../static/checked.png" mode=""></image>
 				</view>
 				<text>我已阅读并同意《<text style="color: #ee4646;">商家入驻协议</text>》</text>
 			</view>
@@ -117,19 +117,23 @@
 				bankCardNo: '',
 				shoujihao: '',
 				jiaoyananniu: false,
-				mingcheng:'',
-				id:'',
-				nu:''
+				mingcheng: '',
+				id: '',
+				nu: ''
 			}
 		},
 		onLoad: function(option) {
 			this.shuju = JSON.parse(option.o)
 			//获取用户id
-			this.$https({url:'/api/user/my-info',data:{},success:res=>{
-				this.id=res.data.data.id
-			}})
-			setTimeout(()=>{
-				this.nu='margin-left:-3300%;transition:210s;'
+			this.$https({
+				url: '/api/user/my-info',
+				data: {},
+				success: res => {
+					this.id = res.data.data.id
+				}
+			})
+			setTimeout(() => {
+				this.nu = 'margin-left:-3300%;transition:210s;'
 			})
 		},
 		methods: {
@@ -216,76 +220,110 @@
 				})
 			},
 			submit: function() {
-				var obj={}
-				var shuju=this.shuju
-				obj.accountName=shuju.accountName
-				obj.sqrPhone=shuju.sqrPhone
-				obj.storeName=shuju.storeName
-				obj.legalName=this.legalName
-				obj.lecenseNo=shuju.lecenseNo
-				obj.area=shuju.area
-				obj.email=shuju.email
-				obj.principal=shuju.principal
-				obj.princPhone=shuju.princPhone
-				obj.fzrDept=shuju.fzrDept
-				obj.cateIdList=JSON.parse(shuju.cateIdList)
-				obj.storeLogo=this.storeLogo
-				obj.license=shuju.license
-				obj.cardImg1=this.cardImg1
-				obj.cardImg2=this.cardImg2
-				obj.legalCardId=this.legalCardId
-				obj.bankCardNo=this.bankCardNo
-				obj.bankName=this.mingcheng
-				obj.mermberId=this.id
-				if(obj.storeLogo=='../../../static/uploadBag.png'){
+				var obj = {}
+				var shuju = this.shuju
+				obj.accountName = shuju.accountName
+				obj.sqrPhone = shuju.sqrPhone
+				obj.storeName = shuju.storeName
+				obj.legalName = this.legalName
+				obj.lecenseNo = shuju.lecenseNo
+				obj.area = shuju.area
+				obj.email = shuju.email
+				obj.principal = shuju.principal
+				obj.princPhone = shuju.princPhone
+				obj.fzrDept = shuju.fzrDept
+				obj.cateIdList = JSON.parse(shuju.cateIdList)
+				obj.storeLogo = this.storeLogo
+				obj.license = shuju.license
+				obj.cardImg1 = this.cardImg1
+				obj.cardImg2 = this.cardImg2
+				obj.legalCardId = this.legalCardId
+				obj.bankCardNo = this.bankCardNo
+				obj.bankName = this.mingcheng
+				obj.mermberId = this.id
+				if (obj.storeLogo == '../../../static/uploadBag.png') {
 					uni.showToast({
-						title:'请上传店铺logo',
-						icon:'none'
+						title: '请上传店铺logo',
+						icon: 'none'
 					})
 					return false
 				}
-				if(obj.license=='../../../static/uploadBag.png'){
+				if (obj.license == '../../../static/uploadBag.png') {
 					uni.showToast({
-						title:'请上传营业执照',
-						icon:'none'
+						title: '请上传营业执照',
+						icon: 'none'
 					})
 					return false
 				}
-				if(obj.cardImg1=='../../../static/uploadBag.png'){
+				if (obj.cardImg1 == '../../../static/uploadBag.png') {
 					uni.showToast({
-						title:'请上传身份证正面',
-						icon:'none'
+						title: '请上传身份证正面',
+						icon: 'none'
 					})
 					return false
 				}
-				if(obj.cardImg2=='../../../static/uploadBag.png'){
+				if (obj.cardImg2 == '../../../static/uploadBag.png') {
 					uni.showToast({
-						title:'请上传身份证反面',
-						icon:'none'
+						title: '请上传身份证反面',
+						icon: 'none'
 					})
 					return false
 				}
-				if(!this.jiaoyananniu){
+				if (!this.jiaoyananniu) {
 					uni.showToast({
-						title:'请输入银行卡信息',
-						icon:'none'
+						title: '请输入银行卡信息',
+						icon: 'none'
 					})
 					return false
 				}
-				if(!this.isCheck){
+				if (!this.isCheck) {
 					uni.showToast({
-						title:'请阅读并同意商家入驻协议',
-						icon:'none'
+						title: '请阅读并同意商家入驻协议',
+						icon: 'none'
 					})
 					return false
 				}
-				if(this.jiaoyananniu){
-					this.$https({url:'/api/shop/add-merchat',data:obj,haeder:true,method:'post',success:res=>{uni.showToast({title:res.data.message,icon:'none'})}})
+				if (this.jiaoyananniu) {
+					this.$https({
+						url: '/api/shop/add-merchat',
+						data: obj,
+						haeder: true,
+						method: 'post',
+						success: res => {
+							uni.showToast({
+								title: res.data.message,
+								icon: 'none'
+							})
+						}
+					})
 				}
 			},
-			jiaoyanyinhangka:function(){
-				if(this.bankCardNo&&this.legalCardId&&this.legalName&&this.shoujihao){
-					uni.request({url:this.webUrl+'/api/oauth/get-bank-card4',data:{cardNumber:this.bankCardNo,idNumber:this.legalCardId,name:this.legalName,phoneNumber:this.shoujihao},header:{'Content-Type':'application/x-www-form-urlencoded'},method:'post',success:res=>{if(res.data.code==0){this.jiaoyananniu=true}else{this.jiaoyananniu=false}uni.showToast({title:res.data.message,icon:'none'})}})
+			jiaoyanyinhangka: function() {
+				if (this.bankCardNo && this.legalCardId && this.legalName && this.shoujihao) {
+					uni.request({
+						url: this.webUrl + '/api/oauth/get-bank-card4',
+						data: {
+							cardNumber: this.bankCardNo,
+							idNumber: this.legalCardId,
+							name: this.legalName,
+							phoneNumber: this.shoujihao
+						},
+						header: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						method: 'post',
+						success: res => {
+							if (res.data.code == 0) {
+								this.jiaoyananniu = true
+							} else {
+								this.jiaoyananniu = false
+							}
+							uni.showToast({
+								title: res.data.message,
+								icon: 'none'
+							})
+						}
+					})
 				}
 			}
 		}
@@ -293,10 +331,11 @@
 </script>
 
 <style lang="scss">
-	.huangdong{
-		width:100%;
-		overflow:hidden;
+	.huangdong {
+		width: 100%;
+		overflow: hidden;
 	}
+
 	.mask-item {
 		width: 100%;
 		height: 100%;
@@ -371,8 +410,8 @@
 			font-size: 22rpx;
 
 
-			view{
-				width:3300%;
+			view {
+				width: 3300%;
 			}
 		}
 	}
@@ -496,20 +535,20 @@
 			padding-left: 30rpx;
 
 			.chec-item {
-				border: 1rpx solid #e6e6e6;
-				border-radius: 50%;
 				display: inline-block;
 				vertical-align: middle;
 				margin-right: 15rpx;
-				box-sizing: border-box;
+				// box-sizing: border-box;
+				background: #fff;
+				border-radius: 50%;
+				width: 31rpx;
+				height: 31rpx;
+				border: 1rpx solid #e7e7e7;
 
-				view {
-					box-sizing: border-box;
-					margin: 6rpx;
-					background: #2b5cff;
-					width: 25rpx;
-					height: 25rpx;
-					border-radius: 50%;
+				image {
+					width: 31rpx;
+					height: 31rpx;
+					display: block;
 				}
 
 				.add {
