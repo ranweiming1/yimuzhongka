@@ -1,61 +1,61 @@
 {
-	"pages": [//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-	{
-		"path":"pages/index/index",
-		"style":{
-			// "titleNView":false,
-			"navigationBarShadow":{
-				"colorType":"grey"
-			},
-			"navigationStyle":"custom"
-		}
-	},
-	{
-		"path": "pages/index/productDetails",
-		"style": {
-			// "navigationBarTitleText": "毅木重卡"
-			"navigationStyle":"custom"
-		}
-	},
-	{
-		"path": "pages/search/store",
-		"style": {
-			"navigationBarTitleText": "毅木重卡"
-		}
-	},
-	{
-		"path": "pages/search/search",
-		"style": {
-			// "navigationBarTitleText": "毅木重卡"
-			"navigationStyle":"custom"
-		}
-	},
-	{
-		"path": "pages/classify/fenlTwo",
-		"style": {
-			// "navigationBarTitleText": "毅木重卡"
-			"navigationStyle":"custom"
-		}
-	},
-	{
-		"path": "pages/classify/fenlOne",
-		"style": {
-			// "navigationBarTitleText": "毅木重卡"
-			"navigationStyle":"custom"
-		}
-	},
-	{
-		"path": "pages/user/allState/evaluate",
-		"style": {
-			"navigationBarTitleText": "评价商品"
-		}
-	},
-	{
-		"path": "pages/user/allState/refund_01",
-		"style": {
-			"navigationBarTitleText": "售后申请"
-		}
-	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				// "titleNView":false,
+				"navigationBarShadow": {
+					"colorType": "grey"
+				},
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/productDetails",
+			"style": {
+				// "navigationBarTitleText": "毅木重卡"
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/search/store",
+			"style": {
+				"navigationBarTitleText": "毅木重卡"
+			}
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				// "navigationBarTitleText": "毅木重卡"
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/classify/fenlTwo",
+			"style": {
+				// "navigationBarTitleText": "毅木重卡"
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/classify/fenlOne",
+			"style": {
+				// "navigationBarTitleText": "毅木重卡"
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/allState/evaluate",
+			"style": {
+				"navigationBarTitleText": "评价商品"
+			}
+		},
+		{
+			"path": "pages/user/allState/refund_01",
+			"style": {
+				"navigationBarTitleText": "售后申请"
+			}
+		},
 		{
 			"path": "pages/user/allState/deliver_01",
 			"style": {
@@ -96,9 +96,9 @@
 			"path": "pages/user/allState/allState",
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle":"custom",
-				"enablePullDownRefresh":true
-				
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+
 			}
 		},
 
@@ -106,37 +106,37 @@
 			"path": "pages/classify/classify",
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/shop/all",
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/shop/classifys",
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/shop/shop",
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
-		
+
 		{
 			"path": "pages/cart/cart",
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle":"custom",
-				"navigationBarBackgroundColor":"#fff"
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#fff"
 			}
 		},
 		{
@@ -148,7 +148,7 @@
 		{
 			"path": "pages/cart/emptyCart",
 			"style": {
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 				// "navigationBarTitleText": "毅木重卡"
 			}
 		},
@@ -169,7 +169,7 @@
 			"path": "pages/user/leagu/siteList/siteList",
 			"style": {
 				"navigationBarTitleText": "新增地址",
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -195,20 +195,20 @@
 		{
 			"path": "pages/user/distr/distr",
 			"style": {
-				"navigationStyle":"custom",
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "毅木重卡"
 			}
 		},
 		{
 			"path": "pages/user/task/invite/invite",
 			"style": {
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/user/task/task",
 			"style": {
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -293,9 +293,9 @@
 		{
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarBackgroundColor":"#156af8",
-				"navigationBarTextStyle":"white",
-				"navigationStyle":"custom"
+				"navigationBarBackgroundColor": "#156af8",
+				"navigationBarTextStyle": "white",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -312,14 +312,14 @@
 			}
 		},
 		{
-			"path":"pages/index/pingjia",
-			"style":{
+			"path": "pages/index/pingjia",
+			"style": {
 				"navigationBarTitleText": "全部评价"
 			}
 		},
 		{
-			"path":"pages/user/task/liulan",
-			"style":{
+			"path": "pages/user/task/liulan",
+			"style": {
 				"navigationBarTitleText": "浏览记录"
 			}
 		},
@@ -353,28 +353,28 @@
 				"navigationBarTitleText": "毅木重卡",
 				"navigationStyle": "custom"
 			}
-		},{
-			"path":"pages/shop/car",
-			"style":{
-				"navigationBarTitleText":"选择车型"
+		}, {
+			"path": "pages/shop/car",
+			"style": {
+				"navigationBarTitleText": "选择车型"
 			}
 		},
 		{
-			"path":"pages/index/class",
-			"style":{
+			"path": "pages/index/class",
+			"style": {
 				// "navigationBarTitleText":"毅木重卡"
 				"navigationStyle": "custom"
 			}
-		},{
-			"path":"pages/user/task/aiChe",
-			"style":{
-				"navigationBarTitleText":"我的爱车"
+		}, {
+			"path": "pages/user/task/aiChe",
+			"style": {
+				"navigationBarTitleText": "我的爱车"
 			}
 		},
 		{
-			"path":"pages/cart/orderForm/jifen",
-			"style":{
-				"navigationBarTitleText":"积分商城"
+			"path": "pages/cart/orderForm/jifen",
+			"style": {
+				"navigationBarTitleText": "积分商城"
 			}
 		}
 		// {
@@ -383,34 +383,36 @@
 		// 		"navigationBarTitleText":"分类"
 		// 	}
 		// }
-        ,{
-            "path" : "pages/shop/shopClassify",
-            "style":{
-            	"navigationStyle":"custom"
-            }
-        }
-        ,{
-            "path" : "pages/user/leagu/leagueTwo",
-            "style": {
-            	"navigationBarTitleText": "商家入驻"
-            }
-        }
-        ,{
-            "path" : "pages/user/commission/commission",
-            "style" : {"navigationStyle":"custom"}
-        }
-        ,{
-            "path" : "pages/shop/shopTwo",
-            "style" : {"navigationStyle":"custom"}
-        }
-        ,{
-            "path" : "pages/shop/shopThree",
-            "style" : {"navigationStyle":"custom"}
-        },
+		, {
+			"path": "pages/shop/shopClassify",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/user/leagu/leagueTwo",
+			"style": {
+				"navigationBarTitleText": "商家入驻"
+			}
+		}, {
+			"path": "pages/user/commission/commission",
+			"style": {
+				"navigationBarTitleText": "帮助"
+			}
+		}, {
+			"path": "pages/shop/shopTwo",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/shop/shopThree",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
 		{
-			"path":"pages/index/ke"
+			"path": "pages/index/ke"
 		}
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "毅木重卡",
