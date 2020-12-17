@@ -4,9 +4,9 @@
 	<div>
 		<div style='height:90upx;'></div>
 		<view :class="isFullSucreen ? 'tabBar FullSucreen' : 'tabBar'">
-			<!-- 中间的功能按钮 ；  样式用计算属性style覆盖掉 -->
+			<!-- 中间的功能按钮 ；  样式用计算属性style覆盖 -->
 			<view v-for="(item, index) in tabBar" :key="index" :style="item.type == 'scanning' ? style : ''" :class="item.type == 'jump' && item.url == currentPage ? 'tabbar_item  active' : 'tabbar_item'"
-			 @click="navTo(item)">
+			 @click="navTo(item)" style='position:relative;'>
 				<image :class="item.type == 'scanning' ? 'IMGstyle' : ''" :style="item.type == 'scanning' ? IMGstyle : ''" v-if="item.url == currentPage"
 				 :src="item.imgClick" mode=""></image>
 				<image :class="item.type == 'scanning' ? 'IMGstyle' : ''" :style="item.type == 'scanning' ? IMGstyle : ''" v-else
