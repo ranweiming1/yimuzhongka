@@ -52,7 +52,7 @@
 			<!-- 头部 -->
 			<view class="top">
 				<view class="textBox">
-					<input class="uni-input" @blur="search" v-model="value" placeholder="请输入关键字" />
+					<input class="uni-input" @blur="search" :focus="isFocus" v-model="value" placeholder="请输入关键字" />
 				</view>
 				<view class="imgBox">
 					<image src="../../static/sousuo.png" mode="" @tap='gouwuche'></image>
@@ -159,7 +159,8 @@
 				goodsType: '',
 				paixu: false,
 				st: '',
-				value: ''
+				value: '',
+				isFocus:false
 			}
 		},
 		onLoad(option) {
@@ -290,9 +291,7 @@
 				this.tog_Ca = !this.tog_Ca
 			},
 			gouwuche: function() {
-				uni.navigateTo({
-					url: '../cart/cart'
-				})
+				this.isFocus=true
 			},
 			zonghe: function() {
 				this.paixu = !this.paixu
@@ -447,12 +446,12 @@
 		.imgBox {
 			padding-left: 30upx;
 			padding-right: 20upx;
-			padding-top: 10upx;
+			padding-top: 12upx;
 			float: right;
 
 			image {
-				width: 44upx;
-				height: 39upx;
+				width: 36upx;
+				height:36upx;
 			}
 		}
 	}

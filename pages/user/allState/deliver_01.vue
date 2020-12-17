@@ -44,7 +44,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="basic aa" @tap="tui">
+		<view class="basic aa" @tap="tui" >
 			<view class="left_a">
 				<text>我要退货</text>
 			</view>

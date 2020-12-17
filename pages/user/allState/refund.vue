@@ -30,14 +30,29 @@
 					<text>退货信息</text>
 				</view>
 
-				<view class="p">
-					<text>山东省济南市槐荫区张庄路街道路街道明南区16号楼明南区16号楼(菜鸟驿站代收)</text>
+				<view class="basics">
+					<view class="left">
+						<text>收件地址</text>
+					</view>
+					<view class="right_text">
+						<textarea value="" v-model="comDzhi" placeholder="请输入收件地址" />
+						</view>
 				</view>
-				<view class="nome">
-					<text>收件人：张继科</text>
+				<view class="basic">
+					<view class="left_a">
+						<text>收件人姓名</text>
+					</view>
+					<view class="right_input">
+						<input type="text" v-model="rewName" placeholder="请输入收件人姓名" />
+					</view>
 				</view>
-				<view class="call">
-					<text>手机号：15066458795</text>
+				<view class="basic">
+					<view class="left_a">
+						<text>手机号</text>
+					</view>
+					<view class="right_input">
+						<input type="text" v-model="comPhone" placeholder="请输入收件人手机号" />
+					</view>
 				</view>
 			</view>
 
@@ -45,7 +60,7 @@
 		<view class="basic-list">
 			<view class="basic aa">
 				<view class="left_a">
-					<text>选择物流公司</text>
+					<text>输入物流公司</text>
 				</view>
 				<view class="right_a">
 					<view class="img_a">
@@ -53,7 +68,7 @@
 					</view>
 				</view>
 				<view class="right_input">
-					<input type="text" value="请输入物流公司" />
+					<input type="text" v-model="comName" placeholder="请输入物流公司" />
 				</view>
 			</view>
 			<view class="basic aa">
@@ -67,10 +82,16 @@
 					</view>
 				</view>
 				<view class="right_input">
-					<input type="text" value="请输入物流单号" />
+					<input type="text" v-model="comCode" placeholder="请输入物流单号" />
 				</view>
 			</view>
 		</view>
+		<view class="submit-bot">
+			<view class="bottom-bott" @tap="submit">
+				提交
+			</view>
+		</view>
+
 	</view>
 </template>
 
@@ -78,11 +99,15 @@
 	export default {
 		data() {
 			return {
-				baseCont: {}
+				baseCont: {},
+				comCode: '',
+				comName: '',
+				id: ''
 			}
 		},
 		onLoad(option) {
 			console.log(option)
+			this.id = option.id
 			var that = this
 			this.$https({
 				url: '/api/shop/order-refund-detail',
@@ -97,6 +122,127 @@
 				}
 			})
 
+		},
+		methods: {
+			submit: function() {
+				if (!this.comName) {
+					uni.showToast({
+						title: '请输入物流公司'
+					})
+				} else if (!this.checkCode(this.comCode)) {
+					uni.showToast({
+						title: '请输入正确的物流单号',
+						icon: 'none'
+					})
+				}else if (!this.$jiaoyan(this.sqrPhone)){
+					uni.showToast({
+						title: '请输入正确的手机号',
+						icon: 'none'
+					})
+				}
+				 else {
+					this.$https({
+						url: '/api/shop/order-refund-logistics',
+						dengl: false,
+						data: {
+							refundId: this.id,
+							logisticsCode: this.comCode,
+							logisticsName: this.comName
+						},
+						method: 'post',
+						success(res) {
+							console.log(res)
+							if (res.data.code == 0) {
+								uni.showToast({
+									title: '提交成功'
+								})
+								uni.navigateBack({
+
+								})
+							} else {
+								uni.showToast({
+									title: '提交失败',
+									icon: 'none'
+								})
+							}
+						}
+					})
+				}
+			},
+			checkCode(code) {
+				if (this.comName.indexOf('顺丰') == 0) {
+					if (/^[A-Za-z0-9-]{4,35}$/.test(code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+				if (this.comName.indexOf('圆通') == 0) {
+					if (/^[A-Za-z0-9]{2}[0-9]{10}$|^[A-Za-z0-9]{2}[0-9]{8}$|^[6-9][0-9]{17}$|^[DD]{2}[8-9][0-9]{15}$|^[Y][0-9]{12}$/.test(
+							code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+				if (this.comName.indexOf('申通') == 0) {
+					if (
+						/^(268|888|588|688|368|468|568|668|768|868|968)[0-9]{9}$|^(11|22|40|268|888|588|688|368|468|568|668|768|868|968)[0-9]{10}$|^(STO)[0-9]{10}$|^(33)[0-9]{11}$|^(4)[0-9]{12}$|^(55)[0-9]{11}$|^(66)[0-9]{11}$|^(77)[0-9]{11}$|^(88)[0-9]{11}$|^(99)[0-9]{11}$/
+						.test(code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+				if (this.comName.indexOf('韵达') == 0) {
+					if (/^(10|11|12|13|14|15|16|17|19|18|50|55|58|80|88|66|31|77|39)[0-9]{11}$|^[0-9]{13}$/.test(code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+				if (this.comName.indexOf('中通') == 0) {
+					if (
+						/^((010|768|765|778|779|719|828|618|680|518|688|880|660|805|988|628|205|717|718|728|738|761|762|763|701|757|751|359|358|100|200|118|128|689|738|528|852)[0-9]{9})$|^((5711|2008|2009|2010|2013)[0-9]{8})$|^((91|92|93|94|95|98|36|68|39|50|53|37)[0-9]{10})$|^(4)[0-9]{11}$|^(90)[0-9]{10}$|^(120)[0-9]{9}$|^(780)[0-9]{9}$|^(881)[0-9]{9}$|^(882|885)[0-9]{9}$|^(54|55|56)[0-9]{10}$|^(960)[0-9]{9}$|^(665|666)[0-9]{9}$|^(63)[0-9]{10}$|^(64)[0-9]{10}$|^(72)[0-9]{10}$|^2[1-9][0-9]{10}$/
+						.test(code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+				if (this.comName.indexOf('百世') == 0) {
+					if (
+						/^((A|B|D|E)[0-9]{12})$|^(BXA[0-9]{10})$|^(K8[0-9]{11})$|^(02[0-9]{11})$|^(000[0-9]{10})$|^(C0000[0-9]{8})$|^((21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|61|63)[0-9]{10})$|^((50|51)[0-9]{12})$|^7[0-9]{13}$|^6[0-9]{13}$|^58[0-9]{14}$/
+						.test(code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+				if (this.comName.indexOf('邮政') == 0) {
+					if (
+						/^([GA]|[KQ]|[PH]){2}[0-9]{9}([2-5][0-9]|[1][1-9]|[6][0-5])$|^[99]{2}[0-9]{11}$|^[96]{2}[0-9]{11}$|^[98]{2}[0-9]{11}$/
+						.test(code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+				if (this.comName.indexOf('天天') == 0) {
+					if (/(66|77|88|(5(5|6|8)))\d{10}|(99(5|8))\d{9}|TT(66|88|99|(5(6|7)))\d{11}/.test(code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+				if (this.comName.indexOf('德邦') == 0) {
+					if (/^[0-9]{8,10}$|^\d{15,}[-\d]+$\d{11}/.test(code)) {
+						return true
+					} else {
+						return false
+					}
+				}
+			}
 		}
 	}
 </script>
@@ -104,6 +250,46 @@
 <style lang="scss">
 	page {
 		background-color: #f5f5f4;
+	}
+	.basics{
+		    border-bottom: 1px solid #e5e5e5;
+		.left{
+		    height: 80rpx;
+		    line-height: 80rpx;
+		    padding: 0 30rpx;
+	}
+		.right_text{
+		    height: 150rpx;
+		    width: 100%;
+		    padding: 0 30rpx;
+		    box-sizing: border-box;
+			textarea{
+				height: 100%;
+				    width: 100%;
+				    line-height: 50rpx;
+				    font-size: 28rpx;
+					color: #999999;
+			}
+	}
+}
+	.submit-bot {
+		position: fixed;
+		bottom: 0;
+		background: #fff;
+		width: 100%;
+
+		.bottom-bott {
+			height: 90rpx;
+			line-height: 90rpx;
+			background: #2b5cff;
+			color: #fff;
+			text-align: center;
+			margin: 40rpx 65rpx;
+			margin-top: 20rpx;
+			border-radius: 45rpx;
+			font-size: 30rpx;
+		}
+
 	}
 
 	.await {
@@ -189,7 +375,7 @@
 	.siteBox {
 		width: 100%;
 		height: initial;
-		padding: 28rpx 30upx;
+		// padding: 28rpx 0;
 		background-color: #fff;
 		overflow: hidden;
 		margin-bottom: 20rpx;
@@ -197,9 +383,14 @@
 
 		.content {
 			float: left;
+			width: 100%;
 
 			.biaot {
-				padding-bottom: 20rpx;
+				padding: 0 30rpx;
+				height: 90rpx;
+				line-height: 90rpx;
+				border-bottom: 1px solid #e5e5e5;
+
 
 				text {
 					font-size: 30rpx;
@@ -234,6 +425,25 @@
 
 	.basic:last-child {
 		border: none;
+	}
+
+	.input-basc {
+		width: 100%;
+		background-color: #fff;
+		overflow: hidden;
+		padding: 0 30rpx;
+		border-bottom: 1px solid #e5e5e5;
+		height: 100rpx;
+		line-height: 100rpx;
+		box-sizing: border-box;
+
+		input {
+			width: 100%;
+			line-height: 55px;
+			height: 100rpx;
+			font-size: 28rpx;
+			color: #999999;
+		}
 	}
 
 	.basic {

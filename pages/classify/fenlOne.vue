@@ -58,7 +58,7 @@
 					<input class="uni-input" @blur="search" v-model="value" placeholder="请输入关键字" />
 				</view>
 				<view class="imgBox" @tap='tiaozh' style='margin-right:10rpx;'>
-					<image src="../../static/icon_43.png" mode=""></image>
+					<image src="../../static/icon_10.png" mode=""></image>
 				</view>
 			</view>
 
@@ -450,8 +450,8 @@
 			float: right;
 
 			image {
-				width: 44upx;
-				height: 39upx;
+				width: 36upx;
+				height: 36upx;
 			}
 		}
 	}

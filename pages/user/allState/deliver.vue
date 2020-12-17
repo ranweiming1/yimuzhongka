@@ -4,10 +4,10 @@
 		</view> -->
 
 		<view class="textBox">
-			<view class="">
+			<view class="top_title">
 				<text>订单编号：{{order}}</text>
 			</view>
-			<view class="" v-if="com">
+			<view class="top_title" v-if="com">
 				<text>承运公司：{{com}}快递</text>
 			</view>
 			<view class="" v-if="wuList.nu">
@@ -36,8 +36,8 @@
 							<view class="title">{{(index==0&&wlInfo.state ==1)?'揽件中':(index==0&&wlInfo.state== 2)?'疑难':(index==0&&wlInfo.state) == 3 ? '已签收':(index==0&&wlInfo.state == 4) ? '退签中':(index==0&&wlInfo.state==5)? '派件中':(index==0&&wlInfo.state==6)? '退回':(index==0&&wlInfo.state==7)? '转投':(index==0&&wlInfo.state == 10)? '待清关':(index==0&&wlInfo.state == 11) ? '清关中':(index==0&&wlInfo.state == 12) ? '已清关':(index==0&&wlInfo.state == 13) ? '清关异常': (index==0&&wlInfo.state == 14)?'拒签':'' }}</view>
 							<view class="text" style="font-size: 24rpx;">{{item.context}}</view>
 						</view>
-					</view> 
-				<view class="flex list"><text style="margin-left: 40rpx;">暂无物流信息</text></view>
+					</view>
+					<view class="flex list"><text style="margin-left: 40rpx;">暂无物流信息</text></view>
 				</view>
 			</view>
 
@@ -49,23 +49,33 @@
 				<text>更多</text>
 			</view>
 		</view>
-
-		<view class="hahah list uni-flex uni-column" v-for="(item,index) in hotList">
-			<view class="content " @tap="detail(item.goodsId)">
+		<view class="activeCss">
+			<view class="content-item" v-for="(item,index) in hotList" @tap="detail(item.goodsId)">
 				<view class="imgBox">
-					<image :src="item.goodsLogo" mode="widthFix"></image>
+					<image :src="item.goodsLogo" mode=""></image>
 				</view>
-				<view class="txt_a">
-					<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-					<text>{{item.goodsName}}</text>
-					<view class="txt_aa">
-						<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
+				<view class="content-item-text">
+					<view class="title_top">
+						<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
+						<text>{{item.goodsName}}</text>
 					</view>
-					<view class="txt_aas">
-						<text>税后价：<text>￥{{item.shopPrice?item.shopPrice:'暂无价格'}}</text></text>
+					<view class="item-coupon">
+						<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+							<text>满{{items.condition}}-{{items.money}}元</text>
+						</view>
+						<view class="coupon-item" v-if='item.kuaidi==0'>
+							<text>包邮</text>
+						</view>
+
+					</view>
+
+					<view class="item-price">
+						<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
+						<text class="shop-sales">销量：{{item.salesSum}}</text>
 					</view>
 
 				</view>
+
 			</view>
 		</view>
 
@@ -82,7 +92,7 @@
 				order: '',
 				com: '',
 				hotList: {},
-				dz:'',
+				dz: '',
 				// 
 				wlInfo: {
 					state: 1, //快递状态 1已签收 2配送中			
@@ -101,11 +111,13 @@
 			console.log(option)
 			this.order = option.order
 			this.com = option.com
-			this.dz=option.dz
+			this.dz = option.dz
 			this.$https({
 				url: '/api/shop/logistics-detail',
 				data: {
-					logistics: option.code
+					logistics: option.code,
+					// logistics:'SF1044220470100Q',
+					
 				},
 				dengl: false,
 				success(res) {
@@ -133,16 +145,16 @@
 						goodsId: id
 					},
 					method: 'POST',
-					dengl:true,
+					dengl: true,
 					success(res) {
 						console.log('添加成功')
 						console.log(res.data)
 					}
 				})
 			},
-			gengduoxx:function(){
+			gengduoxx: function() {
 				uni.navigateTo({
-					url:'../../classify/fenlOne'
+					url: '../../classify/fenlOne'
 				})
 			}
 		}
@@ -150,6 +162,12 @@
 </script>
 
 <style lang="scss">
+	.activeCss{
+		padding: 0 20rpx;
+	}
+	.top_title{
+		line-height: 64rpx;
+	}
 	.textBox {
 		width: 710upx;
 		padding: 20upx;
@@ -184,7 +202,7 @@
 		font-size: 30upx;
 		line-height: 80upx;
 		padding-left: 20upx;
-		margin-bottom: 30upx;
+		// margin-bottom: 30upx;
 
 		.dele {
 			float: right;

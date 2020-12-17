@@ -570,7 +570,7 @@
 			display: flex;
 			flex-direction: column;
 			flex-wrap: nowrap;
-			font-size: 30upx;
+			font-size: 26upx;
 			color: #333333;
 			width: 23%;
 			margin-bottom: 20upx;
@@ -578,8 +578,8 @@
 		}
 
 		image {
-			width: 110upx;
-			height: 110upx;
+			width: 90upx;
+			height: 90upx;
 			margin-bottom: 15upx;
 		}
 
