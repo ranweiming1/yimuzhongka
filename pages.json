@@ -412,7 +412,11 @@
 		{
 			"path": "pages/index/ke"
 		}
-	],
+	    ,{
+            "path" : "pages/user/jifenStore/jifenExplain",
+            "style" : {"navigationBarTitleText": "积分规则说明"}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "毅木重卡",

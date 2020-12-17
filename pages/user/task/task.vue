@@ -13,7 +13,7 @@
 			<view class="textBox">
 				<text>任务中心</text>
 			</view>
-			<view class="imgBox">
+			<view class="imgBox" @tap='jifenEx'>
 				
 				<image src="../../../static/icon_31.png" mode=""></image>
 			</view>
@@ -354,6 +354,11 @@
 					_this.state = state
 					}})
 				// },
+			},
+			jifenEx:function(){
+				uni.navigateTo({
+					url:'../jifenStore/jifenExplain'
+				})
 			},
 			qianD() {
 				var _this = this
