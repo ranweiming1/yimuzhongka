@@ -90,6 +90,7 @@
 		<view class="state">
 			<view class="fu" @tap="daiFu(1)">
 				<view class="imgBox_a">
+					<view>{{fukuan}}</view>
 					<image src="../../static/fk.png" mode=""></image>
 				</view>
 				<view class="kuan">
@@ -99,6 +100,7 @@
 
 			<view class="dai" @tap="daiFu(2)">
 				<view class="imgBox_a">
+					<view>{{fahuo}}</view>
 					<image src="../../static/fh.png" mode=""></image>
 				</view>
 
@@ -109,6 +111,7 @@
 
 			<view class="ping" @tap="daiFu(3)">
 				<view class="imgBox_a">
+					<view>{{shouhuo}}</view>
 					<image src="../../static/sh.png" mode=""></image>
 				</view>
 
@@ -119,6 +122,7 @@
 
 			<view class="tui" @tap="daiFu(4)">
 				<view class="imgBox_a">
+					<view>{{pingjia}}</view>
 					<image src="../../static/pj.png" mode=""></image>
 				</view>
 
@@ -129,6 +133,7 @@
 
 			<view class="ding" @tap="tuiKuan">
 				<view class="imgBox_a">
+					<view>{{tuikuan}}</view>
 					<image src="../../static/qb.png" mode=""></image>
 				</view>
 
@@ -378,7 +383,12 @@
 				list: [],
 				n: 0,
 				xianshi: true,
-				id:''
+				id:'',
+				fukuan:0,
+				fahuo:0,
+				shouhuo:0,
+				pingjia:0,
+				tuikuan:0
 			}
 		},
 		components: {
@@ -432,6 +442,33 @@
 					dengl: true,
 					success: res => {
 						this.list = res.data.data.recommedGoods
+					}
+				})
+				//获取订单信息
+				this.$https({
+					url:'/api/user/order-list',
+					data:{status:0,page_num:10000000},
+					success:res=>{
+						res.data.data.map(n=>{
+							if(n.status==1){
+								this.fukuan++
+							}else if(n.status==2){
+								this.fahuo++
+							}else if(n.status==3){
+								this.shouhuo++
+							}else if(n.status==4){
+								this.pingjia++
+							}
+						})
+					}
+				})
+				this.$https({
+					url:'/api/shop/order-refund-list',
+					data:{},
+					method:'post',
+					success:res=>{
+						if(res.data.code==0)
+						this.fukuan=res.data.data.length
 					}
 				})
 			}
@@ -849,6 +886,21 @@
 			.textBox {
 				margin-top: 10upx;
 			}
+		}
+	}
+	.imgBox_a{
+		position:relative;
+		view{
+			position:absolute;
+			border:1px solid #fb751e;
+			padding:0 9rpx;
+			border-radius:50%;
+			color:#fb751e;
+			right:30rpx;
+			top:-10rpx;
+			font-size:20rpx;
+			background:#fff;
+			z-index:999;
 		}
 	}
 </style>
