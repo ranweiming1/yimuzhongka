@@ -293,7 +293,7 @@
 						<text>店铺</text>
 					</view>
 				</view>
-				<view class="kefua">
+				<view class="kefua centets">
 					<image @tap="isActive" v-if="!isCollect" src="../../static/icon_51.png" mode=""></image>
 					<image @tap="isActive" v-if="isCollect" src="../../static/icon_52.png" mode=""></image>
 					<view class="keyboard">
@@ -302,7 +302,7 @@
 				</view>
 				<view class='kefua' @tap='tiaozhuan'>
 					<image src='../../static/icon_36.png'></image>
-					<view style='font-size:26rpx;'>客服</view>
+					<view class="keyboard"><text>客服</text></view>
 				</view>
 
 
@@ -355,8 +355,8 @@
 				xuanzh: false,
 				youhuiqu: [],
 				j: 0,
-				cishu:3,
-				yihuodecishu:0
+				cishu: 3,
+				yihuodecishu: 0
 			}
 		},
 		components: {
@@ -436,11 +436,21 @@
 							success: function(res) {}
 						})
 						//增加积分
-						setInterval(function(){
-							if(_this.cishu>_this.yihuodecishu){
-								_this.$https({url:'/api/task/center-task-insert',data:{taskId:2,taskType:1},method:'post',success:res=>{_this.cishu++}})
+						setInterval(function() {
+							if (_this.cishu > _this.yihuodecishu) {
+								_this.$https({
+									url: '/api/task/center-task-insert',
+									data: {
+										taskId: 2,
+										taskType: 1
+									},
+									method: 'post',
+									success: res => {
+										_this.cishu++
+									}
+								})
 							}
-						},60000)
+						}, 60000)
 					}
 				}
 			})
@@ -461,8 +471,8 @@
 			jump(ind) {
 				var _this = this
 				this.ind = ind
-				if(ind==1){
-					this.toJump='s'
+				if (ind == 1) {
+					this.toJump = 's'
 				}
 				if (ind == 2) {
 					_this.toJump = 'pingjia'
@@ -636,7 +646,7 @@
 								goodsId: this.list.goodsId,
 								specKey: this.guige[this.indexx].key,
 								shopId: this.shopId,
-								name: this.list.length>0?this.list.couponDTOS[0].name:'',
+								name: this.list.length > 0 ? this.list.couponDTOS[0].name : '',
 							}]
 						}) + '&dingdan=2&goumai=1'
 					})
@@ -675,7 +685,7 @@
 			},
 			tiaozhuan: function() {
 				uni.navigateTo({
-					url: 'ke?id='+this.deId
+					url: 'ke?id=' + this.deId
 				})
 			}
 		}
@@ -1338,7 +1348,7 @@
 		padding: 20upx;
 		background-color: #fff;
 		margin-top: 20upx;
-		margin-bottom: 100rpx;
+		margin-bottom: 150rpx;
 
 		text {
 			font-size: 30upx;
@@ -1368,20 +1378,34 @@
 			padding-left: 20upx;
 			width: 350upx;
 
+			.centets {
+				text-align: center;
+
+				image {
+					display: inline-block;
+				}
+			}
+
 			.kefua {
 				float: left;
-				padding: 20upx;
+				padding:20rpx;
+				box-sizing: border-box;
+				text-align: center;
+				height: 100rpx;
 
 				image {
 					padding-left: 5upx;
 					width: 41upx;
 					height: 38upx;
-					float: left;
+					display: inline-block;
+					// float: left;
 				}
 
 				.keyboard {
+					position: relative;
+					top: -8rpx;
 					text {
-						float: left;
+						// float: left;
 						color: #333;
 						font-size: 26upx;
 					}

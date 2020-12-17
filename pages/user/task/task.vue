@@ -235,6 +235,7 @@
 						_this.userList = res.data.data.userInfo
 						_this.date = res.data.data.signInDays
 						_this.qianDate = res.data.data.storeIntegralLogList
+						console.log(res.data.data)
 						// res.data.data.taskCenters.map(z => {
 						// 	if (z.taskType == 0) {
 						// 		_this.n = z.integral
@@ -300,6 +301,8 @@
 				})
 				this.$https({url:'/api/task/center-get-task-list',data:{},method:'post',success:res=>{
 					this.taskList=res.data.data
+					console.log(res.data.data)
+				
 					// 获取当前时间
 					function dateRiqi(i) {
 						var nowDate = new Date(i);
