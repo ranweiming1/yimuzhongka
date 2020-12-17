@@ -65,7 +65,7 @@
 					</view> -->
 					<view class="ima_p">
 						<image :src="state[0]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
-							<view class="hFrame_t" :style="state[0]?'':'border-bottom: 2px solid #fff'"></view>
+							<view class="hFrame_t" :style="state[0]||state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 						</image>
 					</view>
 					<view class="date">
@@ -79,9 +79,9 @@
 						<text>+{{n1}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[1]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o" :style="state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 						<image :src="state[1]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[1]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_t" :style="state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
 						<text>二</text>
@@ -94,9 +94,9 @@
 						<text>+{{n2}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[2]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o" :style="state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 						<image :src="state[2]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[2]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_t" :style="state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
 						<text>三</text>
@@ -107,9 +107,9 @@
 						<text>+{{n3}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[3]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o" :style="state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 						<image :src="state[3]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[3]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_t" :style="state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
 						<text>四</text>
@@ -120,9 +120,9 @@
 						<text>+{{n4}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[4]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o" :style="state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 						<image :src="state[4]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[4]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_t" :style="state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
 						<text>五</text>
@@ -133,9 +133,9 @@
 						<text>+{{n5}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[5]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o" :style="state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 						<image :src="state[5]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[5]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_t" :style="state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
 						<text>六</text>
