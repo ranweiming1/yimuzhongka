@@ -236,17 +236,17 @@
 						_this.date = res.data.data.signInDays
 						_this.qianDate = res.data.data.storeIntegralLogList
 						console.log(res.data.data)
-						// res.data.data.taskCenters.map(z => {
-						// 	if (z.taskType == 0) {
-						// 		_this.n = z.integral
-						// 		_this.n1 = z.integral
-						// 		_this.n2 = z.integral
-						// 		_this.n3 = z.integral
-						// 		_this.n4 = z.integral
-						// 		_this.n5 = z.integral
-						// 		_this.n6 = z.integral
-						// 	}
-						// })
+						res.data.data.storeIntegralLogList.map(z => {
+							if (z.integralType == 0) {
+								_this.n = z.integral
+								_this.n1 = z.integral
+								_this.n2 = z.integral
+								_this.n3 = z.integral
+								_this.n4 = z.integral
+								_this.n5 = z.integral
+								_this.n6 = z.integral
+							}
+						})
 
 						// 获取当前时间
 						function dateRiqi(i) {
