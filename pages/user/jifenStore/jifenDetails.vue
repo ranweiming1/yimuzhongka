@@ -32,7 +32,6 @@
 			</view>
 			<view class="jians">
 				<rich-text :nodes='xiangqing'></rich-text>
-
 			</view>
 			<view class="uni-padding-wrap uni-common-mt bott" @tap='tiaozhuan'>
 				<button type="primary">立即兑换</button>
@@ -68,7 +67,8 @@
 					_this.name = res.data.data.detail.goodsName
 					_this.jifen = res.data.data.detail.integral
 					_this.num = res.data.data.detail.salesSum
-					_this.xiangqing = res.data.data.detail.goodsContent
+					// console.log(res.data.data.detail.goodsContent,28934719824798274982,_this.$richText(res.data.data.detail.goodsContent))
+					_this.xiangqing = _this.$richText(res.data.data.detail.goodsContent)
 					_this.q = res.data.data.detail.shopPrice
 				}
 			})

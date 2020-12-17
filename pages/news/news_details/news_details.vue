@@ -132,6 +132,7 @@
 				this.objcont = JSON.parse(option.i).noticeContent
 				this.objtz = JSON.parse(option.i).createTime
 			}
+			
 		},
 		methods: {
 			tianj: function() {

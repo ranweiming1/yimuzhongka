@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="content-top">
 			<view class="cont-top-left">
-				<view class="left-logo">
+				<view class="left-logo" @tap="callPhone">
 					<image src="../../../static/phone_icon.png" mode=""></image>
 				</view>
 				<view class="left-bottom">
@@ -15,7 +15,7 @@
 				</view>
 			</view>
 			<view class="cont-top-right">
-				<view class="left-logo">
+				<view class="left-logo" @tap="onlineService">
 					<image src="../../../static/kefu_icon.png" mode=""></image>
 				</view>
 				<view class="left-bottom">
@@ -42,7 +42,7 @@
 						<image src="../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
-				
+
 			</view>
 		</view>
 	</view>
@@ -54,7 +54,9 @@
 	export default {
 		data() {
 			return {
-				contList: []
+				contList: [],
+				id:'',
+				phone:''
 			}
 		},
 		onLoad() {
@@ -69,13 +71,49 @@
 
 				}
 			})
+			this.$https({
+				url: '/api/user/my-info',
+				dengl: false,
+				data: {},
+				success: function(res) {
+					that.id = res.data.data.id
+			
+				}
+			})
+			this.$https({
+				url: '/api/user/my-platform-phone-list',
+				dengl: false,
+				data: {},
+				success: function(res) {
+					console.log(res.data.data)
+					that.phone = res.data.data[0].phone
+			
+				}
+			})
 		},
 		methods: {
-			detail: function() {
+			detail: function(id) {
 				uni.navigateTo({
-					url: '../../news/news_details/news_details?i=1'
+					url: '../FAQ/FAQdetails/FAQdetails?id='+id
 				})
-			}
+			},
+			callPhone: function() {
+				uni.makePhoneCall({
+					phoneNumber: this.phone,
+					success: (res) => {
+						console.log('调用成功!')
+					},
+					fail: (res) => {
+						console.log('调用失败!')
+					}
+
+				});
+			},
+			onlineService: function() {
+				uni.navigateTo({
+					url:'../../index/ke?id='+this.id
+				})
+			},
 		}
 	}
 </script>

@@ -1,14 +1,11 @@
 <template>
-	<view>
-		<view class="one_line">
-		</view>
-
+	<view class="line-top">
 		<view class="went">
 			<text>{{list.title}}</text>
 		</view>
 		<view class="neir">
-			<jyf-parser :html="list.content" ref="article"></jyf-parser>
-			<!-- <text v-html="list.content"></text> -->
+			<!-- <rich-text :nodes='list.content'></rich-text> -->
+			<jyf-parser :html="list.content"></jyf-parser>
 		</view>
 
 
@@ -22,22 +19,31 @@
 </template>
 
 <script>
-	import jyfParser from "@/components/jyf-parser/jyf-parser";
+	import parser from "@/components/jyf-parser/jyf-parser.vue"	
 	export default {
 		data() {
 			return {
 				id: '',
-				list:{}
+				list: {},
 			}
 		},
-		onLoad(option) {
-			var _this = this
-			this.list=option
-			this.id = option.id
-			// console.log(option)
+		components: {
+			"jyf-parser": parser
 		},
-		components:{
-		    jyfParser
+		onLoad(option) {
+			var that = this
+			this.$https({
+				url: '/api/help/problem-detail',
+				dengl: false,
+				method:'POST',
+				data: {id:option.id},
+				success: function(res) {
+					console.log(res.data.data)
+					res.data.data.content=that.$richText(res.data.data.content)
+					that.list = res.data.data
+			
+				}
+			})
 		},
 		methods: {
 
@@ -46,12 +52,22 @@
 </script>
 
 <style lang="scss">
+	.line-top {
+		border-top: 1rpx solid #e5e5e5;
+		padding: 0 20rpx;
+		width: 100%;
+		box-sizing: border-box;
+		font-size: 30rpx;
+		color: #333;
+	}
+
 	.went {
 		width: 710upx;
 		background: #fff;
-		padding: 20upx;
 		overflow: hidden;
-		border-bottom: 1px dotted #ccc;
+		border-bottom: 1px dashed #ccc;
+		height: 100rpx;
+		line-height: 100rpx;
 
 		text {
 			float: left;
@@ -60,8 +76,11 @@
 	}
 
 	.neir {
-		width: 710upx;
-		padding: 20upx;
+		// width: 710upx;
+		// padding: 20upx;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 20rpx 0;
 
 		text {
 			font-size: 28upx;
