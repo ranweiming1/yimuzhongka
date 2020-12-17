@@ -200,7 +200,7 @@
 							</view>
 						</view>
 
-						<view>
+						<view @tap='problem'>
 							<view class="imgBox">
 								<image src="../../static/zj.png" mode=""></image>
 							</view>
@@ -489,6 +489,11 @@
 			shoucang: function() {
 				uni.navigateTo({
 					url: '../search/store'
+				})
+			},
+			problem:function(){
+				uni.navigateTo({
+					url:'./commission/commission'
 				})
 			},
 			//优惠券

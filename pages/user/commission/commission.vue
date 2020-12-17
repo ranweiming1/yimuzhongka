@@ -34,38 +34,15 @@
 				<text>常见问题</text>
 			</view>
 			<view class="cont-text">
-				<view class="cont-text-item">
+				<view class="cont-text-item" v-for="(item,i) in contList">
 					<view class="cont-text-left">
-						<text>购物指南</text>
+						<text>{{item.title}}</text>
 					</view>
-					<view class="cont-text-img" @tap='detail(1)'>
+					<view class="cont-text-img" @tap='detail(item.id)'>
 						<image src="../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
-				<view class="cont-text-item">
-					<view class="cont-text-left">
-						<text>配送说明</text>
-					</view>
-					<view class="cont-text-img" @tap='detail(1)'>
-						<image src="../../../static/icon_26.png" mode=""></image>
-					</view>
-				</view>
-				<view class="cont-text-item">
-					<view class="cont-text-left">
-						<text>售后服务</text>
-					</view>
-					<view class="cont-text-img" @tap='detail(1)'>
-						<image src="../../../static/icon_26.png" mode=""></image>
-					</view>
-				</view>
-				<view class="cont-text-item">
-					<view class="cont-text-left">
-						<text>优惠券说明</text>
-					</view>
-					<view class="cont-text-img" @tap='detail(1)'>
-						<image src="../../../static/icon_26.png" mode=""></image>
-					</view>
-				</view>
+				
 			</view>
 		</view>
 	</view>
@@ -77,13 +54,26 @@
 	export default {
 		data() {
 			return {
-
+				contList: []
 			}
+		},
+		onLoad() {
+			var that = this
+			this.$https({
+				url: '/api/help/problem-list',
+				dengl: false,
+				data: {},
+				success: function(res) {
+					console.log(res.data.data)
+					that.contList = res.data.data
+
+				}
+			})
 		},
 		methods: {
 			detail: function() {
-				wx.navigateTo({
-					url:'../../news/news_details/news_details?i=1'
+				uni.navigateTo({
+					url: '../../news/news_details/news_details?i=1'
 				})
 			}
 		}
