@@ -31,13 +31,13 @@
 				</view>
 
 				<view class="p">
-					<text>山东省济南市槐荫区张庄路街道路街道明南区16号楼明南区16号楼(菜鸟驿站代收)</text>
+					<text>{{baseCont.storeAddr}}</text>
 				</view>
 				<view class="nome">
-					<text>收件人：张继科</text>
+					<text>收件人：{{baseCont.storeName}}</text>
 				</view>
 				<view class="call">
-					<text>手机号：15066458795</text>
+					<text>手机号：{{baseCont.storePhone}}</text>
 				</view>
 			</view>
 
@@ -112,7 +112,8 @@
 			submit: function() {
 				if (!this.comName) {
 					uni.showToast({
-						title: '请输入物流公司'
+						title: '请输入物流公司',
+						icon:'none'
 					})
 				} else if (!this.checkCode(this.comCode)) {
 					uni.showToast({
