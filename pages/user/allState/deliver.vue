@@ -16,7 +16,7 @@
 		</view>
 		<view class="xinXi">
 			<view class="imgBox_a" @tap='g(item.goodsId)'>
-				<image :src="goods[0].goodsLogo"mode=""></image>
+				<image :src="goods[0].goodsLogo" mode=""></image>
 			</view>
 			<view class="txt_c" @tap='g(item.goodsId)'>
 				<view class="title">
