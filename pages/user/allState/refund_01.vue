@@ -35,7 +35,7 @@
 			</view>
 		</view>
 
-		<view class="basic aa" @tap="openPopup">
+		<view class="basic aa" @tap="openPopup(1)">
 			<view class="left_a">
 				<text>货物状态 <text style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
 			</view>
@@ -47,7 +47,7 @@
 			</view>
 		</view>
 
-		<view class="basic aa" @tap="openPopup">
+		<view class="basic aa" @tap="openPopup(2)">
 			<view class="left_a">
 				<text>退货原因 <text style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
 			</view>
@@ -105,19 +105,20 @@
 					<view class="tit_box">
 						<text>选择退款原因</text>
 					</view>
-					<radio-group class="li_box" v-for="(i , n) in values" @change="change(n)">
+					<radio-group class="li_box" v-for="(i , n) in (typeIndex==1?typeList:values)" @change="change(n)">
 						<text>{{i.label}}</text>
 						<label class="radioss">
 							<radio color="#007AEE" :value="i" :checked="index==n" />
 						</label>
 					</radio-group>
 				</view>
-				<view class="uni-padding-wrap uni-common-mt bottaaa" @tap="confirm">
-					<button type="primary" @tap="confirm">确定</button>
+				<view class="uni-padding-wrap uni-common-mt bottaaa" @tap="confirm()">
+					<button type="primary" @tap="confirm()">确定</button>
 				</view>
 			</view>
 
 		</uni-popup>
+
 
 	</view>
 </template>
@@ -136,7 +137,17 @@
 				gId: '',
 				exp: '',
 				pric: '',
-				typeValue: '请选择'
+				typeValue: '请选择货物状态',
+				typeList: [{
+						id: 0,
+						label: '已收到货'
+					},
+					{
+						id: 1,
+						label: '未收到货'
+					}
+				],
+				typeIndex: ''
 			}
 		},
 		components: {
@@ -160,7 +171,14 @@
 				}
 			})
 			//退款原因
-			this.$https({url:'/api/oauth/get-refund-reason-list',data:{},method:'post',success:res=>{this.values=res.data.data}})
+			this.$https({
+				url: '/api/oauth/get-refund-reason-list',
+				data: {},
+				method: 'post',
+				success: res => {
+					this.values = res.data.data
+				}
+			})
 		},
 		methods: {
 			primary() {
@@ -200,17 +218,25 @@
 					})
 				}
 			},
-			confirm() {
+			confirm(n) {
+				if (this.typeIndex == 1) {
+					this.typeValue = this.typeList[this.index].label
+					// console.log(this.typeValue,this.index,this.typeList[this.index].label)
+					this.index='c'
+				} else {
+					this.value = this.values[this.index].label
+					this.index='c'
 
-				this.value = this.values[this.index].label
+				}
 				this.closePopup()
 			},
 			change(n) {
 				this.index = n
 				// console.log(this.index)
 			},
-			openPopup() {
+			openPopup(id) {
 				this.$refs.popup.open()
+				this.typeIndex = id
 			},
 			closePopup() {
 				this.$refs.popup.close()
@@ -325,7 +351,7 @@
 				font-size: 24upx;
 				color: #999999;
 
-				text{
+				text {
 					line-height: 30rpx;
 				}
 			}
