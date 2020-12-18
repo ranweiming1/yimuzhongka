@@ -215,7 +215,7 @@
 			wuliu() {
 				// console.log('222')
 				uni.navigateTo({
-					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' + this.dz
+					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' + this.dz+'&goods='+JSON.stringify(this.deList.goodsList)
 				})
 			},
 			afterSole(oS, lG, gN, gP, sKN, Num, orderId) {

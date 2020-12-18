@@ -14,10 +14,31 @@
 				<text>运单编号：{{wuList.nu}}</text>
 			</view>
 		</view>
+		<view class="xinXi">
+			<view class="imgBox_a" @tap='g(item.goodsId)'>
+				<image :src="goods[0].goodsLogo"mode=""></image>
+			</view>
+			<view class="txt_c" @tap='g(item.goodsId)'>
+				<view class="title">
+					<text>{{goods[0].goodsName}}</text>
+				</view>
+				<view class="spec">
+					<text>已选：＂{{goods[0].specKeyName}}＂</text>
+				</view>
+				<view class="radColor">
+					<text>{{goods[0].goodsPrice?'￥'+goods[0].goodsPrice+'.00':'0'}}</text>
+				</view>
+
+				<!-- 这是数量加减 -->
+				<view class="jia">
+					<text>X{{goods[0].goodsNum}}</text>
+				</view>
+			</view>
+			
+		</view>
 
 		<!-- 物流状态插件 -->
 		<view class="wu_l">
-			<!-- <logistics :wlInfo="wlInfo"></logistics> -->
 			<view class="content1 bgf">
 				<view v-if="">
 					<view class="flex list">
@@ -37,7 +58,49 @@
 							<view class="text" style="font-size: 24rpx;">{{item.context}}</view>
 						</view>
 					</view>
-					<view class="flex list"><text style="margin-left: 40rpx;">暂无物流信息</text></view>
+				</view>
+				<view class="flex list" v-if="!wlInfo.data.length>0"><text style="margin-left: 40rpx;">暂无物流信息</text></view>
+			</view>
+
+		</view>
+
+		<view class="wil-box" style="display: none;">
+			<view class="wul-box-item">
+				<view class="wul-box-left">
+					<view class="box-left-imgs img-befores">
+						<!-- <image src="../../../static/xiadan_bef.png" mode=""></image> -->
+						<image src="../../../static/shouhuo_bef.png" mode=""></image>
+					</view>
+				</view>
+
+				<view class="wul-box-right" style="border-left: 1rpx dashed #cdccca;">
+					<view class="box-right-data">
+						<text>[收货地址] {{dz}}</text>
+					</view>
+
+				</view>
+			</view>
+			<view class="wul-box-item" v-for="(item, index) in wlInfo.data">
+				<view class="wul-box-left">
+					<view class="box-lef-data">
+						<text>{{item.data}}</text>
+					</view>
+					<view class="box-lef-time">
+						<text>{{item.time}}</text>
+					</view>
+					<view class="box-left-img" :class="index!=0?'addYuan':''">
+						<image v-if="index==0" src="../../../static/xiadan_bef.png" mode=""></image>
+						<image v-if="index==0" src="../../../static/xiadan_aft.png" mode=""></image>
+					</view>
+				</view>
+
+				<view class="wul-box-right">
+					<view class="box-right-data" v-if="index==0">
+						<text>{{wlInfo.state == 0?'运输中':wlInfo.state ==1?'已揽件':wlInfo.state == 3 ? '已签收':wlInfo.state == 4 ? '退货完成':wlInfo.state==5? '派件中':wlInfo.state==6? '运输中':wlInfo.state==7? '转投':wlInfo.state == 10? '待清关':wlInfo.state == 11 ? '清关中':wlInfo.state == 12 ? '已清关':wlInfo.state == 13 ? '清关异常': wlInfo.state == 14?'拒签':'' }}</text>
+					</view>
+					<view class="box-right-time">
+						<text>{{item.context}}</text>
+					</view>
 				</view>
 			</view>
 
@@ -99,7 +162,8 @@
 					addr: '', //收货地址
 					//物流信息
 
-				}
+				},
+				goods:[]
 			}
 		},
 		components: {
@@ -108,20 +172,22 @@
 		},
 		onLoad(option) {
 			var _this = this
+			console.log(option)
 			this.order = option.order
 			this.com = option.com
 			this.dz = option.dz
+			this.goods=JSON.parse(option.goods)
 			this.$https({
 				url: '/api/shop/logistics-detail',
 				data: {
-					logistics: option.code,
-					// logistics:'SF1044220470100Q',
-					
+					// logistics: option.code,
+					logistics: '9881116420003',
+
 				},
 				dengl: false,
 				success(res) {
 					_this.wuList = res.data.data
-					_this.wlInfo = res.data.data
+					_this.wlInfo = res.data.data.logisticsInfo
 					// _this.list=res.data.data.data
 					_this.hotList = res.data.data.recommedGoods
 					_this.state = res.data.data.state
@@ -152,18 +218,231 @@
 				uni.navigateTo({
 					url: '../../classify/fenlOne'
 				})
+			},
+			tiaozhuan: function() {
+				uni.reLaunch({
+					url: '../../index/index'
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.activeCss{
+	.xinXi {
+		overflow: hidden;
+		width: 100%;
+		// padding: 20upx;
+		border-bottom: 20rpx solid #f5f5f5;
+		box-sizing: border-box;
+		padding: 20rpx;
+
+		// padding: 20rpx;
+		.bott {
+			margin: 20rpx;
+			display: block;
+			width: 180upx;
+			margin-right: 20upx;
+			float: right;
+
+			button {
+				background-color: #fff;
+				border: 1px solid #999;
+				border-radius: 40upx;
+				font-size: 24upx;
+				color: #999;
+				font-family: Microsoft YaHei;
+			}
+
+		}
+
+		.imgBox_a {
+			float: left;
+			// padding-top: 20upx;
+
+			image {
+				width: 200upx;
+				height: 200upx;
+			}
+		}
+
+		.txt_c {
+			float: left;
+			width: calc(100% - 200rpx);
+			box-sizing: border-box;
+			padding-left: 20upx;
+			position: relative;
+			height: 200rpx;
+
+			.title {
+				padding-top: 10upx;
+
+				text {
+					font-size: 30upx;
+					line-height: 30upx;
+					color: #333;
+				}
+			}
+
+			.spec {
+				font-size: 26upx;
+				line-height: 40upx;
+				color: #666;
+
+
+			}
+
+			.radColor {
+				float: left;
+				color: #ff0000;
+				font-size: 32upx;
+				position: absolute;
+				bottom: 0rpx;
+				left: 20rpx;
+			}
+
+			.jia {
+				float: right;
+				bottom: 0rpx;
+				right: 20rpx;
+				position: absolute;
+
+				text {
+					font-size: 20upx;
+					color: #666;
+				}
+			}
+		}
+
+	}
+
+	.wil-box {
+		width: 100%;
+		box-sizing: border-box;
+		color: #999999;
+		padding: 40rpx 0;
+		border-bottom: 20rpx solid #f5f5f5;
+
+		.box-left-img {
+			width: 48rpx;
+			height: 48rpx;
+			border: 1rpx solid #c6c6c6;
+			border-radius: 50%;
+			padding: 10rpx;
+			box-sizing: border-box;
+			text-align: center;
+			position: absolute;
+			right: -24rpx;
+			top: 0;
+			background-color: #FFFFFF;
+			z-index: 9;
+
+			image {
+				width: 100%;
+				height: 100%;
+				display: block;
+			}
+		}
+
+		.addYuan {
+			width: 12rpx;
+			height: 12rpx;
+			right: -6rpx;
+			padding: 0;
+			background-color: #cecece;
+		}
+
+		.box-left-imgs {
+			width: 48rpx;
+			height: 48rpx;
+			border-radius: 50%;
+			box-sizing: border-box;
+			text-align: center;
+			position: absolute;
+			right: -24rpx;
+			top: 0;
+			background-color: #FFFFFF;
+			z-index: 9;
+
+			image {
+				width: 100%;
+				height: 100%;
+				display: block;
+			}
+		}
+
+		.img-before {
+			background: #ff6600;
+			border: 1rpx solid #ff6600;
+		}
+
+		.wul-box-item {
+			overflow: hidden;
+			width: 100%;
+			box-sizing: border-box;
+
+			.box-lef-data {
+				margin-bottom: 10rpx;
+				font-size: 24rpx;
+			}
+
+			.box-lef-time {
+				font-size: 22rpx;
+			}
+
+			.box-right-data {
+				font-size: 28rpx;
+			}
+
+			.box-right-time {
+				font-size: 24rpx;
+				// width: calc(100% - 100rpx);
+			}
+
+
+			.wul-box-left {
+				width: 150rpx;
+				padding: 0 30rpx;
+				text-align: right;
+				box-sizing: border-box;
+				// border-right: 1rpx solid #f0f0f0;
+				position: relative;
+				float: left;
+				padding-bottom: 50rpx;
+			}
+
+			.wul-box-right {
+				width: calc(100% - 150rpx);
+				padding-right: 70rpx;
+				box-sizing: border-box;
+				padding-left: 30rpx;
+				float: left;
+				border-left: 1rpx solid #cdccca;
+				padding-bottom: 50rpx;
+
+
+			}
+		}
+
+		.wul-box-item:last-child .wul-box-left {
+			border-right: none;
+			padding-bottom: 0;
+		}
+
+		.wul-box-item:last-child .wul-box-right {
+			border-left: none;
+			padding-bottom: 0;
+		}
+	}
+
+	.activeCss {
 		padding: 0 20rpx;
 	}
-	.top_title{
+
+	.top_title {
 		line-height: 64rpx;
 	}
+
 	.textBox {
 		width: 710upx;
 		padding: 20upx;
@@ -370,7 +649,7 @@
 	//收货地址
 	.content1 {
 		// margin: 20rpx;
-		padding: 56rpx 46rpx 55rpx 5rpx;
+		padding: 40rpx 46rpx 40rpx 5rpx;
 		// border-radius: 20rpx;
 
 		.list {
@@ -487,6 +766,15 @@
 
 			.text {
 				padding: 0 0 44rpx 32rpx;
+			}
+		}
+
+		.last:last-child {
+			.info {
+				&::before {
+
+					border-left: none;
+				}
 			}
 		}
 	}

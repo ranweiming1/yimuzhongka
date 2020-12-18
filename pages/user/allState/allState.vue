@@ -121,7 +121,7 @@
 					<!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view> -->
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address)">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address,item.goodsList)">
 						<button type="primary">查看物流</button>
 					</view>
 
@@ -320,10 +320,10 @@
 					}
 				})
 			},
-			wuliu(code, order, com, dz) {
-				// console.log('222')
+			wuliu(code, order, com, dz,good) {
+				console.log(good)
 				uni.navigateTo({
-					url: './deliver?code=' + code + '&order=' + order + '&com=' + com + '&dz=' + dz
+					url: './deliver?code=' + code + '&order=' + order + '&com=' + com + '&dz=' + dz+'&goods='+JSON.stringify(good)
 				})
 			},
 			toggle(index) {
