@@ -241,6 +241,7 @@
 				obj.bankCardNo = this.bankCardNo
 				obj.bankName = this.mingcheng
 				obj.mermberId = this.id
+				obj.legal_phone=this.shoujihao
 				if (obj.storeLogo == '../../../static/uploadBag.png') {
 					uni.showToast({
 						title: '请上传店铺logo',
@@ -389,6 +390,10 @@
 
 	.fl {
 		float: left;
+	}
+	.fr{
+		margin-left:20rpx;
+		float:right;
 	}
 
 	.swiperS {

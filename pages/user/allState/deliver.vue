@@ -140,6 +140,10 @@
 				</view>
 
 			</view>
+			<view v-if='hotList.length==0' @tap='tiaozhuan'>
+				<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:100rpx auto;'></image>
+				<view>暂无推荐,去逛逛</view>
+			</view>
 		</view>
 
 	</view>
@@ -189,7 +193,17 @@
 					_this.wuList = res.data.data
 					_this.wlInfo = res.data.data.logisticsInfo
 					// _this.list=res.data.data.data
-					_this.hotList = res.data.data.recommedGoods
+					_this.hotList = res.data.data?res.data.data.recommedGoods:''
+					if(res.data.code==0){
+						uni.showToast({
+							title:'操作成功'
+						})
+					}else{
+						uni.showToast({
+							title:res.data.message
+						})
+						_this.hotList=[]
+					}
 					_this.state = res.data.data.state
 					// _this.time=res.data.data.data[0].time
 					// console.log(res.data.data.data)
@@ -219,9 +233,9 @@
 					url: '../../classify/fenlOne'
 				})
 			},
-			tiaozhuan: function() {
-				uni.reLaunch({
-					url: '../../index/index'
+			tiaozhuan:function(){
+				uni.navigateTo({
+					url:'../../index/index'
 				})
 			}
 		}
