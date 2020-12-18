@@ -425,6 +425,11 @@
 						_this.payPoints = res.data.data.payPoints
 						_this.couponCount = res.data.data.couponCount
 						_this.collectCount = res.data.data.collectCount
+						_this.fukuan=res.data.data.countInfo.unpayCount
+						_this.fahuo=res.data.data.countInfo.undeliverCount
+						_this.shouhuo=res.data.data.countInfo.deliveringCount
+						_this.pingjia=res.data.data.countInfo.unevalCount
+						_this.tuikuan=res.data.data.countInf.returnCount
 						// console.log(res.data.data)
 					}
 				})
@@ -442,33 +447,6 @@
 					dengl: true,
 					success: res => {
 						this.list = res.data.data.recommedGoods
-					}
-				})
-				//获取订单信息
-				this.$https({
-					url:'/api/user/order-list',
-					data:{status:0,page_num:10000000},
-					success:res=>{
-						res.data.data.map(n=>{
-							if(n.status==0){
-								this.fukuan++
-							}else if(n.status==1){
-								this.fahuo++
-							}else if(n.status==2){
-								this.shouhuo++
-							}else if(n.status==3){
-								this.pingjia++
-							}
-						})
-					}
-				})
-				this.$https({
-					url:'/api/shop/order-refund-list',
-					data:{},
-					method:'post',
-					success:res=>{
-						if(res.data.code==0)
-						this.fukuan=res.data.data.length
 					}
 				})
 			}
