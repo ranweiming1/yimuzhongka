@@ -21,9 +21,9 @@
 			</swiper>
 		</view>
 		<view style='margin:0 20rpx;overflow:hidden;line-height: 50rpx;'>
-			<image style='width:20rpx;height:20rpx;float:left;margin-top:15rpx;' src='../../static/gonggao.jpg'></image>
-			<view style='float:left;margin-left:10rpx;font-size:26rpx;line-height: 50rpx;'>[通知公告]</view>
-			<swiper class='swiper' style='height:50rpx;float:left;width:calc(100% - 200rpx);color:#999;font-size:22rpx;line-height:50rpx;padding-left: 10rpx;'
+			<image style='width:24rpx;height:24rpx;float:left;margin-top:13rpx;' src='../../static/gonggao.jpg'></image>
+			<view style='float:left;margin-left:10rpx;font-size:28rpx;line-height: 50rpx;'>[通知公告]</view>
+			<swiper class='swiper' style='height:50rpx;float:left;width:calc(100% - 200rpx);color:#999;font-size:26rpx;line-height:50rpx;padding-left: 10rpx;'
 			 :autoplay='autoplay' :interval='interval' :duration='duration' :circular='true' :vertical='true'>
 				<swiper-item v-for='item in g' @tap='t(item)'>{{item.noticeTitle}}</swiper-item>
 			</swiper>

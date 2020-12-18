@@ -39,8 +39,8 @@
 					</swiper>
 				</view>
 				<!-- 总分类显示  品牌/车车型 -->
-				<view class="li-content"  v-if="id=='x'">
-					<view class="li" @tap="list(item.id)" v-for="(item , i) in rList">
+				<view class="li-content" v-if="id=='x'">
+					<view class="li" @tap="bander(item.id)" v-for="(item , i) in rList">
 						<view class="imgpp">
 							<image :src="item.brandLogo" mode=""></image>
 						</view>
@@ -49,7 +49,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<!-- 其他分类 -->
 				<view :class="item.isHide?'li-content isHidden':'li-content'" v-if="!(id=='x')" v-for="(item , index) in rList">
 					<view class="li-title">
@@ -100,7 +100,16 @@
 					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 250;
 				}
 			})
-
+			
+			this.$https({
+				url: '/api/oauth/get-goods-brand-list',
+				data: {},
+				dengl: true,
+				method: 'POST',
+				success(res) {
+					_this.rList = res.data.data
+				},
+			})
 			this.$https({
 				url: '/api/oauth/shop/mall-lists',
 				data: {},
@@ -124,45 +133,33 @@
 						})
 						return false
 					}
-					_this.$https({
-						url:'/api/oauth/get-goods-brand-list',
-						data:{},
-						dengl:true,
-						method:'POST',
-						success(res){
-							console.log(res.data.data)
-							_this.rList=res.data.data
-						},
-					})
-					_this.rList.map(function(val, i) {
-						_this.$set(val, 'isHide', true)
-						if (val.childsList.length < 6) {
-							val.isHide = false
-						}
-					})
-					_this.scrollPic(res.data.data.goodsCates[0].id)
-					console.log(_this.rList)
 
+					// 	_this.rList.map(function(val, i) {
+					// 		_this.$set(val, 'isHide', true)
+					// 		if (val.childsList.length < 6) {
+					// 			val.isHide = false
+					// 		}
+					// 	})
+					// 	_this.scrollPic(res.data.data.goodsCates[0].id)
 				},
 			})
+			console.log(_this.rList)
+
 		},
 		methods: {
 			togLi(index, id) {
-				console.log(index, id)
 				var that = this
 				if (index == 'x') {
-					this.id =index
+					this.id = index
 					that.$https({
-						url:'/api/oauth/get-goods-brand-list',
-						data:{},
-						dengl:true,
-						method:'POST',
-						success(res){
-							console.log(res.data.data)
-							that.rList=res.data.data
+						url: '/api/oauth/get-goods-brand-list',
+						data: {},
+						dengl: true,
+						method: 'POST',
+						success(res) {
+							that.rList = res.data.data
 						},
 					})
-					console.log(this.id,9999)
 				} else {
 					this.id = index;
 					this.rList = this.AllList[index].childsList
@@ -198,6 +195,11 @@
 				// console.log(id)
 				uni.navigateTo({
 					url: './fenlOne?id=' + id
+				})
+			},
+			bander(id){
+				uni.navigateTo({
+					url: './fenlOne?barId=' + id
 				})
 			},
 			search: function() {
@@ -341,7 +343,7 @@
 
 				text {
 					color: #007AFF;
-					font-size: 26upx;
+					font-size: 28upx;
 				}
 			}
 
@@ -354,7 +356,7 @@
 
 				text {
 					color: #333;
-					font-size: 26upx;
+					font-size: 28upx;
 					// margin-left: 15rpx;
 				}
 			}

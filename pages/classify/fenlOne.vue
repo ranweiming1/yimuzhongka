@@ -183,6 +183,29 @@
 			if (option.keywords) {
 				this.value = option.keywords
 				this.search()
+			} else if (option.barId) {
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-ptList',
+					data: {
+						goodsBrandId: option.barId,
+					},
+					dengl: true,
+					success(res) {
+						_this.allList = res.data.data
+						_this.goodsType = res.data.data.selfStatus
+						console.log(res.data.data)
+					}
+				})
+				this.$https({
+					url: '/api/oauth/shop/goods-recom',
+					data: {
+						// cat_id:option.id?option.id:''
+					},
+					success(res) {
+						// _this.allList = res.data.data
+						// _this.goodsType = res.data.data.selfStatus
+					}
+				})
 			} else {
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-ptList',
@@ -360,7 +383,6 @@
 </script>
 
 <style lang="scss">
-	
 	.zhMask {
 		width: 100%;
 		height: 100%;
@@ -844,7 +866,7 @@
 
 					.shop-sales {
 						color: #999999;
-						font-size:22upx;
+						font-size: 22upx;
 						float: right;
 
 					}

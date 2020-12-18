@@ -4,8 +4,8 @@
 			<text>{{list.title}}</text>
 		</view>
 		<view class="neir">
-			<!-- <rich-text :nodes='list.content'></rich-text> -->
-			<jyf-parser :html="list.content"></jyf-parser>
+			<rich-text :nodes='list.content'></rich-text>
+			<!-- <jyf-parser :html="list.content"></jyf-parser> -->
 		</view>
 
 

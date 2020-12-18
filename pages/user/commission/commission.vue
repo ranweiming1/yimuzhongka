@@ -34,11 +34,11 @@
 				<text>常见问题</text>
 			</view>
 			<view class="cont-text">
-				<view class="cont-text-item" v-for="(item,i) in contList">
+				<view class="cont-text-item" v-for="(item,i) in contList" @tap='detail(item.id)'>
 					<view class="cont-text-left">
 						<text>{{item.title}}</text>
 					</view>
-					<view class="cont-text-img" @tap='detail(item.id)'>
+					<view class="cont-text-img" >
 						<image src="../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
