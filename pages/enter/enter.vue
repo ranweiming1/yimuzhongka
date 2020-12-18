@@ -324,10 +324,10 @@
 	}
 
 	.qin {
-		margin-top: 160rpx;
+		margin-top: 80rpx;
 		font-size: 50rpx;
 		color: #000;
-		margin-bottom: 100rpx;
+		margin-bottom: 80rpx;
 	}
 
 	.qin view {
@@ -394,7 +394,7 @@
 		line-height: 94rpx;
 		text-align: center;
 		border-radius: 50rpx;
-		margin-top: 100rpx;
+		margin-top: 60rpx;
 	}
 
 	.shejiaozhanghao {
@@ -416,7 +416,7 @@
 		height: 100rpx;
 		background: #00c486;
 		border-radius: 50%;
-		margin: 50rpx;
+		margin:40rpx 50rpx;
 	}
 
 	.anniu view:nth-child(2) {
