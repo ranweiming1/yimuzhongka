@@ -173,7 +173,8 @@
 					contentrefresh: "正在加载...",
 					contentnomore: "没有更多数据了"
 				},
-				page: 1
+				page: 1,
+				as:1
 			}
 		},
 		components: {
@@ -199,6 +200,10 @@
 			// // 上拉加载
 
 			this.getNewsList();
+		},
+		onShow:function(){
+			this.as=2
+			this.getNewsList()
 		},
 		onReachBottom: function() {
 			var _this = this
@@ -250,14 +255,18 @@
 					success: function(res) {
 						_this.dList = res.data.data
 						// _this.gList=res.data.data
-						console.log(res.data.data.length)
-						console.log(res.data.data)
 						_this.toggle(_this.id)
-						if (res.data.data.length < 10) {
+						if (res.data.code ==0) {
+							if(_this.as==1)
 							uni.showToast({
 								title: '已是最新',
 								duration: 2000
 							});
+						}else{
+							uni.showToast({
+								title:res.data.message
+							})
+							_this.dList=[]
 						}
 						uni.hideNavigationBarLoading(); //关闭加载动画
 						uni.stopPullDownRefresh();
@@ -267,7 +276,6 @@
 			},
 			confirm(orderId) {
 				var _this = this
-				console.log(orderId)
 				this.$https({
 					url: '/api/user/order-handle',
 					dengl: false,

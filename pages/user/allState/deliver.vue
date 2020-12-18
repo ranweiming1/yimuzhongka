@@ -108,7 +108,6 @@
 		},
 		onLoad(option) {
 			var _this = this
-			console.log(option)
 			this.order = option.order
 			this.com = option.com
 			this.dz = option.dz
@@ -123,16 +122,13 @@
 				success(res) {
 					_this.wuList = res.data.data
 					_this.wlInfo = res.data.data
-					console.log(res.data.data)
 					// _this.list=res.data.data.data
 					_this.hotList = res.data.data.recommedGoods
 					_this.state = res.data.data.state
 					// _this.time=res.data.data.data[0].time
-					console.log(_this.list)
 					// console.log(res.data.data.data)
 				}
 			})
-			console.log(option)
 		},
 		methods: {
 			detail(id) {

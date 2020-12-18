@@ -389,7 +389,6 @@
 
 	.fl {
 		float: left;
-		float: right;
 	}
 
 	.swiperS {

@@ -10,7 +10,7 @@
 		<view class="form-item">
 			<view class='uni-form-item'>
 				<view class='title'><text>用户名</text></view>
-				<input class='uni-input' v-model='accountName' placeholder='请输入期望账户名仅限字母跟数字' @blur='zhanghu'>
+				<input class='uni-input' v-model='accountName' placeholder='仅限字母+数字' @blur='zhanghu'>
 			</view>
 			<view class="uni-form-item">
 				<view class="title"><text>手机号</text></view>

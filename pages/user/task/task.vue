@@ -426,11 +426,6 @@
 						uni.navigateTo({
 							url: '../../classify/fenlOne'
 						})
-						// 跳转首页
-						setTimeout(function() {
-							state == 2 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
-							// _this.xuanR()
-						}, 5000)
 
 					}
 					if (state == 4 || state == 5) {
