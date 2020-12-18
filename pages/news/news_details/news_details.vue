@@ -71,7 +71,7 @@
 		<view style='position:fixed;top:0;left:0;bottom:0;right:0;background:rgba(0,0,0,0.5);z-index:99999;' v-if='pinglun'>
 			<view style='width:600rpx;height:600rpx;background:#fff;border-radius:10rpx;position:absolute;left:0;top:0;right:0;bottom:0;margin:auto;'>
 				<view style='text-align:center;margin-top:40rpx;margin-bottom: 50rpx;'>添加评论</view>
-				<textarea placeholder='请输入评论' style='width:500rpx;margin:0 auto;height:300rpx;border:1px solid #eee;padding: 20rpx;box-sizing: border-box;'
+				<textarea placeholder='请输入评论60字以内' style='width:500rpx;margin:0 auto;height:300rpx;border:1px solid #eee;padding: 20rpx;box-sizing: border-box;'
 				 v-model='pinglunneirong'></textarea>
 				<view style='overflow:hidden;width:400rpx;margin:10rpx auto;position: absolute;left: 0;right: 0;bottom: 30rpx;'>
 					<button style='color:#666;width:45%;float:left;max-width:45%;' @tap='quxiaopinglun'>取消</button>
@@ -139,6 +139,13 @@
 				this.pinglun = true
 			},
 			tianjia: function() {
+				if(this.pinglunneirong.length>60){
+					uni.showToast({
+						title:'评论内容不能超过60字',
+						icon:'none'
+					})
+					return false
+				}
 				var _this = this
 				this.$https({
 					url: '/api/news/article-comm-add',
@@ -163,6 +170,10 @@
 								success: function(res) {
 									_this.pingjia = res.data.data.commList
 								}
+							})
+						}else{
+							uni.showToast({
+								title:res.data.message
 							})
 						}
 					}

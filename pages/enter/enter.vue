@@ -82,6 +82,7 @@
 									url: '../index/index'
 								})
 							}, 1900)
+							uni.setStorageSync('d','')
 						} else {
 							uni.showToast({
 								title: res.data.message,
