@@ -55,7 +55,7 @@
 					<input class="uni-input" @blur="search" :focus="isFocus" v-model="value" placeholder="请输入关键字" />
 				</view>
 				<view class="imgBox">
-					<image src="../../static/sousuo.png" mode="" @tap='gouwuche'></image>
+					<image src="../../static/icon_10.png" mode="" @tap='search'></image>
 				</view>
 			</view>
 

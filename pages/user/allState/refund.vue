@@ -30,29 +30,14 @@
 					<text>退货信息</text>
 				</view>
 
-				<view class="basics">
-					<view class="left">
-						<text>收件地址</text>
-					</view>
-					<view class="right_text">
-						<textarea value="" v-model="comDzhi" placeholder="请输入收件地址" />
-						</view>
+				<view class="p">
+					<text>山东省济南市槐荫区张庄路街道路街道明南区16号楼明南区16号楼(菜鸟驿站代收)</text>
 				</view>
-				<view class="basic">
-					<view class="left_a">
-						<text>收件人姓名</text>
-					</view>
-					<view class="right_input">
-						<input type="text" v-model="rewName" placeholder="请输入收件人姓名" />
-					</view>
+				<view class="nome">
+					<text>收件人：张继科</text>
 				</view>
-				<view class="basic">
-					<view class="left_a">
-						<text>手机号</text>
-					</view>
-					<view class="right_input">
-						<input type="text" v-model="comPhone" placeholder="请输入收件人手机号" />
-					</view>
+				<view class="call">
+					<text>手机号：15066458795</text>
 				</view>
 			</view>
 
@@ -134,13 +119,7 @@
 						title: '请输入正确的物流单号',
 						icon: 'none'
 					})
-				}else if (!this.$jiaoyan(this.sqrPhone)){
-					uni.showToast({
-						title: '请输入正确的手机号',
-						icon: 'none'
-					})
-				}
-				 else {
+				}else {
 					this.$https({
 						url: '/api/shop/order-refund-logistics',
 						dengl: false,
@@ -251,27 +230,7 @@
 	page {
 		background-color: #f5f5f4;
 	}
-	.basics{
-		    border-bottom: 1px solid #e5e5e5;
-		.left{
-		    height: 80rpx;
-		    line-height: 80rpx;
-		    padding: 0 30rpx;
-	}
-		.right_text{
-		    height: 150rpx;
-		    width: 100%;
-		    padding: 0 30rpx;
-		    box-sizing: border-box;
-			textarea{
-				height: 100%;
-				    width: 100%;
-				    line-height: 50rpx;
-				    font-size: 28rpx;
-					color: #999999;
-			}
-	}
-}
+	
 	.submit-bot {
 		position: fixed;
 		bottom: 0;
@@ -375,7 +334,7 @@
 	.siteBox {
 		width: 100%;
 		height: initial;
-		// padding: 28rpx 0;
+	padding: 28rpx 30upx;
 		background-color: #fff;
 		overflow: hidden;
 		margin-bottom: 20rpx;
@@ -386,10 +345,8 @@
 			width: 100%;
 
 			.biaot {
-				padding: 0 30rpx;
-				height: 90rpx;
-				line-height: 90rpx;
-				border-bottom: 1px solid #e5e5e5;
+				padding-bottom: 20rpx;
+			
 
 
 				text {
@@ -427,24 +384,7 @@
 		border: none;
 	}
 
-	.input-basc {
-		width: 100%;
-		background-color: #fff;
-		overflow: hidden;
-		padding: 0 30rpx;
-		border-bottom: 1px solid #e5e5e5;
-		height: 100rpx;
-		line-height: 100rpx;
-		box-sizing: border-box;
-
-		input {
-			width: 100%;
-			line-height: 55px;
-			height: 100rpx;
-			font-size: 28rpx;
-			color: #999999;
-		}
-	}
+	
 
 	.basic {
 		width: 100%;

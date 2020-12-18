@@ -55,7 +55,7 @@
 				changeVal: '',
 				searchAll: [],
 				shopsId: '',
-				lis:[]
+				lis: []
 			}
 		},
 		onLoad(option) {
@@ -63,10 +63,15 @@
 			if (uni.getStorageSync('searchAll_key')) {
 				this.searchAll = uni.getStorageSync('searchAll_key')
 			}
-			var _this=this
-			this.$https({url:'/api/oauth/shop/mall-serach-value-list',data:{},dengl:true,success:function(res){
-				_this.lis=res.data.data
-			}})
+			var _this = this
+			this.$https({
+				url: '/api/oauth/shop/mall-serach-value-list',
+				data: {},
+				dengl: true,
+				success: function(res) {
+					_this.lis = res.data.data
+				}
+			})
 
 
 		},
@@ -86,24 +91,24 @@
 					})
 					console.log('searchAll_key')
 					this.changeVal = ''
-					
-				}else if(val){
+
+				} else if (val) {
 					uni.navigateTo({
 						url: '../classify/fenlOne?keywords=' + val
 					})
 				}
-			
+
 			},
 
 			del() {
 				// console.log(333)
-				this.searchAll=[]
+				this.searchAll = []
 				// this.searchAll = uni.removeStorageSync('searchAll_key')
 				console.log(this.searchAll)
 			},
-			back:function(){
+			back: function() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			}
 		}
@@ -111,14 +116,23 @@
 </script>
 
 <style lang="scss">
+	.toubu1{
+		padding-top: 80rpx;
+		margin-top: 0!important;
+	}
 	.top {
-		width: 710upx;
-		margin: 20upx;
+		width: 100%;
+		padding-right: 20rpx;
 		overflow: hidden;
+		box-sizing: border-box;
+
+		.back {
+			padding: 15rpx 30rpx;
+		}
 
 		.textBox {
 			float: left;
-			margin-left: 70upx;
+			margin-left: 20upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
 
@@ -142,23 +156,25 @@
 			float: right;
 			border-radius: 40upx;
 			background-color: #007AFF;
+
 			.imgBox {
 				padding-left: 30upx;
 				padding-right: 10upx;
 				padding-top: 10upx;
 				float: left;
-				position:relative;
+				position: relative;
+
 				image {
 					width: 30upx;
 					height: 30upx;
-					position:absolute;
-					top:15rpx;
+					position: absolute;
+					top: 15rpx;
 				}
 			}
 
 			.txeta {
 				float: left;
-				margin-left:30rpx;
+				margin-left: 30rpx;
 
 				text {
 					font-size: 28upx;
