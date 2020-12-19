@@ -14,7 +14,7 @@
 		</view>
 
 		<view class='denglu'>
-			<view>短信验证码登录</view>
+			<!-- <view>短信验证码登录</view> -->
 			<view @tap='xiuga'>忘记密码</view>
 		</view>
 		<view class='quedingxuan' @tap='denglusss()'>确认</view>
@@ -23,9 +23,9 @@
 			<view @tap='denglu'>
 				<image src='../../static/weixinanniu.png'></image>
 			</view>
-			<view>
+			<!-- <view>
 				<image src='../../static/zhifubaoanniu.png'></image>
-			</view>
+			</view> -->
 		</view>
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>

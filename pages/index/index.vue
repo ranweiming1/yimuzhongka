@@ -471,7 +471,7 @@
 				}
 			},
 			guanbi:function(){
-				this.xianshi=false
+				this.xianshidenglu=false
 			}
 
 		}
