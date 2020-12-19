@@ -239,10 +239,11 @@
 
 		.left {
 			text-align: center;
-			width: 170upx;
+			width: 180upx;
 			height: 1135upx;
 			float: left;
 			background-color: #f6f6f6;
+			box-sizing: border-box;
 
 			.on {
 				width: 100%;
@@ -291,10 +292,11 @@
 		}
 
 		.right {
-			width: 580upx;
+			width: calc(100% - 180rpx);
 			text-align: center;
 			overflow: hidden;
 			background-color: #fff;
+			box-sizing: border-box;
 
 			.li {
 				margin-bottom: 40upx;
