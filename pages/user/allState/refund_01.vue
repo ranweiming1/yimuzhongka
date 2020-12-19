@@ -35,7 +35,7 @@
 			</view>
 		</view>
 
-		<view class="basic aa" @tap="openPopup(1)">
+		<view class="basic aa" @tap="openPopups(1)">
 			<view class="left_a">
 				<text>货物状态 <text style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
 			</view>
@@ -62,7 +62,7 @@
 		<view class="reason-list">
 			<view class="reason-item">
 				<view class="title"><text>退款金额：</text></view>
-				<input class="uni-input" style="color: #ff0000;" disabled="true" name="input" :value="content.gP?'￥'+content.gP+'.00':'0'" />
+				<input class="uni-input" style="color: #ff0000;" @blur="inpuBlur(price)"  v-model="price" :placeholder="price" />
 			</view>
 
 			<view class="reason-item">
@@ -83,13 +83,14 @@
 				</view>
 			</view>
 
-			<view class="reason-item">
-				<view class="title"><text>退货说明：</text></view>
-				<input class="uni-input" style="color: #999999;" name="input" v-model="exp" placeholder="选填" />
-			</view>
+
 		</view>
 		<view class="uni-form-item uni-column">
-			<view class="title"><text>上传凭证</text></view>
+			<view class="title"><text>退货说明和凭证</text></view>
+			<view class="reason-items">
+				<!-- 				<view class="title"><text>退货说明：</text></view> -->
+				<textarea name="input" v-model="exp" placeholder="请补充描述" placeholder-style="line-height:50rpx" />
+				</view>
 			<view class="imgBox" @tap="chuanImg">
 				<image :src="pingImg" mode=""></image>
 			</view>
@@ -105,7 +106,7 @@
 					<view class="tit_box">
 						<text>选择退款原因</text>
 					</view>
-					<radio-group class="li_box" v-for="(i , n) in (typeIndex==1?typeList:values)" @change="change(n)">
+					<radio-group class="li_box" v-for="(i , n) in values" @change="change(n)">
 						<text>{{i.label}}</text>
 						<label class="radioss">
 							<radio color="#007AEE" :value="i" :checked="index==n" />
@@ -118,7 +119,27 @@
 			</view>
 
 		</uni-popup>
+		<!-- 退货状态 -->
+		<uni-popup ref="popups" type="bottom" class="tanchu">
+			<button @click="closePopups">×</button>
+			<view class="neira">
+				<view class="text_uo">
+					<view class="tit_box">
+						<text>选择退款原因</text>
+					</view>
+					<radio-group class="li_box" v-for="(i , n) in typeList" @change="changes(n)">
+						<text>{{i.label}}</text>
+						<label class="radioss">
+							<radio color="#007AEE" :value="i" :checked="shouIndex==n" />
+						</label>
+					</radio-group>
+				</view>
+				<view class="uni-padding-wrap uni-common-mt bottaaa" @tap="confirms()">
+					<button type="primary" @tap="confirms()">确定</button>
+				</view>
+			</view>
 
+		</uni-popup>
 
 	</view>
 </template>
@@ -140,14 +161,16 @@
 				typeValue: '请选择货物状态',
 				typeList: [{
 						id: 0,
-						label: '已收到货'
+						label:"已收到货"
 					},
 					{
 						id: 1,
-						label: '未收到货'
+						label: "未收到货"
 					}
 				],
-				typeIndex: ''
+				typeIndex: '',
+				shouIndex:'y',
+				price:''
 			}
 		},
 		components: {
@@ -156,6 +179,7 @@
 		onLoad(option) {
 			console.log(option)
 			this.content = option
+			this.price=option.gP
 			var _this = this
 			this.$https({
 				url: '/api/user/order-detail',
@@ -170,20 +194,20 @@
 					_this.gId = res.data.data.goodsList[0].goodsId
 				}
 			})
-			//退款原因
-			this.$https({
-				url: '/api/oauth/get-refund-reason-list',
-				data: {},
-				method: 'post',
-				success: res => {
-					this.values = res.data.data
-				}
-			})
+		//退款原因
+		// this.$https({
+		// 	url: '/api/oauth/get-refund-reason-list',
+		// 	data: {status:this.shouIndex?this.shouIndex:'0'},
+		// 	method: 'post',
+		// 	success: res => {
+		// 		this.values = res.data.data
+		// 	}
+		// })
 		},
 		methods: {
 			primary() {
 				// if (!_this.value)
-				console.log(this.content.gP)
+				// console.log(this.content.gP,this.price,this.price>this.content.gP)
 				var _this = this
 				var num = this.content.type == 1 ? 1 : 0
 				if (_this.value == "请选择退款原因") {
@@ -192,7 +216,7 @@
 						title: '请选择退款原因',
 						icon: 'none'
 					})
-				} else {
+				}else {
 
 					this.$https({
 						url: '/api/shop/order-refund-info-add',
@@ -204,9 +228,10 @@
 							orderNo: _this.content.oS,
 							proofImg: _this.pingImg,
 							refundCaption: _this.exp,
-							refundFee: _this.content.gP,
+							refundFee: _this.price,
 							refundDesc: _this.value,
-							refundMethod: num
+							refundMethod: num,
+							status:_this.shouIndex
 						}),
 						success(res) {
 							uni.showToast({
@@ -218,28 +243,60 @@
 					})
 				}
 			},
-			confirm(n) {
-				if (this.typeIndex == 1) {
-					this.typeValue = this.typeList[this.index].label
-					// console.log(this.typeValue,this.index,this.typeList[this.index].label)
-					this.index='c'
-				} else {
-					this.value = this.values[this.index].label
-					this.index='c'
-
+			inpuBlur(val){
+				if (val > this.content.gP){
+					console.log(9999)
+					uni.showToast({
+						title: '退款金额不能大于金额',
+						icon: 'none'
+					})
 				}
+			},
+			confirm() {
+				this.value = this.values[this.index].label
 				this.closePopup()
 			},
-			change(n) {
+			
+			confirms() {
+				var that=this
+					this.typeValue = this.typeList[this.shouIndex].label
+					//退款原因
+					this.$https({
+						url: '/api/oauth/get-refund-reason-list',
+						data: {status:this.shouIndex},
+						method: 'post',
+						success: res => {
+							this.values = res.data.data
+						}
+					})
+				this.closePopups()
+			},
+			change(n) {			
 				this.index = n
 				// console.log(this.index)
 			},
-			openPopup(id) {
+			changes(n) {
+					this.shouIndex=n
+				// console.log(this.index)
+			},
+			openPopup(index) {
+				if(this.shouIndex=='y'){
+					return
+				}else{
 				this.$refs.popup.open()
-				this.typeIndex = id
+				this.typeIndex = index}
+			},
+			openPopups(index) {
+				this.$refs.popups.open()
+				this.typeIndex = index
 			},
 			closePopup() {
+
+					
 				this.$refs.popup.close()
+			},
+			closePopups() {
+				this.$refs.popups.close()
 			},
 			chuanImg() {
 				uni.chooseImage({
@@ -264,21 +321,34 @@
 	page {
 		background-color: #f5f5f4;
 	}
-
-	.reason-list {
-		background-color: #fff;
-		padding-left: 25rpx;
-		padding-right: 20rpx;
-		overflow: hidden;
-		margin-bottom: 20rpx;
-
-		.reason-item {
+	.reason-items{
+		width: 100%;
+		textarea{
+		width: 100%;
+			box-sizing: border-box;
+			padding: 25rpx;
+			font-size: 28rpx;
+			color: #333;
+			line-height: 50rpx;
+			min-height:100rpx;
+			height:150rpx;
+			color: #333;
+		}
+		textarea::-webkit-input-placeholder {
+		      line-height: 50rpx;
+		   }
+		   textarea:-moz-placeholder {
+		      line-height: 50rpx;
+		   }
+	}
+	.reason-item {
 			overflow: hidden;
 			height: 83rpx;
 			line-height: 83rpx;
 			font-size: 28rpx;
 			color: #333;
-
+			width: 100%;
+			
 			.title {
 				float: left;
 			}
@@ -307,7 +377,15 @@
 			}
 
 		}
-	}
+
+	.reason-list {
+		background-color: #fff;
+		padding-left: 25rpx;
+		padding-right: 20rpx;
+		overflow: hidden;
+		margin-bottom: 20rpx;
+
+			}
 
 	.xinxi {
 		margin-bottom: 20upx;

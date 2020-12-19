@@ -15,7 +15,7 @@
 				<text>订单信息</text>
 			</view>
 			<view class="imgBox_a">
-				<image src="../../../static/img_09.jpg" mode=""></image>
+				<image :src="content.lG" mode=""></image>
 			</view>
 			<view class="txt_c">
 				<view class="title">
