@@ -21,7 +21,7 @@
 				<!-- 未选中样式 -->
 				<view :class="id=='x'?'on':'none'" @tap="togLi('x',9)">
 					<text v-if='id=="x"' class="image"></text>
-					<text>品牌/车型</text>
+					<text style="font-size: 30rpx;font-weight: bold;">品牌/车型</text>
 				</view>
 				<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList" :key=item.id>
 					<!-- <image v-if='id==index' src='../../static/icon_29.png'></image> -->
@@ -39,7 +39,7 @@
 					</swiper>
 				</view>
 				<!-- 总分类显示  品牌/车车型 -->
-				<view class="li-content" v-if="id=='x'">
+				<view class="li-content zongh" v-if="id=='x'">
 					<view class="li" @tap="bander(item.id)" v-for="(item , i) in rList">
 						<view class="imgpp">
 							<image :src="item.brandLogo" mode=""></image>
@@ -100,7 +100,7 @@
 					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 250;
 				}
 			})
-			
+
 			this.$https({
 				url: '/api/oauth/get-goods-brand-list',
 				data: {},
@@ -197,7 +197,7 @@
 					url: './fenlOne?id=' + id
 				})
 			},
-			bander(id){
+			bander(id) {
 				uni.navigateTo({
 					url: './fenlOne?barId=' + id
 				})
@@ -231,6 +231,11 @@
 		}
 
 
+	}
+
+	.zongh {
+		padding: 0 25rpx;
+		box-sizing: border-box;
 	}
 
 	.isHidden .li:nth-child(n+8) {
@@ -311,7 +316,7 @@
 
 		.left {
 			text-align: left;
-			width: 170upx;
+			width: 180upx;
 			height: 1135upx;
 			float: left;
 			background-color: #f6f6f6;
@@ -363,7 +368,7 @@
 		}
 
 		.right {
-			width: 580upx;
+			width: calc(100% - 180rpx);
 			text-align: center;
 			overflow: hidden;
 			background-color: #fff;
