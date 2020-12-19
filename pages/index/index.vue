@@ -174,10 +174,10 @@
 
 		</view>
 		<view style='position:fixed;left:0;width:calc(100% - 50rpx);height:100rpx;background:rgba(0,0,0,0.6);bottom:100rpx;line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
-		 v-if='xianshidenglu' @tap='denglu'>
-			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' class='guanbi'></image>
+		 v-if='xianshidenglu'>
+			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' class='guanbi' @tap='guanbi'></image>
 			登录后体验更多精彩
-			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'>立即登录/注册</view>
+			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;' @tap='denglu'>立即登录/注册</view>
 		</view>
 		<tabBar :currentPage="currentPage"></tabBar>
 		<view class='main'>
@@ -469,6 +469,9 @@
 						url: '../shop/shop?id=' + id
 					})
 				}
+			},
+			guanbi:function(){
+				this.xianshi=false
 			}
 
 		}
