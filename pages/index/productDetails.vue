@@ -259,7 +259,7 @@
 			<view class="titaa">
 				<text>商品详情</text>
 			</view>
-			<rich-text :nodes='contText'></rich-text>
+			<rich-text :nodes='list.goodsContent'></rich-text>
 			<!-- <view class="imgg"> -->
 			<!-- <jyf-parser :html="list.goodsContent" ref="article" style="margin-bottom:100rpx"></jyf-parser> -->
 			<!-- <rich-text>{{list.goodsContent}}</rich-text> -->
@@ -356,8 +356,7 @@
 				youhuiqu: [],
 				j: 0,
 				cishu: 3,
-				yihuodecishu: 0,
-				contText:''
+				yihuodecishu: 0
 			}
 		},
 		components: {
@@ -373,8 +372,6 @@
 				},
 				dengl: !uni.getStorageSync('Authorization'),
 				success: function(res) {
-					_this.contText = _this.$richText(res.data.data.detail.goodsContent)
-					console.log()
 					_this.list = res.data.data.detail
 					_this.list.goodsImgss = res.data.data.detail.goodsImgs.split(',')
 					if (_this.list.shopPrice) {

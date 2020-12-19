@@ -68,7 +68,7 @@
 					_this.jifen = res.data.data.detail.integral
 					_this.num = res.data.data.detail.salesSum
 					// console.log(res.data.data.detail.goodsContent,28934719824798274982,_this.$richText(res.data.data.detail.goodsContent))
-					_this.xiangqing = _this.$richText(res.data.data.detail.goodsContent)
+					_this.xiangqing = res.data.data.detail.goodsContent
 					_this.q = res.data.data.detail.shopPrice
 				}
 			})

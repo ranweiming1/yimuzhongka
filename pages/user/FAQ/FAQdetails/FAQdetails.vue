@@ -39,7 +39,7 @@
 				data: {id:option.id},
 				success: function(res) {
 					console.log(res.data.data)
-					res.data.data.content=that.$richText(res.data.data.content)
+					// res.data.data.content=that.$richText(res.data.data.content)
 					that.list = res.data.data
 			
 				}
