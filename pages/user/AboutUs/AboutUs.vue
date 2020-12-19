@@ -28,8 +28,9 @@
 		onLoad() {
 			var _this = this
 			this.$https({
-				url: '/api/help/aboutUs-list',
+				url: '/api/oauth/help/aboutUs-list',
 				data: {},
+				dengl:true,
 				success: function(res) {
 					_this.content = res.data.data[0]
 					// console.log(res.data.data[0])

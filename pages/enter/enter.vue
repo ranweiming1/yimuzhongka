@@ -78,8 +78,8 @@
 								title: '登录成功'
 							})
 							setTimeout(function() {
-								uni.reLaunch({
-									url: '../index/index'
+								uni.navigateBack({
+									delta:1
 								})
 							}, 1900)
 							uni.setStorageSync('d','')

@@ -62,8 +62,8 @@
 		onLoad() {
 			var that = this
 			this.$https({
-				url: '/api/help/problem-list',
-				dengl: false,
+				url: '/api/oauth/help/problem-list',
+				dengl: true,
 				data: {},
 				success: function(res) {
 					console.log(res.data.data)

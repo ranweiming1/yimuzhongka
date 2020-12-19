@@ -209,6 +209,14 @@
 					// console.log(e)
 				}
 			})
+			this.$https({
+				url:'/api/oauth/help/protocol-info',
+				data:{},
+				dengl:true,
+				success:res=>{
+					
+				}
+			})
 		},
 		data() {
 			return {

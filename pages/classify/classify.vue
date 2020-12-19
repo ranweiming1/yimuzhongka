@@ -111,16 +111,16 @@
 				},
 			})
 			this.$https({
-				url: '/api/oauth/shop/mall-lists',
+				url: '/api/oauth/get-one-list',
 				data: {},
 				dengl: true,
 				success: function(res) {
 					// console.log(res.data.data)
-					_this.AllList = res.data.data.goodsCates
+					_this.AllList = res.data.data
 					if (options.id) {
 						_this.AllList.map(function(n, index) {
 							if (n.id == options.id) {
-								_this.rList = res.data.data.goodsCates[index].childsList
+								// _this.rList = res.data.data.goodsCates[index].childsList
 								_this.id = index
 								_this.scrollPic(options.id)
 								_this.rList.map(function(val, i) {
@@ -179,14 +179,25 @@
 			scrollPic: function(id) {
 				var that = this
 				this.$https({
-					url: '/api/shop/get-cate-type-banner-list',
+					url: '/api/oauth/shop/get-cate-type-banner-list',
 					data: {
 						cateId: id
 					},
-					dengl: false,
+					dengl: true,
 					method: 'POST',
 					success(res) {
 						that.imgSlide = res.data.data
+					}
+				})
+				//请求二级分类
+				this.$https({
+					url:'/api/oauth/get-one-child-list',
+					data:{
+						cateId:id
+					},
+					dengl:true,
+					success:res=>{
+						this.rList=res.data.data
 					}
 				})
 

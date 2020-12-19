@@ -33,8 +33,8 @@
 		onLoad(option) {
 			var that = this
 			this.$https({
-				url: '/api/help/problem-detail',
-				dengl: false,
+				url: '/api/oauth/help/problem-detail',
+				dengl: true,
 				method:'POST',
 				data: {id:option.id},
 				success: function(res) {

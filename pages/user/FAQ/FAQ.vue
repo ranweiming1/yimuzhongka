@@ -27,7 +27,7 @@
 			this.$https({
 				url: '/api/help/problem-list',
 				data: {},
-				dengl: false,
+				dengl: true,
 				success(res) {
 					console.log(res.data)
 					_this.pingList = res.data.data
