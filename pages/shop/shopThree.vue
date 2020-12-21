@@ -3,15 +3,15 @@
 		<view class="shop-top">
 			<view class="shop-bag">
 				<swiper class="logo-swper-list" :current="currentIndex" :circular="true" :duration="100" @change="swierChange">
-					<swiper-item class="logo-swper-item" v-for="(item,i) in 5" :key="i">
-						<image src="../../static/shopBagThree.png" mode=""></image>
+					<swiper-item class="logo-swper-item" v-for="(item,i) in banner" :key="i">
+						<image :src="item" mode=""></image>
 					</swiper-item>
 				</swiper>
 				<view class="swper-item-icon">
 					<text>高分好店</text><text>4.8分</text>
 				</view>
 				<div class="logo-swper-dots">
-					<div v-for="(item,i) in 5" class="dots-item">
+					<div v-for="(item,i) in banner" class="dots-item">
 						<div :class="i==currentIndex?'add-dots':'move-dots'"></div>
 					</div>
 				</div>
@@ -21,7 +21,7 @@
 					<image src="../../static/icon_26-2.png" mode=""></image>
 				</view>
 				<view class="shop-search-input">
-					<input type="text" placeholder="请输入关键字" />
+					<input type="text" @confirm="search" v-model="value" placeholder="请输入关键字" />
 				</view>
 			</view>
 		</view>
@@ -45,12 +45,12 @@
 		<view class="shop-discount">
 			<view class="shop-discount-top">
 				<view class="discount-top-name">
-					开山东开创集团
+					{{store.shopName}}
 				</view>
 				<view class="discount-top-icon">
 					<image src="../../static/honerIcon.png" mode=""></image>
 				</view>
-				<view class="discount-top-bott">
+				<view class="discount-top-bott" @tap="shouC(shopsId)">
 					收藏
 				</view>
 			</view>
@@ -65,9 +65,9 @@
 				</view>
 			</view>
 
-			<view class="shop-coupon">
+			<view class="shop-coupon" v-if="quan.length>0">
 				<scroll-view scroll-x="true" style="width: 100%;">
-					<view class="coupon-item" v-for="(item,i) in 5">
+					<view class="coupon-item" v-for="(item,i) in quan">
 						<view class="shop-coupon-img">
 							<image src="" :src="(i%2==0)?'../../static/coupon_odd.png':'../../static/coupon_even.png'" mode=""></image>
 						</view>
@@ -75,11 +75,11 @@
 							优惠
 						</view>
 						<view class="coupon-price">
-							<text style="font-size: 26rpx;display:block; float: left;margin-top: 2rpx;">￥</text>500
+							<text style="font-size: 26rpx;display:block; float: left;margin-top: 2rpx;">￥</text>{{item.money}}
 						</view>
 						<view class="coupon-right">
 							<view class="coupon-right-man">
-								满1000元可用
+								满{{item.condition}}元可用
 							</view>
 							<view class="coupon-right-data">
 								有效期至 2020
@@ -94,7 +94,7 @@
 
 		<view class="shop-classify">
 			<scroll-view class="shop-classify-scroll" scroll-x="true" style="width: 100%;">
-				<view class="classify-scroll-item" v-for="(item,i) in 5">这是分类</view>
+				<view class="classify-scroll-item" v-for="(item,i) in typeList">{{item.cateTitle}}</view>
 
 			</scroll-view>
 		</view>
@@ -108,10 +108,10 @@
 
 			</view>
 			<view class="hort-list">
-				<view class="hort-list-item" v-for="(item,i) in 5">
+				<view class="hort-list-item" v-for="(item,i) in gList"  @tap="detail(item.goodsId)">
 					<view class="list-item-logo">
 						<image class="logo-border" src="../../static/bckBorder.png" mode=""></image>
-						<image src="../../static/Bitmap.png" mode=""></image>
+						<image :src="item.goodsLogo"  mode=""></image>
 					</view>
 					<view class="list-item-right">
 						<view class="item-title">
@@ -119,15 +119,15 @@
 								热
 							</view>
 							<view class="item-right-title">
-								商品名称商品名称商品名称
+								{{item.goodsName}}
 							</view>
 						</view>
 						<view class="item-right-bottom">
 							<view class="item-right-price">
-								<text>￥</text>价格
+								￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}
 							</view>
 							<view class="item-right-sales">
-								8978人已付款
+								{{item.salesSum}}人已付款
 							</view>
 						</view>
 					</view>
@@ -146,8 +146,80 @@
 	export default {
 		data() {
 			return {
-				currentIndex: 0
+				currentIndex: 0,
+				banner: [],
+				store: {},
+				isShow: '',
+				gList: [],
+				typeList: [],
+				quan: [],
+				value: '',
+				shopsId: ''
 			}
+		},
+		onLoad() {
+			var _this = this
+			// this.shopsId = option.id
+			this.$https({
+				url: '/api/oauth/shop/store-index',
+				data: {
+					// shopId: option.id
+					shopId: 10
+				},
+				success: function(res) {
+					_this.store = res.data.data.storeShop
+					_this.gList = res.data.data.goodsList
+					_this.ban = res.data.data.banners
+					_this.youhui = res.data.data.goodsList.couponDTOS
+
+				}
+
+			})
+			this.$https({
+				url: '/api/oauth/shop/store-shop-detail',
+				data: {
+					// shopId: option.id
+					shopId: 10
+				},
+				dengl: true,
+				success: function(res) {
+					_this.isShow = res.data.data.shopCollectStatus
+				}
+			})
+			// 分类
+			this.$https({
+				url: '/api/oauth/get-one-list',
+				data: {
+					// shopId: option.id
+				},
+				dengl: true,
+				success: function(res) {
+					_this.typeList = res.data.data
+				}
+			})
+			this.$https({
+					url: '/api/oauth/shop/get-store-banner-list',
+					data: {
+						// shopId: option.id
+						shopId: 10
+					},
+					method: 'post',
+					success: res => {
+						this.banner = res.data.data
+					}
+				}),
+				this.$https({
+					url: '/api/oauth/shop/store-coupon-list',
+					data: {
+						// shopId: option.id
+						shopId: 10
+					},
+					success: res => {
+						this.quan = res.data.data
+					}
+				})
+
+
 		},
 		methods: {
 			swierChange(e) {
@@ -157,6 +229,44 @@
 				uni.navigateBack({
 					delta: 1
 				})
+			},
+			detail(id) {
+				uni.navigateTo({
+					url: '../index/productDetails?id=' + id
+				})
+				this.$https({
+					url: '/api/shop/goods-brows-history-add',
+					data: {
+						goodsId: id
+					},
+					method: 'POST',
+					dengl: true,
+					success(res) {
+						// console.log('添加成功')
+					}
+				})
+			},
+			search() {
+				uni.navigateTo({
+					url: './all?shopsId=' + this.shopsId + '&keywords=' + this.value
+				})
+				this.value = ''
+			},
+			shouC(id) {
+				if (this.denglufangfatiaozhuan()) {
+					var _this = this
+					this.$https({
+						url: '/api/shop/shop-collect',
+						data: {
+							shopId: id
+						},
+						method: 'POST',
+						success: function(res) {
+							_this.isShow = !_this.isShow
+						},
+			
+					})
+				}
 			},
 		},
 		components: {
@@ -612,7 +722,8 @@
 					.item-right-bottom {
 						overflow: hidden;
 						font-size: 24rpx;
-
+						width: 100%;
+						box-sizing: border-box;
 						position: absolute;
 						bottom: 20rpx;
 
@@ -631,8 +742,8 @@
 
 						.item-right-sales {
 							color: #9b9b9b;
-							margin-left: 35rpx;
-							float: left;
+							margin-right: 15rpx;
+							float: right;
 							font-size: 20rpx;
 						}
 					}

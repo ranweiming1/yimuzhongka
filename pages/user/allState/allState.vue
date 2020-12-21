@@ -245,7 +245,6 @@
 
 			// 	}
 			// });
-			this.page = 1
 			var data = {
 				status: this.id,
 				page: this.page+1,
@@ -255,6 +254,7 @@
 
 		},
 		onPullDownRefresh: function() {
+			this.page=1
 			var data = {
 				status: this.id,
 				page: this.page,

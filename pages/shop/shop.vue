@@ -184,42 +184,44 @@
 			this.id = option.s
 			var _this = this
 			this.$https({
-					url: '/api/oauth/shop/store-index',
-					data: {
-						shopId: option.id
-						// shopId: 6
-					},
-					dengl: true,
-					success: function(res) {
-						_this.store = res.data.data.storeShop
-						_this.gList = res.data.data.goodsList
-						_this.ban = res.data.data.banners
-						_this.youhui = res.data.data.goodsList.couponDTOS
+				url: '/api/oauth/shop/store-index',
+				data: {
+					shopId: option.id
+					// shopId: 6
+				},
+				dengl: true,
+				success: function(res) {
+					_this.store = res.data.data.storeShop
+					_this.gList = res.data.data.goodsList
+					_this.ban = res.data.data.banners
+					_this.youhui = res.data.data.goodsList.couponDTOS
 
-					}
+				}
 
-				}),
-				this.$https({
-					url: '/api/oauth/shop/store-shop-detail',
-					data: {
-						shopId: option.id
-					},
-					dengl: true,
-					success: function(res) {
-						_this.isShow = res.data.data.shopCollectStatus
-					}
-				})
+			})
+			this.$https({
+				url: '/api/oauth/shop/store-shop-detail',
+				data: {
+					shopId: option.id
+				},
+				dengl: true,
+				success: function(res) {
+					_this.isShow = res.data.data.shopCollectStatus
+				}
+			})
 			this.$https({
 				url: '/api/oauth/shop/get-store-banner-list',
 				data: {
 					shopId: option.id
 				},
 				method: 'post',
-				dengl:true,
+				dengl: true,
 				success: res => {
 					this.banner = res.data.data
-					if(res.data.data.length==0){
-						this.banner=[{img:'../../static/banner.jpg'}]
+					if (res.data.data.length == 0) {
+						this.banner = [{
+							img: '../../static/banner.jpg'
+						}]
 					}
 				}
 			})
@@ -228,7 +230,7 @@
 				data: {
 					shopId: option.id
 				},
-				dengl:true,
+				dengl: true,
 				success: res => {
 					this.quan = res.data.data
 				}

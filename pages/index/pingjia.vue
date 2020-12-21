@@ -110,7 +110,7 @@
 			console.log(option)
 			console.log(_this.isXing)
 			this.$https({
-				url: '/api/shop/goods-comm-list',
+				url: '/api/oauth/shop/goods-comm-list',
 				data: {
 					goodsId: option.id
 				},
