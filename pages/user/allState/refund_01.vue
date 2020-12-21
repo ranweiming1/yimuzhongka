@@ -226,7 +226,7 @@
 						data: JSON.stringify({
 							goodsId: _this.gId,
 							orderNo: _this.content.oS,
-							proofImg: _this.pingImg,
+							proofImg: _this.pingImg=='../../../static/img_10.jpg.png'?'':_this.pingImg,
 							refundCaption: _this.exp,
 							refundFee: _this.price,
 							refundDesc: _this.value,
@@ -234,10 +234,20 @@
 							status:_this.shouIndex
 						}),
 						success(res) {
-							uni.showToast({
-								title: '提交成功',
-								icon: 'none'
-							})
+							if(res.data.code==0){
+								uni.showToast({
+									title: '提交成功',
+									icon: 'none'
+								})
+								uni.navigateBack({
+								})
+							}else{
+								uni.showToast({
+									title: '提交失败',
+									icon: 'none'
+								})
+							}
+						
 							// console.log(_this.pingImg)
 						}
 					})

@@ -254,6 +254,7 @@
 					dengl: false,
 					success: function(res) {
 						_this.dList = res.data.data
+						console.log(res.data.data,_this.dList,222)
 						// _this.gList=res.data.data
 						_this.toggle(_this.id)
 						if (res.data.code ==0) {

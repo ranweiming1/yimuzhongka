@@ -97,7 +97,8 @@
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
 				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"onReachBottonDistance":200
 
 			}
 		},

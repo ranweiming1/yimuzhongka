@@ -197,7 +197,14 @@
 					},
 					dengl:true,
 					success:res=>{
+						
 						this.rList=res.data.data
+						this.rList.map(function(val, i) {
+							that.$set(val, 'isHide', true)
+							if (val.childsList.length < 6) {
+								val.isHide = false
+							}
+						})
 					}
 				})
 

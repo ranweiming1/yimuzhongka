@@ -81,7 +81,7 @@
 				}
 			})
 			this.$https({
-				url: '/api/user/my-platform-phone-list',
+				url: '/api/oauth/user/my-platform-phone-list',
 				dengl: false,
 				data: {},
 				success: function(res) {
