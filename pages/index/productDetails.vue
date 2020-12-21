@@ -490,7 +490,8 @@
 				}
 				if (ind == 2) {
 					_this.toJump = 'pingjia'
-				} else if (ind == 3) {
+				} 
+				if (ind == 3) {
 					_this.toJump = 'xiangqi'
 				}
 
