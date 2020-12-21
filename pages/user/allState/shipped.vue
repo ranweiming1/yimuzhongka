@@ -146,7 +146,7 @@
 				<text>{{kuaidi?'￥'+kuaidi:'0'}}</text>
 			</view>
 		</view>
-
+		<view style='height:150rpx;'></view>
 		<!-- 底部 -->
 		<view class="bottom">
 			<view class="leftA">

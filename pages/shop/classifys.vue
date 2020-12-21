@@ -1,6 +1,10 @@
 <template>
 	<view>
-		<view class="top toubu">
+		<!-- <view class="line" style="height: 50rpx;"></view> -->
+		<view class="top" style='position:fixed;width:100%;left:0;top:0;z-index:99999;background:#fff;padding-top:60rpx;'>
+			<view class='back' @tap='back' style='float:left;padding: 30rpx 35rpx;'>
+				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image>
+			</view>
 			<view class="textBox">
 				<text>全部分类</text>
 			</view>
@@ -10,24 +14,48 @@
 		</view>
 
 		<!-- 切换分类 -->
-		<view class="Box">
+		<view class="Box dne">
+			<!-- 一级 -->
 			<scroll-view class="left" scroll-y :style="'height:'+height+'rpx'">
 				<!-- 选中样式 -->
 				<!-- 未选中样式 -->
-				<view :class="id==index?'on':'none'" @tap="togLi(index)" v-for="(item ,index) in allList" :key=item.id>
+				<view :class="id=='x'?'on':'none'" @tap="togLi('x',9)">
+					<text v-if='id=="x"' class="image"></text>
+					<text style="font-size: 30rpx;font-weight: bold;">品牌/车型</text>
+				</view>
+				<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList" :key=item.id>
+					<!-- <image v-if='id==index' src='../../static/icon_29.png'></image> -->
 					<text v-if='id==index' class="image"></text>
 					<text>{{item.cateTitle}}</text>
 				</view>
 			</scroll-view>
+			<!-- 二级 -->
+			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'rpx'" scroll-with-animation>
+				<view class="scroll-img" v-if='!(id=="x")'>
+					<swiper class="swiper" autoplay="true" style="height: 230rpx;" interval="5000" duration="1500">
+						<swiper-item v-for="(item , index) in imgSlide" :key="index">
+							<image :src="item.img" mode=""></image>
+						</swiper-item>
+					</swiper>
+				</view>
+				<!-- 总分类显示  品牌/车车型 -->
+				<view class="li-content zongh" v-if="id=='x'">
+					<view class="li" @tap="bander(item.id)" v-for="(item , i) in rList">
+						<view class="imgpp">
+							<image :src="item.brandLogo" mode=""></image>
+						</view>
+						<view class="zhiya">
+							<text>{{item.brandTitle}}</text>
+						</view>
+					</view>
+				</view>
 
-			<scroll-view class="right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'rpx'"
-			 scroll-with-animation>
-
-				<view :class="item.isHide?'li-content isHidden':'li-content'" v-for="(item , index) in rList" >
+				<!-- 其他分类 -->
+				<view :class="item.isHide?'li-content isHidden':'li-content'" v-if="!(id=='x')" v-for="(item , index) in rList">
 					<view class="li-title">
 						{{item.cateTitle}}
 					</view>
-					<view class="li" v-for="(ite , inde) in item.childsList" @tap="tiaozhuan(shopsId,isOK,ite.id)">
+					<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in item.childsList">
 						<view class="imgpp">
 							<image :src="ite.imgUrl" mode=""></image>
 						</view>
@@ -38,7 +66,6 @@
 					<view class="li-load" v-if="item.isHide" @tap='toggelHide(index)'>
 						加载更多
 					</view>
-
 				</view>
 			</scroll-view>
 		</view>
@@ -47,100 +74,158 @@
 </template>
 
 <script>
+	import tabBar from '@/components/tabBar/tabBar.vue';
 	import buttom from '../cart/dbottom.vue'
 	export default {
 		data() {
 			return {
-				buttom: '',
-				shopsId: '',
-				allList: [],
+				currentPage: 'classify',
+				AllList: [],
 				rList: {},
+				toggle: 0,
 				height: 0,
 				scrollTop: 0,
-				id: 0,
-				isOK: '',
-				imgSlide: []
+				id: 'x',
+				imgSlide: [],
+				shop:''
 			}
 		},
-		onLoad(option) {
-			// this.height = uni.getSystemInfoSync().windowHeight -150;
-			var _this=this
-			uni.getSystemInfo({
-			  success:function (res) {
-			   _this.height = (res.windowHeight * (750 / res.windowWidth))-260; 
-			  }
-			})
-			
-			this.shopsId = option.id
-
-			// console.log(option)
+		components: {
+			buttom,
+		},
+		onLoad(options) {
+			// this.id=index
 			var _this = this
+			// this.height = uni.getSystemInfoSync().windowHeight-100;
+			uni.getSystemInfo({
+				success: function(res) {
+					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 250;
+				}
+			})
 			this.$https({
-				url: '/api/oauth/shop/mall-lists',
+				url: '/api/oauth/get-goods-brand-list',
 				data: {},
 				dengl: true,
+				method: 'POST',
 				success(res) {
-					_this.allList = res.data.data.goodsCates
-					_this.rList = res.data.data.goodsCates[0].childsList
-					_this.rList.map(function(val, i) {
-						_this.$set(val,'isHide',true)
+					_this.rList = res.data.data
+				},
+			})
+			this.$https({
+				url: '/api/oauth/get-one-list',
+				data: {},
+				dengl: true,
+				success: function(res) {
+					// console.log(res.data.data)
+					_this.AllList = res.data.data
+					if (options.id) {
+						_this.AllList.map(function(n, index) {
+							if (n.id == options.id) {
+								// _this.rList = res.data.data.goodsCates[index].childsList
+								_this.id = index
+								_this.scrollPic(options.id)
+								_this.rList.map(function(val, i) {
+									_this.$set(val, 'isHide', true)
+									if (val.childsList.length < 6) {
+										val.isHide = false
+									}
+								})
+							}
+						})
+						return false
+					}
+
+					// 	_this.rList.map(function(val, i) {
+					// 		_this.$set(val, 'isHide', true)
+					// 		if (val.childsList.length < 6) {
+					// 			val.isHide = false
+					// 		}
+					// 	})
+					// 	_this.scrollPic(res.data.data.goodsCates[0].id)
+				},
+			})
+			this.shop=options.id
+			console.log(_this.rList)
+
+		},
+		methods: {
+			togLi(index, id) {
+				var that = this
+				if (index == 'x') {
+					this.id = index
+					that.$https({
+						url: '/api/oauth/get-goods-brand-list',
+						data: {},
+						dengl: true,
+						method: 'POST',
+						success(res) {
+							that.rList = res.data.data
+						},
+					})
+				} else {
+					this.id = index;
+					this.rList = this.AllList[index].childsList
+					this.rList.map(function(val, i) {
+						that.$set(val, 'isHide', true)
 						if (val.childsList.length < 6) {
 							val.isHide = false
 						}
 					})
+
+					this.scrollPic(id)
 				}
-			})
-		},
-		methods: {
-			togLi(index) {
-				var that=this
-				this.id = index;
-				this.rList = this.allList[index].childsList
-				this.rList.map(function(val, i) {
-					that.$set(val,'isHide',true)
-					if (val.childsList.length < 6) {
-						val.isHide = false
-					}
-				})
 			},
 			toggelHide: function(i) {
 				this.rList[i].isHide = false
 			},
-			tiaozhuan(shop, isok, cateId) {
-				// console.log(this.shopsId)
-				console.log(cateId)
-				this.isOK = false
-				uni.navigateTo({
-					url: 'all?id=' + shop + '&isOK=' + isok + '&cateId=' + cateId
-				})
-
-			},
-			search: function() {
-				// console.log(this.shopsId)
-				uni.navigateTo({
-					url: '../search/search?shopsId=' + this.shopsId
-				})
-			},
 			scrollPic: function(id) {
 				var that = this
 				this.$https({
-					url: '/api/shop/get-cate-type-banner-list',
+					url: '/api/oauth/shop/get-cate-type-banner-list',
 					data: {
 						cateId: id
 					},
-					dengl: false,
+					dengl: true,
 					method: 'POST',
 					success(res) {
 						that.imgSlide = res.data.data
 					}
 				})
+				//请求二级分类
+				this.$https({
+					url:'/api/oauth/get-one-child-list',
+					data:{
+						cateId:id
+					},
+					dengl:true,
+					success:res=>{
+						this.rList=res.data.data
+					}
+				})
 
 			},
-		},
-		components: {
-			buttom
-		},
-
+			list(id) {
+				// console.log(id)
+				uni.navigateTo({
+					url: './all?id=' + this.shop+'&cateId='+id
+				})
+			},
+			bander(id) {
+				uni.navigateTo({
+					url: './fenlOne?barId=' + id
+				})
+			},
+			search: function() {
+				uni.navigateTo({
+					url: '../search/search'
+				})
+			},
+			back: function() {
+				uni.navigateBack({
+					delta: 1
+				})
+			}
+		}
 	}
 </script>
 
@@ -159,6 +244,11 @@
 		}
 
 
+	}
+
+	.zongh {
+		padding: 0 25rpx;
+		box-sizing: border-box;
 	}
 
 	.isHidden .li:nth-child(n+8) {
@@ -198,7 +288,7 @@
 	.Box {
 		width: 750upx;
 		overflow: hidden;
-		// margin-top: 150rpx;
+		margin-top: 150rpx;
 
 		.scroll-img {
 			margin: 25rpx;
@@ -238,12 +328,11 @@
 		}
 
 		.left {
-			text-align: center;
+			text-align: left;
 			width: 180upx;
 			height: 1135upx;
 			float: left;
 			background-color: #f6f6f6;
-			box-sizing: border-box;
 
 			.on {
 				width: 100%;
@@ -272,7 +361,7 @@
 
 				text {
 					color: #007AFF;
-					font-size: 26upx;
+					font-size: 28upx;
 				}
 			}
 
@@ -285,8 +374,8 @@
 
 				text {
 					color: #333;
-					font-size: 26upx;
-					margin-left: 15rpx;
+					font-size: 28upx;
+					// margin-left: 15rpx;
 				}
 			}
 		}
@@ -296,7 +385,6 @@
 			text-align: center;
 			overflow: hidden;
 			background-color: #fff;
-			box-sizing: border-box;
 
 			.li {
 				margin-bottom: 40upx;

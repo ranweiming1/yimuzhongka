@@ -353,14 +353,6 @@
 				uni.navigateTo({
 					url: 'productDetails?id=' + id + '&tiaozhuan=1'
 				})
-				this.$https({
-					url: '/api/shop/goods-brows-history-add',
-					data: {
-						goodsId: id
-					},
-					method: 'POST',
-					success(res) {}
-				})
 			},
 			more() {
 				uni.navigateTo({
@@ -411,6 +403,7 @@
 								title: '您不是新人，无法领取优惠券',
 								icon: 'none'
 							})
+							_this.youhuiquanle=false
 							uni.setStorageSync('y', '123')
 						}
 					},

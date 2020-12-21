@@ -112,7 +112,7 @@
 				data: {
 					id: option.id
 				},
-				dengl: false,
+				dengl: true,
 				success: function(res) {
 					_this.title = res.data.data.article.title
 					_this.create_time = res.data.data.article.createTime
@@ -136,7 +136,9 @@
 		},
 		methods: {
 			tianj: function() {
+				if(this.denglufangfatiaozhuan()){
 				this.pinglun = true
+				}
 			},
 			tianjia: function() {
 				if(this.pinglunneirong.length>60){

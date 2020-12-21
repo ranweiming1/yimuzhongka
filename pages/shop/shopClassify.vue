@@ -6,13 +6,13 @@
 				<image src="../../static/icon_26-2.png" mode=""></image>
 			</view>
 			<view class="naviR">
-				<view class="right_L" @tap="naviBack">
+				<view class="right_L" @tap="naviBack" v-if='titleIndex!=1'>
 					商品
 					<view class="add" v-if="titleIndex==0">
 						<image src="../../static/icon_09.png" mode=""></image>
 					</view>
 				</view>
-				<view class="right_R" @tap="toggle(1)">
+				<view class="right_R" @tap="toggle(1)" :style='titleIndex==1?"float:none;margin:0 auto;":""'>
 					店铺
 					<view class="add" v-if="titleIndex==1">
 						<image src="../../static/icon_09.png" mode=""></image>

@@ -172,7 +172,7 @@
 				<view class="clear">
 
 				</view>
-				<view class="ul" v-for="(item,index) in taskList">
+				<view class="ul" v-for="(item,index) in taskList" v-if='!(item.taskName=="商品追评")'>
 					<view class="icon_img">
 						<image src="../../../static/rw_icon6.png" mode=""></image>
 					</view>

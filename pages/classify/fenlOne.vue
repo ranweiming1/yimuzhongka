@@ -150,6 +150,10 @@
 						</view>
 					</view>
 				</view>
+				<view v-if='allList.length==0'>
+					<image src='../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'></image>
+					<view style='text-align:center;'>暂无产品</view>
+				</view>
 			</view>
 			<tabBar :currentPage='currentPage'></tabBar>
 		</view>
@@ -196,16 +200,16 @@
 						console.log(res.data.data)
 					}
 				})
-				this.$https({
-					url: '/api/oauth/shop/goods-recom',
-					data: {
-						// cat_id:option.id?option.id:''
-					},
-					success(res) {
-						// _this.allList = res.data.data
-						// _this.goodsType = res.data.data.selfStatus
-					}
-				})
+				// this.$https({
+				// 	url: '/api/oauth/shop/goods-recom',
+				// 	data: {
+				// 		// cat_id:option.id?option.id:''
+				// 	},
+				// 	success(res) {
+				// 		// _this.allList = res.data.data
+				// 		// _this.goodsType = res.data.data.selfStatus
+				// 	}
+				// })
 			} else {
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-ptList',
@@ -219,16 +223,16 @@
 						console.log(res.data.data)
 					}
 				})
-				this.$https({
-					url: '/api/oauth/shop/goods-recom',
-					data: {
-						// cat_id:option.id?option.id:''
-					},
-					success(res) {
-						// _this.allList = res.data.data
-						// _this.goodsType = res.data.data.selfStatus
-					}
-				})
+				// this.$https({
+				// 	url: '/api/oauth/shop/goods-recom',
+				// 	data: {
+				// 		// cat_id:option.id?option.id:''
+				// 	},
+				// 	success(res) {
+				// 		// _this.allList = res.data.data
+				// 		// _this.goodsType = res.data.data.selfStatus
+				// 	}
+				// })
 			}
 		},
 		components: {

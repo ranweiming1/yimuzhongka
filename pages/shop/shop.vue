@@ -20,7 +20,7 @@
 
 			<view class="head">
 				<view class="head_img">
-					<image :src="store.storeLogo" mode=""></image>
+					<image :src="store.storeLogo?store.storeLogo:'../../static/230abf8eb0244a128649f337a7d4aae3.png'" mode=""></image>
 				</view>
 				<view class="head_text">
 					<view class="h2">
@@ -44,7 +44,7 @@
 			<swiper class="banner" :autoplay="autoplay" :indicator-active-color="activeColor" :indicator-color="indColor"
 			 scroll-x indicator-dots :interval="interval" :duration="duration" style="height:350rpx;">
 				<swiper-item v-for='(item,index) in banner' @tap='tiaozhuan(item.type,item.businessId)'>
-					<image :src="item.img"  mode=""></image>
+					<image :src="item.img" mode=""></image>
 				</swiper-item>
 
 			</swiper>
@@ -115,7 +115,7 @@
 							<view class="coupon-item">
 								<text>包邮</text>
 							</view>
-							
+
 						</view>
 						<view class="item-price">
 							<text class="price-text">￥{{item.marketPrice?item.marketPrice.toFixed(2):'暂无价格'}}</text>
@@ -184,12 +184,12 @@
 			this.id = option.s
 			var _this = this
 			this.$https({
-					url: '/api/shop/store-index',
+					url: '/api/oauth/shop/store-index',
 					data: {
 						shopId: option.id
 						// shopId: 6
 					},
-					dengl: false,
+					dengl: true,
 					success: function(res) {
 						_this.store = res.data.data.storeShop
 						_this.gList = res.data.data.goodsList
@@ -200,23 +200,27 @@
 
 				}),
 				this.$https({
-					url: '/api/shop/store-shop-detail',
+					url: '/api/oauth/shop/store-shop-detail',
 					data: {
 						shopId: option.id
 					},
-					dengl: false,
+					dengl: true,
 					success: function(res) {
 						_this.isShow = res.data.data.shopCollectStatus
 					}
 				})
 			this.$https({
-				url: '/api/shop/get-store-banner-list',
+				url: '/api/oauth/shop/get-store-banner-list',
 				data: {
 					shopId: option.id
 				},
 				method: 'post',
+				dengl:true,
 				success: res => {
 					this.banner = res.data.data
+					if(res.data.data.length==0){
+						this.banner=[{img:'../../static/banner.jpg'}]
+					}
 				}
 			})
 			this.$https({
@@ -224,6 +228,7 @@
 				data: {
 					shopId: option.id
 				},
+				dengl:true,
 				success: res => {
 					this.quan = res.data.data
 				}
@@ -247,19 +252,20 @@
 				})
 			},
 			shouC(id) {
-				var _this = this
-				console.log(id)
-				this.$https({
-					url: '/api/shop/shop-collect',
-					data: {
-						shopId: id
-					},
-					method: 'POST',
-					success: function(res) {
-						_this.isShow = !_this.isShow
-					},
+				if (this.denglufangfatiaozhuan()) {
+					var _this = this
+					this.$https({
+						url: '/api/shop/shop-collect',
+						data: {
+							shopId: id
+						},
+						method: 'POST',
+						success: function(res) {
+							_this.isShow = !_this.isShow
+						},
 
-				})
+					})
+				}
 			},
 			more() {
 				uni.navigateTo({
@@ -274,7 +280,7 @@
 			},
 			back: function() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			},
 			tiaozhuan: function(type, businessId) {
@@ -294,12 +300,14 @@
 </script>
 
 <style lang="scss">
-	.activeCss{
+	.activeCss {
 		padding: 20rpx 28rpx;
-		.content-item{
+
+		.content-item {
 			background-color: #fff;
 		}
 	}
+
 	.bg {
 		position: absolute;
 		top: 0upx;
@@ -416,7 +424,7 @@
 	}
 
 	.banner {
-		width:700rpx;
+		width: 700rpx;
 		position: absolute;
 		top: 330upx;
 		left: 25upx;

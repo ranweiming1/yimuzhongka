@@ -306,7 +306,7 @@
 	}
 
 	.d {
-		margin-top: 50rpx;
+		margin-top: 90rpx;
 		margin-left: 50rpx;
 		font-size: 30rpx;
 		height: 100rpx;

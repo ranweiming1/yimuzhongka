@@ -1,5 +1,5 @@
 <template>
-	<scroll-view scroll-y="true" style="height: 100%;position:fixed;" :scroll-into-view="toJump">
+	<scroll-view scroll-y="true" style="height: 100%;position:fixed;overflow-y:auto;" :scroll-into-view="toJump">
 		<!-- 产品图，这是轮播 -->
 		<view class="bg_img toubu" id='s'>
 			<swiper style='height:610rpx;'>
@@ -69,7 +69,7 @@
 
 			</view>
 
-			<view class="share">
+			<view class="share" @tap='shangpinxin'>
 				<image src="../../static/icon_49.png" mode=""></image>
 				<text @tap='shangpinxin'>分享赚</text>
 			</view>
@@ -221,7 +221,7 @@
 			<!-- 用户评价 ,划动效果-->
 			<view class="toux" v-if="pingjia">
 				<view class="imgBox_a">
-					<image :src="pingjia.img" mode=""></image>
+					<image :src="pingjia.img?pingjia.img=='../../../static/img_10.jpg.png'?'../../static/img_05.jpg':pingjia.img:'../../static/img_05.jpg'" mode=""></image>
 				</view>
 				<view class="mingc">
 					<text>{{pingjia.commId}}</text>
@@ -240,7 +240,7 @@
 		<view class="listBox">
 			<view class="liBox">
 				<view class="imgBox">
-					<image :src="list.shopDTO.storeLogo" mode=""></image>
+					<image :src="list.shopDTO.storeLogo?list.shopDTO.storeLogo:'../../static/230abf8eb0244a128649f337a7d4aae3.png'" mode=""></image>
 				</view>
 				<view class="texBox">
 					<view class="h2Box">
@@ -283,6 +283,7 @@
 				</view>
 			</view>
 		</view>
+		<view style='height:150rpx;'></view>
 		<!-- 底部 -->
 		<view class="bottom">
 
@@ -550,31 +551,33 @@
 				this.$set(this.id, index, itemId)
 			},
 			isActive() {
-				var _this = this
-				if (!this.isCollect) {
-					this.$https({
-						url: '/api/shop/mall-add-collect',
-						data: JSON.stringify({
-							goodsId: this.goodsId
-						}),
-						method: 'POST',
-						haeder: true,
-						success: function(res) {
-							_this.isCollect = !_this.isCollect
-						}
-					})
-				} else {
-					this.$https({
-						url: '/api/shop/mall-cancel-collect',
-						data: JSON.stringify({
-							goodsId: this.goodsId
-						}),
-						method: 'POST',
-						haeder: true,
-						success: function(res) {
-							_this.isCollect = !_this.isCollect
-						}
-					})
+				if (this.denglufangfatiaozhuan()) {
+					var _this = this
+					if (!this.isCollect) {
+						this.$https({
+							url: '/api/shop/mall-add-collect',
+							data: JSON.stringify({
+								goodsId: this.goodsId
+							}),
+							method: 'POST',
+							haeder: true,
+							success: function(res) {
+								_this.isCollect = !_this.isCollect
+							}
+						})
+					} else {
+						this.$https({
+							url: '/api/shop/mall-cancel-collect',
+							data: JSON.stringify({
+								goodsId: this.goodsId
+							}),
+							method: 'POST',
+							haeder: true,
+							success: function(res) {
+								_this.isCollect = !_this.isCollect
+							}
+						})
+					}
 				}
 
 			},
@@ -589,40 +592,42 @@
 				})
 			},
 			gouwuche: function() {
-				var _this = this
-				if (this.xuanzh) {
-					this.$https({
-						url: '/api/shop/order-add-cart',
-						data: JSON.stringify({
-							cartAttr: [{
-								goodsNum: this.num,
-								specKey: this.guige[this.indexx].key
-							}],
-							goodsId: this.goodsId,
-							shopId: this.shopId
-						}),
-						method: 'post',
-						haeder: true,
-						success: function(res) {
-							if (res.data.code == 0) {
-								uni.showToast({
-									title: '加入购物车成功'
-								})
-								setTimeout(function() {
-									_this.isAdd = false
-								}, 2000)
-							} else {
-								uni.showToast({
-									title: res.data.message
-								})
+				if (this.denglufangfatiaozhuan()) {
+					var _this = this
+					if (this.xuanzh) {
+						this.$https({
+							url: '/api/shop/order-add-cart',
+							data: JSON.stringify({
+								cartAttr: [{
+									goodsNum: this.num,
+									specKey: this.guige[this.indexx].key
+								}],
+								goodsId: this.goodsId,
+								shopId: this.shopId
+							}),
+							method: 'post',
+							haeder: true,
+							success: function(res) {
+								if (res.data.code == 0) {
+									uni.showToast({
+										title: '加入购物车成功'
+									})
+									setTimeout(function() {
+										_this.isAdd = false
+									}, 2000)
+								} else {
+									uni.showToast({
+										title: res.data.message
+									})
+								}
 							}
-						}
-					})
-				} else {
-					uni.showToast({
-						title: '请选择规格型号',
-						icon: 'none'
-					})
+						})
+					} else {
+						uni.showToast({
+							title: '请选择规格型号',
+							icon: 'none'
+						})
+					}
 				}
 			},
 			qiehuan: function(ind) {
@@ -631,61 +636,69 @@
 				this.Price = this.guige[ind].price
 			},
 			goumaia: function() {
-				if (this.xuanzh) {
-					uni.navigateTo({
-						url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
-							cartAttr: [{
-								goodsNum: this.num,
-								specKeyName: this.guige[this.indexx].keyName,
-								goodsLogo: this.list.goodsLogo,
-								integral: this.list.integral,
-								goodsName: this.list.goodsName,
-								kuaidi: this.list.kuaidi,
-								shopPrice: this.j,
-								goodsId: this.list.goodsId,
-								specKey: this.guige[this.indexx].key,
-								shopId: this.shopId,
-								name: this.list.length > 0 ? this.list.couponDTOS[0].name : '',
-							}]
-						}) + '&dingdan=2&goumai=1'
-					})
-				} else {
-					uni.showToast({
-						title: '请选择规格型号',
-						icon: 'none'
-					})
+				if (this.denglufangfatiaozhuan()) {
+					if (this.xuanzh) {
+						uni.navigateTo({
+							url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
+								cartAttr: [{
+									goodsNum: this.num,
+									specKeyName: this.guige[this.indexx].keyName,
+									goodsLogo: this.list.goodsLogo,
+									integral: this.list.integral,
+									goodsName: this.list.goodsName,
+									kuaidi: this.list.kuaidi,
+									shopPrice: this.j,
+									goodsId: this.list.goodsId,
+									specKey: this.guige[this.indexx].key,
+									shopId: this.shopId,
+									name: this.list.length > 0 ? this.list.couponDTOS[0].name : '',
+								}]
+							}) + '&dingdan=2&goumai=1'
+						})
+					} else {
+						uni.showToast({
+							title: '请选择规格型号',
+							icon: 'none'
+						})
+					}
 				}
 			},
 			tiaoCart() {
-				uni.navigateTo({
-					url: '../cart/cart'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: '../cart/cart'
+					})
+				}
 			},
 			shangpinxin: function() {
-				var _this = this
-				this.$https({
-					url: '/api/user/my-info',
-					data: {},
-					success: function(res) {
-						uni.share({
-							provider: 'weixin',
-							scene: 'WXSceneSession',
-							type: 0,
-							href: 'https://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId,
-							imageUrl: _this.list.goodsImgss[0],
-							title: '我在毅木重卡发现了一个好东西,分享给你看看',
-							summary: '商品描述',
-							success: res => {
+				if (this.denglufangfatiaozhuan()) {
+					var _this = this
+					this.$https({
+						url: '/api/user/my-info',
+						data: {},
+						success: function(res) {
+							uni.share({
+								provider: 'weixin',
+								scene: 'WXSceneSession',
+								type: 0,
+								href: 'https://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId,
+								imageUrl: _this.list.goodsImgss[0],
+								title: '我在毅木重卡发现了一个好东西,分享给你看看',
+								summary: '商品描述',
+								success: res => {
 
-							}
-						})
-					}
-				})
+								}
+							})
+						}
+					})
+				}
 			},
 			tiaozhuan: function() {
-				uni.navigateTo({
-					url: 'ke?id=' + this.deId
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: 'ke?id=' + this.deId
+					})
+				}
 			}
 		}
 
@@ -1387,7 +1400,7 @@
 
 			.kefua {
 				float: left;
-				padding:20rpx;
+				padding: 20rpx;
 				box-sizing: border-box;
 				text-align: center;
 				height: 100rpx;
@@ -1403,6 +1416,7 @@
 				.keyboard {
 					position: relative;
 					top: -8rpx;
+
 					text {
 						// float: left;
 						color: #333;

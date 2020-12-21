@@ -56,10 +56,10 @@
 				</view>
 			</view>
 
-			<view class="ji">
+			<view class="ji" @tap='shoucang'>
 				<text @tap='shoucang'>{{(collectCount-1)>0?collectCount-1:0}}</text>
 				<view class="fen" @tap='shoucang'>
-					<text>收藏店铺</text>
+					<text>我的收藏</text>
 				</view>
 			</view>
 
@@ -238,7 +238,7 @@
 								<text>商家入驻</text>
 							</view>
 						</view>
-						<view>
+						<view @tap='fenX'>
 							<view class='imgBox'>
 								<image src='../../static/shouyi.png'></image>
 							</view>
@@ -350,11 +350,12 @@
 		</view> -->
 		<view style='width:20rpx;position:fixed;bottom:81rpx;right:0;background:#fff;height:50rpx;margin-bottom:20rpx;'></view>
 		<view style='height:300rpx;'></view>
-		<view style='position:fixed;top:0;left:0;width:100%;height:100%;' v-if='xianshidenglu' @tap='dengluweizhi'></view>
+		<!-- <view style='position:fixed;top:0;left:0;width:100%;height:100%;' v-if='xianshidenglu' @tap='dengluweizhi'></view> -->
 		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
-		 @tap='deng' v-if='xianshidenglu'>
+		 v-if='xianshidenglu'>
+		 <image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;' @tap='g'></image>
 			登录查看更多
-			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'>一键登录</view>
+			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;' @tap='deng'>立即登录/注册</view>
 		</view>
 	</view>
 </template>
@@ -383,12 +384,12 @@
 				list: [],
 				n: 0,
 				xianshi: true,
-				id:'',
-				fukuan:0,
-				fahuo:0,
-				shouhuo:0,
-				pingjia:0,
-				tuikuan:0
+				id: '',
+				fukuan: 0,
+				fahuo: 0,
+				shouhuo: 0,
+				pingjia: 0,
+				tuikuan: 0
 			}
 		},
 		components: {
@@ -398,6 +399,8 @@
 			var _this = this
 			if (!uni.getStorageSync('Authorization')) {
 				this.xianshidenglu = true
+			}else{
+				this.xianshidenglu=false
 			}
 			//判断是否登录
 			if (uni.getStorageSync('Authorization')) {
@@ -412,7 +415,7 @@
 						_this.phone = res.data.data.phone
 						// console.log(res.data.data)
 						_this.myCode = res.data.data.myCode
-						_this.id=res.data.data.id
+						_this.id = res.data.data.id
 					}
 				})
 				//
@@ -425,60 +428,69 @@
 						_this.payPoints = res.data.data.payPoints
 						_this.couponCount = res.data.data.couponCount
 						_this.collectCount = res.data.data.collectCount
-						_this.fukuan=res.data.data.countInfo.unpayCount
-						_this.fahuo=res.data.data.countInfo.undeliverCount
-						_this.shouhuo=res.data.data.countInfo.deliveringCount
-						_this.pingjia=res.data.data.countInfo.unevalCount
-						_this.tuikuan=res.data.data.countInf.returnCount
+						_this.fukuan = res.data.data.countInfo.unpayCount
+						_this.fahuo = res.data.data.countInfo.undeliverCount
+						_this.shouhuo = res.data.data.countInfo.deliveringCount
+						_this.pingjia = res.data.data.countInfo.unevalCount
+						_this.tuikuan = res.data.data.countInfo.returnCount
 						// console.log(res.data.data)
 					}
 				})
-				this.$https({
-					url: '/api/user/my-platform-phone-list',
-					success: function(res) {
-						_this.pingtaidianhua = res.data.data
-					}
-				})
-				this.$https({
-					url: '/api/oauth/shop/mall-index',
-					data: {
-						mobileCode: ''
-					},
-					dengl: true,
-					success: res => {
-						this.list = res.data.data.recommedGoods
-					}
-				})
 			}
+			this.$https({
+				url: '/api/oauth/user/my-platform-phone-list',
+				dengl:true,
+				success: function(res) {
+					_this.pingtaidianhua = res.data.data
+				}
+			})
+			this.$https({
+				url: '/api/oauth/shop/mall-index',
+				data: {
+					mobileCode: ''
+				},
+				dengl: true,
+				success: res => {
+					this.list = res.data.data.recommedGoods
+				}
+			})
 		},
 		methods: {
 			xiugaigerenxinxi: function() {
-				uni.navigateTo({
-					url: 'alter'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: 'alter'
+					})
+				}
 			},
 			//
 			dizhiguanli: function() {
-				uni.navigateTo({
-					url: 'leagu/siteList/siteList'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: 'leagu/siteList/siteList'
+					})
+				}
 			},
 			//收藏
 			shoucang: function() {
-				uni.navigateTo({
-					url: '../search/store'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: '../search/store'
+					})
+				}
 			},
-			problem:function(){
+			problem: function() {
 				uni.navigateTo({
-					url:'./commission/commission'
+					url: './commission/commission'
 				})
 			},
 			//优惠券
 			youhuiquan: function() {
-				uni.navigateTo({
-					url: 'sale/sale'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: 'sale/sale'
+					})
+				}
 			},
 			pers: function() {
 				uni.navigateTo({
@@ -486,9 +498,11 @@
 				})
 			},
 			fenX: function() {
-				uni.navigateTo({
-					url: 'distr/distr'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: 'distr/distr'
+					})
+				}
 			},
 			tuiJi: function() {
 				uni.navigateTo({
@@ -496,26 +510,36 @@
 				})
 			},
 			ques: function() {
-				// uni.navigateTo({
-				// 	url: './task/invite/invite'
-				// })
-				uni.share({
-					provider: 'weixin',
-					scene: 'WXSceneSession',
-					type: 0,
-					href: 'httep://yimuzk.com',
-					title: '我在毅木重卡发现了一个好东西,分享给你看看',
-					summary: '商品描述',
-					success: function() {
+				if (this.denglufangfatiaozhuan()) {
+					// uni.navigateTo({
+					// 	url: './task/invite/invite'
+					// })
+					this.$https({
+						url: '/api/user/my-info',
+						data: {},
+						success: res => {
+							uni.share({
+								provider: 'weixin',
+								scene: 'WXSceneSession',
+								type: 0,
+								href: 'https://yimuzk.com:8087?myCode=' + res.data.data.myCode,
+								title: '我在毅木重卡发现了一个好东西,分享给你看看',
+								summary: '商品描述',
+								success: function() {
 
-					}
-				})
+								}
+							})
+						}
+					})
+				}
 
 			},
 			jifen: function() {
-				uni.navigateTo({
-					url: './jifenStore/jifenStore'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: './jifenStore/jifenStore'
+					})
+				}
 			},
 			about: function() {
 				uni.navigateTo({
@@ -523,34 +547,46 @@
 				})
 			},
 			ruzhu: function() {
-				uni.navigateTo({
-					url: './leagu/league'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: './leagu/league'
+					})
+				}
 			},
 			daiFu: function(index) {
-				uni.navigateTo({
-					url: 'allState/allState?id=' + index
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: 'allState/allState?id=' + index
+					})
+				}
 			},
 			liulan: function() {
-				uni.navigateTo({
-					url: 'task/liulan'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: 'task/liulan'
+					})
+				}
 			},
 			shezhi: function() {
-				uni.navigateTo({
-					url: "./alter/alter"
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: "./alter/alter"
+					})
+				}
 			},
 			tuiKuan: function() {
-				uni.navigateTo({
-					url: './allState/salelist'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: './allState/salelist'
+					})
+				}
 			},
 			aiChe: function() {
-				uni.navigateTo({
-					url: 'task/aiChe'
-				})
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: 'task/aiChe'
+					})
+				}
 			},
 			//复制邀请码
 			fuzhi: function() {
@@ -609,10 +645,15 @@
 					url: '../shop/shop?id=' + id
 				})
 			},
-			k:function(){
-				uni.navigateTo({
-					url:'../index/ke?id='+this.id
-				})
+			k: function() {
+				if (this.denglufangfatiaozhuan()) {
+					uni.navigateTo({
+						url: '../index/ke?id=' + this.id
+					})
+				}
+			},
+			g:function(){
+				this.xianshidenglu=false
 			}
 		}
 	}
@@ -871,19 +912,21 @@
 			}
 		}
 	}
-	.imgBox_a{
-		position:relative;
-		view{
-			position:absolute;
-			border:1px solid #fb751e;
-			padding:0 9rpx;
-			border-radius:50%;
-			color:#fb751e;
-			right:30rpx;
-			top:-10rpx;
-			font-size:20rpx;
-			background:#fff;
-			z-index:999;
+
+	.imgBox_a {
+		position: relative;
+
+		view {
+			position: absolute;
+			border: 1px solid #fb751e;
+			padding: 0 9rpx;
+			border-radius: 50%;
+			color: #fb751e;
+			right: 30rpx;
+			top: -10rpx;
+			font-size: 20rpx;
+			background: #fff;
+			z-index: 999;
 		}
 	}
 </style>

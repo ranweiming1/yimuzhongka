@@ -36,7 +36,7 @@
 		onShow:function(){
 			var _this=this
 			//新闻资讯
-			this.$https({url:'/api/oauth/news/article-list',data:{},dengl:false,success:function(res){
+			this.$https({url:'/api/oauth/news/article-list',data:{},dengl:true,success:function(res){
 				_this.newz=res.data.data
 			}})
 		},

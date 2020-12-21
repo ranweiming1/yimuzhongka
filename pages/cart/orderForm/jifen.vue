@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<view class='shouhuodizhi' @tap='tianjia'>+添加收货地址</view>
-		<view style='overflow:hidden;padding:10rpx 20rpx;border-bottom:1px solid #ccc;' @tap='dizhitiaozhuan'>
+		<view class='shouhuodizhi' @tap='tianjia' v-if='x'>+添加收货地址</view>
+		<view style='overflow:hidden;padding:10rpx 20rpx;border-bottom:1px solid #ccc;' @tap='dizhitiaozhuan' v-if='!x'>
 			<view style='float:left;width:calca(100% - 10rpx);'>
 				<view class='name'>
 					<view style='color:#333;padding-right:10rpx;font-size:30rpx;float:left;'>{{dizhi.username}}</view>
@@ -19,7 +19,7 @@
 					<image :src='obj.goodsLogo' style='float:left;width:200rpx;height:200rpx;'></image>
 					<view style='float:left;width:490rpx;margin-top:20rpx;margin-left:20rpx;'>
 						<view>{{obj.goodsName}}</view>
-						<view>{{obj.shopPrice}}元{{obj.integral}}积分</view>
+						<view>{{obj.shopPrice}}元+{{obj.integral}}积分</view>
 						<view style='overflow:hidden;text-align:right;overflow:hidden;float:right;font-size:50rpx;'>
 							<view style='display:inline-block;line-height:60rpx;float:left;' @tap='jianshao'>-</view>
 							<input v-model='num' style='display:inline-block;width:100rpx;height:60rpx;float:left;text-align:center;border:1px solid #eee;margin:0 20rpx;font-size:40rpx;'>
@@ -43,7 +43,8 @@
 			  id:0,
 			  obj:{},
 			  remak:'',
-			  num:1
+			  num:1,
+			  x:false
 			}
 		},
 		onLoad(option){
@@ -54,11 +55,21 @@
 				this.$https({
 					url:'/api/user/my-address',
 					success:res=>{
+						var n=0
 						res.data.data.map(n=>{
 							if(n.isDefault==1){
 								this.dizhi=n
+								n++
 							}
 						})
+						if(n==0){
+							this.dizhi=res.data.data[0]
+						}
+						if(res.data.data.length==0){
+							this.x=true
+						}else{
+							this.x=false
+						}
 					}
 				})
 			}

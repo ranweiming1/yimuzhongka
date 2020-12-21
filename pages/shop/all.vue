@@ -134,6 +134,7 @@
 
 					</view>
 				</view>
+				<view v-if='allList.length==0' style='text-align:center;margin-top:100px;' @tap='tiaozhuan'>暂无产品列表,去首页看看</view>
 			</view>
 			<buttom bottom="2" :can="shopsId" v-if="isOK"></buttom>
 		</view>
@@ -332,6 +333,11 @@
 						_this.allList = res.data.data
 						console.log(res.data.data)
 					}
+				})
+			},
+			tiaozhuan:function(){
+				uni.reLaunch({
+					url:'../index/index'
 				})
 			}
 

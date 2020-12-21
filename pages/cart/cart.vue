@@ -200,7 +200,7 @@
 				</view>
 			</view>
 			<!-- 底部 -->
-			<view class="bottom">
+			<view class="bottom" v-if='xianshi'>
 				<view class="radis">
 					<view style="width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:35rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"
 					 @tap='quanxuan'>
@@ -308,16 +308,21 @@
 				y: true,
 				sta: 0,
 				huad: [],
-				baocun: []
+				baocun: [],
+				xianshi:true
 			}
 		},
 		onShow() {
 			var _this = this
+			this.xianshi=uni.getStorageSync('Authorization')
+			this.cartList=[]
+			if(uni.getStorageSync('Authorization')){
 			this.$https({
 				url: '/api/shop/order-cart-list',
 				data: {},
 				dengl: false,
 				success: function(res) {
+					if(res.data.code==0){
 					_this.jiage = 0
 					//修改数据结构，以使数据更好用
 					_this.cartList = res.data.data.cartList
@@ -342,13 +347,18 @@
 					// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
 					// 	})
 					// })
+					}else{
+						_this.cartList=[]
+					}
 				}
 			})
+			}
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
 					mobileCode: ''
 				},
+				dengl:true,
 				success: function(res) {
 					_this.tuijian = res.data.data.recommedGoods
 				}

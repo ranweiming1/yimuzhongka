@@ -44,7 +44,10 @@
 				</view>
 			</view>
 		</view>
-		<view v-if='saleList.length==0' style='text-align:center;margin-top:100rpx;'>暂无订单</view>
+		<view v-if='saleList.length==0' style='text-align:center;margin-top:100rpx;'>
+			<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'></image>
+			<view style='text-align:center;'>暂无订单</view>
+		</view>
 	</view>
 
 </template>
