@@ -87,14 +87,17 @@
 				scrollTop: 0,
 				id: 'x',
 				imgSlide: [],
-				shop:''
+				shop:'',
+				shopsId:''
 			}
 		},
 		components: {
 			buttom,
 		},
 		onLoad(options) {
+			console.log(options,8888)
 			// this.id=index
+			this.shopsId=options.id
 			var _this = this
 			// this.height = uni.getSystemInfoSync().windowHeight-100;
 			uni.getSystemInfo({
@@ -200,6 +203,13 @@
 					dengl:true,
 					success:res=>{
 						this.rList=res.data.data
+						this.rList.map(function(val, i) {
+							that.$set(val, 'isHide', true)
+							if (val.childsList.length < 6) {
+								val.isHide = false
+							}
+						})
+						
 					}
 				})
 

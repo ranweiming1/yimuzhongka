@@ -165,7 +165,6 @@
 			}
 		},
 		onLoad(option) {
-			console.log(option)
 			var _this = this
 			if (option.keywords && option.shopsId) {
 				this.value = option.keywords
