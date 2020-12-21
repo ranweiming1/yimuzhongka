@@ -90,7 +90,7 @@
 		<view class="state">
 			<view class="fu" @tap="daiFu(1)">
 				<view class="imgBox_a">
-					<view>{{fukuan}}</view>
+					<view v-if="fukuan!=0">{{fukuan}}</view>
 					<image src="../../static/fk.png" mode=""></image>
 				</view>
 				<view class="kuan">
@@ -100,7 +100,7 @@
 
 			<view class="dai" @tap="daiFu(2)">
 				<view class="imgBox_a">
-					<view>{{fahuo}}</view>
+					<view  v-if="fahuo!=0">{{fahuo}}</view>
 					<image src="../../static/fh.png" mode=""></image>
 				</view>
 
@@ -111,7 +111,7 @@
 
 			<view class="ping" @tap="daiFu(3)">
 				<view class="imgBox_a">
-					<view>{{shouhuo}}</view>
+					<view  v-if="shouhuo!=0">{{shouhuo}}</view>
 					<image src="../../static/sh.png" mode=""></image>
 				</view>
 
@@ -122,7 +122,7 @@
 
 			<view class="tui" @tap="daiFu(4)">
 				<view class="imgBox_a">
-					<view>{{pingjia}}</view>
+					<view  v-if="pingjia!=0">{{pingjia}}</view>
 					<image src="../../static/pj.png" mode=""></image>
 				</view>
 
@@ -133,7 +133,7 @@
 
 			<view class="ding" @tap="tuiKuan">
 				<view class="imgBox_a">
-					<view>{{tuikuan}}</view>
+					<view v-if="tuikuan!=0">{{tuikuan}}</view>
 					<image src="../../static/qb.png" mode=""></image>
 				</view>
 
@@ -424,6 +424,7 @@
 					data: {},
 					dengl: false,
 					success: function(res) {
+						console.log(res.data.data)
 						_this.userMoney = res.data.data.userMoney
 						_this.payPoints = res.data.data.payPoints
 						_this.couponCount = res.data.data.couponCount
@@ -920,7 +921,8 @@
 			position: absolute;
 			border: 1px solid #fb751e;
 			padding: 0 9rpx;
-			border-radius: 50%;
+			border-radius: 45rpx;
+			min-width: 15rpx;
 			color: #fb751e;
 			right: 30rpx;
 			top: -10rpx;

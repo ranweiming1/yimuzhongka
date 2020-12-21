@@ -174,7 +174,7 @@
 					contentnomore: "没有更多数据了"
 				},
 				page: 1,
-				as:1
+				as: 1
 			}
 		},
 		components: {
@@ -198,48 +198,70 @@
 			// 	}
 			// })
 			// // 上拉加载
-
-			this.getNewsList();
+			var data = {
+				status: this.id,
+				page: this.page,
+				page_num: 10
+			}
+			this.getListInfo(data);
 		},
-		onShow:function(){
-			this.as=2
-			this.getNewsList()
+		onShow: function() {
+			this.as = 2
+			var data = {
+				status: this.id,
+				page: this.page,
+				page_num: 10
+			}
+			this.getListInfo(data);
 		},
 		onReachBottom: function() {
-			var _this = this
-			_this.page++; //每触底一次 page +1
-			var page_num = _this.page * 10
-			// console.log(_this.hotRecommendlist.length);
-			if (_this.loadingType != 0) { //loadingType!=0;直接返回
-				return false;
-			}
-			_this.loadingType = 1;
-			// console.log(page);
-			uni.showNavigationBarLoading(); //显示加载动画
-			this.$https({
-				url: '/api/user/order-list',
-				dengl: false,
-				data: {
-					status: _this.id,
-					page_num: page_num
-				},
-				success: function(res) {
-					_this.dList = res.data.data
-					if (_this.dList.length < page_num) { //没有数据
-						// console.log(page_num)
-						_this.loadingType = 2;
-						uni.hideNavigationBarLoading(); //关闭加载动画
-					} else {
-						_this.loadingType = 0; //将loadingType归0重	
-					}
-					uni.hideNavigationBarLoading(); //关闭加载动画
+			// var _this = this
+			// _this.page++; //每触底一次 page +1
+			// var page_num = _this.page * 10
+			// // console.log(_this.hotRecommendlist.length);
+			// if (_this.loadingType != 0) { //loadingType!=0;直接返回
+			// 	return false;
+			// }
+			// _this.loadingType = 1;
+			// // console.log(page);
+			// uni.showNavigationBarLoading(); //显示加载动画
+			// this.$https({
+			// 	url: '/api/user/order-list',
+			// 	dengl: false,
+			// 	data: {
+			// 		status: _this.id,
+			// 		page_num: page_num
+			// 	},
+			// 	success: function(res) {
+			// 		_this.dList = res.data.data
+			// 		if (_this.dList.length < page_num) { //没有数据
+			// 			// console.log(page_num)
+			// 			_this.loadingType = 2;
+			// 			uni.hideNavigationBarLoading(); //关闭加载动画
+			// 		} else {
+			// 			_this.loadingType = 0; //将loadingType归0重	
+			// 		}
+			// 		uni.hideNavigationBarLoading(); //关闭加载动画
 
-				}
-			});
+			// 	}
+			// });
+			this.page = 1
+			var data = {
+				status: this.id,
+				page: this.page+1,
+				page_num: 10
+			}
+			this.getMoreListInfo(data)
 
 		},
 		onPullDownRefresh: function() {
-			this.getNewsList()
+			var data = {
+				status: this.id,
+				page: this.page,
+				page_num: 10
+			}
+			this.getListInfo(data);
+			// this.getListInfo()
 		},
 		methods: {
 			getNewsList: function() { //第一次回去数据
@@ -254,20 +276,20 @@
 					dengl: false,
 					success: function(res) {
 						_this.dList = res.data.data
-						console.log(res.data.data,_this.dList,222)
+						console.log(res.data.data, _this.dList, 222)
 						// _this.gList=res.data.data
 						_this.toggle(_this.id)
-						if (res.data.code ==0) {
-							if(_this.as==1)
+						if (res.data.code == 0) {
+							if (_this.as == 1)
+								uni.showToast({
+									title: '已是最新',
+									duration: 2000
+								});
+						} else {
 							uni.showToast({
-								title: '已是最新',
-								duration: 2000
-							});
-						}else{
-							uni.showToast({
-								title:res.data.message
+								title: res.data.message
 							})
-							_this.dList=[]
+							_this.dList = []
 						}
 						uni.hideNavigationBarLoading(); //关闭加载动画
 						uni.stopPullDownRefresh();
@@ -275,6 +297,48 @@
 
 				})
 			},
+
+			getListInfo: function(data) {
+				var that = this;
+				this.page = 1
+				this.$https({
+					url: '/api/user/order-list',
+					dengl: false,
+					data: data,
+					success(res) {
+						that.dList = res.data.data
+						uni.hideNavigationBarLoading();
+						uni.stopPullDownRefresh(); //得到数据后停止下拉刷新
+					}
+				})
+			},
+			/* 上拉加载 */
+			getMoreListInfo(data) {
+				var that = this
+				this.page++
+
+				if (that.loadingType != 0) {
+					return false; //loadingType!=0;直接返回
+				}
+				that.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/user/order-list',
+					dengl: false,
+					data: data,
+					success(res) {
+						if (res.data.data < 10 || res.data.data == 'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							that.loadingType = 2;
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						that.dList = that.dList.concat(res.data.data)
+						that.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+
 			confirm(orderId) {
 				var _this = this
 				this.$https({
@@ -321,26 +385,37 @@
 					}
 				})
 			},
-			wuliu(code, order, com, dz,good) {
+			wuliu(code, order, com, dz, good) {
 				console.log(good)
 				uni.navigateTo({
-					url: './deliver?code=' + code + '&order=' + order + '&com=' + com + '&dz=' + dz+'&goods='+JSON.stringify(good)
+					url: './deliver?code=' + code + '&order=' + order + '&com=' + com + '&dz=' + dz + '&goods=' + JSON.stringify(
+						good)
 				})
 			},
 			toggle(index) {
 				var _this = this
-				// console.log(e.target)
+				console.log(index)
 				this.id = index
-				this.$https({
-					url: '/api/user/order-list',
-					data: {
-						status: index
-					},
-					dengl: false,
-					success: function(res) {
-						_this.dList = res.data.data
-					}
-				})
+				// this.$https({
+				// 	url: '/api/user/order-list',
+				// 	data: {
+				// 		status: index
+				// 	},
+				// 	dengl: false,
+				// 	success: function(res) {
+				// 		_this.dList = res.data.data
+				// 	}
+				// })
+				this.page = 1
+				var data = {
+					status: this.id,
+					page: this.page,
+					page_num: 10
+				}
+				uni.pageScrollTo({
+					scrollTop: 0,
+				});
+				this.getListInfo(data);
 
 			},
 			goPing(orderSn, orderId, goodids) {

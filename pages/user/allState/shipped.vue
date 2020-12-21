@@ -231,6 +231,7 @@
 				})
 			},
 			zhifu: function() {
+				console.log(838382,'支付')
 				this.$https({
 					url: '/api/pay/unifiedOrder',
 					data: JSON.stringify({
@@ -252,7 +253,11 @@
 							provider: 'wxpay',
 							orderInfo: obj,
 							success: res => {
+								console.log(res)
 								this.t = false
+							},
+							fail(fait) {
+								console.log(fait)
 							}
 						})
 					}
