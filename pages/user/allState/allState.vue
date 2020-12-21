@@ -381,7 +381,13 @@
 						uni.showToast({
 							title: res.data.message
 						})
-						this.toggle(1)
+						var data = {
+							status: this.id,
+							page: this.page,
+							page_num: 10
+						}
+
+						this.getListInfo(data);
 					}
 				})
 			},
