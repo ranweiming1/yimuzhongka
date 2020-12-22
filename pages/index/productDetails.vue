@@ -1,7 +1,7 @@
 <template>
-	<view class="">
-		<scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'"
-		 :scroll-into-view="toJump">
+	<scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'"
+	 :scroll-into-view="toJump">
+		<view class="">
 			<!-- 产品图，这是轮播 -->
 
 			<view class="bg_img">
@@ -294,43 +294,42 @@
 			</view>
 			<!-- 底部 -->
 			<!-- <view style='height:150rpx;'></view> -->
-		</scroll-view>
-		<view class="bottom">
+			<view class="bottom">
 
-			<view class="leftA">
-				<view class="kefua" @tap="jindian(list.shopId)">
-					<image src="../../static/icon_50.png" mode=""></image>
-					<view class="keyboard">
-						<text>店铺</text>
+				<view class="leftA">
+					<view class="kefua" @tap="jindian(list.shopId)">
+						<image src="../../static/icon_50.png" mode=""></image>
+						<view class="keyboard">
+							<text>店铺</text>
+						</view>
+					</view>
+					<view class="kefua centets">
+						<image @tap="isActive" v-if="!isCollect" src="../../static/icon_51.png" mode=""></image>
+						<image @tap="isActive" v-if="isCollect" src="../../static/icon_52.png" mode=""></image>
+						<view class="keyboard">
+							<text>{{isCollect?'已收藏':'收藏'}}</text>
+						</view>
+					</view>
+					<view class='kefua' @tap='tiaozhuan'>
+						<image src='../../static/icon_36.png'></image>
+						<view class="keyboard"><text>客服</text></view>
+					</view>
+
+
+				</view>
+				<view class="rightA">
+					<view class="bottBoxss">
+						<view class="uni-padding-wrap uni-common-mt bott onna" style='width:45%;float:left;'>
+							<button type="primary" @tap='add'>加入购物车</button>
+						</view>
+						<view class="uni-padding-wrap uni-common-mt bott" @tap="add" style='width:40%;float:right;'>
+							<button type="primary">立即购买</button>
+						</view>
 					</view>
 				</view>
-				<view class="kefua centets">
-					<image @tap="isActive" v-if="!isCollect" src="../../static/icon_51.png" mode=""></image>
-					<image @tap="isActive" v-if="isCollect" src="../../static/icon_52.png" mode=""></image>
-					<view class="keyboard">
-						<text>{{isCollect?'已收藏':'收藏'}}</text>
-					</view>
-				</view>
-				<view class='kefua' @tap='tiaozhuan'>
-					<image src='../../static/icon_36.png'></image>
-					<view class="keyboard"><text>客服</text></view>
-				</view>
-
-
 			</view>
-			<view class="rightA">
-				<view class="bottBoxss">
-					<view class="uni-padding-wrap uni-common-mt bott onna" style='width:45%;float:left;'>
-						<button type="primary" @tap='add'>加入购物车</button>
-					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" @tap="add" style='width:40%;float:right;'>
-						<button type="primary">立即购买</button>
-					</view>
-				</view>
-			</view>
-		</view>
 
-
+	</scroll-view>
 	</view>
 </template>
 
@@ -381,7 +380,7 @@
 			var _this = this
 			uni.getSystemInfo({
 				success: function(res) {
-					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 110;
+					_this.height = (res.windowHeight * (750 / res.windowWidth));
 					console.log(res.windowHeight, _this.height)
 				}
 			})
@@ -1438,7 +1437,7 @@
 		padding: 20upx;
 		background-color: #fff;
 		margin-top: 20upx;
-		// margin-bottom: 150rpx;
+		margin-bottom: 150rpx;
 
 		text {
 			font-size: 30upx;
