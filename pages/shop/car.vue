@@ -114,6 +114,7 @@
 			},
 			quxiaozhe: function(id) {
 				this.zhezhao = false
+				var that=this
 				if (this.aiChe == 1) {
 					//添加爱车
 					this.chepaiz = true
@@ -123,7 +124,7 @@
 						this.aiChe ? {
 							url: '../user/task/aiChe'
 						} : {
-							url: './all?goodsBrandId=' + this.list[this.xuanzhong].list[0].carId + '&carId=' + id
+							url: './all?goodsBrandId=' + that.list[that.xuanzhong].list[0].carId + '&carId=' + id
 						})
 				}
 			},

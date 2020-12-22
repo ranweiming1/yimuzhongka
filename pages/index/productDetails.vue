@@ -4,7 +4,7 @@
 		 :scroll-into-view="toJump">
 			<!-- 产品图，这是轮播 -->
 
-			<view class="bg_img" id='s'>
+			<view class="bg_img">
 				<swiper style='height:750rpx;'>
 					<swiper-item v-for='item in list.goodsImgss'>
 						<image :src='item?item:""'></image>
@@ -207,7 +207,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="pingjBox" id="pingjia">
+			<view class="pingjBox">
 				<view class="basic">
 					<view class="left_a">
 						<text>用户评价</text>
@@ -264,7 +264,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="shangx" id="xiangqi">
+			<view class="shangx">
 				<view class="titaa">
 					<text>商品详情</text>
 				</view>
