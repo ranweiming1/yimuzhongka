@@ -8,7 +8,7 @@
 		<tabBar :currentPage='currentPage'></tabBar>
 		<view class='top' style='position:relative;width:100%;z-index:99;height:100rpx;z-index:99999;margin-top:-505rpx;'>
 			<view style='height:100rpx;position:absolute;width:100%;'>
-				<text style='position:absolute;width:100%;top:0;left:0;height:40rpx;text-align:center;color:#fff;font-size:38rpx;'>个人中心</text>
+				<text style='position:absolute;width:100%;top:0;left:0;height:40rpx;text-align:center;color:#fff;font-size:32rpx;'>个人中心</text>
 			</view>
 			<view style='position:absolute;right:20rpx;top:0;z-index:99999;'>
 				<image src='../../static/icon_22.png' style='width:38rpx;height:42rpx;' @tap='k'></image>

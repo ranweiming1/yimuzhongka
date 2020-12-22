@@ -1,14 +1,12 @@
 <template>
 	<view style='width:100%;overflow:hidden;'>
-		<view class="top" style='position:fixed;top:0rpx;left:0;width:100%;background:#fff;padding-top:60rpx;overflow:hidden;z-index: 999;'>
-			<view style='float:left;margin-top:20rpx;margin-left:20rpx;' @tap='back'>
-				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+		
+		<view class="top">
+			<view class='back' @tap='back' style='float:left;'>
+				<image src='../../../static/icon_26-2.png' mode=''></image>
 			</view>
 			<view class="textBox">
 				<text>{{x?'资讯详情':'公告详情'}}</text>
-			</view>
-			<view class="imgBox">
-				<!-- <image src="../../../static/icon_18.png" mode=""></image> -->
 			</view>
 		</view>
 
@@ -195,35 +193,59 @@
 
 <style lang="scss">
 	.top {
-		width: 750upx;
-		margin: 0 auto;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
 		height: 90rpx;
-
+		text-align: center;
+		position: fixed;
+		width: 100%;
+		left: 0;
+		top: 0;
+		z-index: 99999;
+		background: #fff;
+		padding-top: 70rpx;
+	
+		.back {
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+	
+			image {
+				width: 18rpx;
+				height: 32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
+			}
+		}
+	
 		.textBox {
-			padding-left: 40%;
-			float: left;
-
+			margin-right: 90rpx;
+			display: inline-block;
+	
 			text {
-				font-size: 28upx;
+				font-size: 32rpx;
 				color: #333;
 				float: left;
 				line-height: 90upx;
 			}
 		}
-
+	
+	
 		.imgBox {
 			float: right;
-
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+	
 			image {
-				width: 34upx;
-				height: 32upx;
-				padding: 30upx;
+				width: 36upx;
+				height: 36upx;
+				display: block;
+				margin: 27rpx;
 			}
 		}
 	}
-
+	
 	.neir {
 		overflow: hidden;
 		margin-top: 200rpx;

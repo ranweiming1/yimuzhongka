@@ -1,27 +1,37 @@
 <template>
 	<view style='overflow:hidden;width:100%;'>
-		
+		<view class="top">
+			<view class='back' @tap='back' style='float:left;'>
+				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image>
+			</view>
+			<view class="textBox">
+				<text>新闻资讯</text>
+			</view>
+		</view>
 		<!-- 广告浮窗 链接到效果图/个人中心/6-3分销页面 -->
 		<!-- <view class="float" bindtap='>
 			<image src="../../static/icon_20.png" mode=""></image>
 		</view> -->
-		
+
 		<!-- 超出一屏翻页 -->
-		<view class="list" v-for='item in newz' @tap='tiaozhuan(item.id)'>
-			<view class="tit">
-				<text>{{item.title}}</text>
-				<view class="span">
-					<text>发布时间:{{item.createTime}}</text>
+		<view class="list-cont">
+			<view class="list" v-for='item in newz' @tap='tiaozhuan(item.id)'>
+				<view class="tit">
+					<text>{{item.title}}</text>
+					<view class="span">
+						<text>发布时间:{{item.createTime}}</text>
+					</view>
+				</view>
+
+				<view class="img">
+					<image :src="item.image" mode=""></image>
 				</view>
 			</view>
-			
-			<view class="img">
-				<image :src="item.image" mode=""></image>
-			</view>
 		</view>
+
 		<tabBar :currentPage='currentPage'></tabBar>
 	</view>
-	
+
 </template>
 
 <script>
@@ -29,86 +39,154 @@
 	export default {
 		data() {
 			return {
-				currentPage : 'news',
-				newz:[]
+				currentPage: 'news',
+				newz: []
 			}
 		},
-		onShow:function(){
-			var _this=this
+		onShow: function() {
+			var _this = this
 			//新闻资讯
-			this.$https({url:'/api/oauth/news/article-list',data:{},dengl:true,success:function(res){
-				_this.newz=res.data.data
-			}})
+			this.$https({
+				url: '/api/oauth/news/article-list',
+				data: {},
+				dengl: true,
+				success: function(res) {
+					_this.newz = res.data.data
+				}
+			})
 		},
-		methods:{
-			tiaozhuan:function(id){
+		methods: {
+			tiaozhuan: function(id) {
 				uni.navigateTo({
-					url:'news_details/news_details?id='+id
+					url: 'news_details/news_details?id=' + id
 				})
 			}
 		},
-		components:{
-			tabBar ,
+		components: {
+			tabBar,
 		}
 	}
-	
 </script>
 
 <style lang="scss">
-	
-	.float{
-			 position: fixed;
-			 bottom: 30%;
-			 right: 10upx;
-			 z-index: 99999;
-			 image{
-				 width: 185upx;
-				 height: 150upx;
-			 }
-	}
-	
-	.one_line{
+	.float {
 		position: fixed;
-		top:80upx;
-		left:0upx;
+		bottom: 30%;
+		right: 10upx;
+		z-index: 99999;
+
+		image {
+			width: 185upx;
+			height: 150upx;
+		}
+	}
+
+	.top {
+		overflow: hidden;
+		border-bottom: 1px solid #e5e5e5;
+		height: 90rpx;
+		text-align: center;
+		position: fixed;
+		width: 100%;
+		left: 0;
+		top: 0;
+		z-index: 99999;
+		background: #fff;
+		padding-top: 70rpx;
+
+		.back {
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
+			}
+		}
+
+		.textBox {
+			margin-right: 90rpx;
+			display: inline-block;
+
+			text {
+				font-size: 32rpx;
+				color: #333;
+				float: left;
+				line-height: 90upx;
+			}
+		}
+
+
+		.imgBox {
+			float: right;
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+
+			image {
+				width: 36upx;
+				height: 36upx;
+				display: block;
+				margin: 27rpx;
+			}
+		}
+	}
+
+	.list-cont {
+		margin-top: 160rpx;
+		overflow: hidden;
+	}
+
+	.one_line {
+		position: fixed;
+		top: 80upx;
+		left: 0upx;
 		z-index: 2;
 		width: 750upx;
 		height: 1upx;
 		border-top: 1px solid #e5e5e5;
 	}
-	.list{
+
+	.list {
 		font-size: 30upx;
 		color: #333333;
 		position: relative;
 		height: 210upx;
-		margin-top:30upx;
+		margin-top: 30upx;
 		border-bottom: 1px dotted #ccc;
-		.span{
+
+		.span {
 			font-size: 24upx;
 			color: #999;
 		}
-		.tit{
-			width:450upx;
-			padding-right:10upx;
+
+		.tit {
+			width: 450upx;
+			padding-right: 10upx;
 			float: left;
 			padding-left: 20upx;
 		}
-		.tit text{
+
+		.tit text {
 			line-height: 50upx;
 		}
-		.span text{
-			position:absolute;
-			bottom:30upx;
-			left:20upx;
+
+		.span text {
+			position: absolute;
+			bottom: 30upx;
+			left: 20upx;
 		}
-        .img {
+
+		.img {
 			float: left;
 		}
-		.img image{
+
+		.img image {
 			width: 255upx;
-			height:180upx;
+			height: 180upx;
 		}
 	}
-	
-	
 </style>

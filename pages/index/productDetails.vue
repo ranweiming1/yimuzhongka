@@ -1,9 +1,11 @@
 <template>
 	<view class="">
-		<scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'" :scroll-into-view="toJump">
+		<scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'"
+		 :scroll-into-view="toJump">
 			<!-- 产品图，这是轮播 -->
-			<view class="bg_img toubu" id='s'>
-				<swiper style='height:610rpx;'>
+
+			<view class="bg_img" id='s'>
+				<swiper style='height:750rpx;'>
 					<swiper-item v-for='item in list.goodsImgss'>
 						<image :src='item?item:""'></image>
 					</swiper-item>
@@ -15,8 +17,8 @@
 				<view class="back" @tap="back">
 					<image src="../../static/icon_26-2.png" mode=""></image>
 				</view>
-				<view class="top_title">
-					<view class="title" @tap="jump(1)">
+				<!-- <view class="top_title">
+					 <view class="title" @tap="jump(1)">
 						<text>商品</text>
 						<image v-if="ind==1" src="../../static/icon_09.png" mode=""></image>
 					</view>
@@ -28,12 +30,16 @@
 						<text>详情</text>
 						<image v-if="ind==3" src="../../static/icon_09.png" mode=""></image>
 					</view>
+						
+				</view> -->
+				<view class="title-top">
+					<text>产品详情</text>
 				</view>
-				<view class="">
-					<view class="imgBoxs" style="padding-left: 18rpx;margin-top:-10rpx;" @tap="tiaoCart">
+				<view class="imgs">
+					<view class="imgBoxs" @tap="tiaoCart">
 						<image src="../../static/icon_43.png" mode=""></image>
 					</view>
-					<view class="imgBox" style="padding-right: 18rpx;margin-top:-10rpx;">
+					<view class="imgBox">
 						<image src="../../static/27249851bcd24e32864752afb9f29fb8.png" mode="" @tap='shangpinxin'></image>
 					</view>
 				</view>
@@ -43,7 +49,7 @@
 				<view class="back" @tap="back">
 					<image src="../../static/icon_26-2.png" mode=""></image>
 				</view>
-				<view class="">
+				<view class="imgs">
 					<view class="imgBoxs" style="background: rgba(0, 0, 0, 0.5) !important;" @tap="tiaoCart">
 						<image src='../../static/icon_48.png'></image>
 					</view>
@@ -287,7 +293,7 @@
 				</view>
 			</view>
 			<!-- 底部 -->
-		<!-- <view style='height:150rpx;'></view> -->
+			<!-- <view style='height:150rpx;'></view> -->
 		</scroll-view>
 		<view class="bottom">
 
@@ -364,7 +370,7 @@
 				j: 0,
 				cishu: 3,
 				yihuodecishu: 0,
-				height:''
+				height: ''
 			}
 		},
 		components: {
@@ -376,10 +382,10 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 110;
-					console.log(res.windowHeight,_this.height)
+					console.log(res.windowHeight, _this.height)
 				}
 			})
-			
+
 			this.$https({
 				url: '/api/oauth/shop/mall-goods-detail',
 				data: {
@@ -490,7 +496,7 @@
 				}
 				if (ind == 2) {
 					_this.toJump = 'pingjia'
-				} 
+				}
 				if (ind == 3) {
 					_this.toJump = 'xiangqi'
 				}
@@ -855,36 +861,123 @@
 	.bg_img {
 		position: relative;
 		top: 0upx;
+		margin-top: 150rpx;
 
 		image {
 			width: 750upx;
-			height: 610upx;
+			height: 750rpx;
 		}
 	}
 
 	.top {
-		width: 710upx;
-		padding: 20upx;
 		overflow: hidden;
+		border-bottom: 1px solid #e5e5e5;
+		height: 90rpx;
+		text-align: center;
 		position: fixed;
-		display: flex;
+		width: 100%;
+		left: 0;
 		top: 0;
-		justify-content: space-between;
-		// background-color: #fff;
-		padding-top: 90rpx;
-		z-index: 999;
-		padding-bottom: 10rpx;
+		z-index: 99999;
+		background: #fff;
+		padding-top: 70rpx;
+		line-height: 90rpx;
 
 		.back {
-			padding-right: 40px;
-			// margin-top: 10rpx;
-			padding: 10rpx 40rpx 0 15rpx;
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+			float: left;
 
 			image {
 				width: 18rpx;
 				height: 32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
 			}
 		}
+
+		.textBox {
+			display: inline-block;
+
+			text {
+				font-size: 32rpx;
+				color: #333;
+				float: left;
+				line-height: 90upx;
+			}
+		}
+
+
+		// .imgBox {
+		// 	float: right;
+		// 	width: 90rpx;
+		// 	height: 90rpx;
+		// 	line-height: 90rpx;
+
+		// 	image {
+		// 		width: 36upx;
+		// 		height: 36upx;
+		// 		display: block;
+		// 		margin: 27rpx;
+		// 	}
+		// }
+
+		.title-top {
+			display: inline-block;
+			margin-left: 90rpx;
+
+			text {
+
+				font-size: 32rpx;
+				color: #333;
+				float: left;
+				line-height: 90upx;
+			}
+		}
+
+		.imgs {
+			overflow: hidden;
+			float: right;
+			height: 90rpx;
+			line-height: 90rpx;
+
+		}
+
+		.imgBox {
+			text-align: center;
+			width: 80upx;
+			float: right;
+
+			image {
+				width: 34upx;
+				display: block;
+				height: 32upx;
+				padding: 29rpx 30rpx 29rpx 16rpx;
+			}
+		}
+
+		.imgBoxs {
+			text-align: center;
+			float: right;
+			width: 80upx;
+			margin-left: 20rpx;
+
+			image {
+				width: 34upx;
+				display: block;
+				height: 32upx;
+				padding: 29rpx 30rpx 29rpx 16rpx;
+			}
+		}
+
+
+	}
+
+
+
+
+	.top {
 
 		.top_title {
 			display: flex;
@@ -905,38 +998,6 @@
 					height: 6rpx;
 					margin-left: 15rpx;
 				}
-			}
-		}
-
-		.imgBox {
-			text-align: center;
-			float: right;
-			border-radius: 30upx;
-			// margin: 10upx;
-			width: 60upx;
-			height: 60upx;
-			// background: rgba(0, 0, 0, 0.5) !important;
-
-			image {
-				width: 34upx;
-				padding-top: 15upx;
-				height: 32upx;
-			}
-		}
-
-		.imgBoxs {
-			text-align: center;
-			float: right;
-			border-radius: 30upx;
-			width: 60upx;
-			height: 60upx;
-			margin-left: 20rpx;
-			// background: rgba(0, 0, 0, 0.5) !important;
-
-			image {
-				width: 34upx;
-				padding-top: 15upx;
-				height: 32upx;
 			}
 		}
 	}
@@ -1377,7 +1438,7 @@
 		padding: 20upx;
 		background-color: #fff;
 		margin-top: 20upx;
-		margin-bottom: 150rpx;
+		// margin-bottom: 150rpx;
 
 		text {
 			font-size: 30upx;

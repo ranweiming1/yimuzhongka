@@ -102,10 +102,11 @@
 			float: left;
 			width: 100%;
 			overflow: hidden;
+			height: 750rpx;
 
 			image {
 				width: 100%;
-				height: 610rpx;
+				height: 100%;
 				display: block;
 			}
 		}

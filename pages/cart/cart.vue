@@ -1,13 +1,13 @@
 <template>
 	<view class="bcg">
-		<view class="top" style='position:fixed;left:0;top:0rpx;width:100%;z-index:99;padding-top:60rpx;'>
+		<view class="top">
 			<view class="textBox">
 				<text>购物车({{numa}})</text>
 			</view>
 			<!-- 无消息通知状态 -->
-			<view class="imgBox">
-				<!-- <image src="../../static/icon_36.png" mode=""></image> -->
-			</view>
+		<!-- 	<view class="imgBox">
+				<image src="../../static/icon_36.png" mode=""></image>
+			</view> -->
 			<!-- <view class="spanBox">
 				<text>{{shanchu?'管理':'取消'}}</text>
 			</view> -->
@@ -1217,46 +1217,6 @@
 		}
 	}
 
-	.top {
-		width: 100%;
-		// margin: 0 auto;
-		overflow: hidden;
-		background-color: #FFFFFF;
-		// border-bottom: 1px solid #e5e5e5;
-
-		.textBox {
-			padding-left: 40%;
-
-			text {
-				font-size: 38upx;
-				color: #333;
-				float: left;
-				line-height: 90upx;
-			}
-		}
-
-		.imgBox {
-			float: right;
-			padding: 30upx;
-
-			image {
-				width: 36upx;
-				height: 36upx;
-			}
-		}
-
-		.spanBox {
-			float: right;
-			padding-right: 20upx;
-
-			text {
-				line-height: 90upx;
-				font-size: 28upx;
-				color: #666;
-			}
-		}
-	}
-
 	.radios {
 		width: 100%;
 		padding: 20upx;
@@ -1289,6 +1249,9 @@
 
 		}
 
+	}
+	.listBoxs:first-child .radios{
+		border-top:none;
 	}
 
 	.box {
@@ -1843,4 +1806,57 @@
 		}
 
 	}
+	.top {
+			overflow: hidden;
+			// border-bottom: 1px solid #e5e5e5;
+			height: 90rpx;
+			text-align: center;
+			position: fixed;
+			width: 100%;
+			left: 0;
+			top: 0;
+			z-index: 99999;
+			background: #fff;
+			padding-top:70rpx;
+	
+			.back {
+				width: 90rpx;
+				height: 90rpx;
+				line-height: 90rpx;
+				image{
+				width:18rpx;
+				height:32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
+				}
+			}
+	
+			.textBox {
+				display: inline-block;
+	
+				text {
+					font-size: 32rpx;
+					color: #333;
+					float: left;
+					line-height: 90upx;
+				}
+			}
+	
+	
+			.imgBox {
+				float: right;
+				width: 90rpx;
+				height: 90rpx;
+				line-height: 90rpx;
+	
+				image {
+					width: 36upx;
+					height: 36upx;
+					display: block;
+					margin: 27rpx;
+				}
+			}
+		}
+	
+	
 </style>
