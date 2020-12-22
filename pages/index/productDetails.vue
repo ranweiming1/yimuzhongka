@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-		<scroll-view scroll-y="true" style="position:fixed;overflow-y:auto;" :style="'height:'+height+'rpx'" :scroll-into-view="toJump">
+		<scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'" :scroll-into-view="toJump">
 			<!-- 产品图，这是轮播 -->
 			<view class="bg_img toubu" id='s'>
 				<swiper style='height:610rpx;'>
@@ -375,7 +375,7 @@
 			var _this = this
 			uni.getSystemInfo({
 				success: function(res) {
-					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 150;
+					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 110;
 					console.log(res.windowHeight,_this.height)
 				}
 			})
