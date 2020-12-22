@@ -5,7 +5,7 @@
 				<text>购物车({{numa}})</text>
 			</view>
 			<!-- 无消息通知状态 -->
-		<!-- 	<view class="imgBox">
+			<!-- 	<view class="imgBox">
 				<image src="../../static/icon_36.png" mode=""></image>
 			</view> -->
 			<!-- <view class="spanBox">
@@ -268,6 +268,14 @@
 			</uni-popup>
 			<tabBar :currentPage='currentPage'></tabBar>
 		</view>
+		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;z-index: 9999;'
+		 v-if='xianshidenglu'>
+			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;'
+			 @tap='guanbi'></image>
+			登录查看更多
+			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
+			 @tap='deng'>立即登录/注册</view>
+		</view>
 	</view>
 
 </template>
@@ -309,56 +317,62 @@
 				sta: 0,
 				huad: [],
 				baocun: [],
-				xianshi:true
+				xianshi: true,
+				xianshidenglu: false,
 			}
 		},
 		onShow() {
 			var _this = this
-			this.xianshi=uni.getStorageSync('Authorization')
-			this.cartList=[]
-			if(uni.getStorageSync('Authorization')){
-			this.$https({
-				url: '/api/shop/order-cart-list',
-				data: {},
-				dengl: false,
-				success: function(res) {
-					if(res.data.code==0){
-					_this.jiage = 0
-					//修改数据结构，以使数据更好用
-					_this.cartList = res.data.data.cartList
-					res.data.data.cartList.map(function(n, index) {
-						_this.$set(_this.shuju, index, {
-							dian: false,
-							s: []
-						})
-						_this.$set(_this.huad, index, [])
-						n.specList.map(function(z, indexx) {
-							if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
-								_this.s = true
-							}
-							_this.$set(_this.shuju[index].s, indexx, false)
-							_this.$set(_this.huad[index], indexx, false)
-						})
-					})
-					_this.numa = res.data.data.cartList.length
-					_this.xuan = false
-					// _this.xuanzho.map(function(n, index) {
-					// 	n.map(function(z, indexs) {
-					// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
-					// 	})
-					// })
-					}else{
-						_this.cartList=[]
+			if (!uni.getStorageSync('Authorization')) {
+				this.xianshidenglu = true
+			} else {
+				this.xianshidenglu = false
+			}
+			this.xianshi = uni.getStorageSync('Authorization')
+			this.cartList = []
+			if (uni.getStorageSync('Authorization')) {
+				this.$https({
+					url: '/api/shop/order-cart-list',
+					data: {},
+					dengl: false,
+					success: function(res) {
+						if (res.data.code == 0) {
+							_this.jiage = 0
+							//修改数据结构，以使数据更好用
+							_this.cartList = res.data.data.cartList
+							res.data.data.cartList.map(function(n, index) {
+								_this.$set(_this.shuju, index, {
+									dian: false,
+									s: []
+								})
+								_this.$set(_this.huad, index, [])
+								n.specList.map(function(z, indexx) {
+									if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
+										_this.s = true
+									}
+									_this.$set(_this.shuju[index].s, indexx, false)
+									_this.$set(_this.huad[index], indexx, false)
+								})
+							})
+							_this.numa = res.data.data.cartList.length
+							_this.xuan = false
+							// _this.xuanzho.map(function(n, index) {
+							// 	n.map(function(z, indexs) {
+							// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
+							// 	})
+							// })
+						} else {
+							_this.cartList = []
+						}
 					}
-				}
-			})
+				})
 			}
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
 					mobileCode: ''
 				},
-				dengl:true,
+				dengl: true,
 				success: function(res) {
 					_this.tuijian = res.data.data.recommedGoods
 				}
@@ -383,6 +397,14 @@
 								this.cartList[index].specList[indexz].kuaidi
 						}
 					})
+				})
+			},
+			guanbi: function() {
+				this.xianshidenglu = false
+			},
+			deng: function() {
+				uni.navigateTo({
+					url: '../enter/enter'
 				})
 			},
 			valRe() {
@@ -1250,8 +1272,9 @@
 		}
 
 	}
-	.listBoxs:first-child .radios{
-		border-top:none;
+
+	.listBoxs:first-child .radios {
+		border-top: none;
 	}
 
 	.box {
@@ -1806,57 +1829,57 @@
 		}
 
 	}
+
 	.top {
-			overflow: hidden;
-			// border-bottom: 1px solid #e5e5e5;
+		overflow: hidden;
+		// border-bottom: 1px solid #e5e5e5;
+		height: 90rpx;
+		text-align: center;
+		position: fixed;
+		width: 100%;
+		left: 0;
+		top: 0;
+		z-index: 99999;
+		background: #fff;
+		padding-top: 70rpx;
+
+		.back {
+			width: 90rpx;
 			height: 90rpx;
-			text-align: center;
-			position: fixed;
-			width: 100%;
-			left: 0;
-			top: 0;
-			z-index: 99999;
-			background: #fff;
-			padding-top:70rpx;
-	
-			.back {
-				width: 90rpx;
-				height: 90rpx;
-				line-height: 90rpx;
-				image{
-				width:18rpx;
-				height:32rpx;
+			line-height: 90rpx;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
 				display: block;
 				padding: 29rpx 36rpx;
-				}
-			}
-	
-			.textBox {
-				display: inline-block;
-	
-				text {
-					font-size: 32rpx;
-					color: #333;
-					float: left;
-					line-height: 90upx;
-				}
-			}
-	
-	
-			.imgBox {
-				float: right;
-				width: 90rpx;
-				height: 90rpx;
-				line-height: 90rpx;
-	
-				image {
-					width: 36upx;
-					height: 36upx;
-					display: block;
-					margin: 27rpx;
-				}
 			}
 		}
-	
-	
+
+		.textBox {
+			display: inline-block;
+
+			text {
+				font-size: 32rpx;
+				color: #333;
+				float: left;
+				line-height: 90upx;
+			}
+		}
+
+
+		.imgBox {
+			float: right;
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+
+			image {
+				width: 36upx;
+				height: 36upx;
+				display: block;
+				margin: 27rpx;
+			}
+		}
+	}
 </style>

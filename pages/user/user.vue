@@ -57,7 +57,7 @@
 			</view>
 
 			<view class="ji" @tap='shoucang'>
-				<text @tap='shoucang'>{{(collectCount-1)>0?collectCount-1:0}}</text>
+				<text @tap='shoucang'>{{collectCount}}</text>
 				<view class="fen" @tap='shoucang'>
 					<text>我的收藏</text>
 				</view>

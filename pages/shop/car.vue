@@ -78,7 +78,7 @@
 		},
 		onLoad(option) {
 			this.aiChe = option.id
-			// console.l
+			console.log(option)
 			var _this = this
 			this.$https({
 				url: '/api/oauth/shop/mall-car-brand-lists',

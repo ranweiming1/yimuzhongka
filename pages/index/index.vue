@@ -189,7 +189,7 @@
 			</swiper-item>
 		</swiper>
 		<view style='width:100%;height:100%;position:fixed;left:0;top:0;z-index:99999;background:#fff;' v-if='xianshi'></view>
-		<view style='position:fixed;top:200rpx;right:20rpx;z-index:9999999999999;width:130rpx;height:50rpx;text-align:center;color:#fff;font-size:20rpx;line-height:50rpx;border:1px solid #fff;border-radius:50rpx;'
+		<view style='position:fixed;top:120rpx;right:20rpx;z-index:9999999999999;width:130rpx;height:50rpx;text-align:center;color:#fff;font-size:20rpx;line-height:50rpx;border:1px solid #fff;border-radius:50rpx;'
 		 v-if='xianshi' @tap='tiaoguo'>{{a}}s跳过广告</view>
 	</view>
 </template>

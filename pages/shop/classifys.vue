@@ -19,10 +19,10 @@
 			<scroll-view class="left" scroll-y :style="'height:'+height+'rpx'">
 				<!-- 选中样式 -->
 				<!-- 未选中样式 -->
-				<view :class="id=='x'?'on':'none'" @tap="togLi('x',9)">
+				<!-- <view :class="id=='x'?'on':'none'" @tap="togLi('x',9)">
 					<text v-if='id=="x"' class="image"></text>
 					<text style="font-size: 30rpx;font-weight: bold;">品牌/车型</text>
-				</view>
+				</view> -->
 				<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList" :key=item.id>
 					<!-- <image v-if='id==index' src='../../static/icon_29.png'></image> -->
 					<text v-if='id==index' class="image"></text>
@@ -31,27 +31,17 @@
 			</scroll-view>
 			<!-- 二级 -->
 			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'rpx'" scroll-with-animation>
-				<view class="scroll-img" v-if='!(id=="x")'>
+				<view class="scroll-img">
 					<swiper class="swiper" autoplay="true" style="height: 230rpx;" interval="5000" duration="1500">
 						<swiper-item v-for="(item , index) in imgSlide" :key="index">
 							<image :src="item.img" mode=""></image>
 						</swiper-item>
 					</swiper>
 				</view>
-				<!-- 总分类显示  品牌/车车型 -->
-				<view class="li-content zongh" v-if="id=='x'">
-					<view class="li" @tap="bander(item.id)" v-for="(item , i) in rList">
-						<view class="imgpp">
-							<image :src="item.brandLogo" mode=""></image>
-						</view>
-						<view class="zhiya">
-							<text>{{item.brandTitle}}</text>
-						</view>
-					</view>
-				</view>
+
 
 				<!-- 其他分类 -->
-				<view :class="item.isHide?'li-content isHidden':'li-content'" v-if="!(id=='x')" v-for="(item , index) in rList">
+				<view :class="item.isHide?'li-content isHidden':'li-content'" v-for="(item , index) in rList">
 					<view class="li-title">
 						{{item.cateTitle}}
 					</view>
@@ -85,19 +75,19 @@
 				toggle: 0,
 				height: 0,
 				scrollTop: 0,
-				id: 'x',
+				id: '',
 				imgSlide: [],
-				shop:'',
-				shopsId:''
+				shop: '',
+				shopsId: ''
 			}
 		},
 		components: {
 			buttom,
 		},
 		onLoad(options) {
-			console.log(options,8888)
+			console.log(options, 8888)
 			// this.id=index
-			this.shopsId=options.id
+			this.shopsId = options.id
 			var _this = this
 			// this.height = uni.getSystemInfoSync().windowHeight-100;
 			uni.getSystemInfo({
@@ -106,80 +96,60 @@
 				}
 			})
 			this.$https({
-				url: '/api/oauth/get-goods-brand-list',
-				data: {},
-				dengl: true,
-				method: 'POST',
-				success(res) {
-					_this.rList = res.data.data
-				},
-			})
-			this.$https({
 				url: '/api/oauth/get-one-list',
 				data: {},
 				dengl: true,
 				success: function(res) {
 					// console.log(res.data.data)
 					_this.AllList = res.data.data
-					if (options.id) {
-						_this.AllList.map(function(n, index) {
-							if (n.id == options.id) {
-								// _this.rList = res.data.data.goodsCates[index].childsList
-								_this.id = index
-								_this.scrollPic(options.id)
-								_this.rList.map(function(val, i) {
-									_this.$set(val, 'isHide', true)
-									if (val.childsList.length < 6) {
-										val.isHide = false
-									}
-								})
-							}
-						})
-						return false
-					}
-
-					// 	_this.rList.map(function(val, i) {
-					// 		_this.$set(val, 'isHide', true)
-					// 		if (val.childsList.length < 6) {
-					// 			val.isHide = false
+					_this.scrollPic(res.data.data[0].id)
+					// if (options.id) {
+					// 	_this.AllList.map(function(n, index) {
+					// 		if (n.id == options.id) {
+					// 			_this.id = index
+					// 			_this.scrollPic(options.id)
+					// 			_this.rList.map(function(val, i) {
+					// 				_this.$set(val, 'isHide', true)
+					// 				if (val.childsList.length < 6) {
+					// 					val.isHide = false
+					// 				}
+					// 			})
 					// 		}
 					// 	})
-					// 	_this.scrollPic(res.data.data.goodsCates[0].id)
+					// 	return false
+					// }else{
+					// 	console.log('sdljfsadkj')
+					// 	_this.scrollPic(res.data.data[0].id)
+					// }
+
+
+
 				},
 			})
-			this.shop=options.id
+			this.shop = options.id
 			console.log(_this.rList)
 
 		},
 		methods: {
 			togLi(index, id) {
 				var that = this
-				if (index == 'x') {
-					this.id = index
-					that.$https({
-						url: '/api/oauth/get-goods-brand-list',
-						data: {},
-						dengl: true,
-						method: 'POST',
-						success(res) {
-							that.rList = res.data.data
-						},
-					})
-				} else {
-					this.id = index;
-					this.rList = this.AllList[index].childsList
-					this.rList.map(function(val, i) {
-						that.$set(val, 'isHide', true)
-						if (val.childsList.length < 6) {
-							val.isHide = false
-						}
-					})
+				this.id = index;
+				this.rList = this.AllList[index].childsList
+				this.rList.map(function(val, i) {
+					that.$set(val, 'isHide', true)
+					if (val.childsList.length < 6) {
+						val.isHide = false
+					}
+				})
+				this.scrollPic(id)
 
-					this.scrollPic(id)
-				}
+				this.scrollTop = Math.random()
 			},
 			toggelHide: function(i) {
 				this.rList[i].isHide = false
+				if (i == 0) {
+					this.scrollTop = Math.random()
+				}
 			},
 			scrollPic: function(id) {
 				var that = this
@@ -196,20 +166,20 @@
 				})
 				//请求二级分类
 				this.$https({
-					url:'/api/oauth/get-one-child-list',
-					data:{
-						cateId:id
+					url: '/api/oauth/get-one-child-list',
+					data: {
+						cateId: id
 					},
-					dengl:true,
-					success:res=>{
-						this.rList=res.data.data
+					dengl: true,
+					success: res => {
+						this.rList = res.data.data
 						this.rList.map(function(val, i) {
 							that.$set(val, 'isHide', true)
 							if (val.childsList.length < 6) {
 								val.isHide = false
 							}
 						})
-						
+
 					}
 				})
 
@@ -217,7 +187,7 @@
 			list(id) {
 				// console.log(id)
 				uni.navigateTo({
-					url: './all?id=' + this.shop+'&cateId='+id
+					url: './all?id=' + this.shop + '&cateId=' + id
 				})
 			},
 			bander(id) {
@@ -323,6 +293,7 @@
 				padding-left: 25rpx;
 				padding-bottom: 25rpx;
 				font-weight: bold;
+				font-size: 28rpx;
 			}
 		}
 
@@ -412,7 +383,15 @@
 					text {
 						font-size: 26upx;
 						color: #333;
+						height: 50rpx;
 						line-height: 50upx;
+						overflow: hidden;
+						text-overflow: clip;
+						display: block;
+						-webkit-line-clamp: 1;
+						-webkit-box-orient: vertical;
+						padding: 0 10rpx;
+						text-align: center;
 					}
 				}
 			}

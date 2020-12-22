@@ -173,7 +173,8 @@
 							})
 						}else{
 							uni.showToast({
-								title:res.data.message
+								title:'请输入正确的内容',
+								icon:'none'
 							})
 						}
 					}

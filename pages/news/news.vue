@@ -28,7 +28,14 @@
 				</view>
 			</view>
 		</view>
-
+		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;z-index: 9999;'
+		 v-if='xianshidenglu'>
+			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;'
+			 @tap='g'></image>
+			登录后体验更多精彩
+			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
+			 @tap='deng'>立即登录/注册</view>
+		</view>
 		<tabBar :currentPage='currentPage'></tabBar>
 	</view>
 
@@ -40,11 +47,17 @@
 		data() {
 			return {
 				currentPage: 'news',
-				newz: []
+				newz: [],
+				xianshidenglu: false,
 			}
 		},
 		onShow: function() {
 			var _this = this
+			if (!uni.getStorageSync('Authorization')) {
+				this.xianshidenglu = true
+			} else {
+				this.xianshidenglu = false
+			}
 			//新闻资讯
 			this.$https({
 				url: '/api/oauth/news/article-list',
@@ -60,7 +73,15 @@
 				uni.navigateTo({
 					url: 'news_details/news_details?id=' + id
 				})
-			}
+			},
+			g: function() {
+				this.xianshidenglu = false
+			},
+			deng: function() {
+				uni.navigateTo({
+					url: '../enter/enter'
+				})
+			},
 		},
 		components: {
 			tabBar,

@@ -3,7 +3,7 @@
 		<!-- <view class="line" style="height: 50rpx;"></view> -->
 		<view class="top">
 			<view class='back' @tap='back' style='float:left;'>
-				<image src='../../static/icon_26-2.png'  mode=''></image>
+				<image src='../../static/icon_26-2.png' mode=''></image>
 			</view>
 			<view class="textBox">
 				<text>全部分类</text>
@@ -19,7 +19,7 @@
 			<scroll-view class="left" scroll-y :style="'height:'+height+'rpx'">
 				<!-- 选中样式 -->
 				<!-- 未选中样式 -->
-				<view :class="id=='x'?'on':'none'" @tap="togLi('x',9)">
+				<view :class="id=='x'?'on addOn':'none'" @tap="togLi('x',9)">
 					<text v-if='id=="x"' class="image"></text>
 					<text style="font-size: 30rpx;font-weight: bold;">品牌/车型</text>
 				</view>
@@ -69,6 +69,14 @@
 				</view>
 			</scroll-view>
 		</view>
+		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
+		 v-if='xianshidenglu'>
+			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;'
+			 @tap='g'></image>
+			登录后体验更多精彩
+			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
+			 @tap='deng'>立即登录/注册</view>
+		</view>
 		<tabBar id='tabbar' :currentPage='currentPage'></tabBar>
 	</view>
 </template>
@@ -85,7 +93,9 @@
 				height: 0,
 				scrollTop: 0,
 				id: 'x',
-				imgSlide: []
+				imgSlide: [],
+				toTop: '',
+				xianshidenglu: false,
 			}
 		},
 		components: {
@@ -94,6 +104,11 @@
 		onLoad(options) {
 			// this.id=index
 			var _this = this
+			if (!uni.getStorageSync('Authorization')) {
+				this.xianshidenglu = true
+			} else {
+				this.xianshidenglu = false
+			}
 			// this.height = uni.getSystemInfoSync().windowHeight-100;
 			uni.getSystemInfo({
 				success: function(res) {
@@ -146,6 +161,13 @@
 			console.log(_this.rList)
 
 		},
+		onShow() {
+			if (!uni.getStorageSync('Authorization')) {
+				this.xianshidenglu = true
+			} else {
+				this.xianshidenglu = false
+			}
+		},
 		methods: {
 			togLi(index, id) {
 				var that = this
@@ -169,12 +191,25 @@
 							val.isHide = false
 						}
 					})
-
 					this.scrollPic(id)
 				}
+				this.scrollTop = Math.random()
 			},
 			toggelHide: function(i) {
 				this.rList[i].isHide = false
+				if (i == 0) {
+					// this.toTop='toBanner'
+					this.scrollTop = Math.random()
+				}
+
+			},
+			g: function() {
+				this.xianshidenglu = false
+			},
+			deng: function() {
+				uni.navigateTo({
+					url: '../enter/enter'
+				})
 			},
 			scrollPic: function(id) {
 				var that = this
@@ -259,7 +294,8 @@
 	.isHidden .li:nth-child(n+8) {
 		margin-top: 50rpx;
 	}
-.top {
+
+	.top {
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
 		height: 90rpx;
@@ -270,17 +306,18 @@
 		top: 0;
 		z-index: 99999;
 		background: #fff;
-		padding-top:70rpx;
+		padding-top: 70rpx;
 
 		.back {
 			width: 90rpx;
 			height: 90rpx;
 			line-height: 90rpx;
-			image{
-			width:18rpx;
-			height:32rpx;
-			display: block;
-			padding: 29rpx 36rpx;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
 			}
 		}
 
@@ -312,7 +349,7 @@
 	}
 
 
-	
+
 	.Box {
 		width: 750upx;
 		overflow: hidden;
@@ -341,6 +378,7 @@
 				padding-left: 25rpx;
 				padding-bottom: 25rpx;
 				font-weight: bold;
+				font-size: 28rpx;
 			}
 		}
 
@@ -393,6 +431,14 @@
 				}
 			}
 
+			.addOn {
+				background-color: #007AFF;
+
+				text {
+					color: #fff;
+				}
+			}
+
 			.none {
 				margin-top: 25rpx;
 				width: 100%;
@@ -430,7 +476,15 @@
 					text {
 						font-size: 26upx;
 						color: #333;
+						height: 50rpx;
 						line-height: 50upx;
+						overflow: hidden;
+						text-overflow: clip;
+						display: block;
+						-webkit-line-clamp: 1;
+						-webkit-box-orient: vertical;
+						padding: 0 10rpx;
+						text-align: center;
 					}
 				}
 			}

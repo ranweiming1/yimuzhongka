@@ -189,7 +189,7 @@
 					shopId: option.id
 					// shopId: 6
 				},
-				dengl: true,
+				dengl:uni.getStorageSync('Authorization')?false: true,
 				success: function(res) {
 					_this.store = res.data.data.storeShop
 					_this.gList = res.data.data.goodsList
@@ -204,7 +204,7 @@
 				data: {
 					shopId: option.id
 				},
-				dengl: true,
+				dengl: uni.getStorageSync('Authorization')?false: true,
 				success: function(res) {
 					_this.isShow = res.data.data.shopCollectStatus
 				}
@@ -215,7 +215,7 @@
 					shopId: option.id
 				},
 				method: 'post',
-				dengl: true,
+				dengl: uni.getStorageSync('Authorization')?false: true,
 				success: res => {
 					this.banner = res.data.data
 					if (res.data.data.length == 0) {
@@ -230,7 +230,7 @@
 				data: {
 					shopId: option.id
 				},
-				dengl: true,
+				dengl: uni.getStorageSync('Authorization')?false: true,
 				success: res => {
 					this.quan = res.data.data
 				}
