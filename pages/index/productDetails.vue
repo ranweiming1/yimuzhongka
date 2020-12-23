@@ -1,7 +1,7 @@
 <template>
 	<!-- <scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'"
 	 :scroll-into-view="toJump"> -->
-		<view class="" :style="isAdd?'height:100vh;overflow:hidden':''">
+		<view class="boxbox" :style="isAdd?'height:100vh;overflow:hidden':''">
 
 			<view class="bg_img">
 				<swiper style='height:750rpx;'>
@@ -730,7 +730,15 @@
 	page {
 		background-color: #f7f7f7;
 	}
-
+.boxbox{
+	moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 
 	.mask {
 		width: 100%;
