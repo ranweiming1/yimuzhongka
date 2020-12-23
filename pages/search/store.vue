@@ -46,15 +46,15 @@
 					</view>
 				</view>
 				<view class="item-list">
-					<view class="itemsList fl" v-for="(i,t) in 3">
+					<view class="itemsList fl" v-for="(i,t) in item.goodsDTOList ">
 						<view class="list-img">
 							<image src="../../static/img_03.jpg" mode=""></image>
 						</view>
 						<view class="list-name">
-							引擎内部清洗机
+							{{i.goodsName}}
 						</view>
 						<view class="list-price">
-							￥188
+							￥{{i.marketPrice?i.marketPrice.toFixed(2):'暂无价格'}}
 						</view>
 					</view>
 				</view>
