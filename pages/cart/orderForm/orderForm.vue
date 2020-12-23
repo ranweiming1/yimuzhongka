@@ -311,7 +311,7 @@
 			this.cartAttr.map(function(n) {
 				if (n.specList) {
 					n.specList.map(function(z) {
-						_this.yunfei += z.kuaidi
+						_this.yunfei += parseInt(z.kuaidi)
 					})
 				}
 				//计算总价

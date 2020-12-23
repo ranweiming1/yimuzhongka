@@ -46,14 +46,14 @@
 										 v-if='shuju[index].s[n]'></view>
 									</view>
 								</view>
-								<view class="imgBox_a" @tap='openPopup(index,n)'>
+								<view class="imgBox_a" @tap='g(item.goodsId)'>
 									<image :src="item.goodsLogo" mode=""></image>
 								</view>
 								<view class="txt_c">
-									<view class="title" @tap='openPopup(index,n)'>
+									<view class="title" @tap='g(item.goodsId)'>
 										<text>{{item.goodsName}}</text>
 									</view>
-									<view class="spec" @tap='openPopup(index,n)'>
+									<view class="spec" @tap='g(item.goodsId)'>
 										<text>已选：＂{{i.specKeyName}}＂</text>
 									</view>
 									<!-- <view class=""> -->

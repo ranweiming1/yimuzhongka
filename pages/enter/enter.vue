@@ -30,7 +30,7 @@
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>
-				<view class='bangzhu'>帮助中心</view>
+				<view class='bangzhu' @tap="help">帮助中心</view>
 				<view class='bangzhu' @tap='xinwenzixun'>新闻</view>
 				<view class='bangzhu' @tap='g'>关于我们</view>
 				<view class='bangzhu' @tap='qux'>取消</view>
@@ -155,7 +155,11 @@
 			zhifubao:function(){
 				
 			},
-			
+			help:function(){
+				uni.navigateTo({
+					url: '/pages/user/commission/commission'
+				})
+			},
 			d: function() {
 				uni.navigateBack({
 					delta: 1

@@ -102,7 +102,7 @@
 					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2" @tap="confirm(item.orderId)">
 						<button type="primary">确认收货</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0" @tap='shanchu(item.orderId)'>
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0" @tap='xianshi(item.orderId)'>
 						<button type="primary">删除订单</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId,item.goodsList)"
@@ -127,9 +127,18 @@
 
 				</view>
 			</view>
+
 		</view>
 
-
+		<view class="del-mask" v-if='shanchu' style="z-index: 9999999;">
+			<view class="del-mask-content">
+				<view class="mask-title">您确定删除订单?</view>
+				<view class="mask-bot">
+					<view class="bot-left" @tap='quxiao'>取消</view>
+					<view class="bot-right" @tap='shanchuDD'>确定</view>
+				</view>
+			</view>
+		</view>
 		<!-- 弹出框内容 -->
 		<uni-popup ref="popup" type="bottom" class="tanchu">
 			<button @click="closePopup">×</button>
@@ -150,6 +159,7 @@
 				</view>
 			</view>
 		</uni-popup>
+
 		<text class="loading-text" v-if='dList.length>9'>
 			{{loadingType === 0 ? contentText.contentdown : loadingType === 1 ? contentText.contentrefresh : contentText.contentnomore}}
 		</text>
@@ -174,7 +184,9 @@
 					contentnomore: "没有更多数据了"
 				},
 				page: 1,
-				as: 1
+				as: 1,
+				shanchu: false,
+				orderId:''
 			}
 		},
 		components: {
@@ -247,14 +259,14 @@
 			// });
 			var data = {
 				status: this.id,
-				page: this.page+1,
+				page: this.page + 1,
 				page_num: 10
 			}
 			this.getMoreListInfo(data)
 
 		},
 		onPullDownRefresh: function() {
-			this.page=1
+			this.page = 1
 			var data = {
 				status: this.id,
 				page: this.page,
@@ -264,6 +276,13 @@
 			// this.getListInfo()
 		},
 		methods: {
+			xianshi: function(id) {
+				this.shanchu = true
+				this.orderId=id
+			},
+			quxiao: function() {
+				this.shanchu = false
+			},
 			getNewsList: function() { //第一次回去数据
 				var _this = this;
 				_this.loadingType = 0;
@@ -368,11 +387,12 @@
 			closePopup() {
 				this.$refs.popup.close()
 			},
-			openPopup1: function(orderId) {
+			openPopup1: function() {
+				var that=this
 				this.$https({
 					url: '/api/user/order-handle',
 					data: JSON.stringify({
-						orderId: orderId,
+						orderId: that.orderId,
 						type: 1
 					}),
 					method: 'post',
@@ -481,8 +501,9 @@
 				})
 			},
 			//删除订单
-			shanchu: function(id) {
+			shanchuDD: function(id) {
 				this.openPopup1(id)
+				this.shanchu=!this.shanchu
 			}
 		}
 	}
