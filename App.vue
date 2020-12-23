@@ -27,7 +27,7 @@
 			// 		Vue.prototype.StatusBar = e.statusBarHeight;
 			// 		Vue.prototype.CustomBar = e.statusBarHeight + e.titleBarHeight;
 			// 		// #endif
-					
+
 			// 		Vue.prototype.screenHeight = e.screenHeight;
 			// 		// Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
 			// 		//statusBarHeight
@@ -47,31 +47,36 @@
 
 <style>
 	/*每个页面公共css */
-	.uni-tabbar{
+	.uni-tabbar {
 		border-top: none !important;
-		box-shadow: 0 0 5px #cccccc!important;
+		box-shadow: 0 0 5px #cccccc !important;
 	}
-	uni-image{
+
+	uni-image {
 		width: 100%;
 		height: auto;
 	}
-	text{
-		font-family:Microsoft YaHei;
+
+	text {
+		font-family: Microsoft YaHei;
 	}
-	.one_line{
+
+	.one_line {
 		position: fixed;
-		top:80upx;
-		left:0upx;
+		top: 80upx;
+		left: 0upx;
 		z-index: 2;
 		width: 750upx;
 		height: 1upx;
 		border-top: 1px solid #e5e5e5;
 	}
-	button{
+
+	button {
 		border-radius: 40upx;
-		font-family:Microsoft YaHei;
+		font-family: Microsoft YaHei;
 		font-size: 30upx;
 	}
+
 	/*底部*/
 	.index-d {
 		overflow: hidden;
@@ -83,21 +88,21 @@
 		width: 100%;
 		z-index: 99;
 		height: 75rpx;
-		border-top:2rpx solid #eee;
+		border-top: 2rpx solid #eee;
 	}
-	
+
 	.index-d view {
 		float: left;
 		width: 33%;
 	}
-	
+
 	.index-im {
 		width: 56rpx;
 		margin: 0 auto;
 		display: block;
 		height: 69rpx;
 	}
-	
+
 	.index-d p {
 		text-align: center;
 		font-size: 20rpx;
@@ -106,28 +111,28 @@
 		display: block;
 		margin-top: 12rpx;
 	}
-	
+
 	.index-d .active-index p {
 		color: #8a7353;
 	}
-	
+
 	/* 重写 checkbox 样式 */
 	/* 未选中的 背景样式 */
 	.checkboxs .wx-checkbox-input {
-		border-radius: 50% ;
+		border-radius: 50%;
 		/* 圆角 */
 		width: 21rpx;
 		/* 背景的宽 */
 		height: 21rpx;
 		/* 背景的高 */
 	}
-	
+
 	/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
-	 .wx-checkbox-input.wx-checkbox-input-checked {
+	.wx-checkbox-input.wx-checkbox-input-checked {
 		border: 1rpx solid #2b5cff;
 		background: #2b5cff;
 	}
-	
+
 	/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
 	.checkboxs .wx-checkbox-input.wx-checkbox-input-checked::before {
 		border-radius: 50%;
@@ -146,20 +151,28 @@
 		transform: translate(-50%, -50%) scale(1);
 		-webkit-transform: translate(-50%, -50%) scale(1);
 	}
-	.toubu{
-		padding-top:70rpx!important;
+
+	.toubu {
+		padding-top: 70rpx !important;
 	}
-	.toubu1{
-		margin-top:90rpx!important;
+
+	.toubu1 {
+		margin-top: 90rpx !important;
 	}
-	.dne{
-		margin-top:160rpx;
+
+	.dne {
+		margin-top: 160rpx;
 	}
+
 	button::after {
 		display: none;
 	}
-	
+
 	radio {
-		transform:scale(0.7)
+		transform: scale(0.7)
+	}
+
+ page* {
+		-webkit-touch-callout: none;
 	}
 </style>

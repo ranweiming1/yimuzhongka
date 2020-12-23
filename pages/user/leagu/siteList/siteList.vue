@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class="top toubu">
-			<view style='float:left;margin-left:20rpx;width:calc(20% - 20rpx);margin-top:20rpx;' @tap='back'>
+			<view class="back" @tap='back'>
 				<image src='../../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
-			<view style='float:left;padding:20rpx 0;width:60%;text-align:center;'>地址管理</view>
+			<view class="textBox"><text>地址管理</text></view>
 			<view class="imgBox" @tap='tianjia'>
 				<text>添加</text>
 			</view>
@@ -164,11 +164,10 @@
 					// 		JSON.stringify(this.rds) + '&id=' + this.id + '&money=' + this.moneys + '&dingdan=' + this.dingdan +
 					// 		'&shopId=' + this.shopId + '&y=' + JSON.stringify(this.y)
 					// })
-					var pages = getCurrentPages(); 
+					var pages = getCurrentPages();
 					var prevPage = pages[pages.length - 2];
 					prevPage.$vm.dizhi = this.rds
-					uni.navigateBack({
-					})
+					uni.navigateBack({})
 				} else {
 					// uni.redirectTo({
 					// 	url: '../../../cart/orderForm/jifen?dizhi=' + JSON.stringify(this.rds) + '&id=' + this.jifenid
@@ -176,8 +175,7 @@
 					var pages = getCurrentPages();
 					var prevPage = pages[pages.length - 2];
 					prevPage.$vm.dizhi = this.rds
-					uni.navigateBack({
-					})
+					uni.navigateBack({})
 				}
 			},
 			back: function() {
@@ -198,35 +196,87 @@
 		margin-top: 160rpx;
 	}
 
+	// .top {
+	// 	width: 750upx;
+	// 	margin: 0 auto;
+	// 	overflow: hidden;
+	// 	border-bottom: 1px solid #e5e5e5;
+	// 	position: fixed;
+	// 	top: 0;
+
+	// 	.textBox {
+	// 		padding-left: 40%;
+
+	// 		text {
+	// 			font-size: 38upx;
+	// 			color: #333;
+	// 			float: left;
+	// 			line-height: 90upx;
+	// 		}
+	// 	}
+
+	// 	.imgBox {
+	// 		float: right;
+	// 		padding: 20upx 0;
+	// 		width: 20%;
+	// 		text-align: right;
+
+	// 		text {
+	// 			font-size: 26upx;
+	// 			color: #333;
+	// 			margin-right: 20rpx;
+	// 		}
+	// 	}
+	// }
+
 	.top {
-		width: 750upx;
-		margin: 0 auto;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
+		height: 90rpx;
+		text-align: center;
 		position: fixed;
+		width: 100%;
+		left: 0;
 		top: 0;
+		z-index: 99999;
+		background: #fff;
+		padding-top: 70rpx;
+
+		.back {
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+			float: left;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
+			}
+		}
 
 		.textBox {
-			padding-left: 40%;
+			display: inline-block;
 
 			text {
-				font-size: 38upx;
+				font-size: 32rpx;
 				color: #333;
 				float: left;
 				line-height: 90upx;
 			}
 		}
 
+
 		.imgBox {
 			float: right;
-			padding: 20upx 0;
-			width: 20%;
-			text-align: right;
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
 
 			text {
-				font-size: 26upx;
+				font-size: 28upx;
 				color: #333;
-				margin-right: 20rpx;
 			}
 		}
 	}

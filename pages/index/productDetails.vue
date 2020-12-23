@@ -731,13 +731,11 @@
 		background-color: #f7f7f7;
 	}
 .boxbox{
-	moz-user-select: -moz-none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	-khtml-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+	-webkit-touch-callout: default;
+	-webkit-touch-callout: none ;
+	-webkit-touch-callout: initial;
+	-webkit-touch-callout: inherit;
+	-webkit-touch-callout: unset;
 }
 
 	.mask {
@@ -1444,7 +1442,7 @@
 		padding: 20upx;
 		background-color: #fff;
 		margin-top: 20upx;
-		margin-bottom: 150rpx;
+		padding-bottom:200rpx;
 
 		text {
 			font-size: 30upx;

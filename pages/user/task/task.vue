@@ -14,7 +14,7 @@
 				<text>任务中心</text>
 			</view>
 			<view class="imgBox" @tap='jifenEx'>
-				
+
 				<image src="../../../static/icon_31.png" mode=""></image>
 			</view>
 		</view>
@@ -269,7 +269,7 @@
 						_this.systemDate = dateRiqi(new Date)
 						// console.log(_this.qianDate)
 						// 获取返回数据的时间
-						_this.isQian=!res.data.data.signInStatus
+						_this.isQian = !res.data.data.signInStatus
 						// console.log(_this.systemDate)
 						// 周几
 						var week = new Date(_this.systemDate).getDay()
@@ -299,65 +299,70 @@
 						_this.state = state
 					}
 				})
-				this.$https({url:'/api/task/center-get-task-list',data:{},method:'post',success:res=>{
-					this.taskList=res.data.data
-					console.log(res.data.data)
-				
-					// 获取当前时间
-					function dateRiqi(i) {
-						var nowDate = new Date(i);
-						let date = {
-							year: nowDate.getFullYear(),
-							month: nowDate.getMonth() + 1,
-							date: nowDate.getDate(),
-						}
-					
-						function pan(i) {
-							if (i < 10) {
-								i = '0' + i;
+				this.$https({
+					url: '/api/task/center-get-task-list',
+					data: {},
+					method: 'post',
+					success: res => {
+						this.taskList = res.data.data
+						console.log(res.data.data)
+
+						// 获取当前时间
+						function dateRiqi(i) {
+							var nowDate = new Date(i);
+							let date = {
+								year: nowDate.getFullYear(),
+								month: nowDate.getMonth() + 1,
+								date: nowDate.getDate(),
 							}
-							return i;
-						}
-						var systemDate = date.year + '-' + pan(date.month) + '-' + pan(date.date);
-						return systemDate
-					}
-					_this.systemDate = dateRiqi(new Date)
-					// console.log(_this.qianDate)
-					// 获取返回数据的时间
-					_this.isQian=!res.data.data.signInStatus
-					// console.log(_this.systemDate)
-					// 周几
-					var week = new Date(_this.systemDate).getDay()
-					// 时间戳
-					var dateTime = Date.parse(_this.systemDate)
-					// console.log(dateTime)
-					// 当天之前
-					var arr = []
-					var state = []
-					
-					for (var i = week - 1; i > 0; i--) {
-						arr.push(dateRiqi(dateTime - (i) * 86400000))
-					}
-					arr.push(_this.systemDate)
-					for (var i = 0; i < 7 - week; i++) {
-						arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
-					}
-					for (var i = 0; i < arr.length; i++) {
-						var nu = 0
-						for (var j = 0; j < _this.qianDate.length; j++) {
-							if (arr[i] == _this.qianDate[j].createTime) {
-								nu++
+
+							function pan(i) {
+								if (i < 10) {
+									i = '0' + i;
+								}
+								return i;
 							}
+							var systemDate = date.year + '-' + pan(date.month) + '-' + pan(date.date);
+							return systemDate
 						}
-						nu > 0 ? state.push(true) : state.push(false)
+						_this.systemDate = dateRiqi(new Date)
+						// console.log(_this.qianDate)
+						// 获取返回数据的时间
+						_this.isQian = !res.data.data.signInStatus
+						// console.log(_this.systemDate)
+						// 周几
+						var week = new Date(_this.systemDate).getDay()
+						// 时间戳
+						var dateTime = Date.parse(_this.systemDate)
+						// console.log(dateTime)
+						// 当天之前
+						var arr = []
+						var state = []
+
+						for (var i = week - 1; i > 0; i--) {
+							arr.push(dateRiqi(dateTime - (i) * 86400000))
+						}
+						arr.push(_this.systemDate)
+						for (var i = 0; i < 7 - week; i++) {
+							arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
+						}
+						for (var i = 0; i < arr.length; i++) {
+							var nu = 0
+							for (var j = 0; j < _this.qianDate.length; j++) {
+								if (arr[i] == _this.qianDate[j].createTime) {
+									nu++
+								}
+							}
+							nu > 0 ? state.push(true) : state.push(false)
+						}
+						_this.state = state
 					}
-					_this.state = state
-					}})
+				})
 				// },
 			},
-			jifenEx:function(){
+			jifenEx: function() {
 				uni.navigateTo({
-					url:'../jifenStore/jifenExplain'
+					url: '../jifenStore/jifenExplain'
 				})
 			},
 			qianD() {
@@ -393,9 +398,9 @@
 					}
 				})
 			},
-			toUser:function(){
+			toUser: function() {
 				uni.reLaunch({
-					url:'../user'
+					url: '../user'
 				})
 			},
 			renWu: function(item, id) {
@@ -457,10 +462,11 @@
 </script>
 
 <style lang="scss">
-	.view-style{
-		width:100%;
-		overflow:hidden;
+	.view-style {
+		width: 100%;
+		overflow: hidden;
 	}
+
 	.bg_img {
 		// background-color: #2b5cff;
 		width: 750upx;
@@ -473,6 +479,8 @@
 		}
 	}
 
+
+
 	.top {
 		position: absolute;
 		top: 10upx;
@@ -480,22 +488,30 @@
 		width: 750upx;
 		margin: 0 auto;
 		overflow: hidden;
-		padding-top:50rpx;
-		.topImg{
+		padding-top: 50rpx;
+		text-align: center;
+
+		.topImg {
 			float: left;
-			padding: 30rpx 35rpx;
-			image{
+			/* padding: 30rpx 35rpx; */
+			width: 90rpx;
+			height: 90rpx;
+
+			image {
 				width: 18rpx;
 				height: 32rpx;
 				display: block;
-				
+				padding: 29rpx 36rpx;
+
 			}
 		}
+
 		.textBox {
-			padding-left: 40%;
+			display: inline-block;
+			overflow: hidden;
 
 			text {
-				font-size: 38upx;
+				font-size: 32upx;
 				color: #fff;
 				float: left;
 				line-height: 90upx;
@@ -504,11 +520,14 @@
 
 		.imgBox {
 			float: right;
+			width: 90rpx;
+			height: 90rpx;
 
 			image {
 				width: 42upx;
 				height: 42upx;
-				padding: 30upx;
+				padding: 25upx;
+				display: block;
 			}
 		}
 	}
@@ -608,7 +627,7 @@
 	}
 
 	.bgWhite {
-		width:700upx;
+		width: 700upx;
 		height: 120upx;
 		// box-shadow: 0 0 5px #ccc;
 		position: absolute;
