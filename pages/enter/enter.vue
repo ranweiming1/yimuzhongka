@@ -23,9 +23,9 @@
 			<view @tap='denglu'>
 				<image src='../../static/weixinanniu.png'></image>
 			</view>
-			<!-- <view>
+			<view @tap="zhifubao">
 				<image src='../../static/zhifubaoanniu.png'></image>
-			</view> -->
+			</view>
 		</view>
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>
@@ -151,6 +151,11 @@
 					}
 				})
 			},
+			
+			zhifubao:function(){
+				
+			},
+			
 			d: function() {
 				uni.navigateBack({
 					delta: 1

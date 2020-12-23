@@ -26,12 +26,12 @@
 				<view class="guige">
 					<text>已购："<text>黄色</text>","<text>官方标配</text>"</text>
 				</view>
-				<view class="pCont">
+				<view class="pCont" :style="item.storeGoodsReplyList.length>0?'':'border-bottom: none'">
 					<text>{{item.content}}</text>
 					<view class="img">
-					<image :src="item.img" mode=""></image>
+					<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="item.img" mode=""></image>
 					</view>
-					<text>追加评论<text>（收货18天后）</text>：<text>用了一段时间挺好的</text></text>
+					<!-- <text>追加评论<text>（收货18天后）</text>：<text>用了一段时间挺好的</text></text> -->
 				</view>
 				<view class="reply" v-for="(ite,inde) in item.storeGoodsReplyList">
 					<text>商家回复：<text>{{ite.replyContent}}</text></text>
