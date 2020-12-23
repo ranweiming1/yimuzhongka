@@ -267,7 +267,7 @@
 			chexing() {
 				//跳转车型号列表
 				uni.navigateTo({
-					url: '../shop/car?id=2'
+					url: '../shop/car'
 				})
 			},
 			show() {
