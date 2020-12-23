@@ -15,8 +15,8 @@
 						<image :src="item.userDTO.headimg" mode=""></image>
 						<view class="xin">
 							<text>{{item.userDTO.nickname}}</text>
-							<image src="../../static/xing_01.png" v-for="(i,n) in isXing" mode=""></image>
-							<image src="../../static/xing.png" v-for="(i,n) in (5-isXing)" mode=""></image>
+							<image src="../../static/xing_01.png" v-for="(i,n) in isXing+4" mode=""></image>
+							<image src="../../static/xing.png" v-for="(i,n) in (5-(isXing+4))" mode=""></image>
 						</view>
 					</view>
 					<view class="time">
