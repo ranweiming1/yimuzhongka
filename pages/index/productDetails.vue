@@ -1,8 +1,7 @@
 <template>
-	<scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'"
-	 :scroll-into-view="toJump">
-		<view class="">
-			<!-- 产品图，这是轮播 -->
+	<!-- <scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'"
+	 :scroll-into-view="toJump"> -->
+		<view class="" :style="isAdd?'height:100vh;overflow:hidden':''">
 
 			<view class="bg_img">
 				<swiper style='height:750rpx;'>
@@ -329,8 +328,8 @@
 				</view>
 			</view>
 
-	</scroll-view>
-	</view>
+		</view>
+	<!-- </scroll-view> -->
 </template>
 
 <script>
