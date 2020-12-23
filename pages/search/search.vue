@@ -81,11 +81,11 @@
 					var _this = this
 					this.searchAll.unshift(this.changeVal)
 					uni.setStorageSync('searchAll_key', _this.searchAll)
-					if (_this.shopsId) {
-						uni.navigateTo({
-							url: '../shop/all?shopsId=' + _this.shopsId + '&keywords=' + _this.changeVal
-						})
-					}
+					// if (_this.shopsId) {
+					// 	uni.navigateTo({
+					// 		url: '../shop/all?shopsId=' + _this.shopsId + '&keywords=' + _this.changeVal
+					// 	})
+					// }
 					uni.navigateTo({
 						url: '../classify/fenlOne?keywords=' + _this.changeVal
 					})
