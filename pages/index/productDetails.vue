@@ -734,7 +734,7 @@
 	* {
 		-webkit-touch-callout: none;
 	}
-	.box-box{
+	.boxbox{
 		-webkit-touch-callout: none;
 		overflow: hidden;
 	}

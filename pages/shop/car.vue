@@ -115,6 +115,7 @@
 			quxiaozhe: function(id) {
 				this.zhezhao = false
 				var that=this
+				console.log(this.aiChe)
 				if (this.aiChe == 1) {
 					//添加爱车
 					this.chepaiz = true
