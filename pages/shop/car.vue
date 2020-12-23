@@ -21,7 +21,7 @@
 			<view>
 				<view>{{pinpai}}</view>
 				<view>
-					<view v-for='(item,index) in car' @tap='quxiaozhe(item.carId)'>
+					<view v-for='(item,index) in car' @tap='quxiaozhe(item.carId,item.pid)'>
 						<image :src='item.logo'></image>
 						<view>{{item.carName}}</view>
 					</view>
@@ -112,7 +112,7 @@
 					}
 				})
 			},
-			quxiaozhe: function(id) {
+			quxiaozhe: function(id,idd) {
 				this.zhezhao = false
 				var that=this
 				if (this.aiChe == 1) {
@@ -120,12 +120,18 @@
 					this.chepaiz = true
 					this.id = id
 				} else {
-					uni.navigateTo(
-						this.aiChe ? {
-							url: '../user/task/aiChe'
-						} : {
-							url: './all?goodsBrandId=' + that.list[that.xuanzhong].list[0].carId + '&carId=' + id
+					if(this.aiChe){
+						uni.redirectTo({
+							url:'../user/task/aiChe'
 						})
+					}else{
+						uni.navigateBack({
+							delta:1
+						})
+						var pages=getCurrentPages()
+						var prevPage=pages[pages.length-2]
+						prevPage.$vm.bar=idd
+					}
 				}
 			},
 			tu: function() {

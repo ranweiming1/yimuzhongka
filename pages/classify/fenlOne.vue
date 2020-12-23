@@ -179,7 +179,8 @@
 				goodsType: '',
 				paixu: false,
 				st: 'PASC',
-				value: ''
+				value: '',
+				bar:''
 			}
 		},
 		onLoad(option) {
@@ -188,6 +189,7 @@
 				this.value = option.keywords
 				this.search()
 			} else if (option.barId) {
+				this.bar=option.barId
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-ptList',
 					data: {
@@ -233,6 +235,21 @@
 				// 		// _this.goodsType = res.data.data.selfStatus
 				// 	}
 				// })
+			}
+		},
+		onShow:function(){
+			if(this.bar){
+				this.$https({
+					url:'/api/oauth/shop/mall-goods-ptList',
+					data:{
+						goodsBrandId:this.bar
+					},
+					dengl:true,
+					success:res=>{
+						this.allList=res.data.data
+						this.goodsType=res.data.data.selfStatus
+					}
+				})
 			}
 		},
 		components: {

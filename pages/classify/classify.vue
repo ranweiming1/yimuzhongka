@@ -251,6 +251,7 @@
 				})
 			},
 			bander(id) {
+				console.log(this.rList)
 				uni.navigateTo({
 					url: './fenlOne?barId=' + id
 				})
