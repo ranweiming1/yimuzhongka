@@ -172,7 +172,7 @@
 		transform: scale(0.7)
 	}
 
- page* {
+ page * {
 		-webkit-touch-callout: none;
 	}
 </style>

@@ -1,22 +1,22 @@
 <template>
 	<!-- <scroll-view scroll-y="true" :style="'height:'+height+'rpx;position:fixed;overflow-y:auto;z-index:999;'"
 	 :scroll-into-view="toJump"> -->
-		<view class="boxbox" :style="isAdd?'height:100vh;overflow:hidden':''">
+	<view class="boxbox" :style="isAdd?'height:100vh;overflow:hidden':''">
 
-			<view class="bg_img">
-				<swiper style='height:750rpx;'>
-					<swiper-item v-for='item in list.goodsImgss'>
-						<image :src='item?item:""'></image>
-					</swiper-item>
-				</swiper>
+		<view class="bg_img">
+			<swiper style='height:750rpx;'>
+				<swiper-item v-for='item in list.goodsImgss'>
+					<image :src='item?item:""'></image>
+				</swiper-item>
+			</swiper>
+		</view>
+
+		<!-- 头部 -->
+		<view class="top" style="background-color: #FFFFFF;z-index:999999999;">
+			<view class="back" @tap="back">
+				<image src="../../static/icon_26-2.png" mode=""></image>
 			</view>
-
-			<!-- 头部 -->
-			<view class="top" style="background-color: #FFFFFF;z-index:999999999;">
-				<view class="back" @tap="back">
-					<image src="../../static/icon_26-2.png" mode=""></image>
-				</view>
-				<!-- <view class="top_title">
+			<!-- <view class="top_title">
 					 <view class="title" @tap="jump(1)">
 						<text>商品</text>
 						<image v-if="ind==1" src="../../static/icon_09.png" mode=""></image>
@@ -31,125 +31,125 @@
 					</view>
 						
 				</view> -->
-				<view class="title-top">
-					<text>产品详情</text>
+			<view class="title-top">
+				<text>产品详情</text>
+			</view>
+			<view class="imgs">
+				<view class="imgBoxs" @tap="tiaoCart">
+					<image src="../../static/icon_43.png" mode=""></image>
 				</view>
-				<view class="imgs">
-					<view class="imgBoxs" @tap="tiaoCart">
-						<image src="../../static/icon_43.png" mode=""></image>
-					</view>
-					<view class="imgBox">
-						<image src="../../static/27249851bcd24e32864752afb9f29fb8.png" mode="" @tap='shangpinxin'></image>
-					</view>
+				<view class="imgBox">
+					<image src="../../static/27249851bcd24e32864752afb9f29fb8.png" mode="" @tap='shangpinxin'></image>
 				</view>
 			</view>
+		</view>
 
-			<view class="top" v-if="!isShow">
-				<view class="back" @tap="back">
-					<image src="../../static/icon_26-2.png" mode=""></image>
+		<view class="top" v-if="!isShow">
+			<view class="back" @tap="back">
+				<image src="../../static/icon_26-2.png" mode=""></image>
+			</view>
+			<view class="imgs">
+				<view class="imgBoxs" style="background: rgba(0, 0, 0, 0.5) !important;" @tap="tiaoCart">
+					<image src='../../static/icon_48.png'></image>
 				</view>
-				<view class="imgs">
-					<view class="imgBoxs" style="background: rgba(0, 0, 0, 0.5) !important;" @tap="tiaoCart">
-						<image src='../../static/icon_48.png'></image>
-					</view>
-					<view class="imgBox" style="background: rgba(0, 0, 0, 0.5) !important;">
-						<image src="../../static/icon_47.png" mode="" @tap='shangpinxin'></image>
-					</view>
+				<view class="imgBox" style="background: rgba(0, 0, 0, 0.5) !important;">
+					<image src="../../static/icon_47.png" mode="" @tap='shangpinxin'></image>
 				</view>
 			</view>
+		</view>
 
-			<!-- 标题 -->
-			<view class="titleBox">
-				<view class="Box">
-					<view class="ThePrice">
-						<view class="h2Box">
-							<text>￥<text>{{list.shopPrice?list.shopPrice:'暂无价格'}}</text></text>
-						</view>
-						<view class="spanBox">
-							<text>原价：￥{{list.marketPrice?list.marketPrice:""}}</text>
-						</view>
+		<!-- 标题 -->
+		<view class="titleBox">
+			<view class="Box">
+				<view class="ThePrice">
+					<view class="h2Box">
+						<text>￥<text>{{list.shopPrice?list.shopPrice:'暂无价格'}}</text></text>
 					</view>
-					<view class="preferential" v-for="(i,n) in list.couponDTOS">
+					<view class="spanBox">
+						<text>原价：￥{{list.marketPrice?list.marketPrice:""}}</text>
+					</view>
+				</view>
+				<view class="preferential" v-for="(i,n) in list.couponDTOS">
+					<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
+				</view>
+
+			</view>
+
+			<view class="share" @tap='shangpinxin'>
+				<image src="../../static/icon_49.png" mode=""></image>
+				<text @tap='shangpinxin'>分享赚</text>
+			</view>
+			<view class="h2aBox">
+				<text>{{list.goodsName?list.goodsName:''}}</text>
+			</view>
+		</view>
+
+		<!-- 发货/活动细则 -->
+		<view class="introduce">
+			<view class="in_left">
+				<view class="mingca">
+					<text>发货</text>
+				</view>
+				<view class="diz">
+					<text>{{list.sendAddr?list.sendAddr:''}} |</text>
+				</view>
+				<view class="kuaid">
+					<text>快递：{{list.kuaidi?list.kuaidi:''}}</text>
+				</view>
+			</view>
+			<view class="yuex">
+				<text>月销量:{{list.salesSum?list.salesSum:''}}</text>
+			</view>
+		</view>
+		<view class="xize">
+			<view class="huid">
+				<text>优惠</text>
+			</view>
+			<view class="xiangqBox" @tap='huodongxian' :v-if='youhuiqu.length>0'>
+				<view class="oneBox" v-for="(i,n) in youhuiqu">
+					<view class="preferential">
 						<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
 					</view>
-
-				</view>
-
-				<view class="share" @tap='shangpinxin'>
-					<image src="../../static/icon_49.png" mode=""></image>
-					<text @tap='shangpinxin'>分享赚</text>
-				</view>
-				<view class="h2aBox">
-					<text>{{list.goodsName?list.goodsName:''}}</text>
+					<view class="jies">
+						<text>满{{i.condition?i.condition:''}}元，立减{{i.money?i.money:''}}元；不累积。</text>
+					</view>
 				</view>
 			</view>
-
-			<!-- 发货/活动细则 -->
-			<view class="introduce">
-				<view class="in_left">
-					<view class="mingca">
-						<text>发货</text>
-					</view>
-					<view class="diz">
-						<text>{{list.sendAddr?list.sendAddr:''}} |</text>
-					</view>
-					<view class="kuaid">
-						<text>快递：{{list.kuaidi?list.kuaidi:''}}</text>
-					</view>
-				</view>
-				<view class="yuex">
-					<text>月销量:{{list.salesSum?list.salesSum:''}}</text>
-				</view>
+			<view class='xiangqBox' :v-if='youhuiqu.length==0'>暂无优惠</view>
+			<view class="imBox" @tap='huodongxian'>
+				<image src="../../static/icon_26.png" mode=""></image>
 			</view>
-			<view class="xize">
-				<view class="huid">
-					<text>优惠</text>
-				</view>
-				<view class="xiangqBox" @tap='huodongxian' :v-if='youhuiqu.length>0'>
-					<view class="oneBox" v-for="(i,n) in youhuiqu">
-						<view class="preferential">
-							<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
-						</view>
-						<view class="jies">
-							<text>满{{i.condition?i.condition:''}}元，立减{{i.money?i.money:''}}元；不累积。</text>
-						</view>
-					</view>
-				</view>
-				<view class='xiangqBox' :v-if='youhuiqu.length==0'>暂无优惠</view>
-				<view class="imBox" @tap='huodongxian'>
-					<image src="../../static/icon_26.png" mode=""></image>
-				</view>
-			</view>
+		</view>
 
-			<!-- 参数 -->
-			<view class="parameter">
-				<view class="basic" @tap="add">
-					<view class="left_a">
-						<text>选择</text>
-					</view>
-					<view class="left_b">
-						<text>已选：{{gui?gui:'暂未选择商品'}}</text>
-					</view>
-					<!-- <view class="right_a">
+		<!-- 参数 -->
+		<view class="parameter">
+			<view class="basic" @tap="add">
+				<view class="left_a">
+					<text>选择</text>
+				</view>
+				<view class="left_b">
+					<text>已选：{{gui?gui:'暂未选择商品'}}</text>
+				</view>
+				<!-- <view class="right_a">
 							<view class="img_a">
 								<image src="../../static/icon_26.png" mode=""></image>
 							</view>
 						</view> -->
+			</view>
+			<view class="basic" @tap="add">
+				<view class="left_a">
+					<text>参数</text>
 				</view>
-				<view class="basic" @tap="add">
-					<view class="left_a">
-						<text>参数</text>
-					</view>
-					<view class="left_b">
-						<text>品牌 型号 成分...</text>
-					</view>
-					<view class="right_a">
-						<view class="img_a">
-							<image src="../../static/icon_26.png" mode=""></image>
-						</view>
+				<view class="left_b">
+					<text>品牌 型号 成分...</text>
+				</view>
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
-				<!-- <view class="basic" @tap="add">
+			</view>
+			<!-- <view class="basic" @tap="add">
 						<view class="left_a">
 							<text>适配</text>
 						</view>
@@ -163,172 +163,172 @@
 						</view>
 		
 					</view> -->
-				<view class="mask" v-if="isAdd" @tap="add">
+			<view class="mask" v-if="isAdd" @tap="add">
+			</view>
+			<view class="butt" v-if="isAdd">
+				<view style='position:absolute;top:30rpx;right:50rpx;' @tap='add'>
+					<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:50rpx;height:50rpx;'></image>
 				</view>
-				<view class="butt" v-if="isAdd">
-					<view style='position:absolute;top:30rpx;right:50rpx;' @tap='add'>
-						<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:50rpx;height:50rpx;'></image>
+				<view class="mTop">
+					<image class="cover" :src="list.goodsLogo?list.goodsLogo:''" mode=""></image>
+					<view class="mRight">
+						<view class="price">¥ {{Price?Price:''}}</view>
+						<view class="mItem">已选：{{gui?gui:'暂未选择商品'}}</view>
 					</view>
-					<view class="mTop">
-						<image class="cover" :src="list.goodsLogo?list.goodsLogo:''" mode=""></image>
-						<view class="mRight">
-							<view class="price">¥ {{Price?Price:''}}</view>
-							<view class="mItem">已选：{{gui?gui:'暂未选择商品'}}</view>
-						</view>
 
-					</view>
-					<view class="mButton">
-						<view style='margin-top:20rpx;border-bottom:1px solid #eee;padding-bottom:20rpx;' v-for='(item,index) in canshu'>
-							<view style='color:#999;font-size:24rpx;'>{{item.n?item.n:''}}</view>
-							<view style='margin-top:20rpx;'>
-								<view v-for='(items,indexs) in item.sa' :style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"'
-								 @tap='xuanzhong(index,indexs)'>{{items.item?items.item:''}}</view>
-							</view>
+				</view>
+				<view class="mButton">
+					<view style='margin-top:20rpx;border-bottom:1px solid #eee;padding-bottom:20rpx;' v-for='(item,index) in canshu'>
+						<view style='color:#999;font-size:24rpx;'>{{item.n?item.n:''}}</view>
+						<view style='margin-top:20rpx;'>
+							<view v-for='(items,indexs) in item.sa' :style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"'
+							 @tap='xuanzhong(index,indexs)'>{{items.item?items.item:''}}</view>
 						</view>
-						<!-- <view class="detail">
+					</view>
+					<!-- <view class="detail">
 								<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
 								 @tap='qiehuan(index)'>{{item.keyName}}</view>
 							</view> -->
 
-						<view class="mNumber">
-							<view class="name">数量</view>
-							<view class="n_right">
-								<view class="reduce" @tap="reduce">-</view>
-								<input class="cor" type="number" style='width:100rpx;text-align:center;' v-model="num"></input>
-								<view class="add" @tap="jia">+</view>
-							</view>
+					<view class="mNumber">
+						<view class="name">数量</view>
+						<view class="n_right">
+							<view class="reduce" @tap="reduce">-</view>
+							<input class="cor" type="number" style='width:100rpx;text-align:center;' v-model="num"></input>
+							<view class="add" @tap="jia">+</view>
 						</view>
+					</view>
 
-					</view>
-					<view style='overflow:hidden;position:absolute;bottom:50rpx;left:5;width:90%;z-index:99999;'>
-						<button style='width:40%;float:left;' @tap='gouwuche'>加入购物车</button>
-						<button class="btn" @tap='goumaia'>立即购买</button>
-					</view>
+				</view>
+				<view style='overflow:hidden;position:absolute;bottom:50rpx;left:5;width:90%;z-index:99999;'>
+					<button style='width:40%;float:left;' @tap='gouwuche'>加入购物车</button>
+					<button class="btn" @tap='goumaia'>立即购买</button>
 				</view>
 			</view>
-			<view class="pingjBox">
-				<view class="basic">
-					<view class="left_a">
-						<text>用户评价</text>
-					</view>
-
-					<view class="right_a">
-						<view class="img_a">
-							<image src="../../static/icon_26.png" mode=""></image>
-						</view>
-					</view>
-					<view class="left_b" @tap="togPing(list.goodsId)">
-						<text>100%满意</text>
-					</view>
-
-				</view>
-
-
-				<!-- 用户评价 ,划动效果-->
-				<view class="toux" v-if="pingjia">
-					<view class="imgBox_a">
-						<image :src="pingjia.img?pingjia.img=='../../../static/img_10.jpg.png'?'../../static/img_05.jpg':pingjia.img:'../../static/img_05.jpg'"
-						 mode=""></image>
-					</view>
-					<view class="mingc">
-						<text>{{pingjia.commId}}</text>
-						<view class="time">
-							<text>{{pingjia.createTime}}</text>
-						</view>
-						<view class="huay">
-							<text>{{pingjia.content?pingjia.content:''}}</text>
-						</view>
-					</view>
-				</view>
-				<view class="toux" v-if="!pingjia" style="font-size: 28rpx;padding-left: 20rpx;box-sizing: border-box;">暂无评价</view>
-			</view>
-
-			<!-- 店铺：需产品确认 -->
-			<view class="listBox">
-				<view class="liBox">
-					<view class="imgBox">
-						<image :src="list.shopDTO.storeLogo?list.shopDTO.storeLogo:'../../static/230abf8eb0244a128649f337a7d4aae3.png'"
-						 mode=""></image>
-					</view>
-					<view class="texBox">
-						<view class="h2Box">
-							<text>{{list.shopDTO.shopName}}</text>
-						</view>
-						<view class="spanBox">
-							<text>销量：{{list.shopDTO.sales}}</text>
-						</view>
-					</view>
-					<view class="bottBox">
-						<text @tap="jindian(list.shopId)">进店逛逛</text>
-					</view>
-				</view>
-			</view>
-			<view class="shangx">
-				<view class="titaa">
-					<text>商品详情</text>
-				</view>
-				<rich-text :nodes='list.goodsContent'></rich-text>
-				<!-- <view class="imgg"> -->
-				<!-- <jyf-parser :html="list.goodsContent" ref="article" style="margin-bottom:100rpx"></jyf-parser> -->
-				<!-- <rich-text>{{list.goodsContent}}</rich-text> -->
-				<!-- </view> -->
-				<!-- <view :style="margin-bottom:100rpx">所涉及的大家</view> -->
-			</view>
-			<!--活动列表-->
-			<view v-if='huodong' style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;'
-			 @tap='yincang'>
-				<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:10rpx 10rpx 0 0;overflow-y:auto;'>
-					<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:50rpx;top:30rpx;'>
-							<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
-						</view>
-					</view>
-					<view v-for='item in list.couponDTOS' style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
-						<view style='overflow:hidden;'>
-							<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
-							<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
-						</view>
-						<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}</view>
-					</view>
-				</view>
-			</view>
-			<!-- 底部 -->
-			<!-- <view style='height:150rpx;'></view> -->
-			<view class="bottom">
-
-				<view class="leftA">
-					<view class="kefua" @tap="jindian(list.shopId)">
-						<image src="../../static/icon_50.png" mode=""></image>
-						<view class="keyboard">
-							<text>店铺</text>
-						</view>
-					</view>
-					<view class="kefua centets">
-						<image @tap="isActive" v-if="!isCollect" src="../../static/icon_51.png" mode=""></image>
-						<image @tap="isActive" v-if="isCollect" src="../../static/icon_52.png" mode=""></image>
-						<view class="keyboard">
-							<text>{{isCollect?'已收藏':'收藏'}}</text>
-						</view>
-					</view>
-					<view class='kefua' @tap='tiaozhuan'>
-						<image src='../../static/icon_36.png'></image>
-						<view class="keyboard"><text>客服</text></view>
-					</view>
-
-
-				</view>
-				<view class="rightA">
-					<view class="bottBoxss">
-						<view class="uni-padding-wrap uni-common-mt bott onna" style='width:45%;float:left;'>
-							<button type="primary" @tap='add'>加入购物车</button>
-						</view>
-						<view class="uni-padding-wrap uni-common-mt bott" @tap="add" style='width:40%;float:right;'>
-							<button type="primary">立即购买</button>
-						</view>
-					</view>
-				</view>
-			</view>
-
 		</view>
+		<view class="pingjBox">
+			<view class="basic">
+				<view class="left_a">
+					<text>用户评价</text>
+				</view>
+
+				<view class="right_a">
+					<view class="img_a">
+						<image src="../../static/icon_26.png" mode=""></image>
+					</view>
+				</view>
+				<view class="left_b" @tap="togPing(list.goodsId)">
+					<text>100%满意</text>
+				</view>
+
+			</view>
+
+
+			<!-- 用户评价 ,划动效果-->
+			<view class="toux" v-if="pingjia">
+				<view class="imgBox_a">
+					<image :src="pingjia.img?pingjia.img=='../../../static/img_10.jpg.png'?'../../static/img_05.jpg':pingjia.img:'../../static/img_05.jpg'"
+					 mode=""></image>
+				</view>
+				<view class="mingc">
+					<text>{{pingjia.commId}}</text>
+					<view class="time">
+						<text>{{pingjia.createTime}}</text>
+					</view>
+					<view class="huay">
+						<text>{{pingjia.content?pingjia.content:''}}</text>
+					</view>
+				</view>
+			</view>
+			<view class="toux" v-if="!pingjia" style="font-size: 28rpx;padding-left: 20rpx;box-sizing: border-box;">暂无评价</view>
+		</view>
+
+		<!-- 店铺：需产品确认 -->
+		<view class="listBox">
+			<view class="liBox">
+				<view class="imgBox">
+					<image :src="list.shopDTO.storeLogo?list.shopDTO.storeLogo:'../../static/230abf8eb0244a128649f337a7d4aae3.png'"
+					 mode=""></image>
+				</view>
+				<view class="texBox">
+					<view class="h2Box">
+						<text>{{list.shopDTO.shopName}}</text>
+					</view>
+					<view class="spanBox">
+						<text>销量：{{list.shopDTO.sales}}</text>
+					</view>
+				</view>
+				<view class="bottBox">
+					<text @tap="jindian(list.shopId)">进店逛逛</text>
+				</view>
+			</view>
+		</view>
+		<view class="shangx">
+			<view class="titaa">
+				<text>商品详情</text>
+			</view>
+			<rich-text :nodes='list.goodsContent'></rich-text>
+			<!-- <view class="imgg"> -->
+			<!-- <jyf-parser :html="list.goodsContent" ref="article" style="margin-bottom:100rpx"></jyf-parser> -->
+			<!-- <rich-text>{{list.goodsContent}}</rich-text> -->
+			<!-- </view> -->
+			<!-- <view :style="margin-bottom:100rpx">所涉及的大家</view> -->
+		</view>
+		<!--活动列表-->
+		<view v-if='huodong' style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;'
+		 @tap='yincang'>
+			<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:10rpx 10rpx 0 0;overflow-y:auto;'>
+				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:50rpx;top:30rpx;'>
+						<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
+					</view>
+				</view>
+				<view v-for='item in list.couponDTOS' style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
+					<view style='overflow:hidden;'>
+						<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
+						<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
+					</view>
+					<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}</view>
+				</view>
+			</view>
+		</view>
+		<!-- 底部 -->
+		<!-- <view style='height:150rpx;'></view> -->
+		<view class="bottom">
+
+			<view class="leftA">
+				<view class="kefua" @tap="jindian(list.shopId)">
+					<image src="../../static/icon_50.png" mode=""></image>
+					<view class="keyboard">
+						<text>店铺</text>
+					</view>
+				</view>
+				<view class="kefua centets">
+					<image @tap="isActive" v-if="!isCollect" src="../../static/icon_51.png" mode=""></image>
+					<image @tap="isActive" v-if="isCollect" src="../../static/icon_52.png" mode=""></image>
+					<view class="keyboard">
+						<text>{{isCollect?'已收藏':'收藏'}}</text>
+					</view>
+				</view>
+				<view class='kefua' @tap='tiaozhuan'>
+					<image src='../../static/icon_36.png'></image>
+					<view class="keyboard"><text>客服</text></view>
+				</view>
+
+
+			</view>
+			<view class="rightA">
+				<view class="bottBoxss">
+					<view class="uni-padding-wrap uni-common-mt bott onna" style='width:45%;float:left;'>
+						<button type="primary" @tap='add'>加入购物车</button>
+					</view>
+					<view class="uni-padding-wrap uni-common-mt bott" @tap="add" style='width:40%;float:right;'>
+						<button type="primary">立即购买</button>
+					</view>
+				</view>
+			</view>
+		</view>
+
+	</view>
 	<!-- </scroll-view> -->
 </template>
 
@@ -730,14 +730,14 @@
 	page {
 		background-color: #f7f7f7;
 	}
-.boxbox{
-	-webkit-touch-callout: default;
-	-webkit-touch-callout: none ;
-	-webkit-touch-callout: initial;
-	-webkit-touch-callout: inherit;
-	-webkit-touch-callout: unset;
-}
 
+	* {
+		-webkit-touch-callout: none;
+	}
+	.box-box{
+		-webkit-touch-callout: none;
+		overflow: hidden;
+	}
 	.mask {
 		width: 100%;
 		height: 100vh;
@@ -1442,7 +1442,7 @@
 		padding: 20upx;
 		background-color: #fff;
 		margin-top: 20upx;
-		padding-bottom:200rpx;
+		padding-bottom: 200rpx;
 
 		text {
 			font-size: 30upx;
