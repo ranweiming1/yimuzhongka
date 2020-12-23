@@ -81,10 +81,10 @@
 		<view class="ticket_a">
 			<view class="briefTop">
 				<span style="color: #000000;font-size: 28rpx; display: inline-block;">公司简介</span>
-				<span style="color: #3564ff;font-size: 25rpx;display: inline-block;float: right;">更多</span>
+				<span style="color: #3564ff;font-size: 25rpx;display: inline-block;float: right;" @tap="showContent">{{isShowCont?'收起':'更多'}}</span>
 			</view>
-			<view class="briefContent">
-				<text>商家简介：新华社沈阳11月20日电（记者陈梦阳、汪伟）沈阳市中级人民华社沈阳11月20日电（记者陈梦阳、汪伟）沈阳市中级人民法院20日裁定受理债权人法院20日裁定受理债权人对华晨汽车集团控股 有限公司（以下</text>
+			<view :class="isShowCont?'showContent':'briefContent'">
+				<text>{{jieshao}}</text>
 			</view>
 		</view>
 
@@ -104,7 +104,7 @@
 						<image :src="item.goodsLogo" mode=""></image>
 					</view>
 					<view class="content-item-text">
-						<view class="title_top">
+						<view class="title_top"><strong><strong></strong></strong>
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
 							<text class="titleText">{{item.goodsName}}</text>
 						</view>
@@ -171,7 +171,9 @@
 				scrollLeft: '30rpx',
 				banner: [],
 				quan: [],
-				id: ''
+				id: '',
+				jieshao: '',
+				isShowCont: false
 			}
 		},
 		components: {
@@ -189,7 +191,7 @@
 					shopId: option.id
 					// shopId: 6
 				},
-				dengl:uni.getStorageSync('Authorization')?false: true,
+				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: function(res) {
 					_this.store = res.data.data.storeShop
 					_this.gList = res.data.data.goodsList
@@ -204,9 +206,10 @@
 				data: {
 					shopId: option.id
 				},
-				dengl: uni.getStorageSync('Authorization')?false: true,
+				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: function(res) {
 					_this.isShow = res.data.data.shopCollectStatus
+					_this.jieshao = res.data.data.introduction
 				}
 			})
 			this.$https({
@@ -215,7 +218,7 @@
 					shopId: option.id
 				},
 				method: 'post',
-				dengl: uni.getStorageSync('Authorization')?false: true,
+				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: res => {
 					this.banner = res.data.data
 					if (res.data.data.length == 0) {
@@ -230,7 +233,7 @@
 				data: {
 					shopId: option.id
 				},
-				dengl: uni.getStorageSync('Authorization')?false: true,
+				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: res => {
 					this.quan = res.data.data
 				}
@@ -252,6 +255,9 @@
 						// console.log('添加成功')
 					}
 				})
+			},
+			showContent(){
+				this.isShowCont=!this.isShowCont
 			},
 			shouC(id) {
 				if (this.denglufangfatiaozhuan()) {
@@ -553,6 +559,7 @@
 		}
 
 		.briefContent {
+
 			color: #666;
 			font-size: 23rpx;
 			line-height: 45rpx;
@@ -561,6 +568,12 @@
 			display: -webkit-box;
 			text-overflow: ellipsis;
 			overflow: hidden;
+		}
+
+		.showContent {
+			color: #666;
+			font-size: 23rpx;
+			line-height: 45rpx;
 		}
 
 		image {
