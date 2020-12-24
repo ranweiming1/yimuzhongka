@@ -153,7 +153,18 @@
 			},
 			
 			zhifubao:function(){
-				
+				this.$https({
+					url:'/api/oauth/ali/get-appid',
+					data:{},
+					method:'post',
+					success:res=>{
+						var alipayUrl='https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id='+res.data.data+'&scope=auth_user&redirect_uri=https://www.yimuzk.com'
+						var openURL='alipays://platformapi/startapp?appId=20000067&url='+encodeURIComponent(alipayUrl)
+						plus.runtime.openURL(openURL,err=>{
+							
+						})
+					}
+				})
 			},
 			help:function(){
 				uni.navigateTo({
