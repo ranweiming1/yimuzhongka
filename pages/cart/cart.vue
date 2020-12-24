@@ -1134,7 +1134,7 @@
 				if (num == this.shuju.length) {
 					this.xuan = true
 				} else {
-					xian = false
+					this.xian = false
 				}
 			},
 			shangpin: function(index, n) {
