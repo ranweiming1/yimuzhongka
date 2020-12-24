@@ -422,6 +422,7 @@ $uni-font-size-paragraph:30upx;
 }
 .view-style{
 	width: 100%;
-	box-sizing: border-box;
+	overflow: hidden;
+	 overflow-x: hidden;
 }
 	

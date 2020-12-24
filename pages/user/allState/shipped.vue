@@ -97,7 +97,7 @@
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>给卖家备注</text></view>
-			<view>{{deList.userNote}}</view>
+			<view class="titleTwo"><text>{{deList.userNote}}</text></view>
 		</view>
 
 
@@ -196,6 +196,7 @@
 				dengl: false,
 				success: function(res) {
 					_this.deList = res.data.data
+					console.log(res.data.data.userNote)
 					_this.order = res.data.data.orderSn
 					_this.com = res.data.data.shippingName
 					_this.dz = res.data.data.cityInfo
@@ -215,7 +216,8 @@
 			wuliu() {
 				// console.log('222')
 				uni.navigateTo({
-					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' + this.dz+'&goods='+JSON.stringify(this.deList.goodsList)
+					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' + this.dz + '&goods=' +
+						JSON.stringify(this.deList.goodsList)
 				})
 			},
 			afterSole(oS, lG, gN, gP, sKN, Num, orderId) {
@@ -231,7 +233,7 @@
 				})
 			},
 			zhifu: function() {
-				console.log(838382,'支付')
+				console.log(838382, '支付')
 				this.$https({
 					url: '/api/pay/unifiedOrder',
 					data: JSON.stringify({
@@ -526,13 +528,29 @@
 		background-color: #fff;
 		overflow: hidden;
 		border-bottom: 20upx solid #f7f7f7;
+		align-items: center;
+		display: -webkit-flex;
+		min-height: 90rpx;
 
 		.title {
 			float: left;
 			padding-left: 20upx;
+			height: 100%;
+
 
 			text {
-				line-height: 90upx;
+				// line-height: 90upx;
+				font-size: 28upx;
+			}
+		}
+
+		.titleTwo {
+			width: 70%;
+			float: right;
+			padding: 20rpx;
+
+			text {
+				line-height: 50upx;
 				font-size: 28upx;
 			}
 		}

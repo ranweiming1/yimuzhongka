@@ -34,7 +34,7 @@
 					<text>X{{goods[0].goodsNum}}</text>
 				</view>
 			</view>
-			
+
 		</view>
 
 		<!-- 物流状态插件 -->
@@ -167,7 +167,7 @@
 					//物流信息
 
 				},
-				goods:[]
+				goods: []
 			}
 		},
 		components: {
@@ -180,7 +180,7 @@
 			this.order = option.order
 			this.com = option.com
 			this.dz = option.dz
-			this.goods=JSON.parse(option.goods)
+			this.goods = JSON.parse(option.goods)
 			this.$https({
 				url: '/api/shop/logistics-detail',
 				data: {
@@ -193,21 +193,29 @@
 					_this.wuList = res.data.data
 					_this.wlInfo = res.data.data.logisticsInfo
 					// _this.list=res.data.data.data
-					_this.hotList = res.data.data?res.data.data.recommedGoods:''
-					if(res.data.code==0){
+					if (res.data.code == 0) {
 						uni.showToast({
-							title:'操作成功'
+							title: '操作成功'
 						})
-					}else{
+					} else {
 						uni.showToast({
-							title:res.data.message
+							title: res.data.message
 						})
-						_this.hotList=[]
+						_this.hotList = []
 					}
 					_this.state = res.data.data.state
 					// _this.time=res.data.data.data[0].time
 					// console.log(res.data.data.data)
 				}
+			})
+			this.$https({
+				url: '/api/oauth/get-recommended-goods-list',
+				dengl: true,
+				data:{},
+				success(res){
+					_this.hotList = res.data.data 
+				}
+
 			})
 		},
 		methods: {
@@ -233,9 +241,9 @@
 					url: '../../classify/fenlOne'
 				})
 			},
-			tiaozhuan:function(){
+			tiaozhuan: function() {
 				uni.navigateTo({
-					url:'../../index/index'
+					url: '../../index/index'
 				})
 			}
 		}
@@ -791,5 +799,8 @@
 				}
 			}
 		}
+	}
+	.activeCss{
+		padding-bottom: 40rpx;
 	}
 </style>

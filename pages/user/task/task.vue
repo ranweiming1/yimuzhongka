@@ -14,7 +14,6 @@
 				<text>任务中心</text>
 			</view>
 			<view class="imgBox" @tap='jifenEx'>
-
 				<image src="../../../static/icon_31.png" mode=""></image>
 			</view>
 		</view>
@@ -465,6 +464,7 @@
 	.view-style {
 		width: 100%;
 		overflow: hidden;
+		 overflow-x: hidden;
 	}
 
 	.bg_img {
@@ -848,8 +848,8 @@
 	}
 
 	.gain {
-		position: absolute;
-		top: 590upx;
+		position: relative;
+		top: -20rpx;
 		left: 20upx;
 
 		.tit {
@@ -865,10 +865,11 @@
 			border-radius: 20upx;
 			padding: 20upx 20upx 20rpx 20upx;
 			overflow: hidden;
-			margin-bottom: 130rpx;
+			margin-bottom:50rpx;
 
 			.frameTop {
 				overflow: hidden;
+				margin-bottom: 45rpx;
 
 				.top_Left {
 					float: left;
@@ -878,7 +879,7 @@
 					width: 153rpx;
 					height: 57rpx;
 					position: absolute;
-					top: 8rpx;
+					// top: 8rpx;
 					left: 8rpx;
 					border-top-right-radius: 30rpx;
 					border-bottom-right-radius: 30rpx;
@@ -891,14 +892,14 @@
 					color: #999;
 					font-size: 26rpx;
 					line-height: 57rpx;
-					position: absolute;
-					right: 30rpx;
-					top: 8rpx;
+					// position: absolute;
+					// right: 30rpx;
+					// top: 8rpx;
 				}
 			}
 
 			.clear {
-				height: 100rpx;
+				// height: 100rpx;
 			}
 
 			.ul {

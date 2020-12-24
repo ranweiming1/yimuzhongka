@@ -5,7 +5,7 @@
 			<view class="naviL" @tap="naviBack">
 				<image src="../../static/icon_26-2.png" mode=""></image>
 			</view>
-			<view class="naviR">
+			<!-- <view class="naviR">
 				<view class="right_L" @tap="naviBack" v-if='titleIndex!=1'>
 					商品
 					<view class="add" v-if="titleIndex==0">
@@ -13,16 +13,20 @@
 					</view>
 				</view>
 				<view class="right_R" @tap="toggle(1)" :style='titleIndex==1?"float:none;margin:0 auto;":""'>
-					店铺
+					<text>店铺</text>
+
 					<view class="add" v-if="titleIndex==1">
 						<image src="../../static/icon_09.png" mode=""></image>
 					</view>
 				</view>
+			</view> -->
+			<view class="text-title">
+				<text>店铺</text>
 			</view>
 
 		</view>
 		<!-- 列表 -->
-		<view class="content" >
+		<view class="content">
 			<view class="content-item" v-for="(item,i) in shopList">
 				<view class="item-title">
 					<view class="item-title-logo fl">
@@ -68,7 +72,7 @@
 				titleIndex: 1,
 				page: 1,
 				loadingType: 0,
-				shopList:[]
+				shopList: []
 			}
 		},
 		onLoad() {
@@ -83,9 +87,9 @@
 					delta: 1
 				})
 			},
-			shopDetail(id){
+			shopDetail(id) {
 				uni.navigateTo({
-					url:'./shop?id='+id
+					url: './shop?id=' + id
 				})
 			},
 			load: function() { //第一次回去数据
@@ -101,13 +105,13 @@
 					dengl: false,
 					success: function(res) {
 						console.log(res.data.data)
-						_this.shopList=res.data.data
+						_this.shopList = res.data.data
 						if (res.data.data.length < 10) {
 							// uni.showToast({
 							// 	title: '已是最新',
 							// 	duration: 2000
 							// });
-							_this.loadingType=2
+							_this.loadingType = 2
 						}
 						uni.hideNavigationBarLoading(); //关闭加载动画
 						uni.stopPullDownRefresh();
@@ -129,12 +133,12 @@
 				url: '/api/shop/store-shop-list',
 				dengl: false,
 				data: {
-					limit:10,
+					limit: 10,
 					page: this.page
 				},
 				success: function(res) {
-					_this.shopList =_this.shopList.concat(res.data.data) 
-					if (res.data.data.length <10) { //没有数据
+					_this.shopList = _this.shopList.concat(res.data.data)
+					if (res.data.data.length < 10) { //没有数据
 						_this.loadingType = 2;
 						uni.hideNavigationBarLoading(); //关闭加载动画
 					} else {
@@ -158,29 +162,49 @@
 		overflow: hidden;
 		background-color: #FFFFFF;
 		border-bottom: 1rpx solid #e5e5e5;
-		padding-top: 90rpx !important;
+		padding-top: 70rpx !important;
+		height: 90rpx;
+		line-height: 90rpx;
+		font-size: 32rpx;
+		text-align: center;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: #fff;
+		z-index: 999;
+		right: 0;
+
+		.text-title {
+			display: inline-block;
+			margin-right: 90rpx;
+
+			text {
+				font-size: 32rpx;
+			}
+		}
 
 		.naviL {
 			float: left;
-			margin-left: 22rpx;
-			margin-top: 10rpx;
+			width: 90rpx;
+			height: 90rpx;
+
 
 			image {
 				width: 18rpx;
 				height: 32rpx;
+				display: block;
+				padding: 29rpx 32rpx;
 			}
 
 		}
 
 		.naviR {
-			width: calc(100% - 40rpx);
-			overflow: hidden;
 
 			.right_L,
 			.right_R {
 				width: 50%;
 				text-align: center;
-				font-size: 30rpx;
+				font-size: 32rpx;
 				color: #666;
 			}
 
@@ -221,6 +245,7 @@
 	.content {
 		background-color: #e5e5e5;
 		padding: 28rpx;
+		margin-top: 160rpx;
 
 		.content-item {
 			background-color: #FFFFFF;
@@ -228,6 +253,7 @@
 			border-radius: 15rpx;
 			overflow: hidden;
 			margin-bottom: 25rpx;
+
 			.item-title {
 				overflow: hidden;
 
@@ -300,7 +326,7 @@
 					.list-img {
 						border-radius: 15rpx;
 						overflow: hidden;
-						height:200rpx;
+						height: 200rpx;
 
 						image {
 							width: 100%;

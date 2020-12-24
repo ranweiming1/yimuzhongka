@@ -80,8 +80,13 @@
 				<text @tap='shangpinxin'>分享赚</text>
 			</view>
 			<view class="h2aBox">
-				<text>{{list.goodsName?list.goodsName:''}}</text>
+				<text class="span_a" v-if="list.selfStatus=='Y'">自营</text>
+				<text class="titleText">{{list.goodsName?list.goodsName:''}}</text>
 			</view>
+			<!-- 		<view class="h2aBox">
+				<text class="span_a">自营</text>
+				<text>{{list.goodsName?list.goodsName:''}}</text>
+			</view> -->
 		</view>
 
 		<!-- 发货/活动细则 -->
@@ -734,10 +739,12 @@
 	* {
 		-webkit-touch-callout: none;
 	}
-	.boxbox{
+
+	.boxbox {
 		-webkit-touch-callout: none;
 		overflow: hidden;
 	}
+
 	.mask {
 		width: 100%;
 		height: 100vh;
@@ -1103,12 +1110,36 @@
 			padding-top: 10upx;
 			width: 100%;
 
-			text {
-				display: block;
-				font-size: 24upx;
-				color: #333;
-				line-height: 40upx;
+			.title_top {
+				overflow: hidden;
 			}
+
+			.titleText {
+				font-size: 30rpx;
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			.span_a {
+				background-color: #ff6600;
+				color: #fff;
+				border-radius: 5upx;
+				padding: 5rpx 10rpx;
+				font-size: 18upx;
+				margin-right: 10upx;
+				box-sizing: border-box;
+				line-height: 25rpx;
+				box-sizing: border-box;
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			// text {
+			// 	display: block;
+			// 	font-size: 24upx;
+			// 	color: #333;
+			// 	line-height: 40upx;
+			// }
 		}
 	}
 

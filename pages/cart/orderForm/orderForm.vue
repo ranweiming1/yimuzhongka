@@ -819,6 +819,7 @@
 			width: 75%;
 			float: right;
 			text-align: right;
+			font-size: 26rpx;
 		}
 
 		.left_a {
