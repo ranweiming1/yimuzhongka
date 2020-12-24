@@ -464,7 +464,7 @@
 	.view-style {
 		width: 100%;
 		overflow: hidden;
-		 overflow-x: hidden;
+		overflow-x: hidden;
 	}
 
 	.bg_img {

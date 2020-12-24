@@ -62,7 +62,7 @@
 		<view class="reason-list">
 			<view class="reason-item">
 				<view class="title"><text>退款金额：</text></view>
-				<input class="uni-input" style="color: #ff0000;" @blur="inpuBlur(price)"  v-model="price" :placeholder="price" />
+				<input class="uni-input" style="color: #ff0000;" @blur="inpuBlur(price)" v-model="price" :placeholder="price" />
 			</view>
 
 			<view class="reason-item">
@@ -216,7 +216,12 @@
 						title: '请选择退款原因',
 						icon: 'none'
 					})
-				}else {
+				}else if(!_this.price){
+					uni.showToast({
+						title: '请输入退款金额',
+						icon: 'none'
+					})
+				}else{
 
 					this.$https({
 						url: '/api/shop/order-refund-info-add',
@@ -239,8 +244,12 @@
 									title: '提交成功',
 									icon: 'none'
 								})
-								uni.navigateBack({
-								})
+								setTimeout(function(){
+									uni.navigateBack({
+										delta:3
+									})
+								},2000)
+								
 							}else{
 								uni.showToast({
 									title: '提交失败',
@@ -561,6 +570,7 @@
 		background-color: #fff;
 		overflow: hidden;
 		border-bottom: 20upx solid #f7f7f7;
+		margin-bottom: 150rpx;
 
 		.title {
 			padding-left: 25upx;
