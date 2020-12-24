@@ -162,6 +162,7 @@
 								title: res.data.message
 							})
 							_this.pinglun = false
+							_this.pinglunneirong=''
 							_this.$https({
 								url: '/api/oauth/news/article-detail',
 								data: {

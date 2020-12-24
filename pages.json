@@ -14,7 +14,10 @@
 			"path": "pages/index/productDetails",
 			"style": {
 				// "navigationBarTitleText": "毅木重卡"
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"app-plus": {
+					"bounce": "none"
+				}
 			}
 		},
 		{
@@ -98,7 +101,7 @@
 				// "navigationBarTitleText": "毅木重卡"
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
-				"onReachBottonDistance":200
+				"onReachBottonDistance": 200
 
 			}
 		},
@@ -412,18 +415,19 @@
 		},
 		{
 			"path": "pages/index/ke"
+		}, {
+			"path": "pages/user/jifenStore/jifenExplain",
+			"style": {
+				"navigationBarTitleText": "积分规则说明"
+			}
 		}
-	    ,{
-            "path" : "pages/user/jifenStore/jifenExplain",
-            "style" : {"navigationBarTitleText": "积分规则说明"}
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "毅木重卡",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F8F8F8",
-		"fontSize":"28rpx"
+		"fontSize": "28rpx"
 	},
 	// "tabBar": {
 	// 	"color": "#333333",
