@@ -16,7 +16,8 @@
 				// "navigationBarTitleText": "毅木重卡"
 				"navigationStyle": "custom",
 				"app-plus": {
-					"bounce": "none"
+					"bounce": "none",
+					"scrollIndicator":"none"
 				}
 			}
 		},
@@ -206,7 +207,11 @@
 		{
 			"path": "pages/user/task/invite/invite",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"app-plus": {
+					"bounce": "none",
+					"scrollIndicator":"none"
+				}
 			}
 		},
 		{
@@ -383,7 +388,7 @@
 		}
 		// {
 		// 	"path":"pages/classify/classify",
-		// 	"style":{
+		// 	"style":{                                   
 		// 		"navigationBarTitleText":"分类"
 		// 	}
 		// }
