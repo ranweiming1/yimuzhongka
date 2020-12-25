@@ -25,7 +25,7 @@
 					<!-- 店铺名称待确认 -->
 					<label class="radio">
 						<!--加个d以区分某个店铺-->
-						<view style='width:20rpx;height:20rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
+						<view style='width:25rpx;height:25rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
 						 @tap='dianpu(index)'>
 							<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;'
 							 v-if='shuju[index].dian'></view>
@@ -40,7 +40,7 @@
 						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0'>
 							<uni-swipe-action-item>
 								<view class="radi">
-									<view style='width:20rpx;height:20rpx;border:solid #ddd 1px;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
+									<view style='width:25rpx;height:25rpx;border:solid #ddd 1px;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
 									 @tap='shangpin(index,n)'>
 										<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;'
 										 v-if='shuju[index].s[n]'></view>
@@ -1330,7 +1330,7 @@
 
 		.txt_c {
 			float: left;
-			width: calc(100% - 240rpx);
+			width: calc(100% - 245rpx);
 			box-sizing: border-box;
 			padding-left: 20rpx;
 			position: relative;

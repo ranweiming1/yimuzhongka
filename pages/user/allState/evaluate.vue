@@ -3,7 +3,7 @@
 	<!-- 	<view class="one_line">
 		</view> -->
 		<view class="radios">
-			<text>订单编号：{{dList.orderSn}}</text>
+			<text>订单编号：<text selectable="true">{{dList.orderSn}}</text></text>
 			<view class="guanb">
 				<text>{{dList.addTime}}</text>
 			</view>
@@ -71,7 +71,7 @@
 				<image :src="(Number1>index)?'../../../static/xing_01.png':'../../../static/xing.png'"></image>
 			</view>
 		</view>
-		<view class="pingj">
+		<view class="pingj" style="margin-bottom: 150rpx;">
 			<view class="pingzi">
 				<text>物流评价</text>
 			</view>

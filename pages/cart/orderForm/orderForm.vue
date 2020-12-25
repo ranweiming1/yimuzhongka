@@ -65,9 +65,9 @@
 										￥{{items.shopPrice}}
 									</view>
 									<view class="jia">
-										<text @tap='shangpinj(index,indexs)'>-</text>
-										<input type="number" v-model='items.goodsNum' @blur='shuzi'>
-										<text @tap='zengjia(index,indexs)'>+</text>
+										<text>-</text>
+										<input disabled="" type="number" v-model='items.goodsNum' @blur='shuzi'>
+										<text>+</text>
 									</view>
 								</view>
 							</view>

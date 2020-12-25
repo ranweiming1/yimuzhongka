@@ -196,7 +196,6 @@
 				data: {
 					logistics: option.code,
 					// logistics: '9881116420003',
-
 				},
 				dengl: false,
 				success(res) {
@@ -209,7 +208,8 @@
 						})
 					} else {
 						uni.showToast({
-							title: res.data.message
+							title: res.data.message,
+							icon:'none'
 						})
 						_this.hotList = []
 					}
