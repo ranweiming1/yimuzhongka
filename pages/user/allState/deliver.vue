@@ -176,26 +176,25 @@
 		},
 		onLoad(option) {
 			var _this = this
-			console.log(option)
-			this.order = option.order
-			this.com = option.com
-			this.dz = option.dz
-			this.goods = JSON.parse(option.goods)
 			this.$https({
 				url: '/api/oauth/get-recommended-goods-list',
-				dengl: true,
+				// dengl: true,
 				data: {},
 				success(res) {
 					_this.hotList = res.data.data
 				}
-
 			})
+			this.order = option.order
+			this.com = option.com
+			this.dz = option.dz
+			this.goods = JSON.parse(option.goods)
+		
 			
 			this.$https({
 				url: '/api/shop/logistics-detail',
 				data: {
 					logistics: option.code,
-					// logistics: '9881116420003',
+					logistics: '9881116420003',
 				},
 				dengl: false,
 				success(res) {
