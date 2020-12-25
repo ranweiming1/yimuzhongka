@@ -305,7 +305,9 @@
 		border-radius: 10upx;
 		background-color: #fff;
 		>view{
+			overflow:hidden;
 			box-shadow:0 0 5px #ccc;
+			margin-top:50rpx;
 		}
 		.imgBox{
 			float: left;

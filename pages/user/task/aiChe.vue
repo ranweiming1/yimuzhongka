@@ -6,8 +6,8 @@
 				<view class="edit-title">
 					编辑爱车
 				</view>
-				<view class="edit-img">
-					<img :src='listz[nu].myCarImg?listz[nu].myCarImg:ediImg' @tap='shangchuan' mode="widthFix"></img>
+				<view :class="listz[nu].myCarImg?'edit-img':'edit-imgXiu'">
+					<img :src='listz[nu].myCarImg?listz[nu].myCarImg:ediImg' @tap='shangchuan'></img>
 				</view>
 				<view class="edit-cont">
 					<view class="edit-cont-top">
@@ -86,7 +86,7 @@
 					'赣', '湘', '鄂', '粤', '琼', '甘', '陕', '贵', '云', '川'
 				],
 				index: '',
-				ediImg:'../../../static/img_10.jpg.png'
+				ediImg: '../../../static/img_10.jpg.png'
 			}
 		},
 		onLoad: function() {
@@ -323,6 +323,23 @@
 				img {
 					width: 100%;
 					display: block;
+					object-fit: cover;
+				}
+			}
+
+			.edit-imgXiu {
+				margin: auto;
+				width: 485rpx;
+				box-sizing: border-box;
+				border-radius: 15rpx;
+				overflow: hidden;
+				margin-bottom: 20rpx;
+				height: 335rpx;
+
+				img {
+					width: 300rpx;
+					height: 300rpx;
+					display: inline-block;
 					object-fit: cover;
 				}
 			}
