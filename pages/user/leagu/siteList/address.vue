@@ -31,7 +31,7 @@
 		</view>
 		<view class="uni-form-item uni-column beizs">
 			<text style="font-size: 26rpx;padding-left:20rpx;color:#000;">详细地址：</text>
-			<input class="uni-input" name="input" style='font-size:26rpx;color:#000;' placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等"
+			<input class="uni-input" name="input" style='font-size:26rpx;color:#000;' @blur="jisuan" placeholder="详细地址：如道路、门牌号、小区、楼栋号、单元室等"
 			 v-model='address' />
 		</view>
 		<view class='uni-list' style="border-bottom: 1rpx solid #e5e5e5;">
@@ -150,6 +150,7 @@
 			}
 		},
 		methods: {
+
 			// 获取选择的地区
 			handleGetRegion(region) {
 				var _this = this
@@ -172,6 +173,13 @@
 			},
 			baocun: function() {
 				var _this = this
+				if(this.address.length<5){
+					uni.showToast({
+						title:'详细地址不少于5个字',
+						icon:'none'
+					})
+					return	
+				}
 				if (this.$jiaoyan(this.phone)) {
 					this.$https({
 						url: '/api/user/address-add-edit',
@@ -216,7 +224,8 @@
 							}
 						}
 					})
-				} else {
+				} 
+				else {
 					uni.showToast({
 						title: '请输入正确的手机号',
 						icon: 'none'
