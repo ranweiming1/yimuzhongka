@@ -432,7 +432,10 @@
 		"navigationBarTitleText": "毅木重卡",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F8F8F8",
-		"fontSize": "28rpx"
+		"scrollIndicator":"none",
+		    "app-plus":{  
+		        "scrollIndicator":"none" 
+		    } 
 	},
 	// "tabBar": {
 	// 	"color": "#333333",
