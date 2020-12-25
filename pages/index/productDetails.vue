@@ -506,6 +506,7 @@
 
 			},
 			add() {
+				console.log(this.guige)
 				this.isAdd = !this.isAdd
 				this.Price = this.guige[0].price
 			},

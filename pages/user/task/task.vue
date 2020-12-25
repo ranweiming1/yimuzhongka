@@ -1,5 +1,5 @@
 <template>
-	<view class="view-style" style="width: 100%;overflow: hidden;">
+	<view class="view-style" style="width: 100%; overflow-x: hidden;-webkit-overflow-scrolling: touch;">
 		<!-- 背景图 -->
 		<view class="bg_img">
 			<image src="../../../static/jfBnner.png" mode=""></image>
@@ -626,16 +626,17 @@
 	}
 
 	.bgWhite {
-		width: 700upx;
+		width: 100%;
 		height: 120upx;
 		// box-shadow: 0 0 5px #ccc;
 		position: absolute;
 		top: 400upx;
-		left: 25upx;
+		// left: 25upx;
 		// background-color: #fff;
 		border-radius: 20upx;
 		padding: 0 20upx 20upx 20upx;
 		color: #FFFFFF;
+		box-sizing: border-box;
 	}
 
 	.bott {
@@ -864,7 +865,7 @@
 			border-radius: 20upx;
 			padding: 20upx 20upx 20rpx 20upx;
 			overflow: hidden;
-			margin-bottom:50rpx;
+			margin-bottom: 50rpx;
 
 			.frameTop {
 				overflow: hidden;
