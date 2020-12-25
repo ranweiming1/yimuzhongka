@@ -174,7 +174,7 @@
 					data: JSON.stringify({
 						carCateId: this.id,
 						carNum: this.chenghumingcheng + this.chepai,
-						myCarImg: this.tupian,
+						myCarImg: this.tupian=='../../static/img_10.jpg.png'?'':this.tupian,
 						id: 0
 					}),
 					haeder: true,

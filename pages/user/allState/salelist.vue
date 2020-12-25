@@ -85,15 +85,18 @@
 </script>
 
 <style lang="scss">
-
+page{
+	background-color: #f7f7f7;
+}
 	.listBox{
-		border-top: 20upx solid #f7f7f7;
+		margin-top: 20rpx;
+		background-color: #FFFFFF;
 	}
 	.xinxi {
 		overflow: hidden;
 		width: 710upx;
 		padding: 20upx;
-		border-bottom: 20upx solid #f7f7f7;
+		// border-bottom: 20upx solid #f7f7f7;
 		
 	
 		.xinxi1 {

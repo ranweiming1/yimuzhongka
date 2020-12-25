@@ -1,5 +1,5 @@
 <template>
-	<view class="view-style">
+	<view class="view-style" style="width: 100%;overflow: hidden;">
 		<!-- 背景图 -->
 		<view class="bg_img">
 			<image src="../../../static/jfBnner.png" mode=""></image>
@@ -464,7 +464,6 @@
 	.view-style {
 		width: 100%;
 		overflow: hidden;
-		overflow-x: hidden;
 	}
 
 	.bg_img {

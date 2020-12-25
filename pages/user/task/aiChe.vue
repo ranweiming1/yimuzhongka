@@ -7,7 +7,7 @@
 					编辑爱车
 				</view>
 				<view class="edit-img">
-					<img :src='listz[nu].myCarImg' @tap='shangchuan' mode=""></img>
+					<img :src='listz[nu].myCarImg?listz[nu].myCarImg:ediImg' @tap='shangchuan' mode="widthFix"></img>
 				</view>
 				<view class="edit-cont">
 					<view class="edit-cont-top">
@@ -86,6 +86,7 @@
 					'赣', '湘', '鄂', '粤', '琼', '甘', '陕', '贵', '云', '川'
 				],
 				index: '',
+				ediImg:'../../../static/img_10.jpg.png'
 			}
 		},
 		onLoad: function() {
@@ -215,7 +216,7 @@
 							name: 'img',
 							success: res => {
 								this.listz[this.nu].myCarImg = JSON.parse(res.data).data.url
-								console.log(JSON.parse(res.data),this.listz[this.nu].myCarImg)
+								console.log(JSON.parse(res.data), this.listz[this.nu].myCarImg)
 							}
 						})
 					}
@@ -442,7 +443,9 @@
 	}
 
 	.siteBox-list {
-		margin-bottom: 140rpx;
+		// margin-bottom: 140rpx;
+		padding-bottom: 200rpx;
+		overflow: hidden;
 	}
 
 	.siteBox {
