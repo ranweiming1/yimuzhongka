@@ -30,128 +30,140 @@
 			</view>
 			<view style='overflow:hidden;margin-top:30rpx;'>给卖家备注</view>
 			<textarea style='border:1px solid #f1f1f1;height:300rpx;width:690rpx;margin-top:20rpx;' v-model='remak'></textarea>
-			<view style='margin:20rpx auto;width:300rpx;background:#3366ff;color:#fff;font-size:30rpx;line-height:90rpx;text-align:center;border-radius:45rpx;' @tap='tijiao'>立即兑换</view>
+			<view style='margin:20rpx auto;width:300rpx;background:#3366ff;color:#fff;font-size:30rpx;line-height:90rpx;text-align:center;border-radius:45rpx;'
+			 @tap='tijiao'>立即兑换</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	export default{
-		data(){
-			return{
-			  dizhi:{},
-			  id:0,
-			  obj:{},
-			  remak:'',
-			  num:1,
-			  x:false
+	export default {
+		data() {
+			return {
+				dizhi: {},
+				id: 0,
+				obj: {},
+				remak: '',
+				num: 1,
+				x: false
 			}
 		},
-		onLoad(option){
+		onLoad(option) {
 			//获取默认地址
-			if(option.dizhi){
-				this.dizhi=JSON.parse(option.dizhi)
-			}else{
+			if (option.dizhi) {
+				this.dizhi = JSON.parse(option.dizhi)
+			} else {
 				this.$https({
-					url:'/api/user/my-address',
-					success:res=>{
-						var n=0
-						res.data.data.map(n=>{
-							if(n.isDefault==1){
-								this.dizhi=n
+					url: '/api/user/my-address',
+					success: res => {
+						var n = 0
+						res.data.data.map(n => {
+							if (n.isDefault == 1) {
+								this.dizhi = n
 								n++
 							}
 						})
-						if(n==0){
-							this.dizhi=res.data.data[0]
+						if (n == 0) {
+							this.dizhi = res.data.data[0]
 						}
-						if(res.data.data.length==0){
-							this.x=true
-						}else{
-							this.x=false
+						if (res.data.data.length == 0) {
+							this.x = true
+						} else {
+							this.x = false
 						}
 					}
 				})
 			}
-			if(option.good){
-			this.id=option.good
-			}else{
-				this.id=option.id
+			if (option.good) {
+				this.id = option.good
+			} else {
+				this.id = option.id
 			}
 			//商品的信息
 			this.$https({
-				url:'/api/oauth/shop/mall-integral-goods-detail',
-				data:{
-					goods_id:option.good?option.good:option.id
+				url: '/api/oauth/shop/mall-integral-goods-detail',
+				data: {
+					goods_id: option.good ? option.good : option.id
 				},
-				dengl:true,
-				success:(res)=>{
-					this.obj=res.data.data.detail
+				dengl: true,
+				success: (res) => {
+					this.obj = res.data.data.detail
 				}
 			})
 		},
-		methods:{
-			tianjia:function(){
+		methods: {
+			tianjia: function() {
 				uni.navigateTo({
-					url:'../../user/leagu/siteList/address?j=1&id='+this.id
+					url: '../../user/leagu/siteList/address?j=1&id=' + this.id
 				})
 			},
-			tijiao:function(){
+			tijiao: function() {
 				this.$https({
-					url:'/api/shop/order-submit-integral-order',
-					data:{
-						addressId:this.dizhi.id,
-						goodsId:this.id,
-						goodsNum:1,
-						userNote:this.remak
+					url: '/api/shop/order-submit-integral-order',
+					data: {
+						addressId: this.dizhi.id,
+						goodsId: this.id,
+						goodsNum: 1,
+						userNote: this.remak
 					},
-					method:'post',
-					haeder:true,
-					success:res=>{
+					method: 'post',
+					haeder: true,
+					success: res => {
 						this.$https({
-							url:'/api/pay/unifiedOrder',
-							method:'post',
-							data:JSON.stringify({
-								orderNo:res.data.data.orderSn,
-								payMethod:3
+							url: '/api/pay/unifiedOrder',
+							method: 'post',
+							data: JSON.stringify({
+								orderNo: res.data.data.orderSn,
+								payMethod: 3
 							}),
-							haeder:true,
-							success:res=>{
-								var obj={}
-								obj.appid=res.data.data.appId
-								obj.partnerid=res.data.data.partnerId
-								obj.prapayid=res.data.data.parpayId
-								obj.package=res.data.data.packageValue
-								obj.noncestr=res.data.data.noncestr
-								obj.timestamp=res.data.data.timeStamp
-								obj.sign=res.data.data.sign
-								uni.requestPayment({
-									provider:'wxpay',
-									orderInfo:obj,
-									success:function(){
-										
-									},
-									fail:function(){
-										uni.showToast({
-											title:'支付失败请重新支付'
-										})
-									}
-								})
+							haeder: true,
+							success: res => {
+								console.log(res)
+								if (res.data.code == 0) {
+									var obj = {}
+									obj.appid = res.data.data.appId
+									obj.partnerid = res.data.data.partnerId
+									obj.prapayid = res.data.data.parpayId
+									obj.package = res.data.data.packageValue
+									obj.noncestr = res.data.data.noncestr
+									obj.timestamp = res.data.data.timeStamp
+									obj.sign = res.data.data.sign
+									uni.requestPayment({
+										provider: 'wxpay',
+										orderInfo: obj,
+										success: function() {
+
+										},
+										fail: function() {
+											uni.showToast({
+												title: '支付失败请重新支付',
+												icon:'none'
+											})
+										}
+									})
+								}else{
+									console.log(res.data.message)
+									uni.showToast({
+										title: res.data.message?res.data.message:'兑换失败',
+										icon:'none'
+									})
+								}
+
 							}
 						})
 					}
 				})
 			},
-			dizhitiaozhuan:function(){
+			dizhitiaozhuan: function() {
 				uni.navigateTo({
-					url:'../../user/leagu/siteList/siteList?jifen=1&id='+this.id
+					url: '../../user/leagu/siteList/siteList?jifen=1&id=' + this.id
 				})
 			},
-			jianshao:function(){
-				if(this.num>1)
-				this.num--
+			jianshao: function() {
+				if (this.num > 1)
+					this.num--
 			},
-			zengjia:function(){
+			zengjia: function() {
 				this.num++
 			}
 		}
@@ -173,12 +185,13 @@
 	.name {
 		overflow: hidden;
 	}
-	.dingdan{
-		overflow:hidden;
-		padding:20rpx;
+
+	.dingdan {
+		overflow: hidden;
+		padding: 20rpx;
 	}
-	.dianpuxinxi{
-		padding:0 20rpx;
+
+	.dianpuxinxi {
+		padding: 0 20rpx;
 	}
-	
 </style>

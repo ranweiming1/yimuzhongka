@@ -17,23 +17,12 @@
 			<view v-for='(item,index) in list' :style='xuanzhong==index?"color:#597cff;margin-top:10rpx;margin-bottom:10rpx;":"color:#555;margin-top:10rpx;margin-bottom:10rpx;font-size:24rpx;"'
 			 @tap='gundong(item.name,index)'>{{item.name}}</view>
 		</scroll-view>
-		<view class='zhezhao' v-if='zhezhao'>
-			<view>
-				<view>{{pinpai}}</view>
-				<view>
-					<view v-for='(item,index) in car' @tap='quxiaozhe(item.carId,item.pid)'>
-						<image :src='item.logo'></image>
-						<view>{{item.carName}}</view>
-					</view>
-				</view>
-			</view>
-		</view>
 		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.5);' v-if='chepaiz'>
 			<view style='width:500rpx;height:530rpx;position:absolute;margin:auto;top:0;left:0;right:0;bottom:0;background:#fff;text-align:center;border-radius: 15rpx;'>
 				<view style='margin-top:20px;text-align:center;'>添加爱车</view>
 				<view style='display:inline-block;margin-top:25rpx;'>
-					<view style='float:left;line-height:52rpx;width:100rpx;background:#ededed;height: 52rpx;box-sizing: border-box;border-top-left-radius: 4rpx;border-bottom-left-radius: 4rpx;' @tap='xuanze'>{{chenghumingcheng}}<i
-						 style='float:right;width:0;height:0;border:12rpx solid #ededed;border-top:12rpx solid #ddd;margin-top:20rpx;margin-right:10rpx;'></i></view>
+					<view style='float:left;line-height:52rpx;width:100rpx;background:#ededed;height: 52rpx;box-sizing: border-box;border-top-left-radius: 4rpx;border-bottom-left-radius: 4rpx;'
+					 @tap='xuanze'>{{chenghumingcheng}}<i style='float:right;width:0;height:0;border:12rpx solid #ededed;border-top:12rpx solid #ddd;margin-top:20rpx;margin-right:10rpx;'></i></view>
 					<input v-model='chepai' style='border:1px solid #eee;margin:0 auto;width:200rpx;line-height:52rpx;float:left;height:52rpx;box-sizing: border-box;border-top-right-radius: 4rpx;border-bottom-right-radius: 4rpx;'>
 				</view>
 				<view style='text-align:center;margin-top:20rpx;font-size:26rpx;'>车辆照片</view>
@@ -50,6 +39,20 @@
 			<view v-for='(item,z) in cheng' :style='index==z?"float:left;background:#2b64a4;width:50rpx;height:50rpx;text-align:center;line-height:50rpx;border-radius:5rpx;margin-left:10rpx;margin-top:20rpx;color:#fff;":"float:left;background:#fff;width:50rpx;height:50rpx;text-align:center;line-height:50rpx;margin-left:10rpx;margin-top:20rpx;"'
 			 @tap='dianji(z)'>{{item}}</view>
 		</view>
+
+
+		<view class='zhezhao' v-if='zhezhao' @tap="closeZ">
+			<view class="zheZCont">
+				<view class="zheZTitle">{{pinpai}}</view>
+				<view style="margin-bottom: 30rpx;">
+					<view v-for='(item,index) in car' @tap.stop='quxiaozhe(item.carId,item.pid)'>
+						<image :src='item.logo'></image>
+						<view>{{item.carName}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+
 	</view>
 </template>
 
@@ -98,6 +101,10 @@
 				this.xuan = l
 				this.xuanzhong = index
 			},
+			closeZ: function() {
+				console.log('阻止事件冒泡')
+				this.zhezhao = !this.zhezhao
+			},
 			qiehuan: function(carId, carName) {
 				var _this = this
 				this.zhezhao = true
@@ -112,25 +119,25 @@
 					}
 				})
 			},
-			quxiaozhe: function(id,idd) {
+			quxiaozhe: function(id, idd) {
 				this.zhezhao = false
-				var that=this
+				var that = this
 				if (this.aiChe == 1) {
 					//添加爱车
 					this.chepaiz = true
 					this.id = id
 				} else {
-					if(this.aiChe){
+					if (this.aiChe) {
 						uni.redirectTo({
-							url:'../user/task/aiChe'
+							url: '../user/task/aiChe'
 						})
-					}else{
+					} else {
 						uni.navigateBack({
-							delta:1
+							delta: 1
 						})
-						var pages=getCurrentPages()
-						var prevPage=pages[pages.length-2]
-						prevPage.$vm.bar=idd
+						var pages = getCurrentPages()
+						var prevPage = pages[pages.length - 2]
+						prevPage.$vm.bar = idd
 					}
 				}
 			},
@@ -174,7 +181,7 @@
 					method: 'post',
 					success: function(res) {
 						uni.navigateBack({
-							delta:1
+							delta: 1
 						})
 					}
 				})
@@ -196,22 +203,25 @@
 		height: 100%;
 		top: 0;
 		left: 0;
+		bottom: 0;
 		background: rgba(0, 0, 0, 0.6);
 		z-index: 999999;
 		position: fixed;
 	}
 
-	.zhezhao>view {
+	.zheZCont {
 		width: 90%;
 		right: 0;
 		top: 0;
+		bottom: 0;
 		height: 100%;
 		background: #fff;
 		z-index: 999999;
 		position: fixed;
+		overflow-y: auto;
 	}
 
-	.zhezhao>view>view:first-child {
+	.zheZTitle {
 		color: #333;
 		line-height: 50rpx;
 		text-align: center;

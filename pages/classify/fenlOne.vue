@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view :style="isShow?'height: 100vh;overflow: hidden;':''">
 		<!-- 筛选内容 -->
 		<view class="mask" v-if="isShow" @tap="hidd"></view>
 		<view class="screen" v-if="isShow">
@@ -17,7 +17,7 @@
 						</view>
 					</view>
 					<view class="Fbott">
-						<button type="default" size="mini" v-for="(item,index) in shaiList" :class="itemex==index?'active':''" @tap="toggleList(index,item.id)">{{item.brandTitle}}</button>
+						<view v-for="(item,index) in shaiList" :class="itemex==index?'active activeBef':'activeBef'" @tap="toggleList(index,item.id)"><text>{{item.brandTitle}}</text></view>
 					</view>
 				</view>
 
@@ -180,7 +180,7 @@
 				paixu: false,
 				st: 'PASC',
 				value: '',
-				bar:''
+				bar: ''
 			}
 		},
 		onLoad(option) {
@@ -189,7 +189,7 @@
 				this.value = option.keywords
 				this.search()
 			} else if (option.barId) {
-				this.bar=option.barId
+				this.bar = option.barId
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-ptList',
 					data: {
@@ -237,16 +237,16 @@
 				// })
 			}
 		},
-		onShow:function(){
+		onShow: function() {
 			this.$https({
-				url:'/api/oauth/shop/mall-goods-ptList',
-				data:{
-					goodsBrandId:this.bar
+				url: '/api/oauth/shop/mall-goods-ptList',
+				data: {
+					goodsBrandId: this.bar
 				},
-				dengl:true,
-				success:res=>{
-					this.allList=res.data.data
-					this.goodsType=res.data.data.selfStatus
+				dengl: true,
+				success: res => {
+					this.allList = res.data.data
+					this.goodsType = res.data.data.selfStatus
 				}
 			})
 		},
@@ -593,11 +593,12 @@
 
 		width: 80%;
 		height: 100%;
-		position: absolute;
+		position: fixed;
 		float: right;
 		right: 0;
 		padding-top: 60rpx;
 		top: 0;
+		bottom: 0;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -655,6 +656,31 @@
 				// flex-wrap: wrap;
 				// justify-content: flex-start;
 				// align-items: center;
+				.activeBef {
+					font-size: 22rpx;
+					width: 30%;
+					margin-bottom: 29rpx;
+					border: 1rpx solid #1c2939;
+					color: #333333;
+					height: 48rpx;
+					line-height: 48rpx;
+					margin-right: 14rpx;
+					display: inline-block;
+					border-radius: 45rpx;
+					text-align: center;
+					box-sizing: border-box;
+					padding: 0 15rpx;
+					text {
+						display: inline-block;
+						width: calc(100% - 30rpx);
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: clip;
+						box-sizing: border-box;
+						text-align: center;
+					}
+				}
+
 				button {
 					font-size: 22rpx;
 					width: 30%;

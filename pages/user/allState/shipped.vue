@@ -48,7 +48,7 @@
 		</view>
 
 		<view class="radios">
-			<text>订单编号：{{deList.orderSn}}</text>
+			<text>订单编号：<text selectable="true">{{deList.orderSn}}</text></text>
 			<view class="guanb">
 				<text>{{deList.addTime}}</text>
 			</view>

@@ -5,7 +5,7 @@
 
 		<view class="textBox">
 			<view class="top_title">
-				<text>订单编号：{{order}}</text>
+				<text>订单编号：<text selectable="true">{{order}}</text></text>
 			</view>
 			<view class="top_title" v-if="com">
 				<text>承运公司：{{com}}快递</text>
@@ -182,6 +182,16 @@
 			this.dz = option.dz
 			this.goods = JSON.parse(option.goods)
 			this.$https({
+				url: '/api/oauth/get-recommended-goods-list',
+				dengl: true,
+				data: {},
+				success(res) {
+					_this.hotList = res.data.data
+				}
+
+			})
+			
+			this.$https({
 				url: '/api/shop/logistics-detail',
 				data: {
 					logistics: option.code,
@@ -207,15 +217,6 @@
 					// _this.time=res.data.data.data[0].time
 					// console.log(res.data.data.data)
 				}
-			})
-			this.$https({
-				url: '/api/oauth/get-recommended-goods-list',
-				dengl: true,
-				data:{},
-				success(res){
-					_this.hotList = res.data.data 
-				}
-
 			})
 		},
 		methods: {
@@ -800,7 +801,8 @@
 			}
 		}
 	}
-	.activeCss{
+
+	.activeCss {
 		padding-bottom: 40rpx;
 	}
 </style>
