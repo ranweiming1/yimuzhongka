@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style='overflow:hidden;width:100%;'>
 		<!-- <view class="one_line">
 		</view> -->
 
@@ -95,6 +95,7 @@
 				<image :src="pingImg" mode=""></image>
 			</view>
 		</view>
+		<view class='g'></view>
 		<view class="uni-padding-wrap uni-common-mt botts" @tap="primary">
 			<button type="primary">提交</button>
 		</view>
@@ -339,6 +340,9 @@
 <style lang="scss">
 	page {
 		background-color: #f5f5f4;
+	}
+	.g{
+		height:300rpx;
 	}
 	.reason-items{
 		width: 100%;

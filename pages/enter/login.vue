@@ -36,14 +36,14 @@
 			</checkbox-group>
 		</view>
 		<!-- 第三方登录 -->
-		<view class="shortcut">
+		<!-- <view class="shortcut">
 			<image src="../../static/icon_16.png" mode=""></image>
 			<text>第三方登录</text>
 			<image src="../../static/icon_17.png" mode=""></image>
 			<view class="link">
 				<image src="../../static/WeChat.png" mode=""></image>
 			</view>
-		</view>
+		</view> -->
 
 	</view>
 </template>
@@ -56,7 +56,7 @@
 				statusBarHeight: this.statusBarHeight,
 				//账户信息
 				account: {},
-				isLog: true,
+				isLog: false,
 				yanZ: 50,
 				isYan: false,
 				yanText: '发送验证码'
@@ -72,6 +72,19 @@
 			uni.getSystemInfo({
 				success: function(e) {}
 			})
+		},
+		onShow:function(){
+			if(uni.getStorageSync('Authorization')){
+				uni.showToast({
+					title:'你已登录,跳转到首页',
+					icon:'none'
+				})
+				setTimeout(function(){
+					uni.reLaunch({
+						url:'../index/index'
+					})
+				},2000)
+			}
 		},
 		computed: {
 			style() {

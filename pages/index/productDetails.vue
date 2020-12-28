@@ -550,7 +550,7 @@
 						})
 						var as = 0
 						str.map(function(x) {
-							if (n.keyName.indexOf(x) > 0) {
+							if (n.keyName.indexOf(x) >= 0) {
 								as++
 							}
 						})

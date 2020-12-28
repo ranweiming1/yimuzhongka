@@ -185,7 +185,7 @@
 					</view>
 
 					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item,4)">
-						<view class="rwButt">{{item.taskStatus?'已完成':'去完成'}}
+						<view class="rwButt">{{item.taskStatus?'已完成':item.postUrl==6?'去邀请':'去完成'}}
 
 						</view>
 						<!-- <button type="primary" :style="item.taskStatus?'':'background:#bfbfbf;color:#666;'">{{item.taskStatus?'已完成':'去完成'}}</button> -->
@@ -439,15 +439,20 @@
 						state == 4 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
 						// _this.xuanR()
 					}
-					if (state == 6) {
-						uni.navigateTo({
-							url: './invite/invite'
-						})
-						_this.lingJifen(taskId, isRen, taskType)
-						// _this.xuanR()
+					// if (state == 6) {
+					// 	uni.navigateTo({
+					// 		url: './invite/invite'
+					// 	})
+					// 	_this.lingJifen(taskId, isRen, taskType)
+					// 	// _this.xuanR()
 
-					}
+					// }
 					// _this.xuanR()
+				}
+				if(state==6){
+					uni.navigateTo({
+						url:'invite/invite'
+					})
 				}
 
 			},

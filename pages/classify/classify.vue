@@ -271,6 +271,9 @@
 </script>
 
 <style lang="scss">
+	.li-content:last-child .li-load{
+		padding-bottom:20rpx;
+	}
 	.isHidden {
 		height: 530rpx;
 		position: relative;
@@ -281,7 +284,7 @@
 			position: absolute;
 			bottom: 0;
 			left: 0;
-			right: 0
+			right: 0;
 		}
 
 

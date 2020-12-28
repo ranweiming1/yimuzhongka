@@ -146,12 +146,18 @@
 			},
 			primise() {
 				var _this = this
+				if(this.value.length<10){
+					uni.showToast({
+						title:'评论最少10字符'
+					})
+					return false
+				}
 				this.$https({
 					url: '/api/shop/order-comm-submit',
 					data: JSON.stringify({
 						content: _this.value,
 						goodsId: _this.goodsId,
-						img: _this.cImg,
+						img: _this.cImg=='../../static/img_10.jpg.png'?'':_this.cImg,
 						readStatus: "",
 						score: 0,
 						orderId:this.orderId

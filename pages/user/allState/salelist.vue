@@ -17,7 +17,7 @@
 				</view>
 			</view>
 			<view class="xinxi">
-				<view class="xinxi1" @tap="detail(item.id,item.goodsName,item.specValue,item.goodsImg)">
+				<view class="xinxi1" @tap="detail(item.id,item.goodsName,item.specValue,item.goodsImg,item.approvalStatus)">
 					<view class="imgBox_a">
 						<image :src="item.goodsImg" mode=""></image>
 					</view>
@@ -75,7 +75,14 @@
 			})
 		},
 		methods:{
-			detail:function(id,name,value,logo){
+			detail:function(id,name,value,logo,approvalStatus){
+				if(approvalStatus!=0){
+					uni.showToast({
+						title:'请等待卖家同意退货',
+						icon:'none'
+					})
+					return false
+				}
 				uni.navigateTo({
 					url:'./refund?id='+id
 				})

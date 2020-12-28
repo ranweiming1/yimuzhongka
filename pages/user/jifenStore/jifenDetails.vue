@@ -50,7 +50,8 @@
 				num: '',
 				xiangqing: '',
 				q: '',
-				id: ''
+				id: '',
+				wodejifen:0
 			}
 		},
 		onLoad(option) {
@@ -72,9 +73,24 @@
 					_this.q = res.data.data.detail.shopPrice
 				}
 			})
+			//获取积分
+			this.$https({
+				url:'/api/user/my-info',
+				data:{},
+				success:res=>{
+					this.wodejifen=res.data.data.payPoints
+				}
+			})
 		},
 		methods: {
 			tiaozhuan: function() {
+				if(this.wodejifen<this.jifen){
+					uni.showToast({
+						title:'你的积分不足',
+						image:'../../../static/c.png'
+					})
+					return false
+				}
 				uni.navigateTo({
 					url: '../../cart/orderForm/jifen?good=' + this.id
 				})

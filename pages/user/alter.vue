@@ -135,6 +135,22 @@
 				}
 			})
 		},
+		onShow:function(){
+			this.$https({
+				url:'/api/user/my-info',
+				success:res=>{
+					if(res.data.code==0){
+						this.nickname=res.data.data.nickname
+						this.phone=res.data.data.phone
+						this.index=res.data.data.sex?res.data.data.sex:0
+						this.birth=res.data.data.birth?res.data.data.birth:'2020-05-06'
+						this.userName=res.data.data.userName
+						this.headimg=res.data.data.headimg
+						this.regionName=res.data.data.area?res.data.data.area:'请选择省市县'
+					}
+				}
+			})
+		},
 		components: {
 			pickRegions
 		},
