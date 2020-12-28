@@ -164,9 +164,9 @@
 					<text>提现-23.00</text>
 				</view>
 			</view>
-		<view class="uni-padding-wrap uni-common-mt botts">
-			<button @tap="tiX" type="primary" style="background: #2b5cff;">我要提现</button>
-		</view>
+			<view class="uni-padding-wrap uni-common-mt botts">
+				<button @tap="tiX" type="primary" style="background: #2b5cff;">我要提现</button>
+			</view>
 		</view>
 		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;' v-if='wenzi'
 		 @tap='went'>
@@ -175,10 +175,10 @@
 			</view>
 		</view>
 
-		
 
-		</view>
-		
+
+	</view>
+
 	</view>
 </template>
 
@@ -270,13 +270,17 @@
 
 	.distr {
 		position: relative;
-		top: 190upx;
-		// left: 25upx;
+		top: 190rpx;
+		width: 690rpx;
+		left: 30rpx;
+		right: 30rpx;
+		overflow: hidden;
+		height: 328rpx;
 
 		.imgBox_a {
 			position: absolute;
-			left: 30upx;
-			right: 30upx;
+			left: 0;
+			right: 0;
 
 			image {
 				width: 100%;
@@ -287,9 +291,9 @@
 	}
 
 	.leijis {
-		position: absolute;
-		left: 30%;
-		top: 35upx;
+		position: relative;
+		// left: 30%;
+		margin-top: 35upx;
 		text-align: center;
 
 		.one {
@@ -313,15 +317,19 @@
 	}
 
 	.shuzhi {
-		width: 700upx;
-		position: absolute;
-		top: 226upx;
-		left: 90upx;
+		width: 690rpx;
+		position: relative;
+		// left: 90rpx;
 		overflow: hidden;
+		margin-bottom: 45rpx;
+		margin-top: 30rpx;
+
 
 		.jia {
-			width: 200upx;
+			width: 50%;
 			float: left;
+			box-sizing: border-box;
+			padding-left: 85rpx;
 
 			.imgBox_b {
 				float: left;
@@ -342,8 +350,10 @@
 		}
 
 		.jian {
-			margin-left: 22%;
+			width: 50%;
 			float: left;
+			box-sizing: border-box;
+			padding-left: 85rpx;
 
 			.imgBox_b {
 				float: left;
