@@ -188,13 +188,14 @@
 			this.com = option.com
 			this.dz = option.dz
 			this.goods = JSON.parse(option.goods)
+			console.log(option)
 		
 			
 			this.$https({
 				url: '/api/shop/logistics-detail',
 				data: {
-					logistics: option.code,
-					logistics: '9881116420003',
+					logistics: option.code? option.code:'',
+					// logistics: '9881116420003',
 				},
 				dengl: false,
 				success(res) {
