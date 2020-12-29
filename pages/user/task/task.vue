@@ -217,7 +217,8 @@
 				n3: '',
 				n4: '',
 				n5: '',
-				n6: ''
+				n6: '',
+				id:''
 			}
 		},
 		onLoad() {
@@ -357,6 +358,13 @@
 						_this.state = state
 					}
 				})
+				this.$https({
+					url:'/api/user/my-info',
+					data:{},
+					success:res=>{
+						this.id=res.data.data.myCode
+					}
+				})
 				// },
 			},
 			jifenEx: function() {
@@ -451,7 +459,7 @@
 				}
 				if(state==6){
 					uni.navigateTo({
-						url:'invite/invite'
+						url:'invite/invite?val='+this.id
 					})
 				}
 
