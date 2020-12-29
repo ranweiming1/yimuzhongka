@@ -345,7 +345,7 @@
 		width: 710upx;
 		padding: 20upx;
 		overflow: hidden;
-		padding-top: 10upx;
+		// padding-top: 10upx;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
 

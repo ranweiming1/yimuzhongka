@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<!-- <view class="line" style="height: 50rpx;"></view> -->
-		<view class="top" style='position:fixed;width:100%;left:0;top:0;z-index:99999;background:#fff;padding-top:60rpx;'>
-			<view class='back' @tap='back' style='float:left;padding: 30rpx 35rpx;'>
-				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image>
+		<view class="top">
+			<view class='back' @tap='back' style='float:left;'>
+				<image src='../../static/icon_26-2.png' mode=''></image>
 			</view>
 			<view class="textBox">
 				<text>全部分类</text>
@@ -236,17 +236,36 @@
 	}
 
 	.top {
-		width: 750upx;
-		// margin: 0 auto;
 		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
 		height: 90rpx;
+		text-align: center;
+		position: fixed;
+		width: 100%;
+		left: 0;
+		top: 0;
+		z-index: 99999;
+		background: #fff;
+		padding-top: 70rpx;
+
+		.back {
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
+			}
+		}
 
 		.textBox {
-			padding-left: 40%;
+			display: inline-block;
 
 			text {
-				font-size: 28upx;
+				font-size: 32rpx;
 				color: #333;
 				float: left;
 				line-height: 90upx;
@@ -256,14 +275,19 @@
 
 		.imgBox {
 			float: right;
-			padding: 30upx;
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
 
 			image {
 				width: 36upx;
 				height: 36upx;
+				display: block;
+				margin: 27rpx;
 			}
 		}
 	}
+
 
 	.Box {
 		width: 750upx;
