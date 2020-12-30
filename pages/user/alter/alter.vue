@@ -21,9 +21,9 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view> -->
-				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
-				<!-- <text></text> -->
-			<!-- </view>
+		<!-- <input type="text" value="" placeholder="请输入密码" /> -->
+		<!-- <text></text> -->
+		<!-- </view>
 		</view> -->
 		<view class="basic">
 			<view class="left_a">
@@ -52,6 +52,36 @@
 				<!-- <text></text> -->
 			</view>
 		</view>
+
+		<view class="basic">
+			<view class="imgLogo">
+				<image src="../../../static/zhifubao.png" mode=""></image>
+			</view>
+			<view class="imgTitle">
+				<text>支付宝</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='gm'>绑定支付宝</text>
+			</view>
+		</view>
+
+		<view class="basic">
+			<view class="imgLogo">
+				<image src="../../../static/WeChat.png" mode=""></image>
+			</view>
+			<view class="imgTitle">
+				<text>微信</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='gm'>绑定微信</text>
+			</view>
+		</view>
 		<!-- <view class="basic">
 			<view class="left_a">
 				<text>安全中心</text>
@@ -60,9 +90,9 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view> -->
-				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
-				<!-- <text></text> -->
-			<!-- </view>
+		<!-- <input type="text" value="" placeholder="请输入密码" /> -->
+		<!-- <text></text> -->
+		<!-- </view>
 		</view>
 		<view class="basic">
 			<view class="left_a">
@@ -72,9 +102,9 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view> -->
-				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
-				<!-- <text></text> -->
-			<!-- </view>
+		<!-- <input type="text" value="" placeholder="请输入密码" /> -->
+		<!-- <text></text> -->
+		<!-- </view>
 		</view> -->
 		<view class=" uni-padding-wrap uni-common-mt quit" @tap='t'>
 			<button type="primary">退出登录</button>
@@ -105,25 +135,25 @@
 			})
 		},
 		methods: {
-			t:function(){
-				uni.setStorageSync('Authorization','')
+			t: function() {
+				uni.setStorageSync('Authorization', '')
 				uni.showToast({
-					title:'退出成功'
+					title: '退出成功'
 				})
-				setTimeout(function(){
+				setTimeout(function() {
 					uni.navigateTo({
-						url:'../../enter/enter'
+						url: '../../enter/enter'
 					})
-				},1000)
+				}, 1000)
 			},
-			gengg:function(){
+			gengg: function() {
 				uni.navigateTo({
-					url:'alterCall/alterCall'
+					url: 'alterCall/alterCall'
 				})
 			},
-			gm:function(){
+			gm: function() {
 				uni.navigateTo({
-					url:'alterPassword/alterPassword'
+					url: 'alterPassword/alterPassword'
 				})
 			}
 		}
@@ -143,6 +173,23 @@
 		padding: 20upx;
 		padding-bottom: 20upx;
 		box-sizing: border-box;
+
+		.imgLogo {
+			float: left;
+			padding: 10rpx 20rpx;
+
+			image {
+				width: 50rpx;
+				height: 50rpx;
+				display: block;
+			}
+		}
+
+		.imgTitle {
+			float: left;
+			line-height: 70rpx;
+
+		}
 
 		.left_a {
 			float: left;
