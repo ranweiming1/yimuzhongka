@@ -698,8 +698,6 @@
 				}
 			},
 			shangpinxin: function() {
-				var isType = uni.getSystemInfoSync().platform === 'android' ? true : false
-				console.log(uni.getSystemInfoSync().platform,isType)
 				if (this.denglufangfatiaozhuan()) {
 					var _this = this
 					this.$https({
@@ -710,8 +708,9 @@
 								provider: 'weixin',
 								scene: 'WXSceneSession',
 								type: 0,
-								href:isType? encodeURIComponent('https://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId):'https://www.yimuzk.com?myCode=' + res.data.data.myCode + ',' + _this.deId,
-								imageUrl: _this.list.goodsImgss[0],
+								href:'https://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId,
+								// imageUrl:_this.list.goodsImgss[0],
+								imageUrl: encodeURIComponent('https://profile.csdnimg.cn/F/6/E/3_qq_25887937'),
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',
 								summary: '商品描述',
 								success: res => {
