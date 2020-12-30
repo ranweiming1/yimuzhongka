@@ -710,7 +710,7 @@
 								provider: 'weixin',
 								scene: 'WXSceneSession',
 								type: 0,
-								href:isType? encodeURIComponent('https://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId):'https://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId,
+								href:isType? encodeURIComponent('https://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId):'https://www.yimuzk.com?myCode=' + res.data.data.myCode + ',' + _this.deId,
 								imageUrl: _this.list.goodsImgss[0],
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',
 								summary: '商品描述',
