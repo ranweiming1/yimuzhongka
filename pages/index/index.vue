@@ -235,6 +235,16 @@
 				this.xianshidenglu = true
 			}
 			var _this = this
+			this.$https({
+				url:'/api/oauth/wx-ali-auth-login-switch',
+				method:'POST',
+				dengl:true,
+				data:{},
+				success(res){
+					console.log(res)
+					uni.setStorageSync('pdType',res.data.data=='disable'?false:true)
+				}
+			})
 			this.list = []
 			this.$https({
 				url: '/api/oauth/shop/mall-index',

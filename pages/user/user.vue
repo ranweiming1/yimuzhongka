@@ -79,7 +79,7 @@
 		</view>
 		<view style='position:relative;z-index:99;background:#fff;width:100%;border-radius:20rpx;'>
 			<image src='../../static/jifen.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;' @tap='jifen'></image>
-			<image src='../../static/fenxiangxianjin.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;'
+			<image v-if="pdType" src='../../static/fenxiangxianjin.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;'
 			 @tap='ques'></image>
 		</view>
 		<view style='width:670rpx;margin:0 auto;margin-top:50rpx;overflow:hidden;position:relative;'>
@@ -100,7 +100,7 @@
 
 			<view class="dai" @tap="daiFu(2)">
 				<view class="imgBox_a">
-					<view  v-if="fahuo!=0">{{fahuo}}</view>
+					<view v-if="fahuo!=0">{{fahuo}}</view>
 					<image src="../../static/fh.png" mode=""></image>
 				</view>
 
@@ -111,7 +111,7 @@
 
 			<view class="ping" @tap="daiFu(3)">
 				<view class="imgBox_a">
-					<view  v-if="shouhuo!=0">{{shouhuo}}</view>
+					<view v-if="shouhuo!=0">{{shouhuo}}</view>
 					<image src="../../static/sh.png" mode=""></image>
 				</view>
 
@@ -122,7 +122,7 @@
 
 			<view class="tui" @tap="daiFu(4)">
 				<view class="imgBox_a">
-					<view  v-if="pingjia!=0">{{pingjia}}</view>
+					<view v-if="pingjia!=0">{{pingjia}}</view>
 					<image src="../../static/pj.png" mode=""></image>
 				</view>
 
@@ -191,7 +191,7 @@
 							</view>
 						</view>
 
-						<view @tap="ques">
+						<view @tap="ques" v-if="pdType">
 							<view class="imgBox">
 								<image src="../../static/sm.png" mode=""></image>
 							</view>
@@ -353,9 +353,11 @@
 		<!-- <view style='position:fixed;top:0;left:0;width:100%;height:100%;' v-if='xianshidenglu' @tap='dengluweizhi'></view> -->
 		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
 		 v-if='xianshidenglu'>
-		 <image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;' @tap='g'></image>
+			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;'
+			 @tap='g'></image>
 			登录查看更多
-			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;' @tap='deng'>立即登录/注册</view>
+			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
+			 @tap='deng'>立即登录/注册</view>
 		</view>
 	</view>
 </template>
@@ -389,18 +391,20 @@
 				fahuo: 0,
 				shouhuo: 0,
 				pingjia: 0,
-				tuikuan: 0
+				tuikuan: 0,
+				pdType:''
 			}
 		},
 		components: {
 			tabBar,
 		},
 		onShow: function() {
+			this.pdType = uni.getStorageSync('pdType')
 			var _this = this
 			if (!uni.getStorageSync('Authorization')) {
 				this.xianshidenglu = true
-			}else{
-				this.xianshidenglu=false
+			} else {
+				this.xianshidenglu = false
 			}
 			//判断是否登录
 			if (uni.getStorageSync('Authorization')) {
@@ -440,7 +444,7 @@
 			}
 			this.$https({
 				url: '/api/oauth/user/my-platform-phone-list',
-				dengl:true,
+				dengl: true,
 				success: function(res) {
 					_this.pingtaidianhua = res.data.data
 				}
@@ -653,8 +657,8 @@
 					})
 				}
 			},
-			g:function(){
-				this.xianshidenglu=false
+			g: function() {
+				this.xianshidenglu = false
 			}
 		}
 	}

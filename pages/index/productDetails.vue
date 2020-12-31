@@ -75,7 +75,7 @@
 
 			</view>
 
-			<view class="share" @tap='shangpinxin'>
+			<view class="share" @tap='shangpinxin' v-if="pdType">
 				<image src="../../static/icon_49.png" mode=""></image>
 				<text @tap='shangpinxin'>分享赚</text>
 			</view>
@@ -373,7 +373,8 @@
 				j: 0,
 				cishu: 3,
 				yihuodecishu: 0,
-				height: ''
+				height: '',
+				pdType:''
 			}
 		},
 		components: {
@@ -381,6 +382,7 @@
 		},
 		onLoad(option) {
 			this.deId = option.id
+			this.pdType=uni.getStorageSync('pdType')
 			var _this = this
 			uni.getSystemInfo({
 				success: function(res) {

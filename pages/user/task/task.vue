@@ -171,7 +171,7 @@
 				<view class="clear">
 
 				</view>
-				<view class="ul" v-for="(item,index) in taskList" v-if='!(item.taskName=="商品追评")'>
+				<view class="ul" v-for="(item,index) in taskList" v-if='(item.taskName!="商品追评")?(item.taskName=="邀请新用户"?pyType:true):false'>
 					<view class="icon_img">
 						<image src="../../../static/rw_icon6.png" mode=""></image>
 					</view>
@@ -218,10 +218,12 @@
 				n4: '',
 				n5: '',
 				n6: '',
-				id:''
+				id:'',
+				pdType:''
 			}
 		},
 		onLoad() {
+			this.pdType=uni.getStorageSync('pdType')
 			this.xuanR()
 		},
 		methods: {
