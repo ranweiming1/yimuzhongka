@@ -188,7 +188,7 @@
 												url: '/api/user/bind-wx-ali-auth-info',
 												data:{
 													bindType:0,
-													identityCode:res.data.data.userInfo.openId
+													identityCode:res.userInfo.openId
 												},
 												dengl: true,
 												method: 'post',
