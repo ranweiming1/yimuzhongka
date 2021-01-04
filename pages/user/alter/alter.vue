@@ -187,7 +187,7 @@
 											_this.$https({
 												url: '/api/user/bind-wx-ali-auth-info',
 												data:{
-													bindType:0,
+													bindType:'0',
 													identityCode:res.userInfo.openId
 												},
 												dengl: false,
