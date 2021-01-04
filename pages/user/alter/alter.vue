@@ -190,13 +190,13 @@
 													bindType:0,
 													identityCode:res.userInfo.openId
 												},
-												dengl: true,
+												dengl: false,
 												method: 'post',
 												haeder: true,
 												success: function(res) {
 													console.log(res)
 													_this.ceshiS=JSON.stringify(res)
-													uni.setStorageSync('Authorization', res.data.data.access_token)
+													// uni.setStorageSync('Authorization', res.data.data.access_token)
 													uni.showToast({
 														title: '微信登录成功'
 													})
