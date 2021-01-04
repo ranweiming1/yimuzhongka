@@ -183,7 +183,7 @@
 										provider: 'weixin',
 										success: function(res) {
 											console.log(res,333,'测试数据')
-											_this.ceshi=JSON.stringify(res)
+											_this.ceshi=JSON.stringify(res.userInfo.openId)
 											_this.$https({
 												url: '/api/user/bind-wx-ali-auth-info',
 												data:{
