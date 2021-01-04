@@ -79,7 +79,7 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='gm'>绑定微信</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='bindWx'>绑定微信</text>
 			</view>
 		</view>
 		<!-- <view class="basic">
@@ -106,6 +106,15 @@
 		<!-- <text></text> -->
 		<!-- </view>
 		</view> -->
+		<view class="">
+			{{ceshi+'测试111'}}
+		</view>
+		<view class="">
+			{{ceshiT+'测试22'}}
+		</view>
+		<view class="">
+			{{ceshiS+'返回'}}
+		</view>
 		<view class=" uni-padding-wrap uni-common-mt quit" @tap='t'>
 			<button type="primary">退出登录</button>
 		</view>
@@ -116,7 +125,10 @@
 	export default {
 		data() {
 			return {
-				phone: ''
+				phone: '',
+				ceshi:'',
+				ceshiT:'',
+				ceshiS:''
 			}
 		},
 		onLoad() {
@@ -155,7 +167,70 @@
 				uni.navigateTo({
 					url: 'alterPassword/alterPassword'
 				})
-			}
+			},
+			bindWx: function() {
+				var _this = this
+				uni.getProvider({
+					service: 'oauth',
+					success: function(res) {
+						console.log(res,9999)
+						if (res.provider.indexOf('weixin') >= 0) {
+							uni.login({
+								provider: 'weixin',
+								success: function(res) {
+									// console.log(res,22)
+									uni.getUserInfo({
+										provider: 'weixin',
+										success: function(res) {
+											console.log(res,333,'测试数据')
+											_this.ceshi=JSON.stringify(res)
+											_this.$https({
+												url: '/api/user/bind-wx-ali-auth-info',
+												data:{
+													bindType:0,
+													identityCode:res.data.data.userInfo.openId
+												},
+												dengl: true,
+												method: 'post',
+												haeder: true,
+												success: function(res) {
+													console.log(res)
+													_this.ceshiS=JSON.stringify(res)
+													uni.setStorageSync('Authorization', res.data.data.access_token)
+													uni.showToast({
+														title: '微信登录成功'
+													})
+													setTimeout(function() {
+														uni.reLaunch({
+															url: '../index/index'
+														})
+													}, 1000)
+												}
+											})
+										},
+										fail:function(rs){
+											console.log(rs)
+											_this.ceshiT=JSON.stringify(rs)
+										},
+									
+									})
+									
+								},
+								fail: function(ress) {
+									uni.getUserInfo({
+										provider: 'weixin',
+										success: function(res) {}
+									})
+								}
+							})
+						}
+					},
+					fail: function(re) {
+						_this.q = JSON.stringify(re)
+					}
+				})
+
+			},
 		}
 	}
 </script>
