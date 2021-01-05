@@ -12,14 +12,6 @@
 			<input v-model='phone' placeholder='请输入手机号码' class='shoujihaoma' />
 			<input v-model='password' placeholder='请输入密码' password='true' class='shoujihaoma' />
 		</view>
-		<view class="">
-			{{opId}}
-
-		</view>
-		<view class="">
-			{{datas}}
-
-		</view>
 		<view class='denglu'>
 			<!-- <view>短信验证码登录</view> -->
 			<view @tap='xiuga'>忘记密码</view>
@@ -61,8 +53,6 @@
 				phone: '',
 				password: '',
 				xianshi: false,
-				opId: '',
-				datas: ''
 			}
 		},
 		computed: {
@@ -127,7 +117,6 @@
 										provider: 'weixin',
 										success: function(res) {
 											console.log(res)
-											_this.opId = JSON.stringify(res.userInfo.openId)
 											_this.$https({
 												url: '/api/oauth/wxLogin',
 												// data: JSON.stringify(res.userInfo),
@@ -138,8 +127,6 @@
 												method: 'post',
 												// haeder: true,
 												success: function(res) {
-													console.log(res)
-													_this.datas = JSON.stringify(res)
 													uni.setStorageSync('Authorization', res.data.data.access_token)
 													uni.showToast({
 														title: '微信登录成功'
