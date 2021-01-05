@@ -12,7 +12,14 @@
 			<input v-model='phone' placeholder='请输入手机号码' class='shoujihaoma' />
 			<input v-model='password' placeholder='请输入密码' password='true' class='shoujihaoma' />
 		</view>
+		<view class="">
+			{{opId}}
 
+		</view>
+		<view class="">
+			{{datas}}
+
+		</view>
 		<view class='denglu'>
 			<!-- <view>短信验证码登录</view> -->
 			<view @tap='xiuga'>忘记密码</view>
@@ -36,10 +43,7 @@
 				<view class='bangzhu' @tap='qux'>取消</view>
 			</view>
 		</view>
-		<view class="">
-			{{opId}}
-			
-		</view>
+
 	</view>
 </template>
 
@@ -57,7 +61,8 @@
 				phone: '',
 				password: '',
 				xianshi: false,
-				opId:''
+				opId: '',
+				datas: ''
 			}
 		},
 		computed: {
@@ -84,14 +89,14 @@
 							})
 							setTimeout(function() {
 								uni.navigateBack({
-									delta:1
+									delta: 1
 								})
 							}, 1900)
-							uni.setStorageSync('d','')
+							uni.setStorageSync('d', '')
 						} else {
 							uni.showToast({
 								title: res.data.message,
-								icon:'none'
+								icon: 'none'
 							})
 						}
 					}
@@ -122,7 +127,7 @@
 										provider: 'weixin',
 										success: function(res) {
 											console.log(res)
-											_this.opId=res.userInfo.openId
+											_this.opId = JSON.stringify(res.userInfo.openId)
 											_this.$https({
 												url: '/api/oauth/wxLogin',
 												// data: JSON.stringify(res.userInfo),
@@ -131,9 +136,10 @@
 												},
 												dengl: true,
 												method: 'post',
-												haeder: true,
+												// haeder: true,
 												success: function(res) {
 													console.log(res)
+													_this.datas = JSON.stringify(res)
 													uni.setStorageSync('Authorization', res.data.data.access_token)
 													uni.showToast({
 														title: '微信登录成功'
@@ -162,23 +168,24 @@
 					}
 				})
 			},
-			
-			zhifubao:function(){
+
+			zhifubao: function() {
 				this.$https({
-					url:'/api/oauth/ali/get-appid',
-					data:{},
-					method:'post',
-					dengl:true,
-					success:res=>{
-						var alipayUrl='https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id='+res.data.data+'&scope=auth_user&redirect_uri=https://www.yimuzk.com'
-						var openURL='alipays://platformapi/startapp?appId=20000067&url='+encodeURIComponent(alipayUrl)
-						plus.runtime.openURL(openURL,err=>{
-							
+					url: '/api/oauth/ali/get-appid',
+					data: {},
+					method: 'post',
+					dengl: true,
+					success: res => {
+						var alipayUrl = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=' + res.data.data +
+							'&scope=auth_user&redirect_uri=https://www.yimuzk.com'
+						var openURL = 'alipays://platformapi/startapp?appId=20000067&url=' + encodeURIComponent(alipayUrl)
+						plus.runtime.openURL(openURL, err => {
+
 						})
 					}
 				})
 			},
-			help:function(){
+			help: function() {
 				uni.navigateTo({
 					url: '/pages/user/commission/commission'
 				})
@@ -377,16 +384,18 @@
 		color: #3462fe;
 		display: inline-block;
 	}
-	.input-tiem{
-		    box-sizing: border-box;
-		    padding: 0 25rpx;
-		input{
+
+	.input-tiem {
+		box-sizing: border-box;
+		padding: 0 25rpx;
+
+		input {
 			height: 90rpx;
 			line-height: 90rpx;
 			color: #999;
 			font-size: 28rpx;
-				border-bottom: 1px solid #ddd;
-				padding: 0 10rpx;
+			border-bottom: 1px solid #ddd;
+			padding: 0 10rpx;
 		}
 	}
 
@@ -449,7 +458,7 @@
 		height: 100rpx;
 		background: #00c486;
 		border-radius: 50%;
-		margin:40rpx 50rpx;
+		margin: 40rpx 50rpx;
 	}
 
 	.anniu view:nth-child(2) {
