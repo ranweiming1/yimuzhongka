@@ -192,7 +192,6 @@
 												},
 												dengl: false,
 												method: 'post',
-												haeder: true,
 												success: function(res) {
 													console.log(res)
 													_this.ceshiS=JSON.stringify(res)
