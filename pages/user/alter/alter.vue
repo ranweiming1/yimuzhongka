@@ -106,15 +106,6 @@
 		<!-- <text></text> -->
 		<!-- </view>
 		</view> -->
-		<view class="">
-			{{ceshi+'测试111'}}
-		</view>
-		<view class="">
-			{{ceshiT+'测试22'}}
-		</view>
-		<view class="">
-			{{ceshiS+'返回'}}
-		</view>
 		<view class=" uni-padding-wrap uni-common-mt quit" @tap='t'>
 			<button type="primary">退出登录</button>
 		</view>
@@ -126,9 +117,9 @@
 		data() {
 			return {
 				phone: '',
-				ceshi:'',
-				ceshiT:'',
-				ceshiS:''
+				// ceshi: '',
+				// ceshiT: '',
+				// ceshiS: ''
 			}
 		},
 		onLoad() {
@@ -173,47 +164,44 @@
 				uni.getProvider({
 					service: 'oauth',
 					success: function(res) {
-						console.log(res,9999)
 						if (res.provider.indexOf('weixin') >= 0) {
 							uni.login({
 								provider: 'weixin',
 								success: function(res) {
-									// console.log(res,22)
 									uni.getUserInfo({
 										provider: 'weixin',
 										success: function(res) {
-											console.log(res,333,'测试数据')
-											_this.ceshi=JSON.stringify(res.userInfo.openId)
 											_this.$https({
 												url: '/api/user/bind-wx-ali-auth-info',
-												data:{
-													bindType:'0',
-													identityCode:res.userInfo.openId
+												data: {
+													bindType: '0',
+													identityCode: res.userInfo.openId
 												},
 												dengl: false,
 												method: 'post',
 												success: function(res) {
-													console.log(res)
-													_this.ceshiS=JSON.stringify(res)
 													// uni.setStorageSync('Authorization', res.data.data.access_token)
-													uni.showToast({
-														title: '微信登录成功'
-													})
-													setTimeout(function() {
-														uni.reLaunch({
-															url: '../index/index'
+													if (res.data.code == 0) {
+														uni.showToast({
+															title: '微信绑定成功'
 														})
-													}, 1000)
+													}
+
+													// setTimeout(function() {
+													// 	uni.reLaunch({
+													// 		url: '../index/index'
+													// 	})
+													// }, 1000)
 												}
 											})
 										},
-										fail:function(rs){
+										fail: function(rs) {
 											console.log(rs)
-											_this.ceshiT=JSON.stringify(rs)
+											// _this.ceshiT = JSON.stringify(rs)
 										},
-									
+
 									})
-									
+
 								},
 								fail: function(ress) {
 									uni.getUserInfo({

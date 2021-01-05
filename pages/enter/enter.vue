@@ -118,7 +118,10 @@
 										success: function(res) {
 											_this.$https({
 												url: '/api/oauth/wxLogin',
-												data: JSON.stringify(res.userInfo),
+												// data: JSON.stringify(res.userInfo),
+												data: {
+													openid: res.userInfo.openId
+												},
 												dengl: true,
 												method: 'post',
 												haeder: true,
