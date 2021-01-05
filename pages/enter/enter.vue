@@ -36,6 +36,10 @@
 				<view class='bangzhu' @tap='qux'>取消</view>
 			</view>
 		</view>
+		<view class="">
+			{{opId}}
+			
+		</view>
 	</view>
 </template>
 
@@ -52,7 +56,8 @@
 				statusBarHeight: this.statusBarHeight,
 				phone: '',
 				password: '',
-				xianshi: false
+				xianshi: false,
+				opId:''
 			}
 		},
 		computed: {
@@ -116,6 +121,8 @@
 									uni.getUserInfo({
 										provider: 'weixin',
 										success: function(res) {
+											console.log(res)
+											_this.opId=res.userInfo.openId
 											_this.$https({
 												url: '/api/oauth/wxLogin',
 												// data: JSON.stringify(res.userInfo),
@@ -126,6 +133,7 @@
 												method: 'post',
 												haeder: true,
 												success: function(res) {
+													console.log(res)
 													uni.setStorageSync('Authorization', res.data.data.access_token)
 													uni.showToast({
 														title: '微信登录成功'
