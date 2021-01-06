@@ -128,13 +128,15 @@
 				<text>支付方式</text>
 			</view>
 			<view class="right_a">
+				<picker @change='xuanze' :value='index' :range='arr'>
 				<view class="img_l">
-					<image src="../../../static/wx.png" mode=""></image>
+					<image :src="index==0?'../../../static/wx.png':'../../../static/z.png'" mode=""></image>
 				</view>
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text>微信安全支付</text>
+				<text>{{zhifu[index]}}</text>
+				</picker>
 			</view>
 		</view>
 		<view class=" mar-buttom" style="margin-bottom: 100rpx;">
@@ -208,7 +210,10 @@
 				shopId: 0,
 				xinxi: '',
 				yao: '',
-				z: ''
+				z: '',
+				arr:['微信支付','支付宝'],
+				zhifu:['微信支付','支付宝'],
+				index:0
 			}
 		},
 		onLoad: function(options) {
@@ -415,6 +420,7 @@
 					method: 'post',
 					haeder: true,
 					success: function(res) {
+						if(_this.index==0){
 						// console.log(res.data.data[0])
 						_this.$https({
 							url: '/api/pay/unifiedOrder',
@@ -465,6 +471,19 @@
 								})
 							},
 						})
+						}else{
+							_this.$https({
+								url:'/api/pay/ali/pay-unified-order',
+								data:{
+									orderNo:res.data.data[0],
+									payMethod:'4'
+								},
+								method:'post',
+								sunccess:res=>{
+									
+								}
+							})
+						}
 					}
 				})
 				// uni.showModal({
@@ -546,6 +565,9 @@
 					})
 				})
 				this.heji = this.yunfei + this.shangpin - this.moneys
+			},
+			xuanze:function(e){
+				this.index=e.detail.value
 			}
 		}
 	}

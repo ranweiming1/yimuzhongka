@@ -34,7 +34,7 @@
 				<image src='../../static/zhifubaoanniu.png'></image>
 			</view>
 		</view>
-		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
+		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项{{z}}</view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>
 				<view class='bangzhu' @tap="help">帮助中心</view>
@@ -62,7 +62,8 @@
 				password: '',
 				xianshi: false,
 				opId: '',
-				datas: ''
+				datas: '',
+				z:''
 			}
 		},
 		computed: {
@@ -180,8 +181,22 @@
 							'&scope=auth_user&redirect_uri=https://www.yimuzk.com'
 						var openURL = 'alipays://platformapi/startapp?appId=20000067&url=' + encodeURIComponent(alipayUrl)
 						plus.runtime.openURL(openURL, err => {
-
+							this.z=JSON.stringify(err)
 						})
+					}
+				})
+				uni.request({
+					url:'http://f16f9b26-294e-4306-abba-67659f8e5ad8.bspapp.com/http/alipay',
+					success(data) {
+						data = data.data
+						if (data.status == 200) {
+							let authInfo = data.data.data;
+							const PPAliPay = uni.requireNativePlugin('PP-Alipay');
+							PPAliPay.login({ authInfo: authInfo,appScheme:'alipay123456789' }, result => {
+								// self.msg = JSON.stringify(result)
+								console.log(JSON.stringify(result))
+							});
+						}
 					}
 				})
 			},

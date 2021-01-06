@@ -425,6 +425,9 @@
 			"style": {
 				"navigationBarTitleText": "积分规则说明"
 			}
+		},
+		{
+			"path":"pages/enter/denglu"
 		}
 	],
 	"globalStyle": {
