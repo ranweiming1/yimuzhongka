@@ -17,8 +17,8 @@
 			<view @tap='xiuga'>忘记密码</view>
 		</view>
 		<view class='quedingxuan' @tap='denglusss()'>确认</view>
-		<view class='shejiaozhanghao'>社交账号登录</view>
-		<view class='anniu'>
+		<view class='shejiaozhanghao' v-if="pdType">社交账号登录</view>
+		<view class='anniu' v-if="pdType">
 			<view @tap='denglu'>
 				<image src='../../static/weixinanniu.png'></image>
 			</view>
@@ -41,11 +41,7 @@
 
 <script>
 	export default {
-		onLoad() {
-			uni.getSystemInfo({
-				success: function(e) {}
-			})
-		},
+
 		data() {
 			return {
 				screenHeight: this.screenHeight,
@@ -53,7 +49,29 @@
 				phone: '',
 				password: '',
 				xianshi: false,
+				pdType: ''
 			}
+		},
+		onLoad() {
+			uni.getSystemInfo({
+				success: function(e) {}
+			})
+			var _this = this
+			if (uni.getStorageSync('pdType')) {
+				_this.pdType = uni.getStorageSync('pdType')
+			} else {
+				_this.$https({
+					url: '/api/oauth/wx-ali-auth-login-switch',
+					method: 'POST',
+					dengl: true,
+					data: {},
+					success(res) {
+						uni.setStorageSync('pdType', res.data.data == 'disable' ? false : true)
+						_this.pdType=res.data.data == 'disable' ? false : true
+					}
+				})
+			}
+
 		},
 		computed: {
 			style() {
