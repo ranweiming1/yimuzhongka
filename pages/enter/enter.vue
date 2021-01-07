@@ -12,21 +12,13 @@
 			<input v-model='phone' placeholder='请输入手机号码' class='shoujihaoma' />
 			<input v-model='password' placeholder='请输入密码' password='true' class='shoujihaoma' />
 		</view>
-		<view class="">
-			{{opId}}
-
-		</view>
-		<view class="">
-			{{datas}}
-
-		</view>
 		<view class='denglu'>
 			<!-- <view>短信验证码登录</view> -->
 			<view @tap='xiuga'>忘记密码</view>
 		</view>
 		<view class='quedingxuan' @tap='denglusss()'>确认</view>
-		<view class='shejiaozhanghao'>社交账号登录</view>
-		<view class='anniu'>
+		<view class='shejiaozhanghao' v-if="pdType">社交账号登录</view>
+		<view class='anniu' v-if="pdType">
 			<view @tap='denglu'>
 				<image src='../../static/weixinanniu.png'></image>
 			</view>
@@ -34,7 +26,7 @@
 				<image src='../../static/zhifubaoanniu.png'></image>
 			</view>
 		</view>
-		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项{{z}}</view>
+		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>
 				<view class='bangzhu' @tap="help">帮助中心</view>
@@ -49,11 +41,7 @@
 
 <script>
 	export default {
-		onLoad() {
-			uni.getSystemInfo({
-				success: function(e) {}
-			})
-		},
+
 		data() {
 			return {
 				screenHeight: this.screenHeight,
@@ -61,10 +49,29 @@
 				phone: '',
 				password: '',
 				xianshi: false,
-				opId: '',
-				datas: '',
-				z:''
+				pdType: ''
 			}
+		},
+		onLoad() {
+			uni.getSystemInfo({
+				success: function(e) {}
+			})
+			var _this = this
+			if (uni.getStorageSync('pdType')) {
+				_this.pdType = uni.getStorageSync('pdType')
+			} else {
+				_this.$https({
+					url: '/api/oauth/wx-ali-auth-login-switch',
+					method: 'POST',
+					dengl: true,
+					data: {},
+					success(res) {
+						uni.setStorageSync('pdType', res.data.data == 'disable' ? false : true)
+						_this.pdType=res.data.data == 'disable' ? false : true
+					}
+				})
+			}
+
 		},
 		computed: {
 			style() {
@@ -128,7 +135,6 @@
 										provider: 'weixin',
 										success: function(res) {
 											console.log(res)
-											_this.opId = JSON.stringify(res.userInfo.openId)
 											_this.$https({
 												url: '/api/oauth/wxLogin',
 												// data: JSON.stringify(res.userInfo),
@@ -139,8 +145,6 @@
 												method: 'post',
 												// haeder: true,
 												success: function(res) {
-													console.log(res)
-													_this.datas = JSON.stringify(res)
 													uni.setStorageSync('Authorization', res.data.data.access_token)
 													uni.showToast({
 														title: '微信登录成功'
@@ -181,24 +185,10 @@
 							'&scope=auth_user&redirect_uri=https://www.yimuzk.com'
 						var openURL = 'alipays://platformapi/startapp?appId=20000067&url=' + encodeURIComponent(alipayUrl)
 						plus.runtime.openURL(openURL, err => {
-							this.z=JSON.stringify(err)
+
 						})
 					}
 				})
-				// uni.request({
-				// 	url:'http://f16f9b26-294e-4306-abba-67659f8e5ad8.bspapp.com/http/alipay',
-				// 	success(data) {
-				// 		data = data.data
-				// 		if (data.status == 200) {
-				// 			let authInfo = data.data.data;
-				// 			const PPAliPay = uni.requireNativePlugin('PP-Alipay');
-				// 			PPAliPay.login({ authInfo: authInfo,appScheme:'alipay123456789' }, result => {
-				// 				// self.msg = JSON.stringify(result)
-				// 				console.log(JSON.stringify(result))
-				// 			});
-				// 		}
-				// 	}
-				// })
 			},
 			help: function() {
 				uni.navigateTo({
