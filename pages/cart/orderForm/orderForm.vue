@@ -40,7 +40,7 @@
 				<text>订单信息</text>
 			</view>
 			<!-- 一级列表：店铺列表循环 -->
-			
+
 			<view class="shop-list" v-for='(item,index) in cartAttr' v-if='item.cartAttr'>
 				<!-- 店铺名称 -->
 				<view style='padding-bottom: 25rpx;'>{{item.goodsName}}</view>
@@ -129,13 +129,13 @@
 			</view>
 			<view class="right_a">
 				<picker @change='xuanze' :value='index' :range='arr'>
-				<view class="img_l">
-					<image :src="index==0?'../../../static/wx.png':'../../../static/z.png'" mode=""></image>
-				</view>
-				<view class="img_a">
-					<image src="../../../static/icon_26.png" mode=""></image>
-				</view>
-				<text>{{zhifu[index]}}</text>
+					<view class="img_l">
+						<image :src="index==0?'../../../static/wx.png':'../../../static/z.png'" mode=""></image>
+					</view>
+					<view class="img_a">
+						<image src="../../../static/icon_26.png" mode=""></image>
+					</view>
+					<text>{{zhifu[index]}}</text>
 				</picker>
 			</view>
 		</view>
@@ -173,7 +173,12 @@
 					<text>￥{{yunfei}}</text>
 				</view>
 			</view>
-
+			<view class="">
+				{{sus}}
+			</view>
+			<view class="">
+				{{err}}
+			</view>
 		</view>
 		<!-- 底部 -->
 		<view class="bottom">
@@ -211,9 +216,11 @@
 				xinxi: '',
 				yao: '',
 				z: '',
-				arr:['微信支付','支付宝'],
-				zhifu:['微信支付','支付宝'],
-				index:0
+				arr: ['微信支付', '支付宝'],
+				zhifu: ['微信支付', '支付宝'],
+				index: 0,
+				sus:'',
+				err:''
 			}
 		},
 		onLoad: function(options) {
@@ -297,17 +304,17 @@
 					url: '/api/user/my-address',
 					data: {},
 					success: function(res) {
-						_this.z = res.data.data.length>0
-						var isDzhi=false
+						_this.z = res.data.data.length > 0
+						var isDzhi = false
 						res.data.data.map(function(n) {
 							if (n.isDefault == 1) {
 								//默认地址
-								isDzhi=true
+								isDzhi = true
 								_this.dizhi = n
 							}
 						})
-						if(!isDzhi){
-							_this.dizhi=res.data.data[0]
+						if (!isDzhi) {
+							_this.dizhi = res.data.data[0]
 						}
 					}
 				})
@@ -332,14 +339,18 @@
 			})
 			this.heji = (+this.yunfei) + (+this.shangpin) - this.moneys
 		},
-		onShow:function(){
+		onShow: function() {
 			//更新收货地址
-			this.$https({url:'/api/user/my-address',data:{},success:res=>{
-				if(res.data.data.length==0){
-					this.dizhi={}
-					this.z=false
+			this.$https({
+				url: '/api/user/my-address',
+				data: {},
+				success: res => {
+					if (res.data.data.length == 0) {
+						this.dizhi = {}
+						this.z = false
+					}
 				}
-			}})
+			})
 		},
 		methods: {
 			tanchuang: function() {
@@ -420,71 +431,74 @@
 					method: 'post',
 					haeder: true,
 					success: function(res) {
-						if(_this.index==0){
-						// console.log(res.data.data[0])
-						_this.$https({
-							url: '/api/pay/unifiedOrder',
-							data: JSON.stringify({
-								orderNo: res.data.data[0],
-								payMethod: 1
-							}),
-							method: 'post',
-							haeder: true,
-							success: function(res) {
-								var obj = {}
-								obj.appid = res.data.data.appId
-								obj.partnerid = res.data.data.partnerId
-								obj.prepayid = res.data.data.prepayId
-								obj.package = res.data.data.packageValue
-								obj.noncestr = res.data.data.nonceStr
-								obj.timestamp = res.data.data.timeStamp
-								obj.sign = res.data.data.sign
-								uni.requestPayment({
-									provider: 'wxpay',
-									orderInfo: obj,
-									success: function(res) {
-										_this.$https({
-											url: '/api/user/order-list',
-											data: {
-												status: 2
-											},
-											success: res => {
-												uni.redirectTo({
-													url: '../../user/allState/shipped?orderId=' + res.data.data[0].orderId
-												})
-											}
-										})
-									},
-									fail: function(res) {
-										_this.$https({
-											url: '/api/user/order-list',
-											data: {
-												status: 1
-											},
-											success: res => {
-												uni.redirectTo({
-													url: '../../user/allState/shipped?orderId=' + res.data.data[0].orderId + '&zhuangtai=0'
-												})
-											}
-										})
-									}
-								})
-							},
-						})
-						}else{
+						if (_this.index == 0) {
+							// console.log(res.data.data[0])
 							_this.$https({
-								url:'/api/pay/ali/pay-unified-order',
-								data:{
-									orderNo:res.data.data[0],
-									payMethod:4
-								},
-								method:'post',
-								sunccess:res=>{
+								url: '/api/pay/unifiedOrder',
+								data: JSON.stringify({
+									orderNo: res.data.data[0],
+									payMethod: 1
+								}),
+								method: 'post',
+								haeder: true,
+								success: function(res) {
+									var obj = {}
+									obj.appid = res.data.data.appId
+									obj.partnerid = res.data.data.partnerId
+									obj.prepayid = res.data.data.prepayId
+									obj.package = res.data.data.packageValue
+									obj.noncestr = res.data.data.nonceStr
+									obj.timestamp = res.data.data.timeStamp
+									obj.sign = res.data.data.sign
 									uni.requestPayment({
-										provider:'alipay',
-										orderInfo:res.data.data,
-										success:res=>{
-											
+										provider: 'wxpay',
+										orderInfo: obj,
+										success: function(res) {
+											_this.$https({
+												url: '/api/user/order-list',
+												data: {
+													status: 2
+												},
+												success: res => {
+													uni.redirectTo({
+														url: '../../user/allState/shipped?orderId=' + res.data.data[0].orderId
+													})
+												}
+											})
+										},
+										fail: function(res) {
+											_this.$https({
+												url: '/api/user/order-list',
+												data: {
+													status: 1
+												},
+												success: res => {
+													uni.redirectTo({
+														url: '../../user/allState/shipped?orderId=' + res.data.data[0].orderId + '&zhuangtai=0'
+													})
+												}
+											})
+										}
+									})
+								},
+							})
+						} else {
+							_this.$https({
+								url: '/api/pay/ali/pay-unified-order',
+								data: {
+									orderNo: res.data.data[0],
+									payMethod: 4
+								},
+								method: 'post',
+								sunccess: res => {
+									uni.requestPayment({
+										provider: 'alipay',
+										orderInfo: res.data.data,
+										success: res => {
+											_this.sus = 'success:' + JSON.stringify(res)
+										},
+										fail: function(err) {
+											_this.err = 'fail:' + JSON.stringify(err);
 										}
 									})
 								}
@@ -572,8 +586,8 @@
 				})
 				this.heji = this.yunfei + this.shangpin - this.moneys
 			},
-			xuanze:function(e){
-				this.index=e.detail.value
+			xuanze: function(e) {
+				this.index = e.detail.value
 			}
 		}
 	}
@@ -947,7 +961,7 @@
 		left: 0upx;
 		z-index: 99999;
 		padding: 0 15rpx;
-		    box-sizing: border-box;
+		box-sizing: border-box;
 
 		.leftA {
 			float: left;

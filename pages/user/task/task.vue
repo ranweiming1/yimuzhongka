@@ -33,7 +33,7 @@
 			</view>
 			<view class="imgRight">
 				<view class="uni-padding-wrap uni-common-mt bott" @tap="qianD">
-					<button type="primary" :style="isQian?'background:#f9b52e;color:#fff;':'color:#666'">{{isQian?'点击签到':'已签到'}}</button>
+					<button type="primary" :style="isQian?'color:#666':'background:#f9b52e;color:#fff;'">{{isQian?'已签到':'点击签到'}}</button>
 				</view>
 			</view>
 
@@ -206,7 +206,7 @@
 				date: '',
 				taskId: '',
 				qianDate: [],
-				isQian: true,
+				isQian: false,
 				systemDate: '',
 				// isList: false,
 				state: [],
@@ -271,7 +271,7 @@
 						_this.systemDate = dateRiqi(new Date)
 						// console.log(_this.qianDate)
 						// 获取返回数据的时间
-						_this.isQian = !res.data.data.signInStatus
+						_this.isQian = res.data.data.signInStatus
 						// console.log(_this.systemDate)
 						// 周几
 						var week = new Date(_this.systemDate).getDay()
@@ -306,10 +306,7 @@
 					data: {},
 					method: 'post',
 					success: res => {
-						this.taskList = res.data.data
-						console.log(res.data.data)
-
-						
+						this.taskList = res.data.data				
 					}
 				})
 				this.$https({
@@ -328,7 +325,7 @@
 			},
 			qianD() {
 				var _this = this
-				if (this.isQian) {
+				if (!this.isQian) {
 					this.$https({
 						url: '/api/task/center-signIn',
 						data: JSON.stringify({
@@ -338,7 +335,7 @@
 						method: 'POST',
 						haeder: true,
 						success: function(res) {
-							_this.isQian = false
+							_this.isQian = !_this.isQian 
 							_this.xuanR()
 						}
 					})
@@ -383,7 +380,7 @@
 							method: 'post',
 							haeder: true,
 							success: res => {
-								this.isQian = false
+								this.isQian = !_this.isQian 
 								this.xuanR()
 							}
 						})
