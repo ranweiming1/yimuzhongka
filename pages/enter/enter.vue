@@ -185,20 +185,20 @@
 						})
 					}
 				})
-				uni.request({
-					url:'http://f16f9b26-294e-4306-abba-67659f8e5ad8.bspapp.com/http/alipay',
-					success(data) {
-						data = data.data
-						if (data.status == 200) {
-							let authInfo = data.data.data;
-							const PPAliPay = uni.requireNativePlugin('PP-Alipay');
-							PPAliPay.login({ authInfo: authInfo,appScheme:'alipay123456789' }, result => {
-								// self.msg = JSON.stringify(result)
-								console.log(JSON.stringify(result))
-							});
-						}
-					}
-				})
+				// uni.request({
+				// 	url:'http://f16f9b26-294e-4306-abba-67659f8e5ad8.bspapp.com/http/alipay',
+				// 	success(data) {
+				// 		data = data.data
+				// 		if (data.status == 200) {
+				// 			let authInfo = data.data.data;
+				// 			const PPAliPay = uni.requireNativePlugin('PP-Alipay');
+				// 			PPAliPay.login({ authInfo: authInfo,appScheme:'alipay123456789' }, result => {
+				// 				// self.msg = JSON.stringify(result)
+				// 				console.log(JSON.stringify(result))
+				// 			});
+				// 		}
+				// 	}
+				// })
 			},
 			help: function() {
 				uni.navigateTo({

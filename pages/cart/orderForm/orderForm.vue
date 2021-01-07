@@ -476,11 +476,17 @@
 								url:'/api/pay/ali/pay-unified-order',
 								data:{
 									orderNo:res.data.data[0],
-									payMethod:'4'
+									payMethod:4
 								},
 								method:'post',
 								sunccess:res=>{
-									
+									uni.requestPayment({
+										provider:'alipay',
+										orderInfo:res.data.data,
+										success:res=>{
+											
+										}
+									})
 								}
 							})
 						}
