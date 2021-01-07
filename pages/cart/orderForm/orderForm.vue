@@ -496,9 +496,15 @@
 										orderInfo: res.data.data,
 										success: res => {
 											_this.sus = 'success:' + JSON.stringify(res)
+											uni.showToast({
+												title:'成功'
+											})
 										},
 										fail: function(err) {
 											_this.err = 'fail:' + JSON.stringify(err);
+											uni.showToast({
+												title:'失败'
+											})
 										}
 									})
 								}
