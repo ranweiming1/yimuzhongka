@@ -490,7 +490,7 @@
 									payMethod: 4
 								},
 								method: 'post',
-								sunccess: res => {
+								success: res => {
 									uni.requestPayment({
 										provider: 'alipay',
 										orderInfo: res.data.data.aliEncryptStr,
