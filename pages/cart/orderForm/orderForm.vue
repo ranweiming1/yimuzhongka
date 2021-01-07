@@ -491,9 +491,19 @@
 								},
 								method: 'post',
 								success: res => {
+									// console.log(res.data.data.aliEncryptStr.split('&'),777)
+									var obj={}
+									var list=res.data.data.aliEncryptStr.split('&')
+									list.map(function(val,i){
+										var arr=[]
+										arr=val.split('=')
+										console.log(arr)
+										obj[arr[0]]=arr[1]
+									},)
+									console.log(obj,list)
 									uni.requestPayment({
 										provider: 'alipay',
-										orderInfo: res.data.data.aliEncryptStr,
+										orderInfo: obj,
 										success: res => {
 											_this.sus = 'success:' + JSON.stringify(res)
 											uni.showToast({
@@ -502,6 +512,7 @@
 										},
 										fail: function(err) {
 											_this.err = 'fail:' + JSON.stringify(err);
+											console.log(obj)
 											uni.showToast({
 												title:'失败'
 											})
