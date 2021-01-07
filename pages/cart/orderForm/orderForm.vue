@@ -503,7 +503,7 @@
 									console.log(obj,list)
 									uni.requestPayment({
 										provider: 'alipay',
-										orderInfo: obj,
+										orderInfo: 'app_id=2021002110611678&format=JSON&charset=utf-8&sign_type=RSA2&version=1.0&return_url=http%3A%2F%2Fwww.baidu.com&notify_url=8.131.238.6%2Fapi%2Fpay%2FaliNotify&timestamp=2021-01-07+16%3A56%3A03&biz_content=%7B%22out_trade_no%22%3A%22210107165602950000019265%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%22VIP1%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%7D&method=alipay.trade.app.pay&sign=JJN79RRiQ8sA8u0009UJW60Exn8%2BMEShqf6ZG%2BzCmcP2aT6VlfZHRBCRBm7N3qslmfZbC4SP%2BvrRUeq9V4PS7C0H00plTQOdtwXedmNSUvXoxQK3sQM90G%2F35orr7ZLBzKoBah7scbdZapGXd8Ftena9M543Sm3FYSQeAl0jOkAX50wtidk4wUOFWXVmQkh9YJVP%2B%2BL29zZxXLCj8ka6kMihySVo3DJ%2FW6O1MyXy9t35y%2Bixo2CG%2FGt7E7ZWk0w3XipVCUTv74%2Bms3gR942JLWZwX6Qe9awEUUqkEcQrzE82gRNCipfBYMUfio%2BHXqvgbdrVq3lSMcHhON%2FY7gtKPg%3D%3D',
 										success: res => {
 											_this.sus = 'success:' + JSON.stringify(res)
 											uni.showToast({
