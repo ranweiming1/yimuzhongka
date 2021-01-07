@@ -493,7 +493,7 @@
 								sunccess: res => {
 									uni.requestPayment({
 										provider: 'alipay',
-										orderInfo: res.data.data,
+										orderInfo: res.data.data.aliEncryptStr,
 										success: res => {
 											_this.sus = 'success:' + JSON.stringify(res)
 											uni.showToast({
