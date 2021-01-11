@@ -200,7 +200,7 @@
 				dengl: false,
 				success(res) {
 					_this.wuList = res.data.data
-					_this.wlInfo = res.data.data.logisticsInfo
+					_this.wlInfo = res.data.data.logisticsInfo?res.data.data.logisticsInfo:''
 					// _this.list=res.data.data.data
 					if (res.data.code == 0) {
 						uni.showToast({
@@ -792,10 +792,9 @@
 			}
 		}
 
-		.last:last-child {
+		.list:last-child {
 			.info {
 				&::before {
-
 					border-left: none;
 				}
 			}
