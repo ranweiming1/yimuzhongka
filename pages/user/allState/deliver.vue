@@ -200,7 +200,7 @@
 					dengl: false,
 					success(res) {
 						_this.wuList = res.data.data
-						_this.wlInfo = res.data.data.logisticsInfo ? res.data.data.logisticsInfo : ''
+						_this.wlInfo = res.data.data.logisticsInfo ? res.data.data.logisticsInfo : []
 						// _this.list=res.data.data.data
 						if (res.data.code == 0) {
 							uni.showToast({
@@ -211,7 +211,7 @@
 								title: res.data.message,
 								icon: 'none'
 							})
-							_this.hotList = []
+							// _this.hotList = []
 						}
 						_this.state = res.data.data.state
 						// _this.time=res.data.data.data[0].time
