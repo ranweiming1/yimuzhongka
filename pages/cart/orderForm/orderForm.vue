@@ -355,6 +355,13 @@
 		},
 		methods: {
 			tanchuang: function() {
+				if(!this.z){
+					uni.showToast({
+						title:'请选择收货地址',
+						icon:'none'
+					})
+					return false
+				}
 				var arr = []
 				var _this = this
 				this.cartAttr.map(function(n) {
