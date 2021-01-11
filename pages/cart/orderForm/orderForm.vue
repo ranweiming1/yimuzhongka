@@ -180,6 +180,7 @@
 				{{err}}
 			</view>
 		</view>
+		<view style='height:150rpx;'></view>
 		<!-- 底部 -->
 		<view class="bottom">
 			<view class="leftA" style='margin-top:10rpx;'>
@@ -431,6 +432,11 @@
 					method: 'post',
 					haeder: true,
 					success: function(res) {
+						if(res.data.code!=0){
+							uni.showToast({
+								title:res.data.message
+							})
+						}
 						if (_this.index == 0) {
 							// console.log(res.data.data[0])
 							_this.$https({

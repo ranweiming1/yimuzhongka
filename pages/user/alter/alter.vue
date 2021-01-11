@@ -53,7 +53,7 @@
 			</view>
 		</view>
 
-		<view class="basic">
+		<!-- <view class="basic">
 			<view class="imgLogo">
 				<image src="../../../static/zhifubao.png" mode=""></image>
 			</view>
@@ -66,7 +66,7 @@
 				</view>
 				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='gm'>绑定支付宝</text>
 			</view>
-		</view>
+		</view> -->
 
 		<view class="basic">
 			<view class="imgLogo">
