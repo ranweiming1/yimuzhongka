@@ -9,7 +9,7 @@
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>验证码</text></view>
-			<input class="uni-input" name="input" placeholder="请输入验证码" v-model='smsCode' />
+			<input class="uni-input" name="input" placeholder="请输入验证码" v-model='smsCode' maxlength='4' />
 			
 			<view class="uni-padding-wrap uni-common-mt bott">
 				<button type="primary" @tap='huoquyanzhengma'>{{yanzh}}</button>
@@ -77,7 +77,8 @@
 			tijiao:function(){
 				this.$https({url:'/api/oauth/getBack-password',data:{isPassword:this.isPassword,newPassword:this.newPassword,phone:this.phone,smsCode:this.smsCode},haeder:true,dengl:false,method:'post',success:function(res){
 					uni.showToast({
-						title:res.data.message
+						title:res.data.message,
+						icon:'none'
 					})
 				}})
 			}
