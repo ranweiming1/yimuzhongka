@@ -189,35 +189,37 @@
 			this.dz = option.dz
 			this.goods = JSON.parse(option.goods)
 			console.log(option)
-		
-			
-			this.$https({
-				url: '/api/shop/logistics-detail',
-				data: {
-					logistics: option.code? option.code:'',
-					// logistics: '9881116420003',
-				},
-				dengl: false,
-				success(res) {
-					_this.wuList = res.data.data
-					_this.wlInfo = res.data.data.logisticsInfo?res.data.data.logisticsInfo:''
-					// _this.list=res.data.data.data
-					if (res.data.code == 0) {
-						uni.showToast({
-							title: '操作成功'
-						})
-					} else {
-						uni.showToast({
-							title: res.data.message,
-							icon:'none'
-						})
-						_this.hotList = []
+
+			if (option.code) {
+				this.$https({
+					url: '/api/shop/logistics-detail',
+					data: {
+						logistics: option.code ? option.code : '',
+						// logistics: '9881116420003',
+					},
+					dengl: false,
+					success(res) {
+						_this.wuList = res.data.data
+						_this.wlInfo = res.data.data.logisticsInfo ? res.data.data.logisticsInfo : ''
+						// _this.list=res.data.data.data
+						if (res.data.code == 0) {
+							uni.showToast({
+								title: '操作成功'
+							})
+						} else {
+							uni.showToast({
+								title: res.data.message,
+								icon: 'none'
+							})
+							_this.hotList = []
+						}
+						_this.state = res.data.data.state
+						// _this.time=res.data.data.data[0].time
+						// console.log(res.data.data.data)
 					}
-					_this.state = res.data.data.state
-					// _this.time=res.data.data.data[0].time
-					// console.log(res.data.data.data)
-				}
-			})
+				})
+
+			}
 		},
 		methods: {
 			detail(id) {
