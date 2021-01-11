@@ -75,11 +75,11 @@
 			<view class="imgTitle">
 				<text>微信</text>
 			</view>
-			<view class="right_a">
+			<view class="right_a" @tap='bindWx'>
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='bindWx'>绑定微信</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;'>绑定微信</text>
 			</view>
 		</view>
 		<!-- <view class="basic">
