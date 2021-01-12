@@ -28,7 +28,7 @@
 		<!-- 用户名 -->
 		<view class="userBox" style='position:relative;margin:0 auto;z-index:99999;'>
 			<view class="img_a" @tap='xiugaigerenxinxi'>
-				<image :src="headimg?headimg:'../../static/img_06.jpg'" mode=""></image>
+				<image :src="headimg?headimg:sex==0?'../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../static/307930aca7b24a8f938121e2bac851d4.png'" mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum" @tap='xiugaigerenxinxi'>
@@ -392,7 +392,8 @@
 				shouhuo: 0,
 				pingjia: 0,
 				tuikuan: 0,
-				pdType:''
+				pdType:'',
+				sex:0
 			}
 		},
 		components: {
@@ -420,6 +421,7 @@
 						// console.log(res.data.data)
 						_this.myCode = res.data.data.myCode
 						_this.id = res.data.data.id
+						_this.sex=res.data.data.sex
 					}
 				})
 				//

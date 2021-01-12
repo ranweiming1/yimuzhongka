@@ -5,7 +5,7 @@
 
 		<view class="userBox">
 			<view class="img_a">
-				<image :src="user.headimg?user.headimg:'../../../static/img_06.jpg'" mode=""></image>
+				<image :src="user.headimg?user.headimg:user.sex==0?'../../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../../static/307930aca7b24a8f938121e2bac851d4.png'" mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum">

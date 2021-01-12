@@ -40,7 +40,7 @@
 		<!-- 物流状态插件 -->
 		<view class="wu_l">
 			<view class="content1 bgf">
-				<view v-if="">
+				<view v-if="wlInfo.data.length>0">
 					<view class="flex list">
 						<view class="time"></view>
 						<view class="info flex1">
@@ -165,7 +165,7 @@
 					state: 1, //快递状态 1已签收 2配送中			
 					addr: '', //收货地址
 					//物流信息
-
+					data:[]
 				},
 				goods: []
 			}
@@ -175,6 +175,7 @@
 			// logistics
 		},
 		onLoad(option) {
+			this.hotList=[]
 			var _this = this
 			this.$https({
 				url: '/api/oauth/get-recommended-goods-list',
