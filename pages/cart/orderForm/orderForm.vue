@@ -490,10 +490,11 @@
 						} else {
 							_this.$https({
 								url: '/api/pay/ali/pay-unified-order',
-								data: {
+								data: JSON.stringify({
 									orderNo: res.data.data[0],
 									payMethod: 4
-								},
+								}),
+								haeder:true,
 								method: 'post',
 								success: res => {
 									uni.requestPayment({
