@@ -116,9 +116,9 @@
 			</view>
 			<view class="right_a">
 				<view class="img_l">
-					<image src="../../../static/wx.png" mode=""></image>
+					<image :src="deList.payMethod=='1'?'../../../static/wx.png':deList.payMethod=='4'?'../../../static/z.png':''" mode=""></image>
 				</view>
-				<text>微信安全支付</text>
+				<text>{{deList.payMethod=='1'?'微信安全支付':deList.payMethod=='2'?'积分安全支付':deList.payMethod=='3'?'微信+积分安全支付':deList.payMethod=='4'?'支付宝安全支付':'支付宝+积分安全支付'}}</text>
 			</view>
 		</view>
 

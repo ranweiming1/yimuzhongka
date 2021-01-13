@@ -504,7 +504,7 @@
 											__this.$https({url:'/api/user/order-list',data:{status:2},success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId})}})
 										},
 										fail: function(err) {
-											_this.$https({url:'/api/user-list',data:{status:1},success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId+'&zhuangtai=0'})}})
+											_this.$https({url:'/api/user/order-list',data:{status:1},success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId+'&zhuangtai=0'})}})
 										}
 									})
 								}
