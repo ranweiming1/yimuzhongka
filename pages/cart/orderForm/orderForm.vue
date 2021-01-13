@@ -173,12 +173,6 @@
 					<text>￥{{yunfei}}</text>
 				</view>
 			</view>
-			<view class="">
-				{{sus}}
-			</view>
-			<view class="">
-				{{err}}
-			</view>
 		</view>
 		<view style='height:150rpx;'></view>
 		<!-- 底部 -->
@@ -219,9 +213,7 @@
 				z: '',
 				arr: ['微信支付', '支付宝'],
 				zhifu: ['微信支付', '支付宝'],
-				index: 0,
-				sus:'',
-				err:''
+				index: 0
 			}
 		},
 		onLoad: function(options) {
@@ -508,17 +500,10 @@
 										provider: 'alipay',
 										orderInfo: res.data.data.aliEncryptStr,
 										success: res => {
-											_this.sus = 'success:' + JSON.stringify(res)
-											uni.showToast({
-												title:'成功'
-											})
+											__this.$https({url:'/api/user/order-list',data:{status:2},success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId})}})
 										},
 										fail: function(err) {
-											_this.err = 'fail:' + JSON.stringify(err);
-											console.log(obj)
-											uni.showToast({
-												title:'失败'
-											})
+											_this.$https({url:'/api/user-list',data:{status:1},success:res=>{uni.redirectTo({url:'../../user/allState/shipped?orderId='+res.data.data[0].orderId+'&zhuangtai=0'})}})
 										}
 									})
 								}
