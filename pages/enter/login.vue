@@ -59,7 +59,8 @@
 				isLog: false,
 				yanZ: 50,
 				isYan: false,
-				yanText: '发送验证码'
+				yanText: '发送验证码',
+				y:true
 			}
 		},
 		onLoad(option) {
@@ -107,8 +108,8 @@
 					})
 					return;
 				}
-
-				if (this.$jiaoyan(this.account.phone)) {
+				if (this.$jiaoyan(this.account.phone)&&this.y) {
+					this.y=false
 					this.$https({
 						url: '/api/oauth/sendSms/user-register',
 						data: {
@@ -120,11 +121,12 @@
 							var timer = setInterval(function() {
 								if (_this.yanZ == 0) {
 									_this.isYan = false
-									_this.yanZ = 50
+									_this.yanZ = 60
 									clearInterval(timer)
 								}
 								_this.yanText = '重新发送'
 								_this.yanZ--
+								_this.y=true
 							}, 1000)
 
 							if (res.data.data) {
