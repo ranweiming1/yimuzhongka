@@ -185,7 +185,7 @@
 					</view>
 
 					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item,4)">
-						<view class="rwButt">{{item.taskStatus?'已完成':item.postUrl==6?'去邀请':'去完成'}}
+						<view class="rwButt">{{item.taskId==2?(goodsViewed>0?'去完成':'已完成'):(item.taskStatus?'已完成':item.postUrl==6?'去邀请':'去完成')}}
 
 						</view>
 						<!-- <button type="primary" :style="item.taskStatus?'':'background:#bfbfbf;color:#666;'">{{item.taskStatus?'已完成':'去完成'}}</button> -->
@@ -219,7 +219,8 @@
 				n5: '',
 				n6: '',
 				id:'',
-				pdType:''
+				pdType:'',
+				goodsViewed:''
 			}
 		},
 		onLoad() {
@@ -306,7 +307,8 @@
 					data: {},
 					method: 'post',
 					success: res => {
-						this.taskList = res.data.data				
+						this.taskList = res.data.data.taskCenterList
+						this.goodsViewed=res.data.data.goodsViewed
 					}
 				})
 				this.$https({
