@@ -342,7 +342,7 @@
 		background-color: #f5f5f4;
 	}
 	.g{
-		height:300rpx;
+		height:100rpx;
 	}
 	.reason-items{
 		width: 100%;

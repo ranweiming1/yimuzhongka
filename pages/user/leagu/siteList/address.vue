@@ -201,16 +201,22 @@
 									title: '操作成功'
 								})
 								if (_this.j) {
-									uni.redirectTo({
-										url: '../../../cart/orderForm/jifen?id=' + _this.ids + '&dizhi=' + JSON.stringify(res.data.data)
+									// uni.redirectTo({
+									// 	url: '../../../cart/orderForm/jifen?id=' + _this.ids + '&dizhi=' + JSON.stringify(res.data.data)
+									// })
+									uni.navigateBack({
+										delta:1
 									})
 									return false
 								}
 								if (_this.goodsId) {
-									uni.redirectTo({
-										url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr +
-											'&zhid=' + JSON.stringify(res.data.data) + '&money=' + _this.moneys + '&id=' + _this.youhuiid + '&dingdan=' + _this.dingdan +
-											'&shopId=' + _this.shopId + '&y=' + JSON.stringify(_this.y)
+									// uni.redirectTo({
+									// 	url: '../../../cart/orderForm/orderForm?goodsId=' + _this.goodsId + '&cartAttr=' + _this.cartAttr +
+									// 		'&zhid=' + JSON.stringify(res.data.data) + '&money=' + _this.moneys + '&id=' + _this.youhuiid + '&dingdan=' + _this.dingdan +
+									// 		'&shopId=' + _this.shopId + '&y=' + JSON.stringify(_this.y)
+									// })
+									uni.navigateBack({
+										delta:1
 									})
 								} else {
 									uni.navigateBack({
