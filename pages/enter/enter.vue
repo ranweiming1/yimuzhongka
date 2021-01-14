@@ -26,6 +26,18 @@
 				<image src='../../static/zhifubaoanniu.png'></image>
 			</view>
 		</view>
+		<view class="">
+			{{as+'9999'}}
+		</view>
+		<view class="">
+			{{ass+'8888'}}
+		</view>
+		<view class="">
+			{{es+'7777'}}
+		</view>
+		<view class="">
+			{{ess+'6666'}}
+		</view>
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>
@@ -49,7 +61,11 @@
 				phone: '',
 				password: '',
 				xianshi: false,
-				pdType: ''
+				pdType: '',
+				es:'',
+				ess:'',
+				as:'',
+				ass:''
 			}
 		},
 		onLoad() {
@@ -67,7 +83,7 @@
 					data: {},
 					success(res) {
 						uni.setStorageSync('pdType', res.data.data == 'disable' ? false : true)
-						_this.pdType=res.data.data == 'disable' ? false : true
+						_this.pdType = res.data.data == 'disable' ? false : true
 					}
 				})
 			}
@@ -131,10 +147,12 @@
 							uni.login({
 								provider: 'weixin',
 								success: function(res) {
+									_this.as = JSON.stringify(res)
 									uni.getUserInfo({
 										provider: 'weixin',
 										success: function(res) {
 											console.log(res)
+											_this.ass = JSON.stringify(res)
 											_this.$https({
 												url: '/api/oauth/wxLogin',
 												// data: JSON.stringify(res.userInfo),
@@ -156,10 +174,14 @@
 													}, 1000)
 												}
 											})
+										},
+										fail(err) {
+											_this.ess = JSON.stringify(err)
 										}
 									})
 								},
 								fail: function(ress) {
+									_this.es = JSON.stringify(ress)
 									uni.getUserInfo({
 										provider: 'weixin',
 										success: function(res) {}
