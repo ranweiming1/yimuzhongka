@@ -152,7 +152,6 @@
 										provider: 'weixin',
 										success: function(res) {
 											console.log(res)
-											_this.ass = JSON.stringify(res)
 											_this.$https({
 												url: '/api/oauth/wxLogin',
 												// data: JSON.stringify(res.userInfo),
@@ -163,6 +162,7 @@
 												method: 'post',
 												// haeder: true,
 												success: function(res) {
+													_this.ass = JSON.stringify(res)
 													uni.setStorageSync('Authorization', res.data.data.access_token)
 													uni.showToast({
 														title: '微信登录成功'
