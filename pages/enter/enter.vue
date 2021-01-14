@@ -26,18 +26,6 @@
 				<image src='../../static/zhifubaoanniu.png'></image>
 			</view>
 		</view>
-		<view class="">
-			{{as+'9999'}}
-		</view>
-		<view class="">
-			{{ass+'8888'}}
-		</view>
-		<view class="">
-			{{es+'7777'}}
-		</view>
-		<view class="">
-			{{ess+'6666'}}
-		</view>
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>

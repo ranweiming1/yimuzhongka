@@ -95,7 +95,7 @@
 				<image :src="pingImg" mode=""></image>
 			</view>
 		</view>
-		<view class='g'></view>
+		<!-- <view class='g'></view> -->
 		<view class="uni-padding-wrap uni-common-mt botts" @tap="primary">
 			<button type="primary">提交</button>
 		</view>

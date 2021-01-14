@@ -21,7 +21,7 @@
 			</view>
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>
-				<input class="uni-input" type="number" v-model='account.checkCode' placeholder="请输入验证码" />
+				<input class="uni-input" type="number" maxlength='4' v-model='account.checkCode' placeholder="请输入验证码" />
 				<view @tap='fasongyanzhengma'><text v-if='isYan' style="border-left: 0;padding-left: 2rpx;">({{yanZ}}s)</text>{{yanText}}</view>
 			</view>
 		</view>
@@ -60,7 +60,7 @@
 				yanZ: 50,
 				isYan: false,
 				yanText: '发送验证码',
-				y:true
+				y: true
 			}
 		},
 		onLoad(option) {
@@ -74,17 +74,17 @@
 				success: function(e) {}
 			})
 		},
-		onShow:function(){
-			if(uni.getStorageSync('Authorization')){
+		onShow: function() {
+			if (uni.getStorageSync('Authorization')) {
 				uni.showToast({
-					title:'你已登录,跳转到首页',
-					icon:'none'
+					title: '你已登录,跳转到首页',
+					icon: 'none'
 				})
-				setTimeout(function(){
+				setTimeout(function() {
 					uni.reLaunch({
-						url:'../index/index'
+						url: '../index/index'
 					})
-				},2000)
+				}, 2000)
 			}
 		},
 		computed: {
@@ -108,8 +108,8 @@
 					})
 					return;
 				}
-				if (this.$jiaoyan(this.account.phone)&&this.y) {
-					this.y=false
+				if (this.$jiaoyan(this.account.phone) && this.y) {
+					this.y = false
 					this.$https({
 						url: '/api/oauth/sendSms/user-register',
 						data: {
@@ -126,7 +126,7 @@
 								}
 								_this.yanText = '重新发送'
 								_this.yanZ--
-								_this.y=true
+								_this.y = true
 							}, 1000)
 
 							if (res.data.data) {
@@ -179,10 +179,37 @@
 									uni.showToast({
 										title: '操作成功'
 									})
+									
 									setTimeout(function() {
-										uni.navigateTo({
-											url: 'enter'
+										_this.$https({
+											url: '/api/oauth/phoneLogin',
+											data: {
+												phone: _this.account.phone,
+												password: _this.account.password
+											},
+											dengl: true,
+											method: 'post',
+											success: function(res) {
+												if (res.data.data) {
+													uni.setStorageSync('Authorization', res.data.data.access_token)
+													uni.showToast({
+														title: '登录成功'
+													})
+													setTimeout(function() {
+														uni.reLaunch({
+															url:'../index/index'
+														})
+													}, 1900)
+													uni.setStorageSync('d', '')
+												} else {
+													uni.showToast({
+														title: res.data.message,
+														icon: 'none'
+													})
+												}
+											}
 										})
+										
 									}, 1500)
 								} else {
 									uni.showToast({
@@ -310,7 +337,7 @@
 				box-sizing: border-box;
 				height: 40rpx;
 				line-height: 40rpx;
-				margin-top:25rpx ;
+				margin-top: 25rpx;
 			}
 		}
 
