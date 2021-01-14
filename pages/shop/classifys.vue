@@ -96,32 +96,40 @@
 				}
 			})
 			this.$https({
-				url: '/api/oauth/get-one-list',
-				data: {},
+				url: '/api/oauth/get-shop-cate-list',
+				data: {shopId:options.id},
 				dengl: true,
 				success: function(res) {
-					// console.log(res.data.data)
-					_this.AllList = res.data.data
-					_this.scrollPic(res.data.data[0].id)
-					// if (options.id) {
-					// 	_this.AllList.map(function(n, index) {
-					// 		if (n.id == options.id) {
-					// 			_this.id = index
-					// 			_this.scrollPic(options.id)
-					// 			_this.rList.map(function(val, i) {
-					// 				_this.$set(val, 'isHide', true)
-					// 				if (val.childsList.length < 6) {
-					// 					val.isHide = false
-					// 				}
-					// 			})
-					// 		}
-					// 	})
-					// 	return false
-					// }else{
-					// 	console.log('sdljfsadkj')
-					// 	_this.scrollPic(res.data.data[0].id)
-					// }
-
+					if(res.data.code==0){
+						// console.log(res.data.data)
+						_this.AllList = res.data.data
+						_this.scrollPic(res.data.data[0].id)
+						// if (options.id) {
+						// 	_this.AllList.map(function(n, index) {
+						// 		if (n.id == options.id) {
+						// 			_this.id = index
+						// 			_this.scrollPic(options.id)
+						// 			_this.rList.map(function(val, i) {
+						// 				_this.$set(val, 'isHide', true)
+						// 				if (val.childsList.length < 6) {
+						// 					val.isHide = false
+						// 				}
+						// 			})
+						// 		}
+						// 	})
+						// 	return false
+						// }else{
+						// 	console.log('sdljfsadkj')
+						// 	_this.scrollPic(res.data.data[0].id)
+						// }
+						
+					}else{
+						uni.showToast({
+							title:res.data.message,
+							 icon:'none'
+						})
+					}
+					
 
 
 				},
