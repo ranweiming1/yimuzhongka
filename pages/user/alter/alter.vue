@@ -53,7 +53,7 @@
 			</view>
 		</view>
 
-		<!-- <view class="basic">
+		<view class="basic">
 			<view class="imgLogo">
 				<image src="../../../static/zhifubao.png" mode=""></image>
 			</view>
@@ -64,9 +64,9 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='gm'>绑定支付宝</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='bindZfb'>绑定支付宝</text>
 			</view>
-		</view> -->
+		</view>
 
 		<view class="basic">
 			<view class="imgLogo">
@@ -218,6 +218,50 @@
 				})
 
 			},
+
+			bindZfb: function() {
+				var _this = this
+				this.$https({
+					url: '/api/oauth/ali/get-auth-code ',
+					data: {},
+					method: 'post',
+					dengl: true,
+					success: res => {
+						var PPALiPay = uni.requireNativePlugin('PP-Alipay')
+						var _this = this
+						PPALiPay.login({
+							authInfo: res.data.data,
+							appScheme: 'yimuzhongka'
+						}, result => {
+							_this.$https({
+								url: '/api/user/bind-wx-ali-auth-info',
+								data: {
+									bindType: '1',
+									identityCode: res.data.alipayOpenId
+								},
+								dengl: false,
+								method: 'post',
+								success: function(res) {
+									// uni.setStorageSync('Authorization', res.data.data.access_token)
+									if (res.data.code == 0) {
+										uni.showToast({
+											title: '支付宝绑定成功'
+										})
+									}
+
+									// setTimeout(function() {
+									// 	uni.reLaunch({
+									// 		url: '../index/index'
+									// 	})
+									// }, 1000)
+								}
+							})
+						})
+					}
+				})
+
+			},
+
 		}
 	}
 </script>
