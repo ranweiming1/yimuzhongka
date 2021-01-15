@@ -132,7 +132,7 @@
 		<view class="class-mask" v-if="classType">
 			<view class="Box">
 				<scroll-view class="left" scroll-y style="height: 100%">
-					<view :class="id==index?'on':'none'" @tap="togLi(index)" v-for="(item ,index) in allList" :key=item.id>
+					<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in allList" :key=item.id>
 						<text v-if='id==index' class="image"></text>
 						<text>{{item.cateTitle}}</text>
 					</view>
@@ -194,11 +194,11 @@
 				sex: '',
 				storeLogo: '../../../static/img_10.jpg.png',
 				storeName: '',
-				sqrPhone:'',
+				sqrPhone: '',
 				legalPhone: '',
 				departmentName: '',
 				licenseNo: '',
-				bankCardNo:'',
+				bankCardNo: '',
 				bankName: '',
 				t: true,
 				text: '依据《中华人民共和国电子商务法》规定，用户在网络平台发布信息需提供真实身份信息建立登记档案，并定期核验更新，否则网络平台运营者不得为其提供相关服务。请根据您的实际情况选择备案方式（提交后不可变更）感谢您的配合。',
@@ -213,8 +213,8 @@
 				id: 0,
 				classType: false,
 				checkedList: [],
-				lei:'请选择分类',
-				nu:''
+				lei: '请选择分类',
+				nu: ''
 			}
 		},
 		onLoad: function() {
@@ -226,14 +226,23 @@
 				dengl: true,
 				success: function(res) {
 					_this.allList = res.data.data.goodsCates
-
-					_this.rList = res.data.data.goodsCates[0].childsList
-					_this.rList.map(function(val, i) {
-						val.childsList.map(function(item, index) {
-							_this.$set(item, 'isCheck', false)
-						})
-
+					_this.$https({
+						url: '/api/oauth/get-one-child-list',
+						data: {
+							cateId: res.data.data.goodsCates[0].id
+						},
+						dengl: true,
+						success: res => {
+							_this.rList = res.data.data
+						}
 					})
+					// _this.rList = res.data.data.goodsCates[0].childsList
+					// _this.rList.map(function(val, i) {
+					// 	val.childsList.map(function(item, index) {
+					// 		_this.$set(item, 'isCheck', false)
+					// 	})
+
+					// })
 
 				},
 			})
@@ -258,16 +267,16 @@
 						_this.cardImg1 = res.data.data.cardImg1
 						_this.cardImg2 = res.data.data.cardImg2
 						_this.holdImg = res.data.data.holdImg
-						_this.sqrPhone=res.data.data.sqrPhone
-						_this.licenseNo=res.data.data.licenseNo
-						_this.fzrDept=res.data.data.fzrDept
-						_this.lei=res.data.data.cateIdList.length>0?'已选择分类':'请选择分类'
+						_this.sqrPhone = res.data.data.sqrPhone
+						_this.licenseNo = res.data.data.licenseNo
+						_this.fzrDept = res.data.data.fzrDept
+						_this.lei = res.data.data.cateIdList.length > 0 ? '已选择分类' : '请选择分类'
 						_this.t = false
 					}
 				}
 			})
-			setTimeout(function(){
-				_this.nu='margin-left:-3300%;transition:210s;'
+			setTimeout(function() {
+				_this.nu = 'margin-left:-3300%;transition:210s;'
 			})
 		},
 		methods: {
@@ -300,7 +309,7 @@
 								that.checkedList.map(function(ite, ind) {
 									if (id == ite) {
 										that.checkedList.splice(ind, 1)
-									} 
+									}
 								})
 							}
 						}
@@ -314,7 +323,7 @@
 					uni.setNavigationBarTitle({
 						title: '商家入驻（选择主营分类）'
 					})
-				}else{
+				} else {
 					uni.setNavigationBarTitle({
 						title: '商家入驻'
 					})
@@ -322,7 +331,18 @@
 			},
 			togLi(index, id) {
 				this.id = index;
-				this.rList = this.allList[index].childsList
+				var _this=this
+				// this.rList = this.allList[index].childsList
+				this.$https({
+					url: '/api/oauth/get-one-child-list',
+					data: {
+						cateId:id
+					},
+					dengl: true,
+					success: res => {
+						_this.rList = res.data.data
+					}
+				})
 			},
 			activeCss(index) {
 				this.isActive = index
@@ -338,100 +358,100 @@
 				this.isCheck = !this.isCheck
 			},
 			nextPage: function() {
-				var nu=false
-				for(var i=0;i<this.accountName.length;i++){
-					if(this.accountName.charCodeAt(i)>255){
-						this.nu=true
+				var nu = false
+				for (var i = 0; i < this.accountName.length; i++) {
+					if (this.accountName.charCodeAt(i) > 255) {
+						this.nu = true
 					}
 				}
-				if(nu){
+				if (nu) {
 					uni.showToast({
-						title:'账户名不能包含汉字重新输入',
-						icon:'none'
+						title: '账户名不能包含汉字重新输入',
+						icon: 'none'
 					})
 					return false
 				}
-				if(!this.$jiaoyan(this.sqrPhone)||!this.$jiaoyan(this.princPhone)){
+				if (!this.$jiaoyan(this.sqrPhone) || !this.$jiaoyan(this.princPhone)) {
 					uni.showToast({
-						title:'请输入正确的手机号',
-						icon:'none'
+						title: '请输入正确的手机号',
+						icon: 'none'
 					})
 					return false
 				}
-				if(!this.$jiaoyanEmail(this.email)){
+				if (!this.$jiaoyanEmail(this.email)) {
 					uni.showToast({
-						title:'请输入正确的邮箱号',
-						icon:'none'
+						title: '请输入正确的邮箱号',
+						icon: 'none'
 					})
 					return false
 				}
-				if(!this.accountName){
+				if (!this.accountName) {
 					uni.showToast({
-						title:'请输入账户名'
+						title: '请输入账户名'
 					})
 					return false
 				}
-				if(!this.storeName){
+				if (!this.storeName) {
 					uni.showToast({
-						title:'请输入店铺名'
+						title: '请输入店铺名'
 					})
 					return false
 				}
-				if(!this.legalName){
+				if (!this.legalName) {
 					uni.showToast({
-						title:'请输入法人姓名',
-						icon:'none'
+						title: '请输入法人姓名',
+						icon: 'none'
 					})
 					return false
 				}
-				if(!this.licenseNo){
+				if (!this.licenseNo) {
 					uni.showToast({
-						title:'请输入营业执照号',
-						icon:'none'
+						title: '请输入营业执照号',
+						icon: 'none'
 					})
 					return false
 				}
-				if(!this.area){
+				if (!this.area) {
 					uni.showToast({
-						title:'请输入详细地址'
+						title: '请输入详细地址'
 					})
 					return false
 				}
-				if(!this.principal){
+				if (!this.principal) {
 					uni.showToast({
-						title:'请输入负责人姓名',
-						icon:'none'
+						title: '请输入负责人姓名',
+						icon: 'none'
 					})
 					return false
 				}
-				if(!this.fzrDept){
+				if (!this.fzrDept) {
 					uni.showToast({
-						title:'请输入部门',
-						icon:'none'
+						title: '请输入部门',
+						icon: 'none'
 					})
 					return false
 				}
-				if(this.checkedList.length==0){
+				if (this.checkedList.length == 0) {
 					uni.showToast({
-						title:'请选择分类',
-						icon:'none'
+						title: '请选择分类',
+						icon: 'none'
 					})
 					return false
 				}
-				var obj={}
-				obj.accountName=this.accountName
-				obj.sqrPhone=this.sqrPhone
-				obj.storeName=this.storeName
-				obj.legalName=this.legalName
-				obj.licenseNo=this.licenseNo
-				obj.area=this.area
-				obj.email=this.email
-				obj.principal=this.principal
-				obj.princPhone=this.princPhone
-				obj.fzrDept=this.fzrDept
-				obj.cateIdList=JSON.stringify(this.checkedList)
+				var obj = {}
+				obj.accountName = this.accountName
+				obj.sqrPhone = this.sqrPhone
+				obj.storeName = this.storeName
+				obj.legalName = this.legalName
+				obj.licenseNo = this.licenseNo
+				obj.area = this.area
+				obj.email = this.email
+				obj.principal = this.principal
+				obj.princPhone = this.princPhone
+				obj.fzrDept = this.fzrDept
+				obj.cateIdList = JSON.stringify(this.checkedList)
 				uni.navigateTo({
-					url: './leagueTwo?o='+JSON.stringify(obj)
+					url: './leagueTwo?o=' + JSON.stringify(obj)
 				})
 			},
 			yingyezhizhao: function() {
@@ -550,7 +570,7 @@
 						success: function(res) {
 							uni.showToast({
 								title: res.data.message,
-								icon:'none'
+								icon: 'none'
 							})
 						}
 					})
@@ -567,9 +587,9 @@
 					}
 				}
 			},
-			queding:function(){
-				this.classType=false
-				this.lei='已选择分类'
+			queding: function() {
+				this.classType = false
+				this.lei = '已选择分类'
 			}
 		}
 	}
@@ -580,10 +600,12 @@
 		background-color: #f7f7f7;
 		// padding-bottom: 150upx;
 	}
-	.huangdong{
-		width:100%;
-		overflow:hidden;
+
+	.huangdong {
+		width: 100%;
+		overflow: hidden;
 	}
+
 	.class-mask {
 		height: 100%;
 		width: 100%;
@@ -842,8 +864,8 @@
 			color: #ee4646;
 			font-size: 22rpx;
 
-			view{
-				width:3300%;
+			view {
+				width: 3300%;
 			}
 		}
 	}
@@ -896,7 +918,7 @@
 			height: 100rpx;
 			line-height: 100rpx;
 			color: #333333;
-			width:420rpx;
+			width: 420rpx;
 		}
 
 		.cont {
