@@ -51,11 +51,11 @@
 				password: '',
 				xianshi: false,
 				pdType: '',
-				es:'',
-				ess:'',
-				as:'',
-				ass:'',
-				msg:''
+				es: '',
+				ess: '',
+				as: '',
+				ass: '',
+				msg: ''
 			}
 		},
 		onLoad() {
@@ -193,25 +193,38 @@
 					method: 'post',
 					dengl: true,
 					success: res => {
-						var PPALiPay=uni.requireNativePlugin('PP-Alipay')
-						var _this=this
-						PPALiPay.login({authInfo:res.data.data,appScheme:'yimuzhongka'},result=>{
+						var PPALiPay = uni.requireNativePlugin('PP-Alipay')
+						var _this = this
+						PPALiPay.login({
+							authInfo: res.data.data,
+							appScheme: 'yimuzhongka'
+						}, result => {
 							_this.$https({
-								url:'/api/oauth/aliLogin',
-								data:{aliOpenid:res.data.alipayOpenId},
-								method:'post',
-								dengl:true,
-								success:res=>{
-									uni.setStorageSync('Authorization',res.data.data.access_token)
-									uni.showToast({
-										title:'支付宝登录成功',
-										icon:'none'
-									})
-									setTimeout(function(){
-										uni.reLaunch({
-											url:'../index/index'
+								url: '/api/oauth/aliLogin',
+								data: {
+									aliOpenid: res.data.alipayOpenId
+								},
+								method: 'post',
+								dengl: true,
+								success: res => {
+									if (res.data.code == 0) {
+										uni.setStorageSync('Authorization', res.data.data.access_token)
+										uni.showToast({
+											title: '支付宝登录成功',
+											icon: 'none'
 										})
-									},2600)
+										setTimeout(function() {
+											uni.reLaunch({
+												url: '../index/index'
+											})
+										}, 2600)
+									} else {
+										uni.showToast({
+											title: '未绑定支付宝',
+											icon: 'none'
+										})
+									}
+
 								}
 							})
 						})
