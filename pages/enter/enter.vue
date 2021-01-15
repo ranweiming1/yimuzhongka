@@ -26,6 +26,7 @@
 				<image src='../../static/zhifubaoanniu.png'></image>
 			</view>
 		</view>
+		<view style='width:100%;overflow-x: auto;'>{{msg}}</view>
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>
@@ -53,7 +54,8 @@
 				es:'',
 				ess:'',
 				as:'',
-				ass:''
+				ass:'',
+				msg:''
 			}
 		},
 		onLoad() {
@@ -186,19 +188,50 @@
 
 			zhifubao: function() {
 				this.$https({
-					url: '/api/oauth/ali/get-appid',
+					url: '/api/oauth/ali/get-auth-code ',
 					data: {},
 					method: 'post',
 					dengl: true,
 					success: res => {
-						var alipayUrl = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=' + res.data.data +
-							'&scope=auth_user&redirect_uri=https://www.yimuzk.com'
-						var openURL = 'alipays://platformapi/startapp?appId=20000067&url=' + encodeURIComponent(alipayUrl)
-						plus.runtime.openURL(openURL, err => {
-
+						var PPALiPay=uni.requireNativePlugin('PP-Alipay')
+						var _this=this
+						PPALiPay.login({authInfo:res.data.data,appScheme:'yimuzhongka'},result=>{
+							_this.$https({
+								url:'/api/oauth/aliLogin',
+								data:{aliOpenid:res.data.alipayOpenId},
+								method:'post',
+								dengl:true,
+								success:res=>{
+									uni.setStorageSync('Authorization',res.data.data.access_token)
+									uni.showToast({
+										title:'支付宝登录成功',
+										icon:'none'
+									})
+									setTimeout(function(){
+										uni.reLaunch({
+											url:'../index/index'
+										})
+									},2600)
+								}
+							})
 						})
 					}
 				})
+				// var self=this
+				// uni.request({
+				// 	url:'http://f16f9b26-294e-4306-abba-67659f8e5ad8.bspapp.com/http/alipay',
+				// 	success(data) {
+				// 		data = data.data
+				// 		if (data.status == 200) {
+				// 			let authInfo = data.data.data;
+				// 			const PPAliPay = uni.requireNativePlugin('PP-Alipay');
+				// 			PPAliPay.login({ authInfo: authInfo,appScheme:'alipay123456789' }, result => {
+				// 				self.msg = JSON.stringify(result)
+				// 				console.log(JSON.stringify(result))
+				// 			});
+				// 		}
+				// 	}
+				// })
 			},
 			help: function() {
 				uni.navigateTo({
