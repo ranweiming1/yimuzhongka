@@ -4,7 +4,8 @@
 			<view class="pXing">
 				<view class="xin">
 					<text>综合评价 :</text>
-					<image src="../../static/xing.png" v-for="(i,n) in 5" mode=""></image>
+					<image src="../../static/xing_01.png" v-for="(i,n) in xingji" mode=""></image>
+					<image src='../../static/xing.png' v-for='i in 5-xingji'></image>
 				</view>
 				<text class="man"><text>98</text>%满意度</text>
 			</view>
@@ -15,8 +16,8 @@
 						<image :src="item.userDTO.headimg" mode=""></image>
 						<view class="xin">
 							<text>{{item.userDTO.nickname}}</text>
-							<image src="../../static/xing_01.png" v-for="(i,n) in isXing+4" mode=""></image>
-							<image src="../../static/xing.png" v-for="(i,n) in (5-(isXing+4))" mode=""></image>
+							<image src="../../static/xing_01.png" v-for="(i,n) in item.isXing" mode=""></image>
+							<image src="../../static/xing.png" v-for="(i,n) in (5-item.isXing)" mode=""></image>
 						</view>
 					</view>
 					<view class="time">
@@ -102,6 +103,7 @@
 				gui: '',
 				shopId:'',
 				goodsId: '',
+				xingji:0
 			}
 		},
 		onLoad(option) {
@@ -120,7 +122,9 @@
 					_this.xingJ = res.data.data[0].score
 					
 					// 星级判断
-					_this.isXing = _this.xingJ >= 80 ? 5 : _this.xingJ >= 60 ? 4 : _this.xingJ >= 40 ? 3 : _this.xingJ >= 20 ? 2 : 1
+					res.data.data.map(n=>{
+					n.isXing = n.score >= 80 ? 5 : n.score >= 60 ? 4 : n.score >= 40 ? 3 : n.score >= 20 ? 2 : 1
+					})
 					// _this.storeH=res.data.data.storeGoodsReplyList
 					console.log(res.data.data[0].score)
 					console.log(res.data.data[0].goodsId)
@@ -165,7 +169,8 @@
 					_this.shuList = arr
 				}
 			})
-					
+			this.$https({url:'/api/oauth/shop/store-shop-detail',data:{shopId:option.ids},success:res=>{this.xingji=res.data.data.sharId>=80?5:res.data.data.sharId>=60?4:res.data.data.sharId>=40?3:res.data.data.sharId>=20?2:res.data.data.sharId>=0?1:0}})
+			
 		},
 		methods: {
 			houtui() {
