@@ -152,6 +152,9 @@
 			//注册按钮
 			zhuce: function() {
 				var _this = this
+				if(uni.getStorageSync('yaoqi')){
+					this.account.shaerCode=uni.getStorageSync('yaoqi').split('code=')[0]
+				}
 				if (this.isLog) {
 					if (!_this.$jiaoyan(_this.account.phone)) {
 						uni.showToast({

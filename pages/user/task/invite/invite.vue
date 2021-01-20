@@ -18,7 +18,6 @@
 		</view>
 	</view>
 </template>
-
 <script>
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
 	export default {

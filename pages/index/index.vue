@@ -357,6 +357,10 @@
 					this.g = res.data.data
 				}
 			})
+			var args=plus.runtime.arguments
+			if(args){
+				uni.setStorageSync('yaoqi',args)
+			}
 		},
 		methods: {
 			detail(id) {
