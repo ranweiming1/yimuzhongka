@@ -339,9 +339,11 @@
 
 <script>
 	import jyfParser from "@/components/jyf-parser/jyf-parser";
+	import Ctpic from '@/components/custom-picture.js'
 	import appShare, {
 		closeShare
 	} from '@/components/share.js'
+	var ctpic= new Ctpic
 	export default {
 		data() {
 			return {
@@ -702,6 +704,12 @@
 			shangpinxin: function() {
 				if (this.denglufangfatiaozhuan()) {
 					var _this = this
+					var url=ctpic.app_appendFile({
+						path:_this.list.goodsImage[0],
+						isNet:true,
+						format:'png',
+						compress:0.5
+					})
 					this.$https({
 						url: '/api/user/my-info',
 						data: {},
@@ -711,8 +719,7 @@
 								scene: 'WXSceneSession',
 								type: 0,
 								href:'https://www.yimuzk.com:8087?myCode=' + res.data.data.myCode + ',' + _this.deId,
-								// imageUrl:_this.list.goodsImgss[0],
-								imageUrl: encodeURIComponent('https://profile.csdnimg.cn/F/6/E/3_qq_25887937'),
+								imageUrl:url,
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',
 								summary: '商品描述',
 								success: res => {

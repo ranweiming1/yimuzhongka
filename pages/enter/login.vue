@@ -57,7 +57,7 @@
 				//账户信息
 				account: {},
 				isLog: false,
-				yanZ: 50,
+				yanZ: 60,
 				isYan: false,
 				yanText: '发送验证码',
 				y: true

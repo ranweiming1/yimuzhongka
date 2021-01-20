@@ -669,7 +669,6 @@
 					border-radius: 45rpx;
 					text-align: center;
 					box-sizing: border-box;
-					padding: 0 15rpx;
 					text {
 						display: inline-block;
 						width: calc(100% - 30rpx);

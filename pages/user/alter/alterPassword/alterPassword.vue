@@ -75,7 +75,7 @@
 			},
 			//提交密码
 			tijiao:function(){
-				this.$https({url:'/api/oauth/getBack-password',data:{isPassword:this.isPassword,newPassword:this.newPassword,phone:this.phone,smsCode:this.smsCode},haeder:true,dengl:false,method:'post',success:function(res){
+				this.$https({url:'/api/oauth/getBack-password',data:{isPassword:this.isPassword,newPassword:this.newPassword,phone:this.phone,smsCode:this.smsCode},haeder:true,dengl:true,method:'post',success:function(res){
 					uni.showToast({
 						title:res.data.message,
 						icon:'none'
@@ -108,6 +108,7 @@
     		font-size: 28upx;
     		padding-left: 20upx;
     		font-family:Microsoft YaHei ;
+			width:calc(100% - 100rpx);
     	}
     }
     

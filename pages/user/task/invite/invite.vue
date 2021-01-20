@@ -31,7 +31,7 @@
 		},
 		components:{tkiQrcode},
 		onLoad(option){
-			this.val=option.val
+			this.val='yimuzhongka://'+option.code
 			var _this=this
 			this.$https({url:'/api/task/get-share-page',success:function(res){
 				// _this.s=res.data.data.backgroundImg

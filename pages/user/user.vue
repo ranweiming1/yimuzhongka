@@ -518,26 +518,26 @@
 			},
 			ques: function() {
 				if (this.denglufangfatiaozhuan()) {
-					// uni.navigateTo({
-					// 	url: './task/invite/invite'
-					// })
-					this.$https({
-						url: '/api/user/my-info',
-						data: {},
-						success: res => {
-							uni.share({
-								provider: 'weixin',
-								scene: 'WXSceneSession',
-								type: 0,
-								href: 'https://yimuzk.com:8087?myCode=' + res.data.data.myCode,
-								title: '我在毅木重卡发现了一个好东西,分享给你看看',
-								summary: '商品描述',
-								success: function() {
-
-								}
-							})
-						}
+					uni.navigateTo({
+						url: './task/invite/invite?code='+this.myCode
 					})
+					// this.$https({
+					// 	url: '/api/user/my-info',
+					// 	data: {},
+					// 	success: res => {
+					// 		uni.share({
+					// 			provider: 'weixin',
+					// 			scene: 'WXSceneSession',
+					// 			type: 0,
+					// 			href: 'https://yimuzk.com:8087?myCode=' + res.data.data.myCode,
+					// 			title: '我在毅木重卡发现了一个好东西,分享给你看看',
+					// 			summary: '商品描述',
+					// 			success: function() {
+
+					// 			}
+					// 		})
+					// 	}
+					// })
 				}
 
 			},
