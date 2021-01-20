@@ -9,7 +9,7 @@
 		</view>
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>验证码</text></view>
-			<input class="uni-input" name="input" placeholder="请输入验证码" v-model='smsCode' maxlength='4' />
+			<input class="uni-input" name="input" placeholder="请输入验证码" v-model='smsCode' maxlength='4' style='width:300rpx;' />
 			
 			<view class="uni-padding-wrap uni-common-mt bott">
 				<button type="primary" @tap='huoquyanzhengma'>{{yanzh}}</button>
