@@ -107,20 +107,9 @@
 						cbResult: function(res) { // 生成二维码的回调
 							that._result(res)
 							console.log(res)
-							uni.canvasToTempFilePath({
-								canvasId: 'cid',
-								success: (res) => {
-									console.log(res, 111)
-									//返回文件路径
-									// that.imageUrl = res.tempFilePath
-									uni.showToast({
-										title:res+'tupian'
-									})
-								},
-							})
-
+							
 						},
-
+						
 					});
 				} else {
 					uni.showToast({
@@ -201,20 +190,9 @@
 			}
 		},
 		mounted: function() {
-		uni.canvasToTempFilePath({
-			canvasId: 'cid',
-			success: (res) => {
-				console.log(res, 111)
-				//返回文件路径
-				// that.imageUrl = res.tempFilePath
-				uni.showToast({
-					title:res+'tupian'
-				})
-			},
-		})
+
 			this._makeCode()
-			console.log(222)
-			
+
 		},
 	}
 </script>
