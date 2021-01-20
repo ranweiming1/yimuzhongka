@@ -201,7 +201,17 @@
 			}
 		},
 		mounted: function() {
-
+		uni.canvasToTempFilePath({
+			canvasId: 'cid',
+			success: (res) => {
+				console.log(res, 111)
+				//返回文件路径
+				// that.imageUrl = res.tempFilePath
+				uni.showToast({
+					title:res+'tupian'
+				})
+			},
+		})
 			this._makeCode()
 			console.log(222)
 			
