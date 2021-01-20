@@ -704,12 +704,6 @@
 			shangpinxin: function() {
 				if (this.denglufangfatiaozhuan()) {
 					var _this = this
-					var url=ctpic.app_appendFile({
-						path:_this.list.goodsImage[0],
-						isNet:true,
-						format:'png',
-						compress:0.5
-					})
 					this.$https({
 						url: '/api/user/my-info',
 						data: {},

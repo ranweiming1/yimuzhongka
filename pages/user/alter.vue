@@ -251,6 +251,7 @@
 			toux: function() {
 				var _this = this
 				uni.chooseImage({
+					sizeType:['compressed'],
 					success: function(res) {
 						uni.uploadFile({
 							url: _this.webUrl + '/api/oauth/oss/upload',

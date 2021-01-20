@@ -148,6 +148,8 @@
 			yingyezhizhao: function() {
 				var _this = this
 				uni.chooseImage({
+					count:1,
+					sizeType:['compressed'],
 					success: res => {
 						uni.uploadFile({
 							url: _this.webUrl + '/api/oauth/oss/upload',
@@ -162,6 +164,8 @@
 			},
 			shenfenzheng: function() {
 				uni.chooseImage({
+					count:1,
+					sizeType:['compressed'],
 					success: res => {
 						uni.uploadFile({
 							url: this.webUrl + '/api/oauth/oss/upload',
@@ -192,6 +196,8 @@
 			},
 			shenfenzhengF: function() {
 				uni.chooseImage({
+					count:1,
+					sizeType:['compressed'],
 					success: res => {
 						uni.uploadFile({
 							url: this.webUrl + '/api/oauth/oss/upload',
@@ -207,6 +213,8 @@
 			dianpu: function() {
 				var _this = this
 				uni.chooseImage({
+					count:1,
+					sizeType:['compressed'],
 					success: res => {
 						uni.uploadFile({
 							url: _this.webUrl + '/api/oauth/oss/upload',

@@ -140,6 +140,7 @@
 			},
 			chuanImg() {
 				uni.chooseImage({
+					sizeType:['compressed'],
 					success: res => {
 						uni.uploadFile({
 							url: this.webUrl + '/api/oauth/oss/upload',
