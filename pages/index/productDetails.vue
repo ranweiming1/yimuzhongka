@@ -618,7 +618,7 @@
 			},
 			togPing() {
 				uni.navigateTo({
-					url: 'pingjia?id=' + this.goodsId
+					url: 'pingjia?id=' + this.goodsId+'&ids='+this.shopId
 				})
 			},
 			gouwuche: function() {
