@@ -186,7 +186,8 @@
 				page: 1,
 				as: 1,
 				shanchu: false,
-				orderId:''
+				orderId: '',
+				qiandao: {}
 			}
 		},
 		components: {
@@ -210,6 +211,13 @@
 			// 	}
 			// })
 			// // 上拉加载
+			console.log(option)
+			if (option.taskId) {
+				this.qiandao.taskId = option.taskId
+				this.qiandao.isRen = option.isRen
+				this.qiandao.taskType = option.taskType
+			}
+			console.log(this.qiandao)
 			var data = {
 				status: this.id,
 				page: this.page,
@@ -278,7 +286,7 @@
 		methods: {
 			xianshi: function(id) {
 				this.shanchu = true
-				this.orderId=id
+				this.orderId = id
 			},
 			quxiao: function() {
 				this.shanchu = false
@@ -388,7 +396,7 @@
 				this.$refs.popup.close()
 			},
 			openPopup1: function() {
-				var that=this
+				var that = this
 				this.$https({
 					url: '/api/user/order-handle',
 					data: JSON.stringify({
@@ -445,9 +453,15 @@
 
 			},
 			goPing(orderSn, orderId, goodids) {
-				uni.navigateTo({
-					url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId + '&goodsId=' + goodids[0].goodsId
-				})
+				if (this.qiandao) {
+					uni.navigateTo({
+						url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId + '&goodsId=' + goodids[0].goodsId+'&taskId='+this.qiandao.taskId+'&isRen='+this.qiandao.isRen+'&taskType='+this.qiandao.taskType
+					})
+				} else {
+					uni.navigateTo({
+						url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId + '&goodsId=' + goodids[0].goodsId
+					})
+				}
 			},
 			shopCar() {
 				uni.reLaunch({
@@ -503,7 +517,7 @@
 			//删除订单
 			shanchuDD: function(id) {
 				this.openPopup1(id)
-				this.shanchu=!this.shanchu
+				this.shanchu = !this.shanchu
 			}
 		}
 	}

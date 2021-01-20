@@ -395,9 +395,9 @@
 					}
 					if (state == 4 || state == 5) {
 						uni.navigateTo({
-							url: '../allState/allState?id=' + id
+							url: '../allState/allState?id=' + id+'&taskId='+taskId+'&isRen='+isRen+'&taskType='+taskType,
 						})
-						state == 4 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
+						// state == 4 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
 						// _this.xuanR()
 					}
 					// if (state == 6) {

@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-	<!-- 	<view class="one_line">
+		<!-- 	<view class="one_line">
 		</view> -->
 		<view class="radios">
 			<text>订单编号：<text selectable="true">{{dList.orderSn}}</text></text>
@@ -10,30 +10,30 @@
 		</view>
 		<!-- 订单信息 -->
 		<view class="" v-for="(item,index) in dList.goodsList">
-		<view class="xinxi">
-			<view class="biaot">
-				<text>订单信息</text>
-			</view>
-			<view class="imgBox_a">
-				<image :src="item.goodsLogo" mode=""></image>
-			</view>
-			<view class="txt_c">
-				<view class="title">
-					<text>{{item.goodsName}}</text>
+			<view class="xinxi">
+				<view class="biaot">
+					<text>订单信息</text>
 				</view>
-				<view class="spec">
-					<text>已选：＂{{item.specKeyName}}＂</text>
+				<view class="imgBox_a">
+					<image :src="item.goodsLogo" mode=""></image>
 				</view>
-				<view class="radColor">
-					<text>{{item.goodsPrice?'￥'+item.goodsPrice+'.00':'0'}}</text>
-				</view>
+				<view class="txt_c">
+					<view class="title">
+						<text>{{item.goodsName}}</text>
+					</view>
+					<view class="spec">
+						<text>已选：＂{{item.specKeyName}}＂</text>
+					</view>
+					<view class="radColor">
+						<text>{{item.goodsPrice?'￥'+item.goodsPrice+'.00':'0'}}</text>
+					</view>
 
 
-				<view class="jia">
-					<text>X{{item.goodsNum}}</text>
+					<view class="jia">
+						<text>X{{item.goodsNum}}</text>
+					</view>
 				</view>
 			</view>
-		</view>
 
 
 			<view class="pingj">
@@ -99,11 +99,19 @@
 				value: '',
 				img: '',
 				dList:[],
-				orderId:''
+				orderId:'',
+				qiandao:{}
+				
 			}
 		},
 		onLoad(option) {
+			console.log(option)
 			var _this = this
+			if (option.taskId) {
+				this.qiandao.taskId = option.taskId
+				this.qiandao.isRen = option.isRen
+				this.qiandao.taskType = option.taskType
+			}
 			this.goodsId=option.goodsId
 			this.orderId=option.orderId
 			this.$https({
@@ -144,6 +152,20 @@
 					}
 				})
 			},
+			lingJifen(taskId, isRen, taskType) {
+				this.$https({
+					url: '/api/task/center-task-insert',
+					data: {
+						taskId: taskId,
+						taskType: taskType
+					},
+					method: 'POST',
+					success: function(res) {
+						// isRen = true
+						
+					}
+				})
+			},
 			primise() {
 				var _this = this
 				if(this.value.length<10){
@@ -170,6 +192,10 @@
 							title:res.data.message
 						})
 						if(res.data.code==0){
+							if(_this.qiandao){
+							_this.lingJifen(_this.qiandao.taskId, _this.qiandao.isRen, _this.qiandao.taskType)
+								
+							}
 							setTimeout(function(){
 								uni.redirectTo({
 									url:'allState?id=4'

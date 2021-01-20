@@ -69,7 +69,7 @@
 				default: false
 			},
 			usingComponents: {
-				type: Boolean,
+				type: Boolean, 
 				default: true
 			},
 			showLoading: {
