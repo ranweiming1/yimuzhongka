@@ -153,7 +153,7 @@
 			zhuce: function() {
 				var _this = this
 				if(uni.getStorageSync('yaoqi')){
-					this.account.shaerCode=uni.getStorageSync('yaoqi').split('code=')[0]
+					this.account.shaerCode=uni.getStorageSync('yaoqi').split('code=')[1]
 				}
 				if (this.isLog) {
 					if (!_this.$jiaoyan(_this.account.phone)) {
@@ -178,7 +178,7 @@
 							dengl: true,
 							method: 'post',
 							success: function(res) {
-								if (res.data) {
+								if (res.data.code==0) {
 									uni.showToast({
 										title: '操作成功'
 									})
@@ -193,7 +193,7 @@
 											dengl: true,
 											method: 'post',
 											success: function(res) {
-												if (res.data.data) {
+												if (res.data.code==0) {
 													uni.setStorageSync('Authorization', res.data.data.access_token)
 													uni.showToast({
 														title: '登录成功'

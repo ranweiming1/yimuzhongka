@@ -307,22 +307,6 @@
 			// 	data: {},
 			// 	success: function(resa) {
 			// 		//获取粘贴板内容
-			uni.getClipboardData({
-				success: function(res) {
-					// 				if (resa.data.data.payPoints != res.data.split('分享给你')[1].split(',')[0]) {
-					if (res.data.indexOf('我在毅木重卡发现一个好东西，分享给你') >= 0) {
-						uni.setClipboardData({
-							data: '',
-							success: function() {
-
-							}
-						})
-						_this.shangpinxiangqing = true
-						_this.xinxi = res.data
-					}
-					// 				}
-				}
-			})
 			// 	}
 			// })
 			//广告
@@ -357,10 +341,6 @@
 					this.g = res.data.data
 				}
 			})
-			var args=plus.runtime.arguments
-			if(args){
-				uni.setStorageSync('yaoqi',args)
-			}
 		},
 		methods: {
 			detail(id) {

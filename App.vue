@@ -35,6 +35,16 @@
 			// 		console.log(e)
 			// 	}
 			// });
+			var args=plus.runtime.arguments
+			if(args){
+				if(args.indexOf('code')>=0){
+					uni.setStorageSync('yaoqi',args)
+				}else{
+					uni.navigateTo({
+						url:'pages/index/productDetails?id='+args.split('xiangqing=')[1]+'&tiaozhuan=1'
+					})
+				}
+			}
 		},
 		onShow: function() {
 			console.log('App Show')
