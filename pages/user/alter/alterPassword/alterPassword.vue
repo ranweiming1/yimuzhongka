@@ -1,8 +1,5 @@
 <template>
 	<view>
-		<view class="one_line">
-		</view>
-		
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>手机号</text></view>
 			<input class="uni-input" name="input" v-model='phone' placeholder="请输入手机号" />
@@ -108,7 +105,7 @@
     		font-size: 28upx;
     		padding-left: 20upx;
     		font-family:Microsoft YaHei ;
-			width:calc(100% - 100rpx);
+			width:calc(100% - 200rpx);
     	}
     }
     
