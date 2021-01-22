@@ -377,7 +377,8 @@
 				yihuodecishu: 0,
 				height: '',
 				pdType: '',
-				starNum: 0
+				starNum: 0,
+				code:''
 			}
 		},
 		components: {
@@ -494,6 +495,9 @@
 					
 				}
 			})
+			if(uni.getStorageSync('Authorization')){
+				this.$https({url:'/api/user/my-info',success:res=>{this.code=res.data.data.myCode}})
+			}
 		},
 		onPageScroll(e) {
 			this.isShow = true
@@ -725,7 +729,7 @@
 								provider: 'weixin',
 								scene: 'WXSceneSession',
 								type: 0,
-								href: 'http://www.yimuzk.com:8087?xiangqing=' + _this.deId,
+								href: 'http://www.yimuzk.com:8087?xiangqing=' + _this.deId+'&codz='+_this.code,
 								imageUrl: _this.list.goodsImgss[0],
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',
 								summary: '商品描述',

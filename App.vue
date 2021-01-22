@@ -41,8 +41,9 @@
 					uni.setStorageSync('yaoqi',args)
 				}else{
 					uni.navigateTo({
-						url:'pages/index/productDetails?id='+args.split('xiangqing=')[1]+'&tiaozhuan=1'
+						url:'pages/index/productDetails?id='+args.split('&codz')[0].split('xiangqing=')[1]
 					})
+					uni.setStorageSync('yaoqi','code='+args.split('codz=')[1])
 				}
 			}
 		},

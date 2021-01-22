@@ -13,7 +13,7 @@
 		<view class="uni-common-mt">
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_14.png" mode=""></image>
-				<input class="uni-input" type="number" v-model='account.phone' placeholder="请输入手机号" />
+				<input class="uni-input" type="number" v-model='account.phone' placeholder="请输入手机号" @blur='yanzheng' />
 			</view>
 			<view class="uni-form-item uni-column">
 				<image src="../../static/icon_15.png" mode=""></image>
@@ -60,7 +60,8 @@
 				yanZ: 60,
 				isYan: false,
 				yanText: '发送验证码',
-				y: true
+				y: true,
+				yz:false
 			}
 		},
 		onLoad(option) {
@@ -100,8 +101,25 @@
 					url: 'enter'
 				})
 			},
+			yanzheng:function(){
+				if(!this.$jiaoyan(this.account.phone)){
+					uni.showToast({
+						title:'请输入正确的手机号',
+						icon:'none'
+					})
+				}else{
+					this.$https({url:'/api/oauth/register-check-phone',data:{phone:this.account.phone},dengl:true,method:'post',success:res=>{if(res.data.code==0){this.yz=true}else{this.yz=false} if(res.data.code>0){uni.showToast({title:res.data.message})}}})
+				}
+			},
 			fasongyanzhengma: function() {
 				var _this = this
+				if(!this.yz){
+					uni.showToast({
+						title:'请输入未注册的手机号',
+						icon:'none'
+					})
+					return false
+				}
 				if (_this.isYan) {
 					uni.showToast({
 						title: '已发送验证码'
@@ -161,7 +179,7 @@
 							title: '请输入正确的手机号',
 							icon: 'none'
 						})
-					} else if (!_this.account.password.length > 5) {
+					} else if (!(_this.account.password.length > 5)) {
 						uni.showToast({
 							title: '请输入大于6位的密码',
 							icon: 'none'
