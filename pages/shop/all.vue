@@ -17,7 +17,7 @@
 						</view>
 					</view>
 					<view class="Fbott">
-						<button type="default" size="mini" v-for="(item,index) in shaiList" :class="itemex==index?'active':''" @tap="toggleList(index,item.id)">{{item.brandTitle}}</button>
+						<button type="default" size="mini" v-for="(item,index) in shaiList" :class="itemex==index?'active':''" @tap="toggleList(index,item.id)"><text>{{item.brandTitle}}</text></button>
 					</view>
 				</view>
 
@@ -720,6 +720,18 @@
 					height: 48rpx;
 					line-height: 48rpx;
 					margin-right: 14rpx;
+					padding: 0 10rpx;
+					display: inline-block;
+					text-align: center;
+					text {
+						display: inline-block;
+						width: calc(100% - 30rpx);
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: clip;
+						box-sizing: border-box;
+						text-align: center;
+					}
 				}
 
 				button:nth-child(3n+3) {
