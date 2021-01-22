@@ -199,7 +199,6 @@
 						// logistics: '9881116420003',
 					},
 					dengl: false,
-					
 					success(res) {
 						_this.wuList = res.data.data
 						_this.wlInfo = res.data.data.logisticsInfo ? res.data.data.logisticsInfo : []
