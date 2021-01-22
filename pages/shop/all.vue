@@ -647,7 +647,7 @@
 	}
 
 	.screen {
-		width: 80%;
+		width: 89%;
 		height: 100%;
 		position: fixed;
 		float: right;
@@ -712,7 +712,7 @@
 				// justify-content: flex-start;
 				// align-items: center;
 				button {
-					font-size: 22rpx;
+					font-size: 19rpx;
 					width: calc((100% - 28rpx)/3);
 					margin-bottom: 29rpx;
 					border: 1rpx solid #1c2939;

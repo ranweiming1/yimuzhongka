@@ -195,7 +195,7 @@
 				this.$https({
 					url: '/api/shop/logistics-detail',
 					data: {
-						logistics: option.code ? option.code : '',
+						logistics: option.code ? option.code.trim(): '',
 						// logistics: '9881116420003',
 					},
 					dengl: false,
