@@ -207,7 +207,8 @@
 		{
 			"path": "pages/user/task/invite/invite",
 			"style": {
-				"navigationStyle": "custom",
+				// "navigationStyle": "custom",
+				"navigationBarTitleText": "分享好友",
 				"app-plus": {
 					"bounce": "none",
 					"scrollIndicator":"none"
