@@ -223,7 +223,7 @@
 					</view>
 				</view>
 				<view class="left_b" @tap="togPing(list.goodsId)">
-					<text>100%满意</text>
+					<text>{{starNum}}%满意</text>
 				</view>
 
 			</view>
@@ -343,7 +343,7 @@
 	import appShare, {
 		closeShare
 	} from '@/components/share.js'
-	var ctpic= new Ctpic
+	var ctpic = new Ctpic
 	export default {
 		data() {
 			return {
@@ -376,7 +376,8 @@
 				cishu: 3,
 				yihuodecishu: 0,
 				height: '',
-				pdType:''
+				pdType: '',
+				starNum: 0
 			}
 		},
 		components: {
@@ -384,7 +385,7 @@
 		},
 		onLoad(option) {
 			this.deId = option.id
-			this.pdType=uni.getStorageSync('pdType')
+			this.pdType = uni.getStorageSync('pdType')
 			var _this = this
 			uni.getSystemInfo({
 				success: function(res) {
@@ -451,8 +452,18 @@
 						})
 					}
 					_this.shuList = arr
+					this.$https({
+						url: '/api/oauth/shop/store-shop-detail',
+						data: {
+							shopId: res.data.data.detail.shopId
+						},
+						success: function(res) {
+							_this.starNum = res.data.data.starId
+						}
+					})
 					//添加商品浏览记录
 					//判断是否登录
+
 					if (uni.getStorageSync('Authorization')) {
 						_this.$https({
 							url: '/api/shop/goods-brows-history-add',
@@ -462,6 +473,7 @@
 							method: 'post',
 							success: function(res) {}
 						})
+
 						//增加积分
 						setInterval(function() {
 							if (_this.cishu > _this.yihuodecishu) {
@@ -479,6 +491,7 @@
 							}
 						}, 60000)
 					}
+					
 				}
 			})
 		},
@@ -618,7 +631,7 @@
 			},
 			togPing() {
 				uni.navigateTo({
-					url: 'pingjia?id=' + this.goodsId+'&ids='+this.shopId
+					url: 'pingjia?id=' + this.goodsId + '&ids=' + this.shopId
 				})
 			},
 			gouwuche: function() {
@@ -712,8 +725,8 @@
 								provider: 'weixin',
 								scene: 'WXSceneSession',
 								type: 0,
-								href:'http://www.yimuzk.com:8087?xiangqing='+_this.deId,
-								imageUrl:_this.list.goodsImgss[0],
+								href: 'http://www.yimuzk.com:8087?xiangqing=' + _this.deId,
+								imageUrl: _this.list.goodsImgss[0],
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',
 								summary: '商品描述',
 								success: res => {

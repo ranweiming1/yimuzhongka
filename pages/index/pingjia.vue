@@ -7,7 +7,7 @@
 					<image src="../../static/xing_01.png" v-for="(i,n) in xingji" mode=""></image>
 					<image src='../../static/xing.png' v-for='i in 5-xingji'></image>
 				</view>
-				<text class="man"><text>98</text>%满意度</text>
+				<text class="man"><text>{{starNum}}</text>%满意度</text>
 			</view>
 			<!-- 评价列表 -->
 			<view class="pingList" v-for="(item,index) in pingJList">
@@ -30,7 +30,7 @@
 				<view class="pCont" :style="item.storeGoodsReplyList.length>0?'':'border-bottom: none'">
 					<text>{{item.content}}</text>
 					<view class="img">
-					<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="item.img" mode=""></image>
+						<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="item.img" mode=""></image>
 					</view>
 					<!-- <text>追加评论<text>（收货18天后）</text>：<text>用了一段时间挺好的</text></text> -->
 				</view>
@@ -45,40 +45,40 @@
 		<view class="mask" v-if="isAdd" @tap="add">
 		</view>
 		<view class="butt" v-if="isAdd">
-				<view class="mTop">
-					<image class="cover" :src="list.goodsLogo" mode=""></image>
-					<view class="mRight">
-						<view class="price">¥ {{list.shopPrice}}</view>
-						<view class="mItem">已选：{{gui}}</view>
-					</view>
-		
+			<view class="mTop">
+				<image class="cover" :src="list.goodsLogo" mode=""></image>
+				<view class="mRight">
+					<view class="price">¥ {{list.shopPrice}}</view>
+					<view class="mItem">已选：{{gui}}</view>
 				</view>
-				<view class="mButton">
-					<view class="detail">
-		
-						<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
-						 @tap='qiehuan(index)'>{{item.keyName}}</view>
+
+			</view>
+			<view class="mButton">
+				<view class="detail">
+
+					<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
+					 @tap='qiehuan(index)'>{{item.keyName}}</view>
+				</view>
+
+				<view class="mNumber">
+					<view class="name">数量</view>
+					<view class="n_right">
+						<view class="reduce" @tap="reduce">-</view>
+						<input class="cor" type="number" style='width:60rpx;' v-model="num"></input>
+						<view class="add" @tap="jia">+</view>
+
 					</view>
-		
-					<view class="mNumber">
-						<view class="name">数量</view>
-						<view class="n_right">
-							<view class="reduce" @tap="reduce">-</view>
-							<input class="cor" type="number" style='width:60rpx;' v-model="num"></input>
-							<view class="add" @tap="jia">+</view>
-		
-						</view>
-					</view>
-					<view style='overflow:hidden;'>
-						<button style='width:50%;float:left;' @tap='gouwuche'>加入购物车</button>
-						<button class="btn" @tap='goumaia'>立即购买</button>
-					</view>
+				</view>
+				<view style='overflow:hidden;'>
+					<button style='width:50%;float:left;' @tap='gouwuche'>加入购物车</button>
+					<button class="btn" @tap='goumaia'>立即购买</button>
 				</view>
 			</view>
-		
+		</view>
+
 
 		<!-- 底部 -->
-		
+
 
 	</view>
 </template>
@@ -101,9 +101,10 @@
 				guige: [],
 				indexx: 0,
 				gui: '',
-				shopId:'',
+				shopId: '',
 				goodsId: '',
-				xingji:0
+				xingji: 0,
+				starNum:0
 			}
 		},
 		onLoad(option) {
@@ -112,65 +113,75 @@
 			console.log(option)
 			console.log(_this.isXing)
 			this.$https({
-				url: '/api/oauth/shop/goods-comm-list',
-				data: {
-					goodsId: option.id
-				},
-				dengl: false,
-				success: function(res) {
-					_this.pingJList = res.data.data
-					_this.xingJ = res.data.data[0].score
-					
-					// 星级判断
-					res.data.data.map(n=>{
-					n.isXing = n.score >= 80 ? 5 : n.score >= 60 ? 4 : n.score >= 40 ? 3 : n.score >= 20 ? 2 : 1
-					})
-					// _this.storeH=res.data.data.storeGoodsReplyList
-					console.log(res.data.data[0].score)
-					console.log(res.data.data[0].goodsId)
-					// console.log(_this.isXing)
-				},
-			}),
-			this.$https({
-				url: '/api/oauth/shop/mall-goods-detail',
-				data: {
-					goods_id: option.id
-				},
-				dengl:true,
-				success: function(res) {
-					_this.list = res.data.data.detail
-					_this.canshu = res.data.data.specs
-					_this.goodsId = res.data.data.detail.goodsId
-					_this.pingjia = res.data.data.goodsComms[0]
-					_this.isCollect = res.data.data.isCollect
-					_this.goodsId = res.data.data.detail.goodsId
-					_this.shopId=res.data.data.detail.shopId
-					// 优惠券
-					_this.youhui = res.data.data.couponDTOS
-					for (var i in res.data.data.spec_price) {
-						_this.guige.push(res.data.data.spec_price[i])
-					}
-					console.log(res.data.data.spec_price)
-					var numa=0
-					for (var i in res.data.data.spec_price) {
-						if(numa==0){
-						_this.gui = res.data.data.spec_price[i].keyName
-						}
-						numa++
-					}
-					console.log(res.data.data.detail)
-					var arr = []
-					for (var k in _this.canshu) {
-						arr.push({
-							name: k,
-							itemId: _this.canshu[k]
+					url: '/api/oauth/shop/goods-comm-list',
+					data: {
+						goodsId: option.id
+					},
+					dengl: false,
+					success: function(res) {
+						_this.pingJList = res.data.data
+						_this.xingJ = res.data.data[0].score
+
+						// 星级判断
+						res.data.data.map(n => {
+							n.isXing = n.score >= 80 ? 5 : n.score >= 60 ? 4 : n.score >= 40 ? 3 : n.score >= 20 ? 2 : 1
 						})
+						// _this.storeH=res.data.data.storeGoodsReplyList
+						console.log(res.data.data[0].score)
+						console.log(res.data.data[0].goodsId)
+						// console.log(_this.isXing)
+					},
+				}),
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-detail',
+					data: {
+						goods_id: option.id
+					},
+					dengl: true,
+					success: function(res) {
+						_this.list = res.data.data.detail
+						_this.canshu = res.data.data.specs
+						_this.goodsId = res.data.data.detail.goodsId
+						_this.pingjia = res.data.data.goodsComms[0]
+						_this.isCollect = res.data.data.isCollect
+						_this.goodsId = res.data.data.detail.goodsId
+						_this.shopId = res.data.data.detail.shopId
+						// 优惠券
+						_this.youhui = res.data.data.couponDTOS
+						for (var i in res.data.data.spec_price) {
+							_this.guige.push(res.data.data.spec_price[i])
+						}
+						console.log(res.data.data.spec_price)
+						var numa = 0
+						for (var i in res.data.data.spec_price) {
+							if (numa == 0) {
+								_this.gui = res.data.data.spec_price[i].keyName
+							}
+							numa++
+						}
+						console.log(res.data.data.detail)
+						var arr = []
+						for (var k in _this.canshu) {
+							arr.push({
+								name: k,
+								itemId: _this.canshu[k]
+							})
+						}
+						_this.shuList = arr
 					}
-					_this.shuList = arr
+				})
+			this.$https({
+				url: '/api/oauth/shop/store-shop-detail',
+				data: {
+					shopId: option.ids
+				},
+				success: function(res) {
+					_this.starNum = res.data.data.starId
+					_this.xingji = res.data.data.starId >= 80 ? 5 : res.data.data.starId >= 60 ? 4 : res.data.data.starId >= 40 ? 3 :
+						res.data.data.starId >= 20 ? 2 : res.data.data.starId >= 0 ? 1 : 0;
 				}
 			})
-			this.$https({url:'/api/oauth/shop/store-shop-detail',data:{shopId:option.ids},success:res=>{this.xingji=res.data.data.sharId>=80?5:res.data.data.sharId>=60?4:res.data.data.sharId>=40?3:res.data.data.sharId>=20?2:res.data.data.sharId>=0?1:0}})
-			
+
 		},
 		methods: {
 			houtui() {
@@ -238,7 +249,7 @@
 							specKey: this.guige[this.indexx].key
 						}],
 						goodsId: this.goodsId,
-						shopId:this.shopId
+						shopId: this.shopId
 					}),
 					method: 'post',
 					haeder: true,
@@ -249,14 +260,27 @@
 					}
 				})
 			},
-			
+
 			qiehuan: function(ind) {
 				this.indexx = ind
-				this.gui=this.guige[ind].keyName
+				this.gui = this.guige[ind].keyName
 			},
 			goumaia: function() {
 				uni.navigateTo({
-					url: '../cart/orderForm/orderForm?goodsId='+this.goodsId+'&cartAttr='+JSON.stringify({cartAttr:[{goodsNum:this.num,specKey:this.guige[this.indexx].keyName,goodsLogo:this.list.goodsLogo,integral:this.list.integral,goodsName:this.list.goodsName,kuaidi:this.list.kuaidi,shopPrice:this.list.shopPrice,goodsId:this.list.goodsId,key:this.guige[this.indexx].key,shopId:this.shopId}]})+'&dingdan=2'
+					url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
+						cartAttr: [{
+							goodsNum: this.num,
+							specKey: this.guige[this.indexx].keyName,
+							goodsLogo: this.list.goodsLogo,
+							integral: this.list.integral,
+							goodsName: this.list.goodsName,
+							kuaidi: this.list.kuaidi,
+							shopPrice: this.list.shopPrice,
+							goodsId: this.list.goodsId,
+							key: this.guige[this.indexx].key,
+							shopId: this.shopId
+						}]
+					}) + '&dingdan=2'
 				})
 			}
 		}
@@ -551,7 +575,8 @@
 		}
 
 	}
-.Box {
+
+	.Box {
 		float: left;
 
 	}
@@ -561,6 +586,7 @@
 		overflow-y: auto;
 		text-align: center;
 	}
+
 	.rightA {
 		width: 300upx;
 		float: right;
@@ -608,52 +634,52 @@
 
 		}
 	}
+
 	.rightA {
-			width: 300upx;
-			float: right;
-	
-		}
-	
-		.bottBoxss {
-	
-			float: right;
-			width: 337rpx;
-			padding: 20upx;
-			height: 50upx;
-	
-			.onna {
-				button {
-					background-color: #007AFF !important;
-					border: 1px solid #007AFF !important;
-					color: #fff !important;
-				}
-			}
-	
-			.onnb {
-				button {
-					background-color: #fff !important;
-					border: 1px solid #007AFF !important;
-					color: #007AFF !important;
-				}
-			}
-	
-			.bott {
-				display: block;
-				width: calc(50% - 20rpx);
-				margin-right: 20upx;
-				float: right;
-	
-				button {
-					padding: 0;
-					background-color: #fff;
-					border: 1px solid #999;
-					border-radius: 40upx;
-					font-size: 24upx;
-					color: #999;
-					font-family: Microsoft YaHei;
-				}
-	
+		width: 300upx;
+		float: right;
+
+	}
+
+	.bottBoxss {
+
+		float: right;
+		width: 337rpx;
+		padding: 20upx;
+		height: 50upx;
+
+		.onna {
+			button {
+				background-color: #007AFF !important;
+				border: 1px solid #007AFF !important;
+				color: #fff !important;
 			}
 		}
-	
+
+		.onnb {
+			button {
+				background-color: #fff !important;
+				border: 1px solid #007AFF !important;
+				color: #007AFF !important;
+			}
+		}
+
+		.bott {
+			display: block;
+			width: calc(50% - 20rpx);
+			margin-right: 20upx;
+			float: right;
+
+			button {
+				padding: 0;
+				background-color: #fff;
+				border: 1px solid #999;
+				border-radius: 40upx;
+				font-size: 24upx;
+				color: #999;
+				font-family: Microsoft YaHei;
+			}
+
+		}
+	}
 </style>

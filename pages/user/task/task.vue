@@ -359,8 +359,8 @@
 				})
 			},
 			toUser: function() {
-				uni.reLaunch({
-					url: '../user'
+				uni.navigateBack({
+					delta:1
 				})
 			},
 			renWu: function(item, id) {

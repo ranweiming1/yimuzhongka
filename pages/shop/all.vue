@@ -161,7 +161,7 @@
 				paixu: false,
 				st: '',
 				value: '',
-				isFocus:false
+				isFocus: false
 			}
 		},
 		onLoad(option) {
@@ -291,7 +291,7 @@
 				this.tog_Ca = !this.tog_Ca
 			},
 			gouwuche: function() {
-				this.isFocus=true
+				this.isFocus = true
 			},
 			zonghe: function() {
 				this.paixu = !this.paixu
@@ -334,9 +334,9 @@
 					}
 				})
 			},
-			tiaozhuan:function(){
+			tiaozhuan: function() {
 				uni.reLaunch({
-					url:'../index/index'
+					url: '../index/index'
 				})
 			}
 
@@ -430,7 +430,7 @@
 
 		.textBox {
 			float: left;
-			margin-left:50upx;
+			margin-left: 50upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
 
@@ -456,7 +456,7 @@
 
 			image {
 				width: 36upx;
-				height:36upx;
+				height: 36upx;
 			}
 		}
 	}
@@ -647,22 +647,21 @@
 	}
 
 	.screen {
-
 		width: 80%;
 		height: 100%;
-		position: absolute;
+		position: fixed;
 		float: right;
 		right: 0;
-		padding-top: 36rpx;
+		padding-top: 60rpx;
 		top: 0;
+		bottom: 0;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		// box-sizing: border-box;
 		background-color: #FFFFFF;
-		z-index: 999;
-		// transform:translate(100rpx,100rpx);
-		//             transition: 2s;
+		z-index: 99999999;
+
 
 		.fenL {
 			margin-left: 18rpx;
@@ -714,13 +713,17 @@
 				// align-items: center;
 				button {
 					font-size: 22rpx;
-					width: 30%;
+					width: calc((100% - 28rpx)/3);
 					margin-bottom: 29rpx;
 					border: 1rpx solid #1c2939;
 					color: #333333;
 					height: 48rpx;
 					line-height: 48rpx;
 					margin-right: 14rpx;
+				}
+
+				button:nth-child(3n+3) {
+					margin-right: 0;
 				}
 
 				.active {

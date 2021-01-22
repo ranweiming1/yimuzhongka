@@ -658,7 +658,7 @@
 				// align-items: center;
 				.activeBef {
 					font-size: 22rpx;
-					width: 30%;
+					width: calc((100% - 28rpx)/3);
 					margin-bottom: 29rpx;
 					border: 1rpx solid #1c2939;
 					color: #333333;
@@ -679,18 +679,19 @@
 						text-align: center;
 					}
 				}
-
+				.activeBef:nth-child(3n+3) {
+					margin-right: 0;
+				}
 				button {
 					font-size: 22rpx;
-					width: 30%;
 					margin-bottom: 29rpx;
 					border: 1rpx solid #1c2939;
 					color: #333333;
 					height: 48rpx;
+					width: calc((100% - 28rpx)/3);
 					line-height: 48rpx;
 					margin-right: 14rpx;
-				}
-
+					}
 				.active {
 					color: #2b5cff;
 					border: 1rpx solid #2b5cff;
