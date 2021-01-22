@@ -59,6 +59,18 @@
 							filePath: i.target,
 							success: function() {
 								bitmap.clear(); //销毁Bitmap图片  
+								uni.share({
+								    provider: "weixin",
+								    scene: "WXSceneSession",
+								    type: 2,
+								    imageUrl: i.target,
+								    success: function (res) {
+								        console.log("success:" + JSON.stringify(res));
+								    },
+								    fail: function (err) {
+								        console.log("fail:" + JSON.stringify(err));
+								    }
+								});
 								uni.showToast({
 									title: '保存图片成功',
 									mask: false,
