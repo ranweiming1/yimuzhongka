@@ -64,7 +64,8 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='bindZfb'>绑定支付宝</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='aliOpenid'>已绑定支付宝</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='!aliOpenid' @tap='bindZfb'>绑定支付宝</text>
 			</view>
 		</view>
 
@@ -75,11 +76,12 @@
 			<view class="imgTitle">
 				<text>微信</text>
 			</view>
-			<view class="right_a" @tap='bindWx'>
+			<view class="right_a">
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;'>绑定微信</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='openid'>已绑定微信</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='!openid' @tap='bindWx'>绑定微信</text>
 			</view>
 		</view>
 		<!-- <view class="basic">
@@ -120,6 +122,8 @@
 				// ceshi: '',
 				// ceshiT: '',
 				// ceshiS: ''
+				openid:false,
+				aliOpenid:false
 			}
 		},
 		onLoad() {
@@ -133,6 +137,8 @@
 					// _this.nickname = res.data.data.nickname
 					// // console.log(res.data.data)
 					_this.phone = res.data.data.phone
+					_this.openid=res.data.data.openid
+					_this.aliOpenid=res.data.data.aliOpenid
 					// console.log(res.data.data)
 				}
 			})

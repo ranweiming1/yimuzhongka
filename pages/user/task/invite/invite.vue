@@ -3,12 +3,13 @@
 		<view class="Box">
 			<view class="imgBox">
 				<image :src="s" mode=""></image>
-				<view @tap='capture'>
-					<image src='../../../../static/f.jpg'></image>
+				<view>
+					<image :src='s1'></image>
 					<view>
 						<tki-qrcode :val='val' size='250' style='width:250rpx;height:250rpx;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;'></tki-qrcode>
 					</view>
 				</view>
+				<image :src='s2' style='width:284rpx;height:77rpx;position:absolute;left:calc(50% - 143rpx);bottom:100rpx;' @tap='capture'></image>
 			</view>
 
 			<!-- 文字较多时，内部进度条 -->
@@ -24,6 +25,8 @@
 		data() {
 			return {
 				s: '../../../../static/ff.jpg',
+				s1:'../../../../static/f.jpg',
+				s2:'../../../../static/fff.png',
 				w: '',
 				val: ''
 			}
@@ -47,14 +50,22 @@
 				var pages = getCurrentPages();
 				var page = pages[pages.length - 1];
 				console.log("当前页" + pages.length - 1);
+				var _this=this
+				this.s='../../../../static/ff1.png'
+				this.s1='../../../../static/f1.png'
+				this.s2='../../../../static/fff1.png'
 				var bitmap = null;
 				var currentWebview = page.$getAppWebview();
 				bitmap = new plus.nativeObj.Bitmap('amway_img');
 				// 将webview内容绘制到Bitmap对象中  
+				setTimeout(function(){
 				currentWebview.draw(bitmap, function() {
 					console.log('截屏绘制图片成功');
 					bitmap.save("_doc/a.jpg", {}, function(i) {
 						console.log('保存图片成功：' + JSON.stringify(i));
+						_this.s='../../../../static/ff.jpg'
+						_this.s1='../../../../static/f.jpg'
+						_this.s2='../../../../static/fff.png'
 						uni.saveImageToPhotosAlbum({
 							filePath: i.target,
 							success: function() {
@@ -84,6 +95,7 @@
 				}, function(e) {
 					console.log('截屏绘制图片失败：' + JSON.stringify(e));
 				});
+				},200)
 				//currentWebview.append(amway_bit);    
 			}
 		}
