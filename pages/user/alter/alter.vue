@@ -191,6 +191,10 @@
 														uni.showToast({
 															title: '微信绑定成功'
 														})
+													}else{
+														uni.showToast({
+															title:res.data.message
+														})
 													}
 
 													// setTimeout(function() {
@@ -203,6 +207,10 @@
 										},
 										fail: function(rs) {
 											console.log(rs)
+											uni.showToast({
+												title:'绑定失败，请重试',
+												icon:'none'
+											})
 											// _this.ceshiT = JSON.stringify(rs)
 										},
 
@@ -210,16 +218,19 @@
 
 								},
 								fail: function(ress) {
-									uni.getUserInfo({
-										provider: 'weixin',
-										success: function(res) {}
+									uni.showToast({
+										title:'绑定失败，请重试',
+										icon:'none'
 									})
 								}
 							})
 						}
 					},
 					fail: function(re) {
-						_this.q = JSON.stringify(re)
+						uni.showToast({
+							title:'绑定失败，请重试',
+							icon:'none'
+						})
 					}
 				})
 
@@ -252,6 +263,10 @@
 									if (res.data.code == 0) {
 										uni.showToast({
 											title: '支付宝绑定成功'
+										})
+									}else{
+										uni.showToast({
+											title:res.data.message
 										})
 									}
 

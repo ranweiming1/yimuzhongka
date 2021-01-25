@@ -152,6 +152,11 @@
 												method: 'post',
 												// haeder: true,
 												success: function(res) {
+													if(res.data.code>0){
+														uni.showToast({
+															title:res.data.message
+														})
+													}
 													_this.ass = JSON.stringify(res)
 													uni.setStorageSync('Authorization', res.data.data.access_token)
 													uni.showToast({
