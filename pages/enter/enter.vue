@@ -153,10 +153,19 @@
 												// haeder: true,
 												success: function(res) {
 													if(res.data.code>0){
-														uni.showToast({
-															title:res.data.message,
-															icon:'none'
+														uni.showModal({
+															title:'您未绑定微信，请先登录账号',
+															cancelText:'去登录',
+															confirmText:'去注册',
+															success:res=>{
+																if(res.confirm){
+																	uni.navigateTo({
+																		url:'login'
+																	})
+																}
+															}
 														})
+														return false
 													}
 													_this.ass = JSON.stringify(res)
 													uni.setStorageSync('Authorization', res.data.data.access_token)
@@ -226,9 +235,17 @@
 											})
 										}, 2600)
 									} else {
-										uni.showToast({
-											title: '未绑定支付宝',
-											icon: 'none'
+										uni.showModal({
+											title: '您未绑定支付宝，请先登录账号',
+											cancelText:'去登录',
+											confirmText:'去注册',
+											success:res=>{
+												if(res.confirm){
+													uni.navigateTo({
+														url:'login'
+													})
+												}
+											}
 										})
 									}
 
