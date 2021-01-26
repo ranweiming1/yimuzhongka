@@ -154,7 +154,8 @@
 												success: function(res) {
 													if(res.data.code>0){
 														uni.showToast({
-															title:res.data.message
+															title:res.data.message,
+															icon:'none'
 														})
 													}
 													_this.ass = JSON.stringify(res)
@@ -204,10 +205,11 @@
 							authInfo: res.data.data,
 							appScheme: 'yimuzhongka'
 						}, result => {
+							_this.msg=JSON.stringify(result)	
 							_this.$https({
 								url: '/api/oauth/aliLogin',
 								data: {
-									aliOpenid: res.data.alipayOpenId
+									aliOpenid: result.data.alipayOpenId
 								},
 								method: 'post',
 								dengl: true,

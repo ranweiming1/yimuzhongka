@@ -64,8 +64,8 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='aliOpenid'>已绑定支付宝</text>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='!aliOpenid' @tap='bindZfb'>绑定支付宝</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='aliName' @tap='bangzfbzhanghao'>{{aliName}}</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-else @tap='bindZfb'>绑定支付宝</text>
 			</view>
 		</view>
 
@@ -80,8 +80,8 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='openid'>已绑定微信</text>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='!openid' @tap='bindWx'>绑定微信</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='wxName' @tap='jiebangwx'>{{wxName}}</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-else @tap='bindWx'>绑定微信</text>
 			</view>
 		</view>
 		<!-- <view class="basic">
@@ -122,8 +122,8 @@
 				// ceshi: '',
 				// ceshiT: '',
 				// ceshiS: ''
-				openid:false,
-				aliOpenid:false
+				aliName:'',
+				wxName:''
 			}
 		},
 		onLoad() {
@@ -137,8 +137,8 @@
 					// _this.nickname = res.data.data.nickname
 					// // console.log(res.data.data)
 					_this.phone = res.data.data.phone
-					_this.openid=res.data.data.openid
-					_this.aliOpenid=res.data.data.aliOpenid
+					_this.aliName=res.data.data.aliName
+					_this.wxName=res.data.data.wxName
 					// console.log(res.data.data)
 				}
 			})
@@ -181,7 +181,8 @@
 												url: '/api/user/bind-wx-ali-auth-info',
 												data: {
 													bindType: '0',
-													identityCode: res.userInfo.openId
+													identityCode: res.userInfo.openId,
+													accountName:res.userInfo.nickName
 												},
 												dengl: false,
 												method: 'post',
@@ -191,9 +192,17 @@
 														uni.showToast({
 															title: '微信绑定成功'
 														})
+														_this.$https({
+															url:'/api/user/my-info',
+															data:{},
+															success:res=>{
+																_this.wxName=res.data.data.wxName
+															}
+														})
 													}else{
 														uni.showToast({
-															title:res.data.message
+															title:res.data.message,
+															icon:'none'
 														})
 													}
 
@@ -251,10 +260,20 @@
 							appScheme: 'yimuzhongka'
 						}, result => {
 							_this.$https({
+								url:'/api/oauth/ali/ali/get-user-info',
+								data:{
+									authCode:result.data.authCode
+								},
+								dengl:true,
+								method:'post',
+								success:res=>{
+									var r=JSON.parse(res.data.data)
+							_this.$https({
 								url: '/api/user/bind-wx-ali-auth-info',
 								data: {
 									bindType: '1',
-									identityCode: res.data.alipayOpenId
+									identityCode: result.data.alipayOpenId,
+									accountName:r.alipay_user_info_share_response.nick_name
 								},
 								dengl: false,
 								method: 'post',
@@ -264,9 +283,17 @@
 										uni.showToast({
 											title: '支付宝绑定成功'
 										})
+										_this.$https({
+											url:'/api/user/my-info',
+											data:{},
+											success:res=>{
+												_this.aliName=res.data.data.aliName
+											}
+										})
 									}else{
 										uni.showToast({
-											title:res.data.message
+											title:res.data.message,
+											icon:'none'
 										})
 									}
 
@@ -277,12 +304,60 @@
 									// }, 1000)
 								}
 							})
+							}
+							})
+							
 						})
 					}
 				})
 
 			},
-
+			bangzfbzhanghao:function(){
+				this.$https({
+					url:'/api/user/unbind-wx-ali-auth-info',
+					data:{
+						bindType:1
+					},
+					method:'post',
+					success:res=>{
+						if(res.data.code==0){
+							uni.showToast({
+								title:'解绑支付宝账号成功',
+								icon:'none'
+							})
+							this.aliName=''
+						}else{
+							uni.showToast({
+								title:res.data.message,
+								icon:'none'
+							})
+						}
+					}
+				})
+			},
+			jiebangwx:function(){
+				this.$https({
+					url:'/api/user/unbind-wx-ali-auth-info',
+					data:{
+						bindType:0
+					},
+					method:'post',
+					success:res=>{
+						if(res.data.code==0){
+							uni.showToast({
+								title:'解绑微信成功',
+								icon:'none'
+							})
+							this.wxName=''
+						}else{
+							uni.showToast({
+								title:res.data.message,
+								icon:'none'
+							})
+						}
+					}
+				})
+			}
 		}
 	}
 </script>

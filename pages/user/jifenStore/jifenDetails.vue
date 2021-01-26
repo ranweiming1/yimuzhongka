@@ -30,6 +30,12 @@
 			<view class="txt">
 				<text>兑换须知</text>
 			</view>
+			<view class='jians'>
+				<rich-text :nodes='shangpinxuzhi'></rich-text>
+			</view>
+			<view class='txt'>
+				<text>商品介绍</text>
+			</view>
 			<view class="jians">
 				<rich-text :nodes='xiangqing'></rich-text>
 			</view>
@@ -51,7 +57,8 @@
 				xiangqing: '',
 				q: '',
 				id: '',
-				wodejifen:0
+				wodejifen:0,
+				shangpinxuzhi:''
 			}
 		},
 		onLoad(option) {
@@ -79,6 +86,14 @@
 				data:{},
 				success:res=>{
 					this.wodejifen=res.data.data.payPoints
+				}
+			})
+			this.$https({
+				url:'/api/oauth/help/exchange-notes',
+				data:{},
+				dengl:true,
+				success:res=>{
+					this.shangpinxuzhi=res.data.data.content
 				}
 			})
 		},

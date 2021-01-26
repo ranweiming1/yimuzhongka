@@ -9,7 +9,7 @@
 			</view>
 			<view class="text_a">
 				<view class="yonghum">
-					<text>{{user.nickname}}</text>
+					<text>{{user.nickname?user.nickname:'暂无用户名'}}</text>
 				</view>
 				<view class="phone">
 					<text>积分：<text>{{user.payPoints}}</text></text>

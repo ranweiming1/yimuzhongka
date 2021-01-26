@@ -505,11 +505,15 @@
 				})
 			},
 			fenX: function() {
-				if (this.denglufangfatiaozhuan()) {
-					uni.navigateTo({
-						url: 'distr/distr'
-					})
-				}
+				// if (this.denglufangfatiaozhuan()) {
+				// 	uni.navigateTo({
+				// 		url: 'distr/distr'
+				// 	})
+				// }
+				uni.showToast({
+					title:'功能正在新增，敬请期待',
+					icon:'none'
+				})
 			},
 			tuiJi: function() {
 				uni.navigateTo({
