@@ -61,11 +61,11 @@
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
 				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='chaxun'>1.21.1</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='chaxun'>{{version}}</text>
 				<!-- <text></text> -->
 			</view>
 		</view>
-		
+
 
 		<view class="basic">
 			<view class="imgLogo">
@@ -122,10 +122,7 @@
 		<!-- <text></text> -->
 		<!-- </view>
 		</view> -->
-		<view class="">
-			{{type}}
-		</view>
-		
+
 		<view class=" uni-padding-wrap uni-common-mt quit" @tap='t'>
 			<button type="primary">退出登录</button>
 		</view>
@@ -140,9 +137,10 @@
 				// ceshi: '',
 				// ceshiT: '',
 				// ceshiS: ''
-				aliName:'',
-				wxName:'',
-				type:''
+				aliName: '',
+				wxName: '',
+				type: '',
+				version: ''
 			}
 		},
 		onLoad() {
@@ -156,11 +154,18 @@
 					// _this.nickname = res.data.data.nickname
 					// // console.log(res.data.data)
 					_this.phone = res.data.data.phone
-					_this.aliName=res.data.data.aliName
-					_this.wxName=res.data.data.wxName
+					_this.aliName = res.data.data.aliName
+					_this.wxName = res.data.data.wxName
 					// console.log(res.data.data)
 				}
 			})
+			if (uni.getSystemInfoSync().platform === 'android') {
+				this.type = 'android'
+				this.version = '1.0.01'
+			} else {
+				this.type = 'ios'
+				this.version = '1.0.04'
+			}
 		},
 		methods: {
 			t: function() {
@@ -174,23 +179,26 @@
 					})
 				}, 1000)
 			},
-			chaxun(){
-				var type=''
-				if (uni.getSystemInfoSync().platform === 'android') {
-						console.log('运行Android上')
-						type='android'
-						this.type='android'
-				} else {
-					type='ios'
-					this.type='ios'
-						console.log('运行iOS上')
-				}
+			chaxun() {
+				var that = this
 				this.$https({
 					url: '/api/app/new-version-info',
-					data: {versionType:type},
+					data: {
+						versionType: that.type
+					},
 					denglu: false,
 					success: function(res) {
-						
+						if (that.version == res.data.data.version) {
+							uni.showToast({
+								title: '您使用的已是最新版本！',
+								icon: 'none'
+							})
+						} else {
+							uni.showToast({
+								title: '请前往应用中心更新最新版本',
+								icon: 'none'
+							})
+						}
 					}
 				})
 			},
@@ -221,7 +229,7 @@
 												data: {
 													bindType: '0',
 													identityCode: res.userInfo.openId,
-													accountName:res.userInfo.nickName
+													accountName: res.userInfo.nickName
 												},
 												dengl: false,
 												method: 'post',
@@ -232,16 +240,16 @@
 															title: '微信绑定成功'
 														})
 														_this.$https({
-															url:'/api/user/my-info',
-															data:{},
-															success:res=>{
-																_this.wxName=res.data.data.wxName
+															url: '/api/user/my-info',
+															data: {},
+															success: res => {
+																_this.wxName = res.data.data.wxName
 															}
 														})
-													}else{
+													} else {
 														uni.showToast({
-															title:res.data.message,
-															icon:'none'
+															title: res.data.message,
+															icon: 'none'
 														})
 													}
 
@@ -256,8 +264,8 @@
 										fail: function(rs) {
 											console.log(rs)
 											uni.showToast({
-												title:'绑定失败，请重试',
-												icon:'none'
+												title: '绑定失败，请重试',
+												icon: 'none'
 											})
 											// _this.ceshiT = JSON.stringify(rs)
 										},
@@ -267,8 +275,8 @@
 								},
 								fail: function(ress) {
 									uni.showToast({
-										title:'绑定失败，请重试',
-										icon:'none'
+										title: '绑定失败，请重试',
+										icon: 'none'
 									})
 								}
 							})
@@ -276,8 +284,8 @@
 					},
 					fail: function(re) {
 						uni.showToast({
-							title:'绑定失败，请重试',
-							icon:'none'
+							title: '绑定失败，请重试',
+							icon: 'none'
 						})
 					}
 				})
@@ -299,99 +307,99 @@
 							appScheme: 'yimuzhongka'
 						}, result => {
 							_this.$https({
-								url:'/api/oauth/ali/ali/get-user-info',
-								data:{
-									authCode:result.data.authCode
-								},
-								dengl:true,
-								method:'post',
-								success:res=>{
-									var r=JSON.parse(res.data.data)
-							_this.$https({
-								url: '/api/user/bind-wx-ali-auth-info',
+								url: '/api/oauth/ali/ali/get-user-info',
 								data: {
-									bindType: '1',
-									identityCode: result.data.alipayOpenId,
-									accountName:r.alipay_user_info_share_response.nick_name
+									authCode: result.data.authCode
 								},
-								dengl: false,
+								dengl: true,
 								method: 'post',
-								success: function(res) {
-									// uni.setStorageSync('Authorization', res.data.data.access_token)
-									if (res.data.code == 0) {
-										uni.showToast({
-											title: '支付宝绑定成功'
-										})
-										_this.$https({
-											url:'/api/user/my-info',
-											data:{},
-											success:res=>{
-												_this.aliName=res.data.data.aliName
+								success: res => {
+									var r = JSON.parse(res.data.data)
+									_this.$https({
+										url: '/api/user/bind-wx-ali-auth-info',
+										data: {
+											bindType: '1',
+											identityCode: result.data.alipayOpenId,
+											accountName: r.alipay_user_info_share_response.nick_name
+										},
+										dengl: false,
+										method: 'post',
+										success: function(res) {
+											// uni.setStorageSync('Authorization', res.data.data.access_token)
+											if (res.data.code == 0) {
+												uni.showToast({
+													title: '支付宝绑定成功'
+												})
+												_this.$https({
+													url: '/api/user/my-info',
+													data: {},
+													success: res => {
+														_this.aliName = res.data.data.aliName
+													}
+												})
+											} else {
+												uni.showToast({
+													title: res.data.message,
+													icon: 'none'
+												})
 											}
-										})
-									}else{
-										uni.showToast({
-											title:res.data.message,
-											icon:'none'
-										})
-									}
 
-									// setTimeout(function() {
-									// 	uni.reLaunch({
-									// 		url: '../index/index'
-									// 	})
-									// }, 1000)
+											// setTimeout(function() {
+											// 	uni.reLaunch({
+											// 		url: '../index/index'
+											// 	})
+											// }, 1000)
+										}
+									})
 								}
 							})
-							}
-							})
-							
+
 						})
 					}
 				})
 
 			},
-			bangzfbzhanghao:function(){
+			bangzfbzhanghao: function() {
 				this.$https({
-					url:'/api/user/unbind-wx-ali-auth-info',
-					data:{
-						bindType:1
+					url: '/api/user/unbind-wx-ali-auth-info',
+					data: {
+						bindType: 1
 					},
-					method:'post',
-					success:res=>{
-						if(res.data.code==0){
+					method: 'post',
+					success: res => {
+						if (res.data.code == 0) {
 							uni.showToast({
-								title:'解绑支付宝账号成功',
-								icon:'none'
+								title: '解绑支付宝账号成功',
+								icon: 'none'
 							})
-							this.aliName=''
-						}else{
+							this.aliName = ''
+						} else {
 							uni.showToast({
-								title:res.data.message,
-								icon:'none'
+								title: res.data.message,
+								icon: 'none'
 							})
 						}
 					}
 				})
 			},
-			jiebangwx:function(){
+			jiebangwx: function() {
 				this.$https({
-					url:'/api/user/unbind-wx-ali-auth-info',
-					data:{
-						bindType:0
+					url: '/api/user/unbind-wx-ali-auth-info',
+					data: {
+						bindType: 0
 					},
-					method:'post',
-					success:res=>{
-						if(res.data.code==0){
+					method: 'post',
+					success: res => {
+						if (res.data.code == 0) {
 							uni.showToast({
-								title:'解绑微信成功',
-								icon:'none'
+								title: '解绑微信成功',
+								icon: 'none'
 							})
-							this.wxName=''
-						}else{
+							this.wxName = ''
+						} else {
 							uni.showToast({
-								title:res.data.message,
-								icon:'none'
+								title: res.data.message,
+								icon: 'none'
 							})
 						}
 					}
