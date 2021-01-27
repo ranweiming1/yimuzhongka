@@ -90,17 +90,17 @@
 
 			</view>
 
-			<view class="zhMask" v-if='paixu'>
+			<view class="zhMask" v-if='paixu' @tap="zonghe">
 				<view class="mask-content">
-					<view class="mask-cont-item" @tap='p("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
+					<view class="mask-cont-item" @tap.stop='p("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap='p("PDESC")'>信用<view class="cont-item-icon" v-if='st=="PDESC"'>
+					<view class="mask-cont-item" @tap.stop='p("PDESC")'>信用<view class="cont-item-icon" v-if='st=="PDESC"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap='p("SASC")'>价格高/低<view class="cont-item-icon" v-if='st=="SASC"'>
+					<view class="mask-cont-item" @tap.stop='p("SASC")'>价格高/低<view class="cont-item-icon" v-if='st=="SASC"'>
 							<image :src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''" mode=""></image>
 						</view>
 					</view>

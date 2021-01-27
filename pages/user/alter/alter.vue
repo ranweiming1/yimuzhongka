@@ -52,6 +52,20 @@
 				<!-- <text></text> -->
 			</view>
 		</view>
+		<view class="basic">
+			<view class="left_a">
+				<text>当前版本</text>
+			</view>
+			<view class="right_a">
+				<view class="img_a">
+					<image src="../../../static/icon_26.png" mode=""></image>
+				</view>
+				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='chaxun'>1.21.1</text>
+				<!-- <text></text> -->
+			</view>
+		</view>
+		
 
 		<view class="basic">
 			<view class="imgLogo">
@@ -108,6 +122,10 @@
 		<!-- <text></text> -->
 		<!-- </view>
 		</view> -->
+		<view class="">
+			{{type}}
+		</view>
+		
 		<view class=" uni-padding-wrap uni-common-mt quit" @tap='t'>
 			<button type="primary">退出登录</button>
 		</view>
@@ -123,7 +141,8 @@
 				// ceshiT: '',
 				// ceshiS: ''
 				aliName:'',
-				wxName:''
+				wxName:'',
+				type:''
 			}
 		},
 		onLoad() {
@@ -154,6 +173,26 @@
 						url: '../../enter/enter'
 					})
 				}, 1000)
+			},
+			chaxun(){
+				var type=''
+				if (uni.getSystemInfoSync().platform === 'android') {
+						console.log('运行Android上')
+						type='android'
+						this.type='android'
+				} else {
+					type='ios'
+					this.type='ios'
+						console.log('运行iOS上')
+				}
+				this.$https({
+					url: '/api/app/new-version-info',
+					data: {versionType:type},
+					denglu: false,
+					success: function(res) {
+						
+					}
+				})
 			},
 			gengg: function() {
 				uni.navigateTo({
