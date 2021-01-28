@@ -449,11 +449,11 @@
 	}
 
 	.qin {
-		margin-top: 150rpx;
+		margin-top: 100rpx;
 		text-align: center;
 		font-size: 50rpx;
 		color: #000;
-		margin-bottom: 150rpx;
+		margin-bottom: 100rpx;
 	}
 
 	.qin view {
