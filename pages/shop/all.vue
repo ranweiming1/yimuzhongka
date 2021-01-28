@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view :style="isShow||paixu?'height: 100vh;overflow: hidden;':''">
 		<!-- 筛选内容 -->
 		<view class="mask" v-if="isShow" @tap="hidd"></view>
 		<view class="screen" v-if="isShow">
@@ -87,17 +87,17 @@
 					<view style='margin-top:20rpx;margin-bottom:20rpx;' @tap='x("SDESC")'>销量从低到高</view>
 				</view> -->
 			</view>
-			<view class="zhMask" v-if='paixu'>
+			<view class="zhMask" v-if='paixu' @tap='guanbi'>
 				<view class="mask-content">
-					<view class="mask-cont-item" @tap='x("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
+					<view class="mask-cont-item" @tap.stop='x("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap='x("PDESC")'>信用<view class="cont-item-icon" v-if='st=="PDESC"'>
+					<view class="mask-cont-item" @tap.stop='x("PDESC")'>信用<view class="cont-item-icon" v-if='st=="PDESC"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap='x("SASC")'>价格高/低<view class="cont-item-icon" v-if='st=="SASC"'>
+					<view class="mask-cont-item" @tap.stop='x("SASC")'>价格高/低<view class="cont-item-icon" v-if='st=="SASC"'>
 							<image :src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''" mode=""></image>
 						</view>
 					</view>
@@ -237,6 +237,7 @@
 			},
 			show() {
 				var _this = this
+				this.paixu=false
 				this.isShow = true
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serch',
@@ -296,6 +297,9 @@
 			zonghe: function() {
 				this.paixu = !this.paixu
 			},
+			guanbi:function(){
+				this.paixu=false
+			},
 			x: function(st) {
 				this.st = st
 				var _this = this
@@ -352,7 +356,7 @@
 		height: 100%;
 		background-color: rgba(0, 0, 0, 0.3);
 		overflow: hidden;
-		position: absolute;
+		position: fixed;
 		left: 0;
 		right: 0;
 		top: 250rpx;

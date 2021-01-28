@@ -6,7 +6,6 @@
 		</view>
 		<view class='qin'>
 			<view>亲,欢迎登录</view>
-			<view>没有账户?<i @tap='login'>立即注册</i></view>
 		</view>
 		<view class="input-tiem">
 			<input v-model='phone' placeholder='请输入手机号码' class='shoujihaoma' />
@@ -16,8 +15,9 @@
 			<!-- <view>短信验证码登录</view> -->
 			<view @tap='xiuga'>忘记密码</view>
 		</view>
-		<view class='quedingxuan' @tap='denglusss()'>确认</view>
-		<view class='shejiaozhanghao' v-if="pdType">社交账号登录</view>
+		<view class='quedingxuan' @tap='denglusss()'>登录</view>
+		<view class="nozh">没有账户? <i @tap='login'> 立即注册</i></view>
+		<view class='shejiaozhanghao' v-if="pdType">其他方式登录</view>
 		<view class='anniu' v-if="pdType">
 			<view @tap='denglu'>
 				<image src='../../static/weixinanniu.png'></image>
@@ -152,15 +152,15 @@
 												method: 'post',
 												// haeder: true,
 												success: function(res) {
-													if(res.data.code>0){
+													if (res.data.code > 0) {
 														uni.showModal({
-															title:'您未绑定微信，请先登录账号',
-															cancelText:'去登录',
-															confirmText:'去注册',
-															success:res=>{
-																if(res.confirm){
+															title: '您未绑定微信，请先登录账号',
+															cancelText: '去登录',
+															confirmText: '去注册',
+															success: res => {
+																if (res.confirm) {
 																	uni.navigateTo({
-																		url:'login'
+																		url: 'login'
 																	})
 																}
 															}
@@ -214,7 +214,7 @@
 							authInfo: res.data.data,
 							appScheme: 'yimuzhongka'
 						}, result => {
-							_this.msg=JSON.stringify(result)	
+							_this.msg = JSON.stringify(result)
 							_this.$https({
 								url: '/api/oauth/aliLogin',
 								data: {
@@ -237,12 +237,12 @@
 									} else {
 										uni.showModal({
 											title: '您未绑定支付宝，请先登录账号',
-											cancelText:'去登录',
-											confirmText:'去注册',
-											success:res=>{
-												if(res.confirm){
+											cancelText: '去登录',
+											confirmText: '去注册',
+											success: res => {
+												if (res.confirm) {
 													uni.navigateTo({
-														url:'login'
+														url: 'login'
 													})
 												}
 											}
@@ -449,24 +449,30 @@
 	}
 
 	.qin {
-		margin-top: 80rpx;
+		margin-top: 150rpx;
+		text-align: center;
 		font-size: 50rpx;
 		color: #000;
-		margin-bottom: 80rpx;
+		margin-bottom: 150rpx;
 	}
 
 	.qin view {
 		margin-left: 20rpx;
 	}
 
-	.qin view:last-child {
-		color: #999;
+	.nozh {
+		color: #000;
 		font-size: 30rpx;
-		margin-top: 10rpx;
+		margin-top: 47rpx;
+		margin-bottom: 100rpx;
+		
+		text-align: center;
 	}
 
-	.qin view i {
-		color: #3462fe;
+	.nozh i {
+		margin-left: 15rpx;
+		font-weight: bold;
+		color: #fe3434;
 		display: inline-block;
 	}
 
@@ -475,8 +481,8 @@
 		padding: 0 25rpx;
 
 		input {
-			height: 90rpx;
-			line-height: 90rpx;
+			height: 100rpx;
+			line-height: 100rpx;
 			color: #999;
 			font-size: 28rpx;
 			border-bottom: 1px solid #ddd;
@@ -497,11 +503,11 @@
 
 	.denglu {
 		overflow: hidden;
-		margin-top: 20rpx;
 		color: #000;
 		font-size: 24rpx;
-		width: 700rpx;
-		margin: 60rpx auto;
+		width: 100%;
+		padding: 30rpx 25rpx 58rpx 25rpx;
+		box-sizing: border-box;
 	}
 
 	.denglu view {
@@ -521,19 +527,19 @@
 		line-height: 94rpx;
 		text-align: center;
 		border-radius: 50rpx;
-		margin-top: 60rpx;
+		// margin-top: 60rpx;
 	}
 
 	.shejiaozhanghao {
 		text-align: center;
-		margin-top: 60rpx;
+		// margin-top: 60rpx;
 		color: #a1b2c1;
 		font-size: 30rpx;
 	}
 
 	.anniu {
 		overflow: hidden;
-		margin-top: 50rpx;
+		margin-top: 10rpx;
 		text-align: center;
 	}
 
@@ -563,7 +569,7 @@
 	.gengduo {
 		color: #666;
 		text-align: center;
-		margin-top: 60rpx;
+		// margin-top: 60rpx;
 		font-size: 28rpx;
 	}
 

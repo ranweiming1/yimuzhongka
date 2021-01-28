@@ -1,5 +1,5 @@
 <template>
-	<view :style="isShow?'height: 100vh;overflow: hidden;':''">
+	<view :style="isShow||paixu?'height: 100vh;overflow: hidden;':''">
 		<!-- 筛选内容 -->
 		<view class="mask" v-if="isShow" @tap="hidd"></view>
 		<view class="screen" v-if="isShow">
@@ -287,6 +287,7 @@
 			},
 			show() {
 				var _this = this
+				this.paixu = false
 				this.isShow = true
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serch',
@@ -407,7 +408,7 @@
 		height: 100%;
 		background-color: rgba(0, 0, 0, 0.3);
 		overflow: hidden;
-		position: absolute;
+		position: fixed;
 		left: 0;
 		right: 0;
 		top: 250rpx;
@@ -669,6 +670,7 @@
 					border-radius: 45rpx;
 					text-align: center;
 					box-sizing: border-box;
+
 					text {
 						display: inline-block;
 						width: calc(100% - 30rpx);
@@ -679,9 +681,11 @@
 						text-align: center;
 					}
 				}
+
 				.activeBef:nth-child(3n+3) {
 					margin-right: 0;
 				}
+
 				button {
 					font-size: 22rpx;
 					margin-bottom: 29rpx;
@@ -691,7 +695,8 @@
 					width: calc((100% - 28rpx)/3);
 					line-height: 48rpx;
 					margin-right: 14rpx;
-					}
+				}
+
 				.active {
 					color: #2b5cff;
 					border: 1rpx solid #2b5cff;
