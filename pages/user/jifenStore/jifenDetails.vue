@@ -2,7 +2,7 @@
 	<view>
 		<!-- <view class="one_line">
 		</view> -->
-		#ifndef H5
+		<!-- #ifndef H5 -->
 		<view class="top">
 			<!-- 轮播图 -->
 			<view class="imgBox">
@@ -22,7 +22,7 @@
 				</view>
 			</view>
 		</view>
-		#endif
+		<!-- #endif -->
 
 		<view class="xiangq">
 			<view class="img_b">

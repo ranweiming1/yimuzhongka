@@ -50,7 +50,7 @@
 
 		<view :class="tog_Ca?'clearCss':'togActive'">
 			<!-- 头部 -->
-			#ifndef H5
+			<!-- #ifndef H5 -->
 			<view class="top" style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;padding-top:80rpx;padding-bottom: 20rpx;'>
 				<view class='back' @tap='back' style='float:left;padding: 15rpx 35rpx;'>
 					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
@@ -62,7 +62,7 @@
 					<image src="../../static/icon_10.png" mode=""></image>
 				</view>
 			</view>
-			#endif
+			<!-- #endif -->
 			<!-- 这里有一个筛选 -->
 			<view class="nav dne">
 				<view style='display:flex;'>

@@ -50,7 +50,7 @@
 
 		<view :class="tog_Ca?'clearCss':'togActive'">
 			<!-- 头部 -->
-			#ifndef H5
+			<!-- #ifndef H5 -->
 			<view class="top">
 				<view class="textBox">
 					<input class="uni-input" @blur="search" :focus="isFocus" v-model="value" placeholder="请输入关键字" />
@@ -59,7 +59,7 @@
 					<image src="../../static/icon_10.png" mode="" @tap='search'></image>
 				</view>
 			</view>
-			#endif
+			<!-- #endif -->
 
 			<!-- 这里有一个筛选 -->
 			<view class="nav dne">

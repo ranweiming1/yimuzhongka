@@ -1,7 +1,7 @@
 <template>
 	<view style='width:100%;overflow:hidden;'>
 		
-		#ifndef H5
+		<!-- #ifndef H5 -->
 		<view class="top">
 			<view class='back' @tap='back' style='float:left;'>
 				<image src='../../../static/icon_26-2.png' mode=''></image>
@@ -10,7 +10,7 @@
 				<text>{{x?'资讯详情':'公告详情'}}</text>
 			</view>
 		</view>
-		#endif
+		<!-- #endif -->
 
 		<view class="neir">
 			<view class="title">

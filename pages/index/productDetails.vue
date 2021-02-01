@@ -12,7 +12,7 @@
 		</view>
 
 		<!-- 头部 -->
-		#ifndef H5
+		<!-- #ifndef H5 -->
 		<view class="top" style="background-color: #FFFFFF;z-index:999999999;">
 			<view class="back" @tap="back">
 				<image src="../../static/icon_26-2.png" mode=""></image>
@@ -44,7 +44,7 @@
 				</view>
 			</view>
 		</view>
-		#endif
+		<!-- #endif -->
 		
 		<view class="top" v-if="!isShow">
 			<view class="back" @tap="back">
