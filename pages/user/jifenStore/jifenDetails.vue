@@ -2,7 +2,7 @@
 	<view>
 		<!-- <view class="one_line">
 		</view> -->
-
+		#ifndef H5
 		<view class="top">
 			<!-- 轮播图 -->
 			<view class="imgBox">
@@ -22,6 +22,7 @@
 				</view>
 			</view>
 		</view>
+		#endif
 
 		<view class="xiangq">
 			<view class="img_b">
@@ -57,8 +58,8 @@
 				xiangqing: '',
 				q: '',
 				id: '',
-				wodejifen:0,
-				shangpinxuzhi:''
+				wodejifen: 0,
+				shangpinxuzhi: ''
 			}
 		},
 		onLoad(option) {
@@ -82,27 +83,27 @@
 			})
 			//获取积分
 			this.$https({
-				url:'/api/user/my-info',
-				data:{},
-				success:res=>{
-					this.wodejifen=res.data.data.payPoints
+				url: '/api/user/my-info',
+				data: {},
+				success: res => {
+					this.wodejifen = res.data.data.payPoints
 				}
 			})
 			this.$https({
-				url:'/api/oauth/help/exchange-notes',
-				data:{},
-				dengl:true,
-				success:res=>{
-					this.shangpinxuzhi=res.data.data.content
+				url: '/api/oauth/help/exchange-notes',
+				data: {},
+				dengl: true,
+				success: res => {
+					this.shangpinxuzhi = res.data.data.content
 				}
 			})
 		},
 		methods: {
 			tiaozhuan: function() {
-				if(this.wodejifen<this.jifen){
+				if (this.wodejifen < this.jifen) {
 					uni.showToast({
-						title:'你的积分不足',
-						image:'../../../static/c.png'
+						title: '你的积分不足',
+						image: '../../../static/c.png'
 					})
 					return false
 				}

@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<!-- 头部 -->
+		#ifndef H5
 		<view class="top" style='width:100%;background:#fff;position:fixed;top:0rpx;z-index:99999;left:0;padding-top:90rpx;'>
 			<view class='back' @tap='back' style='float:left;padding:10rpx 20rpx 15rpx 20rpx;'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
@@ -12,6 +13,7 @@
 				<image src="../../../static/icon_43.png" mode=""></image>
 			</view> -->
 		</view>
+		#endif
 
 		<!-- 状态栏 -->
 		<view class="topBox" style='position:fixed;top:170rpx;left:0;width:100%;background:#fff;padding-top:20rpx;z-index:99999;'>

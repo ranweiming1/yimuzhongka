@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<!-- <view class="line" style="height: 50rpx;"></view> -->
+		#ifndef H5
 		<view class="top">
 			<view class='back' @tap='back' style='float:left;'>
 				<image src='../../static/icon_26-2.png' mode=''></image>
@@ -12,7 +13,7 @@
 				<image src="../../static/icon_10.png" mode=""></image>
 			</view>
 		</view>
-
+		#endif
 		<!-- 切换分类 -->
 		<view class="Box dne">
 			<!-- 一级 -->

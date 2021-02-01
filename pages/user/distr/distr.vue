@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<!-- 头部 -->
+		#ifndef H5
 		<view class="top">
 			<view style='float:left;padding: 4rpx 35rpx;' @tap='bac'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:30rpx;'></image>
@@ -12,6 +13,7 @@
 				<image src="../../../static/icon_34.png" mode=""></image>
 			</view>
 		</view>
+		#endif
 
 		<!-- 分销卡片 -->
 		<view class="distr">

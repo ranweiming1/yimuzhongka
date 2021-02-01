@@ -6,6 +6,7 @@
 		</view>
 
 		<!-- 头部 -->
+		#ifndef H5
 		<view class="top">
 			<view class="topImg" @tap="toUser">
 				<image src="../../../static/icon_26-2.png" mode=""></image>
@@ -17,6 +18,7 @@
 				<image src="../../../static/icon_31.png" mode=""></image>
 			</view>
 		</view>
+		#endif
 
 		<!-- 用户名 -->
 		<view class="userBox">

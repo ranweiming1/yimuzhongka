@@ -1,5 +1,6 @@
 <template>
 	<view style='overflow:hidden;width:100%;'>
+		#ifndef H5
 		<view class="top">
 			<view class='back' @tap='back' style='float:left;'>
 				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image>
@@ -8,6 +9,7 @@
 				<text>新闻资讯</text>
 			</view>
 		</view>
+		#endif
 		<!-- 广告浮窗 链接到效果图/个人中心/6-3分销页面 -->
 		<!-- <view class="float" bindtap='>
 			<image src="../../static/icon_20.png" mode=""></image>

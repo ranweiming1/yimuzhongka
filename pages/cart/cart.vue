@@ -1,5 +1,6 @@
 <template>
 	<view class="bcg">
+		#ifndef H5
 		<view class="top">
 			<view class="textBox">
 				<text>购物车({{numa}})</text>
@@ -12,6 +13,7 @@
 				<text>{{shanchu?'管理':'取消'}}</text>
 			</view> -->
 		</view>
+		#endif
 
 		<view class="listBox" style='margin-top:160rpx;'>
 
