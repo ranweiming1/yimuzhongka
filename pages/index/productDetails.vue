@@ -726,8 +726,9 @@
 					this.$https({
 						url: '/api/user/my-info',
 						data: {},
+						method:'post',
 						success: function(res) {
-							uni.share({
+							uni.updateAppMessageShareData({
 								provider: 'weixin',
 								scene: 'WXSceneSession',
 								type: 0,

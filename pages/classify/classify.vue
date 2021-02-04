@@ -4,7 +4,7 @@
 		<!-- #ifndef H5 -->
 		<view class="top">
 			<view class='back' @tap='back' style='float:left;'>
-				<image src='../../static/icon_26-2.png' mode=''></image>
+				<image v-if='yincang' src='../../static/icon_26-2.png' mode=''></image>
 			</view>
 			<view class="textBox">
 				<text>全部分类</text>
@@ -98,6 +98,7 @@
 				imgSlide: [],
 				toTop: '',
 				xianshidenglu: false,
+				yincang:true
 			}
 		},
 		components: {
@@ -105,6 +106,9 @@
 		},
 		onLoad(options) {
 			// this.id=index
+			if(options.tiaozhuan==0){
+				this.yincang=false
+			}
 			var _this = this
 			if (!uni.getStorageSync('Authorization')) {
 				this.xianshidenglu = true

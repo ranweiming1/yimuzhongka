@@ -242,7 +242,7 @@
 				data:{},
 				success(res){
 					console.log(res)
-					uni.setStorageSync('pdType',res.data.data=='disable'?false:true)
+					uni.setStorageSync('pdType',true)
 				}
 			})
 			this.list = []

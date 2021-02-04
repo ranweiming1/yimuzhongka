@@ -3,7 +3,7 @@
 		<!-- #ifndef H5 -->
 		<view class="top">
 			<view class='back' @tap='back' style='float:left;'>
-				<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image>
+				<!-- <image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;' mode=''></image> -->
 			</view>
 			<view class="textBox">
 				<text>新闻资讯</text>

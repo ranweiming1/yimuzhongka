@@ -72,8 +72,8 @@
 					dengl: true,
 					data: {},
 					success(res) {
-						uni.setStorageSync('pdType', res.data.data == 'disable' ? false : true)
-						_this.pdType = res.data.data == 'disable' ? false : true
+						uni.setStorageSync('pdType', true)
+						_this.pdType = true
 					}
 				})
 			}

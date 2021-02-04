@@ -106,8 +106,7 @@
 						imageSize: that.iconSize, // 二维码图标大小
 						cbResult: function(res) { // 生成二维码的回调
 							that._result(res)
-							console.log(res)
-							
+							that.$emit('ss',res)
 						},
 						
 					});

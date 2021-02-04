@@ -112,7 +112,7 @@
 						if (item.url !== this.currentPage) {
 							var isUrl = `/pages/${item.url}/${item.url}`;
 							uni.navigateTo({
-								url: isUrl
+								url: isUrl+(item.text=='分类'?'?tiaozhuan=0':'')
 							});
 						} else {
 							// this.$api.toTop();
