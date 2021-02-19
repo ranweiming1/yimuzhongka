@@ -728,7 +728,7 @@
 						data: {},
 						method:'post',
 						success: function(res) {
-							uni.updateAppMessageShareData({
+							uni.share({
 								provider: 'weixin',
 								scene: 'WXSceneSession',
 								type: 0,
