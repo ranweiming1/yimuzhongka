@@ -391,7 +391,7 @@
 					}
 					if (state == 2 || state == 3) {
 						uni.navigateTo({
-							url: '../../classify/fenlOne'
+							url: '../../classify/fenlOne?state='+state
 						})
 
 					}

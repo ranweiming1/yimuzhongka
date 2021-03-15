@@ -45,7 +45,7 @@
 			</view>
 		</view>
 		<!-- #endif -->
-		
+
 		<view class="top" v-if="!isShow">
 			<view class="back" @tap="back">
 				<image src="../../static/icon_26-2.png" mode=""></image>
@@ -174,7 +174,8 @@
 			</view>
 			<view class="butt" v-if="isAdd">
 				<view style='position:absolute;top:30rpx;right:50rpx;' @tap='add'>
-					<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:50rpx;height:50rpx;'></image>
+					<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:50rpx;height:50rpx;'>
+					</image>
 				</view>
 				<view class="mTop">
 					<image class="cover" :src="list.goodsLogo?list.goodsLogo:''" mode=""></image>
@@ -185,11 +186,13 @@
 
 				</view>
 				<view class="mButton">
-					<view style='margin-top:20rpx;border-bottom:1px solid #eee;padding-bottom:20rpx;' v-for='(item,index) in canshu'>
+					<view style='margin-top:20rpx;border-bottom:1px solid #eee;padding-bottom:20rpx;'
+						v-for='(item,index) in canshu'>
 						<view style='color:#999;font-size:24rpx;'>{{item.n?item.n:''}}</view>
 						<view style='margin-top:20rpx;'>
-							<view v-for='(items,indexs) in item.sa' :style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"'
-							 @tap='xuanzhong(index,indexs)'>{{items.item?items.item:''}}</view>
+							<view v-for='(items,indexs) in item.sa'
+								:style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"'
+								@tap='xuanzhong(index,indexs)'>{{items.item?items.item:''}}</view>
 						</view>
 					</view>
 					<!-- <view class="detail">
@@ -201,7 +204,8 @@
 						<view class="name">数量</view>
 						<view class="n_right">
 							<view class="reduce" @tap="reduce">-</view>
-							<input class="cor" type="number" style='width:100rpx;text-align:center;' v-model="num"></input>
+							<input class="cor" type="number" style='width:100rpx;text-align:center;'
+								v-model="num"></input>
 							<view class="add" @tap="jia">+</view>
 						</view>
 					</view>
@@ -234,8 +238,9 @@
 			<!-- 用户评价 ,划动效果-->
 			<view class="toux" v-if="pingjia">
 				<view class="imgBox_a">
-					<image :src="pingjia.img?pingjia.img=='../../../static/img_10.jpg.png'?'../../static/img_05.jpg':pingjia.img:'../../static/img_05.jpg'"
-					 mode=""></image>
+					<image
+						:src="pingjia.img?pingjia.img=='../../../static/img_10.jpg.png'?'../../static/img_05.jpg':pingjia.img:'../../static/img_05.jpg'"
+						mode=""></image>
 				</view>
 				<view class="mingc">
 					<text>{{pingjia.commId}}</text>
@@ -247,15 +252,17 @@
 					</view>
 				</view>
 			</view>
-			<view class="toux" v-if="!pingjia" style="font-size: 28rpx;padding-left: 20rpx;box-sizing: border-box;">暂无评价</view>
+			<view class="toux" v-if="!pingjia" style="font-size: 28rpx;padding-left: 20rpx;box-sizing: border-box;">暂无评价
+			</view>
 		</view>
 
 		<!-- 店铺：需产品确认 -->
 		<view class="listBox">
 			<view class="liBox">
 				<view class="imgBox">
-					<image :src="list.shopDTO.storeLogo?list.shopDTO.storeLogo:'../../static/230abf8eb0244a128649f337a7d4aae3.png'"
-					 mode=""></image>
+					<image
+						:src="list.shopDTO.storeLogo?list.shopDTO.storeLogo:'../../static/230abf8eb0244a128649f337a7d4aae3.png'"
+						mode=""></image>
 				</view>
 				<view class="texBox">
 					<view class="h2Box">
@@ -282,19 +289,29 @@
 			<!-- <view :style="margin-bottom:100rpx">所涉及的大家</view> -->
 		</view>
 		<!--活动列表-->
-		<view v-if='huodong' style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;'
-		 @tap='yincang'>
-			<view style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:10rpx 10rpx 0 0;overflow-y:auto;'>
-				<view style='text-align:center;margin-top:30rpx;'>优惠<view style='position:absolute;right:50rpx;top:30rpx;'>
-						<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:30rpx;height:30rpx;'></image>
+		<view v-if='huodong'
+			style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;'
+			@tap='yincang'>
+			<view
+				style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:10rpx 10rpx 0 0;overflow-y:auto;'>
+				<view style='text-align:center;margin-top:30rpx;'>优惠<view
+						style='position:absolute;right:50rpx;top:30rpx;'>
+						<image src='../../static/close_901px_1199932_easyicon.net.png'
+							style='width:30rpx;height:30rpx;'></image>
 					</view>
 				</view>
-				<view v-for='item in list.couponDTOS' style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
+				<view v-for='item in list.couponDTOS'
+					style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
 					<view style='overflow:hidden;'>
-						<view style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>满{{item.condition}}-{{item.money}}元</view>
-						<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>满{{item.condition}},立减{{item.money}}元;不累积</view>
+						<view
+							style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>
+							满{{item.condition}}-{{item.money}}元</view>
+						<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>
+							满{{item.condition}},立减{{item.money}}元;不累积</view>
 					</view>
-					<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}</view>
+					<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>
+						{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -380,14 +397,16 @@
 				height: '',
 				pdType: '',
 				starNum: 0,
-				code:'',
-				liulan:''
+				code: '',
+				liulanTime: ''
 			}
 		},
 		components: {
 			jyfParser
 		},
 		onLoad(option) {
+			console.log(option)
+
 			this.deId = option.id
 			this.pdType = uni.getStorageSync('pdType')
 			var _this = this
@@ -397,7 +416,26 @@
 					console.log(res.windowHeight, _this.height)
 				}
 			})
-
+			// 判断是否增加积分 
+			if (option.liulanState) {
+				//增加积分
+				this.liulanTime = setTimeout(function() {
+					if (_this.cishu > _this.yihuodecishu) {
+						_this.$https({
+							url: '/api/task/center-task-insert',
+							data: {
+								taskId: 2,
+								taskType: 1
+							},
+							method: 'post',
+							success: res => {
+								_this.cishu++
+								// console.log('执行定时器')
+							}
+						})
+					}
+				}, 60000)
+			}
 			this.$https({
 				url: '/api/oauth/shop/mall-goods-detail',
 				data: {
@@ -478,28 +516,18 @@
 							success: function(res) {}
 						})
 
-						//增加积分
-						setInterval(function() {
-							if (_this.cishu > _this.yihuodecishu) {
-								_this.$https({
-									url: '/api/task/center-task-insert',
-									data: {
-										taskId: 2,
-										taskType: 1
-									},
-									method: 'post',
-									success: res => {
-										_this.cishu++
-									}
-								})
-							}
-						}, 60000)
+
 					}
-					
+
 				}
 			})
-			if(uni.getStorageSync('Authorization')){
-				this.$https({url:'/api/user/my-info',success:res=>{this.code=res.data.data.myCode}})
+			if (uni.getStorageSync('Authorization')) {
+				this.$https({
+					url: '/api/user/my-info',
+					success: res => {
+						this.code = res.data.data.myCode
+					}
+				})
 			}
 		},
 		onPageScroll(e) {
@@ -508,7 +536,9 @@
 				this.isShow = false
 			}
 		},
-
+		onUnload() {
+			clearTimeout(this.liulanTime)
+		},
 		methods: {
 			back() {
 				uni.navigateBack({
@@ -690,21 +720,23 @@
 					console.log(this.xuanzh)
 					if (this.xuanzh) {
 						uni.navigateTo({
-							url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
-								cartAttr: [{
-									goodsNum: this.num,
-									specKeyName: this.guige[this.indexx].keyName,
-									goodsLogo: this.list.goodsLogo,
-									integral: this.list.integral,
-									goodsName: this.list.goodsName,
-									kuaidi: this.list.kuaidi,
-									shopPrice: this.j,
-									goodsId: this.list.goodsId,
-									specKey: this.guige[this.indexx].key,
-									shopId: this.shopId,
-									name: this.list.length > 0 ? this.list.couponDTOS[0].name : '',
-								}]
-							}) + '&dingdan=2&goumai=1'
+							url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON
+								.stringify({
+									cartAttr: [{
+										goodsNum: this.num,
+										specKeyName: this.guige[this.indexx].keyName,
+										goodsLogo: this.list.goodsLogo,
+										integral: this.list.integral,
+										goodsName: this.list.goodsName,
+										kuaidi: this.list.kuaidi,
+										shopPrice: this.j,
+										goodsId: this.list.goodsId,
+										specKey: this.guige[this.indexx].key,
+										shopId: this.shopId,
+										name: this.list.length > 0 ? this.list.couponDTOS[0].name :
+											'',
+									}]
+								}) + '&dingdan=2&goumai=1'
 						})
 					} else {
 						uni.showToast({
@@ -727,13 +759,14 @@
 					this.$https({
 						url: '/api/user/my-info',
 						data: {},
-						method:'post',
+						method: 'post',
 						success: function(res) {
 							uni.share({
 								provider: 'weixin',
 								scene: 'WXSceneSession',
 								type: 0,
-								href: 'http://www.yimuzk.com:8087?xiangqing=' + _this.deId+'&codz='+_this.code,
+								href: 'http://www.yimuzk.com:8087?xiangqing=' + _this.deId +
+									'&codz=' + _this.code,
 								imageUrl: _this.list.goodsImgss[0],
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',
 								summary: '商品描述',

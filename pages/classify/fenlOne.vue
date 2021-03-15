@@ -181,10 +181,14 @@
 				paixu: false,
 				st: 'PASC',
 				value: '',
-				bar: ''
+				bar: '',
+				liulanState:''
 			}
 		},
 		onLoad(option) {
+			if(option.state){
+				this.liulanState=option.state
+			}
 			var _this = this
 			if (option.keywords) {
 				this.value = option.keywords
@@ -258,9 +262,10 @@
 			togCass() {
 				this.tog_Ca = !this.tog_Ca
 			},
-			detail(id) {
+			detail(id) { 
+				var llState=this.liulanState==2?this.liulanState:''
 				uni.navigateTo({
-					url: '../index/productDetails?id=' + id
+					url: '../index/productDetails?id=' + id+'&liulanState='+llState
 				})
 				this.$https({
 					url: '/api/shop/goods-brows-history-add',
