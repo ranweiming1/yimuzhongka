@@ -380,7 +380,8 @@
 				height: '',
 				pdType: '',
 				starNum: 0,
-				code:''
+				code:'',
+				liulan:''
 			}
 		},
 		components: {
@@ -455,7 +456,7 @@
 						})
 					}
 					_this.shuList = arr
-					this.$https({
+					_this.$https({
 						url: '/api/oauth/shop/store-shop-detail',
 						data: {
 							shopId: res.data.data.detail.shopId

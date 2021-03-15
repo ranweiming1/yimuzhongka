@@ -5,7 +5,7 @@
 			<view class="left">
 				<text>首页</text>
 				<image src="../../static/icon_09.png" mode=""></image>
-			</view>
+			</view>  
 			<view class="right">
 				<image src="../../static/icon_10.png" mode="" @tap="search"></image>
 				<!-- <image src="../../static/icon_11.png" mode=""></image> -->

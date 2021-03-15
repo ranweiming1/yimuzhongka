@@ -195,7 +195,7 @@
 		onLoad: function() {
 			//佣金
 			this.$https({
-				url: '/api/user/my-order-rebate-log-list',
+				url: '/api/user/my-bound-index',
 				data: {},
 				success: function(res) {
 

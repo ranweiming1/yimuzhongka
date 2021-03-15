@@ -334,13 +334,31 @@
 		},
 		onShow: function() {
 			//更新收货地址
+			// this.$https({
+			// 	url: '/api/user/my-address',
+			// 	data: {},
+			// 	success: res => {
+			// 		if (res.data.data.length == 0) {
+			// 			this.dizhi = {}
+			// 			this.z = false
+			// 		}
+			// 	}
+			// })
 			this.$https({
 				url: '/api/user/my-address',
 				data: {},
-				success: res => {
-					if (res.data.data.length == 0) {
-						this.dizhi = {}
-						this.z = false
+				success: (res)=> {
+					this.z = res.data.data.length > 0
+					var isDzhi = false
+					res.data.data.map((n) =>{
+						if (n.isDefault == 1) {
+							//默认地址
+							isDzhi = true
+							this.dizhi = n
+						}
+					})
+					if (!isDzhi) {
+						this.dizhi = res.data.data[0]
 					}
 				}
 			})
