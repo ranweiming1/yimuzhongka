@@ -416,26 +416,7 @@
 					console.log(res.windowHeight, _this.height)
 				}
 			})
-			// 判断是否增加积分 
-			if (option.liulanState) {
-				//增加积分
-				this.liulanTime = setTimeout(function() {
-					if (_this.cishu > _this.yihuodecishu) {
-						_this.$https({
-							url: '/api/task/center-task-insert',
-							data: {
-								taskId: 2,
-								taskType: 1
-							},
-							method: 'post',
-							success: res => {
-								_this.cishu++
-								// console.log('执行定时器')
-							}
-						})
-					}
-				}, 60000)
-			}
+			
 			this.$https({
 				url: '/api/oauth/shop/mall-goods-detail',
 				data: {
@@ -515,7 +496,26 @@
 							method: 'post',
 							success: function(res) {}
 						})
-
+						// 判断是否增加积分
+						if (option.liulanState) {
+							//增加积分
+							this.liulanTime = setTimeout(function() {
+								if (_this.cishu > _this.yihuodecishu) {
+									_this.$https({
+										url: '/api/task/center-task-insert',
+										data: {
+											taskId: 2,
+											taskType: 1
+										},
+										method: 'post',
+										success: res => {
+											_this.cishu++
+											// console.log('执行定时器')
+										}
+									})
+								}
+							}, 60000)
+						}
 
 					}
 
@@ -757,7 +757,7 @@
 				if (this.denglufangfatiaozhuan()) {
 					var _this = this
 					this.$https({
-						url: '/api/user/my-info',
+						url: '/api/task/get-share-page',
 						data: {},
 						method: 'post',
 						success: function(res) {

@@ -117,8 +117,11 @@
 					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==2">
 						<button type="primary">追加评论</button>
 					</view> -->
-					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0" @tap="zhifu(item.orderSn)">
+					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0&&item.orderStatus!=3" @tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
+					</view>
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0&&item.orderStatus==3" @tap="zhifu(item.orderSn)">
+						<button type="primary">已取消</button>
 					</view>
 					<!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
