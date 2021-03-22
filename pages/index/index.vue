@@ -234,6 +234,7 @@
 			} else {
 				this.xianshidenglu = true
 			}
+			console.log(uni.getStorageSync('userAgree'))
 			var _this = this
 			this.$https({
 				url:'/api/oauth/wx-ali-auth-login-switch',
@@ -467,12 +468,15 @@
 
 <style lang="scss" scoped>
 	@import '../../style/gg.css';
-
-	.clearCss {
-		padding: 0 28rpx;
-
-		.content-item {
-			padding: 20rpx 10rpx;
+	.bot_xieyi{
+		position: fixed;
+		height: 100rpx;
+		bottom: 100rpx;
+		line-height: 100rpx;
+		width: 100%;
+		background:rgba(0,0,0,0.6);
+		text{
+			color: #fff;
 		}
 	}
 

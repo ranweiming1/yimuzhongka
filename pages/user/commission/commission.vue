@@ -38,12 +38,19 @@
 					<view class="cont-text-left">
 						<text>{{item.title}}</text>
 					</view>
-					<view class="cont-text-img" >
+					<view class="cont-text-img">
 						<image src="../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
 
 			</view>
+		</view>
+		<view class="bot_copy">
+			<text>Copyright©2021</text>
+			<text>山东毅木重卡网络科技有限公司 版权所有</text>
+			<text>All Rights Reserved.</text>
+
+
 		</view>
 	</view>
 
@@ -55,8 +62,8 @@
 		data() {
 			return {
 				contList: [],
-				id:'',
-				phone:''
+				id: '',
+				phone: ''
 			}
 		},
 		onLoad() {
@@ -77,7 +84,7 @@
 				data: {},
 				success: function(res) {
 					that.id = res.data.data.id
-			
+
 				}
 			})
 			this.$https({
@@ -87,14 +94,14 @@
 				success: function(res) {
 					console.log(res.data.data)
 					that.phone = res.data.data[0].phone
-			
+
 				}
 			})
 		},
 		methods: {
 			detail: function(id) {
 				uni.navigateTo({
-					url: '../FAQ/FAQdetails/FAQdetails?id='+id
+					url: '../FAQ/FAQdetails/FAQdetails?id=' + id
 				})
 			},
 			callPhone: function() {
@@ -111,7 +118,7 @@
 			},
 			onlineService: function() {
 				uni.navigateTo({
-					url:'../../index/ke?id='+this.id
+					url: '../../index/ke?id=' + this.id
 				})
 			},
 		}
@@ -119,6 +126,19 @@
 </script>
 
 <style lang="scss">
+	.bot_copy{
+		position: fixed;
+		bottom:50rpx;
+		font-size: 28rpx;
+		color: #8e8e8e;
+		left: 0;
+		right: 0;
+		text{
+			text-align: center;
+			display: block;
+		}
+	}
+	
 	.content-top {
 		background: #fff;
 		border-top: 1rpx solid #e6e6e6;

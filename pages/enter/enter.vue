@@ -36,6 +36,9 @@
 				<view class='bangzhu' @tap='qux'>取消</view>
 			</view>
 		</view>
+		<checkbox-group class="check-yinsi" @change="zhuceLog">
+			<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isLog"><text>登录即代表您已同意</text><text style="color: #007AFF;" @tap.stop='yinsi(2)'>《毅木重卡隐私政策》</text></checkbox>
+		</checkbox-group>
 
 	</view>
 </template>
@@ -55,10 +58,12 @@
 				ess: '',
 				as: '',
 				ass: '',
-				msg: ''
+				msg: '',
+				isLog:false
 			}
 		},
 		onLoad() {
+		
 			uni.getSystemInfo({
 				success: function(e) {}
 			})
@@ -86,7 +91,19 @@
 			},
 		},
 		methods: {
+			zhuceLog(e){
+				console.log(e)
+				this.isLog=!this.isLog
+				// console.log(this.isLog)
+			},
+			yinsi(){
+				console.log(9898)
+				uni.navigateTo({
+					url: './protocol?type=2'
+				})
+			},
 			denglusss: function() {
+				if(this.isLog){
 				this.$https({
 					url: '/api/oauth/phoneLogin',
 					data: {
@@ -115,6 +132,12 @@
 						}
 					}
 				})
+			}else{
+				uni.showToast({
+					title:'请阅读并勾选页面底部协议',
+					icon:'none'
+				})
+			}
 			},
 			//跳转到注册页面
 			login: function() {
@@ -146,19 +169,23 @@
 												url: '/api/oauth/wxLogin',
 												// data: JSON.stringify(res.userInfo),
 												data: {
-													openid: res.userInfo.openId
+													openid: res.userInfo
+														.openId
 												},
 												dengl: true,
 												method: 'post',
 												// haeder: true,
 												success: function(res) {
-													if (res.data.code > 0) {
+													if (res.data.code >
+														0) {
 														uni.showModal({
 															title: '您未绑定微信，请先登录账号',
 															cancelText: '去登录',
 															confirmText: '去注册',
 															success: res => {
-																if (res.confirm) {
+																if (res
+																	.confirm
+																) {
 																	uni.navigateTo({
 																		url: 'login'
 																	})
@@ -167,16 +194,23 @@
 														})
 														return false
 													}
-													_this.ass = JSON.stringify(res)
-													uni.setStorageSync('Authorization', res.data.data.access_token)
+													_this.ass = JSON
+														.stringify(res)
+													uni.setStorageSync(
+														'Authorization',
+														res.data
+														.data
+														.access_token
+													)
 													uni.showToast({
 														title: '微信登录成功'
 													})
-													setTimeout(function() {
-														uni.reLaunch({
-															url: '../index/index'
-														})
-													}, 1000)
+													setTimeout(
+														function() {
+															uni.reLaunch({
+																url: '../index/index'
+															})
+														}, 1000)
 												}
 											})
 										},
@@ -224,7 +258,8 @@
 								dengl: true,
 								success: res => {
 									if (res.data.code == 0) {
-										uni.setStorageSync('Authorization', res.data.data.access_token)
+										uni.setStorageSync('Authorization', res.data
+											.data.access_token)
 										uni.showToast({
 											title: '支付宝登录成功',
 											icon: 'none'
@@ -301,6 +336,18 @@
 </script>
 
 <style lang="scss">
+	.check-yinsi {
+		position: fixed;
+		bottom: 50rpx;
+		left: 0;
+		right: 0;
+		.checkbox{
+			text{
+				margin-left: 10rpx;
+			}
+		}
+	}
+
 	.bg_img {
 		width: 100%;
 
@@ -465,7 +512,7 @@
 		font-size: 30rpx;
 		margin-top: 47rpx;
 		margin-bottom: 100rpx;
-		
+
 		text-align: center;
 	}
 
@@ -579,6 +626,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
+		z-index: 99;
 		background: rgba(0, 0, 0, 0.2);
 	}
 

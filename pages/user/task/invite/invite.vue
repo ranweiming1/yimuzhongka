@@ -48,7 +48,7 @@
 			tkiQrcode
 		},
 		onLoad(option) {
-			this.val = 'http://www.yimuzk.com:8087/?code=' + option.code
+			this.val = 'http://www.yimuzk.com/?code=' + option.code
 			setTimeout(res=>{
 				console.log(this.ss)
 			},3000)
