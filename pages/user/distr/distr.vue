@@ -61,13 +61,27 @@
 			</view>
 
 			<!-- 提现 -->
-			<view class="cash" @tap="t">
+			<view class="cash" @tap="ruleToggle">
 				提现
 			</view>
 		</view>
-		<view style='width:100%;position:fixed;top:0;left:0;height:100%;background:rgba(0,0,0,0.5);z-index:99999;' v-if='gui'
-		 @tap='g'>
-			<view style='width:400rpx;height:500rpx;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;background:#fff;text-align:center'>提现规则</view>
+		<view class="rule-mask" v-if="ruleTyle">
+			<view class="rule_cont">
+				<view class="rule_title">
+					提现规则
+				</view>
+				<view class="rule_cont_cont">
+					<rich-text :nodes="content.content"></rich-text>
+				</view>
+
+				<view class="rule_bot">
+					<view class="rule_agree" @tap='ruleToggle'>
+						确认
+					</view>
+
+				</view>
+			</view>
+
 		</view>
 		<!-- 历史明细 -->
 		<view class="history">
@@ -167,11 +181,10 @@
 				</view>
 			</view>
 			<view class="uni-padding-wrap uni-common-mt botts">
-				<button @tap="tiX" type="primary" style="background: #2b5cff;">我要提现</button>
+				<button @tap="cashOut" type="primary" style="background: #2b5cff;">我要提现</button>
 			</view>
 		</view>
-		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;' v-if='wenzi'
-		 @tap='went'>
+		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;' v-if='wenzi' @tap='went'>
 			<view style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;'>
 				<view>问题</view>
 			</view>
@@ -181,7 +194,6 @@
 
 	</view>
 
-	</view>
 </template>
 
 <script>
@@ -189,10 +201,12 @@
 		data() {
 			return {
 				wenzi: false,
-				gui: false
+				ruleTyle: false,
+				content: ''
 			}
 		},
 		onLoad: function() {
+			var that = this
 			//佣金
 			this.$https({
 				url: '/api/user/my-bound-index',
@@ -201,9 +215,19 @@
 
 				}
 			})
+			this.$https({
+				url: '/api/oauth/help/protocol-withdrawal',
+				data: {},
+				dengl: false,
+				method: 'POST',
+				success: function(res) {
+					that.content = res.data.data
+					console.log(res.data.data)
+				}
+			})
 		},
 		methods: {
-			tiX() {
+			cashOut() {
 				uni.navigateTo({
 					url: 'applyFor'
 				})
@@ -211,14 +235,8 @@
 			wenti: function() {
 				this.wenzi = true
 			},
-			went: function() {
-				this.wenzi = false
-			},
-			t: function() {
-				this.gui = true
-			},
-			g: function() {
-				this.gui = false
+			ruleToggle() {
+				this.ruleTyle = !this.ruleTyle
 			},
 			bac: function() {
 				uni.navigateBack({
@@ -232,6 +250,69 @@
 <style lang="scss">
 	.clear {
 		height: 160rpx;
+	}
+
+	.rule-mask {
+		position: fixed;
+		z-index: 998;
+		height: 100%;
+		width: 100%;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(0, 0, 0, 0.4);
+		font-size: 26rpx;
+
+		.rule_title {
+			text-align: center;
+			font-size: 30rpx;
+			margin-bottom: 30rpx;
+		}
+
+		.rule_cont {
+			position: absolute;
+			z-index: 999;
+			background: #fff;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 90rpx;
+			right: 90rpx;
+			border-radius: 20rpx;
+			box-sizing: border-box;
+			padding: 30rpx 50rpx;
+
+			.rule_cont_cont {
+				display: block;
+				color: #333;
+				line-height: 45rpx;
+				max-height: 180rpx;
+				overflow: auto;
+				// text{
+				// 	display: inline-block;
+				// }
+
+			}
+
+			.rule_bot {
+				overflow: hidden;
+				margin-top: 30rpx;
+
+				view {
+					text-align: center;
+					width: 40%;
+					height: 65rpx;
+					border-radius: 45rpx;
+					line-height: 65rpx;
+					height: 65rpx;
+					font-size: 26rpx;
+					background-color: #1a5fe3;
+					color: #fff;
+					margin-left: 50%;
+					transform: translateX(-50%);
+				}
+			}
+		}
 	}
 
 	.top {

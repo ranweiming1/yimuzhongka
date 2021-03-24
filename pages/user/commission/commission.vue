@@ -129,7 +129,7 @@
 	.bot_copy{
 		position: fixed;
 		bottom:50rpx;
-		font-size: 28rpx;
+		font-size: 24rpx;
 		color: #8e8e8e;
 		left: 0;
 		right: 0;

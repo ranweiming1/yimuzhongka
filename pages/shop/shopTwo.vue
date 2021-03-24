@@ -131,7 +131,7 @@
 		</view>
 
 
-		<buttom bottom="4" :can="shopsId"></buttom>
+		<buttom bottom="1" :can="shopsId"></buttom>
 	</view>
 </template>
 
@@ -151,6 +151,9 @@
 				shopsId: ''
 
 			}
+		},
+		components: {
+			buttom
 		},
 		onLoad(option) {
 			var _this = this

@@ -26,7 +26,7 @@
 				<image src='../../static/zhifubaoanniu.png'></image>
 			</view>
 		</view>
-		<view style='width:100%;overflow-x: auto;'>{{msg}}</view>
+		<!-- <view style='width:100%;overflow-x: auto;'>{{msg}}</view> -->
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>
@@ -37,7 +37,8 @@
 			</view>
 		</view>
 		<checkbox-group class="check-yinsi" @change="zhuceLog">
-			<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isLog"><text>登录即代表您已同意</text><text style="color: #007AFF;" @tap.stop='yinsi(2)'>《毅木重卡隐私政策》</text></checkbox>
+			<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isLog"><text>登录即代表您已同意</text><text
+					style="color: #007AFF;" @tap.stop='yinsi(2)'>《毅木重卡隐私政策》</text></checkbox>
 		</checkbox-group>
 
 	</view>
@@ -59,11 +60,11 @@
 				as: '',
 				ass: '',
 				msg: '',
-				isLog:false
+				isLog: false
 			}
 		},
 		onLoad() {
-		
+
 			uni.getSystemInfo({
 				success: function(e) {}
 			})
@@ -91,53 +92,53 @@
 			},
 		},
 		methods: {
-			zhuceLog(e){
+			zhuceLog(e) {
 				console.log(e)
-				this.isLog=!this.isLog
+				this.isLog = !this.isLog
 				// console.log(this.isLog)
 			},
-			yinsi(){
+			yinsi() {
 				console.log(9898)
 				uni.navigateTo({
 					url: './protocol?type=2'
 				})
 			},
 			denglusss: function() {
-				if(this.isLog){
-				this.$https({
-					url: '/api/oauth/phoneLogin',
-					data: {
-						phone: this.phone,
-						password: this.password
-					},
-					dengl: true,
-					method: 'post',
-					success: function(res) {
-						if (res.data.data) {
-							uni.setStorageSync('Authorization', res.data.data.access_token)
-							uni.showToast({
-								title: '登录成功'
-							})
-							setTimeout(function() {
-								uni.navigateBack({
-									delta: 1
+				if (this.isLog) {
+					this.$https({
+						url: '/api/oauth/phoneLogin',
+						data: {
+							phone: this.phone,
+							password: this.password
+						},
+						dengl: true,
+						method: 'post',
+						success: function(res) {
+							if (res.data.data) {
+								uni.setStorageSync('Authorization', res.data.data.access_token)
+								uni.showToast({
+									title: '登录成功'
 								})
-							}, 1900)
-							uni.setStorageSync('d', '')
-						} else {
-							uni.showToast({
-								title: res.data.message,
-								icon: 'none'
-							})
+								setTimeout(function() {
+									uni.navigateBack({
+										delta: 1
+									})
+								}, 1900)
+								uni.setStorageSync('d', '')
+							} else {
+								uni.showToast({
+									title: res.data.message,
+									icon: 'none'
+								})
+							}
 						}
-					}
-				})
-			}else{
-				uni.showToast({
-					title:'请阅读并勾选页面底部协议',
-					icon:'none'
-				})
-			}
+					})
+				} else {
+					uni.showToast({
+						title: '请阅读并勾选页面底部协议',
+						icon: 'none'
+					})
+				}
 			},
 			//跳转到注册页面
 			login: function() {
@@ -153,89 +154,104 @@
 			},
 			denglu: function() {
 				var _this = this
-				uni.getProvider({
-					service: 'oauth',
-					success: function(res) {
-						if (res.provider.indexOf('weixin') >= 0) {
-							uni.login({
-								provider: 'weixin',
-								success: function(res) {
-									_this.as = JSON.stringify(res)
-									uni.getUserInfo({
-										provider: 'weixin',
-										success: function(res) {
-											console.log(res)
-											_this.$https({
-												url: '/api/oauth/wxLogin',
-												// data: JSON.stringify(res.userInfo),
-												data: {
-													openid: res.userInfo
-														.openId
-												},
-												dengl: true,
-												method: 'post',
-												// haeder: true,
-												success: function(res) {
-													if (res.data.code >
-														0) {
-														uni.showModal({
-															title: '您未绑定微信，请先登录账号',
-															cancelText: '去登录',
-															confirmText: '去注册',
-															success: res => {
-																if (res
-																	.confirm
-																) {
-																	uni.navigateTo({
-																		url: 'login'
-																	})
+				if (this.isLog) {
+					uni.getProvider({
+						service: 'oauth',
+						success: function(res) {
+							if (res.provider.indexOf('weixin') >= 0) {
+								uni.login({
+									provider: 'weixin',
+									success: function(res) {
+										_this.as = JSON.stringify(res)
+										uni.getUserInfo({
+											provider: 'weixin',
+											success: function(res) {
+												console.log(res)
+												_this.$https({
+													url: '/api/oauth/wxLogin',
+													// data: JSON.stringify(res.userInfo),
+													data: {
+														openid: res
+															.userInfo
+															.openId
+													},
+													dengl: true,
+													method: 'post',
+													// haeder: true,
+													success: function(
+													res) {
+														if (res.data
+															.code >
+															0) {
+															uni.showModal({
+																title: '您未绑定微信，请先登录账号',
+																cancelText: '去登录',
+																confirmText: '去注册',
+																success: res => {
+																	if (res
+																		.confirm
+																	) {
+																		uni.navigateTo({
+																			url: 'login'
+																		})
+																	}
 																}
-															}
-														})
-														return false
-													}
-													_this.ass = JSON
-														.stringify(res)
-													uni.setStorageSync(
-														'Authorization',
-														res.data
-														.data
-														.access_token
-													)
-													uni.showToast({
-														title: '微信登录成功'
-													})
-													setTimeout(
-														function() {
-															uni.reLaunch({
-																url: '../index/index'
 															})
-														}, 1000)
-												}
-											})
-										},
-										fail(err) {
-											_this.ess = JSON.stringify(err)
-										}
-									})
-								},
-								fail: function(ress) {
-									_this.es = JSON.stringify(ress)
-									uni.getUserInfo({
-										provider: 'weixin',
-										success: function(res) {}
-									})
-								}
-							})
+															return false
+														}
+														_this.ass =
+															JSON
+															.stringify(
+																res)
+														uni.setStorageSync(
+															'Authorization',
+															res
+															.data
+															.data
+															.access_token
+														)
+														uni.showToast({
+															title: '微信登录成功'
+														})
+														setTimeout(
+															function() {
+																uni.reLaunch({
+																	url: '../index/index'
+																})
+															}, 1000
+															)
+													}
+												})
+											},
+											fail(err) {
+												_this.ess = JSON.stringify(err)
+											}
+										})
+									},
+									fail: function(ress) {
+										_this.es = JSON.stringify(ress)
+										uni.getUserInfo({
+											provider: 'weixin',
+											success: function(res) {}
+										})
+									}
+								})
+							}
+						},
+						fail: function(re) {
+							_this.q = JSON.stringify(re)
 						}
-					},
-					fail: function(re) {
-						_this.q = JSON.stringify(re)
-					}
-				})
+					})
+				} else {
+					uni.showToast({
+						title: '请阅读并勾选页面底部协议',
+						icon: 'none'
+					})
+				}
 			},
 
 			zhifubao: function() {
+				if(this.isLog){
 				this.$https({
 					url: '/api/oauth/ali/get-auth-code ',
 					data: {},
@@ -304,6 +320,12 @@
 				// 		}
 				// 	}
 				// })
+				}else {
+					uni.showToast({
+						title: '请阅读并勾选页面底部协议',
+						icon: 'none'
+					})
+				}
 			},
 			help: function() {
 				uni.navigateTo({
@@ -341,8 +363,9 @@
 		bottom: 50rpx;
 		left: 0;
 		right: 0;
-		.checkbox{
-			text{
+
+		.checkbox {
+			text {
 				margin-left: 10rpx;
 			}
 		}

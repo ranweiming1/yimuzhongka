@@ -84,7 +84,8 @@
 				<span style="color: #3564ff;font-size: 25rpx;display: inline-block;float: right;" @tap="showContent">{{isShowCont?'收起':'更多'}}</span>
 			</view>
 			<view :class="isShowCont?'showContent':'briefContent'">
-				<text>{{jieshao}}</text>
+				<rich-text :nodes="jieshao"></rich-text>
+				<!-- <text>{{jieshao}}</text> -->
 			</view>
 		</view>
 
