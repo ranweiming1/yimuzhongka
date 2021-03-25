@@ -180,9 +180,9 @@
 			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;' @tap='denglu'>立即登录/注册</view>
 		</view>
 		<tabBar :currentPage="currentPage"></tabBar>
-		<view class='main'>
+		<!-- <view class='main'>
 			<code-elf-guide></code-elf-guide>
-		</view>
+		</view> -->
 		<swiper style='position:fixed;top:0;left:0;height:100%;width:100%;z-index:999999999;' v-if='xianshi'>
 			<swiper-item v-for='item in l' style='width:100%;height:100%;position:absolute;z-index:9999999999;'>
 				<image :src='item.img' style='width:100%;height:100%;'></image>
