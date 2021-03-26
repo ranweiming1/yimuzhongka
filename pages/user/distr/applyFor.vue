@@ -28,6 +28,9 @@
 				<button type="primary" @tap='huoquyanzheng'>{{yanzh}}</button>
 			</view>
 		</view>
+		<view class="kefuPhone" @tap='callPhone'>
+			如有疑问，请联系客服
+		</view>
 		<view class="uni-padding-wrap uni-common-mt botts">
 			<button type="primary" style="background: #2b5cff;">我要提现</button>
 		</view>
@@ -48,13 +51,36 @@
 				yanzh: '获取验证码',
 				num: 60,
 				fasong: true,
+				phone: ''
 			}
 		},
 		onLoad() {
+			var that=this
+			this.$https({
+				url: '/api/oauth/user/my-platform-phone-list',
+				dengl: false,
+				data: {},
+				success: function(res) {
+					console.log(res.data.data)
+					that.phone = res.data.data[0].phone
 
+				}
+			})
 		},
 		methods: {
+			callPhone: function() {
+				console.log(this.phone)
+				uni.makePhoneCall({
+					phoneNumber: this.phone,
+					success: (res) => {
+						console.log('调用成功!')
+					},
+					fail: (res) => {
+						console.log('调用失败!')
+					}
 
+				});
+			},
 			huoquyanzheng: function() {
 				var _this = this
 				if (!this.$jiaoyan(this.shouji)) {
@@ -97,6 +123,14 @@
 		background-color: #f7f7f7;
 	}
 
+	.kefuPhone {
+		width: 100%;
+		padding-right: 30rpx;
+		text-align: right;
+		box-sizing: border-box;
+		font-size: 24rpx;
+		color: #000000;
+	}
 
 	.item-rule {
 		position: fixed;
