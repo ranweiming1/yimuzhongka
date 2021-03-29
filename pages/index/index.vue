@@ -242,8 +242,8 @@
 				dengl:true,
 				data:{},
 				success(res){
-					console.log(res)
-					uni.setStorageSync('pdType',true)
+					console.log(res.data.data,'cejejejej')
+					uni.setStorageSync('pdType',res.data.data=='disable'?false:true)
 				}
 			})
 			this.list = []

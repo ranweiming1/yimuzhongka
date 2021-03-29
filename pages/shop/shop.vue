@@ -11,7 +11,7 @@
 						</swiper-item>
 					</swiper>
 					<view class="swper-item-icon">
-						<text>高分好店</text><text>4.8分</text>
+						<text>高分好店</text><text>{{starVal}}分</text>
 					</view>
 					<div class="logo-swper-dots">
 						<div v-for="(item,i) in banner" class="dots-item">
@@ -52,17 +52,20 @@
 						<image src="../../static/honerIcon.png" mode=""></image>
 					</view>
 					<view class="discount-top-bott" @tap="shouC(shopsId)">
-						收藏
+						{{!isShow?'收藏店铺':'取消收藏'}}
 					</view>
 				</view>
 				<view class="shop-discount-center">
 					<view class="discount-center-xing">
-						<view class="xing-item" v-for="(item,i) in 5">
+						<view class="xing-item" v-for="(item,i) in star">
 							<image src="../../static/xing_icon.png" mode=""></image>
+						</view>
+						<view class="xing-item" v-if="((starVal*20)%2==0)">
+							<image src="../../static/xing6.png" mode=""></image>
 						</view>
 					</view>
 					<view class="discount-center-score">
-						5分
+						{{starVal}}分
 					</view>
 				</view>
 
@@ -98,7 +101,7 @@
 
 			<view class="shop-classify">
 				<scroll-view class="shop-classify-scroll" scroll-x="true" style="width: 100%;">
-					<view class="classify-scroll-item" v-for="(item,i) in typeList">{{item.cateTitle}}</view>
+					<view class="classify-scroll-item" v-for="(item,i) in typeList"  @tap='goClassfiy(item.id)'>{{item.cateTitle}}</view>
 
 				</scroll-view>
 			</view>
@@ -142,7 +145,7 @@
 			</view>
 		</view>
 		<!------------------------- 店铺2 ------------------------------>
-		<view class="shop-two" v-if="shopStyle==3">
+		<view class="shop-two" v-if="shopStyle==2">
 			<view style='posotion:relative;height:660rpx;'>
 				<view class="bg">
 					<image src="../../static/icon_39_2.png" mode=""></image>
@@ -174,7 +177,8 @@
 
 						<!-- 根据星级综合分值现实 -->
 						<view class="star1">
-							<image src="../../static/icon_41.png" mode=""></image>
+							<image src="../../static/xingxing.png" mode="" v-for="(item,i) in star"></image>
+							<image src="../../static/xingxing1.png"  v-if="((starVal*20)%2==0)" mode=""></image>
 						</view>
 					</view>
 					<view class="collect">
@@ -306,7 +310,7 @@
 
 		</view>
 		<!--================================== 店铺3 =======================================-->
-		<view class="shop-three" v-if="shopStyle==1">
+		<view class="shop-three" v-if="shopStyle==3">
 			<view class="shop-top">
 				<view class="shop-bag">
 					<image src="../../static/shopBagTwo.png" mode=""></image>
@@ -348,12 +352,15 @@
 				</view>
 				<view class="shop-discount-center">
 					<view class="discount-center-xing">
-						<view class="xing-item" v-for="(item,i) in 5">
+						<view class="xing-item" v-for="(item,i) in star">
 							<image src="../../static/xing_icon.png" mode=""></image>
+						</view>
+						<view class="xing-item" v-if="((starVal*20)%2==0)">
+							<image src="../../static/xing6.png" mode=""></image>
 						</view>
 					</view>
 					<view class="discount-center-score">
-						5分
+						{{starVal}}分
 					</view>
 				</view>
 
@@ -400,7 +407,7 @@
 			</view>
 			<view class="shop-classify">
 				<scroll-view class="shop-classify-scroll" scroll-x="true" style="width: 100%;">
-					<view class="classify-scroll-item" v-for="(item,i) in typeList">{{item.cateTitle}}</view>
+					<view class="classify-scroll-item" v-for="(item,i) in typeList" @tap='goClassfiy(item.id)'>{{item.cateTitle}}</view>
 				</scroll-view>
 			</view>
 			<view class="shop-hort">
@@ -471,7 +478,9 @@
 				isShowCont: false,
 				currentIndex: 0,
 				typeList:[],
-				shopStyle:''
+				shopStyle:'',
+				star:'',
+				starVal:''
 			}
 		},
 		components: {
@@ -486,8 +495,8 @@
 			this.$https({
 				url: '/api/oauth/shop/store-index',
 				data: {
-					// shopId: option.id
-					shopId: 11
+					shopId: option.id
+					// shopId: 11
 				},
 				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: function(res) {
@@ -504,8 +513,8 @@
 			this.$https({
 				url: '/api/oauth/get-one-list',
 				data: {
-					// shopId: option.id
-					shopId: 11
+					shopId: option.id
+					// shopId: 11
 				},
 				dengl: true,
 				success: function(res) {
@@ -515,21 +524,24 @@
 			this.$https({
 				url: '/api/oauth/shop/store-shop-detail',
 				data: {
-					// shopId: option.id
-					shopId: 11
+					shopId: option.id
+					// shopId: 11
 				},
 				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: function(res) {
 					_this.isShow = res.data.data.shopCollectStatus
 					_this.jieshao = res.data.data.introduction,
-					_this.shopStyle=res.data.data.modelId
+					_this.shopStyle=res.data.data.modelId,
+					_this.starVal=res.data.data.starId/20
+					console.log(_this.starVal)
+					_this.star=parseInt(res.data.data.starId/20)
 				}
 			})
 			this.$https({
 				url: '/api/oauth/shop/get-store-banner-list',
 				data: {
-					// shopId: option.id
-					shopId: 11
+					shopId: option.id
+					// shopId: 11
 				},
 				method: 'post',
 				dengl: uni.getStorageSync('Authorization') ? false : true,
@@ -545,8 +557,8 @@
 			this.$https({
 				url: '/api/oauth/shop/store-coupon-list',
 				data: {
-					// shopId: option.id
-					shopId: 11
+					shopId: option.id
+					// shopId: 11
 				},
 				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: res => {
@@ -555,6 +567,11 @@
 			})
 		},
 		methods: {
+			goClassfiy(index){
+				uni.redirectTo({
+					url:'./classifys?index='+index+'&id='+this.shopsId
+				})
+			},
 			swierChange: function(e) {
 				this.currentIndex = e.detail.current
 			},
@@ -1212,9 +1229,10 @@
 					padding-top: 20upx;
 
 					image {
-						width: 216upx;
+						width: 36upx;
 						height: 36upx !important;
-						display: block;
+						display: inline-block;
+						margin-right: 6px;
 					}
 				}
 			}

@@ -78,7 +78,8 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='aliName' @tap='bangzfbzhanghao'>{{aliName}}</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='aliName'
+					@tap='bangzfbzhanghao'>{{aliName}}</text>
 				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-else @tap='bindZfb'>绑定支付宝</text>
 			</view>
 		</view>
@@ -94,7 +95,8 @@
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='wxName' @tap='jiebangwx'>{{wxName}}</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-if='wxName'
+					@tap='jiebangwx'>{{wxName}}</text>
 				<text style='font-size:26rpx;line-height:70rpx;color:#999;' v-else @tap='bindWx'>绑定微信</text>
 			</view>
 		</view>
@@ -228,14 +230,17 @@
 												url: '/api/user/bind-wx-ali-auth-info',
 												data: {
 													bindType: '0',
-													identityCode: res.userInfo.openId,
-													accountName: res.userInfo.nickName
+													identityCode: res
+														.userInfo.openId,
+													accountName: res
+														.userInfo.nickName
 												},
 												dengl: false,
 												method: 'post',
 												success: function(res) {
 													// uni.setStorageSync('Authorization', res.data.data.access_token)
-													if (res.data.code == 0) {
+													if (res.data
+														.code == 0) {
 														uni.showToast({
 															title: '微信绑定成功'
 														})
@@ -243,12 +248,19 @@
 															url: '/api/user/my-info',
 															data: {},
 															success: res => {
-																_this.wxName = res.data.data.wxName
+																_this
+																	.wxName =
+																	res
+																	.data
+																	.data
+																	.wxName
 															}
 														})
 													} else {
 														uni.showToast({
-															title: res.data.message,
+															title: res
+																.data
+																.message,
 															icon: 'none'
 														})
 													}
@@ -293,6 +305,16 @@
 			},
 
 			bindZfb: function() {
+				// var x =
+				// 	"success=true&result_code=200&app_id=2021002109663210&auth_code=bd7c5b7f1978452ca1c090c6ee97SX14&scope=kuaijie&alipay_open_id=20881021499251069541915331413014&user_id=2088912697617145&target_id=7839630598576605153"
+				// console.log(x.split('&'))
+
+
+				// var msg = x.split('&').filter(function(item) {
+				// 	console.log(item)
+				// 	return item.split('=')[0] == 'auth_code'
+				// })
+				// console.log(msg.split('=')[1],88888)
 				var _this = this
 				this.$https({
 					url: '/api/oauth/ali/get-auth-code ',
@@ -300,27 +322,42 @@
 					method: 'post',
 					dengl: true,
 					success: res => {
-						var PPALiPay = uni.requireNativePlugin('PP-Alipay')
+						let alipayLogin = uni.requireNativePlugin("henter-alipay-login")
 						var _this = this
-						PPALiPay.login({
+						alipayLogin.login({
 							authInfo: res.data.data,
 							appScheme: 'yimuzhongka'
 						}, result => {
+							var authCode = ''
+							var identityCode = ''
+							result.result.split('&').map(function(val, i) {
+								if (val.split('=')[0] == 'auth_code') {
+									console.log(val, val.split('=')[1])
+									authCode = val.split('=')[1]
+								}
+								if (val.split('=')[0] == 'alipay_open_id') {
+									console.log(val, val.split('=')[1])
+									identityCode = val.split('=')[1]
+								}
+							})
 							_this.$https({
 								url: '/api/oauth/ali/ali/get-user-info',
 								data: {
-									authCode: result.data.authCode
+									authCode: authCode
 								},
 								dengl: true,
 								method: 'post',
 								success: res => {
 									var r = JSON.parse(res.data.data)
+									console.log(res)
 									_this.$https({
 										url: '/api/user/bind-wx-ali-auth-info',
 										data: {
 											bindType: '1',
-											identityCode: result.data.alipayOpenId,
-											accountName: r.alipay_user_info_share_response.nick_name
+											identityCode: identityCode,
+											accountName: r
+												.alipay_user_info_share_response
+												.nick_name
 										},
 										dengl: false,
 										method: 'post',
@@ -334,12 +371,18 @@
 													url: '/api/user/my-info',
 													data: {},
 													success: res => {
-														_this.aliName = res.data.data.aliName
+														_this
+															.aliName =
+															res
+															.data
+															.data
+															.aliName
 													}
 												})
 											} else {
 												uni.showToast({
-													title: res.data.message,
+													title: res.data
+														.message,
 													icon: 'none'
 												})
 											}

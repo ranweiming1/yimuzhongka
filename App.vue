@@ -39,7 +39,6 @@
 			if(args){
 				if(args.indexOf('code')>=0){
 					uni.setStorageSync('yaoqi',args)
-				}else{
 					uni.navigateTo({
 						url:'pages/index/productDetails?id='+args.split('&codz')[0].split('xiangqing=')[1]
 					})

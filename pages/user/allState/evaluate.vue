@@ -182,7 +182,9 @@
 						goodsId: _this.goodsId,
 						img: _this.cImg=='../../static/img_10.jpg.png'?'':_this.cImg,
 						readStatus: "",
-						score: 0,
+						goodsRank: _this.Number3*20,
+						deliverRank: _this.Number1*20,
+						serviceRank: _this.Number2*20,
 						orderId:this.orderId
 					}),
 					dengl: false,

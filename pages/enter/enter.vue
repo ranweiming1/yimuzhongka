@@ -26,7 +26,7 @@
 				<image src='../../static/zhifubaoanniu.png'></image>
 			</view>
 		</view>
-		<!-- <view style='width:100%;overflow-x: auto;'>{{msg}}</view> -->
+		<view style='width:100%;overflow-x: auto;'>{{msg}}</view>
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>
@@ -78,8 +78,8 @@
 					dengl: true,
 					data: {},
 					success(res) {
-						uni.setStorageSync('pdType', true)
-						_this.pdType = true
+						uni.setStorageSync('pdType', res.data.data == 'disable' ? false : true)
+						_this.pdType = res.data.data == 'disable' ? false : true
 					}
 				})
 			}
@@ -179,7 +179,7 @@
 													method: 'post',
 													// haeder: true,
 													success: function(
-													res) {
+														res) {
 														if (res.data
 															.code >
 															0) {
@@ -219,7 +219,7 @@
 																	url: '../index/index'
 																})
 															}, 1000
-															)
+														)
 													}
 												})
 											},
@@ -251,76 +251,96 @@
 			},
 
 			zhifubao: function() {
-				if(this.isLog){
-				this.$https({
-					url: '/api/oauth/ali/get-auth-code ',
-					data: {},
-					method: 'post',
-					dengl: true,
-					success: res => {
-						var PPALiPay = uni.requireNativePlugin('PP-Alipay')
-						var _this = this
-						PPALiPay.login({
-							authInfo: res.data.data,
-							appScheme: 'yimuzhongka'
-						}, result => {
-							_this.msg = JSON.stringify(result)
-							_this.$https({
-								url: '/api/oauth/aliLogin',
-								data: {
-									aliOpenid: result.data.alipayOpenId
-								},
-								method: 'post',
-								dengl: true,
-								success: res => {
-									if (res.data.code == 0) {
-										uni.setStorageSync('Authorization', res.data
-											.data.access_token)
-										uni.showToast({
-											title: '支付宝登录成功',
-											icon: 'none'
-										})
-										setTimeout(function() {
-											uni.reLaunch({
-												url: '../index/index'
-											})
-										}, 2600)
-									} else {
-										uni.showModal({
-											title: '您未绑定支付宝，请先登录账号',
-											cancelText: '去登录',
-											confirmText: '去注册',
-											success: res => {
-												if (res.confirm) {
-													uni.navigateTo({
-														url: 'login'
-													})
-												}
-											}
-										})
-									}
-
-								}
-							})
-						})
-					}
-				})
-				// var self=this
-				// uni.request({
-				// 	url:'http://f16f9b26-294e-4306-abba-67659f8e5ad8.bspapp.com/http/alipay',
-				// 	success(data) {
-				// 		data = data.data
-				// 		if (data.status == 200) {
-				// 			let authInfo = data.data.data;
-				// 			const PPAliPay = uni.requireNativePlugin('PP-Alipay');
-				// 			PPAliPay.login({ authInfo: authInfo,appScheme:'alipay123456789' }, result => {
-				// 				self.msg = JSON.stringify(result)
-				// 				console.log(JSON.stringify(result))
-				// 			});
-				// 		}
-				// 	}
+				// var x =
+				// 	"success=true&result_code=200&app_id=2021002109663210&auth_code=bd7c5b7f1978452ca1c090c6ee97SX14&scope=kuaijie&alipay_open_id=20881021499251069541915331413014&user_id=2088912697617145&target_id=7839630598576605153"
+				// console.log(x.split('&'))
+				
+				
+				// var msg = x.split('&').filter(function(item) {
+				// 	console.log(item)
+				// 	return item.split('=')[0] == 'alipay_open_id'
 				// })
-				}else {
+				
+				
+				if (this.isLog) {
+					this.$https({
+						url: '/api/oauth/ali/get-auth-code ',
+						data: {},
+						method: 'post',
+						dengl: true,
+						success: res => {
+							let alipayLogin = uni.requireNativePlugin("henter-alipay-login")
+							var _this = this
+							alipayLogin.login({
+								authInfo: res.data.data,
+								appScheme: 'yimuzhongka'
+							}, result => {
+								// consresult.resultole.log(result)
+								var msg=''
+								result.result.split('&').map(function(val,i){
+									if(val.split('=')[0]=='alipay_open_id'){
+									console.log(val,val.split('=')[1])
+									msg=val.split('=')[1]	
+									}
+								})
+								_this.$https({
+									url: '/api/oauth/aliLogin',
+									data: {
+										aliOpenid: msg
+									},
+									method: 'post',
+									dengl: true,
+									success: res => {
+										console.log(res,888)
+										if (res.data.code == 0) {
+											uni.setStorageSync('Authorization', res
+												.data
+												.data.access_token)
+											uni.showToast({
+												title: '支付宝登录成功',
+												icon: 'none'
+											})
+											setTimeout(function() {
+												uni.reLaunch({
+													url: '../index/index'
+												})
+											}, 2600)
+										} else {
+											uni.showModal({
+												title: '您未绑定支付宝，请先登录账号',
+												cancelText: '去登录',
+												confirmText: '去注册',
+												success: res => {
+													if (res.confirm) {
+														uni.navigateTo({
+															url: 'login'
+														})
+													}
+												}
+											})
+										}
+
+									}
+								})
+							})
+						}
+					})
+					// var self=this
+					// uni.request({
+					// 	url:'http://f16f9b26-294e-4306-abba-67659f8e5ad8.bspapp.com/http/alipay',
+					// 	success(data) {
+					// 		data = data.data
+					// 		if (data.status == 200) {
+					// 			let authInfo = data.data.data;
+					// 			const PPAliPay = uni.requireNativePlugin('PP-Alipay');
+					// 			PPAliPay.login({ authInfo: authInfo,appScheme:'alipay123456789' }, result => {
+					// 				self.msg = JSON.stringify(result)
+					// 				console.log(JSON.stringify(result))
+					// 			});
+					// 		}
+					// 	}
+					// })
+				} else {
 					uni.showToast({
 						title: '请阅读并勾选页面底部协议',
 						icon: 'none'

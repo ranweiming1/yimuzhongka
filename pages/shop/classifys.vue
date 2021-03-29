@@ -24,21 +24,23 @@
 					<text v-if='id=="x"' class="image"></text>
 					<text style="font-size: 30rpx;font-weight: bold;">品牌/车型</text>
 				</view> -->
-				<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList" :key=item.id>
+				<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList"
+					:key=item.id>
 					<!-- <image v-if='id==index' src='../../static/icon_29.png'></image> -->
 					<text v-if='id==index' class="image"></text>
 					<text>{{item.cateTitle}}</text>
 				</view>
 			</scroll-view>
 			<!-- 二级 -->
-			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'rpx'" scroll-with-animation>
-				<view class="scroll-img">
+			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'rpx'"
+				scroll-with-animation>
+				<!-- <view class="scroll-img">
 					<swiper class="swiper" autoplay="true" style="height: 230rpx;" interval="5000" duration="1500">
 						<swiper-item v-for="(item , index) in imgSlide" :key="index">
 							<image :src="item.img" mode=""></image>
 						</swiper-item>
 					</swiper>
-				</view>
+				</view> -->
 
 
 				<!-- 其他分类 -->
@@ -87,10 +89,8 @@
 		},
 		onLoad(options) {
 			console.log(options, 8888)
-			// this.id=index
 			this.shopsId = options.id
 			var _this = this
-			// this.height = uni.getSystemInfoSync().windowHeight-100;
 			uni.getSystemInfo({
 				success: function(res) {
 					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 250;
@@ -98,13 +98,27 @@
 			})
 			this.$https({
 				url: '/api/oauth/get-shop-cate-list',
-				data: {shopId:options.id},
+				data: {
+					shopId: options.id
+				},
 				dengl: true,
 				success: function(res) {
-					if(res.data.code==0){
+					if (res.data.code == 0) {
 						// console.log(res.data.data)
 						_this.AllList = res.data.data
-						_this.scrollPic(res.data.data[0].id)
+						if (options.index) {
+							res.data.data.map(function(val, i) {
+								if (val.id == options.index) {
+									_this.id = i
+									_this.scrollPic(res.data.data[i].id)
+								}
+							})
+							// console.log(index,9999999)
+
+						} else {
+							_this.scrollPic(res.data.data[0].id)
+
+						}
 						// if (options.id) {
 						// 	_this.AllList.map(function(n, index) {
 						// 		if (n.id == options.id) {
@@ -123,14 +137,14 @@
 						// 	console.log('sdljfsadkj')
 						// 	_this.scrollPic(res.data.data[0].id)
 						// }
-						
-					}else{
+
+					} else {
 						uni.showToast({
-							title:res.data.message,
-							 icon:'none'
+							title: res.data.message,
+							icon: 'none'
 						})
 					}
-					
+
 
 
 				},
@@ -162,17 +176,17 @@
 			},
 			scrollPic: function(id) {
 				var that = this
-				this.$https({
-					url: '/api/oauth/shop/get-cate-type-banner-list',
-					data: {
-						cateId: id
-					},
-					dengl: true,
-					method: 'POST',
-					success(res) {
-						that.imgSlide = res.data.data
-					}
-				})
+				// this.$https({
+				// 	url: '/api/oauth/shop/get-cate-type-banner-list',
+				// 	data: {
+				// 		cateId: id
+				// 	},
+				// 	dengl: true,
+				// 	method: 'POST',
+				// 	success(res) {
+				// 		that.imgSlide = res.data.data
+				// 	}
+				// })
 				//请求二级分类
 				this.$https({
 					url: '/api/oauth/get-one-child-list',
