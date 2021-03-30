@@ -22,39 +22,39 @@
 			</view>
 			<view class="leijis">
 				<view class="one">
-					<text>累计收益(元)</text>
+					<text>当前佣金(元)</text>
 				</view>
 				<view class="two">
-					<text>263.00</text>
+					<text>{{cashCont.grandTotal}}</text>
 				</view>
-				<view class="three">
-					<text>已含冻结金额：100元</text>
-				</view>
+				<!-- 	<view class="three">
+					<text>已含冻结金额：{{cashCont.freezeAmount}}元</text>
+				</view> -->
 			</view>
 			<view class="shuzhi">
-				<view class="jia">
+				<view class="jia" @tap="add">
 					<view class="imgBox_b">
 						<image src="../../../static/jia.png" mode=""></image>
 					</view>
 					<view class="texts">
 						<view class="sou">
-							<text>收入</text>
+							<text>累计收益</text>
 						</view>
 						<view class="shu">
-							<text>￥800.00</text>
+							<text>￥{{cashCont.aggregateAmount}}</text>
 						</view>
 					</view>
 				</view>
-				<view class="jian">
+				<view class="jian" @tap="reduce">
 					<view class="imgBox_b">
-						<image src="../../../static/jia.png" mode=""></image>
+						<image src="../../../static/jian.png" mode=""></image>
 					</view>
 					<view class="texts">
 						<view class="sou">
-							<text>支出</text>
+							<text>提现金额</text>
 						</view>
 						<view class="shu">
-							<text>￥800.00</text>
+							<text>￥{{cashCont.withdrawalAmount}}</text>
 						</view>
 					</view>
 				</view>
@@ -88,104 +88,49 @@
 			<view class="tit_b">
 				<text>历史明细</text>
 			</view>
+			<view class="ul">
+				<!-- 收入明细 -->
+				<view class="li" v-if="isShow" v-for="(item,i) in cashCont.rebateLog">
+					<view class="text_y">
+						<view class="phone">
+							<text>用户{{item.phone}}</text>
+						</view>
+						<view class="neirs">
+							<text style="font-size: 26rpx;">{{item.rebateName}} </text> <text style="font-size: 24rpx;margin-left: 20rpx;"> {{item.createTime}}</text>
+						</view>
+					</view>
 
-			<view class="li">
-				<view class="text_y">
-					<view class="phone">
-						<text>用户188****2568</text>
-					</view>
-					<view class="neirs">
-						<text>推荐好友下单结算成功</text>
+					<!-- 增值状态 -->
+					<view class="jine">
+						<text>佣金+{{item.rebatePrice}}</text>
 					</view>
 				</view>
+				<!-- 提现明细 -->
+				<view class="li" v-if="!isShow" v-for="(item,i) in cashCont.withdrawalLog">
+					<view class="text_y">
+						<view class="phone">
+							<text>{{item.title}}</text>
+						</view>
+						<view class="neirs">
+							<text style="font-size: 24rpx;">{{item.createTime}}</text>
+						</view>
+					</view>
 
-				<!-- 增值状态 -->
-				<view class="jine">
-					<text>分佣+23.00</text>
-				</view>
-			</view>
-			<view class="li">
-				<view class="text_y">
-					<view class="phone">
-						<text>用户188****2568</text>
-					</view>
-					<view class="neirs">
-						<text>推荐好友下单结算成功</text>
-					</view>
-				</view>
-
-				<!-- 增值状态 -->
-				<view class="jine">
-					<text>分佣+23.00</text>
-				</view>
-			</view>
-			<view class="li">
-				<view class="text_y">
-					<view class="phone">
-						<text>用户188****2568</text>
-					</view>
-					<view class="neirs">
-						<text>推荐好友下单结算成功</text>
+					<!-- 增值状态 -->
+					<view class="jine">
+						<text>-{{item.moneyNumber}}</text>
 					</view>
 				</view>
 
-				<!-- 增值状态 -->
-				<view class="jine">
-					<text>分佣+23.00</text>
-				</view>
-			</view>
-
-			<view class="li">
-				<view class="text_y">
-					<view class="phone">
-						<text>用户188****2568</text>
-					</view>
-					<view class="neirs">
-						<text>推荐好友下单结算成功</text>
-					</view>
-				</view>
-
-				<!-- 负值状态 -->
-				<view class="jineFu">
-					<text>分佣+23.00</text>
-				</view>
-			</view>
-			<view class="li">
-				<view class="text_y">
-					<view class="phone">
-						<text>用户188****2568</text>
-					</view>
-					<view class="neirs">
-						<text>推荐好友下单结算成功</text>
-					</view>
-				</view>
-
-				<!-- 负值状态 -->
-				<view class="jineFu">
-					<text>分佣+23.00</text>
-				</view>
-			</view>
-			<view class="li">
-				<view class="text_y">
-					<view class="phone">
-						<text>2019-09-25</text>
-					</view>
-					<view class="neirs">
-						<text>申请提现到银行卡</text>
-					</view>
-				</view>
-
-				<!-- 负值状态 -->
-				<view class="jineFu">
-					<text>提现-23.00</text>
-				</view>
 			</view>
 			<view class="uni-padding-wrap uni-common-mt botts">
 				<button @tap="cashOut" type="primary" style="background: #2b5cff;">我要提现</button>
 			</view>
 		</view>
-		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;' v-if='wenzi' @tap='went'>
-			<view style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;'>
+		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;'
+			v-if='wenzi' @tap='went'>
+			<view
+				style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;'>
 				<view>问题</view>
 			</view>
 		</view>
@@ -202,7 +147,9 @@
 			return {
 				wenzi: false,
 				ruleTyle: false,
-				content: ''
+				content: '',
+				cashCont: '',
+				isShow: true
 			}
 		},
 		onLoad: function() {
@@ -212,7 +159,16 @@
 				url: '/api/user/my-bound-index',
 				data: {},
 				success: function(res) {
+					if (res.data.data.rebateLog) {
+						res.data.data.rebateLog.map(function(val, i) {
+							val.phone = val.memberDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,
+								'$1****$2')
 
+						})
+							console.log(res.data.data)
+					}
+					that.cashCont = res.data.data
+		
 				}
 			})
 			this.$https({
@@ -223,13 +179,20 @@
 				success: function(res) {
 					that.content = res.data.data
 					console.log(res.data.data)
+
 				}
 			})
 		},
 		methods: {
+			add() {
+				this.isShow = true
+			},
+			reduce() {
+				this.isShow = false
+			},
 			cashOut() {
 				uni.navigateTo({
-					url: 'applyFor'
+					url: 'applyFor?money='+this.cashCont.grandTotal
 				})
 			},
 			wenti: function() {
@@ -405,7 +368,7 @@
 		// left: 90rpx;
 		overflow: hidden;
 		margin-bottom: 45rpx;
-		margin-top: 30rpx;
+		margin-top: 50rpx;
 
 
 		.jia {
@@ -478,6 +441,11 @@
 		top: 540upx;
 		left: 0;
 
+		.ul {
+			margin-bottom: 180rpx;
+
+		}
+
 		.tit_b {
 			width: 750upx;
 			border-bottom: 20upx solid #f7f7f7;
@@ -541,7 +509,12 @@
 
 	.botts {
 
-		margin: 80rpx 67rpx;
+		// margin: 80rpx 67rpx;
+		margin: 0 60rpx;
+		position: fixed;
+		bottom: 40rpx;
+		left: 0;
+		right: 0;
 
 		button {
 			border-radius: 45upx;
