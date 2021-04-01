@@ -166,7 +166,6 @@
 										uni.getUserInfo({
 											provider: 'weixin',
 											success: function(res) {
-												console.log(res)
 												_this.$https({
 													url: '/api/oauth/wxLogin',
 													// data: JSON.stringify(res.userInfo),
@@ -178,11 +177,8 @@
 													dengl: true,
 													method: 'post',
 													// haeder: true,
-													success: function(
-														res) {
-														if (res.data
-															.code >
-															0) {
+													success: function(res) {
+														if (res.data.code >0) {
 															uni.showModal({
 																title: '您未绑定微信，请先登录账号',
 																cancelText: '去登录',

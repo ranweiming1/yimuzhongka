@@ -277,7 +277,12 @@
 
 					我们可能适时修订本《隐私政策》的条款，该等修订构成本《隐私政策》的一部分。如该等修订造成您在本《隐私政策》下权利的实质减少，我们将在修订生效前通过在主页上显著位置提示或向您发送电子邮件或以其他方式通知您。在该种情况下，若您继续使用我们的服务，即表示同意受经修订的本《隐私政策》的约束。
 
-					山东毅木重卡网络科技有限公司。</text>
+					信息保护负责人联系电话：13356352052
+					联系地址：山东省济南市槐荫区海亮艺术华府11号楼1单元2001室
+					常用办公地址：山东省济南市槐荫区海亮艺术华府11号楼1单元2001室
+					邮箱：yimuzksc@163.com
+					公司名称：山东毅木重卡网络科技有限公司
+				</text>
 
 			</view>
 			<!-- <view class="span" style='position:absolute;bottom:100rpx;left:0;width:100%:height:100rpx;'>
@@ -414,10 +419,12 @@
 			color: #666;
 			line-height: 50upx;
 			font-size: 26upx;
-			.bold{
+
+			.bold {
 				font-weight: bold;
 				display: inline;
 			}
+
 			.strong {
 				font-weight: bold;
 				color: #000000;

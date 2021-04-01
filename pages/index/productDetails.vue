@@ -405,15 +405,12 @@
 			jyfParser
 		},
 		onLoad(option) {
-			console.log(option)
-
 			this.deId = option.id
 			this.pdType = uni.getStorageSync('pdType')
 			var _this = this
 			uni.getSystemInfo({
 				success: function(res) {
 					_this.height = (res.windowHeight * (750 / res.windowWidth));
-					console.log(res.windowHeight, _this.height)
 				}
 			})
 			
@@ -449,7 +446,6 @@
 					_this.isCollect = res.data.data.isCollect
 					_this.goodsId = res.data.data.detail.goodsId
 					_this.shopId = res.data.data.detail.shopId
-					// console.log(res.data.data.goodsComms[0])
 					for (var i in res.data.data.spec_price) {
 						_this.guige.push(res.data.data.spec_price[i])
 					}
@@ -560,7 +556,6 @@
 
 			},
 			add() {
-				console.log(this.guige)
 				this.isAdd = !this.isAdd
 				this.Price = this.guige[0].price
 			},
@@ -578,7 +573,6 @@
 				this.Price = this.guige[this.indexx].price * this.num
 			},
 			xuanzhong: function(index, indexs) {
-				console.log(this.shuzu)
 				this.shuzu[index].map((n, indexsz) => {
 					this.$set(this.shuzu[index], indexsz, false)
 				})
@@ -717,7 +711,6 @@
 			},
 			goumaia: function() {
 				if (this.denglufangfatiaozhuan()) {
-					console.log(this.xuanzh)
 					if (this.xuanzh) {
 						uni.navigateTo({
 							url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON
@@ -765,7 +758,7 @@
 								provider: 'weixin',
 								scene: 'WXSceneSession',
 								type: 0,
-								href: 'https://www.yimuzk.com/api/?xiangqing=' + _this.deId +
+								href: 'http://www.yimuzk.com:8087/?xiangqing=' + _this.deId +
 									'&codz=' + _this.code,
 								imageUrl: _this.list.goodsImgss[0],
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',

@@ -435,6 +435,7 @@
 					})
 				})
 				var arr = arr.join(',')
+				console.log(as)
 				//提交订单
 				this.$https({
 					url: '/api/shop/order-order-submitOrder',

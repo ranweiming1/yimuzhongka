@@ -222,7 +222,7 @@
 				l: [],
 				xianshi: true,
 				a: 5,
-				g: []
+				g: [],
 			}
 		},
 		components: {

@@ -35,15 +35,14 @@
 			// 		console.log(e)
 			// 	}
 			// });
-			var args=plus.runtime.arguments
-			if(args){
-				if(args.indexOf('code')>=0){
-					uni.setStorageSync('yaoqi',args)
-					uni.navigateTo({
-						url:'pages/index/productDetails?id='+args.split('&codz')[0].split('xiangqing=')[1]
-					})
-					uni.setStorageSync('yaoqi','code='+args.split('codz=')[1])
-				}
+			var args = plus.runtime.arguments
+			if (args.indexOf('xiangqing') >= 0) {
+				uni.navigateTo({
+					url: 'pages/index/productDetails?id=' + args.split('&codz')[0].split('xiangqing=')[1]
+				})
+				uni.setStorageSync('yaoqi', 'code=' + args.split('codz=')[1])
+			} else if (args.indexOf('code') >= 0) {
+				uni.setStorageSync('yaoqi', args)
 			}
 		},
 		onShow: function() {
@@ -182,7 +181,7 @@
 		transform: scale(0.7)
 	}
 
- page * {
+	page * {
 		-webkit-touch-callout: none;
 	}
 </style>

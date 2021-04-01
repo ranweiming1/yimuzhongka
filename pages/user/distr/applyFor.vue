@@ -5,14 +5,23 @@
 		<!-- <view style='margin-top:30rpx;text-align:center;margin-bottom:20rpx;'>可提现金额:￥{{ji}}</view> -->
 		<view class="uni-form-item uni-column" style="border-top: 1px solid #e5e5e5;">
 			<view class="title"><text>提现到</text></view>
-			<input class="uni-input" disabled name="input" placeholder="微信" />
-			<view class="uni-padding-wrap uni-common-mt bott" v-if="!wxName" @tap="bindWx">
-				<button type="primary">绑定微信</button>
+			<!-- <input class="uni-input" disabled name="input" placeholder="微信" /> -->
+			<view class="uni-list-cell-db">
+				<picker @change="xuanze" :value="index" :range="zhifu">
+					<view class="uni-input">{{zhifu[index]}}</view>
+				</picker>
 			</view>
-			<view class="wx-name" v-if="wxName">
-				{{wxName}}
+			<view class="uni-padding-wrap uni-common-mt bott" v-if="index==0&&!typeName" @tap="bindWx">
+				<button type="primary">绑定{{zhifu[index]}}</button>
+			</view>
+			<view class="uni-padding-wrap uni-common-mt bott" v-if="index==1&&!typeName" @tap="bindZfb">
+				<button type="primary">绑定{{zhifu[index]}}</button>
+			</view>
+			<view class="wx-name" v-if="typeName">
+				{{typeName}}
 			</view>
 		</view>
+
 		<view class="uni-form-item uni-column">
 			<view class="title"><text>提现金额</text></view>
 			<input class="uni-input" name="input" v-model="money" @input='judge' :placeholder="'可提现金额：' + ji+'元'" />
@@ -70,9 +79,12 @@
 				num: 60,
 				fasong: true,
 				phone: '',
-				wxName: '',
+				typeName: '',
 				money: '',
-				isCash: false
+				isCash: false,
+				zhifu: ['微信', '支付宝'],
+				index: 0,
+				panduan: {}
 			}
 		},
 		onLoad(options) {
@@ -93,11 +105,17 @@
 				data: {},
 				denglu: false,
 				success: function(res) {
-					that.wxName = res.data.data.wxName
+					that.panduan = res.data.data
+					that.typeName = that.index == 0 ? res.data.data.wxName : res.data.data.aliName
 				}
 			})
+			console.log(that.typeName)
 		},
 		methods: {
+			xuanze: function(e) {
+				this.index = e.detail.value
+				this.typeName = e.detail.value == 0 ? this.panduan.wxName : this.panduan.aliName
+			},
 			tixian() {
 				this.money = this.ji
 			},
@@ -246,6 +264,90 @@
 						uni.showToast({
 							title: '绑定失败，请重试',
 							icon: 'none'
+						})
+					}
+				})
+
+			},
+
+			bindZfb: function() {
+				var _this = this
+				this.$https({
+					url: '/api/oauth/ali/get-auth-code ',
+					data: {},
+					method: 'post',
+					dengl: true,
+					success: res => {
+						let alipayLogin = uni.requireNativePlugin("henter-alipay-login")
+						var _this = this
+						alipayLogin.login({
+							authInfo: res.data.data,
+							appScheme: 'yimuzhongka'
+						}, result => {
+							var authCode = ''
+							var identityCode = ''
+							result.result.split('&').map(function(val, i) {
+								if (val.split('=')[0] == 'auth_code') {
+									console.log(val, val.split('=')[1])
+									authCode = val.split('=')[1]
+								}
+								if (val.split('=')[0] == 'alipay_open_id') {
+									console.log(val, val.split('=')[1])
+									identityCode = val.split('=')[1]
+								}
+							})
+							_this.$https({
+								url: '/api/oauth/ali/ali/get-user-info',
+								data: {
+									authCode: authCode
+								},
+								dengl: true,
+								method: 'post',
+								success: res => {
+									var r = JSON.parse(res.data.data)
+									console.log(res)
+									_this.$https({
+										url: '/api/user/bind-wx-ali-auth-info',
+										data: {
+											bindType: '1',
+											identityCode: identityCode,
+											accountName: r
+												.alipay_user_info_share_response
+												.nick_name
+										},
+										dengl: false,
+										method: 'post',
+										success: function(res) {
+											// uni.setStorageSync('Authorization', res.data.data.access_token)
+											if (res.data.code == 0) {
+												uni.showToast({
+													title: '支付宝绑定成功'
+												})
+												_this.$https({
+													url: '/api/user/my-info',
+													data: {},
+													success: res => {
+														_this
+															.aliName =
+															res
+															.data
+															.data
+															.aliName
+													}
+												})
+											} else {
+												uni.showToast({
+													title: res.data
+														.message,
+													icon: 'none'
+												})
+											}
+
+										}
+									})
+								}
+							})
+
 						})
 					}
 				})
