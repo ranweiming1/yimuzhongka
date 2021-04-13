@@ -163,18 +163,31 @@
 				paixu: false,
 				st: '',
 				value: '',
-				isFocus: false
+				isFocus: false,
+				page: 1,
+				loadingType: 0,
+				carId:'',
+				catId:''
 			}
 		},
 		onLoad(option) {
 			var _this = this
+			console.log(option)
 			if (option.keywords && option.shopsId) {
 				this.value = option.keywords
 				this.shopsId = option.shopsId
 				this.isOK = false
-				console.log(this.value, this.shopsId)
-				this.search()
+				var data={
+					keywords: this.value,
+					shop_id: this.shopsId,
+					page: this.page,
+					limit: 10
+					
+				}
+				var url='/api/oauth/shop/mall-goods-ptList'
+				this.getNews(url,data)
 			} else {
+				console.log(22222)
 				if (option.id)
 					_this.shopsId = option.id
 				if (option.cateId) {
@@ -188,32 +201,182 @@
 				}
 				// var _this = this
 				if (!option.goodsBrandId) {
-					this.$https({
-						url: '/api/oauth/shop/mall-goods-ptList',
-						data: {
-							shop_id: _this.shopsId,
-							cat_id: option.cateId
-						},
-						dengl: true,
-						success: function(res) {
-							console.log(res.data.data)
-							console.log(2222)
-							_this.allList = res.data.data
-							_this.goodsType = res.data.data.selfStatus
-						}
-					})
+					
+					console.log(333333)
+					if(option.cateId){
+						_this.catId=option.cateId
+					}
+					var data={
+						shop_id: _this.shopsId,
+						cat_id: option.cateId,
+						page: this.page,
+						limit: 10	
+					}
+					var url='/api/oauth/shop/mall-goods-ptList'
+					this.getNews(url,data)
 				}
 				if (option.goodsBrandId) {
+					console.log(88888)
 					_this.id = option.goodsBrandId
 					_this.carId = option.carId
 					_this.shaiX()
 				}
 			}
 		},
+		onReachBottom() {
+			// var data = {
+			// 	page: this.page + 1,
+			// 	limit: 10
+			// }
+			// this.getMoreNews(data)
+			var _this = this
+			if (this.max || this.min || this.goodsType || this.st || this.id||this.carId) {
+				var data = JSON.stringify({
+					goodsBrandId: this.id,
+					maxPrice: this.max,
+					minPrice: this.min,
+					keyWords: this.value,
+					goodsType: this.goodsType,
+					carId: this.carId,
+					shop_id: _this.shopsId,
+					sortType: this.st,
+					page: this.page + 1,
+					limit: 10
+				})
+				this.getMoreNewsTwo(data)
+			} else if (this.shopsId && this.catId) {
+				var data = {
+					page: this.page + 1,
+					limit: 10,
+					shop_id: _this.shopsId,
+					cat_id: option.cateId,
+				}
+				this.getMoreNews(data)
+			} else if (this.value && this.shopsId) {
+				var data = {
+					keywords: this.value,
+					shop_id: this.shopsId,
+					page: this.page+1,
+					limit: 10
+				}
+				this.getMoreNews(data)
+			}else {
+				var data = {
+					page: this.page + 1,
+					limit: 10,
+					shop_id: _this.shopsId,
+				}
+				this.getMoreNews(data)
+			}
+		
+		},
+		
+		onShow: function() {
+			var _this = this
+			if (this.carId) {
+				_this.shaiX()
+			}
+		},
 		components: {
 			buttom
 		},
 		methods: {
+			// 初始化
+			getNews(url,data) {
+				this.page = 1
+				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
+				this.$https({
+					url: url,
+					data: data,
+					dengl: true,
+					method: 'post',
+					success: function(res) {
+						_this.allList = res.data.data
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
+					}
+				})
+			
+			},
+			// 初始化数据
+			getMoreNews(data) {
+				var _this = this
+				this.page++
+			
+				if (_this.loadingType != 0) {
+					uni.showToast({
+						title: '已加载全部数据',
+						icon: 'none',
+						duration: 2000
+					})
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-ptList',
+					dengl: true,
+					method: 'post',
+					data: data,
+					success(res) {
+						if (res.data.data.length < 10 || res.data.data ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.allList = _this.allList.concat(res.data.data)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+			getMoreNewsTwo(data) {
+				var _this = this
+				this.page++
+				if (_this.loadingType != 0) {
+					uni.showToast({
+						title: '已加载全部数据',
+						icon: 'none',
+						duration: 2000
+					})
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-serchList',
+					dengl: true,
+					method: 'post',
+					haeder: true,
+					data: data,
+					success(res) {
+						if (res.data.data.length < 10 || res.data.data ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.allList = _this.allList.concat(res.data.data)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+			
 			detail(id) {
 				uni.navigateTo({
 					url: '../index/productDetails?id=' + id
@@ -261,6 +424,7 @@
 			},
 			shaiX() {
 				var _this = this
+				this.page=1
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
 					dengl: true,
@@ -271,7 +435,12 @@
 						minPrice: this.min,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.st
+						sortType: this.st,
+						page: this.page,
+						keyWords: this.value,
+						shop_id: _this.shopsId,
+						limit: 10
+						
 					}),
 					haeder: true,
 					success: function(res) {
@@ -304,6 +473,7 @@
 			},
 			x: function(st) {
 				this.st = st
+				this.page = 1
 				var _this = this
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
@@ -311,11 +481,15 @@
 					method: 'post',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
+						shop_id: _this.shopsId,
 						maxPrice: this.max,
 						minPrice: this.min,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: st
+						sortType: st,
+						keyWords: this.value,
+						page: this.page,
+						limit: 10
 					}),
 					haeder: true,
 					success: function(res) {
@@ -327,14 +501,21 @@
 			search() {
 				var _this = this
 				console.log(this.value)
+				this.page = 1
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-ptList',
 					dengl: true,
 					data: {
 						keywords: this.value,
 						shop_id: this.shopsId,
+						page: this.page,
+						limit: 10
 					},
 					success: function(res) {
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 100,
+						});
 						_this.allList = res.data.data
 						console.log(res.data.data)
 					}

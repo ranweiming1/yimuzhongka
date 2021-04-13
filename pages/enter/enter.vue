@@ -1,6 +1,6 @@
 <template>
-	<view>
-		<view class='d' @tap='d'>
+	<view class="pages" :style="'height:' +pageHeight+'px'">
+		<view class='d' @tap='d' >
 			<view></view>
 			<view></view>
 		</view>
@@ -28,6 +28,7 @@
 		</view>
 		<view style='width:100%;overflow-x: auto;'>{{msg}}</view>
 		<view class='gengduo' @tap='xuanxiangxianshi'>更多选项</view>
+		<view class="clear" style="height: 100rpx;"></view>
 		<view class='zhezhao' v-if='xianshi'>
 			<view>
 				<view class='bangzhu' @tap="help">帮助中心</view>
@@ -36,10 +37,13 @@
 				<view class='bangzhu' @tap='qux'>取消</view>
 			</view>
 		</view>
-		<checkbox-group class="check-yinsi" @change="zhuceLog">
-			<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isLog"><text>登录即代表您已同意</text><text
-					style="color: #007AFF;" @tap.stop='yinsi(2)'>《毅木重卡隐私政策》</text></checkbox>
-		</checkbox-group>
+
+		<view class="check-yinsi">
+			<checkbox-group class="" @change="zhuceLog">
+				<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isLog"><text>登录即代表您已同意</text><text
+						style="color: #007AFF;" @tap.stop='yinsi(2)'>《毅木重卡隐私政策》</text></checkbox>
+			</checkbox-group>
+		</view>
 
 	</view>
 </template>
@@ -60,15 +64,30 @@
 				as: '',
 				ass: '',
 				msg: '',
-				isLog: false
+				isLog: false,
+				pageHeight: ''
 			}
 		},
-		onLoad() {
-
-			uni.getSystemInfo({
-				success: function(e) {}
-			})
+		onReady() {
 			var _this = this
+			uni.getSystemInfo({
+				success(res) {
+					console.log(res)
+					var phoneHeight = res.windowHeight;
+					console.log(res.windowHeight, 333);
+					// 计算组件的高度
+					let view = uni.createSelectorQuery().select('.pages');
+					view.boundingClientRect(data => {
+						// _this.navHeight = data.height;
+						console.log(data.height, 333444);
+						_this.pageHeight = phoneHeight >= data.height ? phoneHeight : data.height
+					}).exec();
+				}
+			});
+		},
+		onLoad() {
+			var _this = this
+
 			if (uni.getStorageSync('pdType')) {
 				_this.pdType = uni.getStorageSync('pdType')
 			} else {
@@ -85,6 +104,7 @@
 			}
 
 		},
+
 		computed: {
 			style() {
 				let style = `height:${this.screenHeight - this.statusBarHeight}px; `;
@@ -177,8 +197,11 @@
 													dengl: true,
 													method: 'post',
 													// haeder: true,
-													success: function(res) {
-														if (res.data.code >0) {
+													success: function(
+														res) {
+														if (res.data
+															.code > 0
+														) {
 															uni.showModal({
 																title: '您未绑定微信，请先登录账号',
 																cancelText: '去登录',
@@ -250,14 +273,14 @@
 				// var x =
 				// 	"success=true&result_code=200&app_id=2021002109663210&auth_code=bd7c5b7f1978452ca1c090c6ee97SX14&scope=kuaijie&alipay_open_id=20881021499251069541915331413014&user_id=2088912697617145&target_id=7839630598576605153"
 				// console.log(x.split('&'))
-				
-				
+
+
 				// var msg = x.split('&').filter(function(item) {
 				// 	console.log(item)
 				// 	return item.split('=')[0] == 'alipay_open_id'
 				// })
-				
-				
+
+
 				if (this.isLog) {
 					this.$https({
 						url: '/api/oauth/ali/get-auth-code ',
@@ -272,11 +295,11 @@
 								appScheme: 'yimuzhongka'
 							}, result => {
 								// consresult.resultole.log(result)
-								var msg=''
-								result.result.split('&').map(function(val,i){
-									if(val.split('=')[0]=='alipay_open_id'){
-									console.log(val,val.split('=')[1])
-									msg=val.split('=')[1]	
+								var msg = ''
+								result.result.split('&').map(function(val, i) {
+									if (val.split('=')[0] == 'alipay_open_id') {
+										console.log(val, val.split('=')[1])
+										msg = val.split('=')[1]
 									}
 								})
 								_this.$https({
@@ -287,7 +310,7 @@
 									method: 'post',
 									dengl: true,
 									success: res => {
-										console.log(res,888)
+										console.log(res, 888)
 										if (res.data.code == 0) {
 											uni.setStorageSync('Authorization', res
 												.data
@@ -374,8 +397,12 @@
 </script>
 
 <style lang="scss">
+	.pages {
+		position: relative;
+	}
+
 	.check-yinsi {
-		position: fixed;
+		position: absolute;
 		bottom: 50rpx;
 		left: 0;
 		right: 0;
@@ -516,10 +543,10 @@
 	}
 
 	.d {
-		margin-top: 90rpx;
+		padding-top: 90rpx;
 		margin-left: 50rpx;
 		font-size: 30rpx;
-		height: 100rpx;
+		height: 100rpx; 
 	}
 
 	.d view {
@@ -535,11 +562,11 @@
 	}
 
 	.qin {
-		margin-top: 100rpx;
+		margin-top: 80rpx;
 		text-align: center;
 		font-size: 50rpx;
 		color: #000;
-		margin-bottom: 100rpx;
+		margin-bottom: 80rpx;
 	}
 
 	.qin view {
@@ -549,8 +576,8 @@
 	.nozh {
 		color: #000;
 		font-size: 30rpx;
-		margin-top: 47rpx;
-		margin-bottom: 100rpx;
+		margin-top: 40rpx;
+		margin-bottom: 80rpx;
 
 		text-align: center;
 	}
@@ -592,7 +619,7 @@
 		color: #000;
 		font-size: 24rpx;
 		width: 100%;
-		padding: 30rpx 25rpx 58rpx 25rpx;
+		padding: 25rpx 25rpx 40rpx 25rpx;
 		box-sizing: border-box;
 	}
 
@@ -657,6 +684,8 @@
 		text-align: center;
 		// margin-top: 60rpx;
 		font-size: 28rpx;
+		padding-bottom: 80rpx;
+
 	}
 
 	.zhezhao {

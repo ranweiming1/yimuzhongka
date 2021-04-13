@@ -17,7 +17,8 @@
 						</view>
 					</view>
 					<view class="Fbott">
-						<view v-for="(item,index) in shaiList" :class="itemex==index?'active activeBef':'activeBef'" @tap="toggleList(index,item.id)"><text>{{item.brandTitle}}</text></view>
+						<view v-for="(item,index) in shaiList" :class="itemex==index?'active activeBef':'activeBef'"
+							@tap="toggleList(index,item.id)"><text>{{item.brandTitle}}</text></view>
 					</view>
 				</view>
 
@@ -51,7 +52,8 @@
 		<view :class="tog_Ca?'clearCss':'togActive'">
 			<!-- 头部 -->
 			<!-- #ifndef H5 -->
-			<view class="top" style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;padding-top:80rpx;padding-bottom: 20rpx;'>
+			<view class="top"
+				style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;padding-top:80rpx;padding-bottom: 20rpx;'>
 				<view class='back' @tap='back' style='float:left;padding: 15rpx 35rpx;'>
 					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 				</view>
@@ -84,7 +86,8 @@
 					</view>
 					<view class="con">
 						<text @tap='shopClassify'>店铺</text>
-						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
+						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'"
+							@tap="togCass(tog_Ca)" mode=""></image>
 					</view>
 				</view>
 
@@ -97,12 +100,16 @@
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap.stop='p("PDESC")'>信用<view class="cont-item-icon" v-if='st=="PDESC"'>
+					<view class="mask-cont-item" @tap.stop='p("PDESC")'>信用<view class="cont-item-icon"
+							v-if='st=="PDESC"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap.stop='p("SASC")'>价格高/低<view class="cont-item-icon" v-if='st=="SASC"'>
-							<image :src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''" mode=""></image>
+					<view class="mask-cont-item" @tap.stop='p("SASC")'>价格高/低<view class="cont-item-icon"
+							v-if='st=="SASC"'>
+							<image
+								:src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''"
+								mode=""></image>
 						</view>
 					</view>
 					<!-- <view class="mask-cont-item" @tap='p("SDESC")'>销量从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SDESC"'>√</view>
@@ -152,7 +159,8 @@
 					</view>
 				</view>
 				<view v-if='allList.length==0'>
-					<image src='../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'></image>
+					<image src='../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'>
+					</image>
 					<view style='text-align:center;'>暂无产品</view>
 				</view>
 			</view>
@@ -179,93 +187,249 @@
 				max: '',
 				goodsType: '',
 				paixu: false,
-				st: 'PASC',
+				st: '',
 				value: '',
 				bar: '',
-				liulanState:''
+				liulanState: '',
+				page: 1,
+				loadingType: 0,
+				carId:''
 			}
 		},
 		onLoad(option) {
-			if(option.state){
-				this.liulanState=option.state
+			console.log(option)
+			if (option.state) {
+				this.liulanState = option.state
 			}
 			var _this = this
 			if (option.keywords) {
 				this.value = option.keywords
-				this.search()
+				var data = {
+					keywords: this.value,
+					page: this.page,
+					limit: 10
+				}
+				this.getNews(data)
 			} else if (option.barId) {
 				this.bar = option.barId
-				this.$https({
-					url: '/api/oauth/shop/mall-goods-ptList',
-					data: {
-						goodsBrandId: option.barId,
-					},
-					dengl: true,
-					success(res) {
-						_this.allList = res.data.data
-						_this.goodsType = res.data.data.selfStatus
-						console.log(res.data.data)
-					}
-				})
-				// this.$https({
-				// 	url: '/api/oauth/shop/goods-recom',
-				// 	data: {
-				// 		// cat_id:option.id?option.id:''
-				// 	},
-				// 	success(res) {
-				// 		// _this.allList = res.data.data
-				// 		// _this.goodsType = res.data.data.selfStatus
-				// 	}
-				// })
+				var data = {
+					page: this.page,
+					limit: 10,
+					goodsBrandId: option.barId
+				}
+				this.getNews(data)
+			} else if (option.id) {
+				this.catId = option.id
+				var data = {
+					page: this.page,
+					limit: 10,
+					cat_id: option.id ? option.id : ''
+				}
+				this.getNews(data)
 			} else {
-				this.$https({
-					url: '/api/oauth/shop/mall-goods-ptList',
-					data: {
-						cat_id: option.id ? option.id : ''
-					},
-					dengl: true,
-					success(res) {
-						_this.allList = res.data.data
-						_this.goodsType = res.data.data.selfStatus
-						console.log(res.data.data)
-					}
-				})
-				// this.$https({
-				// 	url: '/api/oauth/shop/goods-recom',
-				// 	data: {
-				// 		// cat_id:option.id?option.id:''
-				// 	},
-				// 	success(res) {
-				// 		// _this.allList = res.data.data
-				// 		// _this.goodsType = res.data.data.selfStatus
-				// 	}
-				// })
+				var data = {
+					page: this.page,
+					limit: 10,
+				}
+				this.getNews(data)
 			}
 		},
 		onShow: function() {
-			this.$https({
-				url: '/api/oauth/shop/mall-goods-ptList',
-				data: {
-					goodsBrandId: this.bar
-				},
-				dengl: true,
-				success: res => {
-					this.allList = res.data.data
-					this.goodsType = res.data.data.selfStatus
+			// shaiX
+			var _this = this
+			if (this.carId) {
+				_this.shaiX()
+			}
+		},
+		onReachBottom() {
+			// var data = {
+			// 	page: this.page + 1,
+			// 	limit: 10
+			// }
+			// this.getMoreNews(data)
+			var _this = this
+			 if (this.max || this.min || this.goodsType || this.st || this.id||this.carId) {
+				var data = JSON.stringify({
+					goodsBrandId: this.id,
+					maxPrice: this.max,
+					minPrice: this.min,
+					keyWords: this.value,
+					goodsType: this.goodsType,
+					carId: this.carId,
+					sortType: this.st,
+					page: this.page + 1,
+					limit: 10
+				})
+				this.getMoreNewsTwo(data)
+			}
+			if (this.value) {
+				var data = {
+					keywords: this.value,
+					page: this.page + 1,
+					limit: 10
 				}
-			})
+				this.getMoreNews(data)
+			} else if (this.bar) {
+				var data = {
+					page: this.page + 1,
+					limit: 10,
+					goodsBrandId: this.bar
+				}
+				this.getMoreNews(data)
+			} else if (this.catId) {
+				var data = {
+					page: this.page + 1,
+					limit: 10,
+					cat_id: this.catId
+				}
+				this.getMoreNews(data)
+			}  else {
+				var data = {
+					page: this.page + 1,
+					limit: 10,
+				}
+				this.getMoreNews(data)
+			}
+
 		},
 		components: {
 			tabBar,
 		},
 		methods: {
+			// 初始化
+			getNews(data) {
+				this.page = 1
+				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-ptList',
+					data: data,
+					dengl: true,
+					method: 'post',
+					success: function(res) {
+						_this.allList = res.data.data
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
+					}
+				})
+
+			},
+			// 初始化数据
+			getMoreNews(data) {
+				var _this = this
+				this.page++
+
+				if (_this.loadingType != 0) {
+					uni.showToast({
+						title: '已加载全部数据',
+						icon: 'none',
+						duration: 2000
+					})
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-ptList',
+					dengl: true,
+					method: 'post',
+					data: data,
+					success(res) {
+						if (res.data.data.length < 10 || res.data.data ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.allList = _this.allList.concat(res.data.data)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+			// 筛选
+			shaiX() {
+				this.page = 1
+				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-serchList',
+					data: JSON.stringify({
+						goodsBrandId: this.id,
+						maxPrice: this.max,
+						minPrice: this.min,
+						keyWords: this.value,
+						goodsType: this.goodsType,
+						carId: this.carId,
+						sortType: this.st,
+						page: this.page,
+						limit: 10
+					}),
+					haeder: true,
+					dengl: true,
+					method: 'post',
+					success: function(res) {
+						_this.allList = res.data.data
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
+					}
+				})
+
+			},
+			// 初始化数据
+			getMoreNewsTwo(data) {
+				var _this = this
+				this.page++
+				if (_this.loadingType != 0) {
+					// uni.showToast({
+					// 	title: '已加载全部数据',
+					// 	icon: 'none',
+					// 	duration: 2000
+					// })
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-serchList',
+					dengl: true,
+					method: 'post',
+					haeder: true,
+					data: data,
+					success(res) {
+						if (res.data.data.length < 10 || res.data.data ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.allList = _this.allList.concat(res.data.data)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
 			togCass() {
 				this.tog_Ca = !this.tog_Ca
 			},
-			detail(id) { 
-				var llState=this.liulanState==2?this.liulanState:''
+			detail(id) {
+				var llState = this.liulanState == 2 ? this.liulanState : ''
 				uni.navigateTo({
-					url: '../index/productDetails?id=' + id+'&liulanState='+llState
+					url: '../index/productDetails?id=' + id + '&liulanState=' + llState
 				})
 				this.$https({
 					url: '/api/shop/goods-brows-history-add',
@@ -312,12 +476,13 @@
 				this.itemex = i
 				this.id = ind
 			},
-			shaiX() {
+			shaiXs() {
 				var _this = this
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
 					dengl: true,
 					method: 'post',
+					haeder: true,
 					data: JSON.stringify({
 						goodsBrandId: this.id,
 						maxPrice: this.max,
@@ -326,7 +491,6 @@
 						carId: this.carId,
 						sortType: this.st
 					}),
-					haeder: true,
 					success: function(res) {
 						_this.isShow = false
 						_this.allList = res.data.data
@@ -334,6 +498,7 @@
 				})
 			},
 			reset() {
+				console.log(this.itemex)
 				this.itemex = false
 			},
 			rValue(e) {
@@ -354,37 +519,55 @@
 				this.paixu = !this.paixu
 			},
 			p: function(st) {
+				this.page = 1
 				this.st = st
 				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
-					dengl: true,
-					method: 'post',
 					data: JSON.stringify({
 						goodsBrandId: this.id,
+						keyWords: this.value,
 						maxPrice: this.max,
 						minPrice: this.min,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.st
+						sortType: this.st,
+						page: this.page,
+						limit: 10
 					}),
 					haeder: true,
+					dengl: true,
+					method: 'post',
 					success: function(res) {
 						_this.paixu = false
 						_this.allList = res.data.data
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
 					}
 				})
 			},
+
+
 			search() {
 				var _this = this
+				this.page = 1
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-ptList',
 					// dengl: false,
 					data: {
-						keywords: this.value
+						keywords: this.value,
+						page: this.page,
+						limit: 10
 					},
 					dengl: true,
 					success: function(res) {
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 100,
+						});
 						_this.allList = res.data.data
 					}
 				})

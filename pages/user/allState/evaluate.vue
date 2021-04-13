@@ -143,7 +143,7 @@
 					sizeType:['compressed'],
 					success: res => {
 						uni.uploadFile({
-							url: this.webUrl + '/api/oauth/oss/upload',
+							url: this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {

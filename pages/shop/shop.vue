@@ -1,7 +1,7 @@
 <template>
 	<view style="background-color: #f4f6f8;">
-	<!-- ----------------店铺1------------------- -->
-		<view class="shop-one"  v-if="shopStyle==1">
+		<!-- ----------------店铺1------------------- -->
+		<view class="shop-one" v-if="shopStyle==1">
 			<view class="shop-top">
 				<view class="shop-bag">
 					<swiper class="logo-swper-list" :current="currentIndex" :circular="true" :duration="100"
@@ -35,7 +35,8 @@
 						公司简介
 					</view>
 					<view :class="isShowCont?'company-name-right-rotate':'company-name-right'" @tap="showContent">
-						<image :src="isShowCont?'../../static/icon_26-4.png':'../../static/icon_26.png'" mode=""></image>
+						<image :src="isShowCont?'../../static/icon_26-4.png':'../../static/icon_26.png'" mode="">
+						</image>
 					</view>
 				</view>
 				<view :class="isShowCont?'showContent':'shop-company-content'">
@@ -101,7 +102,8 @@
 
 			<view class="shop-classify">
 				<scroll-view class="shop-classify-scroll" scroll-x="true" style="width: 100%;">
-					<view class="classify-scroll-item" v-for="(item,i) in typeList"  @tap='goClassfiy(item.id)'>{{item.cateTitle}}</view>
+					<view class="classify-scroll-item" v-for="(item,i) in typeList" @tap='goClassfiy(item.id)'>
+						{{item.cateTitle}}</view>
 
 				</scroll-view>
 			</view>
@@ -178,7 +180,7 @@
 						<!-- 根据星级综合分值现实 -->
 						<view class="star1">
 							<image src="../../static/xingxing.png" mode="" v-for="(item,i) in star"></image>
-							<image src="../../static/xingxing1.png"  v-if="((starVal*20)%2==0)" mode=""></image>
+							<image src="../../static/xingxing1.png" v-if="((starVal*20)%2==0)" mode=""></image>
 						</view>
 					</view>
 					<view class="collect">
@@ -398,7 +400,8 @@
 						公司简介
 					</view>
 					<view :class="isShowCont?'company-name-right-rotate':'company-name-right'" @tap="showContent">
-						<image :src="isShowCont?'../../static/icon_26-4.png':'../../static/icon_26.png'" mode=""></image>
+						<image :src="isShowCont?'../../static/icon_26-4.png':'../../static/icon_26.png'" mode="">
+						</image>
 					</view>
 				</view>
 				<view :class="isShowCont?'showContent':'shop-company-content'">
@@ -407,7 +410,8 @@
 			</view>
 			<view class="shop-classify">
 				<scroll-view class="shop-classify-scroll" scroll-x="true" style="width: 100%;">
-					<view class="classify-scroll-item" v-for="(item,i) in typeList" @tap='goClassfiy(item.id)'>{{item.cateTitle}}</view>
+					<view class="classify-scroll-item" v-for="(item,i) in typeList" @tap='goClassfiy(item.id)'>
+						{{item.cateTitle}}</view>
 				</scroll-view>
 			</view>
 			<view class="shop-hort">
@@ -477,10 +481,12 @@
 				jieshao: '',
 				isShowCont: false,
 				currentIndex: 0,
-				typeList:[],
-				shopStyle:'',
-				star:'',
-				starVal:''
+				typeList: [],
+				shopStyle: '',
+				star: '',
+				starVal: '',
+				page: 1,
+				loadingType: 0,
 			}
 		},
 		components: {
@@ -495,7 +501,9 @@
 			this.$https({
 				url: '/api/oauth/shop/store-index',
 				data: {
-					shopId: option.id
+					shopId: option.id,
+					page: this.page,
+					limit: 10
 					// shopId: 11
 				},
 				dengl: uni.getStorageSync('Authorization') ? false : true,
@@ -531,10 +539,10 @@
 				success: function(res) {
 					_this.isShow = res.data.data.shopCollectStatus
 					_this.jieshao = res.data.data.introduction,
-					_this.shopStyle=res.data.data.modelId,
-					_this.starVal=res.data.data.starId/20
+						_this.shopStyle = res.data.data.modelId,
+						_this.starVal = res.data.data.starId / 20
 					console.log(_this.starVal)
-					_this.star=parseInt(res.data.data.starId/20)
+					_this.star = parseInt(res.data.data.starId / 20)
 				}
 			})
 			this.$https({
@@ -566,10 +574,51 @@
 				}
 			})
 		},
+		onReachBottom() {
+			console.log(909890)
+			var data = {
+				shopId: this.shopsId,
+				page: this.page + 1,
+				limit: 10,
+
+			}
+			this.getMoreNews(data)
+		},
 		methods: {
-			goClassfiy(index){
+			getMoreNews(data) {
+				var _this = this
+				this.page++
+				if (_this.loadingType != 0) {
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/oauth/shop/store-index',
+					dengl: uni.getStorageSync('Authorization') ? false : true,
+					data: data,
+					success(res) {
+						if (res.data.data.goodsList.length < 10 || res.data.data.goodsList ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.gList = _this.gList.concat(res.data.data.goodsList)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+
+			goClassfiy(index) {
 				uni.redirectTo({
-					url:'./classifys?index='+index+'&id='+this.shopsId
+					url: './classifys?index=' + index + '&id=' + this.shopsId
 				})
 			},
 			swierChange: function(e) {
@@ -930,15 +979,17 @@
 						height: 22rpx;
 					}
 				}
-				.company-name-right-rotate{
+
+				.company-name-right-rotate {
 					float: right;
+
 					image {
 						width: 22rpx;
 						height: 14rpx;
-						
+
 					}
 				}
-				
+
 			}
 
 			.shop-company-content {
@@ -952,10 +1003,11 @@
 				-webkit-box-orient: vertical;
 
 			}
+
 			.showContent {
 				color: #666;
 				font-size: 23rpx;
-				line-height:35rpx;
+				line-height: 35rpx;
 			}
 
 		}
@@ -1136,6 +1188,16 @@
 	.shop-two {
 		.activeCss {
 			padding: 20rpx 28rpx;
+
+			 .content-item .content-item-text .titleText {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box!important;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				font-size: 26rpx;
+				vertical-align: middle;
+			}
 
 			.content-item {
 				background-color: #fff;
@@ -1831,12 +1893,14 @@
 						height: 22rpx;
 					}
 				}
-				.company-name-right-rotate{
+
+				.company-name-right-rotate {
 					float: right;
+
 					image {
 						width: 22rpx;
 						height: 14rpx;
-						
+
 					}
 				}
 			}
@@ -1857,7 +1921,7 @@
 			.showContent {
 				color: #666;
 				font-size: 23rpx;
-				line-height:35rpx;
+				line-height: 35rpx;
 			}
 
 		}

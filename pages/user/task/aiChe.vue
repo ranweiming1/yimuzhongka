@@ -211,7 +211,7 @@
 				uni.chooseImage({
 					success: chooseImageRes => {
 						uni.uploadFile({
-							url: this.webUrl + '/api/oauth/oss/upload',
+							url: this.webUrl + '/oauth/oss/upload',
 							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {

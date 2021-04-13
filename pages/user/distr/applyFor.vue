@@ -134,11 +134,11 @@
 				}
 			},
 			cashOut() {
-				console.log(this.shouji, this.money)
+				console.log(this.shouji, this.money,this.typeName)
 				var that = this
-				if (!this.wxName) {
+				if (!this.typeName) {
 					uni.showToast({
-						title: '请绑定微信',
+						title:that.index==0? '请绑定微信':'请绑定支付宝',
 						icon: 'none'
 					})
 				} else if (!this.money) {
@@ -158,7 +158,7 @@
 					})
 				} else {
 					this.$https({
-						url: '/api/pay/amt/entPay',
+						url: that.index==0?'/api/pay/amt/entPay':'/api/pay/ali/amt',
 						data: {
 							amount: that.money,
 							phone: that.shouji,

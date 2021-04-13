@@ -60,11 +60,13 @@
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行卡号</text></view>
-				<input class='uni-input' v-model='bankCardNo' placeholder='请输入银行卡号' @blur='jiaoyanyinhangka' :disabled='jiaoyananniu'>
+				<input class='uni-input' v-model='bankCardNo' placeholder='请输入银行卡号' @blur='jiaoyanyinhangka'
+					:disabled='jiaoyananniu'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>预留手机号</text></view>
-				<input class='uni-input' v-model='shoujihao' placeholder='请输入预留手机号' @blur='jiaoyanyinhangka' :disabled='jiaoyananniu'></input>
+				<input class='uni-input' v-model='shoujihao' placeholder='请输入预留手机号' @blur='jiaoyanyinhangka'
+					:disabled='jiaoyananniu'></input>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行名称</text></view>
@@ -75,7 +77,7 @@
 		<view class="uni-buttom">
 			<view class="check-item">
 				<view class="chec-item" @tap="checks">
-						<image v-if="isCheck" src="../../../static/checked.png" mode=""></image>
+					<image v-if="isCheck" src="../../../static/checked.png" mode=""></image>
 				</view>
 				<text>我已阅读并同意《<text style="color: #ee4646;">商家入驻协议</text>》</text>
 			</view>
@@ -124,6 +126,8 @@
 		},
 		onLoad: function(option) {
 			this.shuju = JSON.parse(option.o)
+			var _this=this
+			console.log(option)
 			//获取用户id
 			this.$https({
 				url: '/api/user/my-info',
@@ -132,8 +136,8 @@
 					this.id = res.data.data.id
 				}
 			})
-			setTimeout(() => {
-				this.nu = 'margin-left:-3300%;transition:210s;'
+			setTimeout(function() {
+				_this.nu = 'margin-left:-3300%;transition:210s;'
 			})
 		},
 		methods: {
@@ -148,11 +152,11 @@
 			yingyezhizhao: function() {
 				var _this = this
 				uni.chooseImage({
-					count:1,
-					sizeType:['compressed'],
+					count: 1,
+					sizeType: ['compressed'],
 					success: res => {
 						uni.uploadFile({
-							url: _this.webUrl + '/api/oauth/oss/upload',
+							url: _this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFiles[0].path,
 							name: 'img',
 							success: res => {
@@ -164,17 +168,17 @@
 			},
 			shenfenzheng: function() {
 				uni.chooseImage({
-					count:1,
-					sizeType:['compressed'],
+					count: 1,
+					sizeType: ['compressed'],
 					success: res => {
 						uni.uploadFile({
-							url: this.webUrl + '/api/oauth/oss/upload',
+							url: this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
 								this.cardImg1 = JSON.parse(res.data).data.url
 								uni.request({
-									url: this.webUrl + '/api/oauth/get-ocr-id-card-info',
+									url: this.webUrl + '/oauth/get-ocr-id-card-info',
 									data: {
 										imgPath: this.cardImg1,
 										imgType: 0
@@ -184,8 +188,10 @@
 									},
 									method: 'post',
 									success: res => {
-										this.legalName = JSON.parse(res.data.data).name
-										this.legalCardId = JSON.parse(res.data.data).num
+										this.legalName = JSON.parse(res.data.data)
+											.name
+										this.legalCardId = JSON.parse(res.data
+											.data).num
 										this.jiaoyanyinhangka()
 									}
 								})
@@ -196,11 +202,11 @@
 			},
 			shenfenzhengF: function() {
 				uni.chooseImage({
-					count:1,
-					sizeType:['compressed'],
+					count: 1,
+					sizeType: ['compressed'],
 					success: res => {
 						uni.uploadFile({
-							url: this.webUrl + '/api/oauth/oss/upload',
+							url: this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
@@ -213,14 +219,16 @@
 			dianpu: function() {
 				var _this = this
 				uni.chooseImage({
-					count:1,
-					sizeType:['compressed'],
+					count: 1,
+					sizeType: ['compressed'],
 					success: res => {
+						console.log(res.tempFilePaths[0], res)
 						uni.uploadFile({
-							url: _this.webUrl + '/api/oauth/oss/upload',
+							url: _this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
+								console.log(res)
 								this.storeLogo = JSON.parse(res.data).data.url
 							}
 						})
@@ -240,7 +248,7 @@
 				obj.principal = shuju.principal
 				obj.princPhone = shuju.princPhone
 				obj.fzrDept = shuju.fzrDept
-				obj.cateIdList = JSON.parse(shuju.cateIdList)
+				obj.cateIdList = JSON.parse(shuju.cateIdList) ? JSON.parse(shuju.cateIdList) : ''
 				obj.storeLogo = this.storeLogo
 				obj.license = shuju.license
 				obj.cardImg1 = this.cardImg1
@@ -249,7 +257,7 @@
 				obj.bankCardNo = this.bankCardNo
 				obj.bankName = this.mingcheng
 				obj.mermberId = this.id
-				obj.legal_phone=this.shoujihao
+				obj.legal_phone = this.shoujihao
 				if (obj.storeLogo == '../../../static/uploadBag.png') {
 					uni.showToast({
 						title: '请上传店铺logo',
@@ -399,16 +407,17 @@
 	.fl {
 		float: left;
 	}
-	.fr{
-		margin-left:20rpx;
-		float:right;
+
+	.fr {
+		margin-left: 20rpx;
+		float: right;
 	}
 
 	.swiperS {
 		position: relative;
-		height: 75rpx;
+		height: 80rpx;
 		background: #f7f7f7;
-
+	
 		.swiper-item {
 			position: absolute;
 			top: 0;
@@ -416,170 +425,173 @@
 			width: 100%;
 			background-color: #f7f7f7;
 			// margin: 20rpx;
-			height: 75rpx;
-			line-height: 75rpx;
+			height: 80rpx;
+			line-height: 80rpx;
 			color: #ee4646;
 			font-size: 22rpx;
-
-
+	
 			view {
 				width: 3300%;
 			}
 		}
 	}
 
-	.uni-form-items {
-		height: 95rpx;
-		line-height: 95rpx;
-		padding-left: 30rpx;
-		color: #333333;
-		font-size: 28rpx;
-
-		.label-item {
-			background-color: #ee4646;
-			color: #fff;
-			font-size: 20rpx;
-			padding: 7rpx 13rpx;
-			border-radius: 10rpx;
-			margin-left: 30rpx;
-
-		}
-	}
-
-	.form-item {
-		background-color: #fff;
-		padding-left: 30rpx;
-		box-sizing: border-box;
-		overflow: hidden;
-
-		.uni-img-item {
-			padding-right: 30rpx;
-			border-bottom: 1rpx solid #f1f1f1;
-
-			.img-center {
-				overflow: hidden;
-				width: 325rpx;
-				text-align: center;
-				margin-bottom: 45rpx;
-			}
-
-			image {
-				display: block;
-				width: 325rpx;
-				height: 230rpx;
-				margin-top: 30rpx;
-				border-radius: 10rpx;
-				margin-bottom: 25rpx;
-			}
-
-			text {
-				margin-bottom: 45rpx;
-				font-size: 26rpx;
-				color: #333;
-			}
-		}
-	}
-
-	.form-item :last-child {
-		border: none;
-	}
-
-	.uni-form-item {
-		height: 100rpx;
-		line-height: 100rpx;
-		border-bottom: 1rpx solid #f1f1f1;
-		overflow: hidden;
-		padding-right: 30rpx;
-
-		.title {
-			float: left;
-			color: #666666;
-			font-size: 28rpx;
-
-			.texts {
-				font-size: 22rpx;
-				display: block;
-				line-height: 35rpx;
-			}
-
-		}
-
-		.uni-input {
-			float: right;
-			text-align: right;
-			font-size: 28rpx;
-			padding-left: 20upx;
-			font-family: Microsoft YaHei;
-			height: 100rpx;
-			line-height: 100rpx;
-			color: #333333;
-		}
-
-		.cont {
-			float: right;
-			color: #333;
-			font-size: 28rpx;
-			margin-right: 15rpx;
-		}
-
-		.imgBox {
-			width: 14rpx;
-			height: 25rpx;
-			float: right;
-
-			image {
-				width: 100%;
-				height: 100%;
-			}
-		}
-	}
-
-	.uni-buttom {
-		background-color: #fff;
-		font-size: 22rpx;
-		color: #333;
-		margin-top: 40rpx;
-		padding-bottom: 25rpx;
-
-		.check-item {
-			height: 84rpx;
-			line-height: 84rpx;
+		.uni-form-items {
+			height: 95rpx;
+			line-height: 95rpx;
 			padding-left: 30rpx;
+			color: #333333;
+			font-size: 28rpx;
+			width: 100%;
+			box-sizing: border-box;
 
-			.chec-item {
-				display: inline-block;
-				vertical-align: middle;
-				margin-right: 15rpx;
-				// box-sizing: border-box;
-				background: #fff;
-				border-radius: 50%;
-				width: 31rpx;
-				height: 31rpx;
-				border: 1rpx solid #e7e7e7;
+			.label-item {
+				background-color: #ee4646;
+				color: #fff;
+				font-size: 20rpx;
+				padding: 7rpx 13rpx;
+				border-radius: 10rpx;
+				margin-left: 30rpx;
+
+			}
+		}
+
+		.form-item {
+			background-color: #fff;
+			padding-left: 30rpx;
+			box-sizing: border-box;
+			overflow: hidden;
+			width: 100%;
+
+			.uni-img-item {
+				padding-right: 30rpx;
+				border-bottom: 1rpx solid #f1f1f1;
+				overflow: hidden;
+
+				.img-center {
+					overflow: hidden;
+					width: 325rpx;
+					text-align: center;
+					margin-bottom: 45rpx;
+				}
 
 				image {
-					width: 31rpx;
-					height: 31rpx;
 					display: block;
+					width: 325rpx;
+					height: 230rpx;
+					margin-top: 30rpx;
+					border-radius: 10rpx;
+					margin-bottom: 25rpx;
 				}
 
-				.add {
-					background: #fff;
+				text {
+					margin-bottom: 45rpx;
+					font-size: 26rpx;
+					color: #333;
 				}
 			}
 		}
 
-		.bott-item {
-			background-color: #2b5cff;
-			height: 90rpx;
-			border-radius: 45rpx;
-			font-family: Microsoft YaHei;
-			text-align: center;
-			margin-right: 30rpx;
-			margin-left: 30rpx;
-			font-size: 24rpx;
-			color: #fff;
-			line-height: 90rpx;
+		.form-item :last-child {
+			border: none;
 		}
-	}
+
+		.uni-form-item {
+			height: 100rpx;
+			line-height: 100rpx;
+			border-bottom: 1rpx solid #f1f1f1;
+			overflow: hidden;
+			padding-right: 30rpx;
+
+			.title {
+				float: left;
+				color: #666666;
+				font-size: 28rpx;
+
+				.texts {
+					font-size: 22rpx;
+					display: block;
+					line-height: 35rpx;
+				}
+
+			}
+
+			.uni-input {
+				float: right;
+				text-align: right;
+				font-size: 28rpx;
+				padding-left: 20upx;
+				font-family: Microsoft YaHei;
+				height: 100rpx;
+				line-height: 100rpx;
+				color: #333333;
+			}
+
+			.cont {
+				float: right;
+				color: #333;
+				font-size: 28rpx;
+				margin-right: 15rpx;
+			}
+
+			.imgBox {
+				width: 14rpx;
+				height: 25rpx;
+				float: right;
+
+				image {
+					width: 100%;
+					height: 100%;
+				}
+			}
+		}
+
+		.uni-buttom {
+			background-color: #fff;
+			font-size: 22rpx;
+			color: #333;
+			margin-top: 40rpx;
+			padding-bottom: 25rpx;
+
+			.check-item {
+				height: 84rpx;
+				line-height: 84rpx;
+				padding-left: 30rpx;
+
+				.chec-item {
+					display: inline-block;
+					vertical-align: middle;
+					margin-right: 15rpx;
+					// box-sizing: border-box;
+					background: #fff;
+					border-radius: 50%;
+					width: 31rpx;
+					height: 31rpx;
+					border: 1rpx solid #e7e7e7;
+
+					image {
+						width: 31rpx;
+						height: 31rpx;
+						display: block;
+					}
+
+					.add {
+						background: #fff;
+					}
+				}
+			}
+
+			.bott-item {
+				background-color: #2b5cff;
+				height: 90rpx;
+				border-radius: 45rpx;
+				font-family: Microsoft YaHei;
+				text-align: center;
+				margin-right: 30rpx;
+				margin-left: 30rpx;
+				font-size: 24rpx;
+				color: #fff;
+				line-height: 90rpx;
+			}
+		}
 </style>

@@ -254,7 +254,7 @@
 					sizeType:['compressed'],
 					success: function(res) {
 						uni.uploadFile({
-							url: _this.webUrl + '/api/oauth/oss/upload',
+							url: _this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: function(res) {

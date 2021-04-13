@@ -46,10 +46,10 @@
 			<!-- 用户评价 -->
 			<view class="toux" v-for="(item,index) in pingjia">
 				<view class="imgBox_a">
-					<image mode="" :src="item.userDTO.headimg"></image>
+					<image mode="" :src="item.userDTO.headimg?item.userDTO.headimg:item.userDTO.sex==1?'../../../static/307930aca7b24a8f938121e2bac851d4.png':'../../../static/3a03a3d7ebe4442f847932f34b37765a.png'" ></image>
 				</view>
 				<view class="mingc">
-					<text>{{item.userDTO.nickname}}</text>
+					<text>{{item.userDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')}}</text>
 					<view class="time">
 						<text>{{item.createTime}}</text>
 					</view>

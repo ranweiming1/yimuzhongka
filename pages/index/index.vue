@@ -223,6 +223,8 @@
 				xianshi: true,
 				a: 5,
 				g: [],
+				page: 1,
+				loadingType: 0,
 			}
 		},
 		components: {
@@ -247,10 +249,13 @@
 				}
 			})
 			this.list = []
+			this.page=1
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
-					mobileCode: ''
+					mobileCode: '',
+					page: this.page ,
+					limit: 10
 				},
 				dengl: true,
 				// dengl: false,
@@ -343,12 +348,94 @@
 				}
 			})
 		},
+		onReachBottom() {
+			var data = {
+				mobileCode: '',
+				page: this.page + 1,
+				limit: 10
+			}
+			this.getMoreNews(data)
+		},
+		
 		methods: {
 			detail(id) {
 				uni.navigateTo({
 					url: 'productDetails?id=' + id + '&tiaozhuan=1'
 				})
 			},
+		getNews(data) {
+			this.page = 1
+			var _this = this
+			//标题读取样式激活
+			uni.showNavigationBarLoading()
+			this.$https({
+				url: '/api/oauth/shop/mall-index',
+				data: data,
+				dengl: true,
+				method: 'post',
+				success: function(res) {
+					_this.cateList = res.data.data.cateList
+					_this.hotList = res.data.data.recommedGoods
+					// _this.id=res.data.data.cateList
+					//得到要循环的数量值
+					var num = Math.ceil(_this.cateList.length / 8)
+					for (var i = 0; i < num; i++) {
+						var arr = []
+						_this.cateList.map(function(n, index) {
+							if (index >= i * 8 && index < (i + 1) * 8) {
+								arr.push(n)
+							}
+						})
+						_this.list.push(arr)
+					}
+					//隐藏标题读取 
+					uni.hideNavigationBarLoading()
+					uni.stopPullDownRefresh()
+				}
+			})
+		
+		},
+		// 初始化数据
+		getMoreNews(data) {
+			var _this = this
+			this.page++
+		
+			if (_this.loadingType != 0) {
+				// uni.showToast({
+				// 	title: '已加载全部数据',
+				// 	icon: 'none',
+				// 	duration: 2000
+				// })
+				return false; //loadingType!=0;直接返回
+			}
+			_this.loadingType = 1;
+			uni.showNavigationBarLoading();
+			this.$https({
+				url: '/api/oauth/shop/mall-index',
+				dengl: true,
+				method: 'post',
+				data: data,
+				success(res) {
+					if (res.data.data.recommedGoods.length < 10 || res.data.data.recommedGoods ==
+						'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+						_this.loadingType = 2;
+						// uni.showToast({
+						// 	title: '已加载全部数据',
+						// 	icon: 'none',
+						// 	duration: 2000
+						// })
+						uni.hideNavigationBarLoading(); //关闭加载动画
+						return false;
+					}
+					_this.hotList = _this.hotList.concat(res.data.data.recommedGoods)
+					// _this.id=res.data.data.cateList
+					//得到要循环的数量值
+					_this.loadingType = 0; //将loadingType归0重置
+					uni.hideNavigationBarLoading(); //关闭加载动画
+				}
+			})
+		},
+		
 			more() {
 				uni.navigateTo({
 					url: '../classify/fenlOne'
@@ -551,10 +638,10 @@
 	}
 
 	.cate-section {
-		display: flex;
-		justify-content: space-around;
-		align-items: flax-start;
-		flex-wrap: wrap;
+		// display: flex;
+		// justify-content: space-around;
+		// align-items: flax-start;
+		// flex-wrap: wrap;
 		padding: 30upx 0upx;
 		background: #fff;
 		border-bottom: 20upx solid #f2f4f7;
@@ -565,6 +652,7 @@
 			flex-direction: column;
 			flex-wrap: nowrap;
 			font-size: 26upx;
+			float: left;
 			color: #333333;
 			width: 23%;
 			margin-bottom: 20upx;

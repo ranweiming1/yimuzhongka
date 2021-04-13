@@ -19,7 +19,8 @@
 
 			<!-- 购物车 -->
 			<view v-if='cartList.length<=0'>
-				<image src='../../static/g.png' style='width:320rpx;height:225rpx;display:block;margin:20rpx auto;'></image>
+				<image src='../../static/g.png' style='width:320rpx;height:225rpx;display:block;margin:20rpx auto;'>
+				</image>
 				<view style='margin:30rpx;text-align:center;'>暂无商品</view>
 			</view>
 			<view class="listBoxs" v-for="(item,index) in  cartList">
@@ -27,10 +28,12 @@
 					<!-- 店铺名称待确认 -->
 					<label class="radio">
 						<!--加个d以区分某个店铺-->
-						<view style='width:25rpx;height:25rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
-						 @tap='dianpu(index)'>
-							<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;'
-							 v-if='shuju[index].dian'></view>
+						<view
+							style='width:25rpx;height:25rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
+							@tap='dianpu(index)'>
+							<view
+								style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;'
+								v-if='shuju[index].dian'></view>
 						</view>
 					</label>
 					<text @tap='t(item.shopId)'>{{item.storeShopDTO.shopName}}</text>
@@ -42,10 +45,12 @@
 						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0'>
 							<uni-swipe-action-item>
 								<view class="radi">
-									<view style='width:25rpx;height:25rpx;border:solid #ddd 1px;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
-									 @tap='shangpin(index,n)'>
-										<view style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;'
-										 v-if='shuju[index].s[n]'></view>
+									<view
+										style='width:25rpx;height:25rpx;border:solid #ddd 1px;border-radius:50%;float:left;margin-top:10rpx;position:relative;'
+										@tap='shangpin(index,n)'>
+										<view
+											style='width:10rpx;height:10rpx;background:#ff3a13;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;border-radius:50%;'
+											v-if='shuju[index].s[n]'></view>
 									</view>
 								</view>
 								<view class="imgBox_a" @tap='g(item.goodsId)'>
@@ -79,8 +84,11 @@
 								</view>
 								<!-- </view> -->
 								<template v-slot:right>
-									<view style='width:90rpx;background:#ff3333;color:#fff;height:100%;' @tap='shanc(index,n)'>
-										<view style='top:27%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;font-size:29rpx;'>删除</view>
+									<view style='width:90rpx;background:#ff3333;color:#fff;height:100%;'
+										@tap='shanc(index,n)'>
+										<view
+											style='top:27%;position:absolute;transform:rotateY(-50%);width:30rpx;left:30rpx;font-size:29rpx;'>
+											删除</view>
 									</view>
 								</template>
 							</uni-swipe-action-item>
@@ -109,7 +117,8 @@
 					</view>
 				</view>
 				<view class="lose" v-for="(item,index) in  cartList" v-if='s'>
-					<view class="xinxi" v-for='items in item.specList' v-if='items.cartGoodsStatus==1||items.cartGoodsStatus==2'>
+					<view class="xinxi" v-for='items in item.specList'
+						v-if='items.cartGoodsStatus==1||items.cartGoodsStatus==2'>
 						<view class="imgBox_a">
 							<image :src="item.goodsLogo" mode=""></image>
 						</view>
@@ -128,11 +137,15 @@
 				</view>
 			</view>
 			<view style='background:#fff;overflow:hidden;padding-bottom:200rpx;border-top:30rpx solid #eee;'>
-				<view style='overflow:hidden;margin-top:20rpx;border-bottom:1px solid #ddd;padding-bottom:10rpx;text-align:right;'>
+				<view
+					style='overflow:hidden;margin-top:20rpx;border-bottom:1px solid #ddd;padding-bottom:10rpx;text-align:right;'>
 					<view style='float:left;margin-left:20rpx;font-size:36rpx;color:#333;font-weight:bold;'>热门推荐</view>
-					<image src='../../static/n8.png' style='width:34rpx;height:34rpx;display:inline-block;margin-top:10rpx;margin-right:20rpx;'
-					 @tap='qy'></image>
-					<view style='float:right;font-size:24rpx;color:#999;font-weight:500;line-height:50rpx;margin-right:20rpx;' @tap='gengduo'>更多</view>
+					<image src='../../static/n8.png'
+						style='width:34rpx;height:34rpx;display:inline-block;margin-top:10rpx;margin-right:20rpx;'
+						@tap='qy'></image>
+					<view
+						style='float:right;font-size:24rpx;color:#999;font-weight:500;line-height:50rpx;margin-right:20rpx;'
+						@tap='gengduo'>更多</view>
 				</view>
 				<view class="clearCss">
 					<view class='content-item' v-for='item in tuijian' @tap='g(item.goodsId)' v-if='y'>
@@ -204,9 +217,11 @@
 			<!-- 底部 -->
 			<view class="bottom" v-if='xianshi'>
 				<view class="radis">
-					<view style="width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:35rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"
-					 @tap='quanxuan'>
-						<image src="../../static/checked.png" style="width: 100%; height: 100%; display: block;" v-if="xuan" mode=""></image>
+					<view
+						style="width:30rpx;height:30rpx;border:1px solid #ddd;border-radius:50%;float:left;margin-left:20rpx;margin-top:35rpx;line-height:30rpx;font-size:20rpx;text-align:center;color:#fff;"
+						@tap='quanxuan'>
+						<image src="../../static/checked.png" style="width: 100%; height: 100%; display: block;"
+							v-if="xuan" mode=""></image>
 					</view>
 					<text style='margin-left:20rpx;float:left;'>全选</text>
 					<view style='float:left;'>
@@ -270,13 +285,15 @@
 			</uni-popup>
 			<tabBar :currentPage='currentPage'></tabBar>
 		</view>
-		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;z-index: 9999;'
-		 v-if='xianshidenglu'>
-			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;'
-			 @tap='guanbi'></image>
+		<view
+			style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;z-index: 9999;'
+			v-if='xianshidenglu'>
+			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png'
+				style='width:20rpx;height:20rpx;margin-right:20rpx;' @tap='guanbi'></image>
 			登录查看更多
-			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
-			 @tap='deng'>立即登录/注册</view>
+			<view
+				style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
+				@tap='deng'>立即登录/注册</view>
 		</view>
 	</view>
 
@@ -321,6 +338,8 @@
 				baocun: [],
 				xianshi: true,
 				xianshidenglu: false,
+				page: 1,
+				loadingType: 0,
 			}
 		},
 		onShow() {
@@ -335,7 +354,10 @@
 			if (uni.getStorageSync('Authorization')) {
 				this.$https({
 					url: '/api/shop/order-cart-list',
-					data: {},
+					data: {
+						page: 1,
+						page_num: 2000
+					},
 					dengl: false,
 					success: function(res) {
 						if (res.data.code == 0) {
@@ -372,13 +394,73 @@
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
-					mobileCode: ''
+					mobileCode: '',
+					page: this.page,
+					limit: 10
 				},
 				dengl: true,
 				success: function(res) {
 					_this.tuijian = res.data.data.recommedGoods
+					_this.loadingType= res.data.data.recommedGoods.length<10?2:0
 				}
 			})
+		},
+		onPullDownRefresh() {
+			if (uni.getStorageSync('Authorization')) {
+				this.$https({
+					url: '/api/shop/order-cart-list',
+					data: {
+						page: 1,
+						page_num: 2000
+					},
+					dengl: false,
+					success: function(res) {
+						if (res.data.code == 0) {
+							_this.jiage = 0
+							//修改数据结构，以使数据更好用
+							_this.cartList = res.data.data.cartList
+							res.data.data.cartList.map(function(n, index) {
+								_this.$set(_this.shuju, index, {
+									dian: false,
+									s: []
+								})
+								_this.$set(_this.huad, index, [])
+								n.specList.map(function(z, indexx) {
+									if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
+										_this.s = true
+									}
+									_this.$set(_this.shuju[index].s, indexx, false)
+									_this.$set(_this.huad[index], indexx, false)
+								})
+							})
+							_this.numa = res.data.data.cartList.length
+							_this.xuan = false
+							// _this.xuanzho.map(function(n, index) {
+							// 	n.map(function(z, indexs) {
+							// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
+							// 	})
+							// })
+						} else {
+							_this.cartList = []
+						}
+					}
+				})
+			}
+			var data = {
+				mobileCode: '',
+				page: this.page,
+				limit: 10
+			}
+			//下拉的生命周期
+			this.getNews(data)
+		},
+		onReachBottom() {
+			var data = {
+				mobileCode: '',
+				page: this.page + 1,
+				limit: 10
+			}
+			this.getMoreNews(data)
 		},
 		components: {
 			tabBar,
@@ -395,12 +477,71 @@
 				this.shuju.map((n, index) => {
 					n.s.map((c, indexz) => {
 						if (c) {
-							this.jiage += this.cartList[index].specList[indexz].goodsNum * this.cartList[index].specList[indexz].goodsPrice +
+							this.jiage += this.cartList[index].specList[indexz].goodsNum * this.cartList[
+									index].specList[indexz].goodsPrice +
 								this.cartList[index].specList[indexz].kuaidi
 						}
 					})
 				})
 			},
+			getNews(data) {
+				this.page = 1
+				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
+				this.$https({
+					url: '/api/oauth/shop/mall-index',
+					data: data,
+					dengl: true,
+					method: 'post',
+					success: function(res) {
+						_this.tuijian = res.data.data.recommedGoods
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
+					}
+				})
+
+			},
+			// 初始化数据
+			getMoreNews(data) {
+				var _this = this
+				this.page++
+
+				if (_this.loadingType != 0) {
+					uni.showToast({
+						title: '已加载全部数据',
+						icon: 'none',
+						duration: 2000
+					})
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/oauth/shop/mall-index',
+					dengl: true,
+					method: 'post',
+					data: data,
+					success(res) {
+						if (res.data.data.recommedGoods.length < 10 || res.data.data.recommedGoods ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.tuijian = _this.tuijian.concat(res.data.data.recommedGoods)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+
 			guanbi: function() {
 				this.xianshidenglu = false
 			},
@@ -486,8 +627,10 @@
 								_this.shuju.map(function(x, index) {
 									x.map(function(z, indexs) {
 										if (z) {
-											_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[
-												indexs].goodsPrice
+											_this.jiage += _this.cartList[index]
+												.specList[indexs].goodsNum * _this
+												.cartList[index].specList[
+													indexs].goodsPrice
 										}
 									})
 								})
@@ -519,8 +662,10 @@
 							_this.shuju.map(function(n, index) {
 								n.s.map(function(z, indexs) {
 									if (z) {
-										_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[
-											indexs].goodsPrice
+										_this.jiage += _this.cartList[index].specList[
+												indexs].goodsNum * _this.cartList[index]
+											.specList[
+												indexs].goodsPrice
 									}
 								})
 							})
@@ -547,7 +692,8 @@
 						_this.xuanzho.map(function(n, index) {
 							n.map(function(z, indexs) {
 								if (z) {
-									_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[indexs]
+									_this.jiage += _this.cartList[index].specList[indexs]
+										.goodsNum * _this.cartList[index].specList[indexs]
 										.goodsPrice
 								}
 							})
@@ -575,7 +721,8 @@
 						_this.shuju.map(function(n, index) {
 							n.s.map(function(z, indexs) {
 								if (z) {
-									_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[indexs]
+									_this.jiage += _this.cartList[index].specList[indexs]
+										.goodsNum * _this.cartList[index].specList[indexs]
 										.goodsPrice
 								}
 							})
@@ -717,7 +864,8 @@
 					this.xuanzho.map(function(n, index) {
 						n.map(function(x, indexs) {
 							if (x) {
-								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[indexs].goodsPrice
+								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this
+									.cartList[index].specList[indexs].goodsPrice
 							}
 						})
 					})
@@ -738,7 +886,8 @@
 					this.xuanzho.map(function(n, index) {
 						n.map(function(m, indexs) {
 							if (m) {
-								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[indexs].goodsPrice
+								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this
+									.cartList[index].specList[indexs].goodsPrice
 							}
 						})
 					})
@@ -781,7 +930,8 @@
 					this.xuanzho.map(function(n, index) {
 						n.map(function(z, indexs) {
 							if (z) {
-								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[indexs].goodsPrice
+								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this
+									.cartList[index].specList[indexs].goodsPrice
 							}
 						})
 					})
@@ -811,7 +961,8 @@
 					this.jiage = 0
 					this.xuanzho.map(function(x, index) {
 						x.map(function(c, indexs) {
-							_this.jiage += _this.cartList[index].specList[indexs].goodsPrice * _this.cartList[index].specList[indexs].goodsNum
+							_this.jiage += _this.cartList[index].specList[indexs].goodsPrice * _this
+								.cartList[index].specList[indexs].goodsNum
 						})
 					})
 				}
@@ -852,7 +1003,8 @@
 				this.shuju.map((n, index) => {
 					n.s.map((z, ind) => {
 						if (z) {
-							this.jiage += this.cartList[index].specList[ind].goodsPrice * this.cartList[index].specList[ind].goodsNum
+							this.jiage += this.cartList[index].specList[ind].goodsPrice * this
+								.cartList[index].specList[ind].goodsNum
 						}
 					})
 				})
@@ -880,7 +1032,8 @@
 					this.jiage = 0
 					this.xuanzho.map(function(n, index) {
 						n.map(function(x, indexs) {
-							_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[index].specList[indexs].goodsPrice
+							_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this
+								.cartList[index].specList[indexs].goodsPrice
 						})
 					})
 				}
@@ -932,14 +1085,18 @@
 						this.shuju.map(function(n, index) {
 							var arr = []
 							arr[index] = {}
-							arr[index].name = _this.cartList[index].storeShopDTO ? _this.cartList[index].storeShopDTO.shopName : ''
+							arr[index].name = _this.cartList[index].storeShopDTO ? _this.cartList[index]
+								.storeShopDTO.shopName : ''
 							n.s.map(function(x, indexx) {
 								if (x) {
 									_this.cartList[index].specList[indexx].xuanzhong = true
 									_this.cartList[index].cartAttr = _this.cartList[index].specList
-									_this.cartList[index].specList[indexx].goodsLogo = _this.cartList[index].goodsLogo
-									_this.cartList[index].specList[indexx].goodsId = _this.cartList[index].goodsId
-									_this.cartList[index].specList[indexx].shopPrice = _this.cartList[index].specList[indexx].goodsPrice
+									_this.cartList[index].specList[indexx].goodsLogo = _this.cartList[
+										index].goodsLogo
+									_this.cartList[index].specList[indexx].goodsId = _this.cartList[
+										index].goodsId
+									_this.cartList[index].specList[indexx].shopPrice = _this.cartList[
+										index].specList[indexx].goodsPrice
 								}
 							})
 						})
@@ -969,19 +1126,38 @@
 											success: function(res) {
 												_this.numa = 0
 												_this.s = false
-												_this.cartList.map(function(c) {
-													c.specList.map(function(z) {
-														if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
-															_this.s = true
-														}
-														_this.numa++
-													})
+												_this.cartList.map(function(
+													c) {
+													c.specList.map(
+														function(
+															z) {
+															if (z
+																.cartGoodsStatus ==
+																1 ||
+																z
+																.cartGoodsStatus ==
+																2
+															) {
+																_this
+																	.s =
+																	true
+															}
+															_this
+																.numa++
+														})
 												})
-												_this.cartList = res.data.data.cartList
-												_this.shuju[index].s[indez].splice(0, 1)
-												_this.shuju.map(function(z, indexx) {
-													if (z.s.length == 0) {
-														_this.shuju[indexx].splice(0, 1)
+												_this.cartList = res.data.data
+													.cartList
+												_this.shuju[index].s[indez]
+													.splice(0, 1)
+												_this.shuju.map(function(z,
+													indexx) {
+													if (z.s.length ==
+														0) {
+														_this.shuju[
+																indexx]
+															.splice(0,
+																1)
 													}
 												})
 											}
@@ -1013,17 +1189,27 @@
 										data: {},
 										dengl: false,
 										success: function(res) {
-											_this.cartList = res.data.data.cartList
+											_this.cartList = res.data.data
+												.cartList
 											_this.numa = 0
 											_this.s = false
-											res.data.data.cartList.map(function(c) {
-												c.specList.map(function(z) {
-													if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
-														_this.s = true
-													}
-													_this.numa++
+											res.data.data.cartList.map(
+												function(c) {
+													c.specList.map(
+														function(z) {
+															if (z
+																.cartGoodsStatus ==
+																1 || z
+																.cartGoodsStatus ==
+																2) {
+																_this
+																	.s =
+																	true
+															}
+															_this
+																.numa++
+														})
 												})
-											})
 										}
 									})
 								}
@@ -1082,7 +1268,8 @@
 									this.s = false
 									res.data.data.cartList.map(n => {
 										n.specList.map(z => {
-											if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
+											if (z.cartGoodsStatus == 1 || z
+												.cartGoodsStatus == 2) {
 												this.s = true
 											}
 											this.numa++
@@ -1129,7 +1316,8 @@
 					}
 					n.s.map((z, inde) => {
 						if (z) {
-							this.jiage += this.cartList[index].specList[inde].goodsPrice * this.cartList[index].specList[inde].goodsNum
+							this.jiage += this.cartList[index].specList[inde].goodsPrice * this
+								.cartList[index].specList[inde].goodsNum
 						}
 					})
 				})
@@ -1163,7 +1351,8 @@
 					}
 					n.s.map((x, inde) => {
 						if (x) {
-							this.jiage += this.cartList[index].specList[inde].goodsPrice * this.cartList[index].specList[inde].goodsNum
+							this.jiage += this.cartList[index].specList[inde].goodsPrice * this
+								.cartList[index].specList[inde].goodsNum
 						}
 					})
 				})

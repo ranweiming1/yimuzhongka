@@ -3,15 +3,15 @@
 		<!-- 头部 -->
 		<!-- #ifndef H5 -->
 		<view class="top">
-			<view style='float:left;padding: 4rpx 35rpx;' @tap='bac'>
-				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:30rpx;'></image>
+			<view class='back' @tap='bac'>
+				<image src='../../../static/icon_26-2.png' ></image>
 			</view>
 			<view class="textBox">
 				<text>我的佣金</text>
 			</view>
-			<view class="imgBox" @tap='wenti'>
+			<!-- <view class="imgBox" @tap='wenti'>
 				<image src="../../../static/icon_34.png" mode=""></image>
-			</view>
+			</view> -->
 		</view>
 		<!-- #endif -->
 
@@ -93,10 +93,11 @@
 				<view class="li" v-if="isShow" v-for="(item,i) in cashCont.rebateLog">
 					<view class="text_y">
 						<view class="phone">
-							<text>用户{{item.phone}}</text>
+							<text>用户{{item.memberDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')}}</text>
 						</view>
 						<view class="neirs">
-							<text style="font-size: 26rpx;">{{item.rebateName}} </text> <text style="font-size: 24rpx;margin-left: 20rpx;"> {{item.createTime}}</text>
+							<text style="font-size: 26rpx;">{{item.rebateName}} </text> <text
+								style="font-size: 24rpx;margin-left: 20rpx;"> {{item.createTime}}</text>
 						</view>
 					</view>
 
@@ -127,12 +128,30 @@
 				<button @tap="cashOut" type="primary" style="background: #2b5cff;">我要提现</button>
 			</view>
 		</view>
-		<view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;'
+		<!-- <view style='width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0,0.6);z-index:99999;'
 			v-if='wenzi' @tap='went'>
 			<view
 				style='width:600rpx;height:200rpx;background:#fff;position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;'>
 				<view>问题</view>
 			</view>
+		</view> -->
+		<view class="rule-mask" @tap='wenti' v-if="wenzi">
+			<view class="rule_cont">
+				<view class="rule_title">
+					问题
+				</view>
+				<view class="rule_cont_cont">
+					<rich-text :nodes="content.content"></rich-text>
+				</view>
+
+				<view class="rule_bot">
+					<view class="rule_agree" @tap.stop='wentiClose'>
+						确认
+					</view>
+
+				</view>
+			</view>
+
 		</view>
 
 
@@ -148,10 +167,24 @@
 				wenzi: false,
 				ruleTyle: false,
 				content: '',
-				cashCont: '',
-				isShow: true
+				cashCont: [],
+				isShow: true,
+				page: 1,
+				loadingType: 0,
 			}
 		},
+		onPullDownRefresh() {
+			//下拉的生命周期
+			this.getNews()
+		},
+		onReachBottom() {
+			var data = {
+				page: this.page + 1,
+				limit: 10
+			}
+			this.getMoreNews(data)
+		},
+		
 		onLoad: function() {
 			var that = this
 			//佣金
@@ -159,16 +192,15 @@
 				url: '/api/user/my-bound-index',
 				data: {},
 				success: function(res) {
-					if (res.data.data.rebateLog) {
-						res.data.data.rebateLog.map(function(val, i) {
-							val.phone = val.memberDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,
-								'$1****$2')
+					// if (res.data.data.rebateLog) {
+					// 	res.data.data.rebateLog.map(function(val, i) {
+					// 		val.phone = val.memberDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')
 
-						})
-							console.log(res.data.data)
-					}
+					// 	})
+					// 	console.log(res.data.data)
+					// }
 					that.cashCont = res.data.data
-		
+
 				}
 			})
 			this.$https({
@@ -179,11 +211,63 @@
 				success: function(res) {
 					that.content = res.data.data
 					console.log(res.data.data)
-
 				}
 			})
 		},
 		methods: {
+			getNews() {
+				this.page = 1
+				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
+				this.$https({
+					url: '/api/user/my-bound-index',
+					data: {
+						page: _this.page,
+						limit: 10
+					},
+					dengl: true,
+					success: function(res) {
+						_this.newz = res.data.data
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
+					}
+				})
+			
+			},
+			getMoreNews(data) {
+				var _this = this
+				this.page++
+			
+				if (_this.loadingType != 0) {
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/user/my-bound-index',
+					dengl: true,
+					data: data,
+					success(res) {
+						if (res.data.data.length < 10 || res.data.data ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.newz = _this.newz.concat(res.data.data)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+			
 			add() {
 				this.isShow = true
 			},
@@ -192,11 +276,14 @@
 			},
 			cashOut() {
 				uni.navigateTo({
-					url: 'applyFor?money='+this.cashCont.grandTotal
+					url: 'applyFor?money=' + this.cashCont.grandTotal
 				})
 			},
 			wenti: function() {
-				this.wenzi = true
+				this.wenzi = !this.wenzi
+			},
+			wentiClose() {
+				this.wenzi = false
 			},
 			ruleToggle() {
 				this.ruleTyle = !this.ruleTyle
@@ -279,41 +366,60 @@
 	}
 
 	.top {
-		border-bottom: 1px solid #e5e5e5;
-		position: fixed;
-		top: 0upx;
-		left: 0upx;
-		width: 750upx;
-		margin: 0 auto;
 		overflow: hidden;
-		height: 80rpx;
-		line-height: 80rpx;
-		z-index: 9;
+		border-bottom: 1px solid #e5e5e5;
+		height: 90rpx;
+		text-align: center;
+		position: fixed;
+		width: 100%;
+		left: 0;
+		top: 0;
+		z-index: 99999;
 		background: #fff;
-		padding-top: 70rpx !important;
-
-		.textBox {
-			padding-left: 40%;
-
-			text {
-				font-size: 30upx;
-				color: #000;
-				float: left;
-				line-height: 80upx;
+		padding-top: 70rpx;
+	
+		.back {
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+			float: left;
+	
+			image {
+				width: 18rpx;
+				height: 32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
 			}
 		}
-
+	
+		.textBox {
+			margin-right: 90rpx;
+			display: inline-block;
+	
+			text {
+				font-size: 32rpx;
+				color: #333;
+				float: left;
+				line-height: 90upx;
+			}
+		}
+	
+	
 		.imgBox {
 			float: right;
-
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+	
 			image {
-				width: 40upx;
-				height: 40upx;
-				padding: 15upx 30upx;
+				width: 36upx;
+				height: 36upx;
+				display: block;
+				margin: 27rpx;
 			}
 		}
 	}
-
+	
 	.distr {
 		position: relative;
 		top: 190rpx;

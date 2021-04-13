@@ -70,9 +70,9 @@
 			</view>
 		</view>
 
-		<view class='uni-form-items'>
+		<!-- <view class='uni-form-items'>
 			<text>填写旺铺信息</text>
-		</view>
+		</view> -->
 
 		<view class="form-item">
 			<!-- <view class="uni-form-item">
@@ -96,7 +96,7 @@
 					<text>奥迪</text>
 				</view>
 			</view> -->
-			<view class="uni-form-item">
+			<!-- <view class="uni-form-item">
 				<view class="title"><text>主营分类</text></view>
 				<view class="imgBox">
 					<image src="../../../static/icon_26.png" mode=""></image>
@@ -104,7 +104,7 @@
 				<view class="cont" @tap="checkType">
 					<text>{{lei}}</text>
 				</view>
-			</view>
+			</view> -->
 		</view>
 
 		<view class="uni-buttom">
@@ -270,7 +270,7 @@
 						_this.sqrPhone = res.data.data.sqrPhone
 						_this.licenseNo = res.data.data.licenseNo
 						_this.fzrDept = res.data.data.fzrDept
-						_this.lei = res.data.data.cateIdList.length > 0 ? '已选择分类' : '请选择分类'
+						// _this.lei = res.data.data.cateIdList.length > 0 ? '已选择分类' : '请选择分类'
 						_this.t = false
 					}
 				}
@@ -285,7 +285,7 @@
 				uni.chooseImage({
 					success: res => {
 						uni.uploadFile({
-							url: _this.webUrl + '/api/oauth/oss/upload',
+							url: _this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
@@ -296,6 +296,7 @@
 				})
 			},
 			checkList: function(id) {
+				
 				var that = this
 				// this.rList[index].childsList[indexs].isCheck =!this.rList[index].childsList[indexs].isCheck
 				// 把Id添加到数组
@@ -314,6 +315,7 @@
 							}
 						}
 					})
+					console.log(that.checkedList)
 				})
 			},
 
@@ -431,13 +433,13 @@
 					})
 					return false
 				}
-				if (this.checkedList.length == 0) {
-					uni.showToast({
-						title: '请选择分类',
-						icon: 'none'
-					})
-					return false
-				}
+				// if (this.checkedList.length == 0) {
+				// 	uni.showToast({
+				// 		title: '请选择分类',
+				// 		icon: 'none'
+				// 	})
+				// 	return false
+				// }
 				var obj = {}
 				obj.accountName = this.accountName
 				obj.sqrPhone = this.sqrPhone
@@ -449,7 +451,7 @@
 				obj.principal = this.principal
 				obj.princPhone = this.princPhone
 				obj.fzrDept = this.fzrDept
-				obj.cateIdList = JSON.stringify(this.checkedList)
+				// obj.cateIdList = JSON.stringify(this.checkedList)
 				uni.navigateTo({
 					url: './leagueTwo?o=' + JSON.stringify(obj)
 				})
@@ -459,7 +461,7 @@
 				uni.chooseImage({
 					success: res => {
 						uni.uploadFile({
-							url: _this.webUrl + '/api/oauth/oss/upload',
+							url: _this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
@@ -473,7 +475,7 @@
 				uni.chooseImage({
 					success: res => {
 						uni.uploadFile({
-							url: this.webUrl + '/api/oauth/oss/upload',
+							url: this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
@@ -487,7 +489,7 @@
 				uni.chooseImage({
 					success: res => {
 						uni.uploadFile({
-							url: this.webUrl + '/api/oauth/oss/upload',
+							url: this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
@@ -501,7 +503,7 @@
 				uni.chooseImage({
 					success: res => {
 						uni.uploadFile({
-							url: this.webUrl + '/api/oauth/oss/upload',
+							url: this.webUrl + '/oauth/oss/upload',
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {

@@ -4,7 +4,7 @@
 	<view class="boxbox" :style="isAdd?'height:100vh;overflow:hidden':''">
 
 		<view class="bg_img">
-			<swiper style='height:750rpx;'>
+			<swiper style='height:750rpx;' indicator-dots indicator-active-color='#007AFF'>
 				<swiper-item v-for='item in list.goodsImgss'>
 					<image :src='item?item:""'></image>
 				</swiper-item>
@@ -413,7 +413,7 @@
 					_this.height = (res.windowHeight * (750 / res.windowWidth));
 				}
 			})
-			
+
 			this.$https({
 				url: '/api/oauth/shop/mall-goods-detail',
 				data: {
@@ -760,7 +760,7 @@
 								type: 0,
 								href: 'http://www.yimuzk.com:8087/?xiangqing=' + _this.deId +
 									'&codz=' + _this.code,
-								imageUrl: _this.list.goodsImgss[0],
+								imageUrl: _this.list.goodsImgss[0]+'?x-oss-process=image/resize,p_50/quality,q_80',
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',
 								summary: '商品描述',
 								success: res => {

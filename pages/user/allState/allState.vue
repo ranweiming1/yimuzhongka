@@ -87,7 +87,7 @@
 							<text>已选：＂{{i.specKeyName}}＂</text>
 						</view>
 						<view class="radColor">
-							<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
+							<text>{{i.goodsPrice?'￥'+i.goodsPrice.toFixed(2):'0'}}</text>
 						</view>
 
 						<!-- 数量 -->
