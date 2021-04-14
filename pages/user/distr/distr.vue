@@ -4,7 +4,7 @@
 		<!-- #ifndef H5 -->
 		<view class="top">
 			<view class='back' @tap='bac'>
-				<image src='../../../static/icon_26-2.png' ></image>
+				<image src='../../../static/icon_26-2.png'></image>
 			</view>
 			<view class="textBox">
 				<text>我的佣金</text>
@@ -90,10 +90,10 @@
 			</view>
 			<view class="ul">
 				<!-- 收入明细 -->
-				<view class="li" v-if="isShow" v-for="(item,i) in cashCont.rebateLog">
+				<view class="li" v-if="isShow" v-for="(item,i) in detailList">
 					<view class="text_y">
 						<view class="phone">
-							<text>用户{{item.memberDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')}}</text>
+							<text>用户 {{item.memberDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')}}</text>
 						</view>
 						<view class="neirs">
 							<text style="font-size: 26rpx;">{{item.rebateName}} </text> <text
@@ -107,7 +107,7 @@
 					</view>
 				</view>
 				<!-- 提现明细 -->
-				<view class="li" v-if="!isShow" v-for="(item,i) in cashCont.withdrawalLog">
+				<view class="li" v-if="!isShow" v-for="(item,i) in detailList">
 					<view class="text_y">
 						<view class="phone">
 							<text>{{item.title}}</text>
@@ -171,11 +171,17 @@
 				isShow: true,
 				page: 1,
 				loadingType: 0,
+				detailList: []
 			}
 		},
 		onPullDownRefresh() {
 			//下拉的生命周期
-			this.getNews()
+			var data = {
+				page: this.page,
+				limit: 10
+			}
+			var url=this.isShow?'/api/user/get-rebate-log-pages':'/api/user/get-withdrawal-log-pages'
+			this.getNews(url,data)
 		},
 		onReachBottom() {
 			console.log(8768678)
@@ -183,28 +189,19 @@
 				page: this.page + 1,
 				limit: 10
 			}
-			this.getMoreNews(data)
+			var url=this.isShow?'/api/user/get-rebate-log-pages':'/api/user/get-withdrawal-log-pages'
+			this.getMoreNews(url,data)
 		},
-		
+
 		onLoad: function() {
 			var that = this
 			//佣金
 			this.$https({
 				url: '/api/user/my-bound-index',
 				data: {
-					limit:2,
-					page:this.page
 				},
 				success: function(res) {
-					// if (res.data.data.rebateLog) {
-					// 	res.data.data.rebateLog.map(function(val, i) {
-					// 		val.phone = val.memberDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')
-
-					// 	})
-					// 	console.log(res.data.data)
-					// }
 					that.cashCont = res.data.data
-
 				}
 			})
 			this.$https({
@@ -217,56 +214,49 @@
 					console.log(res.data.data)
 				}
 			})
+			var data = {
+				page: this.page,
+				limit: 10
+			}
+			var url=this.isShow?'/api/user/get-rebate-log-pages':'/api/user/get-withdrawal-log-pages'
+			this.getNews(url,data)
+			
+			
 		},
 		methods: {
-			getNews() {
+			getNews(url,data) {
 				this.page = 1
 				var _this = this
 				//标题读取样式激活
 				uni.showNavigationBarLoading()
 				this.$https({
-					url: '/api/user/my-bound-index',
-					data: {
-						page: _this.page,
-						limit: 2
-					},
-					dengl: true,
+					url: url,
+					data: data,
+					dengl: false,
 					success: function(res) {
-						_this.newz = res.data.data
+						_this.detailList = res.data.data
 						//隐藏标题读取 
 						uni.hideNavigationBarLoading()
 						uni.stopPullDownRefresh()
 					}
 				})
-			
+
 			},
-			getMoreNews(data) {
+			getMoreNews(url,data) {
 				var _this = this
 				this.page++
-			
+
 				if (_this.loadingType != 0) {
 					return false; //loadingType!=0;直接返回
 				}
 				_this.loadingType = 1;
 				uni.showNavigationBarLoading();
 				this.$https({
-					url: '/api/user/my-bound-index',
+					url:url,
 					data: data,
+					dengl: false,
 					success(res) {
-						if(_this.isShow){
-							if (res.data.data.rebateLog.length < 10 || res.data.data.rebateLog ==
-								'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
-								_this.loadingType = 2;
-								uni.showToast({
-									title: '已加载全部数据',
-									icon: 'none',
-									duration: 2000
-								})
-								uni.hideNavigationBarLoading(); //关闭加载动画
-								return false;
-							}
-						}else{
-						if (res.data.data.withdrawalLog.length < 10 || res.data.data.withdrawalLog ==
+						if (res.data.data.length < 10 || res.data.data ==
 							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
 							_this.loadingType = 2;
 							uni.showToast({
@@ -277,19 +267,32 @@
 							uni.hideNavigationBarLoading(); //关闭加载动画
 							return false;
 						}
-						}
-						_this.newz = _this.newz.concat(res.data.data)
+						_this.detailList = _this.detailList.concat(res.data.data)
 						_this.loadingType = 0; //将loadingType归0重置
 						uni.hideNavigationBarLoading(); //关闭加载动画
 					}
 				})
 			},
-			
+
 			add() {
 				this.isShow = true
+				this.page=1
+				var data = {
+					page: this.page,
+					limit: 10
+				}
+				var url=this.isShow?'/api/user/get-rebate-log-pages':'/api/user/get-withdrawal-log-pages'
+				this.getNews(url,data)
 			},
 			reduce() {
 				this.isShow = false
+				this.page=1
+				var data = {
+					page: this.page,
+					limit:10
+				}
+				var url=this.isShow?'/api/user/get-rebate-log-pages':'/api/user/get-withdrawal-log-pages'
+				this.getNews(url,data)
 			},
 			cashOut() {
 				uni.navigateTo({
@@ -394,13 +397,13 @@
 		z-index: 99999;
 		background: #fff;
 		padding-top: 70rpx;
-	
+
 		.back {
 			width: 90rpx;
 			height: 90rpx;
 			line-height: 90rpx;
 			float: left;
-	
+
 			image {
 				width: 18rpx;
 				height: 32rpx;
@@ -408,11 +411,11 @@
 				padding: 29rpx 36rpx;
 			}
 		}
-	
+
 		.textBox {
 			margin-right: 90rpx;
 			display: inline-block;
-	
+
 			text {
 				font-size: 32rpx;
 				color: #333;
@@ -420,14 +423,14 @@
 				line-height: 90upx;
 			}
 		}
-	
-	
+
+
 		.imgBox {
 			float: right;
 			width: 90rpx;
 			height: 90rpx;
 			line-height: 90rpx;
-	
+
 			image {
 				width: 36upx;
 				height: 36upx;
@@ -436,7 +439,7 @@
 			}
 		}
 	}
-	
+
 	.distr {
 		position: relative;
 		top: 190rpx;
