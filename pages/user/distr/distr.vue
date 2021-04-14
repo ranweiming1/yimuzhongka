@@ -178,6 +178,7 @@
 			this.getNews()
 		},
 		onReachBottom() {
+			console.log(8768678)
 			var data = {
 				page: this.page + 1,
 				limit: 10
@@ -190,7 +191,10 @@
 			//佣金
 			this.$https({
 				url: '/api/user/my-bound-index',
-				data: {},
+				data: {
+					limit:2,
+					page:this.page
+				},
 				success: function(res) {
 					// if (res.data.data.rebateLog) {
 					// 	res.data.data.rebateLog.map(function(val, i) {
@@ -224,7 +228,7 @@
 					url: '/api/user/my-bound-index',
 					data: {
 						page: _this.page,
-						limit: 10
+						limit: 2
 					},
 					dengl: true,
 					success: function(res) {
@@ -247,10 +251,22 @@
 				uni.showNavigationBarLoading();
 				this.$https({
 					url: '/api/user/my-bound-index',
-					dengl: true,
 					data: data,
 					success(res) {
-						if (res.data.data.length < 10 || res.data.data ==
+						if(_this.isShow){
+							if (res.data.data.rebateLog.length < 10 || res.data.data.rebateLog ==
+								'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+								_this.loadingType = 2;
+								uni.showToast({
+									title: '已加载全部数据',
+									icon: 'none',
+									duration: 2000
+								})
+								uni.hideNavigationBarLoading(); //关闭加载动画
+								return false;
+							}
+						}else{
+						if (res.data.data.withdrawalLog.length < 10 || res.data.data.withdrawalLog ==
 							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
 							_this.loadingType = 2;
 							uni.showToast({
@@ -260,6 +276,7 @@
 							})
 							uni.hideNavigationBarLoading(); //关闭加载动画
 							return false;
+						}
 						}
 						_this.newz = _this.newz.concat(res.data.data)
 						_this.loadingType = 0; //将loadingType归0重置
@@ -553,7 +570,8 @@
 		}
 
 		.tit_b {
-			width: 750upx;
+			width: 100%;
+			box-sizing: border-box;
 			border-bottom: 20upx solid #f7f7f7;
 			padding: 20upx;
 			padding-left: 30upx;

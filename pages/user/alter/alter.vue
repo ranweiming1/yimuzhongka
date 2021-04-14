@@ -56,12 +56,12 @@
 			<view class="left_a">
 				<text>当前版本</text>
 			</view>
-			<view class="right_a">
+			<view class="right_a" @tap='chaxun'>
 				<view class="img_a">
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
 				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' @tap='chaxun'>{{version}}</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;' >{{version}}</text>
 				<!-- <text></text> -->
 			</view>
 		</view>
@@ -147,6 +147,14 @@
 		},
 		onLoad() {
 			var _this = this
+			plus.runtime.getProperty(plus.runtime.appid, function(res) {
+				_this.version = res.version;
+			});
+			if (uni.getSystemInfoSync().platform === 'android') {
+				this.type = 'android'
+			} else {
+				this.type = 'ios'
+			}
 			this.$https({
 				url: '/api/user/my-info',
 				data: {},
@@ -161,13 +169,7 @@
 					// console.log(res.data.data)
 				}
 			})
-			if (uni.getSystemInfoSync().platform === 'android') {
-				this.type = 'android'
-				this.version = '1.0.01'
-			} else {
-				this.type = 'ios'
-				this.version = '1.0.04'
-			}
+
 		},
 		methods: {
 			t: function() {
@@ -186,11 +188,13 @@
 				this.$https({
 					url: '/api/app/new-version-info',
 					data: {
-						versionType: that.type
+						versionType:that.type
 					},
 					denglu: false,
 					success: function(res) {
-						if (that.version == res.data.data.version) {
+						console.log(res)
+						console.log(that.version, res.data.data.version)
+						if (that.version === res.data.data.version) {
 							uni.showToast({
 								title: '您使用的已是最新版本！',
 								icon: 'none'
@@ -200,6 +204,9 @@
 								title: '请前往应用中心更新最新版本',
 								icon: 'none'
 							})
+							if(that.type=='ios'){
+								plus.runtime.openURL(res.data.data.url)
+							}
 						}
 					}
 				})

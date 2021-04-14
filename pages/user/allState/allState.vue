@@ -2,7 +2,8 @@
 	<view>
 		<!-- 头部 -->
 		<!-- #ifndef H5 -->
-		<view class="top" style='width:100%;background:#fff;position:fixed;top:0rpx;z-index:99999;left:0;padding-top:90rpx;'>
+		<view class="top"
+			style='width:100%;background:#fff;position:fixed;top:0rpx;z-index:99999;left:0;padding-top:90rpx;'>
 			<view class='back' @tap='back' style='float:left;padding:10rpx 20rpx 15rpx 20rpx;'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
@@ -16,7 +17,8 @@
 		<!-- #endif -->
 
 		<!-- 状态栏 -->
-		<view class="topBox" style='position:fixed;top:170rpx;left:0;width:100%;background:#fff;padding-top:20rpx;z-index:99999;'>
+		<view class="topBox"
+			style='position:fixed;top:170rpx;left:0;width:100%;background:#fff;padding-top:20rpx;z-index:99999;'>
 			<!-- 选中样式 -->
 			<view class="none on" @tap="toggle(0)">
 				<view class="ontext">
@@ -62,7 +64,8 @@
 		</view>
 		<view style='height:240rpx;'></view>
 		<view v-if='dList.length==0' @tap='tiaozhuan'>
-			<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'></image>
+			<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'>
+			</image>
 			<view style='text-align:center;'>您还未有订单,去逛逛</view>
 		</view>
 		<!-- 订单信息 -->
@@ -101,14 +104,17 @@
 					<text>{{ite.specList.length}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount+'.00':'0'}}</text>
 				</view>
 				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2" @tap="confirm(item.orderId)">
+					<!-- v-if="item.status==2" -->
+					<view class="uni-padding-wrap uni-common-mt bott onnb" @tap="confirm(item.orderId)">
 						<button type="primary">确认收货</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0" @tap='xianshi(item.orderId)'>
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0"
+						@tap='xianshi(item.orderId)'>
 						<button type="primary">删除订单</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott onna" @tap="goPing(item.orderSn,item.orderId,item.goodsList)"
-					 v-if="item.status==5&&item.orderStatus==1">
+					<view class="uni-padding-wrap uni-common-mt bott onna"
+						@tap="goPing(item.orderSn,item.orderId,item.goodsList)"
+						v-if="item.status==5&&item.orderStatus==1">
 						<button type="primary">去评价</button>
 					</view>
 					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
@@ -117,16 +123,19 @@
 					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==2">
 						<button type="primary">追加评论</button>
 					</view> -->
-					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0&&item.orderStatus!=3" @tap="zhifu(item.orderSn)">
+					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0&&item.orderStatus!=3"
+						@tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0&&item.orderStatus==3" @tap="zhifu(item.orderSn)">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0&&item.orderStatus==3"
+						@tap="zhifu(item.orderSn)">
 						<button type="primary">已取消</button>
 					</view>
 					<!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
 						<button type="primary">取消订单</button>
 					</view> -->
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2" @tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address,item.goodsList)">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2"
+						@tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address,item.goodsList)">
 						<button type="primary">查看物流</button>
 					</view>
 
@@ -383,9 +392,18 @@
 						type: 2
 					}),
 					success: function(res) {
-						uni.showToast({
-							title: res.data.message
-						})
+						if (res.data.code == 0) {
+							uni.showToast({
+								title: '收货成功',
+							})
+						} else {
+							uni.showToast({
+								title: '操作失败',
+								icon: 'none',
+								duration:2000
+							})
+						}
+
 						_this.getNewsList()
 					}
 				})
@@ -425,10 +443,10 @@
 				})
 			},
 			wuliu(code, order, com, dz, good) {
-				console.log(good)
 				uni.navigateTo({
-					url: './deliver?code=' + code + '&order=' + order + '&com=' + com + '&dz=' + dz + '&goods=' + JSON.stringify(
-						good)
+					url: './deliver?code=' + code + '&order=' + order + '&com=' + com + '&dz=' + dz + '&goods=' +
+						JSON.stringify(
+							good)
 				})
 			},
 			toggle(index) {
@@ -460,11 +478,14 @@
 			goPing(orderSn, orderId, goodids) {
 				if (this.qiandao) {
 					uni.navigateTo({
-						url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId + '&goodsId=' + goodids[0].goodsId+'&taskId='+this.qiandao.taskId+'&isRen='+this.qiandao.isRen+'&taskType='+this.qiandao.taskType
+						url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId + '&goodsId=' + goodids[0]
+							.goodsId + '&taskId=' + this.qiandao.taskId + '&isRen=' + this.qiandao.isRen +
+							'&taskType=' + this.qiandao.taskType
 					})
 				} else {
 					uni.navigateTo({
-						url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId + '&goodsId=' + goodids[0].goodsId
+						url: './evaluate?orderSn=' + orderSn + '&orderId=' + orderId + '&goodsId=' + goodids[0]
+							.goodsId
 					})
 				}
 			},
@@ -491,21 +512,30 @@
 					dengl: false,
 					haeder: true,
 					success: function(res) {
-						var obj = {}
-						obj.appid = res.data.data.appId
-						obj.partnerid = res.data.data.partnerId
-						obj.prepayid = res.data.data.prepayId
-						obj.package = res.data.data.packageValue
-						obj.noncestr = res.data.data.nonceStr
-						obj.timestamp = res.data.data.timeStamp
-						obj.sign = res.data.data.sign
-						console.log(res.data)
-						uni.requestPayment({
-							provider: 'wxpay',
-							orderInfo: obj,
-							success: function(res) {},
-							fail: function(res) {}
+						if (res.data.code == 0) {
+							var obj = {}
+							obj.appid = res.data.data.appId
+							obj.partnerid = res.data.data.partnerId
+							obj.prepayid = res.data.data.prepayId
+							obj.package = res.data.data.packageValue
+							obj.noncestr = res.data.data.nonceStr
+							obj.timestamp = res.data.data.timeStamp
+							obj.sign = res.data.data.sign
+							console.log(res.data)
+							uni.requestPayment({
+								provider: 'wxpay',
+								orderInfo: obj,
+								success: function(res) {},
+								fail: function(res) {}
+							})
+						}else {
+						uni.showToast({
+							title:'支付失败',
+							icon:'none',
+							duration:2000
 						})
+						}
+						
 					}
 				})
 			},

@@ -322,20 +322,21 @@
 			<view class="leftA">
 				<view class="kefua" @tap="jindian(list.shopId)">
 					<image src="../../static/icon_50.png" mode=""></image>
-					<view class="keyboard">
-						<text>店铺</text>
-					</view>
+					<text class="keyboard">店铺</text>
+					<!-- <view class="keyboard">
+					</view> -->
 				</view>
 				<view class="kefua centets">
 					<image @tap="isActive" v-if="!isCollect" src="../../static/icon_51.png" mode=""></image>
 					<image @tap="isActive" v-if="isCollect" src="../../static/icon_52.png" mode=""></image>
-					<view class="keyboard">
-						<text>{{isCollect?'已收藏':'收藏'}}</text>
-					</view>
+					<text class="keyboard">{{isCollect?'已收藏':'收藏'}}</text>
+					<!-- <view class="keyboard">
+					</view> -->
 				</view>
 				<view class='kefua' @tap='tiaozhuan'>
 					<image src='../../static/icon_36.png'></image>
-					<view class="keyboard"><text>客服</text></view>
+					<text class="keyboard">客服</text>
+					<!-- <view class="keyboard"></view> -->
 				</view>
 
 
@@ -760,7 +761,8 @@
 								type: 0,
 								href: 'http://www.yimuzk.com:8087/?xiangqing=' + _this.deId +
 									'&codz=' + _this.code,
-								imageUrl: _this.list.goodsImgss[0]+'?x-oss-process=image/resize,p_50/quality,q_80',
+								imageUrl: _this.list.goodsImgss[0] +
+									'?x-oss-process=image/resize,p_50/quality,q_80',
 								title: '我在毅木重卡发现了一个好东西,分享给你看看',
 								summary: '商品描述',
 								success: res => {
@@ -1566,7 +1568,7 @@
 
 			.kefua {
 				float: left;
-				padding: 20rpx;
+				padding: 15rpx 20rpx;
 				box-sizing: border-box;
 				text-align: center;
 				height: 100rpx;
@@ -1575,19 +1577,25 @@
 					padding-left: 5upx;
 					width: 41upx;
 					height: 38upx;
-					display: inline-block;
+					display: block;
+					margin-left: 50%;
+					transform: translateX(-20.5rpx);
 					// float: left;
 				}
 
 				.keyboard {
-					position: relative;
-					top: -8rpx;
+					// position: relative;
+					// top: -10rpx;
+					display: block;
+					color: #333;
+					font-size: 26upx;
+					margin-top: 5rpx;
 
-					text {
-						// float: left;
-						color: #333;
-						font-size: 26upx;
-					}
+					// text {
+					// 	// float: left;
+					// 	color: #333;
+					// 	font-size: 26upx;
+					// }
 				}
 
 			}

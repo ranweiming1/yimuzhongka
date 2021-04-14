@@ -509,11 +509,6 @@
 				this.page++
 
 				if (_this.loadingType != 0) {
-					uni.showToast({
-						title: '已加载全部数据',
-						icon: 'none',
-						duration: 2000
-					})
 					return false; //loadingType!=0;直接返回
 				}
 				_this.loadingType = 1;

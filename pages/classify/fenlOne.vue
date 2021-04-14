@@ -35,9 +35,9 @@
 						</view>
 					</view>
 					<view class="Fbott add">
-						<input type="number" @blur="rValue($event)" placeholder="最低价" />
+						<input type="number" v-model="min" @blur="rValue($event)" placeholder="最低价" />
 						<view class="line">——</view>
-						<input type="number" @blur="rValue1($event)" placeholder="最高价" />
+						<input type="number" v-model="max" @blur="rValue1($event)" placeholder="最高价" />
 					</view>
 				</view>
 
@@ -181,7 +181,7 @@
 				isOK: true,
 				isShow: false,
 				shaiList: {},
-				itemex: 0,
+				itemex: 'x',
 				id: '',
 				min: '',
 				max: '',
@@ -193,7 +193,9 @@
 				liulanState: '',
 				page: 1,
 				loadingType: 0,
-				carId:''
+				carId: '',
+				catId:'',
+				isFilter: false
 			}
 		},
 		onLoad(option) {
@@ -212,6 +214,7 @@
 				this.getNews(data)
 			} else if (option.barId) {
 				this.bar = option.barId
+				this.id = option.id
 				var data = {
 					page: this.page,
 					limit: 10,
@@ -237,6 +240,7 @@
 		onShow: function() {
 			// shaiX
 			var _this = this
+			console.log(this.isFilter)
 			if (this.carId) {
 				_this.shaiX()
 			}
@@ -248,7 +252,7 @@
 			// }
 			// this.getMoreNews(data)
 			var _this = this
-			 if (this.max || this.min || this.goodsType || this.st || this.id||this.carId) {
+			if (this.isFilter) {
 				var data = JSON.stringify({
 					goodsBrandId: this.id,
 					maxPrice: this.max,
@@ -258,39 +262,40 @@
 					carId: this.carId,
 					sortType: this.st,
 					page: this.page + 1,
+					catId: this.catId,
 					limit: 10
 				})
 				this.getMoreNewsTwo(data)
+			} else {
+				if (this.value) {
+					var data = {
+						keywords: _this.value,
+						page: _this.page + 1,
+						limit: 10
+					}
+					this.getMoreNews(data)
+				} else if (this.bar) {
+					var data = {
+						page: _this.page + 1,
+						limit: 10,
+						goodsBrandId: _this.bar
+					}
+					this.getMoreNews(data)
+				} else if (this.catId) {
+					var data = {
+						page: _this.page + 1,
+						limit: 10,
+						cat_id: _this.catId
+					}
+					this.getMoreNews(data)
+				} else {
+					var data = {
+						page: _this.page + 1,
+						limit: 10,
+					}
+					this.getMoreNews(data)
+				}
 			}
-			if (this.value) {
-				var data = {
-					keywords: this.value,
-					page: this.page + 1,
-					limit: 10
-				}
-				this.getMoreNews(data)
-			} else if (this.bar) {
-				var data = {
-					page: this.page + 1,
-					limit: 10,
-					goodsBrandId: this.bar
-				}
-				this.getMoreNews(data)
-			} else if (this.catId) {
-				var data = {
-					page: this.page + 1,
-					limit: 10,
-					cat_id: this.catId
-				}
-				this.getMoreNews(data)
-			}  else {
-				var data = {
-					page: this.page + 1,
-					limit: 10,
-				}
-				this.getMoreNews(data)
-			}
-
 		},
 		components: {
 			tabBar,
@@ -322,11 +327,6 @@
 				this.page++
 
 				if (_this.loadingType != 0) {
-					uni.showToast({
-						title: '已加载全部数据',
-						icon: 'none',
-						duration: 2000
-					})
 					return false; //loadingType!=0;直接返回
 				}
 				_this.loadingType = 1;
@@ -358,6 +358,7 @@
 			shaiX() {
 				this.page = 1
 				var _this = this
+				this.isFilter=true
 				//标题读取样式激活
 				uni.showNavigationBarLoading()
 				this.$https({
@@ -371,12 +372,14 @@
 						carId: this.carId,
 						sortType: this.st,
 						page: this.page,
+						catId: this.catId,
 						limit: 10
 					}),
 					haeder: true,
 					dengl: true,
 					method: 'post',
 					success: function(res) {
+						_this.isShow = false
 						_this.allList = res.data.data
 						//隐藏标题读取 
 						uni.hideNavigationBarLoading()
@@ -487,9 +490,12 @@
 						goodsBrandId: this.id,
 						maxPrice: this.max,
 						minPrice: this.min,
+						keyWords: this.value,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.st
+						sortType: this.st,
+						page: this.page,
+						limit: 10
 					}),
 					success: function(res) {
 						_this.isShow = false
@@ -499,7 +505,37 @@
 			},
 			reset() {
 				console.log(this.itemex)
-				this.itemex = false
+				this.itemex = 'x'
+				this.min = ''
+				this.max = ''
+				this.page = 1
+				this.id = ''
+				var _this = this
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-serchList',
+					dengl: true,
+					method: 'post',
+					haeder: true,
+					data: JSON.stringify({
+						goodsBrandId: this.id,
+						maxPrice: this.max,
+						minPrice: this.min,
+						keyWords: this.value,
+						goodsType: this.goodsType,
+						carId: this.carId,
+						sortType: this.st,
+						catId: this.catId,
+						page: this.page,
+						limit: 10
+					}),
+					success: function(res) {
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 100,
+						});
+						_this.allList = res.data.data
+					}
+				})
 			},
 			rValue(e) {
 				this.min = e.target.value
@@ -521,6 +557,7 @@
 			p: function(st) {
 				this.page = 1
 				this.st = st
+				this.isFilter=true
 				var _this = this
 				//标题读取样式激活
 				uni.showNavigationBarLoading()
@@ -533,6 +570,7 @@
 						minPrice: this.min,
 						goodsType: this.goodsType,
 						carId: this.carId,
+						catId: this.catId,
 						sortType: this.st,
 						page: this.page,
 						limit: 10

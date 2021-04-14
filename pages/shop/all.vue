@@ -17,7 +17,9 @@
 						</view>
 					</view>
 					<view class="Fbott">
-						<button type="default" size="mini" v-for="(item,index) in shaiList" :class="itemex==index?'active':''" @tap="toggleList(index,item.id)"><text>{{item.brandTitle}}</text></button>
+						<button type="default" size="mini" v-for="(item,index) in shaiList"
+							:class="itemex==index?'active':''"
+							@tap="toggleList(index,item.id)"><text>{{item.brandTitle}}</text></button>
 					</view>
 				</view>
 
@@ -34,9 +36,9 @@
 						</view>
 					</view>
 					<view class="Fbott add">
-						<input type="number" @blur="rValue($event)" placeholder="最低价" />
+						<input type="number" v-model="min" @blur="rValue($event)" placeholder="最低价" />
 						<view class="line">——</view>
-						<input type="number" @blur="rValue1($event)" placeholder="最高价" />
+						<input type="number" v-model="max" @blur="rValue1($event)" placeholder="最高价" />
 					</view>
 				</view>
 
@@ -77,7 +79,8 @@
 							<text>筛选</text>
 							<p class="activeBf"></p>
 						</view>
-						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'" @tap="togCass(tog_Ca)" mode=""></image>
+						<image class="images" :src="tog_Ca?'../../static/n8.png':'../../static/n6.png'"
+							@tap="togCass(tog_Ca)" mode=""></image>
 					</view>
 				</view>
 
@@ -95,12 +98,16 @@
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap.stop='x("PDESC")'>信用<view class="cont-item-icon" v-if='st=="PDESC"'>
+					<view class="mask-cont-item" @tap.stop='x("PDESC")'>信用<view class="cont-item-icon"
+							v-if='st=="PDESC"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap.stop='x("SASC")'>价格高/低<view class="cont-item-icon" v-if='st=="SASC"'>
-							<image :src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''" mode=""></image>
+					<view class="mask-cont-item" @tap.stop='x("SASC")'>价格高/低<view class="cont-item-icon"
+							v-if='st=="SASC"'>
+							<image
+								:src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''"
+								mode=""></image>
 						</view>
 					</view>
 					<!-- <view class="mask-cont-item" @tap='p("SDESC")'>销量从低到高<view style='display:inline-block;margin-left:10rpx;' v-if='st=="SDESC"'>√</view>
@@ -136,7 +143,8 @@
 
 					</view>
 				</view>
-				<view v-if='allList.length==0' style='text-align:center;margin-top:100px;' @tap='tiaozhuan'>暂无产品列表,去首页看看</view>
+				<view v-if='allList.length==0' style='text-align:center;margin-top:100px;' @tap='tiaozhuan'>暂无产品列表,去首页看看
+				</view>
 			</view>
 			<buttom bottom="2" :can="shopsId" v-if="isOK"></buttom>
 		</view>
@@ -154,7 +162,7 @@
 				isOK: true,
 				isShow: false,
 				shaiList: {},
-				itemex: 0,
+				itemex: 'x',
 				id: '',
 				min: '',
 				max: '',
@@ -166,8 +174,9 @@
 				isFocus: false,
 				page: 1,
 				loadingType: 0,
-				carId:'',
-				catId:''
+				carId: '',
+				catId: '',
+				isFilter: false
 			}
 		},
 		onLoad(option) {
@@ -177,15 +186,15 @@
 				this.value = option.keywords
 				this.shopsId = option.shopsId
 				this.isOK = false
-				var data={
+				var data = {
 					keywords: this.value,
 					shop_id: this.shopsId,
 					page: this.page,
 					limit: 10
-					
+
 				}
-				var url='/api/oauth/shop/mall-goods-ptList'
-				this.getNews(url,data)
+				var url = '/api/oauth/shop/mall-goods-ptList'
+				this.getNews(url, data)
 			} else {
 				console.log(22222)
 				if (option.id)
@@ -201,19 +210,19 @@
 				}
 				// var _this = this
 				if (!option.goodsBrandId) {
-					
+
 					console.log(333333)
-					if(option.cateId){
-						_this.catId=option.cateId
+					if (option.cateId) {
+						_this.catId = option.cateId
 					}
-					var data={
+					var data = {
 						shop_id: _this.shopsId,
 						cat_id: option.cateId,
 						page: this.page,
-						limit: 10	
+						limit: 10
 					}
-					var url='/api/oauth/shop/mall-goods-ptList'
-					this.getNews(url,data)
+					var url = '/api/oauth/shop/mall-goods-ptList'
+					this.getNews(url, data)
 				}
 				if (option.goodsBrandId) {
 					console.log(88888)
@@ -230,7 +239,7 @@
 			// }
 			// this.getMoreNews(data)
 			var _this = this
-			if (this.max || this.min || this.goodsType || this.st || this.id||this.carId) {
+			if (this.isFilter) {
 				var data = JSON.stringify({
 					goodsBrandId: this.id,
 					maxPrice: this.max,
@@ -240,37 +249,39 @@
 					carId: this.carId,
 					shop_id: _this.shopsId,
 					sortType: this.st,
+					catId: this.catId,
 					page: this.page + 1,
 					limit: 10
 				})
 				this.getMoreNewsTwo(data)
-			} else if (this.shopsId && this.catId) {
-				var data = {
-					page: this.page + 1,
-					limit: 10,
-					shop_id: _this.shopsId,
-					cat_id: option.cateId,
+			} else {
+				 if (this.shopsId && this.catId) {
+					var data = {
+						page: this.page + 1,
+						limit: 10,
+						shop_id: _this.shopsId,
+						cat_id: option.cateId,
+					}
+					this.getMoreNews(data)
+				} else if (this.value && this.shopsId) {
+					var data = {
+						keywords: this.value,
+						shop_id: this.shopsId,
+						page: this.page + 1,
+						limit: 10
+					}
+					this.getMoreNews(data)
+				} else {
+					var data = {
+						page: this.page + 1,
+						limit: 10,
+						shop_id: _this.shopsId,
+					}
+					this.getMoreNews(data)
 				}
-				this.getMoreNews(data)
-			} else if (this.value && this.shopsId) {
-				var data = {
-					keywords: this.value,
-					shop_id: this.shopsId,
-					page: this.page+1,
-					limit: 10
-				}
-				this.getMoreNews(data)
-			}else {
-				var data = {
-					page: this.page + 1,
-					limit: 10,
-					shop_id: _this.shopsId,
-				}
-				this.getMoreNews(data)
 			}
-		
 		},
-		
+
 		onShow: function() {
 			var _this = this
 			if (this.carId) {
@@ -282,7 +293,7 @@
 		},
 		methods: {
 			// 初始化
-			getNews(url,data) {
+			getNews(url, data) {
 				this.page = 1
 				var _this = this
 				//标题读取样式激活
@@ -299,19 +310,14 @@
 						uni.stopPullDownRefresh()
 					}
 				})
-			
+
 			},
 			// 初始化数据
 			getMoreNews(data) {
 				var _this = this
 				this.page++
-			
+
 				if (_this.loadingType != 0) {
-					uni.showToast({
-						title: '已加载全部数据',
-						icon: 'none',
-						duration: 2000
-					})
 					return false; //loadingType!=0;直接返回
 				}
 				_this.loadingType = 1;
@@ -343,11 +349,6 @@
 				var _this = this
 				this.page++
 				if (_this.loadingType != 0) {
-					uni.showToast({
-						title: '已加载全部数据',
-						icon: 'none',
-						duration: 2000
-					})
 					return false; //loadingType!=0;直接返回
 				}
 				_this.loadingType = 1;
@@ -376,7 +377,7 @@
 					}
 				})
 			},
-			
+
 			detail(id) {
 				uni.navigateTo({
 					url: '../index/productDetails?id=' + id
@@ -402,7 +403,7 @@
 			},
 			show() {
 				var _this = this
-				this.paixu=false
+				this.paixu = false
 				this.isShow = true
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serch',
@@ -424,7 +425,8 @@
 			},
 			shaiX() {
 				var _this = this
-				this.page=1
+				this.page = 1
+				this.isFilter=true
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
 					dengl: true,
@@ -439,8 +441,9 @@
 						page: this.page,
 						keyWords: this.value,
 						shop_id: _this.shopsId,
+						catId: this.catId,
 						limit: 10
-						
+
 					}),
 					haeder: true,
 					success: function(res) {
@@ -451,7 +454,38 @@
 				})
 			},
 			reset() {
-				this.itemex = false
+				this.itemex = 'x'
+				this.min = ''
+				this.max = ''
+				this.page = 1
+				this.id = ''
+				var _this = this
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-serchList',
+					dengl: true,
+					method: 'post',
+					haeder: true,
+					data: JSON.stringify({
+						goodsBrandId: this.id,
+						maxPrice: this.max,
+						minPrice: this.min,
+						keyWords: this.value,
+						goodsType: this.goodsType,
+						carId: this.carId,
+						sortType: this.st,
+						catId: this.catId,
+						page: this.page,
+						shop_id: _this.shopsId,
+						limit: 10
+					}),
+					success: function(res) {
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 100,
+						});
+						_this.allList = res.data.data
+					}
+				})
 			},
 			rValue(event) {
 				this.min = event.target.value
@@ -468,12 +502,13 @@
 			zonghe: function() {
 				this.paixu = !this.paixu
 			},
-			guanbi:function(){
-				this.paixu=false
+			guanbi: function() {
+				this.paixu = false
 			},
 			x: function(st) {
 				this.st = st
 				this.page = 1
+				this.isFilter=true
 				var _this = this
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
@@ -487,6 +522,7 @@
 						goodsType: this.goodsType,
 						carId: this.carId,
 						sortType: st,
+						catId: this.catId,
 						keyWords: this.value,
 						page: this.page,
 						limit: 10
@@ -910,6 +946,7 @@
 					padding: 0 10rpx;
 					display: inline-block;
 					text-align: center;
+
 					text {
 						display: inline-block;
 						width: calc(100% - 30rpx);

@@ -138,6 +138,7 @@
 						var pages = getCurrentPages()
 						var prevPage = pages[pages.length - 2]
 						prevPage.$vm.carId = idd
+						prevPage.$vm.isFilter = true
 					}
 				}
 			},

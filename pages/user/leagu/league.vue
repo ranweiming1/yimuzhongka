@@ -1,12 +1,16 @@
 <template>
 	<view class='huangdong'>
 		<!-- 文字轮播 -->
-		<view class='swiperS'>
+		<!-- <view class='swiperS'>
 			<view class="swiper-item">
 				<view :style='nu'>{{text+text+text+text+text+text+text+text+text+text}}</view>
 			</view>
+		</view> -->
+		<view class="boxScroll">
+			<view class="animate">
+				{{text}}
+			</view>
 		</view>
-
 		<view class="form-item">
 			<view class='uni-form-item'>
 				<view class='title'><text>用户名</text></view>
@@ -119,7 +123,8 @@
 					主营行业
 				</view>
 				<view class="item-content">
-					<view :class="isActive==item?'item-add item-content-item ':'item-content-item '" @tap="activeCss(item)" v-for="(item,index) in hangyeList">
+					<view :class="isActive==item?'item-add item-content-item ':'item-content-item '"
+						@tap="activeCss(item)" v-for="(item,index) in hangyeList">
 						{{item}}
 					</view>
 				</view>
@@ -132,7 +137,8 @@
 		<view class="class-mask" v-if="classType">
 			<view class="Box">
 				<scroll-view class="left" scroll-y style="height: 100%">
-					<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in allList" :key=item.id>
+					<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in allList"
+						:key=item.id>
 						<text v-if='id==index' class="image"></text>
 						<text>{{item.cateTitle}}</text>
 					</view>
@@ -296,7 +302,7 @@
 				})
 			},
 			checkList: function(id) {
-				
+
 				var that = this
 				// this.rList[index].childsList[indexs].isCheck =!this.rList[index].childsList[indexs].isCheck
 				// 把Id添加到数组
@@ -333,12 +339,12 @@
 			},
 			togLi(index, id) {
 				this.id = index;
-				var _this=this
+				var _this = this
 				// this.rList = this.allList[index].childsList
 				this.$https({
 					url: '/api/oauth/get-one-child-list',
 					data: {
-						cateId:id
+						cateId: id
 					},
 					dengl: true,
 					success: res => {
@@ -601,6 +607,49 @@
 	page {
 		background-color: #f7f7f7;
 		// padding-bottom: 150upx;
+	}
+
+	.boxScroll {
+		width: 100%;
+		box-sizing: border-box;
+		margin: 0 auto;
+		overflow: hidden;
+		background: #f7f7f7;
+		height: 80rpx;
+		line-height: 80rpx;
+	}
+
+	.animate {
+		padding-left: 20rpx;
+		font-size: 22rpx;
+		color: #ee4646;
+		display: inline-block;
+		white-space: nowrap;
+		animation: 15s wordsLoop linear infinite normal;
+	}
+
+	@keyframes wordsLoop {
+		0% {
+			transform: translateX(200rpx);
+			-webkit-transform: translateX(200rpx);
+		}
+
+		100% {
+			transform: translateX(-100%);
+			-webkit-transform: translateX(-100%);
+		}
+	}
+
+	@-webkit-keyframes wordsLoop {
+		0% {
+			transform: translateX(200rpx);
+			-webkit-transform: translateX(200rpx);
+		}
+
+		100% {
+			transform: translateX(-100%);
+			-webkit-transform: translateX(-100%);
+		}
 	}
 
 	.huangdong {
