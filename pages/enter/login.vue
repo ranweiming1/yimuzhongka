@@ -32,8 +32,8 @@
 			</checkbox>
 			<view class="text">	
 			<text>已阅读并同意</text>
-			<text style="color: #007AFF;" @tap='xieyi(1)'>《毅木重卡注册协议》</text>和<text style="color: #007AFF;"
-				@tap='xieyi(2)'>《毅木重卡隐私政策》</text></view>
+			<text style="color: #007AFF;" @tap='xieyi(2)'>《毅木重卡注册协议》</text>和<text style="color: #007AFF;"
+				@tap='xieyi(6)'>《毅木重卡隐私政策》</text></view>
 		</checkbox-group>
 		<!-- 提交按钮 -->
 		<view class="uni-padding-wrap uni-common-mt bott">
@@ -53,8 +53,8 @@
 					注册协议及隐私政策
 				</view>
 				<view><text>点击同意即表示您已阅读并同意</text>
-					<text style="color: #007AFF;" @tap="xieyi(1)">《毅木重卡注册协议》</text>与
-					<text style="color: #007AFF;" @tap="xieyi(2)">《毅木重卡隐私政策》</text>
+					<text style="color: #007AFF;" @tap="xieyi(2)">《毅木重卡注册协议》</text>与
+					<text style="color: #007AFF;" @tap="xieyi(6)">《毅木重卡隐私政策》</text>
 					<text>您对以上协议有内容有任何问题，您可随时与客服联系。</text>
 				</view>
 

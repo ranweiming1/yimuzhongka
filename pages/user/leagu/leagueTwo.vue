@@ -57,11 +57,11 @@
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>姓名</text></view>
-				<input class='uni-input' v-model='legalName' placeholder='请输入姓名' :disabled='jiaoyananniu'>
+				<input class='uni-input' v-model='legalName' placeholder='请输入姓名'  disabled >
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>身份证号</text></view>
-				<input class='uni-input' v-model='legalCardId' placeholder='请输入身份证号' :disabled='jiaoyananniu'>
+				<input class='uni-input' v-model='legalCardId' placeholder='请输入身份证号' disabled >
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行卡号</text></view>
@@ -84,7 +84,7 @@
 				<view class="chec-item" @tap="checks">
 					<image v-if="isCheck" src="../../../static/checked.png" mode=""></image>
 				</view>
-				<text>我已阅读并同意《<text style="color: #ee4646;">商家入驻协议</text>》</text>
+				<text  @tap='goAgre'>我已阅读并同意《<text style="color: #ee4646;">商家入驻协议</text>》</text>
 			</view>
 			<view class="bott-item" @tap="submit">
 				<text>提交</text>
@@ -100,6 +100,25 @@
 				</view>
 				<view class="item-bot" @tap="beCareful">
 					确定
+				</view>
+			</view>
+		</view>
+		<view class="cashMask" v-if="isSubmit">
+			<view class="cash-con">
+				<view class="cash-icon">
+					<image src="../../../static/checked.png" mode=""></image>
+				</view>
+				<view class="cash-text">
+					<view class="">
+						您已提交审核
+					</view>
+					<view class="">
+						审核需要1-3个工作日,请耐心等待！
+					</view>
+
+				</view>
+				<view class="cash-bot" @tap="hide">
+					确认
 				</view>
 			</view>
 		</view>
@@ -129,13 +148,15 @@
 				nu: '',
 				list: ['依据《中华人民共和国电子商务法》规定，用户在网络平台发布信息需提供真实身份信息建立登记档案，并定期核验更新，否则网络平台运营者不得为其提供相关服务。请根据您的实际情况选择备案方式（提交后不可变更）感谢您的配合。',
 					'依据《中华人民共和国电子商务法》规定，用户在网络平台发布信息需提供真实身份信息建立登记档案，并定期核验更新，否则网络平台运营者不得为其提供相关服务。请根据您的实际情况选择备案方式（提交后不可变更）感谢您的配合。'
-				]
+				],
+				isSubmit: false,
+				resMsg: '银行卡信息错误'
 			}
 		},
 		onLoad: function(option) {
 			this.shuju = JSON.parse(option.o)
 			var _this = this
-			console.log(option)
+			console.log(JSON.parse(option.o))
 			//获取用户id
 			this.$https({
 				url: '/api/user/my-info',
@@ -149,10 +170,31 @@
 			})
 		},
 		methods: {
+			hide(){
+				this.isSubmit=false
+				uni.reLaunch({
+					url:'../user'
+				})
+			},
+			goAgre(){
+				uni.navigateTo({
+					url:'../../enter/protocol?type=3'
+				})
+			},
 			checks() {
 
 				this.isCheck = !this.isCheck
 				console.log((this.isCheck))
+			},
+			jiaoyanKongGe(str) {
+				if (str.indexOf(" ") == -1) {
+					// console.log("没有空格");
+					return true
+				} else {
+					// console.log("有空格");
+					return false
+				}
+
 			},
 			beCareful: function() {
 				this.isMask = !this.isMask
@@ -196,11 +238,20 @@
 									},
 									method: 'post',
 									success: res => {
-										this.legalName = JSON.parse(res.data.data)
-											.name
-										this.legalCardId = JSON.parse(res.data
-											.data).num
-										this.jiaoyanyinhangka()
+										if (res.data.code == 0) {
+											this.legalName = JSON.parse(res.data
+													.data)
+												.name
+											this.legalCardId = JSON.parse(res.data
+												.data).num
+											this.jiaoyanyinhangka()
+										} else {
+											uni.showToast({
+												title: '身份证无法识别，请重新上传',
+												icon: 'none'
+											})
+										}
+
 									}
 								})
 							}
@@ -244,21 +295,22 @@
 				})
 			},
 			submit: function() {
+				var _this=this
 				var obj = {}
 				var shuju = this.shuju
 				obj.accountName = shuju.accountName
 				obj.sqrPhone = shuju.sqrPhone
 				obj.storeName = shuju.storeName
 				obj.legalName = this.legalName
-				obj.lecenseNo = shuju.lecenseNo
+				obj.licenseNo = shuju.licenseNo
 				obj.area = shuju.area
 				obj.email = shuju.email
 				obj.principal = shuju.principal
 				obj.princPhone = shuju.princPhone
 				obj.fzrDept = shuju.fzrDept
-				obj.cateIdList = JSON.parse(shuju.cateIdList) ? JSON.parse(shuju.cateIdList) : ''
+				obj.cateIdList = shuju.cateIdList
 				obj.storeLogo = this.storeLogo
-				obj.license = shuju.license
+				obj.license = this.license
 				obj.cardImg1 = this.cardImg1
 				obj.cardImg2 = this.cardImg2
 				obj.legalCardId = this.legalCardId
@@ -266,6 +318,7 @@
 				obj.bankName = this.mingcheng
 				obj.mermberId = this.id
 				obj.legal_phone = this.shoujihao
+				console.log(obj)
 				if (obj.storeLogo == '../../../static/uploadBag.png') {
 					uni.showToast({
 						title: '请上传店铺logo',
@@ -296,7 +349,7 @@
 				}
 				if (!this.jiaoyananniu) {
 					uni.showToast({
-						title: '请输入银行卡信息',
+						title: this.resMsg,
 						icon: 'none'
 					})
 					return false
@@ -315,40 +368,51 @@
 						haeder: true,
 						method: 'post',
 						success: res => {
+							// 入驻成功跳转页面
+							console.log(res)
+							if (res.data.code == 0) {
+								_this.isSubmit=true
+							}else{
 							uni.showToast({
 								title: res.data.message,
 								icon: 'none'
 							})
+							}
 						}
 					})
 				}
 			},
 			jiaoyanyinhangka: function() {
 				if (this.bankCardNo && this.legalCardId && this.legalName && this.shoujihao) {
-					uni.request({
-						url: this.webUrl + '/api/oauth/get-bank-card4',
-						data: {
-							cardNumber: this.bankCardNo,
-							idNumber: this.legalCardId,
-							name: this.legalName,
-							phoneNumber: this.shoujihao
-						},
-						header: {
-							'Content-Type': 'application/x-www-form-urlencoded'
-						},
-						method: 'post',
-						success: res => {
-							if (res.data.code == 0) {
-								this.jiaoyananniu = true
-							} else {
-								this.jiaoyananniu = false
+					if (!this.jiaoyanKongGe(this.bankCardNo)) {
+						uni.showToast({
+							title: '银行卡号不允许有空格',
+							icon: 'none'
+						})
+					} else {
+						uni.request({
+							url: this.webUrl + '/oauth/get-bank-card4',
+							data: {
+								cardNumber: this.bankCardNo,
+								idNumber: this.legalCardId,
+								name: this.legalName,
+								phoneNumber: this.shoujihao
+							},
+							header: {
+								'Content-Type': 'application/x-www-form-urlencoded'
+							},
+							method: 'post',
+							success: res => {
+								if (res.data.code == 0) {
+									this.jiaoyananniu = true
+								} else {
+									this.jiaoyananniu = false
+									this.resMsg = res.data.message
+								}
 							}
-							uni.showToast({
-								title: res.data.message,
-								icon: 'none'
-							})
-						}
-					})
+						})
+
+					}
 				}
 			}
 		}
@@ -366,7 +430,60 @@
 		height: 80rpx;
 		line-height: 80rpx;
 	}
-	
+
+	.cashMask {
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background-color: rgba(0, 0, 0, 0.3);
+		z-index: 99;
+
+		.cash-con {
+			background: #fff;
+			position: absolute;
+			z-index: 999;
+			left: 50rpx;
+			right: 50rpx;
+			box-sizing: border-box;
+			top: 50%;
+			margin-top: -50%;
+			border-radius: 20rpx;
+			padding: 50rpx;
+			text-align: center;
+
+			.cash-icon {
+				text-align: center;
+				margin-bottom: 20rpx;
+
+				image {
+					width: 100rpx;
+					height: 100rpx;
+					display: inline-block;
+				}
+			}
+
+			.cash-text {
+				font-size: 32rpx;
+				margin-bottom: 40rpx;
+
+				>view {
+					line-height: 50rpx;
+				}
+			}
+
+			.cash-bot {
+				height: 70rpx;
+				line-height: 70rpx;
+				background: #007AEE;
+				border-radius: 45rpx;
+				color: #fff;
+			}
+		}
+	}
+
+
 	.animate {
 		padding-left: 20rpx;
 		font-size: 22rpx;
@@ -375,31 +492,31 @@
 		white-space: nowrap;
 		animation: 15s wordsLoop linear infinite normal;
 	}
-	
+
 	@keyframes wordsLoop {
 		0% {
 			transform: translateX(200rpx);
 			-webkit-transform: translateX(200rpx);
 		}
-	
+
 		100% {
 			transform: translateX(-100%);
 			-webkit-transform: translateX(-100%);
 		}
 	}
-	
+
 	@-webkit-keyframes wordsLoop {
 		0% {
 			transform: translateX(200rpx);
 			-webkit-transform: translateX(200rpx);
 		}
-	
+
 		100% {
 			transform: translateX(-100%);
 			-webkit-transform: translateX(-100%);
 		}
 	}
-	
+
 	.huangdong {
 		width: 100%;
 		overflow: hidden;
@@ -470,7 +587,7 @@
 		height: 80rpx;
 		background: #f7f7f7;
 		width: 100%;
-		
+
 
 		.swiper-item {
 			position: absolute;
@@ -513,7 +630,7 @@
 
 	.form-item {
 		background-color: #fff;
-		padding:0 30rpx;
+		padding: 0 30rpx;
 		box-sizing: border-box;
 		overflow: hidden;
 		width: 100%;

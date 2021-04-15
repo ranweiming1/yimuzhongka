@@ -104,8 +104,7 @@
 					<text>{{ite.specList.length}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount+'.00':'0'}}</text>
 				</view>
 				<view class="bottBox">
-					<!-- v-if="item.status==2" -->
-					<view class="uni-padding-wrap uni-common-mt bott onnb" @tap="confirm(item.orderId)">
+					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2" @tap="confirm(item.orderId)">
 						<button type="primary">确认收货</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0"

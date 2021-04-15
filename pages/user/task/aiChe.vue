@@ -1,6 +1,5 @@
 <template>
-	<view>
-
+	<view :style="zhezhao?'height:100vh;overflow:hidden':''">
 		<view class="edit-mask" v-if='tianj'>
 			<view class="edit-mask-cont">
 				<view class="edit-title">
@@ -14,7 +13,7 @@
 						<input type="text" :value='listz[nu].carNum' @input='chepai' />
 					</view>
 					<view class="edit-cont-top">
-						<input type="text" :value='listz[nu].carCate.carName' style="width: 100%;" />
+						<input type="text" :value='listz[nu].carCate.carName' @tap='reviseCX(listz[nu].carCate.pid)' disabled  style="width: 100%;" />
 					</view>
 				</view>
 				<view @tap='quxiao' class="edit-bot">
@@ -31,7 +30,9 @@
 		<view class="siteBox-list">
 			<view class="siteBox" v-for='(item,index) in listz'>
 				<view class="content">
-					<image :src='item.carCate.logo' style='width:80rpx;height:80rpx;border-radius:50%;border:4rpx solid #efefef;float:left;'></image>
+					<image :src='item.carCate.logo'
+						style='width:80rpx;height:80rpx;border-radius:50%;border:4rpx solid #efefef;float:left;'>
+					</image>
 					<view style='float:left;margin-left:20rpx;'>
 						<view>{{item.carCate.carName}}</view>
 						<view>{{item.carNum}}</view>
@@ -43,18 +44,21 @@
 				</view>
 				<view class="edit">
 					<view @tap='bianji(index)'>
-						<image src='../../../static/bianji.png' style='width:29rpx;height:29rpx;margin-right:20rpx;'></image>编辑
+						<image src='../../../static/bianji.png' style='width:29rpx;height:29rpx;margin-right:20rpx;'>
+						</image>编辑
 					</view>
 					<text style='float:left;margin-top:20rpx;'>|</text>
 					<view @tap='shanchuaichez(index)'>
-						<image src='../../../static/shanch.png' style='width:22rpx;height:29rpx;margin-right:20rpx;'></image>删除
+						<image src='../../../static/shanch.png' style='width:22rpx;height:29rpx;margin-right:20rpx;'>
+						</image>删除
 					</view>
 				</view>
 			</view>
 
 		</view>
 		<view style='height:160rpx;' v-if='listz.length==0'>
-			<image src='../../../static/zanwu.png' style='width:259rpx;height:210rpx;margin:0 auto;displau:block;margin-left:245rpx;'></image>
+			<image src='../../../static/zanwu.png'
+				style='width:259rpx;height:210rpx;margin:0 auto;displau:block;margin-left:245rpx;'></image>
 			<view style='margin-top:50rpx;text-align:center; '>暂无爱车，快去添加吧</view>
 		</view>
 		<view class="uni-padding-wrap uni-common-mt bott">
@@ -65,7 +69,18 @@
 				<view class="mask-title">你确定要删除{{listz[nu].carNum}}</view>
 				<view class="mask-bot">
 					<view class="bot-left" @tap='quxiaoaiche'>取消</view>
-					<view class="bot-right" @tap=shanchuche(index)>确定</view>
+					<view class="bot-right" @tap='shanchuche(index)'>确定</view>
+				</view>
+			</view>
+		</view>
+		<view class='zhezhao'  v-if='zhezhao' @tap="closeZ">
+			<view class="zheZCont">
+				<view class="zheZTitle">{{pinpai}}</view>
+				<view style="margin-bottom: 30rpx;">
+					<view v-for='(item,index) in car' @tap.stop='quxiaozhe(item.carId,item.carName)'>
+						<image :src='item.logo'></image>
+						<view>{{item.carName}}</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -82,11 +97,15 @@
 				x: false,
 				xianshi: false,
 				chenghumingcheng: '鲁',
-				cheng: ['京', '津', '沪', '渝', '蒙', '新', '藏', '宁', '桂', '黑', '吉', '辽', '晋', '冀', '青', '鲁', '豫', '苏', '皖', '浙', '闽',
-					'赣', '湘', '鄂', '粤', '琼', '甘', '陕', '贵', '云', '川'
+				cheng: ['京', '津', '沪', '渝', '蒙', '新', '藏', '宁', '桂', '黑', '吉', '辽', '晋', '冀', '青', '鲁', '豫', '苏', '皖', '浙',
+					'闽', '赣', '湘', '鄂', '粤', '琼', '甘', '陕', '贵', '云', '川'
 				],
+				car:[],
+				zhezhao:false,
 				index: '',
-				ediImg: '../../../static/img_10.jpg.png'
+				ediImg: '../../../static/img_10.jpg.png',
+				cxId:'',
+				cxName:''
 			}
 		},
 		onLoad: function() {
@@ -98,6 +117,7 @@
 					_this.listz = res.data.data
 				}
 			})
+			
 		},
 		onShow() {
 			var _this = this
@@ -110,6 +130,39 @@
 			})
 		},
 		methods: {
+			getData(){
+				this.$https({
+					url: '/api/user/my-favorite-car-list',
+					data: {},
+					success: function(res) {
+						this.listz = res.data.data
+					}
+				})
+			},
+			closeZ(){
+				this.zhezhao=false
+				this.tianj=true
+			},
+			reviseCX:function(id){
+				this.zhezhao=true
+				this.tianj=false
+				var _this=this
+				this.$https({
+					url: '/api/oauth/shop/mall-car-type-lists',
+					data: {
+						carId: id
+					},
+					success: function(res) {
+						_this.car = res.data.data
+					}
+				})
+			},
+			quxiaozhe:function(id,name){
+				this.listz[this.nu].carCateId=id
+				this.zhezhao=false
+				this.tianj=true
+				this.listz[this.nu].carCate.carName=name
+			},
 			fanhui: function() {
 				uni.navigateTo({
 					url: '../../shop/car?id=1'
@@ -136,18 +189,31 @@
 			},
 			tijiao: function() {
 				var a = 0
-				if (this.listz[this.nu].carNum.substring(1, 2) == 'A' || this.listz[this.nu].carNum.substring(1, 2) == 'B' || this
-					.listz[this.nu].carNum.substring(1, 2) == 'C' || this.listz[this.nu].carNum.substring(1, 2) == 'D' || this.listz[
-						this.nu].carNum.substring(1, 2) == 'E' || this.listz[this.nu].carNum.substring(1, 2) == 'F' || this.listz[this.nu]
-					.carNum.substring(1, 2) == 'G' || this.listz[this.nu].carNum.substring(1, 2) == 'H' || this.listz[this.nu].carNum
-					.substring(1, 2) == 'I' || this.listz[this.nu].carNum.substring(1, 2) == 'J' || this.listz[this.nu].carNum.substring(
-						1, 2) == 'K' || this.listz[this.nu].carNum.substring(1, 2) == 'L' || this.listz[this.nu].carNum == 'M' || this.listz[
-						this.nu].carNum.substring(1, 2) == 'N' || this.listz[this.nu].carNum.substring(1, 2) == 'O' || this.listz[this.nu]
-					.carNum.substring(1, 2) == 'P' || this.listz[this.nu].carNum.substring(1, 2) == 'Q' || this.listz[this.nu].carNum
-					.substring(1, 2) == 'I' || this.listz[this.nu].carNum.substring(1, 2) == 'S' || this.listz[this.nu].carNum.substring(
-						1, 2) == 'T' || this.listz[this.nu].carNum.substring(1, 2) == 'U' || this.listz[this.nu].carNum.substring(1, 2) ==
-					'V' || this.listz[this.nu].carNum.substring(1, 2) == 'W' || this.listz[this.nu].carNum.substring(1, 2) == 'X' ||
-					this.listz[this.nu].carNum.substring(1, 2) == 'Y' || this.listz[this.nu].carNum.substring(1, 2) == 'Z') {
+				var _this=this
+				if (this.listz[this.nu].carNum.substring(1, 2) == 'A' || this.listz[this.nu].carNum.substring(1, 2) ==
+					'B' || this
+					.listz[this.nu].carNum.substring(1, 2) == 'C' || this.listz[this.nu].carNum.substring(1, 2) ==
+					'D' || this.listz[
+						this.nu].carNum.substring(1, 2) == 'E' || this.listz[this.nu].carNum.substring(1, 2) == 'F' ||
+					this.listz[this.nu]
+					.carNum.substring(1, 2) == 'G' || this.listz[this.nu].carNum.substring(1, 2) == 'H' || this.listz[
+						this.nu].carNum
+					.substring(1, 2) == 'I' || this.listz[this.nu].carNum.substring(1, 2) == 'J' || this.listz[this.nu]
+					.carNum.substring(
+						1, 2) == 'K' || this.listz[this.nu].carNum.substring(1, 2) == 'L' || this.listz[this.nu]
+					.carNum == 'M' || this.listz[
+						this.nu].carNum.substring(1, 2) == 'N' || this.listz[this.nu].carNum.substring(1, 2) == 'O' ||
+					this.listz[this.nu]
+					.carNum.substring(1, 2) == 'P' || this.listz[this.nu].carNum.substring(1, 2) == 'Q' || this.listz[
+						this.nu].carNum
+					.substring(1, 2) == 'I' || this.listz[this.nu].carNum.substring(1, 2) == 'S' || this.listz[this.nu]
+					.carNum.substring(
+						1, 2) == 'T' || this.listz[this.nu].carNum.substring(1, 2) == 'U' || this.listz[this.nu].carNum
+					.substring(1, 2) ==
+					'V' || this.listz[this.nu].carNum.substring(1, 2) == 'W' || this.listz[this.nu].carNum.substring(1,
+						2) == 'X' ||
+					this.listz[this.nu].carNum.substring(1, 2) == 'Y' || this.listz[this.nu].carNum.substring(1, 2) ==
+					'Z') {
 					a = 1
 				}
 				if (a == 0 || this.listz[this.nu].carNum.length > 8 || this.listz[this.nu].carNum.length < 7) {
@@ -192,13 +258,8 @@
 							uni.showToast({
 								title: '修改成功'
 							})
-							this.$https({
-								url: '/api/user/my-favorite-car-list',
-								data: {},
-								success: res => {
-									this.listz = res.data.data
-								}
-							})
+							_this.getData()
+							
 						} else {
 							uni.showToast({
 								title: res.data.message
@@ -275,6 +336,55 @@
 <style lang="scss">
 	page {
 		background: #f4f6f8;
+	}
+
+	.zhezhao {
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.6);
+		z-index: 999999;
+		position: fixed;
+	}
+
+	.zheZCont {
+		width: 80%;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		height: 100%;
+		background: #fff;
+		z-index: 999999;
+		position: fixed;
+		overflow-y: auto;
+	}
+
+	.zheZTitle {
+		color: #333;
+		line-height: 50rpx;
+		text-align: center;
+	}
+
+	.zhezhao>view>view {
+		overflow: hidden;
+		margin-top: 20rpx;
+	}
+
+	.zhezhao>view>view>view {
+		float: left;
+		width: 50%;
+		text-align: center;
+	}
+
+	.zhezhao>view>view image {
+		width: 200rpx;
+		height: 200rpx;
+	}
+
+	.zhezhao>view>view>view view {
+		line-height: 50rpx;
 	}
 
 	.checkbox {

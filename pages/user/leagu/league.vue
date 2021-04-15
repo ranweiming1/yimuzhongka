@@ -226,38 +226,14 @@
 		onLoad: function() {
 			var _this = this
 			this.height = uni.getSystemInfoSync().windowHeight;
-			this.$https({
-				url: '/api/oauth/shop/mall-lists',
-				data: {},
-				dengl: true,
-				success: function(res) {
-					_this.allList = res.data.data.goodsCates
-					_this.$https({
-						url: '/api/oauth/get-one-child-list',
-						data: {
-							cateId: res.data.data.goodsCates[0].id
-						},
-						dengl: true,
-						success: res => {
-							_this.rList = res.data.data
-						}
-					})
-					// _this.rList = res.data.data.goodsCates[0].childsList
-					// _this.rList.map(function(val, i) {
-					// 	val.childsList.map(function(item, index) {
-					// 		_this.$set(item, 'isCheck', false)
-					// 	})
-
-					// })
-
-				},
-			})
-
+			
 			this.$https({
 				url: '/api/shop/appr-info',
 				data: {},
+				dengl:false,
+				method:'POST',
 				success: function(res) {
-					if (res.data.data.id) {
+					if (res.data.data) {
 						_this.accountName = res.data.data.accountName
 						_this.area = res.data.data.area
 						_this.email = res.data.data.email
@@ -457,7 +433,7 @@
 				obj.principal = this.principal
 				obj.princPhone = this.princPhone
 				obj.fzrDept = this.fzrDept
-				// obj.cateIdList = JSON.stringify(this.checkedList)
+				obj.cateIdList = ''
 				uni.navigateTo({
 					url: './leagueTwo?o=' + JSON.stringify(obj)
 				})

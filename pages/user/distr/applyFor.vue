@@ -50,13 +50,13 @@
 			提现规则
 		</view> -->
 		<!-- 提现成功弹框 -->
-		<view class="cashMask" v-if="isCash">
+		<view class="cashMask" 	v-if="isCash">
 			<view class="cash-con">
 				<view class="cash-icon">
-					<image src="../../../static/wxtixian.png" mode=""></image>
+					<image :src="index==0?'../../../static/wxtixian.png':'../../../static/checked.png'" mode=""></image>
 				</view>
 				<view class="cash-text">
-					提现申请发起成功，微信处理中！
+					提现申请发起成功，{{zhifu[index]}}处理中！
 				</view>
 				<view class="cash-bot" @tap="goBack">
 					确认
@@ -97,7 +97,6 @@
 				success: function(res) {
 					console.log(res.data.data)
 					that.phone = res.data.data[0].phone
-
 				}
 			})
 			this.$https({

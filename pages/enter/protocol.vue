@@ -7,12 +7,12 @@
 		</view>
 		<view class="white" style='height:90%;'>
 			<view class="title">
-				{{type==1?'平台注册协议须知':'毅木重卡隐私政策'}}
+				{{content.title}}
 			</view>
 			<!-- 内容较多，需要右侧有进度条，进度条样式参考效果图 -->
 			<view class="cont-rich" style='position:absolute;overflow-y:auto;width: 100%;'>
-				<!-- <rich-text :nodes='content'></rich-text> -->
-				<text v-if="type==1">
+				<rich-text :nodes='content.content'></rich-text>
+				<!-- <text v-if="type==1">
 					一、服务条款的确认及接受
 
 					1、毅木重卡网站（指http://www.yimuzk.cn/及其移动客户端软件、应用程序，以下称“本网站”或者“毅木重卡”）各项电子服务的所有权和运作权归属于“毅木重卡”所有，本网站提供的服务将完全按照其发布的服务条款和操作规则严格执行。您确认所有服务条款并完成注册程序时，本协议在您与本网站间成立并发生法律效力，同时您成为本网站正式用户。
@@ -141,9 +141,9 @@
 
 					3、本协议未明示授权的其他权利仍由毅木重卡保留，您在行使这些权利时须另外取得毅木重卡的书面许可。毅木重卡如果未行使前述任何权利，并不构成对该权利的放弃。
 				</text>
-
+ -->
 				<!-- 隐私政策 -->
-				<text v-if="type==2">
+				<!-- <text v-if="type==2">
 					您在使用我们的服务时，我们可能会收集和使用您的相关信息。
 					我们希望通过本《隐私政策》向您说明，在使用我们的服务时，我们如何收集、使用、储存和分享这些信息，以及我们为您提供的访问、更新、控制和保护这些信息的方式。
 					本《隐私政策》与您所使用的服务息息相关，希望您仔细阅读，在需要时，按照本《隐私政策》的指引，作出您认为适当的选择。
@@ -283,7 +283,7 @@
 					邮箱：yimuzksc@163.com
 					公司名称：山东毅木重卡网络科技有限公司
 				</text>
-
+ -->
 			</view>
 			<!-- <view class="span" style='position:absolute;bottom:100rpx;left:0;width:100%:height:100rpx;'>
 				<view class="uni-padding-wrap">
@@ -331,15 +331,18 @@
 					// console.log(e)
 				}
 			})
-			// this.$https({
-			// 	url: '/api/oauth/help/protocol-info',
-			// 	data: {},
-			// 	dengl: true,
-			// 	success: res => {
-			// 		this.content = res.data.data.content
-			// 		console.log(res.data.data, this.content)
-			// 	}
-			// })
+			this.$https({
+				url: '/api/oauth/help/getSysAgreementByType',
+				data: {
+					type: option.type
+				},
+				dengl:true,
+				method:'POST',
+				success: res => {
+					this.content = res.data.data
+					console.log(res.data.data, this.content)
+				}
+			})
 		},
 
 		computed: {
@@ -411,6 +414,8 @@
 
 		.cont-rich {
 			height: calc(100% - 250rpx);
+			box-sizing: border-box;
+			padding: 0 20rpx;
 		}
 
 		text {

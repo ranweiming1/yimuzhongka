@@ -41,7 +41,7 @@
 		<view class="check-yinsi">
 			<checkbox-group class="" @change="zhuceLog">
 				<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isLog"><text>登录即代表您已同意</text><text
-						style="color: #007AFF;" @tap.stop='yinsi(2)'>《毅木重卡隐私政策》</text></checkbox>
+						style="color: #007AFF;" @tap.stop='yinsi(6)'>《毅木重卡隐私政策》</text></checkbox>
 			</checkbox-group>
 		</view>
 
@@ -118,9 +118,8 @@
 				// console.log(this.isLog)
 			},
 			yinsi() {
-				console.log(9898)
 				uni.navigateTo({
-					url: './protocol?type=2'
+					url: './protocol?type=6'
 				})
 			},
 			denglusss: function() {
