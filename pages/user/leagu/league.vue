@@ -1,25 +1,30 @@
 <template>
-	<view class='huangdong'>
-		<!-- 文字轮播 -->
-		<!-- <view class='swiperS'>
-			<view class="swiper-item">
-				<view :style='nu'>{{text+text+text+text+text+text+text+text+text+text}}</view>
+	<view class='huangdong' :style="isProm?'height:100vh;overflow:hidden':''">
+		<view class="top">
+			<view class="back" @tap='back'>
+				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
-		</view> -->
+			<view class="textBox" :style="isIcon?'':'margin-right:90rpx'"><text>地址管理</text></view>
+			<view class="imgBox" v-if="isIcon" @tap='problemGo'>
+				<image src='../../../static/defitCon.png' style='width:36rpx;height:36rpx;'></image>
+			</view>
+		</view>
 		<view class="boxScroll">
 			<view class="animate">
 				{{text}}
 			</view>
 		</view>
 		<view class="form-item">
+			<view class="uni-form-item">
+				<view class="title"><text>店铺名称</text></view>
+				<input class="uni-input" name="input" v-model='storeName' placeholder="请输入店铺名称" />
+			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>用户名</text></view>
 				<input class='uni-input' v-model='accountName' placeholder='仅限字母+数字' @blur='zhanghu'>
 			</view>
-			<view class="uni-form-item">
-				<view class="title"><text>手机号</text></view>
-				<input class="uni-input" name="input" v-model='sqrPhone' placeholder="请输入手机号" />
-			</view>
+
+
 		</view>
 		<!-- 填写信息 -->
 		<view class='uni-form-items'>
@@ -27,13 +32,14 @@
 		</view>
 
 		<view class="form-item">
-			<view class="uni-form-item">
-				<view class="title"><text>店铺名称</text></view>
-				<input class="uni-input" name="input" v-model='storeName' placeholder="请输入店铺名称" />
-			</view>
+
 			<view class="uni-form-item">
 				<view class="title"><text>法人姓名</text></view>
 				<input class="uni-input" name="input" v-model='legalName' placeholder="请输入法人姓名" />
+			</view>
+			<view class="uni-form-item">
+				<view class="title"><text>法人手机号</text></view>
+				<input class="uni-input" name="input" v-model='sqrPhone' placeholder="请输入法人手机号" />
 			</view>
 			<view class="uni-form-item">
 				<view class="title">
@@ -42,12 +48,23 @@
 				</view>
 				<input class="uni-input" name="input" v-model='licenseNo' placeholder="请输入营业执照号" />
 			</view>
+			<!-- <view class="uni-form-item">
+				<view class="title"><text>请选择省市区</text></view>
+				<picker class="picker" mode="multiSelector" :range="region" range-key="name"
+					:value="regionIndex" @change="pickerChange"  @columnchange="pickerColumnchange">
+					<view class="uni-input">{{regionStr}}</view>
+				</picker>
+			</view> -->
+			<view class="uni-form-item">
+				<view class="title"><text>省/市/区</text></view>
+				<input class="uni-input" name="input" v-model='area' placeholder="请输入省/市/区" />
+			</view>
 			<view class="uni-form-item" style="height: 135rpx;">
 				<view class="title">
 					<text style="margin-top: 20rpx;font-size:28rpx;line-height: 50rpx;">详细地址</text>
 					<view class="texts"></view>
 				</view>
-				<input class='uni-input' v-model='area' name='input' placeholder='请输入详细地址信息'>
+				<input class='uni-input' v-model='adress' name='input' placeholder='请输入详细地址信息'>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>邮箱</text></view>
@@ -73,13 +90,12 @@
 				<input class="uni-input" name="input" v-model='fzrDept' placeholder="请输入部门名称" />
 			</view>
 		</view>
-
 		<!-- <view class='uni-form-items'>
 			<text>填写旺铺信息</text>
 		</view> -->
 
-		<view class="form-item">
-			<!-- <view class="uni-form-item">
+		<!-- <view class="form-item"> -->
+		<!-- <view class="uni-form-item">
 				<view class="title"><text>主营行业</text></view>
 				<view class="item-cont" @tap="beCareful">
 					<view class="imgBox">
@@ -91,7 +107,7 @@
 
 				</view>
 			</view> -->
-			<!-- <view class="uni-form-item">
+		<!-- <view class="uni-form-item">
 				<view class="title"><text>主营汽车品牌</text></view>
 				<view class="imgBox">
 					<image src="../../../static/icon_26.png" mode=""></image>
@@ -100,7 +116,7 @@
 					<text>奥迪</text>
 				</view>
 			</view> -->
-			<!-- <view class="uni-form-item">
+		<!-- <view class="uni-form-item">
 				<view class="title"><text>主营分类</text></view>
 				<view class="imgBox">
 					<image src="../../../static/icon_26.png" mode=""></image>
@@ -109,7 +125,7 @@
 					<text>{{lei}}</text>
 				</view>
 			</view> -->
-		</view>
+		<!-- </view> -->
 
 		<view class="uni-buttom">
 			<view class="bott-item" @tap="nextPage">
@@ -132,6 +148,23 @@
 					确定
 				</view>
 			</view>
+		</view>
+
+		<view class="xyTips" v-if="isProm">
+			<view class="tips_cont">
+				<view class="tips_title">
+					审核失败原因
+				</view>
+				<view v-for="(item,index) in defultL">
+					{{index+1+'、'+item.content}}
+				</view>
+
+				<view class="tips_bot" @tap='problemGo'>
+					确认
+				</view>
+			</view>
+
+
 		</view>
 
 		<view class="class-mask" v-if="classType">
@@ -182,13 +215,14 @@
 </template>
 
 <script>
+	import region from './pca-code.json';
 	export default {
 		data() {
 			return {
 				inde: 0,
 				xing: ['男', '女', '未知'],
 				accountName: '',
-				area: '',
+				adress: '',
 				cardImg1: '../../../static/img_10.jpg.png',
 				cardImg2: '../../../static/img_10.jpg.png',
 				email: '',
@@ -220,20 +254,37 @@
 				classType: false,
 				checkedList: [],
 				lei: '请选择分类',
-				nu: ''
+				nu: '',
+				area: '',
+				legalName: '',
+				fzrDept: '',
+				oldRegion: region,
+				region: [
+					[],
+					[],
+					[]
+				],
+				regionIndex: [0, 0, 0],
+				regionStr: '',
+				isProm: false,
+				isIcon: false,
+				merchantId: '',
+				defultL: []
 			}
 		},
+
 		onLoad: function() {
 			var _this = this
 			this.height = uni.getSystemInfoSync().windowHeight;
-			
+			// this.created()
 			this.$https({
 				url: '/api/shop/appr-info',
 				data: {},
-				dengl:false,
-				method:'POST',
+				dengl: false,
+				method: 'POST',
 				success: function(res) {
 					if (res.data.data) {
+						_this.isIcon = true
 						_this.accountName = res.data.data.accountName
 						_this.area = res.data.data.area
 						_this.email = res.data.data.email
@@ -249,11 +300,15 @@
 						_this.cardImg1 = res.data.data.cardImg1
 						_this.cardImg2 = res.data.data.cardImg2
 						_this.holdImg = res.data.data.holdImg
-						_this.sqrPhone = res.data.data.sqrPhone
+						_this.sqrPhone = res.data.data.legalPhone
 						_this.licenseNo = res.data.data.licenseNo
 						_this.fzrDept = res.data.data.fzrDept
+						_this.adress = res.data.data.adress
 						// _this.lei = res.data.data.cateIdList.length > 0 ? '已选择分类' : '请选择分类'
 						_this.t = false
+						_this.merchantId = res.data.data.id
+					} else {
+						this.isIcon = false
 					}
 				}
 			})
@@ -262,6 +317,139 @@
 			})
 		},
 		methods: {
+			back: function() {
+				uni.navigateBack({
+					delta: 1
+				})
+			},
+			problemGo: function() {
+				var _this = this
+				if (!this.isProm) {
+					this.$https({
+						url: '/api/shop/get-shop-audit-list',
+						data: {
+							merchantId: _this.merchantId
+						},
+						dengl: false,
+						method: 'POST',
+						success(res) {
+							console.log(res)
+							_this.defultL = res.data.data
+						}
+					})
+				}
+				this.isProm = !this.isProm
+			},
+			pickerChange(e) {
+				this.regionIndex = e.detail.value;
+				this.regionStr = this.region[0][this.regionIndex[0]].name + ' ' + this.region[1][this.regionIndex[1]]
+					.name + ' ' +
+					this.region[2][this.regionIndex[2]].name;
+				// 组件传值
+				this.region = [this.region[0][this.regionIndex[0]].code, this.region[1][this.regionIndex[1]].code,
+					this.region[
+						2][this.regionIndex[2]].code
+				]
+
+			},
+			pickerColumnchange(e) {
+				// console.log(e);
+				// 第几列滑动
+				// console.log(e.detail.column);
+				// 第几列滑动的下标
+				// console.log(e.detail.value)
+				this.created()
+				console.log(e, 2323323)
+				if (e.detail.column === 0) {
+					// 声明城市数组
+					let cityArr = [];
+					let countyArr = [];
+					// 设置下标
+					this.regionIndex = [e.detail.value, 0, 0];
+					// 改变城市列表
+					this.region[1] = this.oldRegion[e.detail.value].children.map(item => {
+						cityArr.push({
+							name: item.name,
+							code: item.code
+						});
+					})
+					console.log(cityArr)
+					this.$set(this.region, 1, cityArr);
+					// this.region= cityArr
+					// 改变县区列表
+					this.oldRegion[e.detail.value].children[0].children.map(item => {
+						countyArr.push({
+							name: item.name,
+							code: item.code
+						});
+					})
+					this.$set(this.region, 2, countyArr);
+					console.log(countyArr, 2222)
+					// this.region[2] = countyArr
+				}
+				if (e.detail.column === 1) {
+					this.regionIndex[1] = e.detail.value;
+					this.regionIndex[2] = 0;
+					let countyArr = [];
+					this.oldRegion[this.regionIndex[0]].children[this.regionIndex[1]].children.map(item => {
+						countyArr.push({
+							name: item.name,
+							code: item.code
+						});
+					})
+					this.$set(this.region, 2, countyArr);
+					// this.region[2] = countyArr
+					console.log(countyArr, 3333)
+				}
+				if (e.detail.column === 2) {
+					this.regionIndex[2] = e.detail.value;
+					console.log(countyArr, 444)
+				}
+			},
+
+			created() {
+				let provinceArr = [];
+				let cityArr = [];
+
+				this.oldRegion.map((item, index) => {
+					console.log(item)
+					this.region[0].push({
+						name: item.name,
+						code: item.code
+					});
+					if (this.previnceId == item.code) {
+						provinceArr = item.children;
+						this.regionIndex[0] = index;
+					}
+				})
+				// console.log(provinceArr);
+				provinceArr.map((item, index) => {
+					this.region[1].push({
+						name: item.name,
+						code: item.code
+					});
+					if (this.cityId == item.code) {
+						cityArr = item.children;
+						this.regionIndex[1] = index;
+					}
+				})
+				cityArr.map((item, index) => {
+					this.region[2].push({
+						name: item.name,
+						code: item.code
+					});
+					if (this.countyId == item.code) {
+						this.regionIndex[2] = index;
+					}
+				})
+				if (this.isRevise) {
+					this.regionStr = this.region[0][this.regionIndex[0]].name + ' ' + this.region[1][this.regionIndex[1]]
+						.name + ' ' +
+						this.region[2][this.regionIndex[2]].name;
+				} else {
+					this.regionStr = '请选择省市区';
+				}
+			},
 			dianpu: function() {
 				var _this = this
 				uni.chooseImage({
@@ -276,6 +464,10 @@
 						})
 					}
 				})
+			},
+			bindPickerChange: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index = e.target.value
 			},
 			checkList: function(id) {
 
@@ -348,6 +540,12 @@
 						this.nu = true
 					}
 				}
+				if (!this.storeName) {
+					uni.showToast({
+						title: '请输入店铺名'
+					})
+					return false
+				}
 				if (nu) {
 					uni.showToast({
 						title: '账户名不能包含汉字重新输入',
@@ -375,12 +573,7 @@
 					})
 					return false
 				}
-				if (!this.storeName) {
-					uni.showToast({
-						title: '请输入店铺名'
-					})
-					return false
-				}
+
 				if (!this.legalName) {
 					uni.showToast({
 						title: '请输入法人姓名',
@@ -396,6 +589,12 @@
 					return false
 				}
 				if (!this.area) {
+					uni.showToast({
+						title: '请输入省/市/区'
+					})
+					return false
+				}
+				if (!this.adress) {
 					uni.showToast({
 						title: '请输入详细地址'
 					})
@@ -434,6 +633,8 @@
 				obj.princPhone = this.princPhone
 				obj.fzrDept = this.fzrDept
 				obj.cateIdList = ''
+				obj.address = this.adress
+				console.log(this.adress)
 				uni.navigateTo({
 					url: './leagueTwo?o=' + JSON.stringify(obj)
 				})
@@ -575,7 +776,8 @@
 				this.classType = false
 				this.lei = '已选择分类'
 			}
-		}
+		},
+
 	}
 </script>
 
@@ -583,6 +785,139 @@
 	page {
 		background-color: #f7f7f7;
 		// padding-bottom: 150upx;
+	}
+
+	.xyTips {
+		position: fixed;
+		z-index: 998;
+		// height: 100%;
+		width: 100%;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(0, 0, 0, 0.4);
+		font-size: 26rpx;
+
+		.tips_title {
+			text-align: center;
+			font-size: 30rpx;
+			margin-bottom: 30rpx;
+		}
+
+		.tips_cont {
+			position: absolute;
+			z-index: 999;
+			background: #fff;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 90rpx;
+			right: 90rpx;
+			border-radius: 20rpx;
+			box-sizing: border-box;
+			padding: 30rpx 50rpx;
+
+			>view {
+				display: block;
+				color: #333;
+				line-height: 45rpx;
+
+			}
+
+			.tips_bot {
+				margin-top: 30rpx;
+				text-align: center;
+				width: 40%;
+				height: 65rpx;
+				border-radius: 45rpx;
+				line-height: 65rpx;
+				height: 65rpx;
+				font-size: 26rpx;
+				font-size: 26rpx;
+				background-color: #1a5fe3;
+				color: #fff;
+				margin-left: 50%;
+				transform: translateX(-50%);
+
+
+			}
+		}
+	}
+
+
+
+	.top {
+		overflow: hidden;
+		// border-bottom: 1px solid #e5e5e5;
+		height: 90rpx;
+		text-align: center;
+		position: fixed;
+		width: 100%;
+		left: 0;
+		top: 0;
+		z-index: 99999;
+		background: #fff;
+		padding-top: 70rpx;
+
+		.back {
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+			float: left;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
+				display: block;
+				padding: 29rpx 36rpx;
+			}
+		}
+
+		.textBox {
+			display: inline-block;
+
+			text {
+				font-size: 32rpx;
+				color: #333;
+				float: left;
+				line-height: 90upx;
+			}
+		}
+
+
+		.imgBox {
+			float: right;
+			width: 90rpx;
+			height: 90rpx;
+			line-height: 90rpx;
+
+			image {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+	}
+
+
+	.defult {
+		// height: 96rpx;
+		// line-height: 80rpx;
+		padding: 0 30rpx;
+		padding-top: 30rpx;
+		color: #333333;
+		font-size: 28rpx;
+		text-align: right;
+		width: 100%;
+		box-sizing: border-box;
+		color: #ee4646;
+
+		image {
+			width: 32rpx;
+			height: 32rpx;
+			display: inline-block;
+			vertical-align: middle;
+			padding-right: 10rpx;
+		}
 	}
 
 	.boxScroll {
@@ -593,6 +928,7 @@
 		background: #f7f7f7;
 		height: 80rpx;
 		line-height: 80rpx;
+		margin-top: 160rpx;
 	}
 
 	.animate {
@@ -917,6 +1253,10 @@
 		border-bottom: 1rpx solid #f1f1f1;
 		overflow: hidden;
 		padding-right: 30rpx;
+
+		.picker {
+			overflow: hidden;
+		}
 
 		.item-cont {
 			height: 100%;

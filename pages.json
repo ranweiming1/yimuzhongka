@@ -226,7 +226,8 @@
 		{
 			"path": "pages/user/leagu/league",
 			"style": {
-				"navigationBarTitleText": "商家入驻"
+				"navigationBarTitleText": "商家入驻",
+				"navigationStyle": "custom"
 			}
 		},
 		{

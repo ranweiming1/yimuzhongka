@@ -77,6 +77,10 @@
 				<view class='title'><text>银行名称</text></view>
 				<input class='uni-input' v-model='mingcheng' placeholder='请输入银行名称'>
 			</view>
+			<view class='uni-form-item'>
+				<view class='title'><text>开户行</text></view>
+				<input class='uni-input' v-model='kaihuhang' placeholder='请输入开户行'>
+			</view>
 
 		</view>
 		<view class="uni-buttom">
@@ -150,7 +154,10 @@
 					'依据《中华人民共和国电子商务法》规定，用户在网络平台发布信息需提供真实身份信息建立登记档案，并定期核验更新，否则网络平台运营者不得为其提供相关服务。请根据您的实际情况选择备案方式（提交后不可变更）感谢您的配合。'
 				],
 				isSubmit: false,
-				resMsg: '银行卡信息错误'
+				resMsg: '银行卡信息错误',
+				kaihuhang:'',
+				sex:'',
+				xxId:''
 			}
 		},
 		onLoad: function(option) {
@@ -163,6 +170,31 @@
 				data: {},
 				success: res => {
 					this.id = res.data.data.id
+				}
+			})
+			this.$https({
+				url: '/api/shop/appr-info',
+				data: {},
+				dengl: false,
+				method: 'POST',
+				success: function(res) {
+					if (res.data.data) {
+						_this.cardImg1 = res.data.data.cardImg1
+						_this.sex = res.data.data.sex
+						_this.cardImg2 = res.data.data.cardImg2
+						_this.license = res.data.data.license
+						_this.storeLogo = res.data.data.storeLogo
+						_this.legalCardId = res.data.data.legalCardId
+						_this.legalName = res.data.data.legalName
+						_this.bankCardNo = res.data.data.bankCardNo
+						_this.shoujihao = res.data.data.sqrPhone
+						_this.mingcheng = res.data.data.bankName
+						_this.kaihuhang=res.data.data.accountBank
+						_this.jiaoyananniu=true
+						_this.xxId=res.data.data.id
+						
+					}
+					
 				}
 			})
 			setTimeout(function() {
@@ -244,6 +276,8 @@
 												.name
 											this.legalCardId = JSON.parse(res.data
 												.data).num
+												this.sex=JSON.parse(res.data
+												.data).sex
 											this.jiaoyanyinhangka()
 										} else {
 											uni.showToast({
@@ -295,11 +329,12 @@
 				})
 			},
 			submit: function() {
+				console.log(this.kaihuhang)
 				var _this=this
 				var obj = {}
 				var shuju = this.shuju
 				obj.accountName = shuju.accountName
-				obj.sqrPhone = shuju.sqrPhone
+				obj.sqrPhone = this.shoujihao
 				obj.storeName = shuju.storeName
 				obj.legalName = this.legalName
 				obj.licenseNo = shuju.licenseNo
@@ -308,7 +343,7 @@
 				obj.principal = shuju.principal
 				obj.princPhone = shuju.princPhone
 				obj.fzrDept = shuju.fzrDept
-				obj.cateIdList = shuju.cateIdList
+				// obj.cateIdList = shuju.cateIdList
 				obj.storeLogo = this.storeLogo
 				obj.license = this.license
 				obj.cardImg1 = this.cardImg1
@@ -317,7 +352,16 @@
 				obj.bankCardNo = this.bankCardNo
 				obj.bankName = this.mingcheng
 				obj.mermberId = this.id
-				obj.legal_phone = this.shoujihao
+				obj.legalPhone = shuju.sqrPhone
+				obj.holder=this.legalName
+				obj.accountBank=this.kaihuhang
+				obj.address=shuju.address
+				obj.carBrandId=''
+				obj.holdImg=''
+				obj.sex=this.sex=='女'?'1':'0'
+				if(this.xxId){
+					obj.id=this.xxId
+				}
 				console.log(obj)
 				if (obj.storeLogo == '../../../static/uploadBag.png') {
 					uni.showToast({

@@ -6,13 +6,16 @@
 			<image src="../../static/icon_21.png" mode=""></image>
 		</view>
 		<tabBar :currentPage='currentPage'></tabBar>
-		<view class='top' style='position:relative;width:100%;z-index:99;height:100rpx;z-index:99999;margin-top:-505rpx;'>
+		<view class='top'
+			style='position:relative;width:100%;z-index:99;height:100rpx;z-index:99999;margin-top:-505rpx;'>
 			<view style='height:100rpx;position:absolute;width:100%;'>
-				<text style='position:absolute;width:100%;top:0;left:0;height:40rpx;text-align:center;color:#fff;font-size:32rpx;'>个人中心</text>
+				<text
+					style='position:absolute;width:100%;top:0;left:0;height:40rpx;text-align:center;color:#fff;font-size:32rpx;'>个人中心</text>
 			</view>
 			<view style='position:absolute;right:20rpx;top:0;z-index:99999;'>
 				<image src='../../static/icon_22.png' style='width:38rpx;height:42rpx;' @tap='k'></image>
-				<image src='../../static/shezhi.png' style='width:41rpx;height:39rpx;margin-left:20rpx;' @tap='shezhi'></image>
+				<image src='../../static/shezhi.png' style='width:41rpx;height:39rpx;margin-left:20rpx;' @tap='shezhi'>
+				</image>
 			</view>
 		</view>
 		<!-- 头部 -->
@@ -28,7 +31,9 @@
 		<!-- 用户名 -->
 		<view class="userBox" style='position:relative;margin:0 auto;z-index:99999;'>
 			<view class="img_a" @tap='xiugaigerenxinxi'>
-				<image :src="headimg?headimg:sex==0?'../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../static/307930aca7b24a8f938121e2bac851d4.png'" mode=""></image>
+				<image
+					:src="headimg?headimg:sex==0?'../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../static/307930aca7b24a8f938121e2bac851d4.png'"
+					mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum" @tap='xiugaigerenxinxi'>
@@ -41,8 +46,9 @@
 			<view class="imgRight" @tap='xiugaigerenxinxi'>
 				<!-- <image src="../../static/icon_23.png" mode=""></image> -->
 			</view>
-			<view style='float:right;color:#fff;margin-top:66rpx;margin-right:45rpx;width:116rpx;height:51rpx;line-height:51rpx;text-align:center;color:#fff;font-size:24rpx;background:linear-gradient(#ff9a3b,#fb751e);border-radius:50rpx;'
-			 @tap='tiaozhuan'>
+			<view
+				style='float:right;color:#fff;margin-top:66rpx;margin-right:45rpx;width:116rpx;height:51rpx;line-height:51rpx;text-align:center;color:#fff;font-size:24rpx;background:linear-gradient(#ff9a3b,#fb751e);border-radius:50rpx;'
+				@tap='tiaozhuan'>
 				<view>签到</view>
 			</view>
 		</view>
@@ -78,9 +84,10 @@
 			</view>
 		</view>
 		<view style='position:relative;z-index:99;background:#fff;width:100%;border-radius:20rpx;'>
-			<image src='../../static/jifen.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;' @tap='jifen'></image>
-			<image v-if="pdType" src='../../static/fenxiangxianjin.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;'
-			 @tap='ques'></image>
+			<image src='../../static/jifen.png' style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;'
+				@tap='jifen'></image>
+			<image v-if="pdType" src='../../static/fenxiangxianjin.png'
+				style='width:335rpx;height:140rpx;margin-left:30rpx;margin-top:40rpx;' @tap='ques'></image>
 		</view>
 		<view style='width:670rpx;margin:0 auto;margin-top:50rpx;overflow:hidden;position:relative;'>
 			<view style='font-size:34rpx;color:#000;float:left;'>我的订单</view>
@@ -187,7 +194,8 @@
 								<text>浏览记录
 									<!-- #ifdef APP-PLUS -->
 
-									<!-- #endif --></text>
+									<!-- #endif -->
+								</text>
 							</view>
 						</view>
 
@@ -249,8 +257,11 @@
 					</view>
 				</swiper-item>
 			</swiper>
-			<view style='width:80rpx;height:8rpx;background:#dedede;borderradius:10rpx;margin:0 auto;margin-top:-30rpx;'>
-				<view :style='n==0?"width:60rpx;height:8rpx;background:#ffae0c;border-radius:0 10rpx 10rpx 0;":"width:60rpx;height:8rpx;background:#ffae0c;border-radius:0 10rpx 10rpx 0;margin-left:20rpx;"'></view>
+			<view
+				style='width:80rpx;height:8rpx;background:#dedede;borderradius:10rpx;margin:0 auto;margin-top:-30rpx;'>
+				<view
+					:style='n==0?"width:60rpx;height:8rpx;background:#ffae0c;border-radius:0 10rpx 10rpx 0;":"width:60rpx;height:8rpx;background:#ffae0c;border-radius:0 10rpx 10rpx 0;margin-left:20rpx;"'>
+				</view>
 			</view>
 		</view>
 		<swiper style='wdith:100%;height:179rpx;margin-top:60rpx;' @tap='jifen'>
@@ -259,13 +270,21 @@
 			</swiper-item>
 		</swiper>
 		<view style='text-align:center;overflow: hidden;'>
-			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;float:left;margin-top:15rpx;margin-left:273rpx;'></view>
-			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:10rpx;'></view>
+			<view
+				style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;float:left;margin-top:15rpx;margin-left:273rpx;'>
+			</view>
+			<view
+				style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:10rpx;'>
+			</view>
 			<view style='float:left;margin-left:20rpx;'>推荐产品</view>
-			<view style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:20rpx;float:left;margin-top:10rpx;'></view>
-			<view style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:15rpx;'></view>
-			<image src='../../static/n8.png' style='float:right;width:30rpx;height:30rpx;padding: 0 28rpx; padding-top: 10rpx;'
-			 @tap='q'></image>
+			<view
+				style='width:6rpx;height:30rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:20rpx;float:left;margin-top:10rpx;'>
+			</view>
+			<view
+				style='width:6rpx;height:20rpx;background:#ccc;transform:rotateZ(30deg);border-radius:10rpx;margin-left:6rpx;float:left;margin-top:15rpx;'>
+			</view>
+			<image src='../../static/n8.png'
+				style='float:right;width:30rpx;height:30rpx;padding: 0 28rpx; padding-top: 10rpx;' @tap='q'></image>
 		</view>
 		<view class="activeCss">
 			<view v-for='(item,index) in list' class="content-item" @tap='tz(item.goodsId)' v-if='xianshi'>
@@ -348,16 +367,19 @@
 				<swiper-item></swiper-item>
 			</swiper>
 		</view> -->
-		<view style='width:20rpx;position:fixed;bottom:81rpx;right:0;background:#fff;height:50rpx;margin-bottom:20rpx;'></view>
+		<view style='width:20rpx;position:fixed;bottom:81rpx;right:0;background:#fff;height:50rpx;margin-bottom:20rpx;'>
+		</view>
 		<view style='height:300rpx;'></view>
 		<!-- <view style='position:fixed;top:0;left:0;width:100%;height:100%;' v-if='xianshidenglu' @tap='dengluweizhi'></view> -->
-		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
-		 v-if='xianshidenglu'>
-			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;'
-			 @tap='g'></image>
+		<view
+			style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
+			v-if='xianshidenglu'>
+			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png'
+				style='width:20rpx;height:20rpx;margin-right:20rpx;' @tap='g'></image>
 			登录查看更多
-			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
-			 @tap='deng'>立即登录/注册</view>
+			<view
+				style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
+				@tap='deng'>立即登录/注册</view>
 		</view>
 	</view>
 </template>
@@ -392,8 +414,8 @@
 				shouhuo: 0,
 				pingjia: 0,
 				tuikuan: 0,
-				pdType:'',
-				sex:0,
+				pdType: '',
+				sex: 0,
 				page: 1,
 				loadingType: 0,
 			}
@@ -423,7 +445,7 @@
 						// console.log(res.data.data)
 						_this.myCode = res.data.data.myCode
 						_this.id = res.data.data.id
-						_this.sex=res.data.data.sex
+						_this.sex = res.data.data.sex
 					}
 				})
 				//
@@ -453,7 +475,7 @@
 					_this.pingtaidianhua = res.data.data
 				}
 			})
-			this.page=1
+			this.page = 1
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
@@ -463,7 +485,7 @@
 				},
 				dengl: true,
 				success: res => {
-					this.loadingType= res.data.data.recommedGoods.length<10?2:0
+					this.loadingType = res.data.data.recommedGoods.length < 10 ? 2 : 0
 					this.list = res.data.data.recommedGoods
 				}
 			})
@@ -476,12 +498,12 @@
 			}
 			this.getMoreNews(data)
 		},
-		
+
 		methods: {
 			getMoreNews(data) {
 				var _this = this
 				this.page++
-			
+
 				if (_this.loadingType != 0) {
 					// uni.showToast({
 					// 	title: '已加载全部数据',
@@ -515,7 +537,7 @@
 					}
 				})
 			},
-			
+
 			xiugaigerenxinxi: function() {
 				if (this.denglufangfatiaozhuan()) {
 					uni.navigateTo({
@@ -576,7 +598,7 @@
 			ques: function() {
 				if (this.denglufangfatiaozhuan()) {
 					uni.navigateTo({
-						url: './task/invite/invite?code='+this.myCode
+						url: './task/invite/invite?code=' + this.myCode
 					})
 					// this.$https({
 					// 	url: '/api/user/my-info',
@@ -612,9 +634,34 @@
 			},
 			ruzhu: function() {
 				if (this.denglufangfatiaozhuan()) {
-					uni.navigateTo({
-						url: './leagu/league'
+					this.$https({
+						url: '/api/shop/appr-info',
+						data: {},
+						dengl: false,
+						method: 'POST',
+						success: function(res) {
+							if (res.data.code == 4001) {
+								uni.showToast({
+									title: '审核中，请耐心等待',
+									icon: 'none'
+								})
+
+							} else if (res.data.code == 4002) {
+								uni.showToast({
+									title: '审核成功！',
+								})
+
+							} else {
+								uni.navigateTo({
+									url: './leagu/league'
+								})
+							}
+						}
 					})
+					// uni.navigateTo({
+					// 	url: './leagu/league'
+					// })
+
 				}
 			},
 			daiFu: function(index) {

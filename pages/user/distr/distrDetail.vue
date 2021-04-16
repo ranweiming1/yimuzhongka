@@ -27,14 +27,14 @@
 		data() {
 			return {
 				list: {},
-				phone: '13021791219',
+				phone: '',
 				page: 1,
 				loadingType: 0,
 			}
 		},
 		onLoad(option) {
 			// console.log(option)
-			// this.phone = option.id
+			this.phone = option.id
 			var _this = this
 			// this.$https({
 			// 	url: '/api/task/center-integralLog',
