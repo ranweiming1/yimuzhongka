@@ -327,7 +327,7 @@
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.pingImg = JSON.parse(res.data).data.url
+								this.pingImg = uni.getStorageSync('phoneModel')=='ios'?JSON.parse(res.data).data.url+'?x-oss-process=image/quality,q_60':JSON.parse(res.data).data.url
 							}
 						})
 					}

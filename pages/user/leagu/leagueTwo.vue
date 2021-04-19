@@ -57,11 +57,11 @@
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>姓名</text></view>
-				<input class='uni-input' v-model='legalName' placeholder='请输入姓名'  disabled >
+				<input class='uni-input' v-model='legalName' placeholder='请输入姓名' disabled>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>身份证号</text></view>
-				<input class='uni-input' v-model='legalCardId' placeholder='请输入身份证号' disabled >
+				<input class='uni-input' v-model='legalCardId' placeholder='请输入身份证号' disabled>
 			</view>
 			<view class='uni-form-item'>
 				<view class='title'><text>银行卡号</text></view>
@@ -88,7 +88,7 @@
 				<view class="chec-item" @tap="checks">
 					<image v-if="isCheck" src="../../../static/checked.png" mode=""></image>
 				</view>
-				<text  @tap='goAgre'>我已阅读并同意《<text style="color: #ee4646;">商家入驻协议</text>》</text>
+				<text @tap='goAgre'>我已阅读并同意《<text style="color: #ee4646;">商家入驻协议</text>》</text>
 			</view>
 			<view class="bott-item" @tap="submit">
 				<text>提交</text>
@@ -155,15 +155,16 @@
 				],
 				isSubmit: false,
 				resMsg: '银行卡信息错误',
-				kaihuhang:'',
-				sex:'',
-				xxId:''
+				kaihuhang: '',
+				sex: '',
+				xxId: '',
+				isIos: ''
 			}
 		},
 		onLoad: function(option) {
 			this.shuju = JSON.parse(option.o)
 			var _this = this
-			console.log(JSON.parse(option.o))
+			this.isIos = uni.getStorageSync('phoneModel') == 'ios' ? true : false
 			//获取用户id
 			this.$https({
 				url: '/api/user/my-info',
@@ -189,12 +190,12 @@
 						_this.bankCardNo = res.data.data.bankCardNo
 						_this.shoujihao = res.data.data.sqrPhone
 						_this.mingcheng = res.data.data.bankName
-						_this.kaihuhang=res.data.data.accountBank
-						_this.jiaoyananniu=true
-						_this.xxId=res.data.data.id
-						
+						_this.kaihuhang = res.data.data.accountBank
+						_this.jiaoyananniu = true
+						_this.xxId = res.data.data.id
+
 					}
-					
+
 				}
 			})
 			setTimeout(function() {
@@ -202,15 +203,15 @@
 			})
 		},
 		methods: {
-			hide(){
-				this.isSubmit=false
+			hide() {
+				this.isSubmit = false
 				uni.reLaunch({
-					url:'../user'
+					url: '../user'
 				})
 			},
-			goAgre(){
+			goAgre() {
 				uni.navigateTo({
-					url:'../../enter/protocol?type=3'
+					url: '../../enter/protocol?type=3'
 				})
 			},
 			checks() {
@@ -242,7 +243,9 @@
 							filePath: res.tempFiles[0].path,
 							name: 'img',
 							success: res => {
-								this.license = JSON.parse(res.data).data.url
+								this.license = this.isIos ? JSON.parse(res.data).data.url +
+									'?x-oss-process=image/quality,q_60' : JSON.parse(res.data)
+									.data.url
 							}
 						})
 					}
@@ -258,7 +261,9 @@
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.cardImg1 = JSON.parse(res.data).data.url
+								this.cardImg1 = this.isIos ? JSON.parse(res.data).data.url +
+									'?x-oss-process=image/quality,q_60' : JSON.parse(res.data)
+									.data.url
 								uni.request({
 									url: this.webUrl + '/oauth/get-ocr-id-card-info',
 									data: {
@@ -276,7 +281,7 @@
 												.name
 											this.legalCardId = JSON.parse(res.data
 												.data).num
-												this.sex=JSON.parse(res.data
+											this.sex = JSON.parse(res.data
 												.data).sex
 											this.jiaoyanyinhangka()
 										} else {
@@ -303,7 +308,9 @@
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.cardImg2 = JSON.parse(res.data).data.url
+								this.cardImg2 = this.isIos ? JSON.parse(res.data).data.url +
+									'?x-oss-process=image/quality,q_60' : JSON.parse(res.data)
+									.data.url
 							},
 						})
 					}
@@ -322,7 +329,9 @@
 							name: 'img',
 							success: res => {
 								console.log(res)
-								this.storeLogo = JSON.parse(res.data).data.url
+								this.storeLogo = this.isIos ? JSON.parse(res.data).data.url +
+									'?x-oss-process=image/quality,q_60' : JSON.parse(res.data)
+									.data.url
 							}
 						})
 					}
@@ -330,7 +339,7 @@
 			},
 			submit: function() {
 				console.log(this.kaihuhang)
-				var _this=this
+				var _this = this
 				var obj = {}
 				var shuju = this.shuju
 				obj.accountName = shuju.accountName
@@ -353,14 +362,14 @@
 				obj.bankName = this.mingcheng
 				obj.mermberId = this.id
 				obj.legalPhone = shuju.sqrPhone
-				obj.holder=this.legalName
-				obj.accountBank=this.kaihuhang
-				obj.address=shuju.address
-				obj.carBrandId=''
-				obj.holdImg=''
-				obj.sex=this.sex=='女'?'1':'0'
-				if(this.xxId){
-					obj.id=this.xxId
+				obj.holder = this.legalName
+				obj.accountBank = this.kaihuhang
+				obj.address = shuju.address
+				obj.carBrandId = ''
+				obj.holdImg = ''
+				obj.sex = this.sex == '女' ? '1' : '0'
+				if (this.xxId) {
+					obj.id = this.xxId
 				}
 				console.log(obj)
 				if (obj.storeLogo == '../../../static/uploadBag.png') {
@@ -415,12 +424,12 @@
 							// 入驻成功跳转页面
 							console.log(res)
 							if (res.data.code == 0) {
-								_this.isSubmit=true
-							}else{
-							uni.showToast({
-								title: res.data.message,
-								icon: 'none'
-							})
+								_this.isSubmit = true
+							} else {
+								uni.showToast({
+									title: res.data.message,
+									icon: 'none'
+								})
 							}
 						}
 					})
@@ -723,6 +732,7 @@
 			float: left;
 			color: #666666;
 			font-size: 28rpx;
+			width: 25%;
 
 			.texts {
 				font-size: 22rpx;
@@ -741,6 +751,8 @@
 			height: 100rpx;
 			line-height: 100rpx;
 			color: #333333;
+			width: 74%;
+			box-sizing: border-box;
 		}
 
 		.cont {

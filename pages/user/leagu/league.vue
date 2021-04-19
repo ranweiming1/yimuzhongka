@@ -35,7 +35,7 @@
 
 			<view class="uni-form-item">
 				<view class="title"><text>法人姓名</text></view>
-				<input class="uni-input" name="input" v-model='legalName' placeholder="请输入法人姓名" />
+				<input class="uni-input" name="input"  v-model='legalName' placeholder="请输入法人姓名" />
 			</view>
 			<view class="uni-form-item">
 				<view class="title"><text>法人手机号</text></view>
@@ -48,17 +48,18 @@
 				</view>
 				<input class="uni-input" name="input" v-model='licenseNo' placeholder="请输入营业执照号" />
 			</view>
-			<!-- <view class="uni-form-item">
-				<view class="title"><text>请选择省市区</text></view>
-				<picker class="picker" mode="multiSelector" :range="region" range-key="name"
-					:value="regionIndex" @change="pickerChange"  @columnchange="pickerColumnchange">
-					<view class="uni-input">{{regionStr}}</view>
-				</picker>
-			</view> -->
 			<view class="uni-form-item">
+				<view class="title"><text>请选择省市区</text></view>
+				<view class='uni-input'>
+					<pick-regions :defaultRegion='defaultRegionCode' @getRegion='handleGetRegion'>
+						<view style='font-size:28rpx;line-height:100rpx;color: #333;'>{{area}}</view>
+					</pick-regions>
+				</view>
+			</view>
+			<!-- <view class="uni-form-item">
 				<view class="title"><text>省/市/区</text></view>
 				<input class="uni-input" name="input" v-model='area' placeholder="请输入省/市/区" />
-			</view>
+			</view> -->
 			<view class="uni-form-item" style="height: 135rpx;">
 				<view class="title">
 					<text style="margin-top: 20rpx;font-size:28rpx;line-height: 50rpx;">详细地址</text>
@@ -79,7 +80,7 @@
 		<view class="form-item">
 			<view class="uni-form-item">
 				<view class="title"><text>负责人姓名</text></view>
-				<input class="uni-input" name="input" v-model='principal' placeholder="请输入负责人姓名" />
+				<input class="uni-input" name="input" v-model='principal'   placeholder="请输入负责人姓名" />
 			</view>
 			<view class="uni-form-item">
 				<view class="title"><text>负责人电话</text></view>
@@ -215,7 +216,7 @@
 </template>
 
 <script>
-	import region from './pca-code.json';
+	import pickRegions from '@/components/pick-regions/pick-regions.vue'
 	export default {
 		data() {
 			return {
@@ -258,18 +259,14 @@
 				area: '',
 				legalName: '',
 				fzrDept: '',
-				oldRegion: region,
-				region: [
-					[],
-					[],
-					[]
-				],
-				regionIndex: [0, 0, 0],
-				regionStr: '',
 				isProm: false,
 				isIcon: false,
 				merchantId: '',
-				defultL: []
+				defultL: [],
+				defaultRegion: ['山东省', '济南市', '历城区'],
+				defaultRegionCode: '370104',
+				region: [],
+				area: '请选择省/市/区'
 			}
 		},
 
@@ -340,114 +337,24 @@
 				}
 				this.isProm = !this.isProm
 			},
-			pickerChange(e) {
-				this.regionIndex = e.detail.value;
-				this.regionStr = this.region[0][this.regionIndex[0]].name + ' ' + this.region[1][this.regionIndex[1]]
-					.name + ' ' +
-					this.region[2][this.regionIndex[2]].name;
-				// 组件传值
-				this.region = [this.region[0][this.regionIndex[0]].code, this.region[1][this.regionIndex[1]].code,
-					this.region[
-						2][this.regionIndex[2]].code
-				]
-
-			},
-			pickerColumnchange(e) {
-				// console.log(e);
-				// 第几列滑动
-				// console.log(e.detail.column);
-				// 第几列滑动的下标
-				// console.log(e.detail.value)
-				this.created()
-				console.log(e, 2323323)
-				if (e.detail.column === 0) {
-					// 声明城市数组
-					let cityArr = [];
-					let countyArr = [];
-					// 设置下标
-					this.regionIndex = [e.detail.value, 0, 0];
-					// 改变城市列表
-					this.region[1] = this.oldRegion[e.detail.value].children.map(item => {
-						cityArr.push({
-							name: item.name,
-							code: item.code
-						});
-					})
-					console.log(cityArr)
-					this.$set(this.region, 1, cityArr);
-					// this.region= cityArr
-					// 改变县区列表
-					this.oldRegion[e.detail.value].children[0].children.map(item => {
-						countyArr.push({
-							name: item.name,
-							code: item.code
-						});
-					})
-					this.$set(this.region, 2, countyArr);
-					console.log(countyArr, 2222)
-					// this.region[2] = countyArr
-				}
-				if (e.detail.column === 1) {
-					this.regionIndex[1] = e.detail.value;
-					this.regionIndex[2] = 0;
-					let countyArr = [];
-					this.oldRegion[this.regionIndex[0]].children[this.regionIndex[1]].children.map(item => {
-						countyArr.push({
-							name: item.name,
-							code: item.code
-						});
-					})
-					this.$set(this.region, 2, countyArr);
-					// this.region[2] = countyArr
-					console.log(countyArr, 3333)
-				}
-				if (e.detail.column === 2) {
-					this.regionIndex[2] = e.detail.value;
-					console.log(countyArr, 444)
+			jiaoyanCode(code){
+				if(/^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g.test(code)){
+					return true
+				}else{
+					return false
 				}
 			},
-
-			created() {
-				let provinceArr = [];
-				let cityArr = [];
-
-				this.oldRegion.map((item, index) => {
-					console.log(item)
-					this.region[0].push({
-						name: item.name,
-						code: item.code
-					});
-					if (this.previnceId == item.code) {
-						provinceArr = item.children;
-						this.regionIndex[0] = index;
-					}
-				})
-				// console.log(provinceArr);
-				provinceArr.map((item, index) => {
-					this.region[1].push({
-						name: item.name,
-						code: item.code
-					});
-					if (this.cityId == item.code) {
-						cityArr = item.children;
-						this.regionIndex[1] = index;
-					}
-				})
-				cityArr.map((item, index) => {
-					this.region[2].push({
-						name: item.name,
-						code: item.code
-					});
-					if (this.countyId == item.code) {
-						this.regionIndex[2] = index;
-					}
-				})
-				if (this.isRevise) {
-					this.regionStr = this.region[0][this.regionIndex[0]].name + ' ' + this.region[1][this.regionIndex[1]]
-						.name + ' ' +
-						this.region[2][this.regionIndex[2]].name;
-				} else {
-					this.regionStr = '请选择省市区';
+			jiaoyanName(name){
+				if(/^[\u2E80-\u9FFF]+$/.test(name)){
+					return true
+				}else{
+					return false
+				}
+			},
+			handleGetRegion: function(region) {
+				var _this = this
+				if (this.region) {
+					this.area = region[1].name.indexOf('市辖区')==-1?region[0].name + '-' + region[1].name + '-' + region[2].name : region[0].name + '-'+ region[2].name
 				}
 			},
 			dianpu: function() {
@@ -542,13 +449,28 @@
 				}
 				if (!this.storeName) {
 					uni.showToast({
-						title: '请输入店铺名'
+						title: '请输入店铺名',
+						icon:'none'
 					})
 					return false
 				}
 				if (nu) {
 					uni.showToast({
 						title: '账户名不能包含汉字重新输入',
+						icon: 'none'
+					})
+					return false
+				}
+				if (!this.legalName) {
+					uni.showToast({
+						title: '请输入法人姓名',
+						icon: 'none'
+					})
+					return false
+				}
+				if (!this.jiaoyanName(this.legalName)) {
+					uni.showToast({
+						title: '法人姓名不允许出现特殊字符',
 						icon: 'none'
 					})
 					return false
@@ -569,18 +491,12 @@
 				}
 				if (!this.accountName) {
 					uni.showToast({
-						title: '请输入账户名'
+						title: '请输入账户名',
+						icon:'none'
 					})
 					return false
-				}
-
-				if (!this.legalName) {
-					uni.showToast({
-						title: '请输入法人姓名',
-						icon: 'none'
-					})
-					return false
-				}
+				}	
+				
 				if (!this.licenseNo) {
 					uni.showToast({
 						title: '请输入营业执照号',
@@ -588,21 +504,37 @@
 					})
 					return false
 				}
-				if (!this.area) {
+				if (!this.jiaoyanCode(this.licenseNo)) {
 					uni.showToast({
-						title: '请输入省/市/区'
+						title: '请输入正确的营业执照号',
+						icon: 'none'
+					})
+					return false
+				}
+				if (this.area=='请选择省/市/区') {
+					uni.showToast({
+						title: '请选择省/市/区',
+						icon:'none'
 					})
 					return false
 				}
 				if (!this.adress) {
 					uni.showToast({
-						title: '请输入详细地址'
+						title: '请输入详细地址',
+						icon:'none'
 					})
 					return false
 				}
 				if (!this.principal) {
 					uni.showToast({
 						title: '请输入负责人姓名',
+						icon: 'none'
+					})
+					return false
+				}
+				if (!this.jiaoyanName(this.principal)) {
+					uni.showToast({
+						title: '法人姓名不允许出现特殊字符',
 						icon: 'none'
 					})
 					return false
@@ -634,7 +566,7 @@
 				obj.fzrDept = this.fzrDept
 				obj.cateIdList = ''
 				obj.address = this.adress
-				console.log(this.adress)
+				console.log(this.area)
 				uni.navigateTo({
 					url: './leagueTwo?o=' + JSON.stringify(obj)
 				})

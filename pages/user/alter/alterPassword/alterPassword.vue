@@ -46,7 +46,8 @@
 				var _this = this
 				if (!this.$jiaoyan(this.phone)) {
 					uni.showToast({
-						title: '手机号码不正确'
+						title: '手机号码不正确',
+						icon:'none'
 					})
 				} else {
 					if (this.z) {
@@ -70,7 +71,8 @@
 									}
 								}, 1000)
 								uni.showToast({
-									title: res.data.message
+									title: res.data.message,
+									icon:'none'
 								})
 							}
 						})

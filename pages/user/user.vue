@@ -428,11 +428,23 @@
 			var _this = this
 			if (!uni.getStorageSync('Authorization')) {
 				this.xianshidenglu = true
+				_this.userName =''
+				_this.headimg =''
+				_this.phone =''
+				_this.myCode = ''
+				_this.id = ''
+				_this.sex = ''
+				_this.userMoney = 0
+				_this.payPoints =0
+				_this.couponCount = 0
+				_this.collectCount = 0
+				_this.fukuan = 0
+				_this.fahuo = 0
+				_this.shouhuo = 0
+				_this.pingjia = 0
+				_this.tuikuan = 0
 			} else {
 				this.xianshidenglu = false
-			}
-			//判断是否登录
-			if (uni.getStorageSync('Authorization')) {
 				this.$https({
 					url: '/api/user/my-info',
 					data: {},
@@ -467,7 +479,10 @@
 						// console.log(res.data.data)
 					}
 				})
+
 			}
+			//判断是否登录
+			// if (uni.getStorageSync('Authorization')) {}
 			this.$https({
 				url: '/api/oauth/user/my-platform-phone-list',
 				dengl: true,

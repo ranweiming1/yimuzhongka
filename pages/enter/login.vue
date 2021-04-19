@@ -28,12 +28,13 @@
 
 		</view>
 		<checkbox-group class="check-form-item" @change="zhuceLog">
-			<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isLog"  value="1">		
+			<checkbox class="checkbox" style="transform:scale(0.7)" :checked="isLog" value="1">
 			</checkbox>
-			<view class="text">	
-			<text>已阅读并同意</text>
-			<text style="color: #007AFF;" @tap='xieyi(2)'>《毅木重卡注册协议》</text>和<text style="color: #007AFF;"
-				@tap='xieyi(6)'>《毅木重卡隐私政策》</text></view>
+			<view class="text">
+				<text>已阅读并同意</text>
+				<text style="color: #007AFF;" @tap='xieyi(2)'>《毅木重卡注册协议》</text>和<text style="color: #007AFF;"
+					@tap='xieyi(6)'>《毅木重卡隐私政策》</text>
+			</view>
 		</checkbox-group>
 		<!-- 提交按钮 -->
 		<view class="uni-padding-wrap uni-common-mt bott">
@@ -97,7 +98,7 @@
 				isYan: false,
 				yanText: '发送验证码',
 				y: true,
-				yz: false,
+				yz: true,
 				tipsType: true
 			}
 		},
@@ -140,7 +141,7 @@
 					})
 				} else {
 					this.tipsType = !this.tipsType
-
+					this.isLog = true
 				}
 
 				console.log(this.tipsType)
@@ -171,16 +172,22 @@
 						dengl: true,
 						method: 'post',
 						success: res => {
+							// clearInterval()
+							// this.isYan=false
+							// this.yanText='发送验证码'
+							// this.yanZ = 60
+							// this.account.checkCode=''
 							if (res.data.code == 0) {
 								this.yz = true
 							} else {
+								console.log(3241)
 								this.yz = false
-							}
-							if (res.data.code > 0) {
 								uni.showToast({
-									title: res.data.message
+									title: res.data.message,
+									icon:'none'
 								})
 							}
+							console.log(this.yz)
 						}
 					})
 				}
@@ -188,6 +195,7 @@
 			fasongyanzhengma: function() {
 				var _this = this
 				if (!this.yz) {
+					console.log(this.yz)
 					uni.showToast({
 						title: '请输入未注册的手机号',
 						icon: 'none'
@@ -310,7 +318,8 @@
 									}, 1500)
 								} else {
 									uni.showToast({
-										title: res.data.message
+										title: res.data.message? res.data.message:'验证码错误',
+										icon:'none'
 									})
 									if (res.data.message == '手机号已被注册') {
 										setTimeout(function() {
@@ -327,7 +336,7 @@
 				} else {
 					uni.showToast({
 						title: '请阅读并勾选协议',
-						icon:'none'
+						icon: 'none'
 					});
 				}
 
@@ -337,9 +346,9 @@
 				uni.navigateTo({
 					url: './protocol?phone=' + this.account.phone + '&password=' + this.account.password +
 						'&checkCode=' + this.account
-						.checkCode + '&type='+type
+						.checkCode + '&type=' + type
 				})
-				
+
 			},
 			zhuceLog(e) {
 				// if(this.isLog){
@@ -359,7 +368,8 @@
 		top: 800rpx;
 		left: 30rpx;
 		right: 30rpx;
-		.text{
+
+		.text {
 			float: left;
 			font-size: 22rpx;
 			width: 92%;

@@ -152,7 +152,7 @@
 							filePath: res.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.tupian = JSON.parse(res.data).data.url
+								this.tupian = uni.getStorageSync('phoneModel')=='ios'?JSON.parse(res.data).data.url+'?x-oss-process=image/quality,q_60':JSON.parse(res.data).data.url
 							}
 						})
 					}

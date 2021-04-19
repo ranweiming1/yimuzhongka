@@ -35,6 +35,11 @@
 			// 		console.log(e)
 			// 	}
 			// });
+			if (uni.getSystemInfoSync().platform === 'android') {
+				uni.setStorageSync('phoneModel', 'android')
+			} else {
+				uni.setStorageSync('phoneModel', 'ios')
+			}
 			var args = plus.runtime.arguments
 			if (args.indexOf('xiangqing') >= 0) {
 				uni.navigateTo({
@@ -44,6 +49,7 @@
 			} else if (args.indexOf('code') >= 0) {
 				uni.setStorageSync('yaoqi', args)
 			}
+			
 		},
 		onShow: function() {
 			console.log('App Show')

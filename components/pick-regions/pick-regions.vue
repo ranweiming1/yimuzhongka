@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    const CHINA_REGIONS = require('./regions.json')
+    const CHINA_REGIONS = require('./pca-code.json')
 	export default {
         props:{
             defaultRegions:{
