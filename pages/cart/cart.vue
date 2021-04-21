@@ -67,7 +67,7 @@
 
 
 									<view class="radColor">
-										<text>{{i.goodsPrice?'￥'+i.goodsPrice+'.00':'0'}}</text>
+										<text>{{i.goodsPrice?'￥'+i.goodsPrice.toFixed(2):'0'}}</text>
 									</view>
 
 									<!-- 数量 -->
@@ -391,6 +391,7 @@
 					}
 				})
 			}
+			this.page=1
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
@@ -401,7 +402,6 @@
 				dengl: true,
 				success: function(res) {
 					_this.tuijian = res.data.data.recommedGoods
-					_this.loadingType= res.data.data.recommedGoods.length<10?2:0
 				}
 			})
 		},

@@ -558,7 +558,10 @@
 			},
 			add() {
 				this.isAdd = !this.isAdd
-				this.Price = this.guige[0].price
+				// this.Price = this.guige[0].price
+				console.log(this.Price)
+				this.Price=this.Price==0?this.list.shopPrice:this.Price
+				// con
 			},
 			reduce() {
 				this.num--

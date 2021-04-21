@@ -35,7 +35,7 @@
 
 			<view class="uni-form-item">
 				<view class="title"><text>法人姓名</text></view>
-				<input class="uni-input" name="input"  v-model='legalName' placeholder="请输入法人姓名" />
+				<input class="uni-input" name="input" v-model='legalName' placeholder="请输入法人姓名" />
 			</view>
 			<view class="uni-form-item">
 				<view class="title"><text>法人手机号</text></view>
@@ -80,7 +80,7 @@
 		<view class="form-item">
 			<view class="uni-form-item">
 				<view class="title"><text>负责人姓名</text></view>
-				<input class="uni-input" name="input" v-model='principal'   placeholder="请输入负责人姓名" />
+				<input class="uni-input" name="input" v-model='principal' placeholder="请输入负责人姓名" />
 			</view>
 			<view class="uni-form-item">
 				<view class="title"><text>负责人电话</text></view>
@@ -256,7 +256,7 @@
 				checkedList: [],
 				lei: '请选择分类',
 				nu: '',
-				area: '',
+				// area: '',
 				legalName: '',
 				fzrDept: '',
 				isProm: false,
@@ -337,24 +337,25 @@
 				}
 				this.isProm = !this.isProm
 			},
-			jiaoyanCode(code){
-				if(/^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g.test(code)){
+			jiaoyanCode(code) {
+				if (/^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g.test(code)) {
 					return true
-				}else{
+				} else {
 					return false
 				}
 			},
-			jiaoyanName(name){
-				if(/^[\u2E80-\u9FFF]+$/.test(name)){
+			jiaoyanName(name) {
+				if (/^[\u2E80-\u9FFF]+$/.test(name)) {
 					return true
-				}else{
+				} else {
 					return false
 				}
 			},
 			handleGetRegion: function(region) {
 				var _this = this
 				if (this.region) {
-					this.area = region[1].name.indexOf('市辖区')==-1?region[0].name + '-' + region[1].name + '-' + region[2].name : region[0].name + '-'+ region[2].name
+					this.area = region[1].name.indexOf('市辖区') == -1 ? region[0].name + '-' + region[1].name + '-' +
+						region[2].name : region[0].name + '-' + region[2].name
 				}
 			},
 			dianpu: function() {
@@ -450,7 +451,7 @@
 				if (!this.storeName) {
 					uni.showToast({
 						title: '请输入店铺名',
-						icon:'none'
+						icon: 'none'
 					})
 					return false
 				}
@@ -470,7 +471,7 @@
 				}
 				if (!this.jiaoyanName(this.legalName)) {
 					uni.showToast({
-						title: '法人姓名不允许出现特殊字符',
+						title: '姓名不允许出现特殊字符',
 						icon: 'none'
 					})
 					return false
@@ -492,11 +493,11 @@
 				if (!this.accountName) {
 					uni.showToast({
 						title: '请输入账户名',
-						icon:'none'
+						icon: 'none'
 					})
 					return false
-				}	
-				
+				}
+
 				if (!this.licenseNo) {
 					uni.showToast({
 						title: '请输入营业执照号',
@@ -511,17 +512,17 @@
 					})
 					return false
 				}
-				if (this.area=='请选择省/市/区') {
+				if (this.area == '请选择省/市/区') {
 					uni.showToast({
 						title: '请选择省/市/区',
-						icon:'none'
+						icon: 'none'
 					})
 					return false
 				}
 				if (!this.adress) {
 					uni.showToast({
 						title: '请输入详细地址',
-						icon:'none'
+						icon: 'none'
 					})
 					return false
 				}

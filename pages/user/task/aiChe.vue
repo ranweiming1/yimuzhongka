@@ -75,7 +75,7 @@
 		</view>
 		<view class='zhezhao'  v-if='zhezhao' @tap="closeZ">
 			<view class="zheZCont">
-				<view class="zheZTitle">{{pinpai}}</view>
+				<!-- <view class="zheZTitle">{{pinpai}}</view> -->
 				<view style="margin-bottom: 30rpx;">
 					<view v-for='(item,index) in car' @tap.stop='quxiaozhe(item.carId,item.carName)'>
 						<image :src='item.logo'></image>

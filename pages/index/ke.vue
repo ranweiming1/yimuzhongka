@@ -10,6 +10,7 @@
 			}
 		},
 		onLoad:function(option){
+			console.log(option.id)
 			this.u=this.u+'&'+option.id
 		}
 	}

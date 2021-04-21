@@ -500,7 +500,7 @@
 				},
 				dengl: true,
 				success: res => {
-					this.loadingType = res.data.data.recommedGoods.length < 10 ? 2 : 0
+					// this.loadingType = res.data.data.recommedGoods.length < 10 ? 2 : 0
 					this.list = res.data.data.recommedGoods
 				}
 			})
