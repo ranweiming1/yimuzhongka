@@ -111,6 +111,9 @@
 								if (val.id == options.index) {
 									_this.id = i
 									_this.scrollPic(res.data.data[i].id)
+								}else{
+									_this.scrollPic(res.data.data[0].id)
+									
 								}
 							})
 							// console.log(index,9999999)

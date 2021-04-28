@@ -48,15 +48,15 @@
 					</view>
 				</view>
 				<view class="item-list">
-					<view class="itemsList fl" v-for="(i,t) in item.goodsDTOList">
-						<view class="list-img">
-							<image :src="i.goodsLogo" mode=""></image>
+					<view class="itemsList fl" v-for="(ite,t) in item.goodsDTOList">
+						<view class="list-img" @tap="detail(ite.goodsId)">
+							<image :src="ite.goodsLogo" mode=""></image>
 						</view>
 						<view class="list-name">
-							{{i.goodsName}}
+							{{ite.goodsName}}{{ite.goodsId}}
 						</view>
 						<view class="list-price">
-							￥{{i.marketPrice?i.marketPrice.toFixed(2):'暂无价格'}}
+							￥{{ite.marketPrice?ite.marketPrice.toFixed(2):'暂无价格'}}
 						</view>
 					</view>
 				</view>
@@ -81,6 +81,12 @@
 		methods: {
 			toggle(index) {
 				this.titleIndex = index
+			},
+			detail(id){
+				console.log(id)
+				uni.navigateTo({
+					url:'../index/productDetails?id='+id
+				})
 			},
 			naviBack() {
 				uni.navigateBack({

@@ -5,7 +5,9 @@
 
 		<view class="userBox">
 			<view class="img_a">
-				<image :src="user.headimg?user.headimg:user.sex==0?'../../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../../static/307930aca7b24a8f938121e2bac851d4.png'" mode=""></image>
+				<image
+					:src="user.headimg?user.headimg:user.sex==0?'../../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../../static/307930aca7b24a8f938121e2bac851d4.png'"
+					mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum">
@@ -84,7 +86,9 @@
 					haeder: true,
 					success: function(res) {
 						_this.jifList = res.data.data.list
-						_this.id = res.data.data.list[0].cateId
+						if (res.data.data.list[0]) {
+							_this.id = res.data.data.list[0].cateId
+						}
 					}
 				}),
 				this.$https({
@@ -341,7 +345,7 @@
 			}
 
 			.tit {
-				font-size:26upx;
+				font-size: 26upx;
 				padding: 10rpx 20rpx;
 				color: #333;
 
@@ -355,7 +359,7 @@
 			}
 
 			.span {
-				font-size:26upx;
+				font-size: 26upx;
 				color: #ff0000;
 				padding: 15rpx 20rpx;
 				position: absolute;

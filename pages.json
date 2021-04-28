@@ -434,7 +434,16 @@
 		{
 			"path":"pages/enter/denglu"
 		}
-	],
+	    ,{
+            "path" : "pages/user/sale/newSale/newSale",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "领券中心",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "毅木重卡",

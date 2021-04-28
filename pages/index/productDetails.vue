@@ -71,7 +71,7 @@
 						<text>原价：￥{{list.marketPrice?list.marketPrice:""}}</text>
 					</view>
 				</view>
-				<view class="preferential" v-for="(i,n) in list.couponDTOS">
+				<view class="preferential" v-for="(i,n) in list.couponDTOS" @tap="huodongxian">
 					<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
 				</view>
 
@@ -112,7 +112,7 @@
 			<view class="huid">
 				<text>优惠</text>
 			</view>
-			<view class="xiangqBox" @tap='huodongxian' :v-if='youhuiqu.length>0'>
+			<view class="xiangqBox" @tap='huodongxian' v-if='youhuiqu.length>0'>
 				<view class="oneBox" v-for="(i,n) in youhuiqu">
 					<view class="preferential">
 						<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
@@ -122,7 +122,7 @@
 					</view>
 				</view>
 			</view>
-			<view class='xiangqBox' :v-if='youhuiqu.length==0'>暂无优惠</view>
+			<view class='xiangqBox' v-if='!youhuiqu.length>0'>暂无优惠</view>
 			<view class="imBox" @tap='huodongxian'>
 				<image src="../../static/icon_26.png" mode=""></image>
 			</view>
@@ -290,27 +290,32 @@
 		</view>
 		<!--活动列表-->
 		<view v-if='huodong'
-			style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;'
-			@tap='yincang'>
+			style='position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;'>
 			<view
-				style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:10rpx 10rpx 0 0;overflow-y:auto;'>
+				style='width:100%;bottom:0;height:60%;position:fixed;left:0;background:#fff;border-radius:10rpx 10rpx 0 0;overflow-y:auto;box-sizing: border-box;'>
 				<view style='text-align:center;margin-top:30rpx;'>优惠<view
-						style='position:absolute;right:50rpx;top:30rpx;'>
-						<image src='../../static/close_901px_1199932_easyicon.net.png'
-							style='width:30rpx;height:30rpx;'></image>
+						style='position:absolute;right:20rpx;top:30rpx;'>
+						<image @tap='yincang' src='../../static/close_901px_1199932_easyicon.net.png'
+							style='width:36rpx;height:36rpx;'></image>
 					</view>
 				</view>
-				<view v-for='item in list.couponDTOS'
-					style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;'>
-					<view style='overflow:hidden;'>
-						<view
-							style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>
-							满{{item.condition}}-{{item.money}}元</view>
-						<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>
-							满{{item.condition}},立减{{item.money}}元;不累积</view>
+				<view v-for='(item,index ) in list.couponDTOS'
+					style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;width: 100%;box-sizing: border-box;'>
+					<view class="boxLeft">
+						<view style='overflow:hidden;'>
+							<view
+								style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>
+								满{{item.condition}}-{{item.money}}元</view>
+							<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>
+								满{{item.condition}},立减{{item.money}}元;不累积</view>
+						</view>
+						<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>
+							{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}
+						</view>
 					</view>
-					<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>
-						{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}
+
+					<view class="lingqu" @tap="lingquYHQ(item.id,index,item.type)">
+						{{item.type?'已领取':'领取'}}
 					</view>
 				</view>
 			</view>
@@ -399,7 +404,8 @@
 				pdType: '',
 				starNum: 0,
 				code: '',
-				liulanTime: ''
+				liulanTime: '',
+				keLink: ''
 			}
 		},
 		components: {
@@ -408,6 +414,7 @@
 		onLoad(option) {
 			this.deId = option.id
 			this.pdType = uni.getStorageSync('pdType')
+			console.log(option)
 			var _this = this
 			uni.getSystemInfo({
 				success: function(res) {
@@ -422,6 +429,11 @@
 				},
 				dengl: !uni.getStorageSync('Authorization'),
 				success: function(res) {
+					if (res.data.data.detail.couponDTOS) {
+						res.data.data.detail.couponDTOS.map(function(val, i) {
+							val.type = false
+						})
+					}
 					_this.list = res.data.data.detail
 					_this.list.goodsImgss = res.data.data.detail.goodsImgs.split(',')
 					if (_this.list.shopPrice) {
@@ -430,6 +442,7 @@
 					if (_this.list.marketPrice) {
 						_this.list.marketPrice = _this.list.marketPrice.toFixed(2)
 					}
+
 					//修改返回的数据中的参数
 					Object.keys(res.data.data.specs).forEach(function(key) {
 						var obj = {}
@@ -458,9 +471,9 @@
 						numa++
 					}
 					// 优惠券
-					_this.youhui = res.data.data.couponDTOS
-					if (res.data.data.couponDTOS) {
-						if (res.data.data.couponDTOS.length > 0) {
+					_this.youhui = res.data.data.detail.couponDTOS
+					if (res.data.data.detail.couponDTOS) {
+						if (res.data.data.detail.couponDTOS.length > 0) {
 							_this.youhuiqu = [res.data.data.detail.couponDTOS[0]]
 						}
 					}
@@ -479,11 +492,11 @@
 						},
 						success: function(res) {
 							_this.starNum = res.data.data.starId
+							_this.keLink = res.data.data.kfLink
 						}
 					})
 					//添加商品浏览记录
 					//判断是否登录
-
 					if (uni.getStorageSync('Authorization')) {
 						_this.$https({
 							url: '/api/shop/goods-brows-history-add',
@@ -542,6 +555,42 @@
 					delta: 1
 				})
 			},
+			lingquYHQ(id, index, type) {
+				console.log(index)
+				var _this = this
+				if (type) {
+					uni.showToast({
+						title: '已领取，不可重复领取',
+						icon:'none'
+					})
+					return
+					
+				} else {
+					this.$https({
+						url: '/api/shop/coupon-couple-add',
+						data: {
+							ids: id
+						},
+						method: 'POST',
+						dengl: false,
+						success(res) {
+							if (res.data.code == 0) {
+								_this.list.couponDTOS[index].type = true
+								uni.showToast({
+									title: '恭喜，抢到了',
+									icon:'none'
+								})
+							} else {
+								_this.list.couponDTOS[index].type = res.data.message == '优惠券已领取' ? true : false
+								uni.showToast({
+									title: res.data.message,
+									icon: 'none'
+								})
+							}
+						}
+					})
+				}
+			},
 			jump(ind) {
 				var _this = this
 				this.ind = ind
@@ -560,7 +609,7 @@
 				this.isAdd = !this.isAdd
 				// this.Price = this.guige[0].price
 				console.log(this.Price)
-				this.Price=this.Price==0?this.list.shopPrice:this.Price
+				this.Price = this.Price == 0 ? this.list.shopPrice : this.Price
 				// con
 			},
 			reduce() {
@@ -726,12 +775,15 @@
 										integral: this.list.integral,
 										goodsName: this.list.goodsName,
 										kuaidi: this.list.kuaidi,
-										shopPrice: this.j,
+										goodsPrice: this.j,
 										goodsId: this.list.goodsId,
+										shopName: this.list.shopDTO.shopName,
 										specKey: this.guige[this.indexx].key,
 										shopId: this.shopId,
-										name: this.list.length > 0 ? this.list.couponDTOS[0].name :
-											'',
+										xuanzhong:true,
+										name: this.list.length > 0 ? this.list.couponDTOS[0].name :'',
+										couponUse:this.list.couponStatus,
+										couponDJ:this.list.isUseCommCoupon
 									}]
 								}) + '&dingdan=2&goumai=1'
 						})
@@ -779,9 +831,17 @@
 			},
 			tiaozhuan: function() {
 				if (this.denglufangfatiaozhuan()) {
-					uni.navigateTo({
-						url: 'ke?id=' + this.deId
-					})
+					if (!this.keLink) {
+						uni.showToast({
+							title: '该店铺暂无客服',
+							icon: 'none'
+						})
+					} else {
+						uni.navigateTo({
+							url: 'ke?id=' + this.deId + '&shopLink=' + this.keLink
+						})
+
+					}
 				}
 			}
 		}
@@ -792,6 +852,24 @@
 <style lang="scss">
 	page {
 		background-color: #f7f7f7;
+	}
+
+	.boxLeft {
+		width: calc(100% - 120rpx);
+		float: left;
+	}
+
+	.lingqu {
+		float: right;
+		width: 100rpx;
+		text-align: center;
+		background: #fde9e9;
+		margin-right: 20rpx;
+		height: 50rpx;
+		line-height: 50rpx;
+		border-radius: 10rpx;
+		color: #ff3333;
+		font-size: 26rpx;
 	}
 
 	* {
@@ -1091,7 +1169,7 @@
 		overflow: hidden;
 
 		.ThePrice {
-			// overflow: hidden;
+			overflow: hidden;
 
 			.h2Box {
 				float: left;
@@ -1262,7 +1340,8 @@
 	.xize {
 		background-color: #fff;
 		margin-top: 20upx;
-		width: 710upx;
+		width: 100%;
+		box-sizing: border-box;
 		padding: 20upx;
 		overflow: hidden;
 
@@ -1287,7 +1366,7 @@
 
 				.preferential {
 					float: left;
-					margin-top: 20upx;
+					margin-top: 10upx;
 					margin-right: 20upx;
 					background-color: #fde9e9;
 					padding: 0 10upx;
@@ -1314,6 +1393,7 @@
 
 		.imBox {
 			float: right;
+			padding-left: 30rpx;
 
 			image {
 				width: 12upx;

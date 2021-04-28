@@ -42,7 +42,7 @@
 				<view class="xinxi">
 					<uni-swipe-action>
 						<!-- 订单信息 -->
-						<view class="xinxi1" v-for="(i,n) in item.specList" v-if='i.cartGoodsStatus==0'>
+						<view class="xinxi1" v-for="(ite,n) in  item.specList" v-if='ite.cartGoodsStatus==0'>
 							<uni-swipe-action-item>
 								<view class="radi">
 									<view
@@ -53,31 +53,31 @@
 											v-if='shuju[index].s[n]'></view>
 									</view>
 								</view>
-								<view class="imgBox_a" @tap='g(item.goodsId)'>
-									<image :src="item.goodsLogo" mode=""></image>
+								<view class="imgBox_a" @tap='detailTo(index,n)'>
+									<image :src="ite.goodsLogo" mode=""></image>
 								</view>
 								<view class="txt_c">
-									<view class="title" @tap='g(item.goodsId)'>
-										<text>{{item.goodsName}}</text>
+									<view class="title" @tap='detailTo(index,n)'>
+										<text>{{ite.goodsName}}</text>
 									</view>
-									<view class="spec" @tap='g(item.goodsId)'>
-										<text>已选：＂{{i.specKeyName}}＂</text>
+									<view class="spec" @tap='detailTo(index,n)'>
+										<text>已选：＂{{ite.specKeyName}}＂</text>
 									</view>
 									<!-- <view class=""> -->
 
 
 									<view class="radColor">
-										<text>{{i.goodsPrice?'￥'+i.goodsPrice.toFixed(2):'0'}}</text>
+										<text>{{ite.goodsPrice?'￥'+ite.goodsPrice.toFixed(2):'0'}}</text>
 									</view>
 
 									<!-- 数量 -->
 									<!-- <view class="jia">
-								<text>X{{i.goodsNum}}</text>
+								<text>X{{ite.goodsNum}}</text>
 							</view> -->
 									<view class="num">
 										<view @tap='jian(index,n)'>-</view>
-										<view class="numm" @tap="valRe1(index,n,i.goodsNum)">
-											{{i.goodsNum}}
+										<view class="numm" @tap="valRe1(index,n,ite.goodsNum)">
+											{{ite.goodsNum}}
 										</view>
 										<view @tap='jia(index,n)'>+</view>
 									</view>
@@ -148,7 +148,7 @@
 						@tap='gengduo'>更多</view>
 				</view>
 				<view class="clearCss">
-					<view class='content-item' v-for='item in tuijian' @tap='g(item.goodsId)' v-if='y'>
+					<view class='content-item' v-for='item in tuijian' @tap='g(item.goodsId)' v-if='!y'>
 						<view class="imgBox">
 							<image :src="item.goodsLogo" mode="widthFix"></image>
 						</view>
@@ -187,7 +187,7 @@
 					</view>
 				</view>
 				<view class="activeCss">
-					<view v-for='item in tuijian' class="content-item" @tap='g(item.goodsId)' v-if='!y'>
+					<view v-for='item in tuijian' class="content-item" @tap='g(item.goodsId)' v-if='y'>
 						<view class="imgBox">
 							<image :src="item.goodsLogo" mode=""></image>
 						</view>
@@ -197,7 +197,7 @@
 								<text class="titleText">{{item.goodsName}}</text>
 							</view>
 							<view class="item-coupon">
-								<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+								<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS" v-if="indexs<=1">
 									<text>满{{items.condition}}-{{items.money}}元</text>
 								</view>
 								<view class="coupon-item">
@@ -226,7 +226,7 @@
 					<text style='margin-left:20rpx;float:left;'>全选</text>
 					<view style='float:left;'>
 						<!-- <view style='float:left;color:#ff6600;font-size:20rpx;margin-top:10rpx;margin-left:20rpx;'></view> -->
-						<view style='float:left;color:#ff6600;font-size:30rpx;'>￥{{jiage}}</view>
+						<view style='float:left;color:#ff6600;font-size:30rpx;'>￥{{jiage.toFixed(2)}}</view>
 						<view style='float:left;color:#999;font-size:26rpx;margin-left:10rpx;'>(含运费)</view>
 					</view>
 				</view>
@@ -356,42 +356,82 @@
 					url: '/api/shop/order-cart-list',
 					data: {
 						page: 1,
-						page_num: 2000
+						page_num: 200
 					},
 					dengl: false,
 					success: function(res) {
 						if (res.data.code == 0) {
 							_this.jiage = 0
 							//修改数据结构，以使数据更好用
-							_this.cartList = res.data.data.cartList
-							res.data.data.cartList.map(function(n, index) {
+							// console.log(res.data.data)	
+							var list = []
+							if (res.data.data.cartShopIdList) {
+								res.data.data.cartShopIdList.map(function(val, i) {
+									var arr = {}
+									// arr.push()
+									var arrs = []
+									res.data.data.cartList[val].map(function(v, ii) {
+										v.specList.map(function(item, index) {
+											// _this.$set(item, 'goodsLogo', v.goodsLogo)
+											// _this.$set(item, 'goodsId', v.goodsId)
+											// _this.$set(item, 'goodsName', v.goodsName)
+											item.goodsLogo = v.goodsLogo
+											item.goodsName = v.goodsName
+											item.goodsId = v.goodsId
+											item.myCode = v.myCode
+											item.couponUse=v.couponStatus
+											item.couponDJ=v.isUseCommCoupon
+											arrs.push(item)
+										})
+										arr.goodsId = v.goodsId
+										arr.storeShopDTO = v.storeShopDTO
+										arr.goodsName = v.goodsName
+										arr.goodsLogo = v.goodsLogo
+										arr.goodsNum = v.goodsNum
+										arr.goodsPrice = v.goodsPrice
+										arr.goodsSn = v.goodsSn
+										arr.myCode = v.myCode
+										arr.shopId = v.shopId
+										arr.specList = arrs
+									})
+									list.push(arr)
+								})
+							}
+							_this.cartList = list
+							_this.cartList.map(function(n, index) {
 								_this.$set(_this.shuju, index, {
 									dian: false,
 									s: []
 								})
 								_this.$set(_this.huad, index, [])
 								n.specList.map(function(z, indexx) {
+									// z.goodsName = n.goodsName
 									if (z.cartGoodsStatus == 1 || z.cartGoodsStatus == 2) {
 										_this.s = true
 									}
 									_this.$set(_this.shuju[index].s, indexx, false)
 									_this.$set(_this.huad[index], indexx, false)
+
 								})
+								console.log(n)
+								_this.numa += n.specList.length
 							})
-							_this.numa = res.data.data.cartList.length
+							// _this.numa = _this.cartList.length
 							_this.xuan = false
+							console.log(_this.cartList)
 							// _this.xuanzho.map(function(n, index) {
 							// 	n.map(function(z, indexs) {
 							// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
 							// 	})
 							// })
+							// console.log(_this.cartList, 8888)
 						} else {
 							_this.cartList = []
 						}
 					}
 				})
 			}
-			this.page=1
+			this.page = 1
 			this.$https({
 				url: '/api/oauth/shop/mall-index',
 				data: {
@@ -407,6 +447,7 @@
 		},
 		onPullDownRefresh() {
 			if (uni.getStorageSync('Authorization')) {
+				var _this = this
 				this.$https({
 					url: '/api/shop/order-cart-list',
 					data: {
@@ -417,9 +458,39 @@
 					success: function(res) {
 						if (res.data.code == 0) {
 							_this.jiage = 0
+							var list = []
 							//修改数据结构，以使数据更好用
-							_this.cartList = res.data.data.cartList
-							res.data.data.cartList.map(function(n, index) {
+							if (res.data.data.cartShopIdList) {
+								res.data.data.cartShopIdList.map(function(val, i) {
+									var arr = {}
+									// arr.push()
+									var arrs = []
+									res.data.data.cartList[val].map(function(v, ii) {
+										v.specList.map(function(item, index) {
+											item.goodsLogo = v.goodsLogo
+											item.goodsName = v.goodsName
+											item.goodsId = v.goodsId
+											item.couponUse=v.couponStatus
+											item.couponDJ=v.isUseCommCoupon
+											arrs.push(item)
+										})
+										arr.goodsId = v.goodsId
+										arr.storeShopDTO = v.storeShopDTO
+										arr.goodsName = v.goodsName
+										arr.goodsLogo = v.goodsLogo
+										arr.goodsNum = v.goodsNum
+										arr.goodsPrice = v.goodsPrice
+										arr.goodsSn = v.goodsSn
+										arr.myCode = v.myCode
+										arr.shopId = v.shopId
+										arr.specList = arrs
+									})
+									list.push(arr)
+								})
+							}
+							_this.cartList = list
+							_this.numa = 0
+							_this.cartList.map(function(n, index) {
 								_this.$set(_this.shuju, index, {
 									dian: false,
 									s: []
@@ -432,8 +503,8 @@
 									_this.$set(_this.shuju[index].s, indexx, false)
 									_this.$set(_this.huad[index], indexx, false)
 								})
+								_this.numa += n.specList.length
 							})
-							_this.numa = res.data.data.cartList.length
 							_this.xuan = false
 							// _this.xuanzho.map(function(n, index) {
 							// 	n.map(function(z, indexs) {
@@ -469,6 +540,12 @@
 			uniNumberBox
 		},
 		methods: {
+			detailTo(index, indexs) {
+				// console.log(item, this.cartList, 3333, ite)
+				uni.navigateTo({
+					url: '../index/productDetails?id=' + this.cartList[index].specList[indexs].goodsId
+				})
+			},
 			change(e) {
 				this.valRe()
 				this.val = this.value
@@ -483,6 +560,8 @@
 						}
 					})
 				})
+				this.shuru(this.index, this.n)
+
 			},
 			getNews(data) {
 				this.page = 1
@@ -554,14 +633,12 @@
 				this.index = index
 				this.n = n
 			},
-			select: function() {
-				console.log(1)
-			},
+			select: function() {},
 			openPopup(index, indexs) {
 				this.$refs.popup.open()
 				//获得商品id
 				var _this = this
-				var goodsId = this.cartList[index].goodsId
+				var goodsId = this.cartList[index].specList[indexs].goodsId
 				//商品规格
 
 				//商品的信息
@@ -616,7 +693,39 @@
 							url: '/api/shop/order-cart-list',
 							data: {},
 							success: function(res) {
-								_this.cartList = res.data.data.cartList
+								var list = []
+								if (res.data.data.cartShopIdList) {
+									res.data.data.cartShopIdList.map(function(val, i) {
+										var arr = {}
+										// arr.push()
+										var arrs = []
+										res.data.data.cartList[val].map(function(v, ii) {
+											v.specList.map(function(item, index) {
+												item.goodsLogo = v
+													.goodsLogo
+												item.goodsName = v
+													.goodsName
+												item.goodsId = v.goodsId
+												item.couponUse=v.couponStatus
+												item.couponDJ=v.isUseCommCoupon
+												arrs.push(item)
+											})
+											arr.goodsId = v.goodsId
+											arr.storeShopDTO = v.storeShopDTO
+											arr.goodsName = v.goodsName
+											arr.goodsLogo = v.goodsLogo
+											arr.goodsNum = v.goodsNum
+											arr.goodsPrice = v.goodsPrice
+											arr.goodsSn = v.goodsSn
+											arr.myCode = v.myCode
+											arr.shopId = v.shopId
+											arr.specList = arrs
+										})
+										list.push(arr)
+									})
+								}
+								_this.cartList = list
+								// _this.cartList = res.data.data.cartList
 								_this.shuju[index].splice(indexs, 1)
 								_this.jiage = 0
 								_this.shuju.map(function(x, index) {
@@ -646,7 +755,7 @@
 								goodsNum: this.cartList[index].specList[indexs].goodsNum,
 								specKey: this.cartList[index].specList[indexs].specKey
 							}],
-							goodsId: this.cartList[index].goodsId,
+							goodsId: this.cartList[index].specList[indexs].goodsId,
 							status: 'u'
 						}),
 						haeder: true,
@@ -677,7 +786,7 @@
 							goodsNum: this.cartList[index].specList[indexs].goodsNum,
 							specKey: this.cartList[index].specList[indexs].specKey
 						}],
-						goodsId: this.cartList[index].goodsId,
+						goodsId: this.cartList[index].specList[indexs].goodsId,
 						status: 'u'
 					}),
 					haeder: true,
@@ -706,7 +815,7 @@
 							goodsNum: this.cartList[index].specList[indexs].goodsNum,
 							specKey: this.cartList[index].specList[indexs].specKey
 						}],
-						goodsId: this.cartList[index].goodsId,
+						goodsId: this.cartList[index].specList[indexs].goodsId,
 						status: 'u'
 					}),
 					method: 'post',
@@ -796,7 +905,72 @@
 										url: '/api/shop/order-cart-list',
 										data: {},
 										success: function(res) {
-											_this.cartList = res.data.data.cartList
+											var list = []
+											if (res.data.data.cartShopIdList) {
+												res.data.data.cartShopIdList.map(
+													function(val, i) {
+														var arr = {}
+														// arr.push()
+														var arrs = []
+														res.data.data.cartList[
+															val].map(
+															function(v,
+																ii) {
+																v.specList
+																	.map(
+																		function(
+																			item,
+																			index
+																		) {
+																			item.goodsLogo =
+																				v
+																				.goodsLogo
+																			item.goodsName =
+																				v
+																				.goodsName
+																			item.goodsId =
+																				v
+																				.goodsId
+																				item.couponUse=v.couponStatus
+																				item.couponDJ=v.isUseCommCoupon
+																			arrs.push(
+																				item
+																			)
+																		})
+																arr.goodsId =
+																	v
+																	.goodsId
+																arr.storeShopDTO =
+																	v
+																	.storeShopDTO
+																arr.goodsName =
+																	v
+																	.goodsName
+																arr.goodsLogo =
+																	v
+																	.goodsLogo
+																arr.goodsNum =
+																	v
+																	.goodsNum
+																arr.goodsPrice =
+																	v
+																	.goodsPrice
+																arr.goodsSn =
+																	v
+																	.goodsSn
+																arr.myCode =
+																	v
+																	.myCode
+																arr.shopId =
+																	v
+																	.shopId
+																arr.specList =
+																	arrs
+															})
+														list.push(arr)
+													})
+											}
+											_this.cartList = list
 										}
 									})
 								} else {
@@ -1077,23 +1251,25 @@
 							title: '请选择商品'
 						})
 					} else {
+						// console.log(this.shuju, 83297428917439218749823174892137)
 						this.shuju.map(function(n, index) {
-							var arr = []
-							arr[index] = {}
-							arr[index].name = _this.cartList[index].storeShopDTO ? _this.cartList[index]
-								.storeShopDTO.shopName : ''
+
 							n.s.map(function(x, indexx) {
 								if (x) {
 									_this.cartList[index].specList[indexx].xuanzhong = true
 									_this.cartList[index].cartAttr = _this.cartList[index].specList
-									_this.cartList[index].specList[indexx].goodsLogo = _this.cartList[
-										index].goodsLogo
-									_this.cartList[index].specList[indexx].goodsId = _this.cartList[
-										index].goodsId
-									_this.cartList[index].specList[indexx].shopPrice = _this.cartList[
-										index].specList[indexx].goodsPrice
+									_this.cartList[index].shopName = _this.cartList[index].storeShopDTO
+										.shopName
+									// _this.cartList[index].specList[indexx].goodsLogo = _this.cartList[
+									// 	index].goodsLogo
+									// _this.cartList[index].specList[indexx].goodsId = _this.cartList[
+									// 	index].goodsId
+									// _this.cartList[index].specList[indexx].shopPrice = _this.cartList[
+									// 	index].specList[indexx].goodsPrice
 								}
 							})
+
+
 						})
 						uni.navigateTo({
 							url: 'orderForm/orderForm?goodsId=1' + '&cartAttr=' + JSON.stringify({
@@ -1109,7 +1285,7 @@
 								_this.$https({
 									url: '/api/shop/order-del-spec-goods',
 									data: {
-										goodsId: _this.cartList[index].goodsId,
+										goodsId: _this.cartList[index].specList[indez].goodsId,
 										specKey: _this.cartList[index].specList[indez].specKey
 									},
 									method: 'post',
@@ -1141,8 +1317,78 @@
 																.numa++
 														})
 												})
-												_this.cartList = res.data.data
-													.cartList
+
+												var list = []
+												if (res.data.data
+													.cartShopIdList) {
+													res.data.data
+														.cartShopIdList.map(
+															function(val, i) {
+																var arr = {}
+																// arr.push()
+																var arrs = []
+																res.data.data
+																	.cartList[
+																		val]
+																	.map(
+																		function(
+																			v,
+																			ii
+																		) {
+																			v.specList
+																				.map(
+																					function(
+																						item,
+																						index
+																					) {
+																						item.goodsLogo =
+																							v
+																							.goodsLogo
+																						item.goodsName =
+																							v
+																							.goodsName
+																						item.goodsId =
+																							v
+																							.goodsId
+																						arrs.push(
+																							item
+																						)
+																					}
+																				)
+																			arr.goodsId =
+																				v
+																				.goodsId
+																			arr.storeShopDTO =
+																				v
+																				.storeShopDTO
+																			arr.goodsName =
+																				v
+																				.goodsName
+																			arr.goodsLogo =
+																				v
+																				.goodsLogo
+																			arr.goodsNum =
+																				v
+																				.goodsNum
+																			arr.goodsPrice =
+																				v
+																				.goodsPrice
+																			arr.goodsSn =
+																				v
+																				.goodsSn
+																			arr.myCode =
+																				v
+																				.myCode
+																			arr.shopId =
+																				v
+																				.shopId
+																			arr.specList =
+																				arrs
+																		})
+																list.push(arr)
+															})
+												}
+												_this.cartList = list
 												_this.shuju[index].s[indez]
 													.splice(0, 1)
 												_this.shuju.map(function(z,
@@ -1184,11 +1430,77 @@
 										data: {},
 										dengl: false,
 										success: function(res) {
-											_this.cartList = res.data.data
-												.cartList
+											var list = []
+											if (res.data.data.cartShopIdList) {
+												res.data.data.cartShopIdList
+													.map(function(val, i) {
+														var arr = {}
+														// arr.push()
+														var arrs = []
+														res.data.data
+															.cartList[val]
+															.map(function(
+																v, ii
+															) {
+																v.specList
+																	.map(
+																		function(
+																			item,
+																			index
+																		) {
+																			item.goodsLogo =
+																				v
+																				.goodsLogo
+																			item.goodsName =
+																				v
+																				.goodsName
+																			item.goodsId =
+																				v
+																				.goodsId
+																				item.couponUse=v.couponStatus
+																				item.couponDJ=v.isUseCommCoupon
+																			arrs.push(
+																				item
+																			)
+																		}
+																	)
+																arr.goodsId =
+																	v
+																	.goodsId
+																arr.storeShopDTO =
+																	v
+																	.storeShopDTO
+																arr.goodsName =
+																	v
+																	.goodsName
+																arr.goodsLogo =
+																	v
+																	.goodsLogo
+																arr.goodsNum =
+																	v
+																	.goodsNum
+																arr.goodsPrice =
+																	v
+																	.goodsPrice
+																arr.goodsSn =
+																	v
+																	.goodsSn
+																arr.myCode =
+																	v
+																	.myCode
+																arr.shopId =
+																	v
+																	.shopId
+																arr.specList =
+																	arrs
+															})
+														list.push(arr)
+													})
+											}
+											_this.cartList = list
 											_this.numa = 0
 											_this.s = false
-											res.data.data.cartList.map(
+											_this.cartList.map(
 												function(c) {
 													c.specList.map(
 														function(z) {
@@ -1224,7 +1536,8 @@
 			shanchu: function() {
 				this.shanchua = !this.shanchua
 			},
-			g: function(id) {
+			g: function(id, ite) {
+				console.log(id, ite)
 				uni.navigateTo({
 					url: '../index/productDetails?id=' + id
 				})
@@ -1246,10 +1559,11 @@
 				}
 			},
 			shanc: function(index, n) {
+				var _this = this
 				this.$https({
 					url: '/api/shop/order-del-spec-goods',
 					data: {
-						goodsId: this.cartList[index].goodsId,
+						goodsId: this.cartList[index].specList[n].goodsId,
 						specKey: this.cartList[index].specList[n].specKey
 					},
 					method: 'post',
@@ -1261,7 +1575,43 @@
 								success: res => {
 									this.numa = 0
 									this.s = false
-									res.data.data.cartList.map(n => {
+									var list = []
+									if (res.data.data.cartShopIdList) {
+										res.data.data.cartShopIdList.map(function(val, i) {
+											var arr = {}
+											// arr.push()
+											var arrs = []
+											res.data.data.cartList[val].map(function(v,
+												ii) {
+												v.specList.map(function(item,
+													index) {
+													item.goodsLogo = v
+														.goodsLogo
+													item.goodsName = v
+														.goodsName
+													item.goodsId = v
+														.goodsId
+														item.couponUse=v.couponStatus
+														item.couponDJ=v.isUseCommCoupon
+													arrs.push(item)
+												})
+												arr.goodsId = v.goodsId
+												arr.storeShopDTO = v
+													.storeShopDTO
+												arr.goodsName = v.goodsName
+												arr.goodsLogo = v.goodsLogo
+												arr.goodsNum = v.goodsNum
+												arr.goodsPrice = v.goodsPrice
+												arr.goodsSn = v.goodsSn
+												arr.myCode = v.myCode
+												arr.shopId = v.shopId
+												arr.specList = arrs
+											})
+											list.push(arr)
+										})
+									}
+									_this.cartList = list
+									_this.cartList.map(n => {
 										n.specList.map(z => {
 											if (z.cartGoodsStatus == 1 || z
 												.cartGoodsStatus == 2) {
@@ -1270,7 +1620,7 @@
 											this.numa++
 										})
 									})
-									this.cartList = res.data.data.cartList
+									this.cartList = _this.cartList
 									this.shuju[index].s.splice(n, 1)
 									if (this.shuju[index].s.length == 0) {
 										this.shuju.splice(index, 1)

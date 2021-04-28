@@ -252,13 +252,13 @@
 				var _this = this
 				uni.chooseImage({
 					sizeType:['compressed'],
-					success: function(res) {
+					success: function(chooseImageRes) {
 						uni.uploadFile({
 							url: _this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: function(res) {
-								_this.headimg = uni.getStorageSync('phoneModel')=='ios'?JSON.parse(res.data).data.url+'?x-oss-process=image/quality,q_60':JSON.parse(res.data).data.url
+								_this.headimg = JSON.parse(res.data).data.url
 								var img = JSON.parse(res.data).data.url
 								_this.$https({
 									url: '/api/user/edit-member-info',

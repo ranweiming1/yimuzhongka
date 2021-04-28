@@ -54,36 +54,38 @@
 			</view>
 		</view>
 		<!-- 订单信息 -->
-		<view class="xinxi" v-for="(item,index) in deList.goodsList">
-			<view class="biaot">
-				<text>订单信息</text>
-			</view>
-			<view class="xinXi" v-for="(ite,inde) in deList.goodsList[0].specList">
-
-
-				<view class="imgBox_a" @tap='g(item.goodsId)'>
-					<image :src="item.goodsLogo" mode=""></image>
+		<view class="box_xinxi">
+			<view class="xinxi" v-for="(item,index) in deList.goodsList">
+				<view class="biaot" v-if="index==0">
+					<text>订单信息</text>
 				</view>
-				<view class="txt_c" @tap='g(item.goodsId)'>
-					<view class="title">
-						<text>{{item.goodsName}}</text>
+				<view class="xinXi" v-for="(ite,inde) in deList.goodsList[index].specList">
+					<view class="imgBox_a" @tap='g(item.goodsId)'>
+						<image :src="item.goodsLogo" mode=""></image>
 					</view>
-					<view class="spec">
-						<text>已选：＂{{ite.specKeyName}}＂</text>
-					</view>
-					<view class="radColor">
-						<text>{{ite.goodsPrice?'￥'+ite.goodsPrice+'.00':'0'}}</text>
-					</view>
+					<view class="txt_c" @tap='g(item.goodsId)'>
+						<view class="title">
+							<text>{{item.goodsName}}</text>
+						</view>
+						<view class="spec">
+							<text>已选：＂{{ite.specKeyName}}＂</text>
+						</view>
+						<view class="radColor">
+							<text>{{ite.goodsPrice?'￥'+ite.goodsPrice.toFixed(2):'0'}}</text>
+						</view>
 
-					<!-- 这是数量加减 -->
-					<view class="jia">
-						<text>X{{item.goodsNum}}</text>
+						<!-- 这是数量加减 -->
+						<view class="jia">
+							<text>X{{item.goodsNum}}</text>
+						</view>
+					</view>
+					<view class="uni-padding-wrap uni-common-mt bott"
+						@tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId)"
+						v-if='s'>
+						<button type="primary">申请售后</button>
 					</view>
 				</view>
-				<view class="uni-padding-wrap uni-common-mt bott" @tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId)"
-				 v-if='s'>
-					<button type="primary">申请售后</button>
-				</view>
+
 			</view>
 
 		</view>
@@ -106,7 +108,8 @@
 				<text>优惠券</text>
 			</view>
 			<view class="right_a">
-				<text>已抵扣<text style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice.toFixed(2):'0'}}</text></text>
+				<text>已抵扣<text
+						style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice.toFixed(2):'0'}}</text></text>
 			</view>
 		</view>
 
@@ -116,7 +119,9 @@
 			</view>
 			<view class="right_a">
 				<view class="img_l">
-					<image :src="deList.payMethod=='1'?'../../../static/wx.png':deList.payMethod=='4'?'../../../static/z.png':''" mode=""></image>
+					<image
+						:src="deList.payMethod=='1'?'../../../static/wx.png':deList.payMethod=='4'?'../../../static/z.png':''"
+						mode=""></image>
 				</view>
 				<text>{{deList.payMethod=='1'?'微信安全支付':deList.payMethod=='2'?'积分安全支付':deList.payMethod=='3'?'微信+积分安全支付':deList.payMethod=='4'?'支付宝安全支付':'支付宝+积分安全支付'}}</text>
 			</view>
@@ -127,7 +132,7 @@
 				<text>商品金额</text>
 			</view>
 			<view class="right_a">
-				<text>{{deList.orderAmount?'￥'+deList.orderAmount+'.00':'0'}}</text>
+				<text>{{deList.totalAmount?'￥'+deList.totalAmount.toFixed(2):'0'}}</text>
 			</view>
 		</view>
 		<view class="basic aa">
@@ -138,12 +143,20 @@
 				<text>{{deList.couponPrice?'-￥'+deList.couponPrice:0}}</text>
 			</view>
 		</view>
-		<view class="basic aa ssa">
+		<view class="basic aa">
 			<view class="left_a">
 				<text>运费</text>
 			</view>
 			<view class="right_a">
 				<text>{{kuaidi?'￥'+kuaidi:'0'}}</text>
+			</view>
+		</view>
+		<view class="basic aa ssa">
+			<view class="left_a">
+				<text>实付款</text>
+			</view>
+			<view class="right_a">
+				<text>{{deList.orderAmount?'￥'+deList.orderAmount.toFixed(2):'0'}}</text>
 			</view>
 		</view>
 		<view style='height:150rpx;'></view>
@@ -216,14 +229,16 @@
 			wuliu() {
 				// console.log('222')
 				uni.navigateTo({
-					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' + this.dz + '&goods=' +
+					url: './deliver?code=' + this.code + '&order=' + this.order + '&com=' + this.com + '&dz=' +
+						this.dz + '&goods=' +
 						JSON.stringify(this.deList.goodsList)
 				})
 			},
 			afterSole(oS, lG, gN, gP, sKN, Num, orderId) {
 				// console.log(22222)
 				uni.navigateTo({
-					url: "./deliver_01?oS=" + oS + '&lG=' + lG + '&gN=' + gN + '&gP=' + gP + '&sKN=' + sKN + '&time=' + this.deList.addTime +
+					url: "./deliver_01?oS=" + oS + '&lG=' + lG + '&gN=' + gN + '&gP=' + gP + '&sKN=' + sKN +
+						'&time=' + this.deList.addTime +
 						'&num=' + Num + '&orderId=' + orderId
 				})
 			},
@@ -371,11 +386,14 @@
 		}
 	}
 
-	.xinxi {
-		overflow: hidden;
+	.box_xinxi {
 		width: 710upx;
 		padding: 20upx;
 		border-bottom: 1px dotted #ccc;
+	}
+
+	.xinxi {
+		overflow: hidden;
 		padding-bottom: 0;
 
 		.biaot {
@@ -386,9 +404,10 @@
 
 		.xinXi {
 			overflow: hidden;
+			border-bottom: 1px dotted #ccc;
 			width: 710upx;
 			// padding: 20upx;
-			border-bottom: 1px dotted #ccc;
+			padding: 10rpx 0;
 
 			// padding: 20rpx;
 			.bott {
@@ -410,12 +429,7 @@
 			}
 		}
 
-		.xinXi:last-child {
-			border: none;
-			padding-top: 20rpx;
-			box-sizing: border-box;
-			width: 100%;
-		}
+
 
 		.imgBox_a {
 			float: left;
@@ -463,6 +477,15 @@
 					color: #666;
 				}
 			}
+		}
+	}
+
+	.box_xinxi .xinxi:last-child  {
+		.xinXi:last-child {
+			border: none;
+			// padding-top: 20rpx;
+			box-sizing: border-box;
+			width: 100%;
 		}
 	}
 

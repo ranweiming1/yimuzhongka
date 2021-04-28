@@ -1,7 +1,7 @@
 <template>
 	<view style="background-color: #f4f6f8;">
 		<!-- ----------------店铺1------------------- -->
-		<view class="shop-one" v-if="shopStyle==1">
+		<view class="shop-one" v-if="shopStyle==2">
 			<view class="shop-top">
 				<view class="shop-bag">
 					<swiper class="logo-swper-list" :current="currentIndex" :circular="true" :duration="100"
@@ -40,7 +40,7 @@
 					</view>
 				</view>
 				<view :class="isShowCont?'showContent':'shop-company-content'">
-					<rich-text :nodes="jieshao"></rich-text>
+					{{jieshao}}
 				</view>
 			</view>
 
@@ -72,7 +72,7 @@
 
 				<view class="shop-coupon" v-if="quan">
 					<scroll-view scroll-x="true" style="width: 100%;">
-						<view class="coupon-item" v-for="(item,i) in quan">
+						<view class="coupon-item" v-for="(item,i) in quan" @tap='lqCoupon(item.id,item.name,i)'>
 							<view class="shop-coupon-img">
 								<image src=""
 									:src="(i%2==0)?'../../static/coupon_odd.png':'../../static/coupon_even.png'"
@@ -102,8 +102,10 @@
 
 			<view class="shop-classify">
 				<scroll-view class="shop-classify-scroll" scroll-x="true" style="width: 100%;">
-					<view class="classify-scroll-item" v-for="(item,i) in typeList" @tap='goClassfiy(item.id)'>
-						{{item.cateTitle}}</view>
+					<view class="classify-scroll-item" v-for="(item,i) in typeList"
+						@tap='goClassfiy(item.shopId,item.cateId)'>
+						{{item.cateName}}
+					</view>
 
 				</scroll-view>
 			</view>
@@ -147,7 +149,7 @@
 			</view>
 		</view>
 		<!------------------------- 店铺2 ------------------------------>
-		<view class="shop-two" v-if="shopStyle==2">
+		<view class="shop-two" v-if="shopStyle==1">
 			<view style='posotion:relative;height:660rpx;'>
 				<view class="bg">
 					<image src="../../static/icon_39_2.png" mode=""></image>
@@ -223,8 +225,9 @@
 							使用时间:{{item.useStartTime.split(' ')[0]}}-{{item.useEndTime.split(' ')[0]}}</p>
 					</view>
 					<view class="pageRight">
-						<view class="right_bot">
-							领取
+						<view class="right_bot" :style="item.type?'':'background:#ccc'"
+							@tap='lqCoupon(item.id,item.name,i)'>
+							{{item.type?'领取':'已领取'}}
 						</view>
 					</view>
 				</view>
@@ -239,7 +242,7 @@
 						@tap="showContent">{{isShowCont?'收起':'更多'}}</span>
 				</view>
 				<view :class="isShowCont?'showContent':'briefContent'">
-					<rich-text :nodes="jieshao"></rich-text>
+					{{jieshao}}
 					<!-- <text>{{jieshao}}</text> -->
 				</view>
 			</view>
@@ -273,7 +276,7 @@
 								<text class="titleText">{{item.goodsName}}</text>
 							</view>
 							<view class="item-coupon">
-								<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS">
+								<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS" v-if="indexs<=1">
 									<text>满{{items.condition}}-{{items.money}}元</text>
 								</view>
 								<view class="coupon-item">
@@ -331,6 +334,7 @@
 						<swiper-item class="logo-swper-item" v-for="(item,i) in banner" :key="i">
 							<image class="slide-image" :src="item.img" :class="currentIndex === i?'active':''" mode="">
 							</image>
+
 						</swiper-item>
 					</swiper>
 					<div class="logo-swper-dots">
@@ -368,7 +372,7 @@
 
 				<view class="shop-coupon" v-if="quan">
 					<scroll-view scroll-x="true" style="width: 100%;">
-						<view class="coupon-item" v-for="(item,i) in quan">
+						<view class="coupon-item" v-for="(item,i) in quan" @tap='lqCoupon(item.id,item.name,i)'>
 							<view class="shop-coupon-img">
 								<image src=""
 									:src="(i%2==0)?'../../static/coupon_odd.png':'../../static/coupon_even.png'"
@@ -405,13 +409,15 @@
 					</view>
 				</view>
 				<view :class="isShowCont?'showContent':'shop-company-content'">
-					<rich-text :nodes="jieshao"></rich-text>
+					{{jieshao}}
 				</view>
 			</view>
 			<view class="shop-classify">
 				<scroll-view class="shop-classify-scroll" scroll-x="true" style="width: 100%;">
-					<view class="classify-scroll-item" v-for="(item,i) in typeList" @tap='goClassfiy(item.id)'>
-						{{item.cateTitle}}</view>
+					<view class="classify-scroll-item" v-for="(item,i) in typeList"
+						@tap='goClassfiy(item.shopId,item.cateId)'>
+						{{item.cateName}}
+					</view>
 				</scroll-view>
 			</view>
 			<view class="shop-hort">
@@ -486,7 +492,6 @@
 				star: '',
 				starVal: '',
 				page: 1,
-				loadingType: 0,
 			}
 		},
 		components: {
@@ -519,12 +524,12 @@
 			console.log(this.gList)
 			// 分类
 			this.$https({
-				url: '/api/oauth/get-one-list',
+				url: '/api/oauth/shop/get-link-cate-list',
 				data: {
 					shopId: option.id
 					// shopId: 11
 				},
-				dengl: true,
+				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: function(res) {
 					_this.typeList = res.data.data
 				}
@@ -565,12 +570,20 @@
 			this.$https({
 				url: '/api/oauth/shop/store-coupon-list',
 				data: {
-					shopId: option.id
+					shopId: option.id,
+					page: 1,
+					page_num: 100
 					// shopId: 11
 				},
 				dengl: uni.getStorageSync('Authorization') ? false : true,
 				success: res => {
-					this.quan = res.data.data
+					console.log((res.data.data =='null'))
+					if (res.data.data && res.data.data != 'null') {
+						res.data.data.map(function(val, i) {
+							val.type = true
+						})
+					}
+					this.quan = res.data.data || res.data.data != 'null' ? res.data.data : []
 				}
 			})
 		},
@@ -616,9 +629,36 @@
 				})
 			},
 
-			goClassfiy(index) {
-				uni.redirectTo({
-					url: './classifys?index=' + index + '&id=' + this.shopsId
+			goClassfiy(shopid, cateid) {
+				uni.navigateTo({
+					url: './all?id=' + shopid + '&cateId=' + cateid
+				})
+			},
+			lqCoupon(id, name, index) {
+				var _this = this
+				this.$https({
+					url: '/api/shop/coupon-couple-add',
+					data: {
+						ids: id
+					},
+					method: 'POST',
+					dengl: false,
+					success(res) {
+						console.log(res)
+						if (res.data.code == 0) {
+							_this.quan[index].type = false
+							uni.showToast({
+								title: '优惠券领取成功',
+							})
+						} else {
+							console.log(_this.quan[index], index)
+							_this.quan[index].type = res.data.message == '优惠券已领取' ? false : true
+							uni.showToast({
+								title: res.data.message,
+								icon: 'none'
+							})
+						}
+					}
 				})
 			},
 			swierChange: function(e) {
@@ -1015,6 +1055,7 @@
 		.shop-classify {
 			padding: 0 30rpx;
 
+
 			.shop-classify-scroll {
 				white-space: nowrap;
 				height: 100rpx;
@@ -1189,10 +1230,10 @@
 		.activeCss {
 			padding: 20rpx 28rpx;
 
-			 .content-item .content-item-text .titleText {
+			.content-item .content-item-text .titleText {
 				overflow: hidden;
 				text-overflow: ellipsis;
-				display: -webkit-box!important;
+				display: -webkit-box !important;
 				-webkit-line-clamp: 2;
 				-webkit-box-orient: vertical;
 				font-size: 26rpx;
@@ -1607,6 +1648,9 @@
 	.shop-three {
 
 		.shop-top {
+			width: 100%;
+			box-sizing: border-box;
+
 			.shop-bag {
 				position: absolute;
 				top: 0;
@@ -1656,7 +1700,7 @@
 			}
 
 			.shop-logo-swper {
-				width: 100%;
+				width: calc(100% -30rpx);
 				margin-left: 30rpx;
 				position: relative;
 				top: 40rpx;
@@ -1701,7 +1745,7 @@
 					.slide-image {
 						position: absolute;
 						height: 260rpx;
-						width: 520rpx;
+						width: 500rpx;
 						opacity: 0.7;
 						margin-right: 20rpx;
 						border-radius: 20rpx;
@@ -1710,7 +1754,7 @@
 					}
 
 					.active {
-						width: 626rpx;
+						width: 606rpx;
 						height: 313rpx;
 						opacity: 1;
 						z-index: 10;
@@ -1928,6 +1972,8 @@
 
 		.shop-classify {
 			padding: 0 30rpx;
+			width: 100%;
+			box-sizing: border-box;
 
 			.shop-classify-scroll {
 				white-space: nowrap;
@@ -1949,6 +1995,8 @@
 
 		.shop-hort {
 			background-color: #fff;
+			width: 100%;
+			box-sizing: border-box;
 
 			.hort-title {
 				overflow: hidden;

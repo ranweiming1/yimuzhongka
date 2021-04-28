@@ -158,13 +158,11 @@
 				kaihuhang: '',
 				sex: '',
 				xxId: '',
-				isIos: ''
 			}
 		},
 		onLoad: function(option) {
 			this.shuju = JSON.parse(option.o)
 			var _this = this
-			this.isIos = uni.getStorageSync('phoneModel') == 'ios' ? true : false
 			//获取用户id
 			this.$https({
 				url: '/api/user/my-info',
@@ -237,15 +235,13 @@
 				uni.chooseImage({
 					count: 1,
 					sizeType: ['compressed'],
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: _this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFiles[0].path,
+							filePath: chooseImageRes.tempFiles[0].path,
 							name: 'img',
 							success: res => {
-								this.license = this.isIos ? JSON.parse(res.data).data.url +
-									'?x-oss-process=image/quality,q_60' : JSON.parse(res.data)
-									.data.url
+								this.license = JSON.parse(res.data).data.url
 							}
 						})
 					}
@@ -255,15 +251,13 @@
 				uni.chooseImage({
 					count: 1,
 					sizeType: ['compressed'],
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.cardImg1 = this.isIos ? JSON.parse(res.data).data.url +
-									'?x-oss-process=image/quality,q_60' : JSON.parse(res.data)
-									.data.url
+								this.cardImg1 = JSON.parse(res.data).data.url
 								uni.request({
 									url: this.webUrl + '/oauth/get-ocr-id-card-info',
 									data: {
@@ -302,15 +296,13 @@
 				uni.chooseImage({
 					count: 1,
 					sizeType: ['compressed'],
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.cardImg2 = this.isIos ? JSON.parse(res.data).data.url +
-									'?x-oss-process=image/quality,q_60' : JSON.parse(res.data)
-									.data.url
+								this.cardImg2 =JSON.parse(res.data).data.url
 							},
 						})
 					}
@@ -321,17 +313,15 @@
 				uni.chooseImage({
 					count: 1,
 					sizeType: ['compressed'],
-					success: res => {
-						console.log(res.tempFilePaths[0], res)
+					success: chooseImageRes => {
+						console.log(chooseImageRes.tempFilePaths[0], res)
 						uni.uploadFile({
 							url: _this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
 								console.log(res)
-								this.storeLogo = this.isIos ? JSON.parse(res.data).data.url +
-									'?x-oss-process=image/quality,q_60' : JSON.parse(res.data)
-									.data.url
+								this.storeLogo =JSON.parse(res.data).data.url
 							}
 						})
 					}

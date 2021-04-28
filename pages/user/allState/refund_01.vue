@@ -321,13 +321,13 @@
 			chuanImg() {
 				uni.chooseImage({
 					sizeType:['compressed'],
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.pingImg = uni.getStorageSync('phoneModel')=='ios'?JSON.parse(res.data).data.url+'?x-oss-process=image/quality,q_60':JSON.parse(res.data).data.url
+								this.pingImg = JSON.parse(res.data).data.url
 							}
 						})
 					}

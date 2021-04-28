@@ -25,7 +25,7 @@
 						<text>已选：＂{{item.specKeyName}}＂</text>
 					</view>
 					<view class="radColor">
-						<text>{{item.goodsPrice?'￥'+item.goodsPrice+'.00':'0'}}</text>
+						<text>{{item.goodsPrice?'￥'+item.goodsPrice.toFixed(2):'0'}}</text>
 					</view>
 
 
@@ -141,13 +141,13 @@
 			chuanImg() {
 				uni.chooseImage({
 					sizeType:['compressed'],
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.cImg = uni.getStorageSync('phoneModel')=='ios'?JSON.parse(res.data).data.url+'?x-oss-process=image/quality,q_60':JSON.parse(res.data).data.url
+								this.cImg =JSON.parse(res.data).data.url
 							}
 						})
 					}

@@ -77,34 +77,37 @@
 					<text>{{item.status==0?'待付款':item.status==1?'待发货':item.status==2?'待收货':item.status==3?'退货中':item.status==4?'退货完成':item.status==5?'待评价':item.status==6?'已评价':''}}</text>
 				</view>
 			</view>
-			<view class="xinxi" v-for="(ite,inde) in item.goodsList">
-				<view class="xinxi1" @tap="detail(item.orderId,item.status)" v-for="(i,n) in ite.specList">
-					<view class="imgBox_a">
-						<image :src="ite.goodsLogo" mode=""></image>
-					</view>
-					<view class="txt_c">
-						<view class="title">
-							<text>{{ite.goodsName}}</text>
+			<view class="xinxi_box">
+				<view class="xinxi" v-for="(ite,inde) in item.goodsList">
+					<view class="xinxi1" @tap="detail(item.orderId,item.status)" v-for="(i,n) in ite.specList">
+						<view class="imgBox_a">
+							<image :src="ite.goodsLogo" mode=""></image>
 						</view>
-						<view class="spec">
-							<text>已选：＂{{i.specKeyName}}＂</text>
-						</view>
-						<view class="radColor">
-							<text>{{i.goodsPrice?'￥'+i.goodsPrice.toFixed(2):'0'}}</text>
+						<view class="txt_c">
+							<view class="title">
+								<text>{{ite.goodsName}}</text>
+							</view>
+							<view class="spec">
+								<text>已选：＂{{i.specKeyName}}＂</text>
+							</view>
+							<view class="radColor">
+								<text>{{i.goodsPrice?'￥'+i.goodsPrice.toFixed(2):'0'}}</text>
+							</view>
+
+							<!-- 数量 -->
+							<view class="jia">
+								<text>X{{i.goodsNum}}</text>
+							</view>
 						</view>
 
-						<!-- 数量 -->
-						<view class="jia">
-							<text>X{{i.goodsNum}}</text>
-						</view>
 					</view>
-
 				</view>
 				<view class="zongj">
-					<text>{{ite.specList.length}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount+'.00':'0'}}</text>
+					<text>{{item.countNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}}</text>
 				</view>
 				<view class="bottBox">
-					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2" @tap="confirm(item.orderId)">
+					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2"
+						@tap="confirm(item.orderId)">
 						<button type="primary">确认收货</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0"
@@ -117,11 +120,11 @@
 						<button type="primary">去评价</button>
 					</view>
 					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
-						<button type="primary">再次购买</button>
-					</view> -->
+								<button type="primary">再次购买</button>
+							</view> -->
 					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==2">
-						<button type="primary">追加评论</button>
-					</view> -->
+								<button type="primary">追加评论</button>
+							</view> -->
 					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0&&item.orderStatus!=3"
 						@tap="zhifu(item.orderSn)">
 						<button type="primary">去支付</button>
@@ -131,14 +134,16 @@
 						<button type="primary">已取消</button>
 					</view>
 					<!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
-						<button type="primary">取消订单</button>
-					</view> -->
+								<button type="primary">取消订单</button>
+							</view> -->
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2"
 						@tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address,item.goodsList)">
 						<button type="primary">查看物流</button>
 					</view>
 
 				</view>
+
+
 			</view>
 
 		</view>
@@ -346,7 +351,23 @@
 					dengl: false,
 					data: data,
 					success(res) {
+						if (res.data.data) {
+							res.data.data.map(function(z) {
+								var count = 0
+								if (z.goodsList) {
+									z.goodsList.map(function(x) {
+										if (x.specList) {
+											x.specList.map(function(v) {
+												count += v.goodsNum
+											})
+										}
+									})
+									z.countNum = count
+								}
+							})
+						}
 						that.dList = res.data.data
+						console.log(that.dList, 888)
 						uni.hideNavigationBarLoading();
 						uni.stopPullDownRefresh(); //得到数据后停止下拉刷新
 					}
@@ -399,7 +420,7 @@
 							uni.showToast({
 								title: '操作失败',
 								icon: 'none',
-								duration:2000
+								duration: 2000
 							})
 						}
 
@@ -527,14 +548,14 @@
 								success: function(res) {},
 								fail: function(res) {}
 							})
-						}else {
-						uni.showToast({
-							title:'支付失败',
-							icon:'none',
-							duration:2000
-						})
+						} else {
+							uni.showToast({
+								title: '支付失败',
+								icon: 'none',
+								duration: 2000
+							})
 						}
-						
+
 					}
 				})
 			},
@@ -640,11 +661,27 @@
 		}
 	}
 
+	.xinxi_box {
+		padding: 20upx;
+		border-bottom: 20upx solid #f7f7f7;
+
+		width: 710upx;
+
+		.zongj {
+			float: right;
+			padding-top: 10upx;
+
+			text {
+				font-size: 26upx;
+				color: #333;
+			}
+		}
+
+	}
+
 	.xinxi {
 		overflow: hidden;
 		width: 710upx;
-		padding: 20upx;
-		border-bottom: 20upx solid #f7f7f7;
 
 		.xinxi1 {
 			overflow: hidden;
@@ -652,6 +689,7 @@
 			// padding: 20upx;
 			border-bottom: 1upx dashed #f7f7f7;
 		}
+
 
 		.imgBox_a {
 			float: left;
@@ -664,15 +702,7 @@
 			}
 		}
 
-		.zongj {
-			float: right;
-			padding-top: 10upx;
 
-			text {
-				font-size: 26upx;
-				color: #333;
-			}
-		}
 
 		.txt_c {
 			float: left;

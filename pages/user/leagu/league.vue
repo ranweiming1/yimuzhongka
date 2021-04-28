@@ -361,10 +361,10 @@
 			dianpu: function() {
 				var _this = this
 				uni.chooseImage({
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: _this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
 								this.storeLogo = JSON.parse(res.data).data.url
@@ -575,10 +575,10 @@
 			yingyezhizhao: function() {
 				var _this = this
 				uni.chooseImage({
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: _this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
 								this.license = JSON.parse(res.data).data.url
@@ -589,10 +589,10 @@
 			},
 			shenfenzheng: function() {
 				uni.chooseImage({
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
 								this.cardImg1 = JSON.parse(res.data).data.url
@@ -603,10 +603,10 @@
 			},
 			shenfenzhengx: function() {
 				uni.chooseImage({
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
 								this.cardImg2 = JSON.parse(res.data).data.url
@@ -617,10 +617,10 @@
 			},
 			shenfenzhengxxx: function() {
 				uni.chooseImage({
-					success: res => {
+					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
-							filePath: res.tempFilePaths[0],
+							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
 								this.holdImg = JSON.parse(res.data).data.url

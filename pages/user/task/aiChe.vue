@@ -270,14 +270,15 @@
 			},
 			shangchuan: function() {
 				uni.chooseImage({
+					count:1,
+					sizeType:['compressed'],
 					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
 							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.listz[this.nu].myCarImg = uni.getStorageSync('phoneModel')=='ios'?JSON.parse(res.data).data.url+'?x-oss-process=image/quality,q_60':JSON.parse(res.data).data.url
-								console.log(JSON.parse(res.data), this.listz[this.nu].myCarImg)
+								this.listz[this.nu].myCarImg =JSON.parse(res.data).data.url
 							}
 						})
 					}

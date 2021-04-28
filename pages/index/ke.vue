@@ -3,15 +3,19 @@
 </template>
 
 <script>
-	export default{
-		data(){
-			return{
-				u:'https://w16.53kf.com/webCompany.php?arg=10249776&style=1&kf_sign=zU3MDMTYwNUyOTExMjkwODQ3OTQyMDA2NzIyNDk3NzY%253D'
+	export default {
+		data() {
+			return {
+				u: 'https://w16.53kf.com/webCompany.php?arg=10249776&style=1&kf_sign=zU3MDMTYwNUyOTExMjkwODQ3OTQyMDA2NzIyNDk3NzY%253D'
 			}
 		},
-		onLoad:function(option){
-			console.log(option.id)
-			this.u=this.u+'&'+option.id
+		onLoad: function(option) {
+			console.log(option)
+			if (option.shopLink) {
+				this.u = option.shopLink
+			} else {
+				this.u = this.u + '&' + option.id
+			}
 		}
 	}
 </script>
