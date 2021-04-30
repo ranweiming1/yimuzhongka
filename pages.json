@@ -294,7 +294,7 @@
 		{
 			"path": "pages/user/sale/sale",
 			"style": {
-				"navigationBarTitleText": "优惠券"
+				"navigationBarTitleText": "红包卡卷"
 			}
 		},
 		{
@@ -438,11 +438,20 @@
             "path" : "pages/user/sale/newSale/newSale",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "领券中心",
+                "navigationBarTitleText": "平台优惠券",
                 "enablePullDownRefresh": false
             }
             
-        }
+        },
+		{
+		    "path" : "pages/user/sale/newSaleLQ/newSale",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "领券中心",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

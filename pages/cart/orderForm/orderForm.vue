@@ -500,11 +500,11 @@
 								arrs.push(val.goodsId)
 							}
 						})
-						obj.couponId = item.couponId ? item.couponId : ''
-						obj.couponVO.couponId = item.couponId ? item.couponId : ''
-						obj.couponVO.goodsIds = item.couponId ? arrs.join(',') : ''
+						obj.couponId = item.couponId ? item.couponId : null
+						obj.couponVO.couponId = item.couponId ? item.couponId : null
+						obj.couponVO.goodsIds = item.couponId ? arrs.join(',') : null
 						obj.shopId = item.shopId
-						obj.userNote = item.userNote ? item.userNote : ''
+						obj.userNote = item.userNote ? item.userNote : null
 						obj.goodsIds = goodsIds.join(',')
 						orderVoList.push(obj)
 
@@ -513,8 +513,8 @@
 					shopIds.push(item.shopId)
 				})
 				shopIds = shopIds.join(',')
-				commCouponVO.commCouponId = this.commCouponId ? this.commCouponId : ''
-				commCouponVO.goodsIds = this.commCouponId ? (this.dingdan == 2 ? orderVoList.goodsId : this.couArr.join(',')) : ''
+				commCouponVO.commCouponId = this.commCouponId ? this.commCouponId : null
+				commCouponVO.goodsIds = this.commCouponId ? (this.dingdan == 2 ? orderVoList.goodsId : this.couArr.join(',')) : null
 				console.log(orderVoList, commCouponVO)
 				//提交订单
 				this.$https({

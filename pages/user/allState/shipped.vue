@@ -103,7 +103,7 @@
 		</view>
 
 
-		<view class="basic">
+		<!-- <view class="basic">
 			<view class="left_a">
 				<text>优惠券</text>
 			</view>
@@ -111,7 +111,7 @@
 				<text>已抵扣<text
 						style="padding-left: 5rpx;">{{deList.couponPrice?'￥'+deList.couponPrice.toFixed(2):'0'}}</text></text>
 			</view>
-		</view>
+		</view> -->
 
 		<view class="basic">
 			<view class="left_a">
@@ -132,7 +132,7 @@
 				<text>商品金额</text>
 			</view>
 			<view class="right_a">
-				<text>{{deList.totalAmount?'￥'+deList.totalAmount.toFixed(2):'0'}}</text>
+				<text>{{deList.orderAmount?'￥'+deList.orderAmount.toFixed(2):'0'}}</text>
 			</view>
 		</view>
 		<view class="basic aa">
@@ -140,7 +140,7 @@
 				<text>优惠券减免</text>
 			</view>
 			<view class="right_a">
-				<text>{{deList.couponPrice?'-￥'+deList.couponPrice:0}}</text>
+				<text>{{deList.countPrice?'-￥'+deList.countPrice:0}}</text>
 			</view>
 		</view>
 		<view class="basic aa">
@@ -156,7 +156,7 @@
 				<text>实付款</text>
 			</view>
 			<view class="right_a">
-				<text>{{deList.orderAmount?'￥'+deList.orderAmount.toFixed(2):'0'}}</text>
+				<text>{{deList.totalAmount?'￥'+deList.totalAmount.toFixed(2):'0'}}</text>
 			</view>
 		</view>
 		<view style='height:150rpx;'></view>
@@ -208,6 +208,11 @@
 				},
 				dengl: false,
 				success: function(res) {
+					var cont=0
+					res.data.data.goodsList.map(function(v, i) {
+						cont +=( v.commCouponPrice + v.couponPrice)
+					})
+					res.data.data.countPrice=cont
 					_this.deList = res.data.data
 					console.log(res.data.data.userNote)
 					_this.order = res.data.data.orderSn
@@ -217,7 +222,7 @@
 					_this.code = res.data.data.shippingCode
 					console.log(res.data.data)
 					// _this.code=res.data.data.shippingCode
-					console.log(res.data.data.shippingCode)
+					console.log(res.data.data)
 				}
 			})
 			if (option.zhuangtai == 0) {
@@ -480,7 +485,7 @@
 		}
 	}
 
-	.box_xinxi .xinxi:last-child  {
+	.box_xinxi .xinxi:last-child {
 		.xinXi:last-child {
 			border: none;
 			// padding-top: 20rpx;

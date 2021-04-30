@@ -25,7 +25,7 @@
 
 		<!-- 列表 -->
 		<view class="contents" v-if='xiana==2'>
-			<view class="content-item" v-for="(item,i) in storeList">
+			<view class="content-item" v-for="(item,i) in storeList" v-if="item.storeShopDTO&&item.storeShopDTO!=null">
 				<view class="item-title">
 					<view class="item-title-logo fl">
 						<image :src="item.storeShopDTO.storeLogo" mode=""></image>
@@ -119,8 +119,6 @@
 					dengl: false,
 					success: function(res) {
 						_this.storeList = res.data.data
-						console.log(res.data.data[0].storeShopDTO)
-						console.log(res.data.data)
 					}
 				})
 			},

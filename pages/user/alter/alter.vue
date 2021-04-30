@@ -61,7 +61,7 @@
 					<image src="../../../static/icon_26.png" mode=""></image>
 				</view>
 				<!-- <input type="text" value="" placeholder="请输入密码" /> -->
-				<text style='font-size:26rpx;line-height:70rpx;color:#999;' >{{version}}</text>
+				<text style='font-size:26rpx;line-height:70rpx;color:#999;'>{{version}}</text>
 				<!-- <text></text> -->
 			</view>
 		</view>
@@ -188,7 +188,7 @@
 				this.$https({
 					url: '/api/app/new-version-info',
 					data: {
-						versionType:that.type
+						versionType: that.type
 					},
 					denglu: false,
 					success: function(res) {
@@ -200,16 +200,56 @@
 								icon: 'none'
 							})
 						} else {
-							uni.showToast({
-								title: '请前往应用中心更新最新版本',
-								icon: 'none'
+							uni.showModal({
+								title: "发现新版本",
+								content: "确认下载更新",
+								success: (resd) => {
+									if (resd.confirm == true) { //当用户确定更新，执行更新
+										console.log(res)
+										if (that.type == 'ios') {
+											plus.runtime.openURL(res.data.data.url)
+										} else {
+											that.doUpData(res.data.data.url);
+										}
+									}
+								}
 							})
-							if(that.type=='ios'){
-								plus.runtime.openURL(res.data.data.url)
-							}
 						}
 					}
 				})
+			},
+			doUpData(appVersionPackage) {
+				var _this = this;
+				uni.showLoading({
+					title: '更新中……'
+				})
+				uni.downloadFile({ //执行下载
+					url: appVersionPackage, //下载地址
+					success: downloadResult => { //下载成功
+						uni.hideLoading();
+						if (downloadResult.statusCode == 200) {
+							uni.showModal({
+								title: '',
+								content: '更新成功，确定现在重启吗？',
+								confirmText: '重启',
+								confirmColor: '#EE8F57',
+								success: function(res) {
+									if (res.confirm == true) {
+										plus.runtime.install( //安装
+											downloadResult.tempFilePath, {
+												force: true
+											},
+											function(res) {
+												utils.showToast('更新成功，重启中');
+												plus.runtime.restart();
+											}
+										);
+									}
+								}
+							});
+						}
+					}
+				});
 			},
 			gengg: function() {
 				uni.navigateTo({

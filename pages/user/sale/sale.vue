@@ -26,7 +26,7 @@
 				</image>
 				<view style='text-align:center;'>暂无可用优惠券</view>
 			</view>
-			<view v-for='item in youhuiquan'>
+			<view v-for='item in youhuiquan' class="coupon-box">
 				<view class="imgBox" style='position:relative;'>
 					<image src="../../../static/icon_27.png" mode=""></image>
 					<view class="sum" style='width:200rpx;position:absolute;height:210rpx;top:0;left:0;'>
@@ -52,6 +52,9 @@
 					<text
 						@tap='shiyong(item.couponDTO.id,item.couponDTO.money,item.couponDTO.shopId,item.couponDTO.isType)'>{{item.couponDTO.isType?'不可用':'使用'}}</text>
 				</view>
+				<view class="coupon-tips">
+					{{item.couponDTO.shopId==null?'平台优惠券':'店铺优惠券'}}
+				</view>
 			</view>
 		</view>
 
@@ -63,7 +66,7 @@
 				</image>
 				<view style='text-align:center;'>暂无可用优惠券</view>
 			</view>
-			<view v-for='item in youhuiquan'>
+			<view v-for='item in youhuiquan' class="coupon-box">
 				<view class="imgBox" style='position:relative;'>
 					<image src="../../../static/icon_28.png" mode=""></image>
 					<view class="sum" style='position:absolute;left:0;top:0;width:200rpx;height:210rpx;'>
@@ -87,6 +90,9 @@
 
 				<view class="bott">
 					<text>已使用</text>
+				</view>
+				<view class="coupon-tips">
+					{{item.couponDTO.shopId==null?'平台优惠券':'店铺优惠券'}}
 				</view>
 			</view>
 		</view>
@@ -113,7 +119,6 @@
 			}
 		},
 		onLoad: function(options) {
-			console.log(options, 222232323)
 			var _this = this
 
 			//获取优惠券
@@ -133,6 +138,12 @@
 						var arr = []
 						if (res.data.data) {
 							res.data.data.map((val, i) => {
+								if (val.useEndTime) {
+									val.useEndTime = val.useEndTime.replace(/-/g, '.')
+								}
+								if (val.useStartTime) {
+									val.useStartTime = val.useStartTime.replace(/-/g, '.')
+								}
 								val.isType = val.condition > JSON.parse(options.obj).jine ? true :
 									false
 								var str = {}
@@ -153,6 +164,18 @@
 					},
 					success: function(res) {
 						res.data.data = res.data.data ? res.data.data : []
+						if (res.data.data) {
+							res.data.data.map(function(val, i) {
+								if (val.couponDTO.useEndTime) {
+									val.couponDTO.useEndTime = val.couponDTO.useEndTime.replace(
+										/-/g, '.')
+								}
+								if (val.couponDTO.useStartTime) {
+									val.couponDTO.useStartTime = val.couponDTO.useStartTime
+										.replace(/-/g, '.')
+								}
+							})
+						}
 						var arr = []
 						_this.youhuiquan = res.data.data
 					}
@@ -199,6 +222,12 @@
 							var arr = []
 							if (res.data.data) {
 								res.data.data.map((val, i) => {
+									if (val.useEndTime) {
+										val.useEndTime = val.useEndTime.replace(/-/g, '.')
+									}
+									if (val.useStartTime) {
+										val.useStartTime = val.useStartTime.replace(/-/g, '.')
+									}
 									val.isType = val.condition > _this.obj.jine ? true : false
 									var str = {}
 									str.couponDTO = val
@@ -218,6 +247,18 @@
 						success: function(res) {
 							res.data.data = res.data.data ? res.data.data : []
 							var arr = []
+							if (res.data.data) {
+								res.data.data.map(function(val, i) {
+									if (val.couponDTO.useEndTime) {
+										val.couponDTO.useEndTime = val.couponDTO.useEndTime
+											.replace(/-/g, '.')
+									}
+									if (val.couponDTO.useStartTime) {
+										val.couponDTO.useStartTime = val.couponDTO.useStartTime
+											.replace(/-/g, '.')
+									}
+								})
+							}
 							_this.youhuiquan = res.data.data
 						}
 					})
@@ -255,8 +296,8 @@
 					// 当isEnough(可叠加商品)为true,也就是达到满减的时候,不论我当前店铺含不含可叠加商品,我使用店铺优惠券都没有影响;
 					// 当isEnough为false时,也就是所有可使用优惠券的商品加起来符合满减条件的时候,如果当前店铺内含有可叠加上皮内,平台全不变,店铺券也没有影响;
 					// 但是当前店铺没没有可叠加商品的时候,清空平台优惠券
-					if(!this.obj.isEnough){
-						if(!this.obj.isDJ){
+					if (!this.obj.isEnough) {
+						if (!this.obj.isDJ) {
 							prevPage.$vm.commCouponId = ''
 							prevPage.$vm.commMoney = 0
 						}
@@ -264,9 +305,16 @@
 					prevPage.$vm.countYF()
 					uni.navigateBack({})
 				} else {
-					uni.navigateTo({
-						url: '../../shop/shop?id=' + shopId
-					})
+					if (shopId != null) {
+						uni.navigateTo({
+							url: '../../shop/shop?id=' + shopId
+						})
+
+					} else {
+						uni.navigateTo({
+							url: '../../index/index'
+						})
+					}
 				}
 
 				// if (this.y) {
@@ -289,6 +337,29 @@
 </script>
 
 <style lang="scss">
+	.coupon-box {
+		border-radius: 15rpx;
+		position: relative;
+
+		.coupon-tips {
+			position: absolute;
+			min-width: 150rpx;
+			box-sizing: border-box;
+			padding: 0 20rpx;
+			background: linear-gradient(to right, #ff9429, #ff6759);
+			right: 0;
+			top: 0;
+			text-align: center;
+			border-top-right-radius: 15rpx;
+			border-bottom-left-radius: 10rpx;
+			color: #fff;
+			font-size: 22rpx;
+			height: 40rpx;
+			line-height: 40rpx;
+			opacity: 60%;
+		}
+	}
+
 	.yes {
 		width: 375upx;
 		text-align: center;
@@ -427,6 +498,10 @@
 			overflow: hidden;
 			box-shadow: 0 0 5px #ccc;
 			margin-top: 50rpx;
+		}
+
+		.coupon-tips {
+			background: #CCCCCC;
 		}
 
 		.imgBox {

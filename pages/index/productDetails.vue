@@ -299,25 +299,22 @@
 							style='width:36rpx;height:36rpx;'></image>
 					</view>
 				</view>
-				<view v-for='(item,index ) in list.couponDTOS'
-					style='margin-top:20rpx;border-bottom:1px solid #f5f5f5;overflow:hidden;padding-bottom:20rpx;width: 100%;box-sizing: border-box;'>
-					<view class="boxLeft">
-						<view style='overflow:hidden;'>
-							<view
-								style='background:#fde9e9;color:#ff3333;font-size:17rpx;padding:5rpx 10rpx;float:left;margin-left:20rpx;line-height:30rpx;'>
-								满{{item.condition}}-{{item.money}}元</view>
-							<view style='float:left;margin-left:20rpx;font-size:30rpx;color:#000;'>
+				<view v-for='(item,index ) in list.couponDTOS' class="coupon-box">
+					<view class="coupon-item">
+						<view class="box-left-yh">￥{{item.money}}</view>
+						<view class="boxLeft">
+							<view class="boxLeft-top">
 								满{{item.condition}},立减{{item.money}}元;不累积</view>
-						</view>
-						<view style='font-size:25rpx;margin-left:150rpx;color:#2b5cff;'>
-							{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}
+							<view class="boxLeft-bot">
+								{{item.useStartTime.split(' ')[0]+'-'+item.useEndTime.split(' ')[0]}}
+							</view>
 						</view>
 					</view>
-
 					<view class="lingqu" @tap="lingquYHQ(item.id,index,item.type)">
 						{{item.type?'已领取':'领取'}}
 					</view>
 				</view>
+
 			</view>
 		</view>
 		<!-- 底部 -->
@@ -558,37 +555,39 @@
 			lingquYHQ(id, index, type) {
 				console.log(index)
 				var _this = this
-				if (type) {
-					uni.showToast({
-						title: '已领取，不可重复领取',
-						icon:'none'
-					})
-					return
-					
-				} else {
-					this.$https({
-						url: '/api/shop/coupon-couple-add',
-						data: {
-							ids: id
-						},
-						method: 'POST',
-						dengl: false,
-						success(res) {
-							if (res.data.code == 0) {
-								_this.list.couponDTOS[index].type = true
-								uni.showToast({
-									title: '恭喜，抢到了',
-									icon:'none'
-								})
-							} else {
-								_this.list.couponDTOS[index].type = res.data.message == '优惠券已领取' ? true : false
-								uni.showToast({
-									title: res.data.message,
-									icon: 'none'
-								})
+				if (this.denglufangfatiaozhuan()) {
+					if (type) {
+						uni.showToast({
+							title: '已领取，不可重复领取',
+							icon: 'none'
+						})
+						return
+
+					} else {
+						this.$https({
+							url: '/api/shop/coupon-couple-add',
+							data: {
+								ids: id
+							},
+							method: 'POST',
+							dengl: false,
+							success(res) {
+								if (res.data.code == 0) {
+									_this.list.couponDTOS[index].type = true
+									uni.showToast({
+										title: '恭喜，抢到了',
+										icon: 'none'
+									})
+								} else {
+									_this.list.couponDTOS[index].type = res.data.message == '优惠券已领取' ? true : false
+									uni.showToast({
+										title: res.data.message,
+										icon: 'none'
+									})
+								}
 							}
-						}
-					})
+						})
+					}
 				}
 			},
 			jump(ind) {
@@ -780,10 +779,11 @@
 										shopName: this.list.shopDTO.shopName,
 										specKey: this.guige[this.indexx].key,
 										shopId: this.shopId,
-										xuanzhong:true,
-										name: this.list.length > 0 ? this.list.couponDTOS[0].name :'',
-										couponUse:this.list.couponStatus,
-										couponDJ:this.list.isUseCommCoupon
+										xuanzhong: true,
+										name: this.list.length > 0 ? this.list.couponDTOS[0].name :
+											'',
+										couponUse: this.list.couponStatus,
+										couponDJ: this.list.isUseCommCoupon
 									}]
 								}) + '&dingdan=2&goumai=1'
 						})
@@ -854,22 +854,68 @@
 		background-color: #f7f7f7;
 	}
 
+	.coupon-box {
+		margin-top: 20rpx;
+		border-bottom: 1px solid #f5f5f5;
+		// overflow: hidden;
+		// padding-bottom: 20rpx;
+		padding: 20rpx 30rpx;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.coupon-item {
+		width: calc(100% - 100rpx);
+		display: inline-block;
+		box-sizing: border-box;
+		vertical-align: middle;
+	}
+
 	.boxLeft {
-		width: calc(100% - 120rpx);
-		float: left;
+		width: calc(100% - 200rpx);
+		// float: left;
+		display: inline-block;
+		vertical-align: middle;
+
+		.boxLeft-top {
+			// margin-left: 20rpx;
+			font-size: 30rpx;
+			color: #000;
+		}
+
+		.boxLeft-bot {
+			font-size: 25rpx;
+			// margin-left: 150rpx;
+			color: #2b5cff;
+		}
+	}
+
+	.box-left-yh {
+		color: #ff3333;
+		font-size: 44rpx;
+		vertical-align: middle;
+		// padding: 5rpx 10rpx;
+		// float: left;
+		// margin-left: 20rpx;
+		// line-height: 30rpx;
+		margin-right: 25rpx;
+		font-weight: bold;
+		display: inline-block;
 	}
 
 	.lingqu {
-		float: right;
+		// float: right;
+		vertical-align: middle;
 		width: 100rpx;
 		text-align: center;
 		background: #fde9e9;
-		margin-right: 20rpx;
+		// margin-right: 20rpx;
 		height: 50rpx;
 		line-height: 50rpx;
 		border-radius: 10rpx;
 		color: #ff3333;
 		font-size: 26rpx;
+		display: inline-block;
 	}
 
 	* {

@@ -1,7 +1,7 @@
 <template>
 	<view style="background-color: #f4f6f8;">
 		<!-- ----------------店铺1------------------- -->
-		<view class="shop-one" v-if="shopStyle==2">
+		<view class="shop-one" v-if="shopStyle==1">
 			<view class="shop-top">
 				<view class="shop-bag">
 					<swiper class="logo-swper-list" :current="currentIndex" :circular="true" :duration="100"
@@ -149,7 +149,7 @@
 			</view>
 		</view>
 		<!------------------------- 店铺2 ------------------------------>
-		<view class="shop-two" v-if="shopStyle==1">
+		<view class="shop-two" v-if="shopStyle==2">
 			<view style='posotion:relative;height:660rpx;'>
 				<view class="bg">
 					<image src="../../static/icon_39_2.png" mode=""></image>
@@ -492,6 +492,7 @@
 				star: '',
 				starVal: '',
 				page: 1,
+				loadingType: 0,
 			}
 		},
 		components: {

@@ -53,7 +53,7 @@
 							<image :src="ite.goodsLogo" mode=""></image>
 						</view>
 						<view class="list-name">
-							{{ite.goodsName}}{{ite.goodsId}}
+							{{ite.goodsName}}
 						</view>
 						<view class="list-price">
 							￥{{ite.marketPrice?ite.marketPrice.toFixed(2):'暂无价格'}}

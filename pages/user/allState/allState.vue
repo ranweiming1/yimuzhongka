@@ -103,7 +103,7 @@
 					</view>
 				</view>
 				<view class="zongj">
-					<text>{{item.countNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}}</text>
+					<text>{{item.countNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}} <text style="font-size: 30rpx;font-weight: bold;padding-left: 15rpx;"> 实付款：{{item.totalAmount?'￥'+item.totalAmount.toFixed(2):'0'}}</text></text>
 				</view>
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2"
@@ -320,6 +320,21 @@
 					},
 					dengl: false,
 					success: function(res) {
+						if (res.data.data) {
+							res.data.data.map(function(z) {
+								var count = 0
+								if (z.goodsList) {
+									z.goodsList.map(function(x) {
+										if (x.specList) {
+											x.specList.map(function(v) {
+												count += v.goodsNum
+											})
+										}
+									})
+									z.countNum = count
+								}
+							})
+						}
 						_this.dList = res.data.data
 						console.log(res.data.data, _this.dList, 222)
 						// _this.gList=res.data.data
@@ -392,6 +407,21 @@
 							that.loadingType = 2;
 							uni.hideNavigationBarLoading(); //关闭加载动画
 							return false;
+						}
+						if (res.data.data) {
+							res.data.data.map(function(z) {
+								var count = 0
+								if (z.goodsList) {
+									z.goodsList.map(function(x) {
+										if (x.specList) {
+											x.specList.map(function(v) {
+												count += v.goodsNum
+											})
+										}
+									})
+									z.countNum = count
+								}
+							})
 						}
 						that.dList = that.dList.concat(res.data.data)
 						that.loadingType = 0; //将loadingType归0重置

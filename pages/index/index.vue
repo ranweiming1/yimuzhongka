@@ -37,7 +37,7 @@
 				<text>{{item.cateTitle}}</text>
 			</view> -->
 		<!-- </view> -->
-		<swiper style="height: 440rpx;width:90%;margin-left:5%;text-align:center;" :interval="interval"
+		<swiper style="height:380rpx;width:90%;margin-left:5%;text-align:center;" :interval="interval"
 			:duration="duration" @change='qiehuan' :disable-programmatic-animation='true'>
 			<swiper-item class="cate-section" v-for="(item,index) in list" :key='item.id'>
 				<view class="cate-item" v-for="(items,indexs) in item" @tap="fenLei(index,indexs)">
@@ -530,7 +530,7 @@
 			},
 			tiaoz: function() {
 				uni.navigateTo({
-					url: '../user/sale/newSale/newSale'
+					url: '../user/sale/newSaleLQ/newSale'
 				})
 			},
 			denglu: function() {
@@ -677,7 +677,7 @@
 			float: left;
 			color: #333333;
 			width: 23%;
-			margin-bottom: 70upx;
+			margin-bottom: 30upx;
 			padding-left: 1%;
 		}
 
