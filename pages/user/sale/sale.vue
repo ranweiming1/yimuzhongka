@@ -26,7 +26,7 @@
 				</image>
 				<view style='text-align:center;'>暂无可用优惠券</view>
 			</view>
-			<view v-for='item in youhuiquan' class="coupon-box">
+			<view v-for='item in youhuiquan' class="coupon-box" style="position: relative;">
 				<view class="imgBox" style='position:relative;'>
 					<image src="../../../static/icon_27.png" mode=""></image>
 					<view class="sum" style='width:200rpx;position:absolute;height:210rpx;top:0;left:0;'>
@@ -43,8 +43,8 @@
 					<view class="p">
 						<text>{{item.couponDTO.name?item.couponDTO.name:''}}</text>
 					</view>
-					<view class="span">
-						<text>使用时间：{{item.couponDTO.useStartTime.split(' ')[0]}}-{{item.couponDTO.useEndTime.split(' ')[0]}}</text>
+					<view class="span" v-if="item.couponDTO.useStartTime&&item.couponDTO.useEndTime">
+						<text>使用时间：{{item.couponDTO.useStartTime!=null?item.couponDTO.useStartTime.split(' ')[0]:''}}-{{item.couponDTO.useEndTime!=null?item.couponDTO.useEndTime.split(' ')[0]:''}}</text>
 					</view>
 				</view>
 
@@ -53,7 +53,7 @@
 						@tap='shiyong(item.couponDTO.id,item.couponDTO.money,item.couponDTO.shopId,item.couponDTO.isType)'>{{item.couponDTO.isType?'不可用':'使用'}}</text>
 				</view>
 				<view class="coupon-tips">
-					{{item.couponDTO.shopId==null?'平台优惠券':'店铺优惠券'}}
+					{{item.couponDTO.shopId==null?'平台通用':'店铺专属'}}
 				</view>
 			</view>
 		</view>
@@ -66,7 +66,7 @@
 				</image>
 				<view style='text-align:center;'>暂无可用优惠券</view>
 			</view>
-			<view v-for='item in youhuiquan' class="coupon-box">
+			<view v-for='item in youhuiquan' class="coupon-box" style="position: relative;">
 				<view class="imgBox" style='position:relative;'>
 					<image src="../../../static/icon_28.png" mode=""></image>
 					<view class="sum" style='position:absolute;left:0;top:0;width:200rpx;height:210rpx;'>
@@ -83,8 +83,8 @@
 					<view class="p">
 						<text>{{item.couponDTO.name?item.couponDTO.name:''}}</text>
 					</view>
-					<view class="span">
-						<text>使用时间：{{item.couponDTO.useStartTime}}-{{item.couponDTO.useEndTime}}</text>
+					<view class="span" v-if="item.couponDTO.useStartTime&&item.couponDTO.useEndTime">
+						<text>使用时间：{{item.couponDTO.useStartTime!=null?item.couponDTO.useStartTime.split(' ')[0]:''}}-{{item.couponDTO.useEndTime!=null?item.couponDTO.useEndTime.split(' ')[0]:''}}</text>
 					</view>
 				</view>
 
@@ -92,7 +92,7 @@
 					<text>已使用</text>
 				</view>
 				<view class="coupon-tips">
-					{{item.couponDTO.shopId==null?'平台优惠券':'店铺优惠券'}}
+					{{item.couponDTO.shopId==null?'平台通用':'店铺专属'}}
 				</view>
 			</view>
 		</view>
@@ -138,10 +138,10 @@
 						var arr = []
 						if (res.data.data) {
 							res.data.data.map((val, i) => {
-								if (val.useEndTime) {
+								if (val.useEndTime && val.useEndTime != null) {
 									val.useEndTime = val.useEndTime.replace(/-/g, '.')
 								}
-								if (val.useStartTime) {
+								if (val.useStartTime && val.useStartTime != null) {
 									val.useStartTime = val.useStartTime.replace(/-/g, '.')
 								}
 								val.isType = val.condition > JSON.parse(options.obj).jine ? true :
@@ -150,7 +150,7 @@
 								str.couponDTO = val
 								arr.push(str)
 							})
-							console.log(arr)
+							// console.log(arr)
 						}
 						_this.youhuiquan = arr
 					}
@@ -166,11 +166,12 @@
 						res.data.data = res.data.data ? res.data.data : []
 						if (res.data.data) {
 							res.data.data.map(function(val, i) {
-								if (val.couponDTO.useEndTime) {
+								if (val.couponDTO.useEndTime && val.couponDTO.useEndTime != null) {
 									val.couponDTO.useEndTime = val.couponDTO.useEndTime.replace(
 										/-/g, '.')
 								}
-								if (val.couponDTO.useStartTime) {
+								if (val.couponDTO.useStartTime && val.couponDTO.useStartTime !=
+									null) {
 									val.couponDTO.useStartTime = val.couponDTO.useStartTime
 										.replace(/-/g, '.')
 								}
@@ -222,10 +223,10 @@
 							var arr = []
 							if (res.data.data) {
 								res.data.data.map((val, i) => {
-									if (val.useEndTime) {
+									if (val.useEndTime && val.useEndTime != null) {
 										val.useEndTime = val.useEndTime.replace(/-/g, '.')
 									}
-									if (val.useStartTime) {
+									if (val.useStartTime && val.useStartTime != null) {
 										val.useStartTime = val.useStartTime.replace(/-/g, '.')
 									}
 									val.isType = val.condition > _this.obj.jine ? true : false
@@ -249,11 +250,13 @@
 							var arr = []
 							if (res.data.data) {
 								res.data.data.map(function(val, i) {
-									if (val.couponDTO.useEndTime) {
+									if (val.couponDTO.useEndTime && val.couponDTO.useEndTime !=
+										null) {
 										val.couponDTO.useEndTime = val.couponDTO.useEndTime
 											.replace(/-/g, '.')
 									}
-									if (val.couponDTO.useStartTime) {
+									if (val.couponDTO.useStartTime && val.couponDTO.useStartTime !=
+										null) {
 										val.couponDTO.useStartTime = val.couponDTO.useStartTime
 											.replace(/-/g, '.')
 									}
@@ -288,7 +291,7 @@
 					prevPage.$vm.countYF()
 					uni.navigateBack({})
 				} else if (this.dingdan == 1) {
-					console.log(this.obj)
+					// console.log(this.obj)
 					var pages = getCurrentPages();
 					var prevPage = pages[pages.length - 2];
 					prevPage.$vm.cartAttr[_this.obj.index].couponId = id
@@ -357,6 +360,8 @@
 			height: 40rpx;
 			line-height: 40rpx;
 			opacity: 60%;
+			z-index: 9999!important;
+			display: block;
 		}
 	}
 

@@ -44,8 +44,8 @@
 					<view class="p">
 						<text>{{item.name?item.name:''}}</text>
 					</view>
-					<view class="span" v-if="item.useStartTime">
-						<text>使用时间：{{item.useStartTime.split(' ')[0]}}-{{item.useEndTime.split(' ')[0]}}</text>
+					<view class="span" v-if="item.useStartTime&&item.useEndTime">
+						<text>使用时间：{{item.useStartTime!=null?item.useStartTime.split(' ')[0]:''}}-{{item.useEndTime!=null?item.useEndTime.split(' ')[0]:''}}</text>
 					</view>
 				</view>
 
@@ -63,7 +63,7 @@
 				</image>
 				<view style='text-align:center;'>暂无可用优惠券</view>
 			</view>
-			<view v-for="(item,index ) in youhuiquan"  class="coupon-box">
+			<view v-for="(item,index ) in youhuiquan" class="coupon-box">
 				<view class="imgBox" style='position:relative;'>
 					<image src="../../../../static/icon_27.png" mode=""></image>
 					<view class="sum">
@@ -80,8 +80,8 @@
 					<view class="p">
 						<text>{{item.name?item.name:''}}</text>
 					</view>
-					<view class="span" v-if="item.useStartTime">
-						<text>使用时间：{{item.useStartTime.split(' ')[0]}}-{{item.useEndTime.split(' ')[0]}}</text>
+					<view class="span" v-if="item.useStartTime&&item.useEndTime">
+						<text>使用时间：{{item.useStartTime!=null?item.useStartTime.split(' ')[0]:''}}-{{item.useEndTime!=null?item.useEndTime.split(' ')[0]:''}}</text>
 					</view>
 				</view>
 
@@ -129,10 +129,10 @@
 					res.data.data = res.data.data ? res.data.data : []
 					if (res.data.data) {
 						res.data.data.map((val, i) => {
-							if (val.useEndTime) {
+							if (val.useEndTime && val.useEndTime != null) {
 								val.useEndTime = val.useEndTime.replace(/-/g, '.')
 							}
-							if (val.useStartTime) {
+							if (val.useStartTime && val.useStartTime != null) {
 								val.useStartTime = val.useStartTime.replace(/-/g, '.')
 							}
 							val.isType = false
@@ -173,10 +173,10 @@
 					success: function(res) {
 						if (res.data.data) {
 							res.data.data.map((val, i) => {
-								if (val.useEndTime) {
+								if (val.useEndTime && val.useEndTime != null) {
 									val.useEndTime = val.useEndTime.replace(/-/g, '.')
 								}
-								if (val.useStartTime) {
+								if (val.useStartTime && val.useStartTime != null) {
 									val.useStartTime = val.useStartTime.replace(/-/g, '.')
 								}
 								val.isType = false
@@ -240,10 +240,10 @@
 					success: function(res) {
 						if (res.data.data) {
 							res.data.data.map((val, i) => {
-								if (val.useEndTime) {
+								if (val.useEndTime && val.useEndTime != null) {
 									val.useEndTime = val.useEndTime.replace(/-/g, '.')
 								}
-								if (val.useStartTime) {
+								if (val.useStartTime && val.useStartTime != null) {
 									val.useStartTime = val.useStartTime.replace(/-/g, '.')
 								}
 								val.isType = false
@@ -286,10 +286,10 @@
 						res.data.data = res.data.data ? res.data.data : []
 						if (res.data.data) {
 							res.data.data.map((val, i) => {
-								if (val.useEndTime) {
+								if (val.useEndTime && val.useEndTime != null) {
 									val.useEndTime = val.useEndTime.replace(/-/g, '.')
 								}
-								if (val.useStartTime) {
+								if (val.useStartTime && val.useStartTime != null) {
 									val.useStartTime = val.useStartTime.replace(/-/g, '.')
 								}
 								val.isType = false

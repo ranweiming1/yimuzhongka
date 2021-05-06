@@ -37,10 +37,13 @@
 							{{item.shopName}}
 						</view>
 						<view class="center-honor">
-							<view class="center-honorList" v-for="(item,i) in 5">
+							<view class="center-honorList" v-for="(item,i) in ((item.starId)/20)">
 								<image src="../../static/xing_icon1.png" mode=""></image>
 							</view>
-							<view class="center-honorList text">{{item.starId}}</view>
+							<view class="center-honorList" v-if="!item.isInert">
+								<image src="../../static/xingxing1.png" mode=""></image>
+							</view>
+							<view class="center-honorList text">{{(item.starId)/20}}</view>
 						</view>
 					</view>
 					<view class="item-title-right fr" @tap="shopDetail(item.id)">
@@ -72,7 +75,7 @@
 				titleIndex: 1,
 				page: 1,
 				loadingType: 0,
-				shopList: []
+				shopList: [],
 			}
 		},
 		onLoad() {
@@ -82,10 +85,10 @@
 			toggle(index) {
 				this.titleIndex = index
 			},
-			detail(id){
+			detail(id) {
 				console.log(id)
 				uni.navigateTo({
-					url:'../index/productDetails?id='+id
+					url: '../index/productDetails?id=' + id
 				})
 			},
 			naviBack() {
@@ -110,8 +113,13 @@
 					},
 					dengl: false,
 					success: function(res) {
-						console.log(res.data.data)
+						if (res.data.data) {
+							res.data.data.map(function(item) {
+									item.isInert = Number.isInteger(item.starId / 20)
+							})
+						}
 						_this.shopList = res.data.data
+						console.log(_this.shopList, res.data.data.starId, 0 / 20)
 						if (res.data.data.length < 10) {
 							// uni.showToast({
 							// 	title: '已是最新',
@@ -143,6 +151,11 @@
 					page: this.page
 				},
 				success: function(res) {
+					if (res.data.data) {
+						res.data.data.map(function(item) {
+								item.isInert = Number.isInteger(item.starId / 20)
+						})
+					}
 					_this.shopList = _this.shopList.concat(res.data.data)
 					if (res.data.data.length < 10) { //没有数据
 						_this.loadingType = 2;

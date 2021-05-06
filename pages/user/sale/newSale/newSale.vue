@@ -44,8 +44,8 @@
 					<view class="p">
 						<text>{{item.name?item.name:''}}</text>
 					</view>
-					<view class="span" v-if="item.useStartTime">
-						<text>使用时间：{{item.useStartTime.split(' ')[0]}}-{{item.useEndTime.split(' ')[0]}}</text>
+					<view class="span" v-if="item.useStartTime&&item.useEndTime">
+						<text>使用时间：{{item.useStartTime!=null?item.useStartTime.split(' ')[0]:''}}-{{item.useEndTime!=null?item.useEndTime.split(' ')[0]:''}}</text>
 					</view>
 				</view>
 
@@ -80,8 +80,8 @@
 					<view class="p">
 						<text>{{item.name?item.name:''}}</text>
 					</view>
-					<view class="span" v-if="item.useStartTime">
-						<text>使用时间：{{item.useStartTime.split(' ')[0]}}-{{item.useEndTime.split(' ')[0]}}</text>
+					<view class="span" v-if="item.useStartTime&&item.useEndTime">
+						<text>使用时间：{{item.useStartTime!=null?item.useStartTime.split(' ')[0]:''}}-{{item.useEndTime!=null?item.useEndTime.split(' ')[0]:''}}</text>
 					</view>
 				</view>
 
@@ -136,11 +136,11 @@
 					var arr = []
 					if (res.data.data && options.dingdan) {
 						res.data.data.map((val, i) => {
-							if(val.useEndTime){
-								val.useEndTime=val.useEndTime.replace(/-/g,'.')
+							if (val.useEndTime && val.useEndTime != null) {
+								val.useEndTime = val.useEndTime.replace(/-/g, '.')
 							}
-							if(val.useStartTime){
-								val.useStartTime=val.useStartTime.replace(/-/g,'.')
+							if (val.useStartTime && val.useStartTime != null) {
+								val.useStartTime = val.useStartTime.replace(/-/g, '.')
 							}
 							val.isType = val.condition > JSON.parse(options.obj).jine ? true :
 								false
@@ -158,11 +158,11 @@
 
 		},
 		onReachBottom() {
-				var data = {
-					page: this.page + 1,
-					limit: 10
-				}
-				this.getMoreNews(data)
+			var data = {
+				page: this.page + 1,
+				limit: 10
+			}
+			this.getMoreNews(data)
 		},
 		methods: {
 			keshiyong: function() {
@@ -185,11 +185,11 @@
 						var arr = []
 						if (res.data.data && _this.dingdan) {
 							res.data.data.map((val, i) => {
-								if(val.useEndTime){
-									val.useEndTime=val.useEndTime.replace(/-/g,'.')
+								if (val.useEndTime && val.useEndTime != null) {
+									val.useEndTime = val.useEndTime.replace(/-/g, '.')
 								}
-								if(val.useStartTime){
-									val.useStartTime=val.useStartTime.replace(/-/g,'.')
+								if (val.useStartTime && val.useStartTime != null) {
+									val.useStartTime = val.useStartTime.replace(/-/g, '.')
 								}
 								val.isType = val.condition > _this.obj.jine ? true :
 									false
@@ -250,7 +250,7 @@
 							prevPage.$vm.cartAttr[z.fIndex].couponId = ''
 							prevPage.$vm.cartAttr[z.fIndex].money = 0
 						})
-						
+
 					}
 					prevPage.$vm.countYF()
 					uni.navigateBack({})
@@ -276,11 +276,11 @@
 						var arr = []
 						if (res.data.data && _this.dingdan) {
 							res.data.data.map((val, i) => {
-								if(val.useEndTime){
-									val.useEndTime=val.useEndTime.replace(/-/g,'.')
+								if (val.useEndTime && val.useEndTime != null) {
+									val.useEndTime = val.useEndTime.replace(/-/g, '.')
 								}
-								if(val.useStartTime){
-									val.useStartTime=val.useStartTime.replace(/-/g,'.')
+								if (val.useStartTime && val.useStartTime != null) {
+									val.useStartTime = val.useStartTime.replace(/-/g, '.')
 								}
 								val.isType = val.condition > _this.obj.jine ? true :
 									false
@@ -327,11 +327,11 @@
 						var arr = []
 						if (res.data.data && _this.dingdan) {
 							res.data.data.map((val, i) => {
-								if(val.useEndTime){
-									val.useEndTime=val.useEndTime.replace(/-/g,'.')
+								if (val.useEndTime && val.useEndTime != null) {
+									val.useEndTime = val.useEndTime.replace(/-/g, '.')
 								}
-								if(val.useStartTime){
-									val.useStartTime=val.useStartTime.replace(/-/g,'.')
+								if (val.useStartTime && val.useStartTime != null) {
+									val.useStartTime = val.useStartTime.replace(/-/g, '.')
 								}
 								val.isType = val.condition > _this.obj.jine ? true :
 									false
@@ -353,9 +353,10 @@
 </script>
 
 <style lang="scss">
-	.coupon-box{
+	.coupon-box {
 		border-radius: 15rpx;
 	}
+
 	.yes {
 		width: 375upx;
 		text-align: center;

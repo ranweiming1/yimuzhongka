@@ -5,7 +5,7 @@
 				<view class="xin">
 					<text>综合评价 :</text>
 					<image src="../../static/xing_01.png" v-for="(i,n) in xingji" mode=""></image>
-					<image src="../../static/xing6.png" v-if="((xingji*20)%2==0)" mode=""></image>
+					<image src="../../static/xing6.png" v-if="!isInert" mode=""></image>
 					<!-- <image src='../../static/xing.png' v-if="xingji<4" v-for='i in 5-xingji'></image> -->
 				</view>
 				<text class="man"><text>{{starNum}}</text>%满意度</text>
@@ -105,7 +105,8 @@
 				shopId: '',
 				goodsId: '',
 				xingji: 0,
-				starNum:0
+				starNum:0,
+				isInert:''
 			}
 		},
 		onLoad(option) {
@@ -179,6 +180,7 @@
 				success: function(res) {
 					_this.starNum = res.data.data.starId
 					_this.xingji =parseInt(res.data.data.starId /20)
+					_this.isInert=Number.isInteger(res.data.data.starId / 20)
 				}
 			})
 

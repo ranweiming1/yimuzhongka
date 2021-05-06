@@ -103,7 +103,7 @@
 					</view>
 				</view>
 				<view class="zongj">
-					<text>{{item.countNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}} <text style="font-size: 30rpx;font-weight: bold;padding-left: 15rpx;"> 实付款：{{item.totalAmount?'￥'+item.totalAmount.toFixed(2):'0'}}</text></text>
+					<text>{{item.countNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}} <text style="font-size: 30rpx;font-weight: bold;padding-left: 15rpx;"> {{item.status==0?'需付款':'实付款'}}：{{item.totalAmount?'￥'+item.totalAmount.toFixed(2):'0'}}</text></text>
 				</view>
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2"

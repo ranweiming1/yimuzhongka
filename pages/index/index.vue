@@ -159,7 +159,7 @@
 						<view style='float:left;margin-left:20rpx;'>
 							<view style='font-size:30rpx;margin-top:10rpx;'>满{{item.condition}}元可用</view>
 							<view style='color:#999;font-size:16rpx;margin-top:3rpx;'>{{item.name}}</view>
-							<view style='color:#999;font-size:16rpx;'>{{item.useEndTime}}到期</view>
+							<view v-if="item.useEndTime != null" style='color:#999;font-size:16rpx;'>{{item.useEndTime}}到期</view>
 						</view>
 						<view
 							style='background:#2b5cff;widthL20rpx;height:20rpx;border-radius:50%;margin-top:40rpx;position:absolute;right:-10rpx;'>

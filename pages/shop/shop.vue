@@ -61,7 +61,7 @@
 						<view class="xing-item" v-for="(item,i) in star">
 							<image src="../../static/xing_icon.png" mode=""></image>
 						</view>
-						<view class="xing-item" v-if="((starVal*20)%2==0)">
+						<view class="xing-item" v-if="!isInert">
 							<image src="../../static/xing6.png" mode=""></image>
 						</view>
 					</view>
@@ -182,7 +182,7 @@
 						<!-- 根据星级综合分值现实 -->
 						<view class="star1">
 							<image src="../../static/xingxing.png" mode="" v-for="(item,i) in star"></image>
-							<image src="../../static/xingxing1.png" v-if="((starVal*20)%2==0)" mode=""></image>
+							<image src="../../static/xingxing1.png" v-if="!isInert" mode=""></image>
 						</view>
 					</view>
 					<view class="collect">
@@ -361,7 +361,7 @@
 						<view class="xing-item" v-for="(item,i) in star">
 							<image src="../../static/xing_icon.png" mode=""></image>
 						</view>
-						<view class="xing-item" v-if="((starVal*20)%2==0)">
+						<view class="xing-item" v-if="!isInert">
 							<image src="../../static/xing6.png" mode=""></image>
 						</view>
 					</view>
@@ -493,6 +493,7 @@
 				starVal: '',
 				page: 1,
 				loadingType: 0,
+				isInert:''
 			}
 		},
 		components: {
@@ -546,8 +547,9 @@
 					_this.isShow = res.data.data.shopCollectStatus
 					_this.jieshao = res.data.data.introduction,
 						_this.shopStyle = res.data.data.modelId,
+						_this.isInert=Number.isInteger(res.data.data.starId / 20) 
 						_this.starVal = res.data.data.starId / 20
-					console.log(_this.starVal)
+					// console.log(Number.isInteger(90 / 20) )
 					_this.star = parseInt(res.data.data.starId / 20)
 				}
 			})
