@@ -321,7 +321,7 @@
 				this.cartAttr.map(function(n) {
 					if (n.cartAttr) {
 						n.cartAttr.map(function(z) {
-							_this.shangpin += z.goodsPrice * z.goodsNum
+							_this.shangpin = _this.$numAdd(_this.shangpin,_this.$numMul(z.goodsPrice ,z.goodsNum) ) 
 						})
 						_this.shangpin = (Math.round(_this.shangpin * 100) / 100)
 					}

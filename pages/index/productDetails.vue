@@ -335,7 +335,7 @@
 					<!-- <view class="keyboard">
 					</view> -->
 				</view>
-				<view class='kefua' @tap='tiaozhuan'>
+				<view class='kefua' @tap='tiaozhuan' v-if="pdType">
 					<image src='../../static/icon_36.png'></image>
 					<text class="keyboard">客服</text>
 					<!-- <view class="keyboard"></view> -->
@@ -617,12 +617,12 @@
 					this.num = 1
 				}
 				//计算价格
-				this.Price = this.guige[this.indexx].price * this.num
+				this.Price = this.$numMul(this.guige[this.indexx].price, this.num)
 			},
 			jia() {
 				this.num++
 				//计算价格
-				this.Price = this.guige[this.indexx].price * this.num
+				this.Price = this.$numMul(this.guige[this.indexx].price, this.num)
 			},
 			xuanzhong: function(index, indexs) {
 				this.shuzu[index].map((n, indexsz) => {
@@ -655,7 +655,7 @@
 							}
 						})
 						if (as == this.shuzu.length) {
-							this.Price = n.price * this.num
+							this.Price = this.$numMul(n.price, this.num)
 							this.indexx = index
 							this.gui = n.keyName
 							this.xuanzh = true

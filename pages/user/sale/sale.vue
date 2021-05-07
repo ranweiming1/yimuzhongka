@@ -349,7 +349,7 @@
 			min-width: 150rpx;
 			box-sizing: border-box;
 			padding: 0 20rpx;
-			background: linear-gradient(to right, #ff9429, #ff6759);
+			background: linear-gradient(to right, (rgba(255,148, 41, 0.6)),(rgba(255,103, 89, 0.6)));
 			right: 0;
 			top: 0;
 			text-align: center;
@@ -359,7 +359,7 @@
 			font-size: 22rpx;
 			height: 40rpx;
 			line-height: 40rpx;
-			opacity: 60%;
+			// opacity: 60%;
 			z-index: 9999!important;
 			display: block;
 		}

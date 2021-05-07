@@ -140,7 +140,7 @@
 				<text>优惠券减免</text>
 			</view>
 			<view class="right_a">
-				<text>{{deList.countPrice?'-￥'+deList.countPrice:0}}</text>
+				<text>{{deList.countPrice?'-￥'+deList.countPrice.toFixed(2):0}}</text>
 			</view>
 		</view>
 		<view class="basic aa">
@@ -210,11 +210,11 @@
 				success: function(res) {
 					var cont=0
 					res.data.data.goodsList.map(function(v, i) {
-						cont +=( v.commCouponPrice + v.couponPrice)
+						cont =_this.$numAdd(cont,_this.$numAdd(v.commCouponPrice , v.couponPrice))
 					})
 					res.data.data.countPrice=cont
 					_this.deList = res.data.data
-					console.log(res.data.data.userNote)
+					console.log(res.data.data,9999)
 					_this.order = res.data.data.orderSn
 					_this.com = res.data.data.shippingName
 					_this.dz = res.data.data.cityInfo
@@ -263,6 +263,7 @@
 					method: 'post',
 					haeder: true,
 					success: res => {
+						console.log(res)
 						var obj = {};
 						obj.appid = res.data.data.appId;
 						obj.partnerid = res.data.data.partnerId;

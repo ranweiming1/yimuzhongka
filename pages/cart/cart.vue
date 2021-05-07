@@ -379,8 +379,8 @@
 											item.goodsName = v.goodsName
 											item.goodsId = v.goodsId
 											item.myCode = v.myCode
-											item.couponUse=v.couponStatus
-											item.couponDJ=v.isUseCommCoupon
+											item.couponUse = v.couponStatus
+											item.couponDJ = v.isUseCommCoupon
 											arrs.push(item)
 										})
 										arr.goodsId = v.goodsId
@@ -470,8 +470,8 @@
 											item.goodsLogo = v.goodsLogo
 											item.goodsName = v.goodsName
 											item.goodsId = v.goodsId
-											item.couponUse=v.couponStatus
-											item.couponDJ=v.isUseCommCoupon
+											item.couponUse = v.couponStatus
+											item.couponDJ = v.isUseCommCoupon
 											arrs.push(item)
 										})
 										arr.goodsId = v.goodsId
@@ -548,19 +548,26 @@
 			},
 			change(e) {
 				this.valRe()
+				console.log(this.value)
 				this.val = this.value
 				this.cartList[this.index].specList[this.n].goodsNum = this.value
 				this.jiage = 0
 				this.shuju.map((n, index) => {
 					n.s.map((c, indexz) => {
 						if (c) {
-							this.jiage += this.cartList[index].specList[indexz].goodsNum * this.cartList[
-									index].specList[indexz].goodsPrice +
-								this.cartList[index].specList[indexz].kuaidi
+							// this.jiage += this.cartList[index].specList[indexz].goodsNum * this.cartList[
+							// 		index].specList[indexz].goodsPrice +
+							// 	this.cartList[index].specList[indexz].kuaidi
+							this.jiage = this.$numAdd(this.jiage, this.$numAdd(this.$numMul(this.cartList[
+										index].specList[indexz].goodsNum, this.cartList[index]
+									.specList[indexz].goodsPrice), this.cartList[index]
+								.specList[indexz].kuaidi))
+
 						}
 					})
 				})
 				this.shuru(this.index, this.n)
+				this.value = ''
 
 			},
 			getNews(data) {
@@ -706,8 +713,10 @@
 												item.goodsName = v
 													.goodsName
 												item.goodsId = v.goodsId
-												item.couponUse=v.couponStatus
-												item.couponDJ=v.isUseCommCoupon
+												item.couponUse = v
+													.couponStatus
+												item.couponDJ = v
+													.isUseCommCoupon
 												arrs.push(item)
 											})
 											arr.goodsId = v.goodsId
@@ -731,10 +740,12 @@
 								_this.shuju.map(function(x, index) {
 									x.map(function(z, indexs) {
 										if (z) {
-											_this.jiage += _this.cartList[index]
-												.specList[indexs].goodsNum * _this
-												.cartList[index].specList[
-													indexs].goodsPrice
+											_this.jiage = _this.$numAdd(_this
+												.jiage, _this.$numMul(_this
+													.cartList[index].specList[
+														indexs].goodsNum, _this
+													.cartList[index].specList[
+														indexs].goodsPrice))
 										}
 									})
 								})
@@ -766,10 +777,10 @@
 							_this.shuju.map(function(n, index) {
 								n.s.map(function(z, indexs) {
 									if (z) {
-										_this.jiage += _this.cartList[index].specList[
-												indexs].goodsNum * _this.cartList[index]
-											.specList[
-												indexs].goodsPrice
+										_this.jiage = _this.$numAdd(_this.jiage, _this
+											.$numMul(_this.cartList[index].specList[
+												indexs].goodsNum, _this.cartList[
+												index].specList[indexs].goodsPrice))
 									}
 								})
 							})
@@ -796,9 +807,10 @@
 						_this.xuanzho.map(function(n, index) {
 							n.map(function(z, indexs) {
 								if (z) {
-									_this.jiage += _this.cartList[index].specList[indexs]
-										.goodsNum * _this.cartList[index].specList[indexs]
-										.goodsPrice
+									_this.jiage = _this.$numAdd(_this.jiage, _this.$numMul(
+										_this.cartList[index].specList[indexs]
+										.goodsNum, _this.cartList[index].specList[
+											indexs].goodsPrice))
 								}
 							})
 						})
@@ -825,9 +837,11 @@
 						_this.shuju.map(function(n, index) {
 							n.s.map(function(z, indexs) {
 								if (z) {
-									_this.jiage += _this.cartList[index].specList[indexs]
-										.goodsNum * _this.cartList[index].specList[indexs]
-										.goodsPrice
+									_this.jiage = _this.$numAdd(_this.jiage, _this.$numMul(
+										_this.cartList[index].specList[indexs]
+										.goodsNum, _this.cartList[index].specList[
+											indexs]
+										.goodsPrice))
 								}
 							})
 						})
@@ -931,8 +945,12 @@
 																			item.goodsId =
 																				v
 																				.goodsId
-																				item.couponUse=v.couponStatus
-																				item.couponDJ=v.isUseCommCoupon
+																			item.couponUse =
+																				v
+																				.couponStatus
+																			item.couponDJ =
+																				v
+																				.isUseCommCoupon
 																			arrs.push(
 																				item
 																			)
@@ -1033,8 +1051,9 @@
 					this.xuanzho.map(function(n, index) {
 						n.map(function(x, indexs) {
 							if (x) {
-								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this
-									.cartList[index].specList[indexs].goodsPrice
+								_this.jiage = _this.$numAdd(_this.jiage, _this.$numMul(_this.cartList[
+										index].specList[indexs].goodsNum, _this
+									.cartList[index].specList[indexs].goodsPrice))
 							}
 						})
 					})
@@ -1055,8 +1074,9 @@
 					this.xuanzho.map(function(n, index) {
 						n.map(function(m, indexs) {
 							if (m) {
-								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this
-									.cartList[index].specList[indexs].goodsPrice
+								_this.jiage = _this.$numAdd(_this.jiage, _this.$numMul(_this.cartList[
+										index].specList[indexs].goodsNum, _this
+									.cartList[index].specList[indexs].goodsPrice))
 							}
 						})
 					})
@@ -1099,8 +1119,9 @@
 					this.xuanzho.map(function(n, index) {
 						n.map(function(z, indexs) {
 							if (z) {
-								_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this
-									.cartList[index].specList[indexs].goodsPrice
+								_this.jiage = _this.$numAdd(_this.jiage, _this.$numMul(_this.cartList[
+										index].specList[indexs].goodsNum, _this
+									.cartList[index].specList[indexs].goodsPrice))
 							}
 						})
 					})
@@ -1130,8 +1151,9 @@
 					this.jiage = 0
 					this.xuanzho.map(function(x, index) {
 						x.map(function(c, indexs) {
-							_this.jiage += _this.cartList[index].specList[indexs].goodsPrice * _this
-								.cartList[index].specList[indexs].goodsNum
+							_this.jiage = _this.$numAdd(_this.jiage, _this.$numMul(_this.cartList[
+									index].specList[indexs].goodsPrice, _this
+								.cartList[index].specList[indexs].goodsNum))
 						})
 					})
 				}
@@ -1172,8 +1194,10 @@
 				this.shuju.map((n, index) => {
 					n.s.map((z, ind) => {
 						if (z) {
-							this.jiage += this.cartList[index].specList[ind].goodsPrice * this
-								.cartList[index].specList[ind].goodsNum
+							this.jiage = this.$numAdd(this.jiage, _this.$numMul(this.cartList[index]
+								.specList[ind].goodsPrice, this
+								.cartList[index].specList[ind].goodsNum))
+
 						}
 					})
 				})
@@ -1201,8 +1225,9 @@
 					this.jiage = 0
 					this.xuanzho.map(function(n, index) {
 						n.map(function(x, indexs) {
-							_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this
-								.cartList[index].specList[indexs].goodsPrice
+							_this.jiage = _this.$numAdd(_this.jiage, _this.$numMul(_this.cartList[
+									index].specList[indexs]
+								.goodsNum, _this.cartList[index].specList[indexs].goodsPrice))
 						})
 					})
 				}
@@ -1229,7 +1254,8 @@
 					this.jiage = 0
 					this.cartList.map(function(n) {
 						n.specList.map(function(z) {
-							_this.jiage += z.goodsNum * z.goodsPrice
+							_this.jiage = _this.$numAdd(_this.jiage, _this.$numMul(z.goodsNum, z
+								.goodsPrice))
 						})
 					})
 				}
@@ -1457,8 +1483,12 @@
 																			item.goodsId =
 																				v
 																				.goodsId
-																				item.couponUse=v.couponStatus
-																				item.couponDJ=v.isUseCommCoupon
+																			item.couponUse =
+																				v
+																				.couponStatus
+																			item.couponDJ =
+																				v
+																				.isUseCommCoupon
 																			arrs.push(
 																				item
 																			)
@@ -1591,8 +1621,10 @@
 														.goodsName
 													item.goodsId = v
 														.goodsId
-														item.couponUse=v.couponStatus
-														item.couponDJ=v.isUseCommCoupon
+													item.couponUse = v
+														.couponStatus
+													item.couponDJ = v
+														.isUseCommCoupon
 													arrs.push(item)
 												})
 												arr.goodsId = v.goodsId
@@ -1661,8 +1693,9 @@
 					}
 					n.s.map((z, inde) => {
 						if (z) {
-							this.jiage += this.cartList[index].specList[inde].goodsPrice * this
-								.cartList[index].specList[inde].goodsNum
+							this.jiage = this.$numAdd(this.jiage, this.$numMul(this.cartList[index]
+								.specList[inde].goodsPrice, this
+								.cartList[index].specList[inde].goodsNum))
 						}
 					})
 				})
@@ -1696,8 +1729,9 @@
 					}
 					n.s.map((x, inde) => {
 						if (x) {
-							this.jiage += this.cartList[index].specList[inde].goodsPrice * this
-								.cartList[index].specList[inde].goodsNum
+							this.jiage = this.$numAdd(this.jiage, this.$numMul(this.cartList[index]
+								.specList[inde].goodsPrice, this
+								.cartList[index].specList[inde].goodsNum))
 						}
 					})
 				})
