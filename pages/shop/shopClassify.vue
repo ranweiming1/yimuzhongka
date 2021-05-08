@@ -37,7 +37,7 @@
 							{{item.shopName}}
 						</view>
 						<view class="center-honor">
-							<view class="center-honorList" v-for="(item,i) in ((item.starId)/20)">
+							<view class="center-honorList" v-for="(item,i) in item.star">
 								<image src="../../static/xing_icon1.png" mode=""></image>
 							</view>
 							<view class="center-honorList" v-if="!item.isInert">
@@ -116,10 +116,11 @@
 						if (res.data.data) {
 							res.data.data.map(function(item) {
 									item.isInert = Number.isInteger(item.starId / 20)
+									item.star=parseInt((item.starId)/20)
 							})
 						}
 						_this.shopList = res.data.data
-						console.log(_this.shopList, res.data.data.starId, 0 / 20)
+						// console.log(_this.shopList, res.data.data.starId, 0 / 20)
 						if (res.data.data.length < 10) {
 							// uni.showToast({
 							// 	title: '已是最新',
@@ -154,6 +155,7 @@
 					if (res.data.data) {
 						res.data.data.map(function(item) {
 								item.isInert = Number.isInteger(item.starId / 20)
+								item.star=parseInt((item.starId)/20)
 						})
 					}
 					_this.shopList = _this.shopList.concat(res.data.data)

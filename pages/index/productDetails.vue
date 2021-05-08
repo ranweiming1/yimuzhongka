@@ -101,11 +101,11 @@
 					<text>{{list.sendAddr?list.sendAddr:''}} |</text>
 				</view>
 				<view class="kuaid">
-					<text>快递：{{list.kuaidi?list.kuaidi:''}}</text>
+					<text>快递：{{list.kuaidi?list.kuaidi:0}}</text>
 				</view>
 			</view>
 			<view class="yuex">
-				<text>月销量:{{list.salesSum?list.salesSum:''}}</text>
+				<text>月销量：{{list.salesSum?list.salesSum:0}}</text>
 			</view>
 		</view>
 		<view class="xize">

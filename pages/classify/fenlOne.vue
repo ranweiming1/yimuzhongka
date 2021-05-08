@@ -52,15 +52,14 @@
 		<view :class="tog_Ca?'clearCss':'togActive'">
 			<!-- 头部 -->
 			<!-- #ifndef H5 -->
-			<view class="top"
-				style='position:fixed;left:0;top:0rpx;background:#fff;width:100%;z-index:99999;padding-top:80rpx;padding-bottom: 20rpx;'>
-				<view class='back' @tap='back' style='float:left;padding: 15rpx 35rpx;'>
-					<image src='../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+			<view class="top">
+				<view class='back' @tap='back'>
+					<image src='../../static/icon_26-2.png'></image>
 				</view>
 				<view class="textBox">
 					<input class="uni-input" v-model="value" placeholder="请输入关键字" />
 				</view>
-				<view class="imgBox" @tap='search' style='margin-right:10rpx;'>
+				<view class="imgBox" @tap='search'>
 					<image src="../../static/icon_10.png" mode=""></image>
 				</view>
 			</view>
@@ -96,19 +95,22 @@
 
 			<view class="zhMask" v-if='paixu' @tap="zonghe">
 				<view class="mask-content">
-					<view class="mask-cont-item" @tap.stop='p("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
+					<view class="mask-cont-item" @tap.stop='p("COMPE",1)'>综合<view class="cont-item-icon"
+							v-if='st=="COMPE"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap.stop='p("PDESC")'>信用<view class="cont-item-icon"
-							v-if='st=="PDESC"'>
-							<image src="../../static/price_xuanze_icon.png" mode=""></image>
-						</view>
-					</view>
-					<view class="mask-cont-item" @tap.stop='p("SASC")'>价格高/低<view class="cont-item-icon"
-							v-if='st=="SASC"'>
+					<view class="mask-cont-item" @tap.stop='p(salePank,2)'>销量<view class="cont-item-icon"
+							v-if='st=="SDESC"||st=="SASC"'>
 							<image
-								:src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''"
+								:src="st=='SDESC'?'../../static/priceD_icon.png':st=='SASC'?'../../static/priceG_icon.png':''"
+								mode=""></image>
+						</view>
+					</view>
+					<view class="mask-cont-item" @tap.stop='p(priceRank,3)'>价格高/低<view class="cont-item-icon"
+							v-if='st=="PDESC"||st=="PASC"'>
+							<image
+								:src="st=='PDESC'?'../../static/priceD_icon.png':st=='PASC'?'../../static/priceG_icon.png':''"
 								mode=""></image>
 						</view>
 					</view>
@@ -194,8 +196,11 @@
 				page: 1,
 				loadingType: 0,
 				carId: '',
-				catId:'',
-				isFilter: false
+				catId: '',
+				isFilter: false,
+				priceRank: 'PASC',
+				salePank: 'SDESC',
+				pankInd: ''
 			}
 		},
 		onLoad(option) {
@@ -240,7 +245,7 @@
 		onShow: function() {
 			// shaiX
 			var _this = this
-			console.log(this.isFilter)
+			// console.log(this)
 			if (this.carId) {
 				_this.shaiX()
 			}
@@ -260,7 +265,7 @@
 					keyWords: this.value,
 					goodsType: this.goodsType,
 					carId: this.carId,
-					sortType: this.st,
+					sortType: this.pankInd == 1 ? '' : this.st,
 					page: this.page + 1,
 					catId: this.catId,
 					limit: 10
@@ -358,7 +363,7 @@
 			shaiX() {
 				this.page = 1
 				var _this = this
-				this.isFilter=true
+				this.isFilter = true
 				//标题读取样式激活
 				uni.showNavigationBarLoading()
 				this.$https({
@@ -370,7 +375,7 @@
 						keyWords: this.value,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.st,
+						sortType: this.pankInd == 1 ? '' : this.st,
 						page: this.page,
 						catId: this.catId,
 						limit: 10
@@ -493,7 +498,7 @@
 						keyWords: this.value,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.st,
+						sortType: this.pankInd == 1 ? '' : this.st,
 						page: this.page,
 						limit: 10
 					}),
@@ -523,7 +528,7 @@
 						keyWords: this.value,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.st,
+						sortType: this.pankInd == 1 ? '' : this.st,
 						catId: this.catId,
 						page: this.page,
 						limit: 10
@@ -554,11 +559,17 @@
 			zonghe: function() {
 				this.paixu = !this.paixu
 			},
-			p: function(st) {
+			p: function(st, ind) {
 				this.page = 1
 				this.st = st
-				this.isFilter=true
+				this.pankInd = ind
+				this.isFilter = true
 				var _this = this
+				if (ind == 2) {
+					_this.salePank = st == 'SASC' ? 'SDESC' : 'SASC'
+				} else if (ind == 3) {
+					_this.priceRank = st == 'PASC' ? 'PDESC' : 'PASC'
+				}
 				//标题读取样式激活
 				uni.showNavigationBarLoading()
 				this.$https({
@@ -571,7 +582,7 @@
 						goodsType: this.goodsType,
 						carId: this.carId,
 						catId: this.catId,
-						sortType: this.st,
+						sortType: this.pankInd == 1 ? '' : this.st,
 						page: this.page,
 						limit: 10
 					}),
@@ -688,15 +699,24 @@
 	}
 
 	.top {
-		width: 710upx;
-		// margin: 20upx;
 		overflow: hidden;
+		position: fixed;
+		left: 0;
+		top: 0rpx;
+		background: #fff;
+		width: 100%;
+		z-index: 99999;
+		padding-top: 80rpx;
+		padding-bottom: 20rpx;
+		box-sizing: border-box;
 
 		.textBox {
 			float: left;
 			margin-left: 25upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
+			width: calc(100% - 215rpx);
+			box-sizing: border-box;
 
 			input {
 				height: 60upx;
@@ -712,10 +732,24 @@
 
 		}
 
+		.back {
+			float: left;
+			padding: 15rpx 36rpx;
+			width: 90rpx;
+			box-sizing: border-box;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
+			}
+		}
+
 		.imgBox {
-			padding-left: 30upx;
-			padding-right: 20upx;
+			padding-left: 27upx;
+			padding-right: 27upx;
 			padding-top: 10upx;
+			width: 90rpx;
+			box-sizing: border-box;
 			float: right;
 
 			image {
@@ -993,16 +1027,25 @@
 
 	.togActive {
 		.top {
-			width: 710upx;
-			// margin: 20upx;
 			overflow: hidden;
-
+			position: fixed;
+			left: 0;
+			top: 0rpx;
+			background: #fff;
+			width: 100%;
+			z-index: 99999;
+			padding-top: 80rpx;
+			padding-bottom: 20rpx;
+			box-sizing: border-box;
+		
 			.textBox {
 				float: left;
 				margin-left: 25upx;
 				background-color: #f0f0f0;
 				border-radius: 50upx;
-
+				width: calc(100% - 215rpx);
+				box-sizing: border-box;
+		
 				input {
 					height: 60upx;
 					width: 520upx;
@@ -1010,25 +1053,77 @@
 					padding-left: 20upx;
 					font-size: 26upx;
 				}
-
+		
 				.uni-input-placeholder {
 					color: #999 !important;
 				}
-
+		
 			}
-
-			.imgBox {
-				padding-left: 30upx;
-				padding-right: 20upx;
-				padding-top: 10upx;
-				float: right;
-
+		
+			.back {
+				float: left;
+				padding: 15rpx 36rpx;
+				width: 90rpx;
+				box-sizing: border-box;
+		
 				image {
-					width: 44upx;
-					height: 39upx;
+					width: 18rpx;
+					height: 32rpx;
+				}
+			}
+		
+			.imgBox {
+				padding-left: 27upx;
+				padding-right: 27upx;
+				padding-top: 10upx;
+				width: 90rpx;
+				box-sizing: border-box;
+				float: right;
+		
+				image {
+					width: 36upx;
+					height: 36upx;
 				}
 			}
 		}
+		
+		// .top {
+		// 	width: 710upx;
+		// 	// margin: 20upx;
+		// 	overflow: hidden;
+
+		// 	.textBox {
+		// 		float: left;
+		// 		margin-left: 25upx;
+		// 		background-color: #f0f0f0;
+		// 		border-radius: 50upx;
+
+		// 		input {
+		// 			height: 60upx;
+		// 			width: 520upx;
+		// 			line-height: 60upx;
+		// 			padding-left: 20upx;
+		// 			font-size: 26upx;
+		// 		}
+
+		// 		.uni-input-placeholder {
+		// 			color: #999 !important;
+		// 		}
+
+		// 	}
+
+		// 	.imgBox {
+		// 		padding-left: 30upx;
+		// 		padding-right: 20upx;
+		// 		padding-top: 10upx;
+		// 		float: right;
+
+		// 		image {
+		// 			width: 44upx;
+		// 			height: 39upx;
+		// 		}
+		// 	}
+		// }
 
 		.list {
 			overflow: hidden;

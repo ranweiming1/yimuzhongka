@@ -24,8 +24,13 @@
 		</view>
 
 		<!-- 列表 -->
+		<view v-if="(xiana==1&&shopList==0)||(xiana==2&&storeList==0)" >
+			<image src='../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'>
+			</image>
+			<view style='text-align:center;'>暂无收藏</view>
+		</view>
 		<view class="contents" v-if='xiana==2'>
-			<view class="content-item" v-for="(item,i) in storeList" v-if="item.storeShopDTO&&item.storeShopDTO!=null">
+			<view class="content-item" v-for="(item,i) in storeList" v-if="item.storeShopDTO&&item.storeShopDTO!=null"  @tap="shopDetail(item.storeShopDTO.id)">
 				<view class="item-title">
 					<view class="item-title-logo fl">
 						<image :src="item.storeShopDTO.storeLogo" mode=""></image>
@@ -35,10 +40,13 @@
 							{{item.storeShopDTO.shopName}}
 						</view>
 						<view class="center-honor">
-							<view class="center-honorList" v-for="(item,i) in 5">
+							<view class="center-honorList" v-for="(item,i) in item.star">
 								<image src="../../static/xing_icon1.png" mode=""></image>
 							</view>
-							<view class="center-honorList text">{{item.storeShopDTO.starId}}</view>
+							<view class="center-honorList" v-if="!item.isInert">
+								<image src="../../static/xingxing1.png" mode=""></image>
+							</view>
+							<view class="center-honorList text">{{(item.storeShopDTO.starId/20)}}</view>
 						</view>
 					</view>
 					<view class="item-title-right fr" @tap="shopDetail(item.storeShopDTO.id)">
@@ -46,16 +54,16 @@
 					</view>
 				</view>
 				<view class="item-list">
-					<view class="itemsList fl" v-for="(i,t) in item.goodsDTOList ">
+					<view class="itemsList fl" v-for="(i,t) in item.storeShopDTO.goodsDTOList ">
 						<view class="list-img">
-							<image src="../../static/img_03.jpg" mode=""></image>
+							<image :src="i.goodsLogo" mode=""></image>
 						</view>
-						<view class="list-name">
+						<!-- <view class="list-name">
 							{{i.goodsName}}
-						</view>
-						<view class="list-price">
+						</view> -->
+						<!-- <view class="list-price">
 							￥{{i.marketPrice?i.marketPrice.toFixed(2):'暂无价格'}}
-						</view>
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -105,10 +113,27 @@
 				}
 			})
 		},
+		onShow() {
+			if(this.xiana==1){
+				this.shangpin()
+			}else{
+				this.dianpuyangshi()
+			}
+		},
 
 		methods: {
 			shangpin: function() {
 				this.xiana = 1
+				var _this = this
+				this.$https({
+					url: '/api/user/my-collects',
+					data: {},
+					dengl: false,
+					success: function(res) {
+						_this.shopList = res.data.data
+				
+					}
+				})
 			},
 			dianpuyangshi: function() {
 				var _this = this
@@ -118,6 +143,12 @@
 					data: {},
 					dengl: false,
 					success: function(res) {
+						if (res.data.data) {
+							res.data.data.map(function(item) {
+									item.isInert = Number.isInteger(item.starId / 20)
+									item.star=parseInt((item.storeShopDTO.starId)/20)
+							})
+						}
 						_this.storeList = res.data.data
 					}
 				})
@@ -153,6 +184,9 @@
 </script>
 
 <style lang="scss">
+	page{
+		background-color: #f7f7f7;
+	}
 	.topBox {
 		overflow: hidden;
 		border-bottom: 1px solid #f0f0f0;
@@ -199,7 +233,7 @@
 		position: fixed;
 		top: 0;
 		bottom: 0;
-		background: #e5e5e5;
+		background: #f7f7f7;
 	}
 
 	.listBox {
@@ -276,7 +310,7 @@
 	}
 
 	.contents {
-		background-color: #e5e5e5;
+		// background-color: #e5e5e5;
 		padding: 28rpx;
 
 		.content-item {
@@ -284,7 +318,8 @@
 			padding: 22rpx;
 			border-radius: 15rpx;
 			overflow: hidden;
-			margin-bottom: 25rpx;
+			margin-bottom:30rpx;
+			box-shadow: 0 0 6rpx #ccc;
 
 
 			.item-title {
@@ -415,6 +450,7 @@
 		overflow: hidden;
 		height: 500rpx;
 		box-sizing: border-box;
+		background-color: #fff;
 
 		.imgBox {
 			overflow: hidden;

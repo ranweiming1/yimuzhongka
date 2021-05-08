@@ -94,19 +94,21 @@
 			</view>
 			<view class="zhMask" v-if='paixu' @tap='guanbi'>
 				<view class="mask-content">
-					<view class="mask-cont-item" @tap.stop='x("PASC")'>综合<view class="cont-item-icon" v-if='st=="PASC"'>
+					<view class="mask-cont-item" @tap.stop='x("COMPE",1)'>综合<view class="cont-item-icon" v-if='st=="COMPE"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
-					<view class="mask-cont-item" @tap.stop='x("PDESC")'>信用<view class="cont-item-icon"
-							v-if='st=="PDESC"'>
-							<image src="../../static/price_xuanze_icon.png" mode=""></image>
-						</view>
-					</view>
-					<view class="mask-cont-item" @tap.stop='x("SASC")'>价格高/低<view class="cont-item-icon"
-							v-if='st=="SASC"'>
+					<view class="mask-cont-item" @tap.stop='x(salePank,2)'>销量<view class="cont-item-icon"
+							v-if='st=="SDESC"||st=="SASC"'>
 							<image
-								:src="st=='SASC'?'../../static/priceD_icon.png':st=='SDESC'?'../../static/priceG_icon.png':''"
+								:src="st=='SDESC'?'../../static/priceD_icon.png':st=='SASC'?'../../static/priceG_icon.png':''"
+								mode=""></image>
+						</view>
+					</view>
+					<view class="mask-cont-item" @tap.stop='x(priceRank,3)'>价格高/低<view class="cont-item-icon"
+							v-if='st=="PDESC"||st=="PASC"'>
+							<image
+								:src="st=='PDESC'?'../../static/priceD_icon.png':st=='PASC'?'../../static/priceG_icon.png':''"
 								mode=""></image>
 						</view>
 					</view>
@@ -143,7 +145,11 @@
 
 					</view>
 				</view>
-				<view v-if='allList.length==0' style='text-align:center;margin-top:100px;' @tap='tiaozhuan'>暂无产品列表,去首页看看
+
+				<view v-if='allList.length==0'>
+					<image src='../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'>
+					</image>
+					<view style='text-align:center;'>暂无产品列表,去首页看看</view>
 				</view>
 			</view>
 			<buttom bottom="2" :can="shopsId" v-if="isOK"></buttom>
@@ -176,7 +182,11 @@
 				loadingType: 0,
 				carId: '',
 				catId: '',
-				isFilter: false
+				isFilter: false,
+				priceRank:'PASC',
+				salePank:'SDESC',
+				pankInd:''
+				
 			}
 		},
 		onLoad(option) {
@@ -248,7 +258,7 @@
 					goodsType: this.goodsType,
 					carId: this.carId,
 					shop_id: _this.shopsId,
-					sortType: this.st,
+					sortType:this.pankInd==1?'':this.st,
 					catId: this.catId,
 					page: this.page + 1,
 					limit: 10
@@ -437,7 +447,7 @@
 						minPrice: this.min,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.st,
+						sortType: this.pankInd==1?'':this.st,
 						page: this.page,
 						keyWords: this.value,
 						shop_id: _this.shopsId,
@@ -472,7 +482,7 @@
 						keyWords: this.value,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.st,
+						sortType: this.pankInd==1?'':this.st,
 						catId: this.catId,
 						page: this.page,
 						shop_id: _this.shopsId,
@@ -505,11 +515,18 @@
 			guanbi: function() {
 				this.paixu = false
 			},
-			x: function(st) {
+			x: function(st,ind) {
 				this.st = st
 				this.page = 1
+				this.pankInd=ind
 				this.isFilter=true
 				var _this = this
+				if(ind==2){
+					_this.salePank=st=='SASC'?'SDESC':'SASC'
+				}else if(ind==3){
+					_this.priceRank=st=='PASC'?'PDESC':'PASC'
+				}
+				// console.log(st,ind,this.st)
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
 					dengl: true,
@@ -521,7 +538,7 @@
 						minPrice: this.min,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: st,
+						sortType:ind==1?'': st,
 						catId: this.catId,
 						keyWords: this.value,
 						page: this.page,
@@ -881,7 +898,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		// box-sizing: border-box;
+		box-sizing: border-box;
 		background-color: #FFFFFF;
 		z-index: 99999999;
 
@@ -1054,12 +1071,12 @@
 			.imgBox {
 				padding-left: 30upx;
 				padding-right: 20upx;
-				padding-top: 10upx;
+				padding-top: 12upx;
 				float: right;
 
 				image {
-					width: 44upx;
-					height: 39upx;
+					width: 36upx;
+					height: 36upx;
 				}
 			}
 		}

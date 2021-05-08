@@ -132,13 +132,17 @@
 							url: '../user/task/aiChe'
 						})
 					} else {
+						
+						// 如果是从商品购买进来
+						var pages = getCurrentPages();
+						var prevPage = pages[pages.length - 2];
+						// console.log(prevPage.$vm.isFilter,prevPage.$vm.carId,prevPage,9999)
+						prevPage.$vm.carId = idd
+						prevPage.$vm.isFilter = true
+						// prevPage.$vm.shaiX()
 						uni.navigateBack({
 							delta: 1
 						})
-						var pages = getCurrentPages()
-						var prevPage = pages[pages.length - 2]
-						prevPage.$vm.carId = idd
-						prevPage.$vm.isFilter = true
 					}
 				}
 			},

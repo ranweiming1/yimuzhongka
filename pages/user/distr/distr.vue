@@ -62,7 +62,7 @@
 
 			<!-- 提现 -->
 			<view class="cash" @tap="ruleToggle">
-				提现
+				提现规则
 			</view>
 		</view>
 		<view class="rule-mask" v-if="ruleTyle">
@@ -549,10 +549,11 @@
 	.cash {
 
 		position: absolute;
-		right: 80upx;
+		right: 40upx;
 		top: 30upx;
 		text-align: center;
-		width: 94upx;
+		min-width: 94upx;
+		padding: 0 10rpx;
 		height: 48upx;
 		border: 1px solid #fff;
 		color: #fff;

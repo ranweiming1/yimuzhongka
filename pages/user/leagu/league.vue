@@ -4,7 +4,7 @@
 			<view class="back" @tap='back'>
 				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
 			</view>
-			<view class="textBox" :style="isIcon?'':'margin-right:90rpx'"><text>地址管理</text></view>
+			<view class="textBox" :style="isIcon?'':'margin-right:90rpx'"><text>商家入驻</text></view>
 			<view class="imgBox" v-if="isIcon" @tap='problemGo'>
 				<image src='../../../static/defitCon.png' style='width:36rpx;height:36rpx;'></image>
 			</view>

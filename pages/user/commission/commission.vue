@@ -45,6 +45,9 @@
 
 			</view>
 		</view>
+		<view style="height: 150rpx;">
+			
+		</view>
 		<view class="bot_copy">
 			<text>Copyright©2021</text>
 			<text>山东毅木重卡网络科技有限公司 版权所有</text>
@@ -128,7 +131,7 @@
 <style lang="scss">
 	.bot_copy{
 		position: fixed;
-		bottom:50rpx;
+		bottom:20rpx;
 		font-size: 24rpx;
 		color: #8e8e8e;
 		left: 0;

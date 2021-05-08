@@ -59,12 +59,12 @@
 				</view>
 			</view>
 		</view>
-		<view class="publish" v-if='fabiao'>
+		<view class="publish" v-if='fabiao' @tap='tianj'>
 			<view class="imgBox_b">
 				<image src="../../../static/icon_19.png" mode=""></image>
 			</view>
 			<view class="textBox_b">
-				<text @tap='tianj'>发表评价</text>
+				<text>发表评价</text>
 			</view>
 		</view>
 		<view style='position:fixed;top:0;left:0;bottom:0;right:0;background:rgba(0,0,0,0.5);z-index:99999;' v-if='pinglun'>

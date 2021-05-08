@@ -187,7 +187,7 @@
 					</view>
 
 					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item,4)">
-						<view class="rwButt">{{item.taskId==2?(goodsViewed>0?'去完成':'已完成'):(item.taskStatus?'已完成':item.postUrl==6?'去邀请':'去完成')}}
+						<view class="rwButt">{{item.taskId==2?(goodsViewed==0&&item.taskStatus?'已完成':'去完成'):(item.taskStatus?'已完成':item.postUrl==6?'去邀请':'去完成')}}
 
 						</view>
 						<!-- <button type="primary" :style="item.taskStatus?'':'background:#bfbfbf;color:#666;'">{{item.taskStatus?'已完成':'去完成'}}</button> -->
@@ -372,7 +372,15 @@
 				var isRen = item.taskStatus
 				var taskType = item.taskType
 				var taskId = item.taskId
+				console.log(isRen,item)
 				// console.log(taskId)
+				if(state==2){
+					if(_this.goodsViewed>0){
+						uni.navigateTo({
+							url: '../../classify/fenlOne?state='+state
+						})
+					}
+				}
 				if (!isRen) {
 					if (state == 1) {
 						this.$https({
@@ -389,7 +397,7 @@
 							}
 						})
 					}
-					if (state == 2 || state == 3) {
+					if ( state == 3) {
 						uni.navigateTo({
 							url: '../../classify/fenlOne?state='+state
 						})

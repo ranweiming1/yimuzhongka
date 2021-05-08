@@ -2,22 +2,21 @@
 	<view>
 		<!-- 头部 -->
 		<!-- #ifndef H5 -->
-		<view class="top"
-			style='width:100%;background:#fff;position:fixed;top:0rpx;z-index:99999;left:0;padding-top:90rpx;'>
-			<view class='back' @tap='back' style='float:left;padding:10rpx 20rpx 15rpx 20rpx;'>
-				<image src='../../../static/icon_26-2.png' style='width:18rpx;height:32rpx;'></image>
+		<view class="top">
+			<view class='back' @tap='back'>
+				<image src='../../../static/icon_26-2.png'></image>
 			</view>
 			<view class="textBox">
-				<input class="uni-input" placeholder="请输入关键字" />
+				<input class="uni-input" v-model="searchVal" placeholder="请输入关键字" />
 			</view>
-			<!-- <view class="imgBox" @tap="shopCar" style='margin-right:20rpx;'>
-				<image src="../../../static/icon_43.png" mode=""></image>
-			</view> -->
+			<view class="imgBox" @tap='searchOrder'>
+				<image src="../../../static/icon_10.png" mode=""></image>
+			</view>
 		</view>
 		<!-- #endif -->
 
 		<!-- 状态栏 -->
-		<view class="topBox"
+		<view class="topBox" v-if="!isSearch"
 			style='position:fixed;top:170rpx;left:0;width:100%;background:#fff;padding-top:20rpx;z-index:99999;'>
 			<!-- 选中样式 -->
 			<view class="none on" @tap="toggle(0)">
@@ -62,11 +61,11 @@
 				</view>
 			</view>
 		</view>
-		<view style='height:240rpx;'></view>
+		<view :style="isSearch?'height:200rpx':'height:240rpx'"></view>
 		<view v-if='dList.length==0' @tap='tiaozhuan'>
 			<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:50rpx auto;'>
 			</image>
-			<view style='text-align:center;'>您还未有订单,去逛逛</view>
+			<view style='text-align:center;'>{{!isSearch?'您还未有订单,去逛逛':'暂无相关订单,去逛逛'}}</view>
 		</view>
 		<!-- 订单信息 -->
 		<view class="listBox" v-for="(item,index) in dList">
@@ -103,7 +102,9 @@
 					</view>
 				</view>
 				<view class="zongj">
-					<text>{{item.countNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}} <text style="font-size: 30rpx;font-weight: bold;padding-left: 15rpx;"> {{item.status==0?'需付款':'实付款'}}：{{item.totalAmount?'￥'+item.totalAmount.toFixed(2):'0'}}</text></text>
+					<text>{{item.countNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}} <text
+							style="font-size: 30rpx;font-weight: bold;padding-left: 15rpx;">
+							{{item.status==0?'需付款':'实付款'}}：{{item.totalAmount?'￥'+item.totalAmount.toFixed(2):'0'}}</text></text>
 				</view>
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2"
@@ -205,7 +206,9 @@
 				as: 1,
 				shanchu: false,
 				orderId: '',
-				qiandao: {}
+				qiandao: {},
+				searchVal: '',
+				isSearch: false
 			}
 		},
 		components: {
@@ -239,23 +242,28 @@
 			var data = {
 				status: this.id,
 				page: this.page,
-				page_num: 10
+				limit: 10,
+				searchValue: this.searchVal
 			}
 			this.getListInfo(data);
 		},
 		onShow: function() {
 			this.as = 2
+			if(this.isSearch){
+				this.page=1
+			}
 			var data = {
-				status: this.id,
+				status:this.isSearch?0:this.id,
 				page: this.page,
-				page_num: 10
+				limit: 10,
+				searchValue: this.searchVal
 			}
 			this.getListInfo(data);
 		},
 		onReachBottom: function() {
 			// var _this = this
 			// _this.page++; //每触底一次 page +1
-			// var page_num = _this.page * 10
+			// var limit = _this.page * 10
 			// // console.log(_this.hotRecommendlist.length);
 			// if (_this.loadingType != 0) { //loadingType!=0;直接返回
 			// 	return false;
@@ -268,12 +276,12 @@
 			// 	dengl: false,
 			// 	data: {
 			// 		status: _this.id,
-			// 		page_num: page_num
+			// 		limit: limit
 			// 	},
 			// 	success: function(res) {
 			// 		_this.dList = res.data.data
-			// 		if (_this.dList.length < page_num) { //没有数据
-			// 			// console.log(page_num)
+			// 		if (_this.dList.length < limit) { //没有数据
+			// 			// console.log(limit)
 			// 			_this.loadingType = 2;
 			// 			uni.hideNavigationBarLoading(); //关闭加载动画
 			// 		} else {
@@ -284,9 +292,10 @@
 			// 	}
 			// });
 			var data = {
-				status: this.id,
+				status: this.isSearch?0:this.id,
 				page: this.page + 1,
-				page_num: 10
+				limit: 10,
+				searchValue: this.searchVal
 			}
 			this.getMoreListInfo(data)
 
@@ -294,9 +303,10 @@
 		onPullDownRefresh: function() {
 			this.page = 1
 			var data = {
-				status: this.id,
+				status:this.isSearch?0:this.id,
 				page: this.page,
-				page_num: 10
+				limit: 10,
+				searchValue: this.searchVal
 			}
 			this.getListInfo(data);
 			// this.getListInfo()
@@ -485,7 +495,8 @@
 						var data = {
 							status: this.id,
 							page: this.page,
-							page_num: 10
+							limit: 10,
+							searchValue: this.searchVal
 						}
 
 						this.getListInfo(data);
@@ -517,7 +528,8 @@
 				var data = {
 					status: this.id,
 					page: this.page,
-					page_num: 10
+					limit: 10,
+					searchValue: this.searchVal
 				}
 				uni.pageScrollTo({
 					scrollTop: 0,
@@ -539,10 +551,20 @@
 					})
 				}
 			},
-			shopCar() {
-				uni.reLaunch({
-					url: '../../cart/cart'
-				})
+			searchOrder() {
+				this.isSearch = true
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 100,
+				});
+				this.page = 1
+				var data = {
+					status: 0,
+					page: this.page,
+					limit: 10,
+					searchValue: this.searchVal
+				}
+				this.getListInfo(data);
 			},
 			detail(id, t) {
 				uni.navigateTo({
@@ -590,9 +612,24 @@
 				})
 			},
 			back: function() {
-				uni.navigateBack({
-					delta: 1
-				})
+				if (this.isSearch) {
+					this.isSearch = false
+					this.searchVal = ''
+					this.page = 1
+					var data = {
+						status: this.id,
+						page: this.page,
+						limit: 10,
+						searchValue: this.searchVal
+					}
+					this.getListInfo(data)
+
+				} else {
+					uni.navigateBack({
+						delta: 1
+					})
+				}
+
 			},
 			tiaozhuan: function() {
 				uni.navigateTo({
@@ -624,16 +661,66 @@
 		background-color: #fff;
 	}
 
+	// .top {
+	// 	width: 710upx;
+	// 	padding: 20upx;
+	// 	overflow: hidden;
+
+	// 	.textBox {
+	// 		float: left;
+	// 		margin-left: 70upx;
+	// 		background-color: #f0f0f0;
+	// 		border-radius: 50upx;
+
+	// 		input {
+	// 			height: 60upx;
+	// 			width: 520upx;
+	// 			line-height: 60upx;
+	// 			padding-left: 20upx;
+	// 			font-size: 26upx;
+	// 		}
+
+	// 		.uni-input-placeholder {
+	// 			color: #999 !important;
+	// 		}
+
+	// 	}
+
+	// 	.imgBox {
+	// 		padding-left: 30upx;
+	// 		padding-right: 20upx;
+	// 		padding-top: 10upx;
+	// 		float: right;
+
+	// 		image {
+	// 			width: 44upx;
+	// 			height: 39upx;
+	// 		}
+	// 	}
+
+	// 	.uni-input-placeholder {
+	// 		color: #999 !important;
+	// 	}
+	// }
 	.top {
-		width: 710upx;
-		padding: 20upx;
-		overflow: hidden;
+
+		box-sizing: border-box;
+		width: 100%;
+		background: #fff;
+		position: fixed;
+		top: 0rpx;
+		z-index: 99999;
+		left: 0;
+		padding: 20rpx 0;
+		padding-top: 90rpx !important;
 
 		.textBox {
 			float: left;
-			margin-left: 70upx;
+			margin-left: 25upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
+			width: calc(100% - 215rpx);
+			box-sizing: border-box;
 
 			input {
 				height: 60upx;
@@ -649,18 +736,33 @@
 
 		}
 
+		.back {
+			float: left;
+			padding: 15rpx 36rpx;
+			width: 90rpx;
+			box-sizing: border-box;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
+			}
+		}
+
 		.imgBox {
-			padding-left: 30upx;
-			padding-right: 20upx;
+			padding-left: 27upx;
+			padding-right: 27upx;
 			padding-top: 10upx;
+			width: 90rpx;
+			box-sizing: border-box;
 			float: right;
 
 			image {
-				width: 44upx;
-				height: 39upx;
+				width: 36upx;
+				height: 36upx;
 			}
 		}
 	}
+
 
 	.topBox {
 		overflow: hidden;

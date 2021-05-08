@@ -7,16 +7,16 @@
 		</view>
 
 		<!-- 揽件信息 -->
-		<view class="collect" v-if="deList.shippingStatus!=0">
+		<view class="collect" v-if="deList.shippingStatus!=0" @tap='wuliu'>
 			<view class="collimg">
 				<image src="../../../static/icon_44.png" mode=""></image>
 			</view>
 			<view class="colltext">
 				<view class="collh2">
-					<text>您的订单已经由{{deList.shippingName}}快递揽件</text>
+					<text>{{wuList.context}}</text>
 				</view>
 				<view class="collspan">
-					<text>2019-05-06 15:25 25</text>
+					<text>{{wuList.time}}</text>
 				</view>
 			</view>
 			<view class="collenter">
@@ -176,7 +176,8 @@
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott onna">
 						<button type="primary" @tap='wuliu' v-if='!t'>查看物流</button>
-						<button type='primary' @tap='zhifu' v-if='t'>去支付</button>
+						<button type='primary' @tap='zhifu'
+							v-if='t&&!(deList.payStatus==0 &&deList.orderStatus == 3&&deList.shippingStatus == 0 )'>去支付</button>
 					</view>
 
 				</view>
@@ -196,7 +197,8 @@
 				dz: '',
 				kuaidi: '',
 				t: false,
-				s: true
+				s: true,
+				wuList:{}
 			}
 		},
 		onLoad(option) {
@@ -208,21 +210,32 @@
 				},
 				dengl: false,
 				success: function(res) {
-					var cont=0
+					var cont = 0
 					res.data.data.goodsList.map(function(v, i) {
-						cont =_this.$numAdd(cont,_this.$numAdd(v.commCouponPrice , v.couponPrice))
+						v.specList.map(function(z, ind) {
+							cont = _this.$numAdd(cont, _this.$numAdd(z.commCouponPrice, z.couponPrice))
+						})
 					})
-					res.data.data.countPrice=cont
+					res.data.data.countPrice = cont
 					_this.deList = res.data.data
-					console.log(res.data.data,9999)
 					_this.order = res.data.data.orderSn
 					_this.com = res.data.data.shippingName
 					_this.dz = res.data.data.cityInfo
 					_this.kuaidi = res.data.data.goodsList[0].specList[0].kuaidi
 					_this.code = res.data.data.shippingCode
 					console.log(res.data.data)
-					// _this.code=res.data.data.shippingCode
-					console.log(res.data.data)
+					if(res.data.data.shippingStatus!=0){
+						_this.$https({
+							url: '/api/shop/logistics-detail',
+							data: {
+								logistics: res.data.data.shippingCode ?res.data.data.shippingCode.trim(): '',
+							},
+							dengl: false,
+							success(res) {
+								_this.wuList = res.data.data.logisticsInfo.data[0]
+							}
+						})
+					}
 				}
 			})
 			if (option.zhuangtai == 0) {

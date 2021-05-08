@@ -139,7 +139,7 @@
 				</picker>
 			</view>
 		</view>
-		<view class=" mar-buttom" style="margin-bottom: 120rpx;overflow: hidden;">
+		<view class=" mar-buttom" style="overflow: hidden;">
 			<view class="basic aa">
 				<view class="left_a">
 					<text>商品金额</text>
@@ -174,7 +174,7 @@
 				</view>
 			</view>
 		</view>
-		<!-- <view style='height:150rpx;'></view> -->
+		<view style='height:130rpx;'></view>
 		<!-- 底部 -->
 		<view class="bottom">
 			<view class="leftA" style='margin-top:10rpx;'>

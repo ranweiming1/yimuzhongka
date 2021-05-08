@@ -4,7 +4,7 @@
 		<view class="shop-one" v-if="shopStyle==1">
 			<view class="shop-top">
 				<view class="shop-bag">
-					<swiper class="logo-swper-list" :current="currentIndex" :circular="true" :duration="100"
+					<swiper class="logo-swper-list"  :autoplay="autoplay" :interval="interval" :current="currentIndex" :circular="true" :duration="duration"
 						@change="swierChange">
 						<swiper-item class="logo-swper-item" v-for="(item,i) in banner" :key="i">
 							<image :src="item.img" mode=""></image>
@@ -329,8 +329,8 @@
 					</view>
 				</view>
 				<view class="shop-logo-swper">
-					<swiper class="logo-swper-list" :current="currentIndex" :circular="true" next-margin="95rpx"
-						:duration="100" @change="swierChange">
+					<swiper class="logo-swper-list" :autoplay="autoplay" :interval="interval" :current="currentIndex" :circular="true" next-margin="95rpx"
+						:duration="duration" @change="swierChange">
 						<swiper-item class="logo-swper-item" v-for="(item,i) in banner" :key="i">
 							<image class="slide-image" :src="item.img" :class="currentIndex === i?'active':''" mode="">
 							</image>
