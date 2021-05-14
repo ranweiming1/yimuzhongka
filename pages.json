@@ -69,7 +69,8 @@
 		{
 			"path": "pages/user/allState/salelist",
 			"style": {
-				"navigationBarTitleText": "退款/售后"
+				"navigationBarTitleText": "退款/售后",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -288,7 +289,8 @@
 		{
 			"path": "pages/user/jifenStore/jifenStore",
 			"style": {
-				"navigationBarTitleText": "积分商城"
+				"navigationBarTitleText": "积分商城",
+				"enablePullDownRefresh":true
 			}
 		},
 		{

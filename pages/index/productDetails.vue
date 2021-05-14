@@ -268,7 +268,7 @@
 						<text>{{list.shopDTO.shopName}}</text>
 					</view>
 					<view class="spanBox">
-						<text>销量：{{list.shopDTO.sales}}</text>
+						<text>销量：{{storeSales}}</text>
 					</view>
 				</view>
 				<view class="bottBox">
@@ -404,6 +404,7 @@
 				keLink: '',
 				shareCode: '',
 				shareId: '',
+				storeSales:''
 
 			}
 		},
@@ -431,6 +432,7 @@
 				},
 				dengl: !uni.getStorageSync('Authorization'),
 				success: function(res) {
+					_this.storeSales=res.data.data.storeSales
 					if (res.data.data.detail.couponDTOS) {
 						res.data.data.detail.couponDTOS.map(function(val, i) {
 							val.type = false
@@ -444,6 +446,7 @@
 					if (_this.list.marketPrice) {
 						_this.list.marketPrice = _this.list.marketPrice.toFixed(2)
 					}
+					
 
 					//修改返回的数据中的参数
 					Object.keys(res.data.data.specs).forEach(function(key) {

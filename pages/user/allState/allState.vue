@@ -296,19 +296,19 @@
 		onShow: function() {
 			this.as = 2
 			this.page = 1
-			if (this.isSearch) {
-				this.page = 1
-			}
+			// if (this.isSearch) {
+			// 	this.page = 1
+			// }
 			var data = {
 				status: this.isSearch ? 0 : this.id,
 				page: this.page,
 				limit: 10,
 				searchValue: this.searchVal
 			}
+			this.getListInfo(data);
 			uni.pageScrollTo({
 				scrollTop: 0,
 			});
-			this.getListInfo(data);
 		},
 		onReachBottom: function() {
 			// var _this = this
@@ -591,17 +591,26 @@
 					method: 'post',
 					haeder: true,
 					success: res => {
-						uni.showToast({
-							title: res.data.message
-						})
-						var data = {
-							status: this.id,
-							page: this.page,
-							limit: 10,
-							searchValue: this.searchVal
-						}
+						if (res.data.data == 0) {
+							uni.showToast({
+								title: res.data.message,
+							})
 
-						this.getListInfo(data);
+						} else {
+							uni.showToast({
+								title: res.data.message ? res.data.message : '操作失败',
+								icon: 'none'
+							})
+
+						}
+						// var data = {
+						// 	status: this.id,
+						// 	page: this.page,
+						// 	limit: 10,
+						// 	searchValue: this.searchVal
+						// }
+
+						// this.getListInfo(data);
 					}
 				})
 			},

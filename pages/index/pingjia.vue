@@ -28,16 +28,19 @@
 				<view class="guige">
 					<text>已购："<text>黄色</text>","<text>官方标配</text>"</text>
 				</view>
-				<view class="pCont" :style="item.storeGoodsReplyList.length>0?'':'border-bottom: none'">
-					<text>{{item.content}}</text>
-					<view class="img" v-for="(val,i) in item.imgBox">
-						<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="val" mode=""></image>
+				<view class="pCont"
+					:style="item.storeGoodsReplyList.length>0&&item.storeGoodsReplyList!=null?'':'border-bottom: none'">
+					<text>{{item.content?item.content:''}}</text>
+					<view class="imgsBox" v-if="item.imgBox.length>0">
+						<view class="img" v-for="(val,i) in item.imgBox">
+							<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="val" mode=""></image>
+						</view>
+
 					</view>
-					<!-- <text>追加评论<text>（收货18天后）</text>：<text>用了一段时间挺好的</text></text> -->
 				</view>
-				<view class="reply" v-for="(ite,inde) in item.storeGoodsReplyList">
+				<!-- <view class="reply" v-for="(ite,inde) in item.storeGoodsReplyList">
 					<text>商家回复：<text>{{ite.replyContent}}</text></text>
-				</view>
+				</view> -->
 			</view>
 
 		</view>
@@ -114,14 +117,13 @@
 		},
 		onLoad(option) {
 			var _this = this
-			// this.goodsId = option.id
+			this.goodsId = option.id
 			// console.log(option)
 			// console.log(_this.isXing)
 			this.$https({
 					url: '/api/oauth/shop/goods-comm-list',
 					data: {
 						goodsId: option.id,
-						// goodsId: 220,
 						page: this.page,
 						limit: 10,
 					},
@@ -136,7 +138,6 @@
 								val.xingji = parseInt(val.goodsRank / 20)
 								val.isInert = Number.isInteger(val.goodsRank / 20)
 							})
-
 						}
 						_this.pingJList = res.data.data
 						console.log(_this.pingJList)
@@ -146,7 +147,6 @@
 					url: '/api/oauth/shop/store-shop-detail',
 					data: {
 						shopId: option.ids
-						// shopId: 19
 					},
 					success: function(res) {
 						_this.starNum = res.data.data.starId
@@ -180,7 +180,7 @@
 					data: {
 						page: _this.page,
 						limit: 10,
-						goodsId: this.goodsId
+						goodsId: _this.goodsId
 					},
 					dengl: true,
 					success: function(res) {
@@ -394,6 +394,14 @@
 			padding: 20upx;
 			overflow: hidden;
 			margin-bottom: 28rpx;
+
+			.imgsBox {
+				overflow: hidden;
+			}
+
+			.img {
+				float: left;
+			}
 
 			.imgTop {
 				display: flex;

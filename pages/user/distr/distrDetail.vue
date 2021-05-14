@@ -15,7 +15,8 @@
 
 			<!-- 增值状态 -->
 			<view class="jine">
-				<text style='display:block;text-align:right;font-size:26rpx;'>+{{item.integral}}</text>
+				<text
+					style='display:block;text-align:right;font-size:26rpx;'>{{item. xfType==1?'+'+item.integral:'-' +item.integral}}</text>
 				<text style='color:#666;font-size:24rpx;'>{{item.createTime}}</text>
 			</view>
 		</view>
@@ -48,7 +49,7 @@
 			// })
 			var data = {
 				page: this.page,
-				limit:10
+				limit: 10
 			}
 			this.getNews(data)
 		},
@@ -56,7 +57,7 @@
 			//下拉的生命周期
 			var data = {
 				page: this.page,
-				limit:10
+				limit: 10
 			}
 			this.getNews(data)
 		},
@@ -106,7 +107,7 @@
 					data: data,
 					method: 'POST',
 					success(res) {
-						if (res.data.data.length < 10|| res.data.data ==
+						if (res.data.data.length < 10 || res.data.data ==
 							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
 							_this.loadingType = 2;
 							uni.showToast({

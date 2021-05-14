@@ -13,12 +13,12 @@
 				<!-- 店铺名称待确认 -->
 				<text>{{item.storeShopDTO.shopName}}</text>
 				<view class="guanb">
-					<text>{{item.approvalStatus==0?'审核已通过':item.approvalStatus==2?'待卖家同意':'卖家已拒绝'}}</text>
+					<text>{{item.endStatus==0?'处理中':'已完结'}}</text>
 				</view>
 			</view>
 			<view class="xinxi">
 				<view class="xinxi1"
-					@tap="detail(item.id,item.goodsName,item.specValue,item.goodsImg,item.approvalStatus)">
+					@tap="detail(item.id,item.goodsName,item.specValue,item.goodsImg,item.approvalStatus,item.endStatus)">
 					<view class="imgBox_a">
 						<image :src="item.goodsImg" mode=""></image>
 					</view>
@@ -30,7 +30,7 @@
 							<text>已选：＂{{item.specValue}}＂</text>
 						</view>
 						<view class="radColor">
-							<text>{{item.goodsFee?'￥'+item.goodsFee.toFixed(2):'0'}}</text>
+							<text>{{item.refundFee?'￥'+item.refundFee.toFixed(2):'0'}}</text>
 						</view>
 
 						<!-- 数量 -->
@@ -43,7 +43,7 @@
 				<view class="zongj">
 					<text>{{item.refundDesc}}</text>
 				</view>
-				<view class="exa-type">
+				<view class="exa-type" v-if="item.endStatus==0">
 					<view class="exa-title-one" v-if="item.approvalStatus==2">
 						<text style="color: #FF0000;padding-right: 20rpx;">待商家处理</text> <text>请耐心等待</text>
 					</view>
@@ -56,13 +56,16 @@
 						<text>{{item.logisticsCode&&item.logisticsCode!=null?'退款中，请耐心等待':'请填写物流信息'}}
 						</text>
 					</view>
-					<view class="exa-title-three" v-if="item.endStatus==1">
+					<!-- <view class="exa-title-three" v-if="item.endStatus==1">
 						<text
-							style="padding-right: 20rpx;">{{item.refundMethod==0?'退货成功':'换货成功'}}</text><text>{{item.refundMethod==0?'退款成功￥'+item.goodsFee.toFixed(2):'换货已完成'}}</text>
-					</view>
+							style="padding-right: 20rpx;">{{item.refundMethod==0?'退货成功':'换货成功'}}</text><text>{{item.refundMethod==0?'退款成功￥'+item.refundFee.toFixed(2):'换货已完成'}}</text>
+					</view> -->
 					<view class="exa-bott" v-if="item.approvalStatus==3"
-						@tap="applyAgain(item.id,item.outTradeNo,item.goodsImg,item.goodsName,item.totalFee,item.specValue,item.buyNum,item.specKey,item.goodsId)">
+						@tap="applyAgain(item.id,item.outTradeNo,item.goodsImg,item.goodsName,item.goodsFee,item.specValue,item.buyNum,item.specKey,item.goodsId,item.refundFee)">
 						再次申请
+					</view>
+					<view class="exa-bott" @tap="revokeRun(item.id)" v-if="item.approvalStatus!=0">
+						撤销申请
 					</view>
 				</view>
 			</view>
@@ -72,6 +75,16 @@
 			</image>
 			<view style='text-align:center;'>暂无订单</view>
 		</view>
+		<!-- 撤销申请 -->
+		<view class="del-mask" v-if='isRevoke' style="z-index: 9999999;">
+			<view class="del-mask-content">
+				<view class="mask-title">您确定撤销售后申请?</view>
+				<view class="mask-bot">
+					<view class="bot-left" @tap='quxiao'>取消</view>
+					<view class="bot-right" @tap='shanchuDD'>确定</view>
+				</view>
+			</view>
+		</view>
 	</view>
 
 </template>
@@ -80,41 +93,152 @@
 	export default {
 		data() {
 			return {
-				saleList: []
+				saleList: [],
+				page: 1,
+				loadingType: 0,
+				isRevoke: false,
+				ordId: ''
 			}
 		},
 		onLoad() {
 			var _this = this
-			this.$https({
-				url: '/api/shop/order-refund-list',
-				dengl: false,
-				haeder: true,
-				data: {},
-				method: 'post',
-				success(res) {
-					_this.saleList = res.data.data
-					console.log(res.data.data)
-				}
-			})
+			// this.$https({
+			// 	url: '/api/shop/order-refund-list',
+			// 	dengl: false,
+			// 	haeder: true,
+			// 	data: {},
+			// 	method: 'post',
+			// 	success(res) {
+			// 		_this.saleList = res.data.data
+			// 		console.log(res.data.data)
+			// 	}
+			// })
+			this.getNews()
+		},
+		onPullDownRefresh() {
+			//下拉的生命周期
+			this.getNews()
+		},
+		onReachBottom() {
+			var data = {
+				page: this.page + 1,
+				limit: 10,
+			}
+			this.getMoreNews(data)
 		},
 		methods: {
-			detail: function(id, name, value, logo, approvalStatus) {
-				if (approvalStatus != 0) {
+			detail: function(id, name, value, logo, approvalStatus, endStatus) {
+				if (endStatus == 1) {
 					uni.showToast({
-						title: approvalStatus == 2 ? '请等待卖家同意退货' : '审核失败，请与卖家协商重新申请',
+						title: '售后已完成',
 						icon: 'none'
 					})
-					return false
+				} else {
+					if (approvalStatus != 0) {
+						uni.showToast({
+							title: approvalStatus == 2 ? '请等待卖家同意退货' : '审核失败，请与卖家协商重新申请',
+							icon: 'none'
+						})
+						return false
+					}
+					uni.navigateTo({
+						url: './refund?id=' + id
+					})
 				}
-				uni.navigateTo({
-					url: './refund?id=' + id
+
+			},
+			shanchuDD() {
+				var _this = this
+				this.quxiao()
+				this.$https({
+					url: '/api/shop/order-refund-revoke',
+					data: {
+						id: this.ordId
+					},
+					dengl: false,
+					success: function(res) {
+						if (res.data.code == 0) {
+							uni.showToast({
+								title: '撤销成功'
+							})
+							_this.getNews()
+
+						} else {
+							uni.showToast({
+								title: '操作失败',
+								icon: 'none'
+							})
+						}
+					}
 				})
 			},
-			applyAgain(id, oS, lG, gN, gP, sKN, Num, sKY,gID) {
+			quxiao() {
+				this.isRevoke = !this.isRevoke
+			},
+			revokeRun(id) {
+				this.ordId = id
+				this.isRevoke = !this.isRevoke
+			},
+			applyAgain(id, oS, lG, gN, gP, sKN, Num, sKY, gID, paidPri) {
 				uni.navigateTo({
-					url: './deliver_01?id=' + id + '&oS=' + oS + '&lG=' + lG + '&gN=' + gN + '&gP=' + gP +'&sKN=' + sKN + '&num=' + Num + '&sKY=' + sKY+'&gID='+gID
+					url: './deliver_01?id=' + id + '&oS=' + oS + '&lG=' + lG + '&gN=' + gN + '&gP=' + gP +
+						'&sKN=' + sKN + '&num=' + Num + '&sKY=' + sKY + '&gID=' + gID + '&paidPri=' + paidPri
 				})
-			}
+			},
+			getNews() {
+				this.page = 1
+				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
+				this.$https({
+					url: '/api/shop/order-refund-list',
+					data: {
+						page: _this.page,
+						limit: 10,
+
+					},
+					dengl: false,
+					success: function(res) {
+						_this.saleList = res.data.data
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
+					}
+				})
+
+			},
+			getMoreNews(data) {
+				var _this = this
+				this.page++
+
+				if (_this.loadingType != 0) {
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/shop/order-refund-list',
+					dengl: false,
+					data: data,
+					success(res) {
+						if (res.data.data.length < 10 || res.data.data ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.saleList = _this.saleList.concat(res.data.data)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+
 		}
 	}
 </script>
@@ -213,6 +337,7 @@
 			background-color: #fff;
 			border: 1px solid #007AFF;
 			font-size: 28rpx;
+			margin-left: 20rpx;
 		}
 
 		.txt_c {

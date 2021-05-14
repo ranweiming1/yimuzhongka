@@ -64,7 +64,7 @@
 			<!-- #endif -->
 
 			<!-- 这里有一个筛选 -->
-			<view class="nav dne">
+			<view class="nav">
 				<view style='display:flex;'>
 					<view class="con" @tap="chexing">
 						<text>车型</text>
@@ -710,6 +710,8 @@
 		height: 50rpx;
 		background-color: #fff;
 		z-index: 99;
+		overflow: hidden;
+		padding-top: 180rpx;
 
 		.con {
 			// width: 33.3%;

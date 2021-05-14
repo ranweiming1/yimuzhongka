@@ -39,7 +39,7 @@
 		</view>
 
 		<!-- 商品列表 -->
-		<view class="listBox">
+		<view class="listBox" style="margin-bottom: 800rpx;">
 			<view class="block" v-for="(item , index) in jifList" @tap="shopDetail(item.goodsId)">
 				<view class="imgBox">
 					<image :src="item.goodsLogo" mode=""></image>
@@ -65,42 +65,117 @@
 				jifList: {},
 				user: {},
 				id: '',
-				i: '1',
+				i: 1,
 				isXu: true,
-				phone: ''
+				phone: '',
+				page: 1,
+				loadingType: 0
 			}
 		},
 		props: ['num'],
-		onLoad() {
+		onShow() {
 			var _this = this
+			this.page=1
+			uni.pageScrollTo({
+				scrollTop: 0,
+			});
+			this.page=1
+			var data = {
+				jfAsc: '',
+				jfDesc: '',
+				priceAsc: '',
+				priceDesc: '',
+				page: this.page,
+				page_num: 10
+			}
+			this.getNews(JSON.stringify(data))
+
 			this.$https({
-					url: '/api/oauth/shop/mall-goods-jfList',
-					method: 'POST',
-					dengl: true,
-					data: JSON.stringify({
-						jfAsc: '',
+				url: '/api/user/my-info',
+				dengl: false,
+				data: {},
+				success: function(res) {
+					_this.user = res.data.data
+					_this.phone = res.data.data.phone
+				}
+			})
+		},
+		onPullDownRefresh() {
+			//下拉的生命周期
+			this.getNews()
+		},
+		onReachBottom() {
+			console.log(this.i, 888)
+			var i = this.i
+			var _this = this
+			if (i == 1) {
+				var data = {
+					jfAsc: '',
+					jfDesc: '',
+					priceAsc: '',
+					priceDesc: '',
+					page: this.page + 1,
+					page_num: 10
+				}
+				_this.getMoreNews(JSON.stringify(data))
+
+			} else if (i == 2) {
+				if (this.isXu) {
+					var data = {
+						jfAsc: '1',
 						jfDesc: '',
 						priceAsc: '',
 						priceDesc: '',
-					}),
-					haeder: true,
-					success: function(res) {
-						_this.jifList = res.data.data.list
-						if (res.data.data.list[0]) {
-							_this.id = res.data.data.list[0].cateId
-						}
+						page: this.page + 1,
+						page_num: 10
 					}
-				}),
-				this.$https({
-					url: '/api/user/my-info',
-					dengl: false,
-					data: {},
-					success: function(res) {
-						_this.user = res.data.data
-						_this.phone = res.data.data.phone
+					_this.getMoreNews(JSON.stringify(data))
+				} else {
+					var data = {
+						jfAsc: '',
+						jfDesc: '1',
+						priceAsc: '',
+						priceDesc: '',
+						page: this.page + 1,
+						page_num: 10
 					}
-				})
+					_this.getMoreNews(JSON.stringify(data))
+				}
+			} else if (i == 3) {
+				if (this.isXu) {
+					var data = {
+						jfAsc: '',
+						jfDesc: '',
+						priceAsc: '1',
+						priceDesc: '',
+						page: this.page + 1,
+						page_num: 10
+					}
+					_this.getMoreNews(JSON.stringify(data))
+				} else {
+					var data = {
+						jfAsc: '',
+						jfDesc: '',
+						priceAsc: '',
+						priceDesc: '1',
+						page: this.page + 1,
+						page_num: 10
+					}
+					_this.getMoreNews(JSON.stringify(data))
+				}
+			}
+
+			this.$https({
+				url: '/api/user/my-info',
+				dengl: false,
+				data: {},
+				success: function(res) {
+					_this.user = res.data.data
+					_this.phone = res.data.data.phone
+				}
+			})
 		},
+
 		methods: {
 			jDetail() {
 				uni.navigateTo({
@@ -110,79 +185,67 @@
 			taggle(i) {
 				var _this = this
 				this.i = i
+				this.page = 1
 				_this.isXu = !_this.isXu
+				this.loadingType = 0
+				uni.pageScrollTo({
+					scrollTop: 0,
+				});
 				if (i == 1) {
-					this.$https({
-						url: '/api/oauth/shop/mall-goods-jfList',
-						method: 'POST',
-						dengl: true,
-						data: JSON.stringify({
-							jfAsc: '',
+					var data = {
+						jfAsc: '',
+						jfDesc: '',
+						priceAsc: '',
+						priceDesc: '',
+						page: this.page,
+						page_num: 10
+					}
+					_this.getNews(JSON.stringify(data))
+
+				} else if (i == 2) {
+					if (this.isXu) {
+						var data = {
+							jfAsc: '1',
 							jfDesc: '',
 							priceAsc: '',
 							priceDesc: '',
-						}),
-						haeder: true,
-						success: function(res) {
-							_this.jifList = res.data.data.list
-							_this.id = res.data.data.list[0].cateId
-							// console.log(res.data.data.list)
+							page: this.page,
+							page_num: 10
 						}
-					})
-
-				}
-				if (i == 2) {
-					this.$https({
-						url: '/api/oauth/shop/mall-goods-jfList',
-						method: 'POST',
-						dengl: true,
-						data: JSON.stringify(
-
-							_this.isXu ? {
-								jfAsc: '1',
-								jfDesc: '',
-								priceAsc: '',
-								priceDesc: '',
-							} : {
-								jfAsc: '',
-								jfDesc: '1',
-								priceAsc: '',
-								priceDesc: '',
-							}
-						),
-						haeder: true,
-						success: function(res) {
-							_this.jifList = res.data.data.list
-							_this.id = res.data.data.list[0].cateId
-							// console.log(res.data.data.list)
+						_this.getNews(JSON.stringify(data))
+					} else {
+						var data = {
+							jfAsc: '',
+							jfDesc: '1',
+							priceAsc: '',
+							priceDesc: '',
+							page: this.page,
+							page_num: 10
 						}
-					})
-				}
-				if (i == 3) {
-					this.$https({
-						url: '/api/oauth/shop/mall-goods-jfList',
-						method: 'POST',
-						dengl: true,
-						data: JSON.stringify(
-							_this.isXu ? {
-								jfAsc: '',
-								jfDesc: '',
-								priceAsc: '1',
-								priceDesc: '',
-							} : {
-								jfAsc: '',
-								jfDesc: '',
-								priceAsc: '',
-								priceDesc: '1',
-							}
-						),
-						haeder: true,
-						success: function(res) {
-							_this.jifList = res.data.data.list
-							_this.id = res.data.data.list[0].cateId
-							// console.log(res.data.data.list)
+						_this.getNews(JSON.stringify(data))
+					}
+				} else if (i == 3) {
+					if (this.isXu) {
+						var data = {
+							jfAsc: '',
+							jfDesc: '',
+							priceAsc: '1',
+							priceDesc: '',
+							page: this.page,
+							page_num: 10
 						}
-					})
+						_this.getNews(JSON.stringify(data))
+					} else {
+						var data = {
+							jfAsc: '',
+							jfDesc: '',
+							priceAsc: '',
+							priceDesc: '1',
+							page: this.page,
+							page_num: 10
+						}
+						_this.getNews(JSON.stringify(data))
+					}
 				}
 
 			},
@@ -190,7 +253,59 @@
 				uni.navigateTo({
 					url: './jifenDetails?id=' + id
 				})
-			}
+			},
+			getNews(data) {
+				this.page = 1
+				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-jfList',
+					data: data,
+					dengl: false,
+					haeder: true,
+					success: function(res) {
+						_this.jifList = res.data.data.list
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
+					}
+				})
+
+			},
+			getMoreNews(data) {
+				var _this = this
+				this.page++
+
+				if (_this.loadingType != 0) {
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/oauth/shop/mall-goods-jfList',
+					dengl: false,
+					data: data,
+					haeder: true,
+					success(res) {
+						if (res.data.data.list.length < 10 || res.data.data.list ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						_this.jifList = _this.jifList.concat(res.data.data.list)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+
 
 		}
 	}

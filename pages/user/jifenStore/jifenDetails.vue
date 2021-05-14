@@ -105,6 +105,15 @@
 				}
 			})
 		},
+		onShow() {
+			this.$https({
+				url: '/api/user/my-info',
+				data: {},
+				success: res => {
+					this.wodejifen = res.data.data.payPoints
+				}
+			})
+		},
 		methods: {
 			tiaozhuan: function() {
 				if (this.wodejifen < this.jifen) {

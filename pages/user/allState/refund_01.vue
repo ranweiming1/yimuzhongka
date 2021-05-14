@@ -70,7 +70,7 @@
 
 			<view class="reason-item">
 				<view class="title"><text
-						style="color: #999999;font-size: 24rpx;">可修改，最多{{content.gP?'￥'+content.gP:'0'}},含发货邮费￥00.00</text>
+						style="color: #999999;font-size: 24rpx;">可修改, 最多{{content.money?'￥'+content.money:'0'}}, 具体金额以商家审核后为准</text>
 				</view>
 			</view>
 			<view class="reason-item">
@@ -184,9 +184,11 @@
 		},
 		onLoad(option) {
 			console.log(option)
-			option.gP = Number(option.gP).toFixed(2)
+			// option.gP = Number(option.gP).toFixed(2)
 			this.content = option
-			this.price = Number(option.gP).toFixed(2)
+			this.content.money=Number(option.paidPri).toFixed(2)
+			// Number(option.gP).toFixed(2)
+			this.price =Number(option.paidPri).toFixed(2)
 			var _this = this
 			if (option.id) {
 				_this.gId = option.gID
@@ -281,7 +283,7 @@
 				}
 			},
 			inpuBlur() {
-				if (this.price > this.content.gP) {
+				if (this.price > this.content.money) {
 					uni.showToast({
 						title: '退款金额不能大于金额',
 						icon: 'none',

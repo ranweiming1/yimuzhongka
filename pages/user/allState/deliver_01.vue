@@ -78,14 +78,17 @@
 
 				if (this.id) {
 					uni.navigateTo({
-						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&num=' + this.content.num + '&sKY=' + this.content.sKY + '&type=1' + '&id=' + this.id+'&gID='+this.content.gID
+						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content
+							.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&num=' + this.content
+							.num + '&sKY=' + this.content.sKY + '&type=1' + '&id=' + this.id + '&gID=' + this
+							.content.gID + '&paidPri=' + this.content.paidPri
 					})
 				} else {
 					uni.navigateTo({
 						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content
 							.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&time=' + this.content
 							.time + '&num=' + this.content.num + '&orderId=' + this.content.orderId + '&sKY=' +
-							this.content.sKY + '&type=1'
+							this.content.sKY + '&type=1' + '&paidPri=' + this.content.paidPri
 					})
 				}
 			},
@@ -94,14 +97,15 @@
 					uni.navigateTo({
 						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content
 							.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&num=' + this.content
-							.num + '&sKY=' + this.content.sKY + '&id=' + this.id+'&gID='+this.content.gID
+							.num + '&sKY=' + this.content.sKY + '&id=' + this.id + '&gID=' + this.content.gID +
+							'&paidPri=' + this.content.paidPri
 					})
 				} else {
 					uni.navigateTo({
 						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content
 							.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&time=' + this.content
 							.time + '&num=' + this.content.num + '&orderId=' + this.content.orderId + '&sKY=' +
-							this.content.sKY
+							this.content.sKY + '&paidPri=' + this.content.paidPri
 					})
 				}
 			}

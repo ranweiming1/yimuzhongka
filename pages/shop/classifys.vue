@@ -13,9 +13,10 @@
 				<image src="../../static/icon_10.png" mode=""></image>
 			</view>
 		</view>
+		<view class="" style="height: 160rpx;"></view>
 		<!-- #endif -->
 		<!-- 切换分类 -->
-		<view class="Box dne">
+		<view class="Box">
 			<!-- 一级 -->
 			<scroll-view class="left" scroll-y :style="'height:'+height+'rpx'">
 				<!-- 选中样式 -->
@@ -93,7 +94,8 @@
 			var _this = this
 			uni.getSystemInfo({
 				success: function(res) {
-					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 250;
+					console.log(res)
+					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 271;
 				}
 			})
 			this.$https({
@@ -318,7 +320,7 @@
 	.Box {
 		width: 750upx;
 		overflow: hidden;
-		margin-top: 150rpx;
+		// margin-top: 150rpx;
 
 		.scroll-img {
 			margin: 25rpx;
@@ -364,6 +366,7 @@
 			height: 1135upx;
 			float: left;
 			background-color: #f6f6f6;
+			box-sizing: border-box;
 
 			.on {
 				width: 100%;
@@ -416,6 +419,7 @@
 			text-align: center;
 			overflow: hidden;
 			background-color: #fff;
+			box-sizing: border-box;
 
 			.li {
 				margin-bottom: 40upx;

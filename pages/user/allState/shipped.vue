@@ -3,7 +3,7 @@
 		<!-- <view class="one_line">
 		</view> -->
 		<view class="await">
-			<text>{{deList.status == 0?'待付款':deList.status==7?'交易关闭':deList.shippingStatus==0?'待发货':deList.shippingStatus==1?'已发货':deList.shippingStatus==2?'售后申请中':'交易关闭'}}</text>
+			<text>{{deList.status == 0?'待付款':(deList.status==7||deList.status==4)?'交易关闭':deList.status==1?'待发货':deList.status==2?'已发货':(deList.status==5||deList.status==6)?'交易完成':''}}</text>
 		</view>
 
 		<!-- 揽件信息 -->
@@ -70,19 +70,25 @@
 						<view class="spec" v-if="ite.specKeyName">
 							<text>已选：＂{{ite.specKeyName}}＂</text>
 						</view>
-						<view class="radColor">
-							<text>{{deList.orderType==1?(deList.integral+'积分'+(ite.goodsPrice?'+￥'+ite.goodsPrice.toFixed(2):'')):(ite.goodsPrice?'￥'+ite.goodsPrice.toFixed(2):'0')}}</text>
-						</view>
 
-						<!-- 这是数量加减 -->
-						<view class="jia">
-							<text>X{{ite.goodsNum}}</text>
+						<view class="right-bott">
+							<view class="radColor">
+								<text>{{deList.orderType==1?(deList.integral+'积分'+(ite.goodsPrice?'+￥'+ite.goodsPrice.toFixed(2):'')):(ite.goodsPrice?'￥'+ite.goodsPrice.toFixed(2):'0')}}</text>
+							</view>
+							<!-- 这是数量加减 -->
+							<view class="jia">
+								<text>X{{ite.goodsNum}}</text>
+							</view>
 						</view>
+					<!-- 	<view class="coupon-pri" v-if="ite.commCouponPrice>0||item.couponPrice>0">
+							<text>实付：￥{{ite.distPrice}}</text>
+						</view> -->
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott"
-						@tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId,ite.isSend,ite.specKey)"
-						v-if='s'>
-						<button type="primary">{{deList.orderType==1?'联系客服':ite.isSend==1?'申请中':ite.isSend==2?'售后完成':'申请售后'}}</button>
+					<view class="uni-padding-wrap uni-common-mt bott" v-if='s'
+						@tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId,ite.isSend,ite.specKey,ite.distPrice)"	>
+						
+						<button
+							type="primary">{{deList.orderType==1?'联系客服':ite.isSend==1?'申请中':ite.isSend==2?'售后完成':'申请售后'}}</button>
 					</view>
 				</view>
 
@@ -250,6 +256,7 @@
 						v.specList.map(function(z, ind) {
 							cont = _this.$numAdd(cont, _this.$numAdd(z.commCouponPrice, z
 								.couponPrice))
+							z.distPrice =(_this.$numMul(z.goodsPrice,z.goodsNum)- _this.$numAdd(z.commCouponPrice, z.couponPrice)).toFixed(2)
 						})
 					})
 					if (res.data.data.orderType == 1) {
@@ -285,7 +292,7 @@
 					}
 				}
 			})
-			if (option.zhuangtai == 0||option.zhuangtai == 7) {
+			if (option.zhuangtai == 0 || option.zhuangtai == 7) {
 				this.t = option.zhuangtai
 				this.s = false
 			}
@@ -293,7 +300,7 @@
 		methods: {
 			zfCom: function() {
 				this.isZf = !this.isZf
-				this.index=0
+				this.index = 0
 				console.log(this.index)
 			},
 			bindChange(e) {
@@ -308,17 +315,18 @@
 						JSON.stringify(this.deList.goodsList)
 				})
 			},
-			afterSole(oS, lG, gN, gP, sKN, Num, orderId,tuiTy,sKY) {
+			afterSole(oS, lG, gN, gP, sKN, Num, orderId, tuiTy, sKY,paidPri) {
+				console.log(paidPri)
 				if (this.deList.orderType == 1) {
 					uni.navigateTo({
 						url: '../../index/ke?id=' + this.userId
 					})
 					return false
 				}
-				if(tuiTy==1||tuiTy==2){
+				if (tuiTy == 1 || tuiTy == 2) {
 					uni.showToast({
-						title:tuiTy==1?'已申请售后，请耐心等待':'售后已完成',
-						icon:'none'
+						title: tuiTy == 1 ? '已申请售后，请耐心等待' : '售后已完成',
+						icon: 'none'
 					})
 					return false
 				}
@@ -326,7 +334,7 @@
 				uni.navigateTo({
 					url: "./deliver_01?oS=" + oS + '&lG=' + lG + '&gN=' + gN + '&gP=' + gP + '&sKN=' + sKN +
 						'&time=' + this.deList.addTime +
-						'&num=' + Num + '&orderId=' + orderId+'&sKY='+sKY
+						'&num=' + Num + '&orderId=' + orderId + '&sKY=' + sKY+'&paidPri='+paidPri
 				})
 			},
 			g: function(id) {
@@ -338,7 +346,7 @@
 				var _this = this
 				var payMeth = this.index == 0 ? (this.deList.orderType == 0 ? 1 : 3) : (this.deList.orderType == 0 ? 4 : 5)
 				// if (payMeth == )
-				console.log(payMeth,this.index)
+				console.log(payMeth, this.index)
 				if (payMeth == 1 || payMeth == 3) {
 					_this.$https({
 						url: '/api/pay/unifiedOrder',
@@ -666,7 +674,7 @@
 					text-overflow: ellipsis;
 					display: -webkit-box;
 					-webkit-box-orient: vertical;
-					-webkit-line-clamp: 2;
+					-webkit-line-clamp: 1;
 					overflow: hidden;
 				}
 			}
@@ -685,6 +693,17 @@
 					-webkit-line-clamp: 2;
 					overflow: hidden;
 				}
+			}
+
+			.right-bott {
+				overflow: hidden;
+			}
+
+			.coupon-pri {
+				color: #333;
+				font-size: 28rpx;
+				text-align: right;
+				// line-height: 30rpx;
 			}
 
 			.radColor {
