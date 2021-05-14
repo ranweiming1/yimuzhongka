@@ -1,6 +1,6 @@
 <template>
 	<view class="pages" :style="'height:' +pageHeight+'px'">
-		<view class='d' @tap='d' >
+		<view class='d' @tap='d'>
 			<view></view>
 			<view></view>
 		</view>
@@ -196,19 +196,14 @@
 													dengl: true,
 													method: 'post',
 													// haeder: true,
-													success: function(
-														res) {
-														if (res.data
-															.code > 0
-														) {
+													success: function(res) {
+														if (res.data.code > 0) {
 															uni.showModal({
 																title: '您未绑定微信，请先登录账号',
 																cancelText: '去登录',
 																confirmText: '去注册',
 																success: res => {
-																	if (res
-																		.confirm
-																	) {
+																	if (res.confirm) {
 																		uni.navigateTo({
 																			url: 'login'
 																		})
@@ -216,28 +211,21 @@
 																}
 															})
 															return false
+														}else{
+															_this.ass =JSON.stringify(res)
+															uni.setStorageSync('Authorization',res.data.data.access_token)
+															uni.showToast({
+																title: '微信登录成功'
+															})
+															setTimeout(
+																function() {
+																	uni.reLaunch({
+																		url: '../index/index'
+																	})
+																}, 1000
+															)
 														}
-														_this.ass =
-															JSON
-															.stringify(
-																res)
-														uni.setStorageSync(
-															'Authorization',
-															res
-															.data
-															.data
-															.access_token
-														)
-														uni.showToast({
-															title: '微信登录成功'
-														})
-														setTimeout(
-															function() {
-																uni.reLaunch({
-																	url: '../index/index'
-																})
-															}, 1000
-														)
+														
 													}
 												})
 											},
@@ -545,7 +533,7 @@
 		padding-top: 90rpx;
 		margin-left: 50rpx;
 		font-size: 30rpx;
-		height: 100rpx; 
+		height: 100rpx;
 	}
 
 	.d view {

@@ -14,7 +14,7 @@
 				<text>运单编号：{{wuList.nu}}</text>
 			</view>
 		</view>
-		<view class="xinXi">
+		<!-- <view class="xinXi">
 			<view class="imgBox_a" @tap='g(item.goodsId)'>
 				<image :src="goods[0].goodsLogo" mode=""></image>
 			</view>
@@ -29,12 +29,21 @@
 					<text>{{goods[0].goodsPrice?'￥'+goods[0].goodsPrice.toFixed(2):'0'}}</text>
 				</view>
 
-				<!-- 这是数量加减 -->
 				<view class="jia">
 					<text>X{{goods[0].goodsNum}}</text>
 				</view>
 			</view>
 
+		</view> -->
+		
+		
+		<view class="xinXi">
+			<view class="small-img">
+				<image :src="goods[0].goodsLogo" mode=""></image>
+			</view>
+			<view class="small-right">
+				{{!wlInfo.data.length>0?'等待商家发货':(wlInfo.state == 0?'运输中':wlInfo.state ==1?'已揽件':wlInfo.state == 3 ? '已签收':wlInfo.state == 4 ? '退货完成':wlInfo.state==5? '派件中':wlInfo.state==6? '运输中':wlInfo.state==7? '转投':wlInfo.state == 10? '待清关':wlInfo.state == 11 ? '清关中':wlInfo.state == 12 ? '已清关':wlInfo.state == 13 ? '清关异常': wlInfo.state == 14?'拒签':'') }}
+			</view>
 		</view>
 
 		<!-- 物流状态插件 -->
@@ -47,19 +56,22 @@
 							<view class="title address">[收货地址] {{dz}}</view>
 						</view>
 					</view>
-					<view class="flex list" :class="{one: index == 0 && wlInfo.delivery_status == 1}" v-for="(item, index) in wlInfo.data"
-					 :key="index">
+					<view class="flex list" :class="{one: index == 0 && wlInfo.delivery_status == 1}"
+						v-for="(item, index) in wlInfo.data" :key="index">
 						<view class="time">
 							<view class="day">{{item.time}}</view>
 							<!-- <view>{{item.timeArr[1]}}</view> -->
 						</view>
 						<view class="info flex1">
-							<view class="title">{{(index==0&&wlInfo.state ==1)?'揽件中':(index==0&&wlInfo.state== 2)?'疑难':(index==0&&wlInfo.state) == 3 ? '已签收':(index==0&&wlInfo.state == 4) ? '退签中':(index==0&&wlInfo.state==5)? '派件中':(index==0&&wlInfo.state==6)? '退回':(index==0&&wlInfo.state==7)? '转投':(index==0&&wlInfo.state == 10)? '待清关':(index==0&&wlInfo.state == 11) ? '清关中':(index==0&&wlInfo.state == 12) ? '已清关':(index==0&&wlInfo.state == 13) ? '清关异常': (index==0&&wlInfo.state == 14)?'拒签':'' }}</view>
+							<view class="title">
+								{{(index==0&&wlInfo.state ==1)?'揽件中':(index==0&&wlInfo.state== 2)?'疑难':(index==0&&wlInfo.state) == 3 ? '已签收':(index==0&&wlInfo.state == 4) ? '退签中':(index==0&&wlInfo.state==5)? '派件中':(index==0&&wlInfo.state==6)? '退回':(index==0&&wlInfo.state==7)? '转投':(index==0&&wlInfo.state == 10)? '待清关':(index==0&&wlInfo.state == 11) ? '清关中':(index==0&&wlInfo.state == 12) ? '已清关':(index==0&&wlInfo.state == 13) ? '清关异常': (index==0&&wlInfo.state == 14)?'拒签':'' }}
+							</view>
 							<view class="text" style="font-size: 24rpx;">{{item.context}}</view>
 						</view>
 					</view>
 				</view>
-				<view class="flex list" v-if="!wlInfo.data.length>0"><text style="margin-left: 40rpx;">暂无物流信息</text></view>
+				<view class="flex list" v-if="!wlInfo.data.length>0"><text style="margin-left: 40rpx;">暂无物流信息</text>
+				</view>
 			</view>
 
 		</view>
@@ -119,8 +131,8 @@
 				</view>
 				<view class="content-item-text">
 					<view class="title_top">
-						<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
-						<text>{{item.goodsName}}</text>
+						<text class="span_a"  v-if="item.selfStatus=='Y'">自营</text>
+						<text class="titleText">{{item.goodsName}}</text>
 					</view>
 					<view class="item-coupon">
 						<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS" v-if="indexs<=1">
@@ -141,7 +153,8 @@
 
 			</view>
 			<view v-if='hotList.length==0' @tap='tiaozhuan'>
-				<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:100rpx auto;'></image>
+				<image src='../../../static/d.png' style='width:283rpx;height:184rpx;display:block;margin:100rpx auto;'>
+				</image>
 				<view>暂无推荐,去逛逛</view>
 			</view>
 		</view>
@@ -165,7 +178,7 @@
 					state: 1, //快递状态 1已签收 2配送中			
 					addr: '', //收货地址
 					//物流信息
-					data:[]
+					data: []
 				},
 				goods: []
 			}
@@ -175,7 +188,7 @@
 			// logistics
 		},
 		onLoad(option) {
-			this.hotList=[]
+			this.hotList = []
 			var _this = this
 			this.$https({
 				url: '/api/oauth/get-recommended-goods-list',
@@ -195,7 +208,7 @@
 				this.$https({
 					url: '/api/shop/logistics-detail',
 					data: {
-						logistics: option.code ? option.code.trim(): '',
+						logistics: option.code ? option.code.trim() : '',
 						// logistics: '9881116420003',
 					},
 					dengl: false,
@@ -204,9 +217,9 @@
 						_this.wlInfo = res.data.data.logisticsInfo ? res.data.data.logisticsInfo : []
 						// _this.list=res.data.data.data
 						if (res.data.code == 0) {
-							uni.showToast({
-								title: '操作成功'
-							})
+							// uni.showToast({
+							// 	title: '操作成功'
+							// })
 						} else {
 							uni.showToast({
 								title: res.data.message,
@@ -262,6 +275,23 @@
 		border-bottom: 20rpx solid #f5f5f5;
 		box-sizing: border-box;
 		padding: 20rpx;
+		// background-color: #fafafa;
+
+		.small-img {
+			float: left;
+
+			image {
+				width: 80rpx;
+				height: 80rpx;
+				display: block;
+			}
+		}
+		.small-right{
+			float: left;
+			margin-left: 40rpx;
+			line-height: 80rpx;
+			font-size: 30rpx;
+		}
 
 		// padding: 20rpx;
 		.bott {
@@ -467,7 +497,9 @@
 
 	.top_title {
 		line-height: 64rpx;
+		
 	}
+	
 
 	.textBox {
 		width: 710upx;

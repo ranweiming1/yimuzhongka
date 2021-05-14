@@ -221,12 +221,15 @@
 				couArr: [],
 				commMoney: 0,
 				countJM: 0,
-				isEnough: false
+				isEnough: false,
+				
 			}
 		},
 		onLoad: function(options) {
 			var _this = this
-			this.yao = options.str
+			if (options.str) {
+				this.yao = options.str
+			}
 			if (options.goodsId) {
 				this.goodsId = options.goodsId
 				this.cartAttr = JSON.parse(options.cartAttr).cartAttr
@@ -321,7 +324,8 @@
 				this.cartAttr.map(function(n) {
 					if (n.cartAttr) {
 						n.cartAttr.map(function(z) {
-							_this.shangpin = _this.$numAdd(_this.shangpin,_this.$numMul(z.goodsPrice ,z.goodsNum) ) 
+							_this.shangpin = _this.$numAdd(_this.shangpin, _this.$numMul(z.goodsPrice,
+								z.goodsNum))
 						})
 						_this.shangpin = (Math.round(_this.shangpin * 100) / 100)
 					}
@@ -514,13 +518,13 @@
 				})
 				shopIds = shopIds.join(',')
 				commCouponVO.commCouponId = this.commCouponId ? this.commCouponId : null
-				commCouponVO.goodsIds = this.commCouponId ? (this.dingdan == 2 ? orderVoList.goodsId : this.couArr.join(',')) : null
-				console.log(orderVoList, commCouponVO)
+				commCouponVO.goodsIds = this.commCouponId ? (this.dingdan == 2 ? orderVoList.goodsId : this.couArr
+					.join(',')) : null
 				//提交订单
 				this.$https({
 					url: '/api/shop/order-order-submitOrder',
 					data: JSON.stringify({
-						commCouponVO:commCouponVO,
+						commCouponVO: commCouponVO,
 						addressId: '' + this.dizhi.id,
 						orderVoList: orderVoList,
 						orderFrom: +this.dingdan,
@@ -563,7 +567,10 @@
 											_this.$https({
 												url: '/api/user/order-list',
 												data: {
-													status: 2
+													status: 2,
+													page: 1,
+													limit: 10,
+													
 												},
 												success: res => {
 													uni.redirectTo({
@@ -582,7 +589,9 @@
 											_this.$https({
 												url: '/api/user/order-list',
 												data: {
-													status: 1
+													status: 1,
+													page: 1,
+													limit: 10,
 												},
 												success: res => {
 													uni.redirectTo({
@@ -618,7 +627,9 @@
 											_this.$https({
 												url: '/api/user/order-list',
 												data: {
-													status: 2
+													status: 2,
+													page: 1,
+													limit: 10,
 												},
 												success: res => {
 													uni.redirectTo({
@@ -637,7 +648,9 @@
 											_this.$https({
 												url: '/api/user/order-list',
 												data: {
-													status: 1
+													status: 1,
+													page: 1,
+													limit: 10,
 												},
 												success: res => {
 													uni.redirectTo({

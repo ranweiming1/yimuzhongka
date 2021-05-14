@@ -49,7 +49,7 @@
 						<text>{{item.goodsName}}</text>
 					</view>
 					<view class="span">
-						<text>{{item.integral}}积分{{item.shopPrice?'+￥'+item.shopPrice:''}}</text>
+						<text>{{item.integral}}积分{{item.shopPrice?'+￥'+item.shopPrice.toFixed(2):''}}</text>
 					</view>
 				</view>
 
@@ -319,7 +319,7 @@
 			width: calc(50% - 14rpx);
 			// float: left;
 			margin-bottom: 28upx;
-			border-radius: 10upx;
+			border-radius: 20upx;
 			box-shadow: 0 0 5px #ccc;
 			height: 450rpx;
 

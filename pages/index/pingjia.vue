@@ -17,8 +17,8 @@
 						<image :src="item.userDTO.headimg" mode=""></image>
 						<view class="xin">
 							<text>{{item.userDTO.nickname}}</text>
-							<image src="../../static/xing_01.png" v-for="(i,n) in item.isXing" mode=""></image>
-							<image src="../../static/xing.png" v-for="(i,n) in (5-item.isXing)" mode=""></image>
+							<image src="../../static/xing_01.png" v-for="(i,n) in item.xingji" mode=""></image>
+							<image src="../../static/xing6.png" v-if="!item.isInert" mode=""></image>
 						</view>
 					</view>
 					<view class="time">
@@ -30,8 +30,8 @@
 				</view>
 				<view class="pCont" :style="item.storeGoodsReplyList.length>0?'':'border-bottom: none'">
 					<text>{{item.content}}</text>
-					<view class="img">
-						<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="item.img" mode=""></image>
+					<view class="img" v-for="(val,i) in item.imgBox">
+						<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="val" mode=""></image>
 					</view>
 					<!-- <text>追加评论<text>（收货18天后）</text>：<text>用了一段时间挺好的</text></text> -->
 				</view>
@@ -57,8 +57,9 @@
 			<view class="mButton">
 				<view class="detail">
 
-					<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
-					 @tap='qiehuan(index)'>{{item.keyName}}</view>
+					<view v-for='(item,index) in guige'
+						:style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
+						@tap='qiehuan(index)'>{{item.keyName}}</view>
 				</view>
 
 				<view class="mNumber">
@@ -105,87 +106,144 @@
 				shopId: '',
 				goodsId: '',
 				xingji: 0,
-				starNum:0,
-				isInert:''
+				starNum: 0,
+				isInert: '',
+				page: 1,
+				loadingType: 0,
 			}
 		},
 		onLoad(option) {
 			var _this = this
-			this.goodsId = option.id
-			console.log(option)
-			console.log(_this.isXing)
+			// this.goodsId = option.id
+			// console.log(option)
+			// console.log(_this.isXing)
 			this.$https({
 					url: '/api/oauth/shop/goods-comm-list',
 					data: {
-						goodsId: option.id
-					},
-					dengl: false,
-					success: function(res) {
-						_this.pingJList = res.data.data
-						_this.xingJ = res.data.data[0].score
-
-						// 星级判断
-						res.data.data.map(n => {
-							n.isXing = n.score >= 80 ? 5 : n.score >= 60 ? 4 : n.score >= 40 ? 3 : n.score >= 20 ? 2 : 1
-						})
-						// _this.storeH=res.data.data.storeGoodsReplyList
-						console.log(res.data.data[0].score)
-						console.log(res.data.data[0].goodsId)
-						// console.log(_this.isXing)
-					},
-				}),
-				this.$https({
-					url: '/api/oauth/shop/mall-goods-detail',
-					data: {
-						goods_id: option.id
+						goodsId: option.id,
+						// goodsId: 220,
+						page: this.page,
+						limit: 10,
 					},
 					dengl: true,
 					success: function(res) {
-						_this.list = res.data.data.detail
-						_this.canshu = res.data.data.specs
-						_this.goodsId = res.data.data.detail.goodsId
-						_this.pingjia = res.data.data.goodsComms[0]
-						_this.isCollect = res.data.data.isCollect
-						_this.goodsId = res.data.data.detail.goodsId
-						_this.shopId = res.data.data.detail.shopId
-						// 优惠券
-						_this.youhui = res.data.data.couponDTOS
-						for (var i in res.data.data.spec_price) {
-							_this.guige.push(res.data.data.spec_price[i])
-						}
-						console.log(res.data.data.spec_price)
-						var numa = 0
-						for (var i in res.data.data.spec_price) {
-							if (numa == 0) {
-								_this.gui = res.data.data.spec_price[i].keyName
-							}
-							numa++
-						}
-						console.log(res.data.data.detail)
-						var arr = []
-						for (var k in _this.canshu) {
-							arr.push({
-								name: k,
-								itemId: _this.canshu[k]
+						// console.log(typeof(res.data.data.goodsRank))
+						if (res.data.data) {
+							res.data.data.map(function(val, i) {
+								if (val.img) {
+									val.imgBox = val.img.split(',')
+								}
+								val.xingji = parseInt(val.goodsRank / 20)
+								val.isInert = Number.isInteger(val.goodsRank / 20)
 							})
+
 						}
-						_this.shuList = arr
+						_this.pingJList = res.data.data
+						console.log(_this.pingJList)
+					},
+				}),
+				this.$https({
+					url: '/api/oauth/shop/store-shop-detail',
+					data: {
+						shopId: option.ids
+						// shopId: 19
+					},
+					success: function(res) {
+						_this.starNum = res.data.data.starId
+						_this.xingji = parseInt(res.data.data.starId / 20)
+						_this.isInert = Number.isInteger(res.data.data.starId / 20)
 					}
 				})
-			this.$https({
-				url: '/api/oauth/shop/store-shop-detail',
-				data: {
-					shopId: option.ids
-				},
-				success: function(res) {
-					_this.starNum = res.data.data.starId
-					_this.xingji =parseInt(res.data.data.starId /20)
-					_this.isInert=Number.isInteger(res.data.data.starId / 20)
-				}
-			})
 
 		},
+
+		onPullDownRefresh() {
+			//下拉的生命周期
+			this.getNews()
+		},
+		onReachBottom() {
+			var data = {
+				page: this.page + 1,
+				limit: 10,
+				goodsId: this.goodsId
+			}
+			this.getMoreNews(data)
+		},
 		methods: {
+			getNews() {
+				this.page = 1
+				var _this = this
+				//标题读取样式激活
+				uni.showNavigationBarLoading()
+				this.$https({
+					url: '/api/oauth/shop/goods-comm-list',
+					data: {
+						page: _this.page,
+						limit: 10,
+						goodsId: this.goodsId
+					},
+					dengl: true,
+					success: function(res) {
+						if (res.data.data) {
+							res.data.data.map(function(val, i) {
+								if (val.img) {
+									val.imgBox = val.img.split(',')
+								}
+								val.xingji = parseInt(val.goodsRank / 20)
+								val.isInert = Number.isInteger(val.goodsRank / 20)
+							})
+
+						}
+						_this.pingJList = res.data.data
+						//隐藏标题读取 
+						uni.hideNavigationBarLoading()
+						uni.stopPullDownRefresh()
+					}
+				})
+
+			},
+			getMoreNews(data) {
+				var _this = this
+				this.page++
+
+				if (_this.loadingType != 0) {
+					return false; //loadingType!=0;直接返回
+				}
+				_this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				this.$https({
+					url: '/api/oauth/shop/goods-comm-list',
+					dengl: true,
+					data: data,
+					success(res) {
+						if (res.data.data.length < 10 || res.data.data ==
+							'null') { //当之前的数据长度等于count时跳出函数，不继续执行下面语句
+							_this.loadingType = 2;
+							uni.showToast({
+								title: '已加载全部数据',
+								icon: 'none',
+								duration: 2000
+							})
+							uni.hideNavigationBarLoading(); //关闭加载动画
+							return false;
+						}
+						if (res.data.data) {
+							res.data.data.map(function(val, i) {
+								if (val.img) {
+									val.imgBox = val.img.split(',')
+								}
+								val.xingji = parseInt(val.goodsRank / 20)
+								val.isInert = Number.isInteger(val.goodsRank / 20)
+							})
+
+						}
+						_this.pingJList = _this.pingJList.concat(res.data.data)
+						_this.loadingType = 0; //将loadingType归0重置
+						uni.hideNavigationBarLoading(); //关闭加载动画
+					}
+				})
+			},
+
 			houtui() {
 				console.log(11111)
 				uni.navigateTo({
@@ -269,20 +327,21 @@
 			},
 			goumaia: function() {
 				uni.navigateTo({
-					url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON.stringify({
-						cartAttr: [{
-							goodsNum: this.num,
-							specKey: this.guige[this.indexx].keyName,
-							goodsLogo: this.list.goodsLogo,
-							integral: this.list.integral,
-							goodsName: this.list.goodsName,
-							kuaidi: this.list.kuaidi,
-							shopPrice: this.list.shopPrice,
-							goodsId: this.list.goodsId,
-							key: this.guige[this.indexx].key,
-							shopId: this.shopId
-						}]
-					}) + '&dingdan=2'
+					url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON
+						.stringify({
+							cartAttr: [{
+								goodsNum: this.num,
+								specKey: this.guige[this.indexx].keyName,
+								goodsLogo: this.list.goodsLogo,
+								integral: this.list.integral,
+								goodsName: this.list.goodsName,
+								kuaidi: this.list.kuaidi,
+								shopPrice: this.list.shopPrice,
+								goodsId: this.list.goodsId,
+								key: this.guige[this.indexx].key,
+								shopId: this.shopId
+							}]
+						}) + '&dingdan=2'
 				})
 			}
 		}

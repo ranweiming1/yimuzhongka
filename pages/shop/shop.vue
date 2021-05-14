@@ -127,8 +127,8 @@
 						</view>
 						<view class="list-item-right">
 							<view class="item-title">
-								<view class="hort-title-right">
-									热
+								<view class="hort-title-right" v-if="item.isNew==1">
+									新
 								</view>
 								<view class="item-right-title">
 									{{item.goodsName}}
@@ -271,7 +271,7 @@
 							<image :src="item.goodsLogo" mode=""></image>
 						</view>
 						<view class="content-item-text">
-							<view class="title_top"><strong><strong></strong></strong>
+							<view class="title_top">
 								<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
 								<text class="titleText">{{item.goodsName}}</text>
 							</view>
@@ -1234,13 +1234,13 @@
 			padding: 20rpx 28rpx;
 
 			.content-item .content-item-text .titleText {
-				overflow: hidden;
-				text-overflow: ellipsis;
-				display: -webkit-box !important;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
+				// overflow: hidden;
+				// text-overflow: ellipsis;
+				// display: -webkit-box !important;
+				// -webkit-line-clamp: 2;
+				// -webkit-box-orient: vertical;
 				font-size: 26rpx;
-				vertical-align: middle;
+				// vertical-align: middle;
 			}
 
 			.content-item {

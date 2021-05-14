@@ -71,9 +71,10 @@
 		<view class="listBox" v-for="(item,index) in dList">
 			<view class="radios">
 				<!-- 店铺名称待确认 -->
-				<text>{{item.storeShopDTO.shopName}}</text>
+				<text>{{item.orderType==1?'积分商城':(item.storeShopDTO.shopName?item.storeShopDTO.shopName:'')}}</text>
 				<view class="guanb">
-					<text>{{item.status==0?'待付款':item.status==1?'待发货':item.status==2?'待收货':item.status==3?'退货中':item.status==4?'退货完成':item.status==5?'待评价':item.status==6?'已评价':''}}</text>
+					<!-- :item.status==3?'退货中':item.status==4?'退货完成' -->
+					<text>{{item.status==0?'待付款':item.status==1?'待发货':item.status==2?'待收货':item.status==4?'交易关闭':item.status==5?'交易完成':item.status==6?'交易完成':item.status==7?'交易关闭':''}}</text>
 				</view>
 			</view>
 			<view class="xinxi_box">
@@ -86,38 +87,54 @@
 							<view class="title">
 								<text>{{ite.goodsName}}</text>
 							</view>
-							<view class="spec">
+							<view class="spec" v-if="i.specKeyName">
 								<text>已选：＂{{i.specKeyName}}＂</text>
 							</view>
-							<view class="radColor">
-								<text>{{i.goodsPrice?'￥'+i.goodsPrice.toFixed(2):'0'}}</text>
+							<view class="xi_butt">
+								<view class="radColor">
+									<text>{{item.orderType==1?(item.integral+'积分'+(i.goodsPrice?'+￥'+i.goodsPrice.toFixed(2):'')):(i.goodsPrice?'￥'+i.goodsPrice.toFixed(2):'0')}}</text>
+								</view>
+								<view class="isSale" v-if="i.isSend!=0">
+									{{i.isSend==1?'售后申请中':'售后完成'}}
+								</view>
+								<!-- 数量 -->
+								<view class="jia">
+									<text>X{{i.goodsNum}}</text>
+								</view>
 							</view>
 
-							<!-- 数量 -->
-							<view class="jia">
-								<text>X{{i.goodsNum}}</text>
-							</view>
 						</view>
 
 					</view>
 				</view>
 				<view class="zongj">
-					<text>{{item.countNum}}种货品 总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}} <text
-							style="font-size: 30rpx;font-weight: bold;padding-left: 15rpx;">
-							{{item.status==0?'需付款':'实付款'}}：{{item.totalAmount?'￥'+item.totalAmount.toFixed(2):'0'}}</text></text>
+					<text v-if="(item.orderType==0)">{{item.countNum}}种货品</text><text style="padding-left: 15rpx;"
+						v-if="(item.orderType==0)">总金额：{{item.orderAmount?'￥'+item.orderAmount.toFixed(2):'0'}}</text>
+					<text v-if="(item.orderType==0)" style="font-size: 30rpx;font-weight: bold;padding-left: 15rpx;">
+						{{item.status==0?'需付款':'实付款'}}：{{item.totalAmount?'￥'+item.totalAmount.toFixed(2):'0'}}</text>
+
+					<text v-if="(item.orderType==1)">{{item.countNum}}种货品 积分抵扣：{{item.integralMoney+'积分'}}</text>
+					<text v-if="(item.orderType==1)" style="font-size: 30rpx;font-weight: bold;padding-left: 15rpx;">
+						{{item.status==0?'需付款':'实付款'}}：{{item.totalAmount?'￥'+item.totalAmount.toFixed(2):'0'}}
+					</text>
+
+
+
 				</view>
 				<view class="bottBox">
+					<!-- v-if="(item.orderType==0&&item.status!=1)||(item.orderType==1&&item.status!=5&&item.status!=1)" -->
 					<view class="uni-padding-wrap uni-common-mt bott onnb" v-if="item.status==2"
 						@tap="confirm(item.orderId)">
 						<button type="primary">确认收货</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0"
-						@tap='xianshi(item.orderId)'>
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="id==0&&(item.orderStatus!=0)"
+						@tap='xianshi(item.orderId,1)'>
 						<button type="primary">删除订单</button>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott onna"
-						@tap="goPing(item.orderSn,item.orderId,item.goodsList)"
-						v-if="item.status==5&&item.orderStatus==1">
+						v-if="(item.status==5&&item.orderStatus==1&&item.orderType!=1)"
+						@tap="goPing(item.orderSn,item.orderId,item.goodsList)">
+
 						<button type="primary">去评价</button>
 					</view>
 					<!-- <view class="uni-padding-wrap uni-common-mt bott" v-if="item.orderStatus==1">
@@ -127,16 +144,18 @@
 								<button type="primary">追加评论</button>
 							</view> -->
 					<view class="uni-padding-wrap uni-common-mt bott onna" v-if="item.status==0&&item.orderStatus!=3"
-						@tap="zhifu(item.orderSn)">
+						@tap="zfChange(item.orderSn,item.orderType)">
+						<!-- @tap="zhifu(item.orderSn,item.payMethod)" -->
 						<button type="primary">去支付</button>
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==0&&item.orderStatus==3"
-						@tap="zhifu(item.orderSn)">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==7">
 						<button type="primary">已取消</button>
 					</view>
-					<!-- 					<view class="uni-padding-wrap uni-common-mt bott" @click="openPopup1(item.orderId)" v-if="item.payStatus==0">
-								<button type="primary">取消订单</button>
-							</view> -->
+					<!-- 需要添加取消订单的接口 -->
+					<view class="uni-padding-wrap uni-common-mt bott" @tap='xianshi(item.orderId,4)'
+						v-if="item.status==0">
+						<button type="primary">取消订单</button>
+					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if="item.status==2"
 						@tap="wuliu(item.shippingCode,item.orderSn,item.shippingName,item.cityInfo+item.address,item.goodsList)">
 						<button type="primary">查看物流</button>
@@ -149,9 +168,10 @@
 
 		</view>
 
+
 		<view class="del-mask" v-if='shanchu' style="z-index: 9999999;">
 			<view class="del-mask-content">
-				<view class="mask-title">您确定删除订单?</view>
+				<view class="mask-title">您确定{{isType==1?'删除':'取消'}}订单?</view>
 				<view class="mask-bot">
 					<view class="bot-left" @tap='quxiao'>取消</view>
 					<view class="bot-right" @tap='shanchuDD'>确定</view>
@@ -178,6 +198,25 @@
 				</view>
 			</view>
 		</uni-popup>
+		<view class="mask-type" v-if="isZf">
+			<view class="mask-cont">
+				<view class="mask-bot">
+					<view class="" @tap="zfCom">
+						取消
+					</view>
+					<view class="" @tap="zhiCam">
+						确认
+					</view>
+				</view>
+				<view class="mask-item">
+					<picker-view :value="value" @change="bindChange" class="picker-view">
+						<picker-view-column>
+							<view v-for="(item,index) in zhifu" :key="index">{{zhifu[index]}}</view>
+						</picker-view-column>
+					</picker-view>
+				</view>
+			</view>
+		</view>
 
 		<text class="loading-text" v-if='dList.length>9'>
 			{{loadingType === 0 ? contentText.contentdown : loadingType === 1 ? contentText.contentrefresh : contentText.contentnomore}}
@@ -208,7 +247,14 @@
 				orderId: '',
 				qiandao: {},
 				searchVal: '',
-				isSearch: false
+				isSearch: false,
+				zhifu: ['微信支付', '支付宝'],
+				index: 0,
+				isZf: false,
+				orderSn: '',
+				// payMeth:'',
+				orderType: '',
+				isType: ''
 			}
 		},
 		components: {
@@ -249,15 +295,19 @@
 		},
 		onShow: function() {
 			this.as = 2
-			if(this.isSearch){
-				this.page=1
+			this.page = 1
+			if (this.isSearch) {
+				this.page = 1
 			}
 			var data = {
-				status:this.isSearch?0:this.id,
+				status: this.isSearch ? 0 : this.id,
 				page: this.page,
 				limit: 10,
 				searchValue: this.searchVal
 			}
+			uni.pageScrollTo({
+				scrollTop: 0,
+			});
 			this.getListInfo(data);
 		},
 		onReachBottom: function() {
@@ -292,7 +342,7 @@
 			// 	}
 			// });
 			var data = {
-				status: this.isSearch?0:this.id,
+				status: this.isSearch ? 0 : this.id,
 				page: this.page + 1,
 				limit: 10,
 				searchValue: this.searchVal
@@ -303,7 +353,7 @@
 		onPullDownRefresh: function() {
 			this.page = 1
 			var data = {
-				status:this.isSearch?0:this.id,
+				status: this.isSearch ? 0 : this.id,
 				page: this.page,
 				limit: 10,
 				searchValue: this.searchVal
@@ -312,21 +362,73 @@
 			// this.getListInfo()
 		},
 		methods: {
-			xianshi: function(id) {
+			xianshi: function(id, isType) {
 				this.shanchu = true
+				this.isType = isType
 				this.orderId = id
+			},
+			canfirmOrd: function() {
+				var that = this
+				this.$https({
+					url: '/api/user/order-handle',
+					data: JSON.stringify({
+						orderId: that.orderId,
+						type: that.isType
+					}),
+					method: 'post',
+					haeder: true,
+					success: res => {
+						// if(res.data)
+						if (res.data.code == 0) {
+							uni.showToast({
+								title: res.data.message
+							})
+							var data = {
+								status: this.id,
+								page: this.page,
+								limit: 10,
+								searchValue: this.searchVal
+							}
+
+							this.getListInfo(data);
+						} else {
+							uni.showToast({
+								title: res.data.message ? res.data.message : '操作失败',
+								icon: "none"
+							})
+						}
+
+					}
+				})
+			},
+			zfChange: function(orderSn, orderType) {
+				this.orderSn = orderSn
+				// this.payMeth=payMeth
+				this.orderType = orderType
+				this.zfCom()
+				console.log(this.orderSn, this.orderType)
+			},
+			zfCom: function() {
+				this.isZf = !this.isZf
+			},
+			bindChange(e) {
+				this.index = e.detail.value[0]
+				// this.payMeth=index
 			},
 			quxiao: function() {
 				this.shanchu = false
 			},
 			getNewsList: function() { //第一次回去数据
 				var _this = this;
+				var page = 1
 				_this.loadingType = 0;
 				uni.showNavigationBarLoading();
 				this.$https({
 					url: '/api/user/order-list',
 					data: {
 						status: _this.id,
+						page: this.page,
+						limit: 10,
 					},
 					dengl: false,
 					success: function(res) {
@@ -484,7 +586,7 @@
 					url: '/api/user/order-handle',
 					data: JSON.stringify({
 						orderId: that.orderId,
-						type: 1
+						type: that.isType
 					}),
 					method: 'post',
 					haeder: true,
@@ -571,45 +673,83 @@
 					url: './shipped?orderId=' + id + '&zhuangtai=' + t
 				})
 			},
-			zhifu(orderSn) {
+			zhiCam() {
 				var _this = this
-				var orderNo = orderSn
-				this.$https({
-					url: '/api/pay/unifiedOrder',
-					data: JSON.stringify({
-						orderNo: orderNo,
-						payMethod: 1
-					}),
-					method: 'post',
-					dengl: false,
-					haeder: true,
-					success: function(res) {
-						if (res.data.code == 0) {
-							var obj = {}
-							obj.appid = res.data.data.appId
-							obj.partnerid = res.data.data.partnerId
-							obj.prepayid = res.data.data.prepayId
-							obj.package = res.data.data.packageValue
-							obj.noncestr = res.data.data.nonceStr
-							obj.timestamp = res.data.data.timeStamp
-							obj.sign = res.data.data.sign
-							console.log(res.data)
-							uni.requestPayment({
-								provider: 'wxpay',
-								orderInfo: obj,
-								success: function(res) {},
-								fail: function(res) {}
-							})
-						} else {
-							uni.showToast({
-								title: '支付失败',
-								icon: 'none',
-								duration: 2000
-							})
-						}
+				var orderNo = this.orderSn
+				var payMeth = this.index == 0 ? (this.orderType == 0 ? 1 : 3) : (this.orderType == 0 ? 4 : 5)
+				console.log(this.index, this.orderType, payMeth)
+				// if (payMeth == )
+				this.isZf = false
 
-					}
-				})
+				if (payMeth == 1 || payMeth == 3) {
+					_this.$https({
+						url: '/api/pay/unifiedOrder',
+						data: JSON.stringify({
+							orderNo: orderNo,
+							payMethod: payMeth
+						}),
+						method: 'post',
+						dengl: false,
+						haeder: true,
+						success: function(res) {
+							if (res.data.code == 0) {
+								var obj = {}
+								obj.appid = res.data.data.appId
+								obj.partnerid = res.data.data.partnerId
+								obj.prepayid = res.data.data.prepayId
+								obj.package = res.data.data.packageValue
+								obj.noncestr = res.data.data.nonceStr
+								obj.timestamp = res.data.data.timeStamp
+								obj.sign = res.data.data.sign
+								console.log(res.data)
+								uni.requestPayment({
+									provider: 'wxpay',
+									orderInfo: obj,
+									success: function(res) {
+
+									},
+									fail: function(res) {}
+								})
+							} else {
+								uni.showToast({
+									title: '支付失败',
+									icon: 'none',
+									duration: 2000
+								})
+							}
+
+						}
+					})
+
+				} else if (payMeth == 4 || payMeth == 5) {
+					_this.$https({
+						url: '/api/pay/ali/pay-unified-order',
+						data: JSON.stringify({
+							orderNo: orderNo,
+							payMethod: payMeth
+						}),
+						haeder: true,
+						method: 'post',
+						success: res => {
+							if (res.data.code == 0) {
+								uni.requestPayment({
+									provider: 'alipay',
+									orderInfo: res.data.data.aliEncryptStr,
+									success: res => {},
+									fail: function(err) {}
+								})
+							} else {
+								uni.showToast({
+									title: '支付失败',
+									icon: 'none',
+									duration: 2000
+								})
+							}
+						}
+					})
+				}
+
+
 			},
 			back: function() {
 				if (this.isSearch) {
@@ -646,6 +786,49 @@
 </script>
 
 <style lang="scss">
+	.mask-type {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.3);
+		z-index: 99999;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+
+		.mask-cont {
+			height: 500rpx;
+			background: #fff;
+			position: fixed;
+			width: 100%;
+			bottom: 0;
+		}
+
+		.mask-bot {
+			height: 80rpx;
+			line-height: 80rpx;
+			background-color: #ddd;
+			overflow: hidden;
+			padding: 0 30rpx;
+
+			>view {
+				float: left;
+			}
+		}
+
+		.mask-bot :last-child {
+			float: right;
+			color: #2b5cff;
+		}
+
+		.picker-view {
+			height: 400rpx;
+			width: 100%;
+			text-align: center;
+		}
+	}
+
 	.loading-text {
 		display: block;
 
@@ -796,6 +979,7 @@
 	.xinxi_box {
 		padding: 20upx;
 		border-bottom: 20upx solid #f7f7f7;
+		overflow: hidden;
 
 		width: 710upx;
 
@@ -845,7 +1029,7 @@
 			position: relative;
 
 			.title {
-				padding-top: 10upx;
+				// padding-top: 10upx;
 
 				text {
 					font-size: 28upx;
@@ -855,31 +1039,56 @@
 					text-overflow: ellipsis;
 					display: -webkit-box;
 					-webkit-box-orient: vertical;
-					-webkit-line-clamp: 2;
+					-webkit-line-clamp: 1;
 					overflow: hidden;
 				}
 			}
+
 
 			.spec {
 				font-size: 26upx;
 				line-height: 40upx;
 				color: #666;
 				margin-top: 10rpx;
+				word-break: break-all;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+			}
+
+			.xi_butt {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0 20rpx;
+				overflow: hidden;
+
+				.isSale {
+					font-size: 24rpx;
+					color: #ff6600;
+					/* float: left; */
+					display: inline-block;
+					vertical-align: middle;
+					margin-left: 30rpx;
+				}
 			}
 
 			.radColor {
-				float: left;
+				display: inline-block;
+				vertical-align: middle;
 				color: #ff0000;
 				font-size: 32upx;
-				position: absolute;
-				bottom: 0;
-				left: 20rpx;
+
+				// left: 20rpx;
 			}
 
 			.jia {
 				float: right;
-				float: right;
-				position: absolute;
+				// float: right;
+				// position: absolute;
 				bottom: 0;
 				right: 20rpx;
 
@@ -924,9 +1133,15 @@
 
 	.bottBox {
 		overflow: hidden;
-		width: 710upx;
-		padding: 20upx;
-		height: 50upx;
+		// width: 710upx;
+		width: 100%;
+		box-sizing: border-box;
+
+		// padding: 20upx;
+		// height: 50upx;
+		.uni-padding-wrap {
+			margin: 20rpx 0 10rpx 0;
+		}
 
 		.onna {
 			button {
@@ -960,6 +1175,10 @@
 			}
 
 		}
+	}
+
+	.bottBox :first-child {
+		margin-right: 0;
 	}
 
 	.tanchu {

@@ -9,53 +9,74 @@
 			</view>
 		</view>
 		<!-- 订单信息 -->
-		<view class="" v-for="(item,index) in dList.goodsList">
-			<view class="xinxi">
-				<view class="biaot">
-					<text>订单信息</text>
-				</view>
-				<view class="imgBox_a">
-					<image :src="item.goodsLogo" mode=""></image>
-				</view>
-				<view class="txt_c">
-					<view class="title">
-						<text>{{item.goodsName}}</text>
+		<view class="box-box" v-for="(item,index) in dList.goodsList">
+			<view class="box-small-box" v-for="(i,n) in item.specList">
+				<view class="xinxi">
+					<view class="biaot">
+						<text>订单信息</text>
 					</view>
-					<view class="spec">
-						<text>已选：＂{{item.specKeyName}}＂</text>
+					<view class="imgBox_a">
+						<image :src="item.goodsLogo" mode=""></image>
 					</view>
-					<view class="radColor">
-						<text>{{item.goodsPrice?'￥'+item.goodsPrice.toFixed(2):'0'}}</text>
-					</view>
+					<view class="txt_c">
+						<view class="title">
+							<text>{{item.goodsName}}</text>
+						</view>
+						<view class="spec" v-if="i.specKeyName">
+							<text>已选：＂{{i.specKeyName}}＂</text>
+						</view>
+						<view class="radColor">
+							<text>{{dList.orderType==1?(dList.integral+'积分'+(i.goodsPrice?'+￥'+i.goodsPrice.toFixed(2):'')):i.goodsPrice?'￥'+i.goodsPrice.toFixed(2):'0'}}</text>
+						</view>
 
 
-					<view class="jia">
-						<text>X{{item.goodsNum}}</text>
+						<view class="jia">
+							<text>X{{i.goodsNum}}</text>
+						</view>
 					</view>
 				</view>
-			</view>
 
 
-			<view class="pingj">
-				<view class="pingzi">
-					<text>描述相符</text>
-				</view>
-				<!-- 选中 -->
-				<view class="pingimgxuan" v-for="(item, index) in 5" @tap="xing(index)">
-					<image :src="(Number3>index)?'../../../static/xing_01.png':'../../../static/xing.png'"></image>
-				</view>
-				<!-- 默认 -->
-				<!-- <view class="pingimg">
+				<view class="pingj">
+					<view class="pingzi">
+						<text>描述相符</text>
+					</view>
+					<!-- 选中 -->
+					<view class="pingimgxuan" v-for="(item, indexs) in 5" @tap="xing(indexs,index,n)">
+						<image :src="(i.goodsRank>indexs)?'../../../static/xing_01.png':'../../../static/xing.png'">
+						</image>
+					</view>
+					<!-- 默认 -->
+					<!-- <view class="pingimg">
 				<image src="../../../static/xing.png" mode=""></image>
 			</view> -->
-				<!-- <view class="spanaa">
+					<!-- <view class="spanaa">
 					<text>还不错</text>
 				</view> -->
-			</view>
-			<view class="uni-form-item uni-column">
-				<textarea class="uni-input" name="input" style="text-overflow: ellipsis" v-model="value" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" />
-				<view class="imgBox" @tap="chuanImg">
-					<image :src="cImg" mode="" v-model="img"></image>
+				</view>
+				<view class="uni-form-item uni-column">
+					<textarea class="uni-input" name="input" style="text-overflow: ellipsis" v-model="i.content"
+						placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" />
+					<!-- <view class="imgBox" @tap="chuanImg">
+						<image :src="cImg" mode="" v-model="img"></image>
+					</view> -->
+					<view class="up-pic">
+						<view class='flex pic-box'>
+							<block v-for="(val, idx) in i.img">
+								<view class='ap-box'>
+									<view class='add-pic'>
+										<image class='add-pic' :src="val"></image>
+										<view class='img-de' @tap='imgDelete1(idx,index,n)'>
+											<image class='img' src='../../../static/q071.png'></image>
+										</view>
+									</view>
+								</view>
+							</block>
+							<view class='add-pic' @tap='images(index,n)' v-if="i.img.length<3">
+								<image class='img' :src='cImg'></image>
+							</view>
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -71,15 +92,16 @@
 				<image :src="(Number1>index)?'../../../static/xing_01.png':'../../../static/xing.png'"></image>
 			</view>
 		</view>
-		<view class="pingj" style="margin-bottom: 150rpx;">
+		<view class="pingj">
 			<view class="pingzi">
-				<text>物流评价</text>
+				<text>物流服务</text>
 			</view>
 			<!-- 默认 -->
 			<view class="pingimg" v-for="(item, index) in 5" @tap="xing2(index)">
 				<image :src="(Number2>index)?'../../../static/xing_01.png':'../../../static/xing.png'" mode=""></image>
 			</view>
 		</view>
+		<view style="height:200rpx;;"></view>
 		<view class="uni-padding-wrap uni-common-mt botts" @tap="primise">
 			<button type="primary">提交评价</button>
 		</view>
@@ -98,39 +120,66 @@
 				goodsId: '',
 				value: '',
 				img: '',
-				dList:[],
-				orderId:'',
-				qiandao:{}
-				
+				dList: [],
+				orderId: '',
+				qiandao: {},
+				comList: [],
+				// comList[n].img: [],
+				str: '',
+				shopCount: 0
+
 			}
 		},
 		onLoad(option) {
 			console.log(option)
 			var _this = this
+			var shopCount = 0
 			if (option.taskId) {
 				this.qiandao.taskId = option.taskId
 				this.qiandao.isRen = option.isRen
 				this.qiandao.taskType = option.taskType
 			}
-			this.goodsId=option.goodsId
-			this.orderId=option.orderId
+			this.goodsId = option.goodsId
+			this.orderId = option.orderId
 			this.$https({
 				url: '/api/user/order-detail',
 				data: {
 					order_id: option.orderId
+					// order_id: 2222
 				},
 				dengl: false,
 				success: function(res) {
+					// var arr = []
+					res.data.data.goodsList.map(function(z, i) {
+						z.specList.map(function(val, i) {
+							shopCount++
+							// var obj = {}
+							val.content = ''
+							// val.goodsId=val.goodsId
+							val.goodsRank = 5
+							val.img = []
+							// val.specKey=val.specKey
+							// val.specKeyValue=val.specKeyName
+							// arr.push(obj)
+
+						})
+					})
+					// _this.comList=arr
+					_this.shopCount = shopCount
 					_this.dList = res.data.data
-					console.log(res.data.data)
-					// _this.code=res.data.data.shippingCode
-					console.log(res.data.data.shippingCode)
-				}
+					console.log(res.data.data, shopCount, _this.dList)
+
+				},
 			})
 		},
+		onShow() {
+			// console.log(this.comList[n],45646546)
+		},
 		methods: {
-			xing(ind) {
-				this.Number3 = ind + 1;
+			xing(ind, index, n) {
+				console.log(ind, n, index)
+				this.dList.goodsList[index].specList[n].goodsRank = ind + 1;
+				// console.log(ind,n,this.comList[n].goodsRank)
 			},
 			xing1(ind) {
 				this.Number1 = ind + 1
@@ -140,18 +189,66 @@
 			},
 			chuanImg() {
 				uni.chooseImage({
-					sizeType:['compressed'],
+					sizeType: ['compressed'],
+					count: 9,
 					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
 							filePath: chooseImageRes.tempFilePaths[0],
 							name: 'img',
 							success: res => {
-								this.cImg =JSON.parse(res.data).data.url
+								this.cImg = JSON.parse(res.data).data.url
 							}
 						})
 					}
 				})
+			},
+			imgDelete1: function(idx, index, indexs) {
+				this.dList.goodsList[index].specList[indexs].img.splice(idx, 1)
+
+			},
+			// 选择图片
+			images(index, indexs) {
+				// console.log(inde)
+				var _this = this
+				var imgbox = this.dList.goodsList[index].specList[indexs].img
+				// var picid = index
+				var n = 3
+				if (3 > imgbox.length > 0) {
+					n = 3 - imgbox.length;
+				} else if (imgbox == 3) {
+					n = 1
+				}
+				uni.chooseImage({
+					sizeType: ['compressed'],
+					count: n,
+					sourceType: ['album', 'camera'],
+					success: chooseImageRes => {
+						var tempFilePaths = chooseImageRes.tempFilePaths
+						if (imgbox.length == 0) {
+							imgbox = tempFilePaths
+						} else if (3 > imgbox.length) {
+							imgbox = imgbox.concat(tempFilePaths)
+						} else {
+							// console.log(9999887867687687)
+							imgbox[picid] = tempFilePaths[0];
+						}
+						imgbox.map(function(val, i) {
+							uni.uploadFile({
+								url: _this.webUrl + '/oauth/oss/upload',
+								filePath: val,
+								name: 'img',
+								success: res => {
+									var path = JSON.parse(res.data).data.url
+									_this.$set(_this.dList.goodsList[index].specList[
+										indexs].img, i, path)
+								}
+							})
+						})
+					}
+				})
+
+
 			},
 			lingJifen(taskId, isRen, taskType) {
 				this.$https({
@@ -163,47 +260,95 @@
 					method: 'POST',
 					success: function(res) {
 						// isRen = true
-						
+
 					}
 				})
 			},
 			primise() {
 				var _this = this
-				if(this.value.length<10){
+				var arr = []
+				var objBox = {}
+				this.dList.goodsList.map(function(val, i) {
+					val.specList.map(function(z, idx) {
+						var obj = {}
+						if (_this.shopCount > 1) {
+							obj.content = z.content
+							obj.goodsId = z.goodsId
+							obj.goodsRank = z.goodsRank * 20
+							obj.img = z.img.join(',')
+							obj.specKey = z.specKey
+							obj.specKeyValue = z.specKeyName
+							obj.readStatus = ''
+						} else {
+							obj.content = z.content
+							obj.goodsId = z.goodsId
+							obj.goodsRank = z.goodsRank * 20
+							obj.img = z.img.join(',')
+							obj.specKey = z.specKey
+							obj.specKeyValue = z.specKeyName
+							obj.readStatus = ''
+							obj.orderId = val.orderId
+							obj.serviceRank = _this.Number2 * 20
+							obj.deliverRank = _this.Number1 * 20
+						}
+						arr.push(obj)
+					})
+				})
+				// if(_this.shopCount>1){
+				objBox.orderId = this.dList.orderId
+				objBox.serviceRank = _this.Number2 * 20
+				objBox.deliverRank = _this.Number1 * 20
+				// }
+				objBox.goodsCommVOList = arr
+				if (_this.Number1 == 0) {
 					uni.showToast({
-						title:'评论最少10字符'
+						title: '请对店铺做出评价',
+						icon: 'none'
 					})
 					return false
 				}
+				if (_this.Number2 == 0) {
+					uni.showToast({
+						title: '物流服务做出评价',
+						icon: 'none'
+					})
+					return false
+				}
+				console.log(objBox, JSON.stringify(objBox))
+				// JSON.stringify({
+				// 	content: _this.value,
+				// 	goodsId: _this.goodsId,
+				// 	img: _this.cImg == '../../static/img_10.jpg.png' ? '' : _this.cImg,
+				// 	readStatus: "",
+				// 	goodsRank: _this.Number3 * 20,
+				// 	deliverRank: _this.Number1 * 20,
+				// 	serviceRank: _this.Number2 * 20,
+				// 	orderId: this.orderId
+				// })
 				this.$https({
-					url: '/api/shop/order-comm-submit',
-					data: JSON.stringify({
-						content: _this.value,
-						goodsId: _this.goodsId,
-						img: _this.cImg=='../../static/img_10.jpg.png'?'':_this.cImg,
-						readStatus: "",
-						goodsRank: _this.Number3*20,
-						deliverRank: _this.Number1*20,
-						serviceRank: _this.Number2*20,
-						orderId:this.orderId
-					}),
+					url: '/api/shop/order-comm-more-submit',
+					data: JSON.stringify(objBox),
 					dengl: false,
 					haeder: true,
-					method:'post',
+					method: 'post',
 					success(res) {
 						uni.showToast({
-							title:res.data.message
+							title: res.data.message,
+							icon: 'none'
 						})
-						if(res.data.code==0){
-							if(_this.qiandao){
-							_this.lingJifen(_this.qiandao.taskId, _this.qiandao.isRen, _this.qiandao.taskType)
-								
+						if (res.data.code == 0) {
+							if (_this.qiandao) {
+								_this.lingJifen(_this.qiandao.taskId, _this.qiandao.isRen, _this.qiandao.taskType)
+
 							}
-							setTimeout(function(){
-								uni.redirectTo({
-									url:'allState?id=4'
+							setTimeout(function() {
+								uni.navigateBack({
+									delta:1
 								})
-							},1000)
+								// uni.redirectTo({
+								// 	url: 'allState?id=4'
+								// })
+							}, 1000)
 						}
 					}
 				})
@@ -217,6 +362,14 @@
 		background-color: #f7f7f7;
 	}
 
+	.box-box {
+		margin-bottom: 20rpx;
+	}
+
+	.box-small-box {
+		margin-bottom: 20rpx;
+	}
+
 	.radios {
 		background-color: #fff;
 		width: 710upx;
@@ -224,7 +377,7 @@
 		overflow: hidden;
 		padding-top: 10upx;
 		overflow: hidden;
-		border-bottom: 1px solid #f7f7f7;
+		border-bottom: 1px solid #f0f0f0;
 
 		text {
 			font-size: 28upx;
@@ -248,27 +401,79 @@
 		}
 	}
 
+	.flex {
+		display: flex;
+	}
+
+	.up-pic {
+		/* padding:20rpx 24rpx; */
+		margin-bottom: 30rpx;
+		width: 100%;
+		justify-content: center;
+	}
+
+	.pic-box {
+		flex-flow: wrap;
+		width: 100%;
+	}
+
+	.ap-box {
+		position: relative;
+	}
+
+	.add-pic {
+		width: 200rpx;
+		height: 200rpx;
+		display: block;
+		float: left;
+		position: relative;
+		margin: 0 30rpx 40rpx 0;
+	}
+
+	.add-pic image {
+		width: 200rpx;
+		height: 200rpx;
+	}
+
+	/* 删除图片 */
+	.img-de {
+		position: absolute;
+		right: -12rpx;
+		top: -10rpx;
+		z-index: 999;
+
+		image {
+			width: 45rpx;
+			height: 45rpx;
+			display: block;
+			border-radius: 50%;
+
+		}
+
+	}
+
 	.xinxi {
-		margin-bottom: 20upx;
+		// margin-bottom: 20upx;
 		background-color: #fff;
 		overflow: hidden;
 		width: 710upx;
 		padding: 20upx;
-		border-bottom: 1px dotted #ccc;
+		border-bottom: 1px dotted #f0f0f0f0;
 
 		.imgBox_a {
 			float: left;
 			padding-top: 20upx;
 
 			image {
-				width: 215upx;
-				height: 160upx;
+				width: 200upx;
+				height: 200upx;
 			}
 		}
 
 		.txt_c {
 			float: left;
-			width: 460upx;
+			width: calc(100% - 200rpx);
+			box-sizing: border-box;
 			padding-left: 20upx;
 
 			.title {
@@ -432,7 +637,8 @@
 			font-size: 28upx;
 		}
 	}
-	textarea{
-		width:100%;
+
+	textarea {
+		width: 100%;
 	}
 </style>

@@ -30,8 +30,8 @@
 					<text>退货信息</text>
 				</view>
 
-				<view class="p">
-					<text>{{baseCont.storeAddr}}</text>
+				<view class="p" v-if="baseCont.storeAddr">
+					<text>收货地址：{{baseCont.storeAddr}}</text>
 				</view>
 				<view class="nome">
 					<text>收件人：{{baseCont.storeName}}</text>
@@ -47,13 +47,13 @@
 				<view class="left_a">
 					<text>输入物流公司</text>
 				</view>
-				<view class="right_a">
+				<view class="right_a" v-if="!isXiugai">
 					<view class="img_a">
 						<image src="../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
 				<view class="right_input">
-					<input type="text" v-model="comName" placeholder="请输入物流公司" />
+					<input type="text" v-model="comName" :disabled="isXiugai" placeholder="请输入物流公司" />
 				</view>
 			</view>
 			<view class="basic aa">
@@ -61,17 +61,17 @@
 					<text>填写物流单号</text>
 				</view>
 
-				<view class="right_a">
+				<view class="right_a" v-if="!isXiugai">
 					<view class="img_a">
 						<image src="../../../static/icon_26.png" mode=""></image>
 					</view>
 				</view>
 				<view class="right_input">
-					<input type="text" v-model="comCode" placeholder="请输入物流单号" />
+					<input type="text" :disabled="isXiugai" v-model="comCode" placeholder="请输入物流单号" />
 				</view>
 			</view>
 		</view>
-		<view class="submit-bot">
+		<view class="submit-bot" v-if="!isXiugai">
 			<view class="bottom-bott" @tap="submit">
 				提交
 			</view>
@@ -87,7 +87,8 @@
 				baseCont: {},
 				comCode: '',
 				comName: '',
-				id: ''
+				id: '',
+				isXiugai:false
 			}
 		},
 		onLoad(option) {
@@ -103,7 +104,11 @@
 				method: 'post',
 				success(res) {
 					that.baseCont = res.data.data
-					console.log(res.data.data)
+					if(res.data.data.logisticsName&&res.data.data.logisticsName!=null){
+						that.comCode=res.data.data.logisticsCode
+						that.comName=res.data.data.logisticsName
+						that.isXiugai=true
+					}
 				}
 			})
 
@@ -373,7 +378,7 @@
 			}
 
 			.p {
-				float: left;
+				// float: left;
 				font-size: 26upx;
 				color: #333;
 				line-height: 45rpx;

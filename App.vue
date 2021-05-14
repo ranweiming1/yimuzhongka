@@ -45,7 +45,9 @@
 				uni.navigateTo({
 					url: 'pages/index/productDetails?id=' + args.split('&codz')[0].split('xiangqing=')[1]
 				})
+				// console.log('code=' + args.split('codz=')[1])
 				uni.setStorageSync('yaoqi', 'code=' + args.split('codz=')[1])
+				uni.setStorageSync('detailShare',args.split('&codz')[0].split('xiangqing=')[1])
 			} else if (args.indexOf('code') >= 0) {
 				uni.setStorageSync('yaoqi', args)
 			}

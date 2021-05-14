@@ -328,7 +328,8 @@
 		{
 			"path": "pages/index/pingjia",
 			"style": {
-				"navigationBarTitleText": "全部评价"
+				"navigationBarTitleText": "全部评价",
+				"enablePullDownRefresh":true
 			}
 		},
 		{

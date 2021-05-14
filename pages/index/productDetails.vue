@@ -82,7 +82,7 @@
 				<text @tap='shangpinxin'>分享赚</text>
 			</view>
 			<view class="h2aBox">
-				<text class="span_a" v-if="list.selfStatus=='Y'">自营</text>
+				<text class="span_a"  v-if="list.selfStatus=='Y'">自营</text>
 				<text class="titleText">{{list.goodsName?list.goodsName:''}}</text>
 			</view>
 			<!-- 		<view class="h2aBox">
@@ -218,7 +218,7 @@
 			</view>
 		</view>
 		<view class="pingjBox">
-			<view class="basic">
+			<view class="basic" @tap="togPing(list.goodsId)">
 				<view class="left_a">
 					<text>用户评价</text>
 				</view>
@@ -239,13 +239,13 @@
 			<view class="toux" v-if="pingjia">
 				<view class="imgBox_a">
 					<image
-						:src="pingjia.img?pingjia.img=='../../../static/img_10.jpg.png'?'../../static/img_05.jpg':pingjia.img:'../../static/img_05.jpg'"
+						:src="pingjia.userDTO.headimg?pingjia.userDTO.headimg:(item.userDTO.sex==1?'../../../static/307930aca7b24a8f938121e2bac851d4.png':'../../../static/3a03a3d7ebe4442f847932f34b37765a.png')"
 						mode=""></image>
 				</view>
 				<view class="mingc">
-					<text>{{pingjia.commId}}</text>
+					<text>{{pingjia.userDTO.nickname?pingjia.userDTO.nickname:'暂无用户名'}}</text>
 					<view class="time">
-						<text>{{pingjia.createTime}}</text>
+						<text>{{pingjia.createTime?pingjia.createTime:''}}</text>
 					</view>
 					<view class="huay">
 						<text>{{pingjia.content?pingjia.content:''}}</text>
@@ -255,7 +255,6 @@
 			<view class="toux" v-if="!pingjia" style="font-size: 28rpx;padding-left: 20rpx;box-sizing: border-box;">暂无评价
 			</view>
 		</view>
-
 		<!-- 店铺：需产品确认 -->
 		<view class="listBox">
 			<view class="liBox">
@@ -402,7 +401,10 @@
 				starNum: 0,
 				code: '',
 				liulanTime: '',
-				keLink: ''
+				keLink: '',
+				shareCode: '',
+				shareId: '',
+
 			}
 		},
 		components: {
@@ -418,7 +420,10 @@
 					_this.height = (res.windowHeight * (750 / res.windowWidth));
 				}
 			})
-
+			if (uni.getStorageSync('detailShare')) {
+				this.shareId = uni.getStorageSync('detailShare')
+				this.shareCode = uni.getStorageSync('yaoqi')
+			}
 			this.$https({
 				url: '/api/oauth/shop/mall-goods-detail',
 				data: {
@@ -500,6 +505,7 @@
 							data: {
 								goodsId: option.id
 							},
+							dengl:false,
 							method: 'post',
 							success: function(res) {}
 						})
@@ -763,6 +769,7 @@
 			},
 			goumaia: function() {
 				if (this.denglufangfatiaozhuan()) {
+					var str = this.shareId == this.goodsId ? this.shareCode : ''
 					if (this.xuanzh) {
 						uni.navigateTo({
 							url: '../cart/orderForm/orderForm?goodsId=' + this.goodsId + '&cartAttr=' + JSON
@@ -785,7 +792,7 @@
 										couponUse: this.list.couponStatus,
 										couponDJ: this.list.isUseCommCoupon
 									}]
-								}) + '&dingdan=2&goumai=1'
+								}) + '&dingdan=2&goumai=1' + '&str=' + str
 						})
 					} else {
 						uni.showToast({
@@ -1291,6 +1298,7 @@
 			display: block;
 			padding-top: 10upx;
 			width: 100%;
+			line-height: 40rpx;
 
 			.title_top {
 				overflow: hidden;
@@ -1298,7 +1306,7 @@
 
 			.titleText {
 				font-size: 30rpx;
-				display: inline-block;
+				display: inline;
 				vertical-align: middle;
 			}
 
@@ -1312,7 +1320,7 @@
 				box-sizing: border-box;
 				line-height: 25rpx;
 				box-sizing: border-box;
-				display: inline-block;
+				display: inline;
 				vertical-align: middle;
 			}
 

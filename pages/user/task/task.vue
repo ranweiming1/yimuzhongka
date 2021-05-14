@@ -23,7 +23,9 @@
 		<!-- 用户名 -->
 		<view class="userBox">
 			<view class="img_a">
-				<image :src="userList.headimg?userList.headimg:userList.sex==0?'../../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../../static/307930aca7b24a8f938121e2bac851d4.png'" mode=""></image>
+				<image
+					:src="userList.headimg?userList.headimg:userList.sex==0?'../../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../../static/307930aca7b24a8f938121e2bac851d4.png'"
+					mode=""></image>
 			</view>
 			<view class="text_a">
 				<view class="yonghum">
@@ -35,7 +37,8 @@
 			</view>
 			<view class="imgRight">
 				<view class="uni-padding-wrap uni-common-mt bott" @tap="qianD">
-					<button type="primary" :style="isQian?'color:#666':'background:#f9b52e;color:#fff;'">{{isQian?'已签到':'点击签到'}}</button>
+					<button type="primary"
+						:style="isQian?'color:#666':'background:#f9b52e;color:#fff;'">{{isQian?'已签到':'点击签到'}}</button>
 				</view>
 			</view>
 
@@ -66,7 +69,9 @@
 					</view> -->
 					<view class="ima_p">
 						<image :src="state[0]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
-							<view class="hFrame_t" :style="state[0]||state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
+							<view class="hFrame_t"
+								:style="state[0]||state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'">
+							</view>
 						</image>
 					</view>
 					<view class="date">
@@ -80,9 +85,14 @@
 						<text>+{{n1}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
-						<image :src="state[1]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o"
+							:style="state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'">
+						</view>
+						<image :src="state[1]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
+						</image>
+						<view class="hFrame_t"
+							:style="state[1]||state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'">
+						</view>
 					</view>
 					<view class="date">
 						<text>二</text>
@@ -95,9 +105,14 @@
 						<text>+{{n2}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
-						<image :src="state[2]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o"
+							:style="state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'">
+						</view>
+						<image :src="state[2]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
+						</image>
+						<view class="hFrame_t"
+							:style="state[2]||state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'">
+						</view>
 					</view>
 					<view class="date">
 						<text>三</text>
@@ -108,9 +123,12 @@
 						<text>+{{n3}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
-						<image :src="state[3]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o"
+							:style="state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
+						<image :src="state[3]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
+						</image>
+						<view class="hFrame_t"
+							:style="state[3]||state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
 						<text>四</text>
@@ -121,9 +139,12 @@
 						<text>+{{n4}}分</text>
 					</view>
 					<view class="ima_p">
-						<view class="hFrame_o" :style="state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
-						<image :src="state[4]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
-						<view class="hFrame_t" :style="state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
+						<view class="hFrame_o" :style="state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'">
+						</view>
+						<image :src="state[4]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
+						</image>
+						<view class="hFrame_t" :style="state[4]||state[5]||state[6]?'':'border-bottom: 2px solid #fff'">
+						</view>
 					</view>
 					<view class="date">
 						<text>五</text>
@@ -135,7 +156,8 @@
 					</view>
 					<view class="ima_p">
 						<view class="hFrame_o" :style="state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
-						<image :src="state[5]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
+						<image :src="state[5]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
+						</image>
 						<view class="hFrame_t" :style="state[5]||state[6]?'':'border-bottom: 2px solid #fff'"></view>
 					</view>
 					<view class="date">
@@ -148,7 +170,8 @@
 					</view>
 					<view class="ima_p">
 						<view class="hFrame_o" :style="state[6]?'':'border-bottom: 2px solid #fff'"></view>
-						<image :src="state[6]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode=""></image>
+						<image :src="state[6]?'../../../static/icon_33.png':'../../../static/icon_32.png'" mode="">
+						</image>
 					</view>
 					<view class="date">
 						<text>日</text>
@@ -173,7 +196,8 @@
 				<view class="clear">
 
 				</view>
-				<view class="ul" v-for="(item,index) in taskList" v-if='(item.taskName!="商品追评")?(item.taskName=="邀请新用户"?pyType:true):false'>
+				<view class="ul" v-for="(item,index) in taskList"
+					v-if='(item.taskName!="商品追评")?(item.taskName=="邀请新用户"?pyType:true):false'>
 					<view class="icon_img">
 						<image src="../../../static/rw_icon6.png" mode=""></image>
 					</view>
@@ -182,12 +206,13 @@
 							<text>{{item.taskName}}</text>
 						</view>
 						<view class="span">
-							<text>奖励{{item.integral}}积分</text>
+							<text>{{item.taskId==3?'快去购买商品领积分吧':item.taskId==4?'评价商品可以获得更多积分哦':'奖励'+item.integral+'积分'}}</text>
 						</view>
 					</view>
 
 					<view class="uni-padding-wrap uni-common-mt bottg" @tap="renWu(item,4)">
-						<view class="rwButt">{{item.taskId==2?(goodsViewed==0&&item.taskStatus?'已完成':'去完成'):(item.taskStatus?'已完成':item.postUrl==6?'去邀请':'去完成')}}
+						<view class="rwButt">
+							{{item.taskId==2?(goodsViewed==0&&item.taskStatus?'已完成':'去浏览'):item.taskId==3?'去购买':item.taskId==4?'去评价':(item.taskStatus?'已完成':item.postUrl==6?'去邀请':'去完成')}}
 
 						</view>
 						<!-- <button type="primary" :style="item.taskStatus?'':'background:#bfbfbf;color:#666;'">{{item.taskStatus?'已完成':'去完成'}}</button> -->
@@ -220,13 +245,13 @@
 				n4: '',
 				n5: '',
 				n6: '',
-				id:'',
-				pdType:'',
-				goodsViewed:''
+				id: '',
+				pdType: '',
+				goodsViewed: ''
 			}
 		},
 		onLoad() {
-			this.pdType=uni.getStorageSync('pdType')
+			this.pdType = uni.getStorageSync('pdType')
 			this.xuanR()
 		},
 		methods: {
@@ -292,17 +317,19 @@
 						for (var i = 0; i < 7 - week; i++) {
 							arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
 						}
+						console.log(_this.qianDate)
 						for (var i = 0; i < arr.length; i++) {
 							var nu = 0
 							for (var j = 0; j < _this.qianDate.length; j++) {
-								if (arr[i] == _this.qianDate[j].createTime) {
+								if (arr[i] == _this.qianDate[j].createTime.substring(0,10)) {
 									nu++
 								}
 							}
 							nu > 0 ? state.push(true) : state.push(false)
 						}
 						_this.state = state
-					}
+					console.log(state)
+					},
 				})
 				this.$https({
 					url: '/api/task/center-get-task-list',
@@ -310,14 +337,14 @@
 					method: 'post',
 					success: res => {
 						this.taskList = res.data.data.taskCenterList
-						this.goodsViewed=res.data.data.goodsViewed
+						this.goodsViewed = res.data.data.goodsViewed
 					}
 				})
 				this.$https({
-					url:'/api/user/my-info',
-					data:{},
-					success:res=>{
-						this.id=res.data.data.myCode
+					url: '/api/user/my-info',
+					data: {},
+					success: res => {
+						this.id = res.data.data.myCode
 					}
 				})
 				// },
@@ -339,7 +366,7 @@
 						method: 'POST',
 						haeder: true,
 						success: function(res) {
-							_this.isQian = !_this.isQian 
+							_this.isQian = !_this.isQian
 							_this.xuanR()
 						}
 					})
@@ -362,7 +389,7 @@
 			},
 			toUser: function() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			},
 			renWu: function(item, id) {
@@ -372,15 +399,25 @@
 				var isRen = item.taskStatus
 				var taskType = item.taskType
 				var taskId = item.taskId
-				console.log(isRen,item)
+				console.log(isRen, item)
 				// console.log(taskId)
-				if(state==2){
-					if(_this.goodsViewed>0){
+				if (state == 2) {
+					if (_this.goodsViewed > 0) {
 						uni.navigateTo({
-							url: '../../classify/fenlOne?state='+state
+							url: '../../classify/fenlOne?state=' + state
 						})
 					}
-				}
+				} else if (state == 3) {
+					uni.navigateTo({
+						url: '../../classify/fenlOne?state=' + state
+					})
+
+				}else if (state == 4) {
+						uni.navigateTo({
+							url: '../allState/allState?id=' + id + '&taskId=' + taskId + '&isRen=' + isRen +
+								'&taskType=' + taskType,
+						})
+					}
 				if (!isRen) {
 					if (state == 1) {
 						this.$https({
@@ -392,20 +429,16 @@
 							method: 'post',
 							haeder: true,
 							success: res => {
-								this.isQian = !_this.isQian 
+								this.isQian = !_this.isQian
 								this.xuanR()
 							}
 						})
 					}
-					if ( state == 3) {
-						uni.navigateTo({
-							url: '../../classify/fenlOne?state='+state
-						})
 
-					}
-					if (state == 4 || state == 5) {
+					if (state == 5) {
 						uni.navigateTo({
-							url: '../allState/allState?id=' + id+'&taskId='+taskId+'&isRen='+isRen+'&taskType='+taskType,
+							url: '../allState/allState?id=' + id + '&taskId=' + taskId + '&isRen=' + isRen +
+								'&taskType=' + taskType,
 						})
 						// state == 4 ? _this.lingJifen(taskId, isRen, taskType) : _this.lingJifen(taskId, isRen, taskType)
 						// _this.xuanR()
@@ -420,9 +453,9 @@
 					// }
 					// _this.xuanR()
 				}
-				if(state==6){
+				if (state == 6) {
 					uni.navigateTo({
-						url:'invite/invite?val='+this.id
+						url: 'invite/invite?val=' + this.id
 					})
 				}
 
@@ -943,6 +976,7 @@
 				border-radius: 35rpx;
 				color: #ef7e1e;
 				margin-top: 18rpx;
+				font-size: 30rpx;
 			}
 
 		}

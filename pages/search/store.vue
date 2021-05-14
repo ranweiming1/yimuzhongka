@@ -3,7 +3,7 @@
 		<!-- 状态栏 -->
 		<view class="topBox">
 			<!-- 默认样式 -->
-			<view class="none" @tap='shangpin'>
+			<view :class="xiana==1?'none on':'none'" @tap='shangpin'>
 				<view class="ontext">
 					<text>商品</text>
 				</view>
@@ -13,7 +13,7 @@
 			</view>
 
 			<!-- 选中样式 -->
-			<view class="none on" @tap='dianpuyangshi'>
+			<view :class="xiana==2?'none on':'none'" @tap='dianpuyangshi'>
 				<view class="ontext">
 					<text>店铺</text>
 				</view>
@@ -201,7 +201,6 @@
 				}
 			}
 		}
-
 
 
 		.none {

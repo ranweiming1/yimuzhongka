@@ -37,7 +37,8 @@
 
 		<view class="basic aa" @tap="openPopups(1)">
 			<view class="left_a">
-				<text>货物状态 <text style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
+				<text>货物状态 <text
+						style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
@@ -49,7 +50,8 @@
 
 		<view class="basic aa" @tap="openPopup(2)">
 			<view class="left_a">
-				<text>退货原因 <text style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
+				<text>退货原因 <text
+						style="color: #ee3030;font-size: 40rpx;display: inline-block;margin-left: 10rpx;vertical-align: middle;">*</text></text>
 			</view>
 			<view class="right_a">
 				<view class="img_a">
@@ -62,11 +64,14 @@
 		<view class="reason-list">
 			<view class="reason-item">
 				<view class="title"><text>退款金额：</text></view>
-				<input class="uni-input" style="color: #ff0000;" @blur="inpuBlur(price)" v-model="price" :placeholder="price" />
+				<input class="uni-input" style="color: #ff0000;" @blur="inpuBlur(price)" v-model="price"
+					:placeholder="price" />
 			</view>
 
 			<view class="reason-item">
-				<view class="title"><text style="color: #999999;font-size: 24rpx;">可修改，最多{{content.gP?'￥'+content.gP+'.00':'0'}},含发货邮费￥00.00</text></view>
+				<view class="title"><text
+						style="color: #999999;font-size: 24rpx;">可修改，最多{{content.gP?'￥'+content.gP:'0'}},含发货邮费￥00.00</text>
+				</view>
 			</view>
 			<view class="reason-item">
 				<view class="title">
@@ -90,7 +95,7 @@
 			<view class="reason-items">
 				<!-- 				<view class="title"><text>退货说明：</text></view> -->
 				<textarea name="input" v-model="exp" placeholder="请补充描述" placeholder-style="line-height:50rpx" />
-				</view>
+			</view>
 			<view class="imgBox" @tap="chuanImg">
 				<image :src="pingImg" mode=""></image>
 			</view>
@@ -162,7 +167,7 @@
 				typeValue: '请选择货物状态',
 				typeList: [{
 						id: 0,
-						label:"已收到货"
+						label: "已收到货"
 					},
 					{
 						id: 1,
@@ -170,8 +175,8 @@
 					}
 				],
 				typeIndex: '',
-				shouIndex:'y',
-				price:''
+				shouIndex: 'y',
+				price: ''
 			}
 		},
 		components: {
@@ -179,31 +184,37 @@
 		},
 		onLoad(option) {
 			console.log(option)
+			option.gP = Number(option.gP).toFixed(2)
 			this.content = option
-			this.price=option.gP
+			this.price = Number(option.gP).toFixed(2)
 			var _this = this
-			this.$https({
-				url: '/api/user/order-detail',
-				dengl: false,
-				data: {
-					order_id: option.orderId
-				},
-				success(res) {
-					// console.log(res.data.data)
-					_this.orList = res.data.data
-					// console.log(_this.orList)
-					_this.gId = res.data.data.goodsList[0].goodsId
-				}
-			})
-		//退款原因
-		// this.$https({
-		// 	url: '/api/oauth/get-refund-reason-list',
-		// 	data: {status:this.shouIndex?this.shouIndex:'0'},
-		// 	method: 'post',
-		// 	success: res => {
-		// 		this.values = res.data.data
-		// 	}
-		// })
+			if (option.id) {
+				_this.gId = option.gID
+			} else {
+				this.$https({
+					url: '/api/user/order-detail',
+					dengl: false,
+					data: {
+						order_id: option.orderId
+					},
+					success(res) {
+						// console.log(res.data.data)
+						_this.orList = res.data.data
+						// console.log(_this.orList)
+						_this.gId = res.data.data.goodsList[0].goodsId
+					}
+				})
+			}
+
+			//退款原因
+			// this.$https({
+			// 	url: '/api/oauth/get-refund-reason-list',
+			// 	data: {status:this.shouIndex?this.shouIndex:'0'},
+			// 	method: 'post',
+			// 	success: res => {
+			// 		this.values = res.data.data
+			// 	}
+			// })
 		},
 		methods: {
 			primary() {
@@ -211,18 +222,21 @@
 				// console.log(this.content.gP,this.price,this.price>this.content.gP)
 				var _this = this
 				var num = this.content.type == 1 ? 1 : 0
+				if (!this.inpuBlur()) {
+					return false
+
+				} else
 				if (_this.value == "请选择退款原因") {
-					console.log(2222)
 					uni.showToast({
 						title: '请选择退款原因',
 						icon: 'none'
 					})
-				}else if(!_this.price){
+				} else if (!_this.price) {
 					uni.showToast({
 						title: '请输入退款金额',
 						icon: 'none'
 					})
-				}else{
+				} else {
 
 					this.$https({
 						url: '/api/shop/order-refund-info-add',
@@ -232,79 +246,94 @@
 						data: JSON.stringify({
 							goodsId: _this.gId,
 							orderNo: _this.content.oS,
-							proofImg: _this.pingImg=='../../../static/img_10.jpg.png'?'':_this.pingImg,
+							proofImg: _this.pingImg == '../../../static/img_10.jpg.png' ? '' : _this
+								.pingImg,
 							refundCaption: _this.exp,
 							refundFee: _this.price,
 							refundDesc: _this.value,
 							refundMethod: num,
-							status:_this.shouIndex
+							status: _this.shouIndex,
+							specKey: _this.content.sKY,
+							id:_this.content.id,
 						}),
 						success(res) {
-							if(res.data.code==0){
+							if (res.data.code == 0) {
 								uni.showToast({
 									title: '提交成功',
 									icon: 'none'
 								})
-								setTimeout(function(){
+								setTimeout(function() {
 									uni.navigateBack({
-										delta:3
+										delta: 3
 									})
-								},2000)
-								
-							}else{
+								}, 2000)
+
+							} else {
 								uni.showToast({
-									title: '提交失败',
+									title: res.data.message ? res.data.message : '提交失败',
 									icon: 'none'
 								})
 							}
-						
+
 							// console.log(_this.pingImg)
 						}
 					})
 				}
 			},
-			inpuBlur(val){
-				if (val > this.content.gP){
-					console.log(9999)
+			inpuBlur() {
+				if (this.price > this.content.gP) {
 					uni.showToast({
 						title: '退款金额不能大于金额',
-						icon: 'none'
+						icon: 'none',
 					})
+
+					return false
+
+				} else {
+					return true
 				}
+				console.log(9898908908908)
 			},
 			confirm() {
 				this.value = this.values[this.index].label
 				this.closePopup()
 			},
-			
+
 			confirms() {
-				var that=this
-					this.typeValue = this.typeList[this.shouIndex].label
-					//退款原因
-					this.$https({
-						url: '/api/oauth/get-refund-reason-list',
-						data: {status:this.shouIndex},
-						method: 'post',
-						success: res => {
-							this.values = res.data.data
-						}
-					})
+				var that = this
+				this.typeValue = this.typeList[this.shouIndex].label
+				//退款原因
+				this.$https({
+					url: '/api/oauth/get-refund-reason-list',
+					data: {
+						status: this.shouIndex
+					},
+					method: 'post',
+					success: res => {
+						this.values = res.data.data
+					}
+				})
 				this.closePopups()
 			},
-			change(n) {			
+			change(n) {
 				this.index = n
 				// console.log(this.index)
 			},
 			changes(n) {
-					this.shouIndex=n
+				this.shouIndex = n
 				// console.log(this.index)
 			},
 			openPopup(index) {
-				if(this.shouIndex=='y'){
+				if (this.shouIndex == 'y') {
+					uni.showToast({
+						title: '请选择货物状态',
+						icon: 'none'
+					})
 					return
-				}else{
-				this.$refs.popup.open()
-				this.typeIndex = index}
+				} else {
+					this.$refs.popup.open()
+					this.typeIndex = index
+				}
 			},
 			openPopups(index) {
 				this.$refs.popups.open()
@@ -312,7 +341,7 @@
 			},
 			closePopup() {
 
-					
+
 				this.$refs.popup.close()
 			},
 			closePopups() {
@@ -320,7 +349,7 @@
 			},
 			chuanImg() {
 				uni.chooseImage({
-					sizeType:['compressed'],
+					sizeType: ['compressed'],
 					success: chooseImageRes => {
 						uni.uploadFile({
 							url: this.webUrl + '/oauth/oss/upload',
@@ -342,65 +371,71 @@
 	page {
 		background-color: #f5f5f4;
 	}
-	.g{
-		height:100rpx;
+
+	.g {
+		height: 100rpx;
 	}
-	.reason-items{
+
+	.reason-items {
 		width: 100%;
-		textarea{
-		width: 100%;
+
+		textarea {
+			width: 100%;
 			box-sizing: border-box;
 			padding: 25rpx;
 			font-size: 28rpx;
 			color: #333;
 			line-height: 50rpx;
-			min-height:100rpx;
-			height:150rpx;
+			min-height: 100rpx;
+			height: 150rpx;
 			color: #333;
 		}
+
 		textarea::-webkit-input-placeholder {
-		      line-height: 50rpx;
-		   }
-		   textarea:-moz-placeholder {
-		      line-height: 50rpx;
-		   }
+			line-height: 50rpx;
+		}
+
+		textarea:-moz-placeholder {
+			line-height: 50rpx;
+		}
 	}
+
 	.reason-item {
-			overflow: hidden;
-			height: 83rpx;
-			line-height: 83rpx;
-			font-size: 28rpx;
-			color: #333;
-			width: 100%;
-			
-			.title {
-				float: left;
-			}
+		overflow: hidden;
+		height: 83rpx;
+		line-height: 83rpx;
+		font-size: 28rpx;
+		color: #333;
+		width: 100%;
 
-			input {
-				height: 100%;
-				line-height: 100%;
-				float: left;
-				text-align: left;
-				color: #ff0336;
-			}
+		.title {
+			float: left;
+		}
 
-			.img_a {
-				float: right;
-				padding-left: 30rpx;
-				// padding-top: 10rpx;
+		input {
+			height: 100%;
+			line-height: 100%;
+			float: left;
+			text-align: left;
+			color: #ff0336;
+		}
+
+		.img_a {
+			float: right;
+			padding-left: 30rpx;
+			// padding-top: 10rpx;
+			vertical-align: middle;
+
+			image {
+				width: 14rpx;
+				height: 24rpx;
+				display: inline-block;
 				vertical-align: middle;
-
-				image {
-					width: 14rpx;
-					height: 24rpx;
-					display: inline-block;
-					vertical-align: middle;
-				}
-
 			}
 
 		}
+
+	}
 
 	.reason-list {
 		background-color: #fff;
@@ -409,7 +444,7 @@
 		overflow: hidden;
 		margin-bottom: 20rpx;
 
-			}
+	}
 
 	.xinxi {
 		margin-bottom: 20upx;

@@ -365,6 +365,7 @@
 							//修改数据结构，以使数据更好用
 							// console.log(res.data.data)	
 							var list = []
+							var numBer = 0
 							if (res.data.data.cartShopIdList) {
 								res.data.data.cartShopIdList.map(function(val, i) {
 									var arr = {}
@@ -413,12 +414,11 @@
 									_this.$set(_this.huad[index], indexx, false)
 
 								})
-								console.log(n)
-								_this.numa += n.specList.length
+								numBer += n.specList.length
 							})
 							// _this.numa = _this.cartList.length
+							_this.numa = numBer
 							_this.xuan = false
-							console.log(_this.cartList)
 							// _this.xuanzho.map(function(n, index) {
 							// 	n.map(function(z, indexs) {
 							// 		_this.jiage += _this.cartList[index].specList[indexs].goodsNum * _this.cartList[indexs].specList[indexs].goodsPrice
@@ -427,6 +427,7 @@
 							// console.log(_this.cartList, 8888)
 						} else {
 							_this.cartList = []
+							_this.numa = 0
 						}
 					}
 				})
@@ -1914,10 +1915,10 @@
 					line-height: 40upx;
 					color: #0c0c0c;
 					word-break: break-all;
-					text-overflow: ellipsis;
+					text-overflow: clip;
 					display: -webkit-box;
 					-webkit-box-orient: vertical;
-					-webkit-line-clamp: 2;
+					-webkit-line-clamp: 1;
 					overflow: hidden;
 
 				}
@@ -1931,6 +1932,14 @@
 
 				text {
 					font-size: 24upx;
+					// line-height: 40upx;
+					color: #0c0c0c;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
 
 
 				}

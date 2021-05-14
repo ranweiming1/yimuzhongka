@@ -25,7 +25,7 @@
 					<text>已选：＂{{content.sKN}}＂</text>
 				</view>
 				<view class="radColor">
-					<text>{{content.gP?'￥'+content.gP+'.00':'0'}}</text>
+					<text>{{content.gP?'￥'+content.gP.toFixed(2):'0'}}</text>
 				</view>
 
 				<!-- 这是数量加减 -->
@@ -44,7 +44,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="basic aa" @tap="tui" >
+		<view class="basic aa" @tap="tui">
 			<view class="left_a">
 				<text>我要退货</text>
 			</view>
@@ -61,23 +61,49 @@
 	export default {
 		data() {
 			return {
-				content:{},
+				content: {},
+				id: ''
 			}
 		},
 		onLoad(options) {
-			this.content=options
-			console.log(this.content)
+			options.gP = Number(options.gP)
+			this.content = options
+			console.log(options)
+			if (options.id) {
+				this.id = options.id
+			}
 		},
 		methods: {
 			huan() {
-				uni.navigateTo({
-					url: './refund_01?oS='+ this.content.oS+'&lG='+this.content.lG+'&gN='+this.content.gN+'&gP='+this.content.gP+'&sKN='+this.content.sKN+'&time='+this.content.time+'&num='+this.content.num+'&orderId='+this.content.orderId+'&type=1'
-				})
+
+				if (this.id) {
+					uni.navigateTo({
+						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&num=' + this.content.num + '&sKY=' + this.content.sKY + '&type=1' + '&id=' + this.id+'&gID='+this.content.gID
+					})
+				} else {
+					uni.navigateTo({
+						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content
+							.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&time=' + this.content
+							.time + '&num=' + this.content.num + '&orderId=' + this.content.orderId + '&sKY=' +
+							this.content.sKY + '&type=1'
+					})
+				}
 			},
-			tui(){
-				uni.navigateTo({
-					url: './refund_01?oS='+ this.content.oS+'&lG='+this.content.lG+'&gN='+this.content.gN+'&gP='+this.content.gP+'&sKN='+this.content.sKN+'&time='+this.content.time+'&num='+this.content.num+'&orderId='+this.content.orderId
-				})
+			tui() {
+				if (this.id) {
+					uni.navigateTo({
+						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content
+							.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&num=' + this.content
+							.num + '&sKY=' + this.content.sKY + '&id=' + this.id+'&gID='+this.content.gID
+					})
+				} else {
+					uni.navigateTo({
+						url: './refund_01?oS=' + this.content.oS + '&lG=' + this.content.lG + '&gN=' + this.content
+							.gN + '&gP=' + this.content.gP + '&sKN=' + this.content.sKN + '&time=' + this.content
+							.time + '&num=' + this.content.num + '&orderId=' + this.content.orderId + '&sKY=' +
+							this.content.sKY
+					})
+				}
 			}
 		}
 	}
@@ -176,14 +202,14 @@
 	}
 
 	.basic {
-		    width: 100%;
-		    background-color: #fff;
-		    overflow: hidden;
-		    padding:0 20rpx;
-		    box-sizing: border-box;
-		    height: 90rpx;
-		    line-height: 90rpx;
-		    margin-bottom: 20rpx;
+		width: 100%;
+		background-color: #fff;
+		overflow: hidden;
+		padding: 0 20rpx;
+		box-sizing: border-box;
+		height: 90rpx;
+		line-height: 90rpx;
+		margin-bottom: 20rpx;
 
 		.left_a {
 			float: left;

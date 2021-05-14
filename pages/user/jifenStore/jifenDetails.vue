@@ -15,7 +15,7 @@
 					<text>{{name}}</text>
 				</view>
 				<view class="p">
-					<text>{{q?q:0}}元+{{jifen?jifen:0}}积分</text>
+					<text>{{jifen?jifen+'积分':0}}{{q?'+￥'+q.toFixed(2):''}}</text>
 				</view>
 				<view class="span">
 					<text>{{num?num:0}}人已兑换</text>
@@ -40,8 +40,15 @@
 			<view class="jians">
 				<rich-text :nodes='xiangqing'></rich-text>
 			</view>
-			<view class="uni-padding-wrap uni-common-mt bott" @tap='tiaozhuan'>
+			<view style="height: 180rpx;"></view>
+			<!-- <view class="uni-padding-wrap uni-common-mt bott" @tap='tiaozhuan'>
 				<button type="primary">立即兑换</button>
+			</view> -->
+			<view class="uni-padding-wrap uni-common-mt bott" @tap='tiaozhuan'>
+				<view class="anniu">
+					立即兑换
+				</view>
+				<!-- <button type="primary">立即兑换</button> -->
 			</view>
 		</view>
 	</view>
@@ -108,7 +115,7 @@
 					return false
 				}
 				uni.navigateTo({
-					url: '../../cart/orderForm/jifen?good=' + this.id
+					url: '../../cart/orderForm/jifen?good=' + this.id + '&wodejifen='+this.wodejifen
 				})
 				// uni.navigateTo({
 				// 	url:'../../cart/orderForm/orderForm?goodsId='+this.id+'&cartAttr='+JSON.stringify({
@@ -192,22 +199,39 @@
 		.jians {
 			padding-top: 20upx;
 			font-size: 24upx;
-			padding-bottom: 100upx;
+			// padding-bottom: 100upx;
 			line-height: 40upx;
 			color: #666;
 		}
 
 		.bott {
-			width: 670upx;
-			position: fixed;
-			bottom: 40upx;
-			left: 40upx;
+			width: 100%;
+			    position: fixed;
+			    bottom: 0;
+			    left: 0;
+			    background: #FFFFFF;
+			    height: 150rpx;
 
 			button {
 				border-radius: 40upx;
 				font-family: Microsoft YaHei;
 				background-color: #3366ff;
 			}
+		.anniu{
+			margin: 0 auto;
+			    width: 670rpx;
+			    background: #3366ff;
+			    color: #fff;
+			    font-size: 30rpx;
+			    height: 80rpx;
+			    line-height: 80rpx;
+			    text-align: center;
+			    border-radius: 40rpx;
+			    position: fixed;
+			    left: 0;
+			    right: 0;
+			    bottom: 40rpx;
+		}
 
 		}
 	}

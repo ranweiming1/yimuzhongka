@@ -3,11 +3,11 @@
 		<!-- <view class="one_line">
 		</view> -->
 		<view class="await">
-			<text>{{t?'待付款':deList.shippingStatus==0?'未发货':deList.shippingStatus==1?'已发货':deList.shippingStatus==2?'退货中':'退货完成'}}</text>
+			<text>{{deList.status == 0?'待付款':deList.status==7?'交易关闭':deList.shippingStatus==0?'待发货':deList.shippingStatus==1?'已发货':deList.shippingStatus==2?'售后申请中':'交易关闭'}}</text>
 		</view>
 
 		<!-- 揽件信息 -->
-		<view class="collect" v-if="deList.shippingStatus!=0" @tap='wuliu'>
+		<view class="collect" v-if="deList.shippingCode" @tap='wuliu'>
 			<view class="collimg">
 				<image src="../../../static/icon_44.png" mode=""></image>
 			</view>
@@ -67,29 +67,29 @@
 						<view class="title">
 							<text>{{item.goodsName}}</text>
 						</view>
-						<view class="spec">
+						<view class="spec" v-if="ite.specKeyName">
 							<text>已选：＂{{ite.specKeyName}}＂</text>
 						</view>
 						<view class="radColor">
-							<text>{{ite.goodsPrice?'￥'+ite.goodsPrice.toFixed(2):'0'}}</text>
+							<text>{{deList.orderType==1?(deList.integral+'积分'+(ite.goodsPrice?'+￥'+ite.goodsPrice.toFixed(2):'')):(ite.goodsPrice?'￥'+ite.goodsPrice.toFixed(2):'0')}}</text>
 						</view>
 
 						<!-- 这是数量加减 -->
 						<view class="jia">
-							<text>X{{item.goodsNum}}</text>
+							<text>X{{ite.goodsNum}}</text>
 						</view>
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott"
-						@tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId)"
+						@tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId,ite.isSend,ite.specKey)"
 						v-if='s'>
-						<button type="primary">申请售后</button>
+						<button type="primary">{{deList.orderType==1?'联系客服':ite.isSend==1?'申请中':ite.isSend==2?'售后完成':'申请售后'}}</button>
 					</view>
 				</view>
 
 			</view>
 
 		</view>
-		<view class="basic">
+		<view class="basic" v-if="deList.orderType==0">
 			<view class="left_a">
 				<text>运费</text>
 			</view>
@@ -123,7 +123,7 @@
 						:src="deList.payMethod=='1'?'../../../static/wx.png':deList.payMethod=='4'?'../../../static/z.png':''"
 						mode=""></image>
 				</view>
-				<text>{{deList.payMethod=='1'?'微信安全支付':deList.payMethod=='2'?'积分安全支付':deList.payMethod=='3'?'微信+积分安全支付':deList.payMethod=='4'?'支付宝安全支付':'支付宝+积分安全支付'}}</text>
+				<text>{{deList.payMethod=='1'?'微信安全支付':deList.payMethod=='2'?'积分安全支付':deList.payMethod=='3'?'微信+积分安全支付':deList.payMethod=='4'?'支付宝安全支付':deList.payMethod=='5'?'支付宝+积分安全支付':''}}</text>
 			</view>
 		</view>
 
@@ -135,7 +135,7 @@
 				<text>{{deList.orderAmount?'￥'+deList.orderAmount.toFixed(2):'0'}}</text>
 			</view>
 		</view>
-		<view class="basic aa">
+		<view class="basic aa" v-if="deList.orderType==0">
 			<view class="left_a">
 				<text>优惠券减免</text>
 			</view>
@@ -143,12 +143,20 @@
 				<text>{{deList.countPrice?'-￥'+deList.countPrice.toFixed(2):0}}</text>
 			</view>
 		</view>
-		<view class="basic aa">
+		<view class="basic aa" v-if="deList.orderType==0">
 			<view class="left_a">
 				<text>运费</text>
 			</view>
 			<view class="right_a">
 				<text>{{kuaidi?'￥'+kuaidi:'0'}}</text>
+			</view>
+		</view>
+		<view class="basic aa" v-if="deList.orderType==1">
+			<view class="left_a">
+				<text>积分抵扣</text>
+			</view>
+			<view class="right_a">
+				<text>{{deList.integralMoney+'积分'}}</text>
 			</view>
 		</view>
 		<view class="basic aa ssa">
@@ -160,6 +168,28 @@
 			</view>
 		</view>
 		<view style='height:150rpx;'></view>
+
+
+		<view class="mask-type" v-if="isZf">
+			<view class="mask-cont">
+				<view class="mask-bot">
+					<view class="" @tap="zfCom">
+						取消
+					</view>
+					<view class="" @tap="zhiCam">
+						确认
+					</view>
+				</view>
+				<view class="mask-item">
+					<picker-view :value="value" @change="bindChange" class="picker-view">
+						<picker-view-column>
+							<view v-for="(item,index) in zhifu" :key="index">{{zhifu[index]}}</view>
+						</picker-view-column>
+					</picker-view>
+				</view>
+			</view>
+		</view>
+
 		<!-- 底部 -->
 		<view class="bottom">
 			<view class="leftA">
@@ -176,7 +206,7 @@
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott onna">
 						<button type="primary" @tap='wuliu' v-if='!t'>查看物流</button>
-						<button type='primary' @tap='zhifu'
+						<button type='primary' @tap='zfCom'
 							v-if='t&&!(deList.payStatus==0 &&deList.orderStatus == 3&&deList.shippingStatus == 0 )'>去支付</button>
 					</view>
 
@@ -198,11 +228,16 @@
 				kuaidi: '',
 				t: false,
 				s: true,
-				wuList:{}
+				wuList: {},
+				zhifu: ['微信支付', '支付宝'],
+				index: 0,
+				isZf: false,
+				userId: ''
 			}
 		},
 		onLoad(option) {
 			var _this = this
+			console.log(option)
 			this.$https({
 				url: '/api/user/order-detail',
 				data: {
@@ -213,9 +248,20 @@
 					var cont = 0
 					res.data.data.goodsList.map(function(v, i) {
 						v.specList.map(function(z, ind) {
-							cont = _this.$numAdd(cont, _this.$numAdd(z.commCouponPrice, z.couponPrice))
+							cont = _this.$numAdd(cont, _this.$numAdd(z.commCouponPrice, z
+								.couponPrice))
 						})
 					})
+					if (res.data.data.orderType == 1) {
+						_this.$https({
+							url: '/api/user/my-info',
+							data: {},
+							denglu: false,
+							success: function(res) {
+								_this.userId = res.data.data.id
+							}
+						})
+					}
 					res.data.data.countPrice = cont
 					_this.deList = res.data.data
 					_this.order = res.data.data.orderSn
@@ -223,12 +269,13 @@
 					_this.dz = res.data.data.cityInfo
 					_this.kuaidi = res.data.data.goodsList[0].specList[0].kuaidi
 					_this.code = res.data.data.shippingCode
-					console.log(res.data.data)
-					if(res.data.data.shippingStatus!=0){
+					// console.log(res.data.data)
+					if (res.data.data.shippingCode) {
 						_this.$https({
 							url: '/api/shop/logistics-detail',
 							data: {
-								logistics: res.data.data.shippingCode ?res.data.data.shippingCode.trim(): '',
+								logistics: res.data.data.shippingCode ? res.data.data.shippingCode
+									.trim() : '',
 							},
 							dengl: false,
 							success(res) {
@@ -238,12 +285,21 @@
 					}
 				}
 			})
-			if (option.zhuangtai == 0) {
-				this.t = true
+			if (option.zhuangtai == 0||option.zhuangtai == 7) {
+				this.t = option.zhuangtai
 				this.s = false
 			}
 		},
 		methods: {
+			zfCom: function() {
+				this.isZf = !this.isZf
+				this.index=0
+				console.log(this.index)
+			},
+			bindChange(e) {
+				this.index = e.detail.value[0]
+				console.log(this.index)
+			},
 			wuliu() {
 				// console.log('222')
 				uni.navigateTo({
@@ -252,12 +308,25 @@
 						JSON.stringify(this.deList.goodsList)
 				})
 			},
-			afterSole(oS, lG, gN, gP, sKN, Num, orderId) {
+			afterSole(oS, lG, gN, gP, sKN, Num, orderId,tuiTy,sKY) {
+				if (this.deList.orderType == 1) {
+					uni.navigateTo({
+						url: '../../index/ke?id=' + this.userId
+					})
+					return false
+				}
+				if(tuiTy==1||tuiTy==2){
+					uni.showToast({
+						title:tuiTy==1?'已申请售后，请耐心等待':'售后已完成',
+						icon:'none'
+					})
+					return false
+				}
 				// console.log(22222)
 				uni.navigateTo({
 					url: "./deliver_01?oS=" + oS + '&lG=' + lG + '&gN=' + gN + '&gP=' + gP + '&sKN=' + sKN +
 						'&time=' + this.deList.addTime +
-						'&num=' + Num + '&orderId=' + orderId
+						'&num=' + Num + '&orderId=' + orderId+'&sKY='+sKY
 				})
 			},
 			g: function(id) {
@@ -265,45 +334,165 @@
 					url: '../../index/productDetails?id=' + id
 				})
 			},
-			zhifu: function() {
-				console.log(838382, '支付')
-				this.$https({
-					url: '/api/pay/unifiedOrder',
-					data: JSON.stringify({
-						orderNo: this.deList.orderSn,
-						payMethod: 1
-					}),
-					method: 'post',
-					haeder: true,
-					success: res => {
-						console.log(res)
-						var obj = {};
-						obj.appid = res.data.data.appId;
-						obj.partnerid = res.data.data.partnerId;
-						obj.prepayid = res.data.data.prepayId;
-						obj.package = res.data.data.packageValue;
-						obj.noncestr = res.data.data.nonceStr;
-						obj.timestamp = res.data.data.timeStamp;
-						obj.sign = res.data.data.sign;
-						uni.requestPayment({
-							provider: 'wxpay',
-							orderInfo: obj,
-							success: res => {
-								console.log(res)
-								this.t = false
-							},
-							fail(fait) {
-								console.log(fait)
+			zhiCam() {
+				var _this = this
+				var payMeth = this.index == 0 ? (this.deList.orderType == 0 ? 1 : 3) : (this.deList.orderType == 0 ? 4 : 5)
+				// if (payMeth == )
+				console.log(payMeth,this.index)
+				if (payMeth == 1 || payMeth == 3) {
+					_this.$https({
+						url: '/api/pay/unifiedOrder',
+						data: JSON.stringify({
+							orderNo: this.deList.orderSn,
+							payMethod: payMeth
+						}),
+						method: 'post',
+						dengl: false,
+						haeder: true,
+						success: function(res) {
+							_this.zfCom()
+							if (res.data.code == 0) {
+								var obj = {}
+								obj.appid = res.data.data.appId
+								obj.partnerid = res.data.data.partnerId
+								obj.prepayid = res.data.data.prepayId
+								obj.package = res.data.data.packageValue
+								obj.noncestr = res.data.data.nonceStr
+								obj.timestamp = res.data.data.timeStamp
+								obj.sign = res.data.data.sign
+								console.log(res.data)
+								uni.requestPayment({
+									provider: 'wxpay',
+									orderInfo: obj,
+									success: function(res) {
+										_this.t = false
+									},
+									fail: function(res) {}
+								})
+							} else {
+								uni.showToast({
+									title: '支付失败',
+									icon: 'none',
+									duration: 2000
+								})
 							}
-						})
-					}
-				})
-			}
+
+						}
+					})
+
+				} else if (payMeth == 4 || payMeth == 5) {
+					_this.$https({
+						url: '/api/pay/ali/pay-unified-order',
+						data: JSON.stringify({
+							orderNo: this.deList.orderSn,
+							payMethod: payMeth
+						}),
+						haeder: true,
+						method: 'post',
+						success: res => {
+							_this.zfCom()
+							if (res.data.code == 0) {
+								uni.requestPayment({
+									provider: 'alipay',
+									orderInfo: res.data.data.aliEncryptStr,
+									success: res => {
+										_this.t = false
+									},
+									fail: function(err) {}
+								})
+							} else {
+								uni.showToast({
+									title: '支付失败',
+									icon: 'none',
+									duration: 2000
+								})
+							}
+						}
+					})
+				}
+			},
+
+			// 	zhiCam: function() {
+			// 		this.$https({
+			// 			url: '/api/pay/unifiedOrder',
+			// 			data: JSON.stringify({
+			// 				orderNo: this.deList.orderSn,
+			// 				payMethod: 1
+			// 			}),
+			// 			method: 'post',
+			// 			haeder: true,
+			// 			success: res => {
+			// 				console.log(res)
+			// 				var obj = {};
+			// 				obj.appid = res.data.data.appId;
+			// 				obj.partnerid = res.data.data.partnerId;
+			// 				obj.prepayid = res.data.data.prepayId;
+			// 				obj.package = res.data.data.packageValue;
+			// 				obj.noncestr = res.data.data.nonceStr;
+			// 				obj.timestamp = res.data.data.timeStamp;
+			// 				obj.sign = res.data.data.sign;
+			// 				uni.requestPayment({
+			// 					provider: 'wxpay',
+			// 					orderInfo: obj,
+			// 					success: res => {
+			// 						console.log(res)
+			// 						this.t = false
+			// 					},
+			// 					fail(fait) {
+			// 						console.log(fait)
+			// 					}
+			// 				})
+			// 			}
+			// 		})
+			// 	}
 		},
 	}
 </script>
 
 <style lang="scss">
+	.mask-type {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.3);
+		z-index: 99999;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+
+		.mask-cont {
+			height: 500rpx;
+			background: #fff;
+			position: fixed;
+			width: 100%;
+			bottom: 0;
+		}
+
+		.mask-bot {
+			height: 80rpx;
+			line-height: 80rpx;
+			background-color: #ddd;
+			overflow: hidden;
+			padding: 0 30rpx;
+
+			>view {
+				float: left;
+			}
+		}
+
+		.mask-bot :last-child {
+			float: right;
+			color: #2b5cff;
+		}
+
+		.picker-view {
+			height: 400rpx;
+			width: 100%;
+			text-align: center;
+		}
+	}
+
 	.tis {
 		background-color: #f9e1c1;
 		text-align: center;
@@ -473,6 +662,12 @@
 					font-size: 30upx;
 					line-height: 30upx;
 					color: #333;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
 				}
 			}
 
@@ -480,6 +675,16 @@
 				font-size: 26upx;
 				line-height: 40upx;
 				color: #666;
+
+				text {
+
+					word-break: break-all;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
+				}
 			}
 
 			.radColor {
@@ -724,22 +929,33 @@
 		.collimg {
 			padding-top: 30upx;
 			float: left;
+			width: 44rpx;
 
 			image {
 				width: 44upx;
 				height: 41upx;
+				display: block;
 			}
 		}
 
 		.colltext {
 			float: left;
 			padding-left: 20upx;
+			padding-right: 20rpx;
+			width: calc(100% - 60rpx);
+			box-sizing: border-box;
 
 			.collh2 {
 				text {
 					font-size: 30upx;
 					line-height: 40upx;
 					color: #333;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
 				}
 			}
 

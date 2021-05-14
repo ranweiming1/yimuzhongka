@@ -94,7 +94,8 @@
 			</view>
 			<view class="zhMask" v-if='paixu' @tap='guanbi'>
 				<view class="mask-content">
-					<view class="mask-cont-item" @tap.stop='x("COMPE",1)'>综合<view class="cont-item-icon" v-if='st=="COMPE"'>
+					<view class="mask-cont-item" @tap.stop='x("COMPE",1)'>综合<view class="cont-item-icon"
+							v-if='st=="COMPE"'>
 							<image src="../../static/price_xuanze_icon.png" mode=""></image>
 						</view>
 					</view>
@@ -124,8 +125,7 @@
 						<image :src="item.goodsLogo" mode="widthFix"></image>
 					</view>
 					<view class="content-item-text">
-						<view class="title_top">
-
+						<view class="title_top">	
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
 							<text class="titleText">{{item.goodsName}}</text>
 						</view>
@@ -183,10 +183,10 @@
 				carId: '',
 				catId: '',
 				isFilter: false,
-				priceRank:'PASC',
-				salePank:'SDESC',
-				pankInd:''
-				
+				priceRank: 'PASC',
+				salePank: 'SDESC',
+				pankInd: ''
+
 			}
 		},
 		onLoad(option) {
@@ -258,14 +258,14 @@
 					goodsType: this.goodsType,
 					carId: this.carId,
 					shop_id: _this.shopsId,
-					sortType:this.pankInd==1?'':this.st,
+					sortType: this.pankInd == 1 ? '' : this.st,
 					catId: this.catId,
 					page: this.page + 1,
 					limit: 10
 				})
 				this.getMoreNewsTwo(data)
 			} else {
-				 if (this.shopsId && this.catId) {
+				if (this.shopsId && this.catId) {
 					var data = {
 						page: this.page + 1,
 						limit: 10,
@@ -436,7 +436,7 @@
 			shaiX() {
 				var _this = this
 				this.page = 1
-				this.isFilter=true
+				this.isFilter = true
 				this.$https({
 					url: '/api/oauth/shop/mall-goods-serchList',
 					dengl: true,
@@ -447,7 +447,7 @@
 						minPrice: this.min,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.pankInd==1?'':this.st,
+						sortType: this.pankInd == 1 ? '' : this.st,
 						page: this.page,
 						keyWords: this.value,
 						shop_id: _this.shopsId,
@@ -482,7 +482,7 @@
 						keyWords: this.value,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType: this.pankInd==1?'':this.st,
+						sortType: this.pankInd == 1 ? '' : this.st,
 						catId: this.catId,
 						page: this.page,
 						shop_id: _this.shopsId,
@@ -515,16 +515,16 @@
 			guanbi: function() {
 				this.paixu = false
 			},
-			x: function(st,ind) {
+			x: function(st, ind) {
 				this.st = st
 				this.page = 1
-				this.pankInd=ind
-				this.isFilter=true
+				this.pankInd = ind
+				this.isFilter = true
 				var _this = this
-				if(ind==2){
-					_this.salePank=st=='SASC'?'SDESC':'SASC'
-				}else if(ind==3){
-					_this.priceRank=st=='PASC'?'PDESC':'PASC'
+				if (ind == 2) {
+					_this.salePank = st == 'SASC' ? 'SDESC' : 'SASC'
+				} else if (ind == 3) {
+					_this.priceRank = st == 'PASC' ? 'PDESC' : 'PASC'
 				}
 				// console.log(st,ind,this.st)
 				this.$https({
@@ -538,7 +538,7 @@
 						minPrice: this.min,
 						goodsType: this.goodsType,
 						carId: this.carId,
-						sortType:ind==1?'': st,
+						sortType: ind == 1 ? '' : st,
 						catId: this.catId,
 						keyWords: this.value,
 						page: this.page,
@@ -1042,6 +1042,8 @@
 		}
 	}
 
+
+
 	.togActive {
 		.top {
 			width: 100%;
@@ -1114,94 +1116,199 @@
 				}
 			}
 
-			.content-item-text {
-				padding: 10rpx 20rpx;
-				width: 100%;
-				float: left;
-				height: calc(100% - 320rpx);
-				box-sizing: border-box;
-				position: relative;
+		// 	.content-item-text {
+		// 		padding: 10rpx 20rpx;
+		// 		width: 100%;
+		// 		float: left;
+		// 		height: calc(100% - 320rpx);
+		// 		box-sizing: border-box;
+		// 		position: relative;
 
-				.item-coupon {
-					margin-top: 10rpx;
-					// height: 30rpx;
-					line-height: 30rpx;
+		// 		.item-coupon {
+		// 			margin-top: 10rpx;
+		// 			// height: 30rpx;
+		// 			line-height: 30rpx;
 
-					.coupon-item {
-						margin-right: 15rpx;
-						display: inline-block;
+		// 			.coupon-item {
+		// 				margin-right: 15rpx;
+		// 				display: inline-block;
 
-						text {
-							border: 1px dotted #ff6600;
-							background-color: #fff;
-							font-size: 18upx;
-							line-height: 30upx;
-							padding: 0 8rpx;
-							color: #ff6600;
-							display: block;
-						}
-					}
+		// 				text {
+		// 					border: 1px dotted #ff6600;
+		// 					background-color: #fff;
+		// 					font-size: 18upx;
+		// 					line-height: 30upx;
+		// 					padding: 0 8rpx;
+		// 					color: #ff6600;
+		// 					display: block;
+		// 				}
+		// 			}
 
-					.coupon-item:last-child {
-						margin-right: 0;
-					}
-				}
+		// 			.coupon-item:last-child {
+		// 				margin-right: 0;
+		// 			}
+		// 		}
 
 
-				.titleText {
-					overflow: hidden;
-					text-overflow: ellipsis;
-					display: -webkit-box;
-					-webkit-line-clamp: 2;
-					-webkit-box-orient: vertical;
-					font-size: 26rpx;
+		// 		.titleText {
+		// 			font-size: 26rpx;
+		// 		}
+
+		// 		.span_a {
+		// 			background-color: #ff6600;
+		// 			color: #fff;
+		// 			border-radius: 5upx;
+		// 			padding: 5rpx 10rpx;
+		// 			font-size: 18upx;
+		// 			margin-right: 10upx;
+		// 			box-sizing: border-box;
+		// 			line-height: 25rpx;
+		// 			box-sizing: border-box;
+		// 			display: inline-block;
+		// 			vertical-align: middle;
+		// 		}
+
+		// 		.title_top {
+		// 			overflow: hidden;
+		// 			text-overflow: ellipsis;
+		// 			display: -webkit-box;
+		// 			-webkit-line-clamp: 2;
+		// 			-webkit-box-orient: vertical;
+		// 			// display: inline-block;
+		// 			vertical-align: middle;
+		// 		}
+
+
+
+		// 		.item-price {
+		// 			// padding-top: 10upx;
+		// 			position: absolute;
+		// 			width: calc(100% - 40rpx);
+		// 			// line-height: 40rpx;
+		// 			bottom: 15rpx;
+		// 			left: 20rpx;
+		// 			right: 20rpx;
+		// 			line-height: 50rpx;
+
+		// 			.price-text {
+		// 				color: #ff6600;
+		// 				font-size: 26upx;
+		// 				font-weight: bold;
+		// 			}
+
+		// 			.shop-sales {
+		// 				color: #999999;
+		// 				font-size: 22upx;
+		// 				float: right;
+
+		// 			}
+		// 		}
+
+		// 	}
+		
+		
+		
+		
+		
+		.content-item-text {
+			padding: 10rpx 20rpx;
+			width: 100%;
+			float: left;
+			height: calc(100% - 320rpx);
+			box-sizing: border-box;
+			position: relative;
+		
+			.item-coupon {
+				margin-top: 10rpx;
+				// height: 30rpx;
+				line-height: 30rpx;
+		
+				.coupon-item {
+					margin-right: 10rpx;
 					display: inline-block;
-					vertical-align: middle;
-				}
-
-				.span_a {
-					background-color: #ff6600;
-					color: #fff;
-					border-radius: 5upx;
-					padding: 5rpx 10rpx;
-					font-size: 18upx;
-					margin-right: 10upx;
-					box-sizing: border-box;
-					line-height: 25rpx;
-					box-sizing: border-box;
-					display: inline-block;
-					vertical-align: middle;
-				}
-
-
-
-				.item-price {
-					// padding-top: 10upx;
-					position: absolute;
-					width: calc(100% - 40rpx);
-					// line-height: 40rpx;
-					bottom: 15rpx;
-					left: 20rpx;
-					right: 20rpx;
-					line-height: 50rpx;
-
-					.price-text {
+		
+					text {
+						border: 1px dotted #ff6600;
+						background-color: #fff;
+						font-size: 18upx;
+						line-height: 30upx;
+						padding: 0 8rpx;
 						color: #ff6600;
-						font-size: 26upx;
-						font-weight: bold;
-					}
-
-					.shop-sales {
-						color: #999999;
-						font-size: 22upx;
-						float: right;
-
+						display: block;
 					}
 				}
-
+		
+				.coupon-item:last-child {
+					margin-right: 0;
+				}
 			}
+		
+		
+			.titleText {
+				// overflow: hidden;
+				// text-overflow: ellipsis;
+				// display: -webkit-box;
+				// -webkit-line-clamp: 2;
+				// -webkit-box-orient: vertical;
+				font-size: 26rpx;
+				// display: inline-block;
+				// vertical-align: middle;
+			}
+		
+			.title_top {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				font-size: 26rpx;
+			}
+		
+			.span_a {
+				background-color: #ff6600;
+				color: #fff;
+				border-radius: 5upx;
+				padding: 5rpx 10rpx;
+				font-size: 18upx;
+				margin-right: 10upx;
+				box-sizing: border-box;
+				line-height: 25rpx;
+				box-sizing: border-box;
+				display: inline-block;
+				vertical-align: middle;
+			}
+		
+		
+		
+			.item-price {
+				// padding-top: 10upx;
+				position: absolute;
+				width: calc(100% - 40rpx);
+				// line-height: 40rpx;
+				bottom: 10rpx;
+				left: 20rpx;
+				right: 20rpx;
+				line-height: 50rpx;
+		
+				.price-text {
+					color: #ff6600;
+					font-size: 26upx;
+					font-weight: bold;
+				}
+		
+				.shop-sales {
+					color: #999999;
+					font-size: 22upx;
+					float: right;
+		
+				}
+			}
+		
+		}
+		
 		}
 
+		
 		.content-item:nth-child(even) {
 			float: right;
 		}
