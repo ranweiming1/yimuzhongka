@@ -39,7 +39,7 @@
 		</view>
 
 		<!-- 商品列表 -->
-		<view class="listBox" style="margin-bottom: 800rpx;">
+		<view class="listBox">
 			<view class="block" v-for="(item , index) in jifList" @tap="shopDetail(item.goodsId)">
 				<view class="imgBox">
 					<image :src="item.goodsLogo" mode=""></image>
@@ -75,11 +75,10 @@
 		props: ['num'],
 		onShow() {
 			var _this = this
-			this.page=1
+			this.page = 1
 			uni.pageScrollTo({
 				scrollTop: 0,
 			});
-			this.page=1
 			var data = {
 				jfAsc: '',
 				jfDesc: '',
@@ -102,7 +101,68 @@
 		},
 		onPullDownRefresh() {
 			//下拉的生命周期
-			this.getNews()
+			this.page = 1
+			var _this = this
+			var i = this.i
+			uni.pageScrollTo({
+				scrollTop: 0,
+			});
+			if (i == 1) {
+				var data = {
+					jfAsc: '',
+					jfDesc: '',
+					priceAsc: '',
+					priceDesc: '',
+					page: this.page,
+					page_num: 10
+				}
+				_this.getNews(JSON.stringify(data))
+
+			} else if (i == 2) {
+				if (this.isXu) {
+					var data = {
+						jfAsc: '1',
+						jfDesc: '',
+						priceAsc: '',
+						priceDesc: '',
+						page: this.page,
+						page_num: 10
+					}
+					_this.getNews(JSON.stringify(data))
+				} else {
+					var data = {
+						jfAsc: '',
+						jfDesc: '1',
+						priceAsc: '',
+						priceDesc: '',
+						page: this.page,
+						page_num: 10
+					}
+					_this.getNews(JSON.stringify(data))
+				}
+			} else if (i == 3) {
+				if (this.isXu) {
+					var data = {
+						jfAsc: '',
+						jfDesc: '',
+						priceAsc: '1',
+						priceDesc: '',
+						page: this.page,
+						page_num: 10
+					}
+					_this.getNews(JSON.stringify(data))
+				} else {
+					var data = {
+						jfAsc: '',
+						jfDesc: '',
+						priceAsc: '',
+						priceDesc: '1',
+						page: this.page,
+						page_num: 10
+					}
+					_this.getNews(JSON.stringify(data))
+				}
+			}
 		},
 		onReachBottom() {
 			console.log(this.i, 888)

@@ -82,7 +82,7 @@
 				<text @tap='shangpinxin'>分享赚</text>
 			</view>
 			<view class="h2aBox">
-				<text class="span_a"  v-if="list.selfStatus=='Y'">自营</text>
+				<text class="span_a" v-if="list.selfStatus=='Y'">自营</text>
 				<text class="titleText">{{list.goodsName?list.goodsName:''}}</text>
 			</view>
 			<!-- 		<view class="h2aBox">
@@ -404,7 +404,8 @@
 				keLink: '',
 				shareCode: '',
 				shareId: '',
-				storeSales:''
+				storeSales: '',
+				liulanState: ''
 
 			}
 		},
@@ -414,6 +415,9 @@
 		onLoad(option) {
 			this.deId = option.id
 			this.pdType = uni.getStorageSync('pdType')
+			if (option.liulanState) {
+				this.liulanState = option.liulanState
+			}
 			console.log(option)
 			var _this = this
 			uni.getSystemInfo({
@@ -432,7 +436,7 @@
 				},
 				dengl: !uni.getStorageSync('Authorization'),
 				success: function(res) {
-					_this.storeSales=res.data.data.storeSales
+					_this.storeSales = res.data.data.storeSales
 					if (res.data.data.detail.couponDTOS) {
 						res.data.data.detail.couponDTOS.map(function(val, i) {
 							val.type = false
@@ -446,7 +450,7 @@
 					if (_this.list.marketPrice) {
 						_this.list.marketPrice = _this.list.marketPrice.toFixed(2)
 					}
-					
+
 
 					//修改返回的数据中的参数
 					Object.keys(res.data.data.specs).forEach(function(key) {
@@ -508,30 +512,10 @@
 							data: {
 								goodsId: option.id
 							},
-							dengl:false,
+							dengl: false,
 							method: 'post',
 							success: function(res) {}
 						})
-						// 判断是否增加积分
-						if (option.liulanState) {
-							//增加积分
-							this.liulanTime = setTimeout(function() {
-								if (_this.cishu > _this.yihuodecishu) {
-									_this.$https({
-										url: '/api/task/center-task-insert',
-										data: {
-											taskId: 2,
-											taskType: 1
-										},
-										method: 'post',
-										success: res => {
-											_this.cishu++
-											// console.log('执行定时器')
-										}
-									})
-								}
-							}, 60000)
-						}
 
 					}
 
@@ -552,14 +536,14 @@
 				this.isShow = false
 			}
 		},
-		onUnload() {
-			clearTimeout(this.liulanTime)
-		},
+
 		methods: {
 			back() {
 				uni.navigateBack({
 					delta: 1
 				})
+				
+				
 			},
 			lingquYHQ(id, index, type) {
 				console.log(index)

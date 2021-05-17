@@ -265,7 +265,6 @@
 						_this.userList = res.data.data.userInfo
 						_this.date = res.data.data.signInDays
 						_this.qianDate = res.data.data.storeIntegralLogList
-						console.log(res.data.data)
 						res.data.data.storeIntegralLogList.map(z => {
 							if (z.integralType == 0) {
 								_this.n = z.integral
@@ -317,7 +316,6 @@
 						for (var i = 0; i < 7 - week; i++) {
 							arr.push(dateRiqi(dateTime + (i + 1) * 86400000))
 						}
-						console.log(_this.qianDate)
 						for (var i = 0; i < arr.length; i++) {
 							var nu = 0
 							for (var j = 0; j < _this.qianDate.length; j++) {
@@ -328,7 +326,6 @@
 							nu > 0 ? state.push(true) : state.push(false)
 						}
 						_this.state = state
-					console.log(state)
 					},
 				})
 				this.$https({
@@ -393,14 +390,11 @@
 				})
 			},
 			renWu: function(item, id) {
-				// console.log(id)
 				var _this = this
 				var state = item.postUrl
 				var isRen = item.taskStatus
 				var taskType = item.taskType
 				var taskId = item.taskId
-				console.log(isRen, item)
-				// console.log(taskId)
 				if (state == 2) {
 					if (_this.goodsViewed > 0) {
 						uni.navigateTo({

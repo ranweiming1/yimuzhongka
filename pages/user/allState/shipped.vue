@@ -80,13 +80,13 @@
 								<text>X{{ite.goodsNum}}</text>
 							</view>
 						</view>
-					<!-- 	<view class="coupon-pri" v-if="ite.commCouponPrice>0||item.couponPrice>0">
+						<!-- 	<view class="coupon-pri" v-if="ite.commCouponPrice>0||item.couponPrice>0">
 							<text>实付：￥{{ite.distPrice}}</text>
 						</view> -->
 					</view>
 					<view class="uni-padding-wrap uni-common-mt bott" v-if='s'
-						@tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId,ite.isSend,ite.specKey,ite.distPrice)"	>
-						
+						@tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId,ite.isSend,ite.specKey,ite.distPrice)">
+
 						<button
 							type="primary">{{deList.orderType==1?'联系客服':ite.isSend==1?'申请中':ite.isSend==2?'售后完成':'申请售后'}}</button>
 					</view>
@@ -211,9 +211,8 @@
 			<view class="rightA">
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott onna">
-						<button type="primary" @tap='wuliu' v-if='!t'>查看物流</button>
-						<button type='primary' @tap='zfCom'
-							v-if='t&&!(deList.payStatus==0 &&deList.orderStatus == 3&&deList.shippingStatus == 0 )'>去支付</button>
+						<button type="primary" @tap='wuliu' v-if='deList.status != 0&&deList.status !=7'>查看物流</button>
+						<button type='primary' @tap='zfCom' v-if='(deList.status ==0)&&(deList.payStatus==0 &&deList.shippingStatus == 0 )'>去支付</button>
 					</view>
 
 				</view>
@@ -256,7 +255,8 @@
 						v.specList.map(function(z, ind) {
 							cont = _this.$numAdd(cont, _this.$numAdd(z.commCouponPrice, z
 								.couponPrice))
-							z.distPrice =(_this.$numMul(z.goodsPrice,z.goodsNum)- _this.$numAdd(z.commCouponPrice, z.couponPrice)).toFixed(2)
+							z.distPrice = (_this.$numMul(z.goodsPrice, z.goodsNum) - _this
+								.$numAdd(z.commCouponPrice, z.couponPrice)).toFixed(2)
 						})
 					})
 					if (res.data.data.orderType == 1) {
@@ -293,7 +293,7 @@
 				}
 			})
 			if (option.zhuangtai == 0 || option.zhuangtai == 7) {
-				this.t = option.zhuangtai
+				this.t = true
 				this.s = false
 			}
 		},
@@ -315,7 +315,7 @@
 						JSON.stringify(this.deList.goodsList)
 				})
 			},
-			afterSole(oS, lG, gN, gP, sKN, Num, orderId, tuiTy, sKY,paidPri) {
+			afterSole(oS, lG, gN, gP, sKN, Num, orderId, tuiTy, sKY, paidPri) {
 				console.log(paidPri)
 				if (this.deList.orderType == 1) {
 					uni.navigateTo({
@@ -334,7 +334,7 @@
 				uni.navigateTo({
 					url: "./deliver_01?oS=" + oS + '&lG=' + lG + '&gN=' + gN + '&gP=' + gP + '&sKN=' + sKN +
 						'&time=' + this.deList.addTime +
-						'&num=' + Num + '&orderId=' + orderId + '&sKY=' + sKY+'&paidPri='+paidPri
+						'&num=' + Num + '&orderId=' + orderId + '&sKY=' + sKY + '&paidPri=' + paidPri
 				})
 			},
 			g: function(id) {

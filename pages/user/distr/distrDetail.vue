@@ -16,7 +16,7 @@
 			<!-- 增值状态 -->
 			<view class="jine">
 				<text
-					style='display:block;text-align:right;font-size:26rpx;'>{{item. xfType==1?'+'+item.integral:'-' +item.integral}}</text>
+					style='display:block;text-align:right;font-size:26rpx;'>{{item. xfType==2?'-'+item.integral:'+' +item.integral}}</text>
 				<text style='color:#666;font-size:24rpx;'>{{item.createTime}}</text>
 			</view>
 		</view>

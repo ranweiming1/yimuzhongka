@@ -28,10 +28,10 @@
 				<view class="guige">
 					<text>已购："<text>黄色</text>","<text>官方标配</text>"</text>
 				</view>
-				<view class="pCont"
-					:style="item.storeGoodsReplyList.length>0&&item.storeGoodsReplyList!=null?'':'border-bottom: none'">
+				<!-- :style="item.storeGoodsReplyList.length>0&&item.storeGoodsReplyList!=null?'':'border-bottom: none'" -->
+				<view class="pCont">
 					<text>{{item.content?item.content:''}}</text>
-					<view class="imgsBox" v-if="item.imgBox.length>0">
+					<view class="imgsBox">
 						<view class="img" v-for="(val,i) in item.imgBox">
 							<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="val" mode=""></image>
 						</view>
@@ -456,8 +456,8 @@
 			.pCont {
 				font-size: 26rpx;
 				line-height: 45rpx;
-				border-bottom: 1rpx solid #bfbfbf;
-				padding-bottom: 20rpx;
+				// border-bottom: 1rpx solid #bfbfbf;
+				// padding-bottom: 20rpx;
 
 				image {
 					display: block;
