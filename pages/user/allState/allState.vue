@@ -426,9 +426,10 @@
 				this.$https({
 					url: '/api/user/order-list',
 					data: {
-						status: _this.id,
+						status: this.isSearch ? 0 : this.id,
 						page: this.page,
 						limit: 10,
+						searchValue: this.searchVal
 					},
 					dengl: false,
 					success: function(res) {
@@ -450,7 +451,7 @@
 						_this.dList = res.data.data
 						console.log(res.data.data, _this.dList, 222)
 						// _this.gList=res.data.data
-						_this.toggle(_this.id)
+						// _this.toggle(_this.id)
 						if (res.data.code == 0) {
 							if (_this.as == 1)
 								uni.showToast({
@@ -558,6 +559,7 @@
 							uni.showToast({
 								title: '收货成功',
 							})
+							_this.getNewsList()
 						} else {
 							uni.showToast({
 								title: '操作失败',
@@ -566,7 +568,6 @@
 							})
 						}
 
-						_this.getNewsList()
 					}
 				})
 			},
@@ -591,10 +592,22 @@
 					method: 'post',
 					haeder: true,
 					success: res => {
-						if (res.data.data == 0) {
+						if (res.data.code == 0) {
 							uni.showToast({
 								title: res.data.message,
 							})
+							this.page = 1
+							var data = {
+								status: this.isSearch ? 0 : this.id,
+								page: this.page,
+								limit: 10,
+								searchValue: this.searchVal
+							}
+
+							this.getListInfo(data);
+							uni.pageScrollTo({
+								scrollTop: 0,
+							});
 
 						} else {
 							uni.showToast({
@@ -603,14 +616,7 @@
 							})
 
 						}
-						// var data = {
-						// 	status: this.id,
-						// 	page: this.page,
-						// 	limit: 10,
-						// 	searchValue: this.searchVal
-						// }
 
-						// this.getListInfo(data);
 					}
 				})
 			},

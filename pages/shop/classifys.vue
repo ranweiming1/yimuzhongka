@@ -225,7 +225,7 @@
 			},
 			search: function() {
 				uni.navigateTo({
-					url: '../search/search'
+					url: '../search/search?shopsId='+this.shopsId
 				})
 			},
 			back: function() {

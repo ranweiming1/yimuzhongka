@@ -54,7 +54,10 @@
 			<!-- 头部 -->
 			<!-- #ifndef H5 -->
 			<view class="top">
-				<view class="textBox">
+				<view class='back' v-if="!isOK" @tap='back'>
+					<image src='../../static/icon_26-2.png'></image>
+				</view>
+				<view class="textBox" :style="isOK?'margin-left:50rpx':'margin-left:10rpx'">
 					<input class="uni-input" @blur="search" :focus="isFocus" v-model="value" placeholder="请输入关键字" />
 				</view>
 				<view class="imgBox">
@@ -125,7 +128,7 @@
 						<image :src="item.goodsLogo" mode="widthFix"></image>
 					</view>
 					<view class="content-item-text">
-						<view class="title_top">	
+						<view class="title_top">
 							<text class="span_a" v-if="item.selfStatus=='Y'">自营</text>
 							<text class="titleText">{{item.goodsName}}</text>
 						</view>
@@ -302,6 +305,11 @@
 			buttom
 		},
 		methods: {
+			back(){
+				uni.navigateBack({
+					delta:1
+				})
+			},
 			// 初始化
 			getNews(url, data) {
 				this.page = 1
@@ -670,7 +678,7 @@
 
 		.textBox {
 			float: left;
-			margin-left: 50upx;
+			// margin-left: 50upx;
 			background-color: #f0f0f0;
 			border-radius: 50upx;
 
@@ -686,6 +694,18 @@
 				color: #999 !important;
 			}
 
+		}
+
+		.back {
+			float: left;
+			padding: 15rpx 36rpx;
+			width: 90rpx;
+			box-sizing: border-box;
+
+			image {
+				width: 18rpx;
+				height: 32rpx;
+			}
 		}
 
 		.imgBox {
@@ -1054,7 +1074,7 @@
 
 			.textBox {
 				float: left;
-				margin-left: 50upx;
+				// margin-left: 50upx;
 				background-color: #f0f0f0;
 				border-radius: 50upx;
 
@@ -1070,6 +1090,18 @@
 					color: #999 !important;
 				}
 
+			}
+
+			.back {
+				float: left;
+				padding: 15rpx 36rpx;
+				width: 90rpx;
+				box-sizing: border-box;
+
+				image {
+					width: 18rpx;
+					height: 32rpx;
+				}
 			}
 
 			.imgBox {
@@ -1118,199 +1150,199 @@
 				}
 			}
 
-		// 	.content-item-text {
-		// 		padding: 10rpx 20rpx;
-		// 		width: 100%;
-		// 		float: left;
-		// 		height: calc(100% - 320rpx);
-		// 		box-sizing: border-box;
-		// 		position: relative;
+			// 	.content-item-text {
+			// 		padding: 10rpx 20rpx;
+			// 		width: 100%;
+			// 		float: left;
+			// 		height: calc(100% - 320rpx);
+			// 		box-sizing: border-box;
+			// 		position: relative;
 
-		// 		.item-coupon {
-		// 			margin-top: 10rpx;
-		// 			// height: 30rpx;
-		// 			line-height: 30rpx;
+			// 		.item-coupon {
+			// 			margin-top: 10rpx;
+			// 			// height: 30rpx;
+			// 			line-height: 30rpx;
 
-		// 			.coupon-item {
-		// 				margin-right: 15rpx;
-		// 				display: inline-block;
+			// 			.coupon-item {
+			// 				margin-right: 15rpx;
+			// 				display: inline-block;
 
-		// 				text {
-		// 					border: 1px dotted #ff6600;
-		// 					background-color: #fff;
-		// 					font-size: 18upx;
-		// 					line-height: 30upx;
-		// 					padding: 0 8rpx;
-		// 					color: #ff6600;
-		// 					display: block;
-		// 				}
-		// 			}
+			// 				text {
+			// 					border: 1px dotted #ff6600;
+			// 					background-color: #fff;
+			// 					font-size: 18upx;
+			// 					line-height: 30upx;
+			// 					padding: 0 8rpx;
+			// 					color: #ff6600;
+			// 					display: block;
+			// 				}
+			// 			}
 
-		// 			.coupon-item:last-child {
-		// 				margin-right: 0;
-		// 			}
-		// 		}
-
-
-		// 		.titleText {
-		// 			font-size: 26rpx;
-		// 		}
-
-		// 		.span_a {
-		// 			background-color: #ff6600;
-		// 			color: #fff;
-		// 			border-radius: 5upx;
-		// 			padding: 5rpx 10rpx;
-		// 			font-size: 18upx;
-		// 			margin-right: 10upx;
-		// 			box-sizing: border-box;
-		// 			line-height: 25rpx;
-		// 			box-sizing: border-box;
-		// 			display: inline-block;
-		// 			vertical-align: middle;
-		// 		}
-
-		// 		.title_top {
-		// 			overflow: hidden;
-		// 			text-overflow: ellipsis;
-		// 			display: -webkit-box;
-		// 			-webkit-line-clamp: 2;
-		// 			-webkit-box-orient: vertical;
-		// 			// display: inline-block;
-		// 			vertical-align: middle;
-		// 		}
+			// 			.coupon-item:last-child {
+			// 				margin-right: 0;
+			// 			}
+			// 		}
 
 
+			// 		.titleText {
+			// 			font-size: 26rpx;
+			// 		}
 
-		// 		.item-price {
-		// 			// padding-top: 10upx;
-		// 			position: absolute;
-		// 			width: calc(100% - 40rpx);
-		// 			// line-height: 40rpx;
-		// 			bottom: 15rpx;
-		// 			left: 20rpx;
-		// 			right: 20rpx;
-		// 			line-height: 50rpx;
+			// 		.span_a {
+			// 			background-color: #ff6600;
+			// 			color: #fff;
+			// 			border-radius: 5upx;
+			// 			padding: 5rpx 10rpx;
+			// 			font-size: 18upx;
+			// 			margin-right: 10upx;
+			// 			box-sizing: border-box;
+			// 			line-height: 25rpx;
+			// 			box-sizing: border-box;
+			// 			display: inline-block;
+			// 			vertical-align: middle;
+			// 		}
 
-		// 			.price-text {
-		// 				color: #ff6600;
-		// 				font-size: 26upx;
-		// 				font-weight: bold;
-		// 			}
+			// 		.title_top {
+			// 			overflow: hidden;
+			// 			text-overflow: ellipsis;
+			// 			display: -webkit-box;
+			// 			-webkit-line-clamp: 2;
+			// 			-webkit-box-orient: vertical;
+			// 			// display: inline-block;
+			// 			vertical-align: middle;
+			// 		}
 
-		// 			.shop-sales {
-		// 				color: #999999;
-		// 				font-size: 22upx;
-		// 				float: right;
 
-		// 			}
-		// 		}
 
-		// 	}
-		
-		
-		
-		
-		
-		.content-item-text {
-			padding: 10rpx 20rpx;
-			width: 100%;
-			float: left;
-			height: calc(100% - 320rpx);
-			box-sizing: border-box;
-			position: relative;
-		
-			.item-coupon {
-				margin-top: 10rpx;
-				// height: 30rpx;
-				line-height: 30rpx;
-		
-				.coupon-item {
-					margin-right: 10rpx;
-					display: inline-block;
-		
-					text {
-						border: 1px dotted #ff6600;
-						background-color: #fff;
-						font-size: 18upx;
-						line-height: 30upx;
-						padding: 0 8rpx;
-						color: #ff6600;
-						display: block;
+			// 		.item-price {
+			// 			// padding-top: 10upx;
+			// 			position: absolute;
+			// 			width: calc(100% - 40rpx);
+			// 			// line-height: 40rpx;
+			// 			bottom: 15rpx;
+			// 			left: 20rpx;
+			// 			right: 20rpx;
+			// 			line-height: 50rpx;
+
+			// 			.price-text {
+			// 				color: #ff6600;
+			// 				font-size: 26upx;
+			// 				font-weight: bold;
+			// 			}
+
+			// 			.shop-sales {
+			// 				color: #999999;
+			// 				font-size: 22upx;
+			// 				float: right;
+
+			// 			}
+			// 		}
+
+			// 	}
+
+
+
+
+
+			.content-item-text {
+				padding: 10rpx 20rpx;
+				width: 100%;
+				float: left;
+				height: calc(100% - 320rpx);
+				box-sizing: border-box;
+				position: relative;
+
+				.item-coupon {
+					margin-top: 10rpx;
+					// height: 30rpx;
+					line-height: 30rpx;
+
+					.coupon-item {
+						margin-right: 10rpx;
+						display: inline-block;
+
+						text {
+							border: 1px dotted #ff6600;
+							background-color: #fff;
+							font-size: 18upx;
+							line-height: 30upx;
+							padding: 0 8rpx;
+							color: #ff6600;
+							display: block;
+						}
+					}
+
+					.coupon-item:last-child {
+						margin-right: 0;
 					}
 				}
-		
-				.coupon-item:last-child {
-					margin-right: 0;
+
+
+				.titleText {
+					// overflow: hidden;
+					// text-overflow: ellipsis;
+					// display: -webkit-box;
+					// -webkit-line-clamp: 2;
+					// -webkit-box-orient: vertical;
+					font-size: 26rpx;
+					// display: inline-block;
+					// vertical-align: middle;
 				}
-			}
-		
-		
-			.titleText {
-				// overflow: hidden;
-				// text-overflow: ellipsis;
-				// display: -webkit-box;
-				// -webkit-line-clamp: 2;
-				// -webkit-box-orient: vertical;
-				font-size: 26rpx;
-				// display: inline-block;
-				// vertical-align: middle;
-			}
-		
-			.title_top {
-				overflow: hidden;
-				text-overflow: ellipsis;
-				display: -webkit-box;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
-				font-size: 26rpx;
-			}
-		
-			.span_a {
-				background-color: #ff6600;
-				color: #fff;
-				border-radius: 5upx;
-				padding: 5rpx 10rpx;
-				font-size: 18upx;
-				margin-right: 10upx;
-				box-sizing: border-box;
-				line-height: 25rpx;
-				box-sizing: border-box;
-				display: inline-block;
-				vertical-align: middle;
-			}
-		
-		
-		
-			.item-price {
-				// padding-top: 10upx;
-				position: absolute;
-				width: calc(100% - 40rpx);
-				// line-height: 40rpx;
-				bottom: 10rpx;
-				left: 20rpx;
-				right: 20rpx;
-				line-height: 50rpx;
-		
-				.price-text {
-					color: #ff6600;
-					font-size: 26upx;
-					font-weight: bold;
+
+				.title_top {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					font-size: 26rpx;
 				}
-		
-				.shop-sales {
-					color: #999999;
-					font-size: 22upx;
-					float: right;
-		
+
+				.span_a {
+					background-color: #ff6600;
+					color: #fff;
+					border-radius: 5upx;
+					padding: 5rpx 10rpx;
+					font-size: 18upx;
+					margin-right: 10upx;
+					box-sizing: border-box;
+					line-height: 25rpx;
+					box-sizing: border-box;
+					display: inline-block;
+					vertical-align: middle;
 				}
+
+
+
+				.item-price {
+					// padding-top: 10upx;
+					position: absolute;
+					width: calc(100% - 40rpx);
+					// line-height: 40rpx;
+					bottom: 10rpx;
+					left: 20rpx;
+					right: 20rpx;
+					line-height: 50rpx;
+
+					.price-text {
+						color: #ff6600;
+						font-size: 26upx;
+						font-weight: bold;
+					}
+
+					.shop-sales {
+						color: #999999;
+						font-size: 22upx;
+						float: right;
+
+					}
+				}
+
 			}
-		
-		}
-		
+
 		}
 
-		
+
 		.content-item:nth-child(even) {
 			float: right;
 		}

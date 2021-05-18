@@ -197,7 +197,7 @@
 
 				</view>
 				<view class="ul" v-for="(item,index) in taskList"
-					v-if='(item.taskName!="商品追评")?(item.taskName=="邀请新用户"?pyType:true):false'>
+					v-if='(item.taskName!="商品追评")?(item.taskName=="邀请新用户"?pdType:true):false'>
 					<view class="icon_img">
 						<image src="../../../static/rw_icon6.png" mode=""></image>
 					</view>

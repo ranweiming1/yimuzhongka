@@ -113,6 +113,7 @@
 					},
 					dengl: false,
 					success: function(res) {
+						// console.log(res.data.data)
 						if (res.data.data) {
 							res.data.data.map(function(item) {
 									item.isInert = Number.isInteger(item.starId / 20)
@@ -120,12 +121,7 @@
 							})
 						}
 						_this.shopList = res.data.data
-						// console.log(_this.shopList, res.data.data.starId, 0 / 20)
 						if (res.data.data.length < 10) {
-							// uni.showToast({
-							// 	title: '已是最新',
-							// 	duration: 2000
-							// });
 							_this.loadingType = 2
 						}
 						uni.hideNavigationBarLoading(); //关闭加载动画

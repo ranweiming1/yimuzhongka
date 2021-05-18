@@ -59,7 +59,9 @@
 			}
 		},
 		onLoad(option) {
-			this.shopsId = option.shopsId
+			if (option.shopsId) {
+				this.shopsId = option.shopsId
+			}
 			if (uni.getStorageSync('searchAll_key')) {
 				this.searchAll = uni.getStorageSync('searchAll_key')
 			}
@@ -77,25 +79,33 @@
 		},
 		methods: {
 			searchFun(val) {
-				if (!val) {
 					var _this = this
+				if (!val) {
 					this.searchAll.unshift(this.changeVal)
 					uni.setStorageSync('searchAll_key', _this.searchAll)
-					// if (_this.shopsId) {
-					// 	uni.navigateTo({
-					// 		url: '../shop/all?shopsId=' + _this.shopsId + '&keywords=' + _this.changeVal
-					// 	})
-					// }
-					uni.navigateTo({
-						url: '../classify/fenlOne?keywords=' + _this.changeVal
-					})
+					if (_this.shopsId) {
+						uni.navigateTo({
+							url: '../shop/all?shopsId=' + _this.shopsId + '&keywords=' + _this.changeVal
+						})
+					} else {
+						uni.navigateTo({
+							url: '../classify/fenlOne?keywords=' + _this.changeVal
+						})
+
+					}
 					console.log('searchAll_key')
 					this.changeVal = ''
 
 				} else if (val) {
-					uni.navigateTo({
-						url: '../classify/fenlOne?keywords=' + val
-					})
+					if (_this.shopsId) {
+						uni.navigateTo({
+							url: '../shop/all?shopsId=' + _this.shopsId + '&keywords=' + val
+						})
+					} else {
+						uni.navigateTo({
+							url: '../classify/fenlOne?keywords=' + val
+						})
+					}
 				}
 
 			},
@@ -116,10 +126,11 @@
 </script>
 
 <style lang="scss">
-	.toubu1{
+	.toubu1 {
 		padding-top: 80rpx;
-		margin-top: 0!important;
+		margin-top: 0 !important;
 	}
+
 	.top {
 		width: 100%;
 		padding-right: 20rpx;

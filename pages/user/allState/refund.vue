@@ -31,13 +31,13 @@
 				</view>
 
 				<view class="p" v-if="baseCont.storeAddr">
-					<text>收货地址：{{baseCont.storeAddr}}</text>
+					<text selectable="true">收货地址：{{baseCont.storeAddr}}</text>
 				</view>
 				<view class="nome">
-					<text>收件人：{{baseCont.storeName}}</text>
+					<text selectable="true">收件人：{{baseCont.storeName}}</text>
 				</view>
 				<view class="call">
-					<text>手机号：{{baseCont.storePhone}}</text>
+					<text selectable="true">手机号：{{baseCont.storePhone}}</text>
 				</view>
 			</view>
 
