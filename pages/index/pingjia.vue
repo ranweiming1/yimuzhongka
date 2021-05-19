@@ -26,7 +26,7 @@
 					</view>
 				</view>
 				<view class="guige">
-					<text>已购："<text>黄色</text>","<text>官方标配</text>"</text>
+					<text>已购："<text>{{item.specKey}}</text>"</text>
 				</view>
 				<!-- :style="item.storeGoodsReplyList.length>0&&item.storeGoodsReplyList!=null?'':'border-bottom: none'" -->
 				<view class="pCont">

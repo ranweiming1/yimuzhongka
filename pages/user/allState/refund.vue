@@ -269,6 +269,7 @@
 		margin-bottom: 20rpx;
 		height: 90rpx;
 		line-height: 90rpx;
+		box-sizing: border-box;
 		border-top: 1px solid #e5e5e5;
 
 		text {

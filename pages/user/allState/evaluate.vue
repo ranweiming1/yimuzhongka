@@ -230,20 +230,22 @@
 						} else if (3 > imgbox.length) {
 							imgbox = imgbox.concat(tempFilePaths)
 						} else {
-							// console.log(9999887867687687)
 							imgbox[picid] = tempFilePaths[0];
 						}
 						imgbox.map(function(val, i) {
-							uni.uploadFile({
-								url: _this.webUrl + '/oauth/oss/upload',
-								filePath: val,
-								name: 'img',
-								success: res => {
-									var path = JSON.parse(res.data).data.url
-									_this.$set(_this.dList.goodsList[index].specList[
-										indexs].img, i, path)
-								}
-							})
+							if (val.indexOf('http://ymzk-shop') == -1) {
+								uni.uploadFile({
+									url: _this.webUrl + '/oauth/oss/upload',
+									filePath: val,
+									name: 'img',
+									success: res => {
+										var path = JSON.parse(res.data).data.url
+										_this.$set(_this.dList.goodsList[index].specList[
+											indexs].img, i, path)
+									}
+								})
+							}
+
 						})
 					}
 				})
@@ -343,7 +345,7 @@
 							}
 							setTimeout(function() {
 								uni.navigateBack({
-									delta:1
+									delta: 1
 								})
 								// uni.redirectTo({
 								// 	url: 'allState?id=4'

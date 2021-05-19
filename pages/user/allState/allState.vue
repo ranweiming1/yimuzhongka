@@ -264,25 +264,15 @@
 		onLoad(option) {
 			var _this = this
 			this.id = option.id
-			// this.$https({
-			// 	url: '/api/user/order-list',
-			// 	data: {
-			// 		status: option.id
-			// 	},
-			// 	dengl: false,
-			// 	success: function(res) {
-			// 		_this.dList = res.data.data
-			// 		// _this.gList=res.data.data
-			// 		console.log(res.data.data)
-			// 		_this.toggle(option.id)
-			// 	}
-			// })
+		
 			// // 上拉加载
 			console.log(option)
 			if (option.taskId) {
 				this.qiandao.taskId = option.taskId
 				this.qiandao.isRen = option.isRen
 				this.qiandao.taskType = option.taskType
+			}else{
+				this.qiandao=''
 			}
 			console.log(this.qiandao)
 			var data = {
@@ -449,8 +439,6 @@
 							})
 						}
 						_this.dList = res.data.data
-						console.log(res.data.data, _this.dList, 222)
-						// _this.gList=res.data.data
 						// _this.toggle(_this.id)
 						if (res.data.code == 0) {
 							if (_this.as == 1)
@@ -629,18 +617,7 @@
 			},
 			toggle(index) {
 				var _this = this
-				console.log(index)
 				this.id = index
-				// this.$https({
-				// 	url: '/api/user/order-list',
-				// 	data: {
-				// 		status: index
-				// 	},
-				// 	dengl: false,
-				// 	success: function(res) {
-				// 		_this.dList = res.data.data
-				// 	}
-				// })
 				this.page = 1
 				var data = {
 					status: this.id,

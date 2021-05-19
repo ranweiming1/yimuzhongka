@@ -84,8 +84,7 @@
 							<text>实付：￥{{ite.distPrice}}</text>
 						</view> -->
 					</view>
-					<view class="uni-padding-wrap uni-common-mt bott" v-if='s'
-						@tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId,ite.isSend,ite.specKey,ite.distPrice)">
+					<view class="uni-padding-wrap uni-common-mt bott" v-if='s' @tap="afterSole(deList.orderSn,item.goodsLogo,item.goodsName,ite.goodsPrice,ite.specKeyName,ite.goodsNum,deList.orderId,ite.isSend,ite.specKey,ite.distPrice)">
 
 						<button
 							type="primary">{{deList.orderType==1?'联系客服':ite.isSend==1?'申请中':ite.isSend==2?'售后完成':'申请售后'}}</button>
@@ -212,7 +211,7 @@
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott onna">
 						<button type="primary" @tap='wuliu' v-if='deList.status != 0&&deList.status !=7'>查看物流</button>
-						<button type='primary' @tap='zfCom' v-if='(deList.status ==0)&&(deList.payStatus==0 &&deList.shippingStatus == 0 )'>去支付</button>
+						<button type='primary' @tap='zfCom' v-if='t'>去支付</button>
 					</view>
 
 				</view>
@@ -242,7 +241,6 @@
 		},
 		onLoad(option) {
 			var _this = this
-			console.log(option)
 			this.$https({
 				url: '/api/user/order-detail',
 				data: {
@@ -292,10 +290,9 @@
 					}
 				}
 			})
-			if (option.zhuangtai == 0 || option.zhuangtai == 7) {
-				this.t = true
-				this.s = false
-			}
+			this.t=option.zhuangtai==0?true:false
+			this.s = (option.zhuangtai==0||option.zhuangtai==7)?false:true
+
 		},
 		methods: {
 			zfCom: function() {
@@ -420,39 +417,7 @@
 				}
 			},
 
-			// 	zhiCam: function() {
-			// 		this.$https({
-			// 			url: '/api/pay/unifiedOrder',
-			// 			data: JSON.stringify({
-			// 				orderNo: this.deList.orderSn,
-			// 				payMethod: 1
-			// 			}),
-			// 			method: 'post',
-			// 			haeder: true,
-			// 			success: res => {
-			// 				console.log(res)
-			// 				var obj = {};
-			// 				obj.appid = res.data.data.appId;
-			// 				obj.partnerid = res.data.data.partnerId;
-			// 				obj.prepayid = res.data.data.prepayId;
-			// 				obj.package = res.data.data.packageValue;
-			// 				obj.noncestr = res.data.data.nonceStr;
-			// 				obj.timestamp = res.data.data.timeStamp;
-			// 				obj.sign = res.data.data.sign;
-			// 				uni.requestPayment({
-			// 					provider: 'wxpay',
-			// 					orderInfo: obj,
-			// 					success: res => {
-			// 						console.log(res)
-			// 						this.t = false
-			// 					},
-			// 					fail(fait) {
-			// 						console.log(fait)
-			// 					}
-			// 				})
-			// 			}
-			// 		})
-			// 	}
+			
 		},
 	}
 </script>

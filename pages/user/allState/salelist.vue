@@ -117,6 +117,7 @@
 		},
 		onPullDownRefresh() {
 			//下拉的生命周期
+			this.loadingType=0
 			this.getNews()
 		},
 		onReachBottom() {
