@@ -48,7 +48,7 @@
 				<text>支付方式</text>
 			</view>
 			<view class="right_a">
-				<picker @change='xuanze' :value='index' :range='zhifu'>
+				<picker @change='xuanze' :value="index" :range='arr'>
 					<view class="img_l">
 						<image :src="index==0?'../../../static/wx.png':'../../../static/z.png'" mode=""></image>
 					</view>
@@ -110,7 +110,8 @@
 				index: 0,
 				jifenCount: '',
 				wodejifen: '',
-				isCash: false
+				isCash: false,
+				msg: ''
 			}
 		},
 		onLoad(option) {
@@ -236,7 +237,139 @@
 				})
 			},
 			xuanze: function(e) {
+				console.log(e)
 				this.index = e.detail.value
+			},
+			wxPay: function(data) {
+				var _this = this
+				this.$https({
+					url: '/api/pay/unifiedOrder',
+					data: JSON.stringify(data),
+					method: 'post',
+					dengl: false,
+					haeder: true,
+					success: function(res) {
+						if (res.data.code == 0) {
+							var obj = {}
+							obj.appid = res.data.data.appId
+							obj.partnerid = res.data.data.partnerId
+							obj.prepayid = res.data.data.prepayId
+							obj.package = res.data.data.packageValue
+							obj.noncestr = res.data.data.nonceStr
+							obj.timestamp = res.data.data.timeStamp
+							obj.sign = res.data.data.sign
+							uni.requestPayment({
+								provider: 'wxpay',
+								orderInfo: obj,
+								success: function(res) {
+									_this.$https({
+										url: '/api/user/order-list',
+										data: {
+											status: 2,
+											page: 1,
+											limit: 10,
+										},
+										success: res => {
+											uni.redirectTo({
+												url: '../../user/allState/shipped?orderId=' +
+													res.data.data[0]
+													.orderId
+											})
+										}
+									})
+								},
+								fail: function(err) {
+									_this.$https({
+										url: '/api/user/order-list',
+										data: {
+											status: 1,
+											page: 1,
+											limit: 10,
+										},
+										success: res => {
+											uni.redirectTo({
+												url: '../../user/allState/shipped?orderId=' +
+													res.data.data[0]
+													.orderId +
+													'&zhuangtai=0'
+											})
+										}
+									})
+
+								}
+							})
+						} else {
+							uni.showToast({
+								title: res.data.message ? res.data.message : '支付失败',
+								icon: 'none',
+								duration: 2000
+							})
+						}
+
+					}
+				})
+
+			},
+			zfbPay: function(data) {
+
+				var _this = this
+				this.$https({
+					url: '/api/pay/ali/pay-unified-order',
+					data: JSON.stringify(data),
+					haeder: true,
+					method: 'post',
+					success: res => {
+						if (res.data.code == 0) {
+							uni.requestPayment({
+								provider: 'alipay',
+								orderInfo: res.data.data.aliEncryptStr,
+								success: res => {
+									_this.$https({
+										url: '/api/user/order-list',
+										data: {
+											status: 2,
+											page: 1,
+											limit: 10,
+										},
+										success: resd => {
+											uni.redirectTo({
+												url: '../../user/allState/shipped?orderId=' +
+													resd.data.data[
+														0].orderId
+											})
+										}
+									})
+								},
+								fail: function(err) {
+									_this.$https({
+										url: '/api/user/order-list',
+										data: {
+											status: 1,
+											page: 1,
+											limit: 10,
+										},
+										success: resd => {
+											uni.redirectTo({
+												url: '../../user/allState/shipped?orderId=' +
+													resd.data.data[0]
+													.orderId +
+													'&zhuangtai=0'
+											})
+										}
+									})
+								}
+							})
+						} else {
+							uni.showToast({
+								title: res.data.message ? res.data.message : '支付失败',
+								icon: 'none',
+								duration: 2000
+							})
+						}
+
+					}
+				})
+
 			},
 			tijiao: function() {
 				var _this = this
@@ -246,159 +379,48 @@
 						icon: 'none'
 					})
 					return false
-				}
-				if (!this.obj.shopPrice) {
+				} else if (!this.obj.shopPrice) {
 					this.isCash = true
 					return false
-				}
-				this.$https({
-					url: '/api/shop/order-submit-integral-order',
-					data: {
-						addressId: this.dizhi.id,
-						goodsId: this.id,
-						goodsNum: this.num,
-						userNote: this.remak
-					},
-					method: 'post',
-					haeder: true,
-					success: res => {
-						if (res.data.code != 0) {
-							uni.showToast({
-								title: res.data.message ? res.data.message : '兑换失败',
-								icon: 'none'
-							})
-						}
-						if (_this.index == 0) {
-							_this.$https({
-								url: '/api/pay/unifiedOrder',
-								data: JSON.stringify({
-									orderNo: res.data.data.orderSn,
-									payMethod: 3
-								}),
-								method: 'post',
-								haeder: true,
-								success: function(res) {
-									var obj = {}
-									obj.appid = res.data.data.appId
-									obj.partnerid = res.data.data.partnerId
-									obj.prapayid = res.data.data.parpayId
-									obj.package = res.data.data.packageValue
-									obj.noncestr = res.data.data.noncestr
-									obj.timestamp = res.data.data.timeStamp
-									obj.sign = res.data.data.sign
-
-									uni.requestPayment({
-										provider: 'wxpay',
-										orderInfo: obj,
-										success: function(res) {
-											_this.$https({
-												url: '/api/user/order-list',
-												data: {
-													status: 2,
-													page: 1,
-													limit: 10,
-												},
-												success: res => {
-													uni.redirectTo({
-														url: '../../user/allState/shipped?orderId=' +
-															res
-															.data
-															.data[
-																0
-															]
-															.orderId
-													})
-												}
-											})
-										},
-										fail: function(res) {
-											_this.$https({
-												url: '/api/user/order-list',
-												data: {
-													status: 1,
-													page: 1,
-													limit: 10,
-												},
-												success: res => {
-													uni.redirectTo({
-														url: '../../user/allState/shipped?orderId=' +
-															res
-															.data
-															.data[
-																0
-															]
-															.orderId +
-															'&zhuangtai=0'
-													})
-												}
-											})
-										}
-									})
-								},
-							})
-						} else {
-							_this.$https({
-								url: '/api/pay/ali/pay-unified-order',
-								data: JSON.stringify({
-									orderNo: res.data.data.orderSn,
-									payMethod: 5
-								}),
-								haeder: true,
-								method: 'post',
-								success: res => {
-									uni.requestPayment({
-										provider: 'alipay',
-										orderInfo: res.data.data.aliEncryptStr,
-										success: res => {
-											_this.$https({
-												url: '/api/user/order-list',
-												data: {
-													status: 2,
-													page: 1,
-													limit: 10,
-												},
-												success: res => {
-													uni.redirectTo({
-														url: '../../user/allState/shipped?orderId=' +
-															res
-															.data
-															.data[
-																0
-															]
-															.orderId
-													})
-												}
-											})
-										},
-										fail: function(err) {
-											_this.$https({
-												url: '/api/user/order-list',
-												data: {
-													status: 1,
-													page: 1,
-													limit: 10,
-												},
-												success: res => {
-													uni.redirectTo({
-														url: '../../user/allState/shipped?orderId=' +
-															res
-															.data
-															.data[
-																0
-															]
-															.orderId +
-															'&zhuangtai=0'
-													})
-												}
-											})
-										}
-									})
+				} else {
+					"2021051911314481357"
+					this.$https({
+						url: '/api/shop/order-submit-integral-order',
+						data: {
+							addressId: this.dizhi.id,
+							goodsId: this.id,
+							goodsNum: this.num,
+							userNote: this.remak
+						},
+						method: 'post',
+						haeder: true,
+						success: function(res) {
+							if (res.data.code == 0) {
+								if (_this.index == 0) {
+									var data = {
+										orderNo: res.data.data.orderSn,
+										payMethod: 3
+									}
+									_this.wxPay(data)
+								} else {
+									var data = {
+										orderNo: res.data.data.orderSn,
+										payMethod: 5
+									}
+									_this.zfbPay(data)
 								}
-							})
-						}
 
-					}
-				})
+							} else {
+								uni.showToast({
+									title: res.data.message ? res.data.message : '兑换失败',
+									icon: 'none'
+								})
+							}
+
+						}
+					})
+
+				}
 			},
 			dizhitiaozhuan: function() {
 				uni.navigateTo({

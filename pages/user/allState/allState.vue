@@ -264,15 +264,15 @@
 		onLoad(option) {
 			var _this = this
 			this.id = option.id
-		
+
 			// // 上拉加载
 			console.log(option)
 			if (option.taskId) {
 				this.qiandao.taskId = option.taskId
 				this.qiandao.isRen = option.isRen
 				this.qiandao.taskType = option.taskType
-			}else{
-				this.qiandao=''
+			} else {
+				this.qiandao = ''
 			}
 			console.log(this.qiandao)
 			var data = {
@@ -392,11 +392,11 @@
 				})
 			},
 			zfChange: function(orderSn, orderType) {
+				this.index = 0
 				this.orderSn = orderSn
 				// this.payMeth=payMeth
 				this.orderType = orderType
 				this.zfCom()
-				console.log(this.orderSn, this.orderType)
 			},
 			zfCom: function() {
 				this.isZf = !this.isZf
@@ -693,12 +693,23 @@
 								obj.noncestr = res.data.data.nonceStr
 								obj.timestamp = res.data.data.timeStamp
 								obj.sign = res.data.data.sign
-								console.log(res.data)
+								// console.log(res.data)
 								uni.requestPayment({
 									provider: 'wxpay',
 									orderInfo: obj,
 									success: function(res) {
-
+										_this.page = 1
+										var data = {
+											status: _this.isSearch ? 0 : _this.id,
+											page: _this.page,
+											limit: 10,
+											searchValue: _this.searchVal
+										}
+										_this.getListInfo(data);
+										uni.pageScrollTo({
+											scrollTop: 0,
+											duration: 100,
+										});
 									},
 									fail: function(res) {}
 								})
@@ -727,7 +738,20 @@
 								uni.requestPayment({
 									provider: 'alipay',
 									orderInfo: res.data.data.aliEncryptStr,
-									success: res => {},
+									success: res => {
+										_this.page = 1
+										var data = {
+											status: _this.isSearch ? 0 : _this.id,
+											page: _this.page,
+											limit: 10,
+											searchValue: _this.searchVal
+										}
+										_this.getListInfo(data);
+										uni.pageScrollTo({
+											scrollTop: 0,
+											duration: 100,
+										});
+									},
 									fail: function(err) {}
 								})
 							} else {

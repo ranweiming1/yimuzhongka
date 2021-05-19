@@ -372,7 +372,9 @@
 									success: function(res) {
 										_this.t = false
 									},
-									fail: function(res) {}
+									fail: function(res) {
+										console.log(JSON.stringify(res))
+									}
 								})
 							} else {
 								uni.showToast({
