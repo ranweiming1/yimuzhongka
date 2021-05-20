@@ -820,14 +820,15 @@
 
 				.shop-search-back {
 					float: left;
-					padding: 15rpx 35rpx;
-					height: 100%;
+					height: 60rpx;
+					box-sizing: border-box;
+					padding: calc((60rpx - 32rpx)/2) 35rpx;
 
 
 					image {
 						width: 18rpx;
 						height: 32rpx;
-						display: inline-block;
+						display: block;
 
 					}
 				}
@@ -1673,8 +1674,9 @@
 
 				.shop-search-back {
 					float: left;
-					padding: 15rpx 35rpx;
-					height: 100%;
+					height: 60rpx;
+					box-sizing: border-box;
+					padding: calc((60rpx - 32rpx)/2) 35rpx;
 
 
 					image {

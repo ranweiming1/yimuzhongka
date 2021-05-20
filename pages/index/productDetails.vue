@@ -542,8 +542,8 @@
 				uni.navigateBack({
 					delta: 1
 				})
-				
-				
+
+
 			},
 			lingquYHQ(id, index, type) {
 				console.log(index)
@@ -1676,6 +1676,7 @@
 		position: fixed;
 		bottom: 0upx;
 		left: 0upx;
+		overflow: hidden;
 
 		.leftA {
 			float: left;
@@ -1692,18 +1693,20 @@
 
 			.kefua {
 				float: left;
-				padding: 15rpx 20rpx;
+				height: 100rpx;
+				float: left;
+				padding: 10rpx 20rpx;
 				box-sizing: border-box;
 				text-align: center;
-				height: 100rpx;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-around;
 
 				image {
-					padding-left: 5upx;
 					width: 41upx;
 					height: 38upx;
 					display: block;
-					margin-left: 50%;
-					transform: translateX(-20.5rpx);
 					// float: left;
 				}
 
@@ -1713,7 +1716,7 @@
 					display: block;
 					color: #333;
 					font-size: 26upx;
-					margin-top: 5rpx;
+					// margin-top: 5rpx;
 
 					// text {
 					// 	// float: left;
