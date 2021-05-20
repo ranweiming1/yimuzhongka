@@ -404,7 +404,7 @@
 				keLink: '',
 				shareCode: '',
 				shareId: '',
-				storeSales: '',
+				storeSales: 0,
 				liulanState: ''
 
 			}

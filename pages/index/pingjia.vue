@@ -32,8 +32,8 @@
 				<view class="pCont">
 					<text>{{item.content?item.content:''}}</text>
 					<view class="imgsBox">
-						<view class="img" v-for="(val,i) in item.imgBox">
-							<image v-if="item.img!='../../../static/img_10.jpg.png'" :src="val" mode=""></image>
+						<view class="img" v-for="(val,i) in item.imgBox" @tap="previewImg(index,i)">
+							<image :src="val" mode=""></image>
 						</view>
 
 					</view>
@@ -118,8 +118,6 @@
 		onLoad(option) {
 			var _this = this
 			this.goodsId = option.id
-			// console.log(option)
-			// console.log(_this.isXing)
 			this.$https({
 					url: '/api/oauth/shop/goods-comm-list',
 					data: {
@@ -129,7 +127,6 @@
 					},
 					dengl: true,
 					success: function(res) {
-						// console.log(typeof(res.data.data.goodsRank))
 						if (res.data.data) {
 							res.data.data.map(function(val, i) {
 								if (val.img) {
@@ -140,7 +137,6 @@
 							})
 						}
 						_this.pingJList = res.data.data
-						console.log(_this.pingJList)
 					},
 				}),
 				this.$https({
@@ -170,6 +166,27 @@
 			this.getMoreNews(data)
 		},
 		methods: {
+			previewImg(index,i) {
+				console.log(index)
+				let _this = this;
+				let imgsArray = [];
+				for (let i = 0; i < this.pingJList[index].imgBox.length; i++) {
+					console.log()
+					if (this.pingJList[index].imgBox[i]) {
+						imgsArray.push(this.pingJList[index].imgBox[i]);
+					}
+				}
+				console.log(imgsArray)
+
+				uni.previewImage({
+					current: i,
+					urls: imgsArray,
+					indicator: 'number',
+					loop: true,
+					longPressActions:true
+				});
+
+			},
 			getNews() {
 				this.page = 1
 				var _this = this
@@ -245,7 +262,6 @@
 			},
 
 			houtui() {
-				console.log(11111)
 				uni.navigateTo({
 					url: 'productDetails?id=' + this.goodsId
 				})

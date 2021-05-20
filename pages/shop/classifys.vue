@@ -25,12 +25,15 @@
 					<text v-if='id=="x"' class="image"></text>
 					<text style="font-size: 30rpx;font-weight: bold;">品牌/车型</text>
 				</view> -->
-				<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList"
-					:key=item.id>
-					<!-- <image v-if='id==index' src='../../static/icon_29.png'></image> -->
-					<text v-if='id==index' class="image"></text>
-					<text>{{item.cateTitle}}</text>
+				<view class="left_box">
+					<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList"
+						:key="item.id">
+						<!-- <image v-if='id==index' src='../../static/icon_29.png'></image> -->
+						<text v-if='id==index' class="image"></text>
+						<text>{{item.cateTitle}}</text>
+					</view>
 				</view>
+
 			</scroll-view>
 			<!-- 二级 -->
 			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'rpx'"
@@ -45,22 +48,25 @@
 
 
 				<!-- 其他分类 -->
-				<view :class="item.isHide?'li-content isHidden':'li-content'" v-for="(item , index) in rList">
-					<view class="li-title">
-						{{item.cateTitle}}
-					</view>
-					<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in item.childsList">
-						<view class="imgpp">
-							<image :src="ite.imgUrl" mode=""></image>
+				<view class="right_box">
+					<view :class="item.isHide?'li-content isHidden':'li-content'" v-for="(item , index) in rList">
+						<view class="li-title">
+							{{item.cateTitle}}
 						</view>
-						<view class="zhiya">
-							<text>{{ite.cateTitle}}</text>
+						<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in item.childsList">
+							<view class="imgpp">
+								<image :src="ite.imgUrl" mode=""></image>
+							</view>
+							<view class="zhiya">
+								<text>{{ite.cateTitle}}</text>
+							</view>
 						</view>
-					</view>
-					<view class="li-load" v-if="item.isHide" @tap='toggelHide(index)'>
-						加载更多
+						<view class="li-load" v-if="item.isHide" @tap='toggelHide(index)'>
+							加载更多
+						</view>
 					</view>
 				</view>
+
 			</scroll-view>
 		</view>
 		<buttom bottom="3" :can="shopsId"></buttom>
@@ -95,7 +101,7 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					console.log(res)
-					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 271;
+					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 280;
 				}
 			})
 			this.$https({
@@ -113,9 +119,9 @@
 								if (val.id == options.index) {
 									_this.id = i
 									_this.scrollPic(res.data.data[i].id)
-								}else{
+								} else {
 									_this.scrollPic(res.data.data[0].id)
-									
+
 								}
 							})
 							// console.log(index,9999999)
@@ -225,7 +231,7 @@
 			},
 			search: function() {
 				uni.navigateTo({
-					url: '../search/search?shopsId='+this.shopsId
+					url: '../search/search?shopsId=' + this.shopsId
 				})
 			},
 			back: function() {
@@ -363,7 +369,7 @@
 		.left {
 			text-align: left;
 			width: 180upx;
-			height: 1135upx;
+			height: 100%;
 			float: left;
 			background-color: #f6f6f6;
 			box-sizing: border-box;
@@ -417,6 +423,7 @@
 		.right {
 			width: calc(100% - 180rpx);
 			text-align: center;
+			height: 100%;
 			overflow: hidden;
 			background-color: #fff;
 			box-sizing: border-box;
@@ -452,5 +459,29 @@
 
 		}
 
+		.left_box {
+			height: 100%;
+			box-sizing: border-box;
+			padding-top: 25rpx;
+		}
+
+		.left_box :nth-child(1) {
+			margin-top: 0;
+		}
+
+		.right_box :nth-child(1) {
+			margin-top: 0;
+		}
+
+		.right_box {
+			height: 100%;
+			box-sizing: border-box;
+			padding-top: 35rpx;
+		}
+
+	}
+	
+	/deep/ .heighta{
+		display: none;
 	}
 </style>

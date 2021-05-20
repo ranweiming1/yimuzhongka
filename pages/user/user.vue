@@ -749,16 +749,6 @@
 				uni.navigateTo({
 					url: '../index/productDetails?id=' + id
 				})
-				this.$https({
-					url: '/api/shop/goods-brows-history-add',
-					data: {
-						goodsId: id
-					},
-					methods: 'POST',
-					success: res => {
-
-					}
-				})
 			},
 			gaibian: function(e) {
 				this.n = e.detail.current

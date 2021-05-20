@@ -210,7 +210,7 @@
 			<view class="rightA">
 				<view class="bottBox">
 					<view class="uni-padding-wrap uni-common-mt bott onna">
-						<button type="primary" @tap='wuliu' v-if='deList.status != 0&&deList.status !=7'>查看物流</button>
+						<button type="primary" @tap='wuliu' v-if='!t&&deList.status !=7'>查看物流</button>
 						<button type='primary' @tap='zfCom' v-if='t'>去支付</button>
 					</view>
 

@@ -546,7 +546,7 @@
 							_this.$https({
 								url: '/api/pay/unifiedOrder',
 								data: JSON.stringify({
-									orderNo: res.data.data[0],
+									orderNo: res.data.data.join(','),
 									payMethod: 1
 								}),
 								method: 'post',
@@ -614,7 +614,7 @@
 							_this.$https({
 								url: '/api/pay/ali/pay-unified-order',
 								data: JSON.stringify({
-									orderNo: res.data.data[0],
+									orderNo: res.data.data.join(','),
 									payMethod: 4
 								}),
 								haeder: true,

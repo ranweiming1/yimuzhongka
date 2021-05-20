@@ -16,68 +16,79 @@
 		<!-- #endif -->
 
 		<!-- 切换分类 -->
-		<view class="Box dne">
+		<view class="Box">
 			<!-- 一级 -->
 			<scroll-view class="left" scroll-y :style="'height:'+height+'rpx'">
 				<!-- 选中样式 -->
 				<!-- 未选中样式 -->
-				<view :class="id=='x'?'on addOn':'none'" @tap="togLi('x',9)">
-					<text v-if='id=="x"' class="image"></text>
-					<text style="font-size: 30rpx;font-weight: bold;">品牌/车型</text>
+				<view class="left_box">
+					<view :class="id=='x'?'on addOn':'none'" @tap="togLi('x',9)">
+						<text v-if='id=="x"' class="image"></text>
+						<text style="font-size: 30rpx;font-weight: bold;">品牌/车型</text>
+					</view>
+					<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList"
+						:key="item.id">
+						<!-- <image v-if='id==index' src='../../static/icon_29.png'></image> -->
+						<text v-if='id==index' class="image"></text>
+						<text>{{item.cateTitle}}</text>
+					</view>
 				</view>
-				<view :class="id==index?'on':'none'" @tap="togLi(index,item.id)" v-for="(item ,index) in AllList" :key=item.id>
-					<!-- <image v-if='id==index' src='../../static/icon_29.png'></image> -->
-					<text v-if='id==index' class="image"></text>
-					<text>{{item.cateTitle}}</text>
-				</view>
+
 			</scroll-view>
 			<!-- 二级 -->
-			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'rpx'" scroll-with-animation>
-				<view class="scroll-img" v-if='!(id=="x")'>
-					<swiper class="swiper" autoplay="true" style="height: 230rpx;" interval="5000" duration="1500">
-						<swiper-item v-for="(item , index) in imgSlide" :key="index">
-							<image :src="item.img" mode=""></image>
-						</swiper-item>
-					</swiper>
-				</view>
-				<!-- 总分类显示  品牌/车车型 -->
-				<view class="li-content zongh" v-if="id=='x'">
-					<view class="li" @tap="bander(item.id)" v-for="(item , i) in rList">
-						<view class="imgpp">
-							<image :src="item.brandLogo" mode=""></image>
+			<scroll-view class="right" scroll-y :scroll-top="scrollTop" :style="'height:'+height+'rpx'"
+				scroll-with-animation>
+				<view class="right_box">
+					<view class="scroll-img" v-if='!(id=="x")'>
+						<swiper class="swiper" autoplay="true" style="height: 230rpx;" interval="5000" duration="1500">
+							<swiper-item v-for="(item , index) in imgSlide" :key="index">
+								<image :src="item.img" mode=""></image>
+							</swiper-item>
+						</swiper>
+					</view>
+					<!-- 总分类显示  品牌/车车型 -->
+					<view class="li-content zongh" v-if="id=='x'">
+						<view class="li" @tap="bander(item.id)" v-for="(item , i) in rList">
+							<view class="imgpp">
+								<image :src="item.brandLogo" mode=""></image>
+							</view>
+							<view class="zhiya">
+								<text>{{item.brandTitle}}</text>
+							</view>
 						</view>
-						<view class="zhiya">
-							<text>{{item.brandTitle}}</text>
+					</view>
+
+					<!-- 其他分类 -->
+					<view :class="item.isHide?'li-content isHidden':'li-content'" v-if="!(id=='x')"
+						v-for="(item , index) in rList">
+						<view class="li-title">
+							{{item.cateTitle}}
+						</view>
+						<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in item.childsList">
+							<view class="imgpp">
+								<image :src="ite.imgUrl" mode=""></image>
+							</view>
+							<view class="zhiya">
+								<text>{{ite.cateTitle}}</text>
+							</view>
+						</view>
+						<view class="li-load" v-if="item.isHide" @tap='toggelHide(index)'>
+							加载更多
 						</view>
 					</view>
 				</view>
 
-				<!-- 其他分类 -->
-				<view :class="item.isHide?'li-content isHidden':'li-content'" v-if="!(id=='x')" v-for="(item , index) in rList">
-					<view class="li-title">
-						{{item.cateTitle}}
-					</view>
-					<view class="li" @tap="list(ite.id)" v-for="(ite , inde) in item.childsList">
-						<view class="imgpp">
-							<image :src="ite.imgUrl" mode=""></image>
-						</view>
-						<view class="zhiya">
-							<text>{{ite.cateTitle}}</text>
-						</view>
-					</view>
-					<view class="li-load" v-if="item.isHide" @tap='toggelHide(index)'>
-						加载更多
-					</view>
-				</view>
 			</scroll-view>
 		</view>
-		<view style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
-		 v-if='xianshidenglu'>
-			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png' style='width:20rpx;height:20rpx;margin-right:20rpx;'
-			 @tap='g'></image>
+		<view
+			style='position:fixed;left:0;width:calc(100% - 50rpx);bottom:100rpx;height:100rpx;background:rgba(0,0,0,0.6);line-height:100rpx;color:#fff;padding-left:50rpx;font-size:24rpx;'
+			v-if='xianshidenglu'>
+			<image src='../../static/6ef74f70be674fdc834aa269ed7f8078.png'
+				style='width:20rpx;height:20rpx;margin-right:20rpx;' @tap='g'></image>
 			登录后体验更多精彩
-			<view style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
-			 @tap='deng'>立即登录/注册</view>
+			<view
+				style='float:right;padding:0 40rpx;background:#2d5eff;border-radius:50rpx;line-height:60rpx;margin-top:20rpx;margin-right:20rpx;font-size:24rpx;'
+				@tap='deng'>立即登录/注册</view>
 		</view>
 		<tabBar id='tabbar' :currentPage='currentPage'></tabBar>
 	</view>
@@ -98,7 +109,7 @@
 				imgSlide: [],
 				toTop: '',
 				xianshidenglu: false,
-				yincang:true
+				yincang: true
 			}
 		},
 		components: {
@@ -106,8 +117,8 @@
 		},
 		onLoad(options) {
 			// this.id=index
-			if(options.tiaozhuan==0){
-				this.yincang=false
+			if (options.tiaozhuan == 0) {
+				this.yincang = false
 			}
 			var _this = this
 			if (!uni.getStorageSync('Authorization')) {
@@ -118,7 +129,7 @@
 			// this.height = uni.getSystemInfoSync().windowHeight-100;
 			uni.getSystemInfo({
 				success: function(res) {
-					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 250;
+					_this.height = (res.windowHeight * (750 / res.windowWidth)) - 260;
 				}
 			})
 
@@ -277,9 +288,10 @@
 </script>
 
 <style lang="scss">
-	.li-content:last-child .li-load{
-		padding-bottom:20rpx;
+	.li-content:last-child .li-load {
+		padding-bottom: 20rpx;
 	}
+
 	.isHidden {
 		height: 530rpx;
 		position: relative;
@@ -363,7 +375,7 @@
 	.Box {
 		width: 750upx;
 		overflow: hidden;
-		margin-top: 150rpx;
+		margin-top: 160rpx;
 
 		.scroll-img {
 			margin: 25rpx;
@@ -499,6 +511,26 @@
 				}
 			}
 
+		}
+
+		.left_box {
+			height: 100%;
+			box-sizing: border-box;
+			padding-top: 25rpx;
+		}
+
+		.left_box :nth-child(1) {
+			margin-top: 0;
+		}
+
+		.right_box :nth-child(1) {
+			margin-top: 0;
+		}
+
+		.right_box {
+			height: 100%;
+			box-sizing: border-box;
+			padding-top: 35rpx;
 		}
 
 	}

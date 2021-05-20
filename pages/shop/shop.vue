@@ -671,17 +671,6 @@
 				uni.navigateTo({
 					url: '../index/productDetails?id=' + id
 				})
-				this.$https({
-					url: '/api/shop/goods-brows-history-add',
-					data: {
-						goodsId: id
-					},
-					method: 'POST',
-					dengl: true,
-					success(res) {
-						// console.log('添加成功')
-					}
-				})
 			},
 			showContent() {
 				this.isShowCont = !this.isShowCont
