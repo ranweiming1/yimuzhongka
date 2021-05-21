@@ -135,7 +135,7 @@
 						<text class="titleText">{{item.goodsName}}</text>
 					</view>
 					<view class="item-coupon">
-						<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS" v-if="indexs<=1">
+						<view class="coupon-item" v-for="(items,indexs) in item.couponDTOS" v-if="indexs==0">
 							<text>满{{items.condition}}-{{items.money}}元</text>
 						</view>
 						<view class="coupon-item" v-if='item.kuaidi==0'>

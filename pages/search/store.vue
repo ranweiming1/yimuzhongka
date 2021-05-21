@@ -80,7 +80,7 @@
 					</view>
 
 					<view class='txt_aa'>
-						<text v-for="(ite,inde) in item.couponDTOS">满{{ite.condition}}-{{ite.money}}元</text>
+						<text v-for="(ite,inde) in item.couponDTOS" v-if="inde==0">满{{ite.condition}}-{{ite.money}}元</text>
 					</view>
 					<view class='txt_aas'>
 						<view class="view"><text>{{item.shopPrice?'￥'+item.shopPrice:'暂无价格'}}</text></view>

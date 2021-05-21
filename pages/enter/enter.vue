@@ -65,29 +65,29 @@
 				ass: '',
 				msg: '',
 				isLog: false,
-				pageHeight: ''
+				pageHeight: '',
+				isDengl: ''
 			}
 		},
 		onReady() {
 			var _this = this
 			uni.getSystemInfo({
 				success(res) {
-					console.log(res)
 					var phoneHeight = res.windowHeight;
-					console.log(res.windowHeight, 333);
 					// 计算组件的高度
 					let view = uni.createSelectorQuery().select('.pages');
 					view.boundingClientRect(data => {
 						// _this.navHeight = data.height;
-						console.log(data.height, 333444);
 						_this.pageHeight = phoneHeight >= data.height ? phoneHeight : data.height
 					}).exec();
 				}
 			});
 		},
-		onLoad() {
+		onLoad(option) {
 			var _this = this
-
+			if (option.isTypes) {
+				this.isDengl = option.isTypes
+			}
 			if (uni.getStorageSync('pdType')) {
 				_this.pdType = uni.getStorageSync('pdType')
 			} else {
@@ -113,7 +113,6 @@
 		},
 		methods: {
 			zhuceLog(e) {
-				console.log(e)
 				this.isLog = !this.isLog
 				// console.log(this.isLog)
 			},
@@ -123,6 +122,7 @@
 				})
 			},
 			denglusss: function() {
+				var _this = this
 				if (this.isLog) {
 					this.$https({
 						url: '/api/oauth/phoneLogin',
@@ -133,17 +133,27 @@
 						dengl: true,
 						method: 'post',
 						success: function(res) {
-							if (res.data.data) {
+							if (res.data.code == 0) {
 								uni.setStorageSync('Authorization', res.data.data.access_token)
 								uni.showToast({
 									title: '登录成功'
 								})
-								setTimeout(function() {
-									uni.navigateBack({
-										delta: 1
-									})
-								}, 1900)
-								uni.setStorageSync('d', '')
+								if (_this.isDengl == 1) {
+									setTimeout(function() {
+										uni.reLaunch({
+											url:'../index/index'
+										})
+									}, 1900)
+									uni.setStorageSync('d', '')
+								} else {
+									setTimeout(function() {
+										uni.navigateBack({
+											delta: 1
+										})
+									}, 1900)
+									uni.setStorageSync('d', '')
+
+								}
 							} else {
 								uni.showToast({
 									title: res.data.message,
@@ -196,14 +206,19 @@
 													dengl: true,
 													method: 'post',
 													// haeder: true,
-													success: function(res) {
-														if (res.data.code > 0) {
+													success: function(
+														res) {
+														if (res.data
+															.code > 0
+														) {
 															uni.showModal({
 																title: '您未绑定微信，请先登录账号',
 																cancelText: '去登录',
 																confirmText: '去注册',
 																success: res => {
-																	if (res.confirm) {
+																	if (res
+																		.confirm
+																	) {
 																		uni.navigateTo({
 																			url: 'login'
 																		})
@@ -211,9 +226,19 @@
 																}
 															})
 															return false
-														}else{
-															_this.ass =JSON.stringify(res)
-															uni.setStorageSync('Authorization',res.data.data.access_token)
+														} else {
+															_this.ass =
+																JSON
+																.stringify(
+																	res
+																)
+															uni.setStorageSync(
+																'Authorization',
+																res
+																.data
+																.data
+																.access_token
+															)
 															uni.showToast({
 																title: '微信登录成功'
 															})
@@ -222,10 +247,11 @@
 																	uni.reLaunch({
 																		url: '../index/index'
 																	})
-																}, 1000
+																},
+																1000
 															)
 														}
-														
+
 													}
 												})
 											},
@@ -285,7 +311,6 @@
 								var msg = ''
 								result.result.split('&').map(function(val, i) {
 									if (val.split('=')[0] == 'alipay_open_id') {
-										console.log(val, val.split('=')[1])
 										msg = val.split('=')[1]
 									}
 								})
@@ -297,7 +322,6 @@
 									method: 'post',
 									dengl: true,
 									success: res => {
-										console.log(res, 888)
 										if (res.data.code == 0) {
 											uni.setStorageSync('Authorization', res
 												.data

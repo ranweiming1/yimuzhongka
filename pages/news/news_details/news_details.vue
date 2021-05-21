@@ -1,6 +1,6 @@
 <template>
 	<view style='width:100%;overflow:hidden;'>
-		
+
 		<!-- #ifndef H5 -->
 		<view class="top">
 			<view class='back' @tap='back' style='float:left;'>
@@ -46,7 +46,9 @@
 			<!-- 用户评价 -->
 			<view class="toux" v-for="(item,index) in pingjia">
 				<view class="imgBox_a">
-					<image mode="" :src="item.userDTO.headimg?item.userDTO.headimg:item.userDTO.sex==1?'../../../static/307930aca7b24a8f938121e2bac851d4.png':'../../../static/3a03a3d7ebe4442f847932f34b37765a.png'" ></image>
+					<image mode=""
+						:src="item.userDTO.headimg?item.userDTO.headimg:item.userDTO.sex==1?'../../../static/307930aca7b24a8f938121e2bac851d4.png':'../../../static/3a03a3d7ebe4442f847932f34b37765a.png'">
+					</image>
 				</view>
 				<view class="mingc">
 					<text>{{item.userDTO.phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2')}}</text>
@@ -67,14 +69,19 @@
 				<text>发表评价</text>
 			</view>
 		</view>
-		<view style='position:fixed;top:0;left:0;bottom:0;right:0;background:rgba(0,0,0,0.5);z-index:99999;' v-if='pinglun'>
-			<view style='width:600rpx;height:600rpx;background:#fff;border-radius:10rpx;position:absolute;left:0;top:0;right:0;bottom:0;margin:auto;'>
+		<view style='position:fixed;top:0;left:0;bottom:0;right:0;background:rgba(0,0,0,0.5);z-index:99999;'
+			v-if='pinglun'>
+			<view
+				style='width:600rpx;height:600rpx;background:#fff;border-radius:10rpx;position:absolute;left:0;top:0;right:0;bottom:0;margin:auto;'>
 				<view style='text-align:center;margin-top:40rpx;margin-bottom: 50rpx;'>添加评论</view>
-				<textarea placeholder='请输入评论60字以内' style='width:500rpx;margin:0 auto;height:300rpx;border:1px solid #eee;padding: 20rpx;box-sizing: border-box;'
-				 v-model='pinglunneirong'></textarea>
-				<view style='overflow:hidden;width:400rpx;margin:10rpx auto;position: absolute;left: 0;right: 0;bottom: 30rpx;'>
+				<textarea placeholder='请输入评论60字以内'
+					style='width:500rpx;margin:0 auto;height:300rpx;border:1px solid #eee;padding: 20rpx;box-sizing: border-box;'
+					v-model='pinglunneirong'></textarea>
+				<view
+					style='overflow:hidden;width:400rpx;margin:10rpx auto;position: absolute;left: 0;right: 0;bottom: 30rpx;'>
 					<button style='color:#666;width:45%;float:left;max-width:45%;' @tap='quxiaopinglun'>取消</button>
-					<button style='color:#fff;background:#007aff;width:45%;float:right;max-width:45%;' @tap='tianjia'>确定</button>
+					<button style='color:#fff;background:#007aff;width:45%;float:right;max-width:45%;'
+						@tap='tianjia'>确定</button>
 				</view>
 			</view>
 		</view>
@@ -119,7 +126,8 @@
 					_this.content = res.data.data.article.content
 					_this.image = res.data.data.article.image
 					_this.pingjia = res.data.data.commList
-					_this.shifoupingjia = res.data.data.article.allowComment == 'Y' ? true : res.data.data.allowComment == 'N' ?
+					_this.shifoupingjia = res.data.data.article.allowComment == 'Y' ? true : res.data.data
+						.allowComment == 'N' ?
 						false : false
 					_this.fabiao = res.data.data.article.allowComment
 					_this.fabiao = _this.fabiao == 'Y'
@@ -131,19 +139,19 @@
 				this.objcont = JSON.parse(option.i).noticeContent
 				this.objtz = JSON.parse(option.i).createTime
 			}
-			
+
 		},
 		methods: {
 			tianj: function() {
-				if(this.denglufangfatiaozhuan()){
-				this.pinglun = true
+				if (this.denglufangfatiaozhuan()) {
+					this.pinglun = true
 				}
 			},
 			tianjia: function() {
-				if(this.pinglunneirong.length>60){
+				if (this.pinglunneirong.length > 60) {
 					uni.showToast({
-						title:'评论内容不能超过60字',
-						icon:'none'
+						title: '评论内容不能超过60字',
+						icon: 'none'
 					})
 					return false
 				}
@@ -163,7 +171,7 @@
 								title: res.data.message
 							})
 							_this.pinglun = false
-							_this.pinglunneirong=''
+							_this.pinglunneirong = ''
 							_this.$https({
 								url: '/api/oauth/news/article-detail',
 								data: {
@@ -173,10 +181,10 @@
 									_this.pingjia = res.data.data.commList
 								}
 							})
-						}else{
+						} else {
 							uni.showToast({
-								title:'请输入正确的内容',
-								icon:'none'
+								title: '请输入正确的内容',
+								icon: 'none'
 							})
 						}
 					}
@@ -207,12 +215,12 @@
 		z-index: 99999;
 		background: #fff;
 		padding-top: 70rpx;
-	
+
 		.back {
 			width: 90rpx;
 			height: 90rpx;
 			line-height: 90rpx;
-	
+
 			image {
 				width: 18rpx;
 				height: 32rpx;
@@ -220,11 +228,11 @@
 				padding: 29rpx 36rpx;
 			}
 		}
-	
+
 		.textBox {
 			margin-right: 90rpx;
 			display: inline-block;
-	
+
 			text {
 				font-size: 32rpx;
 				color: #333;
@@ -232,14 +240,14 @@
 				line-height: 90upx;
 			}
 		}
-	
-	
+
+
 		.imgBox {
 			float: right;
 			width: 90rpx;
 			height: 90rpx;
 			line-height: 90rpx;
-	
+
 			image {
 				width: 36upx;
 				height: 36upx;
@@ -248,7 +256,7 @@
 			}
 		}
 	}
-	
+
 	.neir {
 		overflow: hidden;
 		margin-top: 200rpx;
@@ -309,12 +317,11 @@
 	}
 
 	.toux {
-		padding-top: 20upx;
-		padding-left: 20upx;
-		width: 750upx;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 20rpx;
 		overflow: hidden;
 		border-bottom: 1px solid #ccc;
-		padding-bottom: 20upx;
 
 		image {
 			width: 80upx;
@@ -342,7 +349,8 @@
 			color: #333;
 			font-size: 26upx;
 			line-height: 50upx;
-			text{
+
+			text {
 				font-size: 24rpx;
 			}
 		}
@@ -358,6 +366,13 @@
 		float: left;
 		color: #999;
 		line-height: 40upx;
+
+		text {
+			display: block;
+			width: 100%;
+			word-break: break-all;
+			box-sizing: border-box;
+		}
 	}
 
 	.publish {

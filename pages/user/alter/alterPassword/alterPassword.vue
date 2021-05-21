@@ -116,15 +116,15 @@
 									icon: 'none'
 								})
 								setTimeout(function(){
-									uni.clearStorageSync('Authorization')
+									uni.clearStorageSync()
 									uni.navigateTo({
-										url:'../../../enter/enter'
+										url:'../../../enter/enter?isTypes=1'
 									})
 						
 								},1000)
 							} else {
 								uni.showToast({
-									title: res.data.message,
+									title: res.data.message?res.data.message:'修改失败',
 									icon: 'none'
 								})
 							}

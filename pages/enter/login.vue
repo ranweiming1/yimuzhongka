@@ -282,40 +282,40 @@
 									uni.showToast({
 										title: '操作成功'
 									})
-
 									setTimeout(function() {
-										_this.$https({
-											url: '/api/oauth/phoneLogin',
-											data: {
-												phone: _this.account.phone,
-												password: _this.account.password
-											},
-											dengl: true,
-											method: 'post',
-											success: function(res) {
-												if (res.data.code == 0) {
-													uni.setStorageSync('Authorization',
-														res.data.data.access_token)
-													uni.showToast({
-														title: '登录成功'
-													})
-													setTimeout(function() {
-														uni.reLaunch({
-															url: '../index/index'
+											_this.$https({
+												url: '/api/oauth/phoneLogin',
+												data: {
+													phone: _this.account.phone,
+													password: _this.account.password
+												},
+												dengl: true,
+												method: 'post',
+												success: function(res) {
+													if (res.data.code == 0) {
+														uni.setStorageSync('Authorization',
+															res.data.data.access_token)
+														uni.showToast({
+															title: '登录成功'
 														})
-													}, 1900)
-													uni.setStorageSync('d', '')
-												} else {
-													uni.showToast({
-														title: res.data
-															.message,
-														icon: 'none'
-													})
+														setTimeout(function() {
+															uni.reLaunch({
+																url: '../index/index'
+															})
+														}, 1900)
+														uni.setStorageSync('d', '')
+													} else {
+														uni.showToast({
+															title: res.data
+																.message,
+															icon: 'none'
+														})
+													}
 												}
-											}
-										})
-
-									}, 1500)
+											})
+									
+										}, 1500)
+									
 								} else {
 									uni.showToast({
 										title: res.data.message? res.data.message:'验证码错误',

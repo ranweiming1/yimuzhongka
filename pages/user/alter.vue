@@ -5,8 +5,8 @@
 		<view class="alter">
 			<view class="left">
 				<view class="h2">
-					<input v-model='nickname' placeholder='暂无用户名' :disabled='jinyong' :style='jinyong?"":"border:1px solid #f2f2f2;"'
-					 @blur='xiugai'>
+					<input v-model='nickname' placeholder='暂无用户名' :disabled='jinyong'
+						:style='jinyong?"":"border:1px solid #f2f2f2;"' @blur='xiugai'>
 					<!-- 点击图片可修改头像 -->
 					<view class="imgBox" @tap='bianji'>
 						<image src="../../static/icon_25.png" mode=""></image>
@@ -19,7 +19,9 @@
 			</view>
 			<!-- 点击图标也可修改昵称 -->
 			<view class="right">
-				<image :src="headimg?headimg:index==0?'../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../static/307930aca7b24a8f938121e2bac851d4.png'" mode="" @tap='toux'></image>
+				<image
+					:src="headimg?headimg:index==0?'../../static/3a03a3d7ebe4442f847932f34b37765a.png':'../../static/307930aca7b24a8f938121e2bac851d4.png'"
+					mode="" @tap='toux'></image>
 			</view>
 		</view>
 		<view class="basic-list">
@@ -45,7 +47,8 @@
 					<view class="img_a">
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
-					<picker :range='arrsex' :value='index' class='shou' @change='sex' style='width:300rpx;line-height:105rpx;margin-top:0;'>{{arrsex[index]}}</picker>
+					<picker :range='arrsex' :value='index' class='shou' @change='sex'
+						style='width:300rpx;line-height:105rpx;margin-top:0;'>{{arrsex[index]}}</picker>
 				</view>
 			</view>
 
@@ -57,8 +60,9 @@
 					<view class="img_a">
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
-					<picker mode='date' :value='date' @change='bindDateC' style='width:220rpx;font-size:24rpx;line-height:105rpx;margin-top:0;'
-					 class='shou'>{{date}}</picker>
+					<picker mode='date' :value='date' @change='bindDateC'
+						style='width:220rpx;font-size:24rpx;line-height:105rpx;margin-top:0;' class='shou'>{{date}}
+					</picker>
 				</view>
 			</view>
 		</view>
@@ -72,7 +76,8 @@
 					<view class="img_a">
 						<image src="../../static/icon_26.png" mode=""></image>
 					</view>
-					<input v-model='userName' @blur='shurukuang' style='text-align:right;line-height:105rpx;float:right;font-size:24rpx;height:105rpx;'>
+					<input v-model='userName' @blur='shurukuang'
+						style='text-align:right;line-height:105rpx;float:right;font-size:24rpx;height:105rpx;'>
 				</view>
 			</view>
 			<view class='basic'>
@@ -135,18 +140,18 @@
 				}
 			})
 		},
-		onShow:function(){
+		onShow: function() {
 			this.$https({
-				url:'/api/user/my-info',
-				success:res=>{
-					if(res.data.code==0){
-						this.nickname=res.data.data.nickname
-						this.phone=res.data.data.phone
-						this.index=res.data.data.sex?res.data.data.sex:0
-						this.birth=res.data.data.birth?res.data.data.birth:'2020-05-06'
-						this.userName=res.data.data.userName
-						this.headimg=res.data.data.headimg
-						this.regionName=res.data.data.area?res.data.data.area:'请选择省市县'
+				url: '/api/user/my-info',
+				success: res => {
+					if (res.data.code == 0) {
+						this.nickname = res.data.data.nickname
+						this.phone = res.data.data.phone
+						this.index = res.data.data.sex ? res.data.data.sex : 0
+						this.birth = res.data.data.birth ? res.data.data.birth : '2020-05-06'
+						this.userName = res.data.data.userName
+						this.headimg = res.data.data.headimg
+						this.regionName = res.data.data.area ? res.data.data.area : '请选择省市县'
 					}
 				}
 			})
@@ -238,7 +243,7 @@
 				})
 			},
 			tuichu: function() {
-				uni.setStorageSync('Authorization', '')
+				uni.clearStorageSync()
 				uni.showToast({
 					title: '退出登录成功'
 				})
@@ -251,7 +256,7 @@
 			toux: function() {
 				var _this = this
 				uni.chooseImage({
-					sizeType:['compressed'],
+					sizeType: ['compressed'],
 					success: function(chooseImageRes) {
 						uni.uploadFile({
 							url: _this.webUrl + '/oauth/oss/upload',
@@ -441,7 +446,7 @@
 				// margin-top: 50%;
 				margin-top: 44rpx;
 				margin-left: 25rpx;
-				
+
 
 				image {
 

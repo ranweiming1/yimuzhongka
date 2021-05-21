@@ -71,8 +71,10 @@
 						<text>原价：￥{{list.marketPrice?list.marketPrice:""}}</text>
 					</view>
 				</view>
-				<view class="preferential" v-for="(i,n) in list.couponDTOS" @tap="huodongxian">
-					<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
+				<view class="preferential-box">
+					<view class="preferential" v-for="(i,n) in list.couponDTOS" v-if="n<=2" @tap="huodongxian">
+						<text>满{{i.condition?i.condition:''}}-{{i.money?i.money:''}}元</text>
+					</view>
 				</view>
 
 			</view>
@@ -170,52 +172,6 @@
 						</view>
 		
 					</view> -->
-			<view class="mask" v-if="isAdd" @tap="add">
-			</view>
-			<view class="butt" v-if="isAdd">
-				<view style='position:absolute;top:30rpx;right:50rpx;' @tap='add'>
-					<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:50rpx;height:50rpx;'>
-					</image>
-				</view>
-				<view class="mTop">
-					<image class="cover" :src="list.goodsLogo?list.goodsLogo:''" mode=""></image>
-					<view class="mRight">
-						<view class="price">¥ {{Price?Price:''}}</view>
-						<view class="mItem">已选：{{gui?gui:'暂未选择商品'}}</view>
-					</view>
-
-				</view>
-				<view class="mButton">
-					<view style='margin-top:20rpx;border-bottom:1px solid #eee;padding-bottom:20rpx;'
-						v-for='(item,index) in canshu'>
-						<view style='color:#999;font-size:24rpx;'>{{item.n?item.n:''}}</view>
-						<view style='margin-top:20rpx;'>
-							<view v-for='(items,indexs) in item.sa'
-								:style='shuzu[index][indexs]?"display:inline-block;padding:10rpx;border:1px solid #3160fe;background:#fff;color:#3160fe;margin-right:10rpx;font-size:26rpx;":"display:inline-block;padding:10rpx;border:1px solid #f5f5f5;background:#f5f5f5;margin-right:10rpx;font-size:26rpx;color:#000;"'
-								@tap='xuanzhong(index,indexs)'>{{items.item?items.item:''}}</view>
-						</view>
-					</view>
-					<!-- <view class="detail">
-								<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
-								 @tap='qiehuan(index)'>{{item.keyName}}</view>
-							</view> -->
-
-					<view class="mNumber">
-						<view class="name">数量</view>
-						<view class="n_right">
-							<view class="reduce" @tap="reduce">-</view>
-							<input class="cor" type="number" style='width:100rpx;text-align:center;'
-								v-model="num"></input>
-							<view class="add" @tap="jia">+</view>
-						</view>
-					</view>
-
-				</view>
-				<view style='overflow:hidden;position:absolute;bottom:50rpx;left:5;width:90%;z-index:99999;'>
-					<button style='width:40%;float:left;' @tap='gouwuche'>加入购物车</button>
-					<button class="btn" @tap='goumaia'>立即购买</button>
-				</view>
-			</view>
 		</view>
 		<view class="pingjBox">
 			<view class="basic" @tap="togPing(list.goodsId)">
@@ -353,6 +309,53 @@
 				</view>
 			</view>
 		</view>
+
+		<!-- 选择规格 -->
+		<view class="mask" v-if="isAdd" @tap="add">
+		</view>
+		<view class="butt" v-if="isAdd">
+			<view style='position:absolute;top:30rpx;right:50rpx;' @tap='add'>
+				<image src='../../static/close_901px_1199932_easyicon.net.png' style='width:50rpx;height:50rpx;'>
+				</image>
+			</view>
+			<view class="mTop">
+				<image class="cover" :src="list.goodsLogo?list.goodsLogo:''" mode=""></image>
+				<view class="mRight">
+					<view class="price">¥ {{Price?Price:''}}</view>
+					<view class="mItem">已选：{{gui?gui:'暂未选择商品'}}</view>
+				</view>
+
+			</view>
+			<view class="mButton">
+				<view style='margin-top:20rpx;border-bottom:1px solid #eee;padding-bottom:20rpx;'
+					v-for='(item,index) in canshu'>
+					<view style='color:#999;font-size:24rpx;'>{{item.n?item.n:''}}</view>
+					<view class="choiceBox">
+						<view v-for='(items,indexs) in item.sa' :class="shuzu[index][indexs]?'choiceOn':'choiceNo'"
+							@tap='xuanzhong(index,indexs)'>{{items.item?items.item:''}}</view>
+					</view>
+				</view>
+				<!-- <view class="detail">
+								<view v-for='(item,index) in guige' :style='indexx==index?"margin-top:10rpx;color:#2b5cff;":"margin-top:10rpx;color:#666;"'
+								 @tap='qiehuan(index)'>{{item.keyName}}</view>
+							</view> -->
+
+				<view class="mNumber">
+					<view class="name">数量</view>
+					<view class="n_right">
+						<view class="reduce" @tap="reduce">-</view>
+						<input class="cor" type="number" style='width:100rpx;text-align:center;' v-model="num"></input>
+						<view class="add" @tap="jia">+</view>
+					</view>
+				</view>
+
+			</view>
+			<view style='overflow:hidden;position:absolute;bottom:50rpx;left:5;width:90%;z-index:99999;'>
+				<button style='width:40%;float:left;' @tap='gouwuche'>加入购物车</button>
+				<button class="btn" @tap='goumaia'>立即购买</button>
+			</view>
+		</view>
+
 
 	</view>
 	<!-- </scroll-view> -->
@@ -926,7 +929,7 @@
 		height: 100vh;
 		background-color: rgba(0, 0, 0, 0.6);
 		position: fixed;
-		z-index: 9999999;
+		z-index: 999;
 		top: 0;
 		left: 0;
 	}
@@ -944,7 +947,7 @@
 		z-index: 20;
 		border-top-left-radius: 5%;
 		border-top-right-radius: 5%;
-		z-index: 99999999;
+		z-index: 9999;
 
 		.mTop {
 			display: flex;
@@ -1014,6 +1017,37 @@
 				margin-right: 30rpx;
 				line-height: 50rpx;
 				height: 50rpx;
+			}
+
+			.choiceBox {
+				margin-top: 20rpx;
+				width: 100%;
+				box-sizing: border-box;
+			}
+
+			.choiceOn {
+				display: inline-block;
+				padding: 10rpx;
+				border: 1px solid #3160fe;
+				background: #fff;
+				color: #3160fe;
+				margin-right: 10rpx;
+				font-size: 26rpx;
+				margin-bottom: 20rpx;
+				word-break: break-all;
+
+			}
+
+			.choiceNo {
+				display: inline-block;
+				padding: 10rpx;
+				border: 1px solid #f5f5f5;
+				background: #f5f5f5;
+				margin-right: 10rpx;
+				font-size: 26rpx;
+				color: #000;
+				margin-bottom: 20rpx;
+				word-break: break-all;
 			}
 
 		}
@@ -1191,6 +1225,8 @@
 
 	.Box {
 		float: left;
+		width: calc(100% - 90rpx);
+		box-sizing: border-box;
 
 	}
 
@@ -1238,12 +1274,17 @@
 
 		}
 
+		.preferential-box {
+			overflow: hidden;
+		}
+
 		.preferential {
 			float: left;
-			margin-right: 20upx;
+			margin-right: 15upx;
 			background-color: #fde9e9;
 			padding: 0 20upx;
 			border-radius: 10upx;
+			margin-bottom:10rpx ;
 
 			text {
 				float: left;
@@ -1251,6 +1292,10 @@
 				color: #ff3333;
 				font-size: 24upx;
 			}
+		}
+
+		.preferential-box :last-child {
+			margin-right: 0;
 		}
 
 		.share {
